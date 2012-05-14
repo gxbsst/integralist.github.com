@@ -36,7 +36,7 @@
 }
 
 .container {
-	max-width:960px; /* Added a max width here to stop the entire site being contained my the browser viewport */
+	max-width: 960px; /* Added a max width here to stop the entire site being contained my the browser viewport */
 }
 
 .box {
@@ -117,7 +117,7 @@
 }
 
 .thumb {
-	max-width:25%; /* 240 / 960. Max width added here to force the image to scale appropriately */
+	max-width: 25%; /* 240 / 960 = Max width added here to force the image to scale appropriately */
 }
 
 .intro h1 {
