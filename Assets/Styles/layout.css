@@ -6,7 +6,7 @@
 
 body {
     background: url(../Images/Backgrounds/px_by_Gre3g_@2X.png) 0 0 repeat;
-    font: normal 100% 'Helvetica Neue', 'Arial';
+    font: normal 100%/1.4 'Helvetica Neue Light', HelveticaNeue-Light, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6, p {
