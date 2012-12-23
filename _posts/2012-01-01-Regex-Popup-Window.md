@@ -18,7 +18,7 @@ The (original) Regex Solution
 Example Code
 ------------
 
-```js
+```
 /**
  * The Integralist global namespace object.
  *

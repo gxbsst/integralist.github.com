@@ -172,7 +172,7 @@ We have the `<select>` menu for displaying the initial list of Contacts, the `<f
 
 The full HTML page looks like this...
 
-```html
+```
 <!doctype html>
 <html dir="ltr" lang="en">
     <head>
@@ -219,7 +219,7 @@ The full HTML page looks like this...
 
 The styles for this project are just basic - we're not worrying about design here… 
 
-```css
+```
 body {
 	font: normal small Arial, Verdana, sans-serif;
 }
@@ -251,7 +251,7 @@ body {
 
 RequireJS allows us to utilise just a single `<script>` tag which points to our main script file that contains the following structure… 
 
-```js
+```
 requirejs.config({
     shim: {
         '../Utils/backbone': {
@@ -368,7 +368,7 @@ Such as Backbone's dependencies - this is done using RequireJS' `shim` feature f
 &nbsp;  
 You'll also notice we aren't using the Underscore library, instead we're using Lo-dash which is a better performing/API compatible utility library.
 
-```js
+```
 requirejs.config({
     shim: {
         '../Utils/backbone': {
@@ -381,7 +381,7 @@ requirejs.config({
 * **Specify dependencies and execute callback function once all are loaded**  
 The dependencies we're loading are the relevant Models, Views, Collections required for this application to work - once loaded we can create new instances of them.
 
-```js
+```
 require(['../Models/Contact', '../Collections/Contacts', '../Views/Contacts', '../Views/AddContact', '../Views/Contact', '../Routes/Routing', '../Utils/backbone'], 
 function (Contact, Contacts, ContactsView, AddContactView, ContactView, Routing) {
 ```
@@ -389,7 +389,7 @@ function (Contact, Contacts, ContactsView, AddContactView, ContactView, Routing)
 * **Generate some data for the initial `<select>` menu population**  
 We've loaded the `Contact` Model and we create two new instances of it and pass in the relevant properties for the Model data.
 
-```js
+```
 /**
  * Model Generation Examples
  */
@@ -409,7 +409,7 @@ var developer = new Contact({
 * **Create a Collection that will hold the Model data we've just created**  
 Backbone lets us pass through an Array of Models to instantiate the Collection with
 
-```js
+```
 /**
  * Collection Generation Example
  */
@@ -424,7 +424,7 @@ Backbone also lets us specify a Collection for this View to be associated with (
 &nbsp;  
 Lastly, we pass in a custom property I've called `associated_view` and the value of this will be a new instance of `ContactView` (this View is the empty `<div>` which will be used to display the details of a specific record as selected by the user of our application). The reason I've passed in this View into another View is because I want the `contacts_view` to have access to the `associated_view` so when the user selects a Contact we can easily tell `contacts_view` to render the selected Contact data.
 
-```js
+```
 /**
  * View for <select> menu of Contacts
  */
@@ -447,7 +447,7 @@ var contacts_view = new ContactsView({
 * **Create a View for the `<form>` that will create new Model data**  
 What you'll probably notice is that out of the three Views we have created instances for, they all use the same `contacts` Collection.
 
-```js
+```
 /**
  * View for <form> to add a new Contact
  */
@@ -461,7 +461,7 @@ var add_contact = new AddContactView({
 * **Load more Model data into our Collection**  
 We initially loaded some Model data into our Collection when starting our application, but now we're using a Backbone provided method called `fetch` which lets us grab more data from the server and populate our Collection with that server data.
 
-```js
+```
 /**
  * Lazy Load Models into Collection
  */
@@ -486,7 +486,7 @@ To be able to understand how it works we need to look at the Collection module n
 
 As we know in the main JavaScript file we required a load of dependencies such as Models, Views and Collections and the following is the Collection module we loaded - hopefully the comments will adequately explain what's going on… 
 
-```js
+```
 // This Collection requires the 'Contact' Model and (obviously) Backbone
 define(['../Models/Contact', '../Utils/backbone'], function (Contact) {
     
@@ -529,7 +529,7 @@ You'll notice this Collection uses the Backbone specific property `url` which we
 
 The PHP script we're using would normally connect to a database and return its data converted into JSON (JSON is the perfect data format for Backbone to process). But in this example we're simply just manually creating data and converting it to JSON… 
 
-```php
+```
 <?php
     $json = array(
         array(
@@ -567,7 +567,7 @@ You may have also noticed that back in our main JavaScript file (when we called 
 
 So far we have a main script file where we have created new instances of some Backbone Views as well as created a Backbone Collection. We've populated that Collection with specific Model data, but now lets look at the Model itself that we've been using to construct our data from… 
 
-```js
+```
 define(['../Utils/backbone'], function(){
     
     var Contact = Backbone.Model.extend({
@@ -621,7 +621,7 @@ Let's now break down the specific sections of the Model we've created:
 * **First we specify default values**  
 This is in case (when creating a new Model instance) we don't have all the values readily available
 
-```js
+```
 defaults: {
     name: 'No name provided',
     age: 0,
@@ -632,7 +632,7 @@ defaults: {
 * **Carry out some initial set-up stuff when a new instance is created**  
 In this example we want to set-up some event listeners for when the `age` property is changed as well as when an error occurs.
 
-```js
+```
 initialize: function(){
     // Syntax: .on(type:property)
     this.on('change:age', function(){
@@ -650,7 +650,7 @@ Backbone.js provides a `validate` method that returns your own specified error m
 If the function doesn't return any value then it is assumed the data is valid.  
 If the function returns *any thing* then whatever was returned is used as the error message.
 
-```js
+```
 validate: function (attributes) {
     if (!attributes.id || attributes.id <= 0) {
         return 'An error has occurred? There should be an id generated!';
@@ -666,7 +666,7 @@ validate: function (attributes) {
 We use two Backbone methods: `get` and `set` to increment the age of the user.  
 First we `get` the current age, then we `set` the age using the prefixed `++` increment operator
 
-```js
+```
 birthday: function(){
     var age = this.get('age');
     this.set({ 'age': ++age });
@@ -675,7 +675,7 @@ birthday: function(){
 
 So in our main script file you'll remember we used this custom method like so… 
 
-```js
+```
 // Create a new Model instance
 var developer = new Contact({
     id: _.uniqueId(),
@@ -694,7 +694,7 @@ So again, in our main script file we have created three new View instances. Lets
 
 If you remember from our main script file we created the following View (well, this is two Views, one inside another)…
 
-```js
+```
 /**
  * View for <select> menu of Contacts
  */
@@ -722,7 +722,7 @@ var contacts_view = new ContactsView({
 
 So let's take a look at that particular View file… 
 
-```js
+```
 define(['../Utils/backbone'], function(){
     
     var ContactsView = Backbone.View.extend({
@@ -794,7 +794,7 @@ Lastly we create a property for this instance that points to another View. The r
 &nbsp;  
 Because we're using AMD we've made our Views into separate modules/files, but because of this we aren't able to access code outside of a module (our module's code is protected) - so we're unable to access the `ContactView` View unless we pass around a reference to it like we've done here.
 
-```js
+```
 initialize: function (options) {
     this.select = this.$el.find('select');
     this.collection.on('contacts:populate', this.populate, this);
@@ -808,7 +808,7 @@ initialize: function (options) {
 We specify a 'change' event for the `<select>` element  
 which when triggered executes the `display_selected` method we've created for this View.
 
-```js
+```
 events: {
     'change select': 'display_selected'
 }
@@ -819,7 +819,7 @@ This method builds up the content of the `<select>` menu.
 It does this by looping through the Collection data and accessing each individual Model stored within it.  
 You'll notice that we set the value of each `<option>` element to be whatever the `cid` value for the Model is (the `cid` value is set automatically by Backbone on each Model)
 
-```js
+```
 populate: function(){
     var select = this.select; // scope of this changes within 'each' (refers to same thing as the 'model' argument)
     var frag = '';
@@ -841,7 +841,7 @@ This methods works out which menu item was selected and then
 uses a Backbone specific method `getByCid` to access the required Model.  
 We then call the `ContactView`'s `render` method and pass through the Model data that needs to be rendered.
 
-```js
+```
 display_selected: function (event) {
     var targ = event.target;
     var selected_option = targ.options[targ.selectedIndex];
@@ -856,7 +856,7 @@ display_selected: function (event) {
 Every time a Model is added to the Collection it triggers an `model:added` event.  
 This event causes the View's `update` method to be executed, which inserts the new Model directly into the `<select>` menu.
 
-```js
+```
 update: function (model) {
     var select = this.$el.find('select');
     var option = '<option value="' + model.cid + '">' + model.attributes.name + '</option>';
@@ -868,7 +868,7 @@ update: function (model) {
 
 Let's take a look at the associated View that we created…
 
-```js
+```
 define(['../Utils/backbone'], function(){
     
     var ContactView = Backbone.View.extend({
@@ -912,7 +912,7 @@ Ideally though you'd have the template content as a separate file and then AJAX 
 
 We have one more View left to look at, this is the HTML `<form>` element which lets us add a new contact to the list of contacts…
 
-```js
+```
 define(['../Models/Contact', '../Utils/backbone'], function (Contact) {
     
     var AddContactView = Backbone.View.extend({
@@ -1008,7 +1008,7 @@ define(['../Models/Contact', '../Utils/backbone'], function (Contact) {
 * **Event listeners**  
 We set-up a listener for the `click` event for the form's submit button which calls the `add_contact` method.
 
-```js
+```
 events: {
     'click input[type=submit]': 'add_contact'
 }
@@ -1017,7 +1017,7 @@ events: {
 * **Add a new contact and validate the user input**  
 We call the `add_contact` method and immediately call `e.preventDefault` which stops the form from submitting and thus refreshing the page (which we don't want to have happen as we'll lose the state of the page).
 
-```js
+```
 add_contact: function (e) {
     e.preventDefault();
             
@@ -1050,7 +1050,7 @@ add_contact: function (e) {
 If the success message (from a previous successful record added) is still visible then remove it to save from confusing the user.  
 Then display any errors found.
 
-```js
+```
 if (errors.length) {
     var success;
     if (success = document.getElementById('message-success')) {
@@ -1065,7 +1065,7 @@ if (errors.length) {
 * **Add a new contact**  
 This adds the new Model data, then updates the `<select>` menu, then inserts a success message to let the user know the details were added without issue.
 
-```js
+```
 else {
     // Create a new Model
     contact = new Contact({
@@ -1104,7 +1104,7 @@ else {
 
 I've not built in any real routing logic into this particular example application, but I've included below part of the example from the Backbone website so you at least have an idea of how it works...
 
-```js
+```
 define(['../Utils/backbone'], function(){
     
     var Routing = Backbone.Router.extend({
@@ -1137,7 +1137,7 @@ If we access our application with this URL we'll see a log message of `testing, 
 
 ...to initialise this Router system we need to trigger it via the main script file... 
 
-```js
+```
 /**
  * Router/History API Examples
  */

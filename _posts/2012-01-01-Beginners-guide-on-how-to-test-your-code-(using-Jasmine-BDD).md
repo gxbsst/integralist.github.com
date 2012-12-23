@@ -69,7 +69,7 @@ The set-up is as follows:
 * Then include your own ‘my-tests.js’
 * After that have an inline script which executes the Jasmine test runner…
 	
-```js
+```
 jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
 jasmine.getEnv().execute();
 ```
@@ -78,7 +78,7 @@ Within your own ‘my-tests.js’ file is where you’ll write your unit-tests.
 
 Different unit-testing libraries have different API’s. Jasmine’s API is as follows…
 
-```js
+```
 describe('test suite name', function(){
 	// assertions for your code to try and pass
 	// if any assertions fail then this entire suite fails
@@ -90,7 +90,7 @@ An example
 
 So now imagine your ‘my-cool-library.js’ consisted of an object whose API let the user add/remove or check for CSS classes on an element. Lets say the API was as follows…
 
-```js
+```
 var header = document.getElementById('my-header');
 css.add(header, 'newclass') // --> adds the class 'newclass' to the specified element 'header'
 css.has(header, 'newclass') // --> returns a boolean value (true/false) depending on whether the class 'newclass' is found
@@ -100,7 +100,7 @@ css.classes(header) // --> returns an Array of classes found on this element
 
 Your test suite for this code could look something like (don’t worry, we’ll discuss after)…
 
-```js
+```
 // Test Suite
 describe('CSS tests', function() {
 	
@@ -141,7 +141,7 @@ describe('CSS tests', function() {
 …so a few things you’ll notice:
 
 * We’ve grouped all our tests related to the CSS part of our code using Jasmine’s 
-	```js
+	```
 	describe('test suite name', function(){ /* tests */ });
 	```
 * We’re using a setUp method (which Jasmine calls `beforeEach`) to run some code to reset the class names before each test run (so we start from a clean slate for each test) - there is also a corresponding tearDown method which Jasmine calls `afterEach` (see documentation)
@@ -159,7 +159,7 @@ Jasmine has a few more matchers which you can read more about in the documentati
 
 You can even create your own matchers…
 
-```js
+```
 // Add our two new matchers. One to check if an object is an Array and the other to check if the result is a Number
 // You create these within the beforeEach method which is executed before each test is run
 beforeEach(function() {
@@ -186,7 +186,7 @@ I’ve set-up an example of the code found in this post on Github: [https://gith
 
 So lets look at one of the tests…
 
-```js
+```
 it('should add class to element', function() {
 	css.add(header, 'newclass');
 	expect(header.className).toBe('myclassa myclassb newclass');

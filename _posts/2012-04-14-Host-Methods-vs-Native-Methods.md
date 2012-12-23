@@ -28,7 +28,7 @@ We’ll give an example of each so you can get an idea of what I mean…
 
 To detect a Native method such as Array#forEach you should be able to do the following:
 
-```js
+```
 if (!Array.prototype.forEach) { 
 	/* polyfill for missing forEach method */ 
 }
@@ -52,7 +52,7 @@ Again, this isn’t a reliable assumption to make, because in a future/new host 
 
 But for testing a host method exists, the following function has become the de-facto standard:
 
-```js
+```
 /*
  * Feature Testing a Host Method
  * Because a callable host object can legitimately have any typeof result then it can't be relied upon.

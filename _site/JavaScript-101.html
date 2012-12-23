@@ -100,30 +100,30 @@ operator            | <code>+</code>, <code>-</code>, <code>!</code>, <code>++</
 <p>…and what this means is try to avoid creating global properties and methods. The less &#39;globals&#39; you create then the less likely your code will conflict with another piece of code written by someone else that may be included in the same page.</p>
 
 <p>To avoid declaring global properties/methods there are certain &#39;patterns&#39; that have been designed to work around this issue, such as the IIFE pattern…</p>
-<div class="highlight"><pre><code class="js"><span class="cm">/*</span>
-<span class="cm"> * this pattern is referred to as an IIFE (immediately invoked function expression)</span>
-<span class="cm"> * the function is immediately executed and all code within it is scoped to the function</span>
-<span class="cm"> * when executed we pass through &#39;this&#39; which refers to the global object</span>
-<span class="cm"> * we accept &#39;this&#39; into the function as an argument called &#39;global&#39;</span>
-<span class="cm"> */</span>
-<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">global</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="text">/*
+ * this pattern is referred to as an IIFE (immediately invoked function expression)
+ * the function is immediately executed and all code within it is scoped to the function
+ * when executed we pass through &#39;this&#39; which refers to the global object
+ * we accept &#39;this&#39; into the function as an argument called &#39;global&#39;
+ */
+var app = (function (global) {
 
-    <span class="c1">// private data (private as in: it can&#39;t be accessed from other code outside this function)</span>
-    <span class="c1">// note: don&#39;t EVER name your functions like this!</span>
-    <span class="kd">function</span> <span class="nx">will_be_made_public_but_cant_be_accessed_directly</span><span class="p">(){</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Private&#39;</span><span class="p">);</span>
-    <span class="p">}</span>
+    // private data (private as in: it can&#39;t be accessed from other code outside this function)
+    // note: don&#39;t EVER name your functions like this!
+    function will_be_made_public_but_cant_be_accessed_directly(){
+        console.log(&#39;Private&#39;);
+    }
 
-    <span class="k">return</span> <span class="p">{</span>
-        <span class="c1">// public API (private code we&#39;ve chosen to make public)</span>
-        <span class="nx">do_something</span><span class="o">:</span> <span class="nx">will_be_made_public_but_cant_be_accessed_directly</span>
-    <span class="p">};</span>
+    return {
+        // public API (private code we&#39;ve chosen to make public)
+        do_something: will_be_made_public_but_cant_be_accessed_directly
+    };
 
-<span class="p">}(</span><span class="k">this</span><span class="p">));</span>
+}(this));
 
-<span class="nx">app</span><span class="p">.</span><span class="nx">will_be_made_public_but_cant_be_accessed_directly</span><span class="p">()</span> <span class="c1">// TypeError: Object #&lt;Object&gt; has no method &#39;will_be_made_public_but_cant_be_accessed_directly&#39;</span>
+app.will_be_made_public_but_cant_be_accessed_directly() // TypeError: Object #&lt;Object&gt; has no method &#39;will_be_made_public_but_cant_be_accessed_directly&#39;
 
-<span class="nx">app</span><span class="p">.</span><span class="nx">do_something</span><span class="p">();</span> <span class="c1">// =&gt; &#39;Private&#39;</span>
+app.do_something(); // =&gt; &#39;Private&#39;
 </code></pre></div>
 <p>Another pattern is to use AMD (Asynchronous Module Definition) which is a module based pattern (see: <a href="https://github.com/Integralist/Blog-Posts/blob/master/Beginners-guide-to-AMD-and-RequireJs.md">Beginners guide to AMD and RequireJs</a>)</p>
 
@@ -151,25 +151,25 @@ variable becomes a global variable (i.e. is available any where within the JavaS
 <p>As you can see, missing a <code>var</code> declaration will mean the JavaScript engine will make that undeclared variable a &#39;global&#39; variable (e.g. it is assigned to the Global object).</p>
 
 <p>To see why this is a problem first imagine you have a web page you&#39;re working on and in which you have included a 3rd party JavaScript file (i.e. a script written by another developer). Now imagine the content of that 3rd party script is as follows:</p>
-<div class="highlight"><pre><code class="js"><span class="c1">// 3rd party script written by another developer...</span>
+<div class="highlight"><pre><code class="text">// 3rd party script written by another developer...
 
-<span class="kd">var</span> <span class="nx">my_name</span> <span class="o">=</span> <span class="s1">&#39;Mark&#39;</span><span class="p">;</span>
+var my_name = &#39;Mark&#39;;
 </code></pre></div>
 <p>…in this instance, the 3rd party script hasn&#39;t wrapped the line <code>var my_name = &#39;Mark&#39;;</code> inside of an IIFE (see above pattern) so the variable <code>my_name</code> will be created as global property (e.g. it is available any where within the JavaScript program as well as explicitly via <code>window.my_name</code>).</p>
 
 <p>Now you don&#39;t want to overwrite the variable <code>my_name</code> because the 3rd party script that defined it is relying on it being a String with a value of <code>Mark</code> - if you change the value then it could cause the 3rd party code to break.</p>
 
 <p>So now imagine you&#39;re going to add your own code to the page. You write the following…</p>
-<div class="highlight"><pre><code class="js"><span class="kd">function</span> <span class="nx">do_something</span><span class="p">(){</span>
-    <span class="nx">my_name</span> <span class="o">=</span> <span class="s1">&#39;Bob&#39;</span><span class="p">;</span>
-<span class="p">}</span>
+<div class="highlight"><pre><code class="text">function do_something(){
+    my_name = &#39;Bob&#39;;
+}
 </code></pre></div>
 <p>…this may cause unintended side effects on the 3rd party code. Why? Because you coincidentally defined a variable by the same name of <code>my_name</code> and although you likely intended it to be scoped to the function <code>do_something</code> you&#39;ve accidentally forgotten the <code>var</code> keyword and so your variable is undeclared, so your variable has been assigned to the Global object, thus overwriting the <code>my_name</code> variable that is already available on the Global object (set by the 3rd party code).</p>
 
 <p>To fix this you would simply make sure you properly declared your variable like so…</p>
-<div class="highlight"><pre><code class="js"><span class="kd">function</span> <span class="nx">do_something</span><span class="p">(){</span>
-    <span class="kd">var</span> <span class="nx">my_name</span> <span class="o">=</span> <span class="s1">&#39;Bob&#39;</span><span class="p">;</span>
-<span class="p">}</span>
+<div class="highlight"><pre><code class="text">function do_something(){
+    var my_name = &#39;Bob&#39;;
+}
 </code></pre></div>
 <p>So now, even though the variable name is the same, the variable is &#39;scoped&#39; to the <code>do_something</code> function.</p>
 
@@ -190,10 +190,10 @@ variable becomes a global variable (i.e. is available any where within the JavaS
 <p>It&#39;s important to know the different types because at some point in your JavaScript code you&#39;ll want to pass around values and objects and you might notice some issues with doing so. For example, you&#39;ll notice that JavaScript passes <code>Objects</code>/<code>Arrays</code>/<code>Functions</code> by reference, and passes primitives such as <code>Booleans</code>/<code>Strings</code>/<code>Numbers</code>/<code>Null</code>/<code>Undefined</code> by value.</p>
 
 <p>What this means is if you have an Array and want to copy it so you can make changes to the copy (e.g. you want to leave the original as it is) then you might think to do something like this…</p>
-<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">my_arr</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">];</span>
-<span class="kd">var</span> <span class="nx">new_arr</span> <span class="o">=</span> <span class="nx">my_arr</span><span class="p">;</span>
+<div class="highlight"><pre><code class="text">var my_arr = [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;];
+var new_arr = my_arr;
 
-<span class="nx">new_arr</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;d&#39;</span><span class="p">);</span>
+new_arr.push(&#39;d&#39;);
 </code></pre></div>
 <p>…you might think that <code>new_arr</code> will be <code>[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;]</code> and <code>my_arr</code> would still be equal to <code>[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]</code> but you&#39;d be wrong because Arrays are passed by &#39;reference&#39; and so your change: <code>new_arr.push(&#39;d&#39;);</code> is effectively doing this: <code>my_arr.push(&#39;d&#39;);</code>, hence <code>my_arr</code> now has the value of <code>[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;]</code> and so does <code>new_arr</code> because it really is just referencing (i.e. pointing to) <code>my_arr</code>.</p>
 
@@ -204,10 +204,10 @@ variable becomes a global variable (i.e. is available any where within the JavaS
 <p>To create a new <code>Object</code> use the syntax: <code>{}</code></p>
 
 <p>For example:</p>
-<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Mark&#39;</span><span class="p">,</span>
-    <span class="nx">location</span><span class="o">:</span> <span class="s1">&#39;London, England&#39;</span>
-<span class="p">};</span>
+<div class="highlight"><pre><code class="text">var obj = {
+    name: &#39;Mark&#39;,
+    location: &#39;London, England&#39;
+};
 </code></pre></div>
 <p>A variable added to an Object is known as a &#39;property&#39;.<br>
 A function added to an Object is known as a &#39;method&#39;  </p>
@@ -215,16 +215,16 @@ A function added to an Object is known as a &#39;method&#39;  </p>
 <p>…this naming convention originates from traditional Object-Oriented languages.</p>
 
 <p>So for example:</p>
-<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="cm">/* Property */</span>
-        <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Mark&#39;</span><span class="p">,</span>
-    <span class="cm">/* Property */</span>
-        <span class="nx">location</span><span class="o">:</span> <span class="s1">&#39;London, England&#39;</span><span class="p">,</span>
-    <span class="cm">/* Method */</span>
-        <span class="nx">get_details</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
-            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39; is from &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">location</span><span class="p">;</span> <span class="c1">// =&gt; &quot;Mark is from London, England&quot;</span>
-        <span class="p">}</span>
-<span class="p">};</span>
+<div class="highlight"><pre><code class="text">var obj = {
+    /* Property */
+        name: &#39;Mark&#39;,
+    /* Property */
+        location: &#39;London, England&#39;,
+    /* Method */
+        get_details: function(){
+            return this.name + &#39; is from &#39; + this.location; // =&gt; &quot;Mark is from London, England&quot;
+        }
+};
 </code></pre></div>
 <h3>(Nearly)Everything in JavaScript is an Object</h3>
 
@@ -245,15 +245,15 @@ A function added to an Object is known as a &#39;method&#39;  </p>
 <p>To access properties/methods you can use either the dot notation or the bracket notation. The difference is in whether the property/method name is known at the type of execution or not.</p>
 
 <p>Using the previous example code, if your program was written by you then to access the &#39;name&#39; property you would simply use: <code>obj.name</code> - but if your application accepted input from the user (where by you asked them what property/method they wanted to access) you obviously don&#39;t know before hand what the user is going to choose. In this instance you would use the bracket notation: </p>
-<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">user_input</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;my_form_input&#39;</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">obj</span><span class="p">[</span><span class="nx">user_input</span><span class="p">]);</span>
+<div class="highlight"><pre><code class="text">var user_input = document.getElementById(&#39;my_form_input&#39;);
+console.log(obj[user_input]);
 </code></pre></div>
 <p>The other time you&#39;ll need to use bracket notation is if you want to access a property that has special characters:</p>
-<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span> 
-    <span class="s1">&#39;my property&#39;</span><span class="o">:</span> <span class="mi">123</span> <span class="c1">// YOU SHOULD NEVER NEED TO CREATE A PROPERTY NAME LIKE THIS</span>
-<span class="p">};</span>
+<div class="highlight"><pre><code class="text">var obj = { 
+    &#39;my property&#39;: 123 // YOU SHOULD NEVER NEED TO CREATE A PROPERTY NAME LIKE THIS
+};
 
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">obj</span><span class="p">[</span><span class="s1">&#39;my property&#39;</span><span class="p">]);</span>
+console.log(obj[&#39;my property&#39;]);
 </code></pre></div>
 <p>So the majority of the time you&#39;ll just use the dot notation, but depending on the dynamic aspect of your program you may need to use bracket notation every once in a while.</p>
 
@@ -264,11 +264,11 @@ A function added to an Object is known as a &#39;method&#39;  </p>
 <p>Sounds pretty useful, but unfortunately neither of the current specifications (ES3 or ES5) allow you to access this attribute!?</p>
 
 <p>But there is a trick to accessing an object&#39;s <em>class</em> attribute and that is to call the <code>toString()</code> method on the top level <code>Object.prototype</code> but using it on the relevant object you want to get the class of. The following example demonstrates the most common use case of accessing the <em>class</em> attribute: trying to work out if an object is actually an <code>Array</code>…</p>
-<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">];</span>
+<div class="highlight"><pre><code class="text">var arr = [&#39;a&#39;,&#39;b&#39;,&#39;c&#39;];
 
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">arr</span><span class="p">);</span> <span class="c1">// =&gt; &quot;object&quot; - well that&#39;s not right, it should return the type as &#39;Array&#39;! (note: this is a known JavaScript bug)</span>
+console.log(typeof arr); // =&gt; &quot;object&quot; - well that&#39;s not right, it should return the type as &#39;Array&#39;! (note: this is a known JavaScript bug)
 
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">toString</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">arr</span><span class="p">));</span> <span class="c1">// =&gt; &quot;[object Array]&quot; - that&#39;s more like it</span>
+console.log(Object.prototype.toString.call(arr)); // =&gt; &quot;[object Array]&quot; - that&#39;s more like it
 </code></pre></div>
 <p>…what we&#39;ve done here is used a method available to all <code>Function</code>&#39;s called <code>.call()</code>. What this method does is let you call another function (i.e. borrow a function) but use the calling context as the <code>this</code> value.</p>
 
@@ -281,21 +281,21 @@ A function added to an Object is known as a &#39;method&#39;  </p>
 <p>Arrays are like a simplified Object.</p>
 
 <p>An Object is effectively a mapping of names (identifiers) to values… </p>
-<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">name</span><span class="o">:</span> <span class="nx">value</span><span class="p">,</span>
-    <span class="nx">name</span><span class="o">:</span> <span class="nx">value</span><span class="p">,</span>
-    <span class="nx">name</span><span class="o">:</span> <span class="nx">value</span>
-<span class="p">};</span>
+<div class="highlight"><pre><code class="text">var obj = {
+    name: value,
+    name: value,
+    name: value
+};
 </code></pre></div>
 <p>…an Array is the same with the exception that the &#39;name&#39; identifiers are automatically incremented numerical values. So an Array like this…</p>
-<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">];</span>
+<div class="highlight"><pre><code class="text">var arr = [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;];
 </code></pre></div>
 <p>…would effectively be similar to the following object…</p>
-<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="mi">0</span><span class="o">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span>
-    <span class="mi">1</span><span class="o">:</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span>
-    <span class="mi">2</span><span class="o">:</span> <span class="s1">&#39;c&#39;</span>
-<span class="p">};</span>
+<div class="highlight"><pre><code class="text">var obj = {
+    0: &#39;a&#39;,
+    1: &#39;b&#39;,
+    2: &#39;c&#39;
+};
 </code></pre></div>
 <p>Note: the above object with numerical keys requires you to use the bracket notation to access the identifiers (e.g. <code>obj[0]</code>) as <code>obj.0</code> would result in a <code>SyntaxError: Unexpected number</code>.</p>
 
@@ -336,75 +336,75 @@ A function added to an Object is known as a &#39;method&#39;  </p>
 <p>The simplest way to understand them is to see the syntax.</p>
 
 <h3>If Statement</h3>
-<div class="highlight"><pre><code class="js"><span class="k">if</span> <span class="p">(</span><span class="nx">condition</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="text">if (condition) {
 
-    <span class="c1">// if &#39;condition&#39; evaluated to true then run this code</span>
+    // if &#39;condition&#39; evaluated to true then run this code
 
-<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">other_condition</span><span class="p">)</span> <span class="p">{</span>
+} else if (other_condition) {
 
-    <span class="c1">// if &#39;other_condition&#39; evaluated to true then run this code</span>
+    // if &#39;other_condition&#39; evaluated to true then run this code
 
-<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+} else {
 
-    <span class="c1">// other wise we&#39;ll run this code as a fallback</span>
+    // other wise we&#39;ll run this code as a fallback
 
-<span class="p">}</span>
+}
 </code></pre></div>
 <p>So a basic example would be something like this…</p>
-<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">can_drink</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">age</span> <span class="o">=</span> <span class="mi">18</span><span class="p">;</span>
+<div class="highlight"><pre><code class="text">var can_drink = false;
+var age = 18;
 
-<span class="k">if</span> <span class="p">(</span><span class="nx">age</span> <span class="o">&gt;=</span> <span class="mi">18</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">can_drink</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-<span class="p">}</span>
+if (age &gt;= 18) {
+    can_drink = true;
+}
 </code></pre></div>
 <h3>Switch Statement</h3>
 
 <p>If you have lots of checks against the same variable/condition then you&#39;re better off using a <code>switch</code> statement… </p>
-<div class="highlight"><pre><code class="js"><span class="k">switch</span> <span class="p">(</span><span class="nx">condition</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="nx">x</span><span class="o">:</span>
-        <span class="c1">// Execute this code block</span>
-        <span class="k">break</span><span class="p">;</span>
-    <span class="k">case</span> <span class="nx">y</span><span class="o">:</span>
-        <span class="c1">// Execute this code block</span>
-        <span class="k">break</span><span class="p">;</span>
-    <span class="k">case</span> <span class="nx">z</span><span class="o">:</span>
-        <span class="c1">// Execute this code block</span>
-        <span class="k">break</span><span class="p">;</span>
-    <span class="k">default</span><span class="o">:</span>
-        <span class="c1">// Execute this code block</span>
-        <span class="k">break</span><span class="p">;</span>
-<span class="p">}</span>
+<div class="highlight"><pre><code class="text">switch (condition) {
+    case x:
+        // Execute this code block
+        break;
+    case y:
+        // Execute this code block
+        break;
+    case z:
+        // Execute this code block
+        break;
+    default:
+        // Execute this code block
+        break;
+}
 </code></pre></div>
 <p>An example of using this statement would be… </p>
-<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">car</span> <span class="o">=</span> <span class="s1">&#39;Porsche&#39;</span><span class="p">;</span>
+<div class="highlight"><pre><code class="text">var car = &#39;Porsche&#39;;
 
-<span class="k">switch</span> <span class="p">(</span><span class="nx">car</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="s1">&#39;Ford&#39;</span><span class="o">:</span>
-        <span class="c1">// Execute this code block if car is &#39;Ford&#39;</span>
-        <span class="k">break</span><span class="p">;</span>
-    <span class="k">case</span> <span class="s1">&#39;Porsche&#39;</span><span class="o">:</span>
-        <span class="c1">// Execute this code block if car is &#39;Porsche&#39;</span>
-        <span class="k">break</span><span class="p">;</span>
-    <span class="k">case</span> <span class="s1">&#39;BMW&#39;</span><span class="o">:</span>
-        <span class="c1">// Execute this code block if car is &#39;BMW&#39;</span>
-        <span class="k">break</span><span class="p">;</span>
-    <span class="k">default</span><span class="o">:</span>
-        <span class="c1">// Execute this code block if car is none of the above</span>
-        <span class="k">break</span><span class="p">;</span>
-<span class="p">}</span>
+switch (car) {
+    case &#39;Ford&#39;:
+        // Execute this code block if car is &#39;Ford&#39;
+        break;
+    case &#39;Porsche&#39;:
+        // Execute this code block if car is &#39;Porsche&#39;
+        break;
+    case &#39;BMW&#39;:
+        // Execute this code block if car is &#39;BMW&#39;
+        break;
+    default:
+        // Execute this code block if car is none of the above
+        break;
+}
 </code></pre></div>
 <h3>Ternary Statement</h3>
 
 <p>For very short <code>if</code> statements you can also use a shortened syntax (a conditional operator sometimes referred to as a &#39;ternary&#39; operator because of its three operands). The syntax is like so…</p>
-<div class="highlight"><pre><code class="js"><span class="nx">condition</span> <span class="o">?</span> <span class="kc">true</span> <span class="o">:</span> <span class="kc">false</span>
+<div class="highlight"><pre><code class="text">condition ? true : false
 </code></pre></div>
 <p>…and can be used like so…</p>
-<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">age</span> <span class="o">=</span> <span class="mi">18</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">can_drink</span> <span class="o">=</span> <span class="p">(</span><span class="nx">age</span> <span class="o">&gt;=</span> <span class="mi">18</span><span class="p">)</span> <span class="o">?</span> <span class="kc">true</span> <span class="o">:</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// can_drink will equal a Boolean value of true</span>
+<div class="highlight"><pre><code class="text">var age = 18;
+var can_drink = (age &gt;= 18) ? true : false; // can_drink will equal a Boolean value of true
 
-<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="s1">&#39;abc&#39;</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span> <span class="o">===</span> <span class="s1">&#39;abc&#39;</span><span class="p">)</span> <span class="o">?</span> <span class="s1">&#39;def&#39;</span> <span class="o">:</span> <span class="s1">&#39;xyz&#39;</span><span class="p">;</span> <span class="c1">// y will equal a String value of &#39;def&#39;</span>
+var x = &#39;abc&#39;;
+var y = (x === &#39;abc&#39;) ? &#39;def&#39; : &#39;xyz&#39;; // y will equal a String value of &#39;def&#39;
 </code></pre></div>
 <h2>Coercion</h2>
 
@@ -413,30 +413,30 @@ A function added to an Object is known as a &#39;method&#39;  </p>
 <p>The best thing to do is to just try and take advantage of JavaScript&#39;s ability to coerce objects into different types and use it to your advantage to make your code more succinct.</p>
 
 <p>For example, with an <code>if</code> conditional statement JavaScript will try to coerce the expression into either <code>true</code> or <code>false</code> like so… </p>
-<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">element</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;js-element&#39;</span><span class="p">);</span>
+<div class="highlight"><pre><code class="text">var element = document.getElementById(&#39;js-element&#39;);
 
-<span class="k">if</span> <span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// if the DOM element is available then this conditional</span>
-    <span class="c1">// will coerce `element` into a Boolean value of true </span>
-    <span class="c1">// and hence the condition will pass.</span>
+if (element) {
+    // if the DOM element is available then this conditional
+    // will coerce `element` into a Boolean value of true 
+    // and hence the condition will pass.
 
-    <span class="c1">// If the DOM element doesn&#39;t exist then the resulting value will be null</span>
-    <span class="c1">// and null is converted into a Boolean value of false </span>
-    <span class="c1">// and hence the condition will not pass</span>
-<span class="p">}</span>
+    // If the DOM element doesn&#39;t exist then the resulting value will be null
+    // and null is converted into a Boolean value of false 
+    // and hence the condition will not pass
+}
 </code></pre></div>
 <p>In the above example JavaScript automatically converts the condition into a Boolean, but you can manually coerce a value into a Boolean by using the double negation operator <code>!!</code> like so...</p>
-<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">age</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">year</span><span class="o">:</span> <span class="mi">1980</span> <span class="p">};</span>
+<div class="highlight"><pre><code class="text">var obj = { age: 0, year: 1980 };
 
-<span class="o">!!</span><span class="nx">obj</span><span class="p">.</span><span class="nx">age</span> <span class="c1">// =&gt; false (because zero coerces to false)</span>
-<span class="o">!!</span><span class="nx">obj</span><span class="p">.</span><span class="nx">year</span> <span class="c1">// =&gt; true (any number greater than zero coerces to true)</span>
+!!obj.age // =&gt; false (because zero coerces to false)
+!!obj.year // =&gt; true (any number greater than zero coerces to true)
 </code></pre></div>
 <p>You can also use a single negation operator <code>!</code> to return the opposite Boolean value of an object (this is useful for saying &#39;if NOT x&#39;)…</p>
-<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+<div class="highlight"><pre><code class="text">var bool = false;
 
-<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">bool</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// this statement is executed if &#39;bool&#39; is NOT true (i.e. if it&#39;s false)</span>
-<span class="p">}</span>
+if (!bool) {
+    // this statement is executed if &#39;bool&#39; is NOT true (i.e. if it&#39;s false)
+}
 </code></pre></div>
 <h3>Some quick notes:</h3>
 
@@ -451,27 +451,27 @@ A function added to an Object is known as a &#39;method&#39;  </p>
 <p>Functions make it easier to create re-useable code. They are simply blocks of JavaScript code that can be called/executed multiple times.</p>
 
 <p>An example of the function syntax is as follows…</p>
-<div class="highlight"><pre><code class="js"><span class="kd">function</span> <span class="nx">identifier</span> <span class="p">(</span><span class="nx">parameters</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// statements</span>
-<span class="p">}</span>
+<div class="highlight"><pre><code class="text">function identifier (parameters) {
+    // statements
+}
 </code></pre></div>
 <p>…which could be used like so…</p>
-<div class="highlight"><pre><code class="js"><span class="kd">function</span> <span class="nx">add</span> <span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span><span class="p">;</span>
-<span class="p">}</span>
+<div class="highlight"><pre><code class="text">function add (a, b) {
+    return a + b;
+}
 
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">));</span> <span class="c1">// =&gt; 2</span>
+console.log(add(1, 1)); // =&gt; 2
 </code></pre></div>
 <h3>Parameters</h3>
 
 <p>Functions accept any number of &#39;parameters&#39; (also known as &#39;arguments&#39;).</p>
 
 <p>Within a function you can access all arguments via a special <code>arguments</code> property…</p>
-<div class="highlight"><pre><code class="js"><span class="kd">function</span> <span class="nx">test</span> <span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">,</span> <span class="nx">c</span><span class="p">)</span> <span class="p">{</span> 
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arguments</span><span class="p">);</span> 
-<span class="p">}</span>
+<div class="highlight"><pre><code class="text">function test (a, b, c) { 
+    console.log(arguments); 
+}
 
-<span class="nx">test</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="c1">// =&gt; [1, 2, 3]</span>
+test(1, 2, 3) // =&gt; [1, 2, 3]
 </code></pre></div>
 <p>…you&#39;ll notice in the above example it looks like the <code>arguments</code> property is an Array but it&#39;s not. It&#39;s an &#39;array-like&#39; object. So you can access the keys values much like an Array but you don&#39;t have access to the Array methods.</p>
 
@@ -486,23 +486,23 @@ A function added to an Object is known as a &#39;method&#39;  </p>
 <p>These two methods are the same (i.e. they do the same thing - which is to call a function <em>indirectly</em> while specifying a value for <code>this</code>) but with one small difference: <code>call</code> requires you pass through any arguments for the function as a comma separated list while <code>apply</code> requires you pass through any arguments for the function as an Array of values.</p>
 
 <p>The purpose of these methods is to allow you to <em>borrow</em> a function/method from another object. The following code demonstrates its usage and how powerful it can be… </p>
-<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">obj1</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Bob&#39;</span>
-<span class="p">};</span>
+<div class="highlight"><pre><code class="text">var obj1 = {
+    name: &#39;Bob&#39;
+};
 
-<span class="kd">var</span> <span class="nx">obj2</span> <span class="o">=</span> <span class="p">{</span> 
-    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Mark&#39;</span><span class="p">,</span> 
-    <span class="nx">speak</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span> 
-        <span class="k">return</span> <span class="s1">&#39;My name is &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
-    <span class="p">}</span> 
-<span class="p">}</span>
+var obj2 = { 
+    name: &#39;Mark&#39;, 
+    speak: function(){ 
+        return &#39;My name is &#39; + this.name;
+    } 
+}
 
-<span class="nx">obj2</span><span class="p">.</span><span class="nx">speak</span><span class="p">();</span> <span class="c1">// =&gt; &#39;My name is Mark&#39;</span>
+obj2.speak(); // =&gt; &#39;My name is Mark&#39;
 
-<span class="c1">// obj1 doesn&#39;t have a speak method and we don&#39;t want to add extra code to that object when </span>
-<span class="c1">// obj2 already has the same method already defined. We want to be able to just borrow obj2&#39;s &#39;speak&#39; method!</span>
+// obj1 doesn&#39;t have a speak method and we don&#39;t want to add extra code to that object when 
+// obj2 already has the same method already defined. We want to be able to just borrow obj2&#39;s &#39;speak&#39; method!
 
-<span class="nx">obj2</span><span class="p">.</span><span class="nx">speak</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">obj1</span><span class="p">);</span> <span class="c1">// =&gt; &#39;My name is Bob&#39;</span>
+obj2.speak.call(obj1); // =&gt; &#39;My name is Bob&#39;
 </code></pre></div>
 <p>…you can see how by using the <code>call</code> method we can make better use of existing functions and so we become more productive as well as have smaller and more efficient code.</p>
 
@@ -515,109 +515,109 @@ A function added to an Object is known as a &#39;method&#39;  </p>
 <p>There are multiple ways to use the prototype chain, one populate way is to try and emulate the &#39;Classical Inheritance&#39; style syntax (i.e. most programming languages have a <code>Class</code> keyword that makes creating objects based off a blueprint Class very easy but JavaScript doesn&#39;t have the concept of Class&#39;es - not yet any way). </p>
 
 <p>An example of how to emulate Class style syntax in JavaScript (currently) is by using functions as &#39;Constructors&#39; like so… </p>
-<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">Person</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">settings</span><span class="p">)</span> <span class="p">{</span>
-   <span class="c1">// Instance properties (any new instances of the Person class will have these properties)</span>
-   <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">settings</span><span class="p">.</span><span class="nx">name</span> <span class="o">||</span> <span class="s1">&#39;no name given&#39;</span><span class="p">;</span>
-   <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">settings</span><span class="p">.</span><span class="nx">age</span> <span class="o">||</span> <span class="s1">&#39;no age given&#39;</span><span class="p">;</span>
+<div class="highlight"><pre><code class="text">var Person = function (settings) {
+   // Instance properties (any new instances of the Person class will have these properties)
+   this.name = settings.name || &#39;no name given&#39;;
+   this.age = settings.age || &#39;no age given&#39;;
 
-   <span class="c1">// Instance method (any new instances of the Person class will have this method)</span>
-   <span class="k">this</span><span class="p">.</span><span class="nx">getName</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
-   <span class="p">};</span>
-<span class="p">};</span>
+   // Instance method (any new instances of the Person class will have this method)
+   this.getName = function() {
+      return this.name;
+   };
+};
 
-<span class="c1">// Create a new instance of the Person Class</span>
-<span class="kd">var</span> <span class="nx">bob</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">({</span> <span class="nx">name</span><span class="o">:</span><span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="nx">age</span><span class="o">:</span><span class="mi">7</span> <span class="p">});</span>
+// Create a new instance of the Person Class
+var bob = new Person({ name:&#39;Bob&#39;, age:7 });
 
-<span class="c1">// Add a method to this instance of the Person Class only (no other instances created will have this method)</span>
-<span class="nx">bob</span><span class="p">.</span><span class="nx">getAge</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-   <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">age</span><span class="p">;</span>
-<span class="p">}</span>
+// Add a method to this instance of the Person Class only (no other instances created will have this method)
+bob.getAge = function() {
+   return this.age;
+}
 
-<span class="c1">// Test the bob instance has access to both methods</span>
-<span class="nx">bob</span><span class="p">.</span><span class="nx">getName</span><span class="p">();</span>
-<span class="nx">bob</span><span class="p">.</span><span class="nx">getAge</span><span class="p">();</span>
+// Test the bob instance has access to both methods
+bob.getName();
+bob.getAge();
 
-<span class="c1">// Create another instance of the Person Class</span>
-<span class="kd">var</span> <span class="nx">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">({</span> <span class="nx">name</span><span class="o">:</span><span class="s1">&#39;Mark&#39;</span> <span class="p">});</span>
+// Create another instance of the Person Class
+var user = new Person({ name:&#39;Mark&#39; });
 
-<span class="c1">// Notice the user has access to a &#39;getName&#39; method but not a &#39;getAge&#39; method</span>
-<span class="nx">user</span><span class="p">.</span><span class="nx">getName</span><span class="p">();</span>
+// Notice the user has access to a &#39;getName&#39; method but not a &#39;getAge&#39; method
+user.getName();
 
-<span class="c1">// I know this will error so I&#39;m wrapping it in a try statement</span>
-<span class="k">try</span> <span class="p">{</span>
-   <span class="nx">user</span><span class="p">.</span><span class="nx">getAge</span><span class="p">();</span>
-<span class="p">}</span> <span class="k">catch</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
-   <span class="nx">alert</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="c1">// Uncaught TypeError: Object [object Object] has no method &#39;getAge&#39;</span>
-<span class="p">}</span>
+// I know this will error so I&#39;m wrapping it in a try statement
+try {
+   user.getAge();
+} catch(err) {
+   alert(err); // Uncaught TypeError: Object [object Object] has no method &#39;getAge&#39;
+}
 
-<span class="c1">// Add a method to the Person Class&#39; prototype chain (all instances of the Person Class will now get this method - even those already defined)</span>
-<span class="nx">Person</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">getNameAndAge</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-   <span class="k">return</span> <span class="s1">&#39;Hi, my name is &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;, and I\&#39;m &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">+</span> <span class="s1">&#39; years old.&#39;</span><span class="p">;</span>
-<span class="p">}</span>
+// Add a method to the Person Class&#39; prototype chain (all instances of the Person Class will now get this method - even those already defined)
+Person.prototype.getNameAndAge = function() {
+   return &#39;Hi, my name is &#39; + this.name + &#39;, and I\&#39;m &#39; + this.age + &#39; years old.&#39;;
+}
 
-<span class="c1">// Test this new method is accessible to all instances of the Person Class</span>
-<span class="nx">bob</span><span class="p">.</span><span class="nx">getNameAndAge</span><span class="p">();</span>
-<span class="nx">user</span><span class="p">.</span><span class="nx">getNameAndAge</span><span class="p">();</span>
+// Test this new method is accessible to all instances of the Person Class
+bob.getNameAndAge();
+user.getNameAndAge();
 </code></pre></div>
 <h3>Composition</h3>
 
 <p>There is another code reuse pattern you can use instead of &#39;inheritance&#39; called &#39;composition&#39;. The way it works is instead of inheriting methods/properties from a blueprint/base object you instead borrow the methods using <code>call</code> or <code>apply</code> (as we&#39;ve seen previously). </p>
 
 <p>An example of this is as follows…</p>
-<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">person</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="nx">names</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;James&#39;</span><span class="p">,</span> <span class="s1">&#39;Neil&#39;</span><span class="p">,</span> <span class="s1">&#39;Russ&#39;</span><span class="p">,</span> <span class="s1">&#39;Stuart&#39;</span><span class="p">]</span>
-    <span class="p">};</span>
+<div class="highlight"><pre><code class="text">var person = {
+        names: [&#39;James&#39;, &#39;Neil&#39;, &#39;Russ&#39;, &#39;Stuart&#39;]
+    };
 
-<span class="kd">var</span> <span class="nx">people</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">names</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;Ash&#39;</span><span class="p">,</span> <span class="s1">&#39;Brad&#39;</span><span class="p">,</span> <span class="s1">&#39;Mark&#39;</span><span class="p">,</span> <span class="s1">&#39;Mike&#39;</span><span class="p">],</span>
-    <span class="nx">speak</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">which</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="s1">&#39;Hi, my name is &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">names</span><span class="p">[</span><span class="nx">which</span><span class="p">];</span>
-    <span class="p">}</span>
-<span class="p">};</span>
+var people = {
+    names: [&#39;Ash&#39;, &#39;Brad&#39;, &#39;Mark&#39;, &#39;Mike&#39;],
+    speak: function(which) {
+        return &#39;Hi, my name is &#39; + this.names[which];
+    }
+};
 
-<span class="c1">// Composition not Inheritance</span>
-<span class="nx">people</span><span class="p">.</span><span class="nx">speak</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">person</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// =&gt; &#39;Hi, my name is Neil&#39;</span>
+// Composition not Inheritance
+people.speak.call(person, 1); // =&gt; &#39;Hi, my name is Neil&#39;
 </code></pre></div>
 <h3>Mixins</h3>
 
 <p>Another code reuse pattern is called a &#39;mixin&#39; - which instead of using &#39;inheritance&#39; we simply copy over the functions/properties we want to use.</p>
 
 <p>The following example demonstrates how this works… </p>
-<div class="highlight"><pre><code class="js"><span class="kd">function</span> <span class="nx">extend</span><span class="p">(</span><span class="nx">destination</span><span class="p">,</span> <span class="nx">source</span><span class="p">,</span> <span class="nx">overwrite</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">overwrite</span> <span class="o">=</span> <span class="nx">overwrite</span> <span class="o">||</span> <span class="kc">false</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">source</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">source</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span> <span class="p">{</span>
-            <span class="c1">// If we&#39;re not allowed to overwrite an existing property… </span>
-            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">overwrite</span><span class="p">)</span> <span class="p">{</span>
-                <span class="c1">// …then we check to see if the property is undefined… </span>
-                <span class="k">if</span> <span class="p">(</span><span class="nx">destination</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="c1">// …if it is then we know we can copy the property to the destination object</span>
-                    <span class="nx">destination</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">source</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
-                <span class="p">}</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                <span class="nx">destination</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">source</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="nx">destination</span><span class="p">;</span> 
-<span class="p">}</span>
+<div class="highlight"><pre><code class="text">function extend(destination, source, overwrite) {
+    var overwrite = overwrite || false;
+    for (var i in source) {
+        if (source.hasOwnProperty(i)) {
+            // If we&#39;re not allowed to overwrite an existing property… 
+            if (!overwrite) {
+                // …then we check to see if the property is undefined… 
+                if (destination[i] === undefined) {
+                    // …if it is then we know we can copy the property to the destination object
+                    destination[i] = source[i];
+                }
+            } else {
+                destination[i] = source[i];
+            }
+        }
+    }
+    return destination; 
+}
 
-<span class="kd">var</span> <span class="nx">person</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="nx">names</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;James&#39;</span><span class="p">,</span> <span class="s1">&#39;Neil&#39;</span><span class="p">,</span> <span class="s1">&#39;Russ&#39;</span><span class="p">,</span> <span class="s1">&#39;Stuart&#39;</span><span class="p">]</span>
-    <span class="p">};</span>
+var person = {
+        names: [&#39;James&#39;, &#39;Neil&#39;, &#39;Russ&#39;, &#39;Stuart&#39;]
+    };
 
-<span class="kd">var</span> <span class="nx">people</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">names</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;Ash&#39;</span><span class="p">,</span> <span class="s1">&#39;Brad&#39;</span><span class="p">,</span> <span class="s1">&#39;Mark&#39;</span><span class="p">,</span> <span class="s1">&#39;Mike&#39;</span><span class="p">],</span>
-    <span class="nx">speak</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">which</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="s1">&#39;Hi, my name is &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">names</span><span class="p">[</span><span class="nx">which</span><span class="p">];</span>
-    <span class="p">}</span>
-<span class="p">};</span>
+var people = {
+    names: [&#39;Ash&#39;, &#39;Brad&#39;, &#39;Mark&#39;, &#39;Mike&#39;],
+    speak: function(which) {
+        return &#39;Hi, my name is &#39; + this.names[which];
+    }
+};
 
-<span class="nx">extend</span><span class="p">(</span><span class="nx">person</span><span class="p">,</span> <span class="nx">people</span><span class="p">);</span> <span class="c1">// copy properties from `people` to `person`</span>
+extend(person, people); // copy properties from `people` to `person`
 
-<span class="c1">// `person` now has a `speak` method it didn&#39;t have originally </span>
-<span class="nx">person</span><span class="p">.</span><span class="nx">speak</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="c1">// =&gt; &#39;Hi, my name is Neil&#39;</span>
+// `person` now has a `speak` method it didn&#39;t have originally 
+person.speak(1); // =&gt; &#39;Hi, my name is Neil&#39;
 </code></pre></div>
 <h2>Conclusion</h2>
 

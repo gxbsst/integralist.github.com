@@ -63,7 +63,7 @@ Variables are a great way to not have to repeat entering the same value over and
 
 To create a variable in SASS you simply prefix the name of the variable with a dollar sign: `$brand_color: #C00;` I can now use `$brand_color` wherever I like. For example…
 
-```css
+```
 .header {
 	color: $brand_color;
 }
@@ -77,7 +77,7 @@ I can't imagine me ever using this feature, but I've included it because it also
 
 You can use all standard operators (*, /, +, -) for example:
 
-```css
+```
 $width: 10px; 
 $double_width: $width * 2;
 ```
@@ -92,7 +92,7 @@ These are very useful. A lot of times you have for example 'hover' effects that 
 
 `lighten(colour, percentage)`
 	
-```css
+```
 .txt-light {
 	color: lighten($brand_color, 30%);
 }
@@ -100,7 +100,7 @@ These are very useful. A lot of times you have for example 'hover' effects that 
 
 `darken(colour, percentage)`
 
-```css
+```
 .txt-dark {
 	color: darken($brand_color, 10%);
 }
@@ -108,7 +108,7 @@ These are very useful. A lot of times you have for example 'hover' effects that 
 
 `saturate(colour, percentage)`
 
-```css
+```
 .txt-sat {
 	color: saturate($brand_color, 100%);
 }
@@ -116,7 +116,7 @@ These are very useful. A lot of times you have for example 'hover' effects that 
 
 `desaturate(colour, percentage)`
 
-```css
+```
 .txt-desat {
 	color: desaturate($brand_color, 20%);
 }
@@ -124,7 +124,7 @@ These are very useful. A lot of times you have for example 'hover' effects that 
 
 `adjust-hue(colour, degrees)`
 
-```css
+```
 .txt-hue {
 	color: adjust-hue($brand_color, 180);
 }
@@ -132,7 +132,7 @@ These are very useful. A lot of times you have for example 'hover' effects that 
 
 `grayscale(colour)`
 
-```css
+```
 .txt-greyscale {
 	color: grayscale($brand_color);
 }
@@ -140,7 +140,7 @@ These are very useful. A lot of times you have for example 'hover' effects that 
 
 `mix(colour, colour)`
 
-```css
+```
 .txt-mix {
 	color: mix($brand_color, #C00);
 }
@@ -162,7 +162,7 @@ To be honest, it's likely that any stylesheets you have deemed modular enough to
 
 For example:
 
-```css
+```
 $brand_color = #0000FF;
 .brand { 
 	color: $brand_color; 
@@ -173,7 +173,7 @@ $brand_color = #0000FF;
 
 …generates the following CSS…
 
-```css
+```
 .brand { 
 	color: blue; 
 }
@@ -185,7 +185,7 @@ $brand_color = #0000FF;
 
 …which obviously isn't as efficient or clean as…
 
-```css
+```
 .brand { 
 	color: blue; 
 	background-color: red; 
@@ -207,7 +207,7 @@ The reason I'm even mentioning this feature is so you know not to bother with it
 
 Anywhere you have a CSS class you can re-import that inside another rule:
 
-```css
+```
 .myClass {
 	border: 1px solid #969;
 	color: red;
@@ -221,7 +221,7 @@ button {
 
 …which generates the following CSS…
 
-```css
+```
 .myClass, button {
 	border: 1px solid #969;
 	color: red;
@@ -244,7 +244,7 @@ Remember that this can cause code duplication so please do NOT use 'Mixins' (OOC
 
 You create a mixing like so:
 
-```css
+```
 @mixin .myMixin { 
 	color: blue; 
 }
@@ -255,7 +255,7 @@ You create a mixing like so:
 
 …and you can change the values like so…
 
-```css
+```
 @mixin .myMixin($set_colour) { 
 	color: $set_colour; 
 }
@@ -266,7 +266,7 @@ You create a mixing like so:
 
 …you can also define a default value if none is provided…
 
-```css
+```
 @mixin .myMixin($set_colour: #0000FF) { 
 	color: $set_colour;
 }
@@ -274,7 +274,7 @@ You create a mixing like so:
 
 …you can use mixin's for things like CSS3 properties…
 
-```css
+```
 @mixin rounded_borders($color, $width: 5px, $rounding: 5px) { 
 	-moz-border-radius: $rounding $rounding; 
 	-webkit-border-radius: $rounding $rounding; 
@@ -292,7 +292,7 @@ You create a mixing like so:
 
 …and use the opacity like so…
 
-```css
+```
 .h1 { 
 	// Use the IE numbering style (instead of the W3C's 0-1 numbering style)
 	@include opacity(60);
@@ -301,7 +301,7 @@ You create a mixing like so:
 
 …or you could use the reverse…
 
-```css
+```
 @mixin opacity($opacity) {
 	filter: alpha(opacity=#{$opacity*100}); // IE 5-9+ 
 	opacity: $opacity; 
@@ -314,7 +314,7 @@ One area where mixins can't help you is when there is some specific CSS3 syntax 
 
 One way to work around this issue is to use `interpolation`. The way it works is that you wrap a variable name with `#{}` e.g. `#{$my_variable}` and that will dynamically insert the value at that place in your CSS. Might sound a bit confusing so best to demonstrate this with an example, and the best example I can think of is again the `background-image` property with multiple different vendor prefixes… 
 
-```css
+```
 // Variable
 $prefixes:-webkit,-moz,-ms,-o;
 

@@ -10,7 +10,7 @@ The basic premise to have code that appears more `Class` like is this: JavaScrip
 
 A basic example is as follows…
 
-```js
+```
 var Person = function (settings) {
    if (!settings) { settings = {}; } // code defensively
 

@@ -123,7 +123,7 @@ Now we have our software set-up, lets open our programming tool of choice and st
 
 First thing we want to do is to create a file that will be our application. So lets go ahead and do that and call it `app.rb` and lets add the following content to it…
 
-```ruby
+```
 #!/usr/bin/env ruby
 
 require 'sinatra'
@@ -175,7 +175,7 @@ So at this point you've got some Ruby code and you're able to view it in a web b
 
 If you wanted to add a new page called "Projects" that you accessed via `http://localhost:4567/projects` then all you would need to do is add the following code…
 
-```ruby
+```
 get '/projects' do
     # page content
 end
@@ -185,7 +185,7 @@ What we've done is created a new 'route' - a new way for a user to access your a
 
 Imagine now that this 'projects' page had a login form on it that let the user enter a username and password and this form POST'ed the data entered by the user back to the current page...
 
-```html
+```
 <form method="post">
 	<dl>
 		<dt>Name</dt>
@@ -199,7 +199,7 @@ Imagine now that this 'projects' page had a login form on it that let the user e
 
 ...for you to access the POST'ed data then you would need to add another 'route' to handle it. But this time instead of using a `get` request it would be a `post` request like so…
 
-```ruby
+```
 post '/projects' do
     # do something with the form fields
     user = params[:user]
@@ -211,7 +211,7 @@ end
 
 You can also use the URL path as a way for the user to interact with your application. For example if you had a page which added two numbers together then it could be handled directly via the URL as follows…
 
-```ruby
+```
 get '/add/:a/:b' do |a, b|
     "#{a.to_i + b.to_i}"
 end
@@ -229,7 +229,7 @@ Note that templates can be inlined inside your Ruby code, but personally I prefe
 
 Our code is going to start looking something like this…
 
-```ruby
+```
 get '/' do
     erb :home
 end
@@ -245,12 +245,12 @@ By default Sinatra looks for templates inside of a root folder called `views` (y
 
 Inside our `views` folder we'll need to create two files then: `home.erb` and `projects.erb` and they'll look a little bit like this…
 
-```html
+```
 <!-- home.erb -->
 <p>HTML content for my home page</p>
 ```
 
-```html
+```
 <!-- projects.erb -->
 <p>HTML content for my projects page</p>
 ```
@@ -261,7 +261,7 @@ What this means is I can have a 'master' HTML file that stays the same for every
 
 But if I didn't create a `layout.erb` file then I could have modified my templates above to include a full set of HTML like so…
 
-```html
+```
 <!-- home.erb -->
 <!doctype html>
 <html>
@@ -277,7 +277,7 @@ But if I didn't create a `layout.erb` file then I could have modified my templat
 
 …but I prefer having a master layout to handle this stuff, so lets create a `layout.erb` file (within the `views` folder) and add the following content to it…
 
-```html
+```
 <!-- layout.erb -->
 <!doctype html>
 <html>
@@ -293,7 +293,7 @@ But if I didn't create a `layout.erb` file then I could have modified my templat
 
 …you should notice the Ruby tags `<% %>` which are used to place Ruby code inside of them. Here we're telling Ruby to `yield` to the template file we're loading. So for example when a user accesses the home page and we load `home.erb`, we're effectively loading the `layout.erb` file and telling it that when it reaches the `body` tag we want it to load in the content from the `home.erb` file into it so it will end up rendering in the web browser like this…
 
-```html
+```
 <!doctype html>
 <html>
 	<head>
@@ -308,7 +308,7 @@ But if I didn't create a `layout.erb` file then I could have modified my templat
 
 If you want to load a different master layout for a specific page then you can do that also. For example I have a page that I display to users of Internet Explorer version 7 or lower. The master layout for that page is a lot simpler than the other pages of my site in that it loads different stylesheets specifically for this IE page. So in my application file I have the following…
 
-```ruby
+```
 get '/internet-explorer' do
     erb :ie, :layout => :layout_ie
 end
@@ -318,7 +318,7 @@ end
 
 One other thing worth mentioning is that you can pass variables from your route block into your template using class instance variables…
 
-```ruby
+```
 post '/contact' do
     redirect "/contact-error/name" if params[:user].empty?
     redirect "/contact-error/email" if params[:email].empty?
@@ -363,7 +363,7 @@ If this sounds a bit confusing then have a look at the GitHub repo linked at the
 
 If the user tries to access a page that doesn't exist then you can direct them to your own `404 error` page by using the following route…
 
-```ruby
+```
 not_found do
     erb :notfound
 end
@@ -375,7 +375,7 @@ One thing you might not want to have happen is if someone types in `http://local
 
 To fix this you can do the following…
 
-```ruby
+```
 before do
     request.path_info.sub! %r{/$}, ''
 end
@@ -389,7 +389,7 @@ Note: there is also a `after` filter block as well for doing tidy up work (altho
 
 If there is an actual error then you can use…
 
-```ruby
+```
 error do
     erb :error
 end
@@ -415,7 +415,7 @@ Here are some things you can do to help improve the performance of your web appl
 
 ####1. Cache static resources
 
-```ruby
+```
 # We set the cache control for static resources to approximately 1 month
 set :static_cache_control, [:public, :max_age => 2678400]
 ```
@@ -424,7 +424,7 @@ set :static_cache_control, [:public, :max_age => 2678400]
 
 You can also tell Sinatra to use the `Thin` server rather than the default `WEBrick` server if it's available (`Thin` is a supremely better performing web server so do please use it!)
 
-```ruby
+```
 # We specify which server we want to use (Thin is tried first and then failing that WEBrick)
 set :server, %w[thin webrick]
 ```
@@ -433,7 +433,7 @@ set :server, %w[thin webrick]
 
 We can also have the web server automatically GZIP all our static resources (which can reduce the file size of a resource by up to 70%!) such as HTML content, JavaScript files, CSS files by using one line of Ruby code…
 
-```ruby
+```
 use Rack::Deflater
 ```
 
@@ -452,7 +452,7 @@ This is going to be short and quick…
 	* You may want to add additional SSH keys, if you do use: `heroku keys:add`
 	* To create an app on heroku use: `heroku create --stack cedar` (you can also do: `heroku create yourappname --stack cedar`) - `cedar` will shortly be the *default* web stack on heroku but for the time being it's worth including it in the command `--stack cedar` otherwise your app will be created on an older web stack which isn't as good.
 4. Create a `config.ru` file and add the following content:  
-```ruby
+```
 require 'app' # where app is the name of your main file that initializes your web application
 run Sinatra::Application
 ```

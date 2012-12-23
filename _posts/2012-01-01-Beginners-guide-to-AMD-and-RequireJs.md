@@ -36,7 +36,7 @@ The way we insert scripts into our pages has evolved over the years:
 
 * Multiple `<script>` tags
 
-```html
+```
 <script src="script-1.js">
 <script src="script-2.js">
 <script src="script-3.js">
@@ -44,7 +44,7 @@ The way we insert scripts into our pages has evolved over the years:
 
 * Script Loader (e.g. LABjs / YepNope.js …and many many more)
 
-```html
+```
 // This example uses LABjs    
 <script src="LAB.js"></script>
 <script>
@@ -54,7 +54,7 @@ The way we insert scripts into our pages has evolved over the years:
 
 * AMD Script Loader (e.g. RequireJs / Curl …and a couple of others)
 
-```html
+```
 <script data-main="main" src="require.js"></script>
 ```
 
@@ -126,7 +126,7 @@ For this example the structure would be:
 	
 In my main page I’ll insert the following script tag at the bottom of the page, just above the closing `</body>` tag…
 
-```html
+```
 <script data-main="Assets/Scripts/main" src="Assets/Scripts/Require.js"></script>
 ```
 
@@ -138,7 +138,7 @@ This does two things, it loads the Assets/Scripts/main.js file but it also tells
 
 Inside main.js we have the following code…
 
-```js
+```
 // This allows us to specify jQuery as a dependancy in one of our modules
 // You'll notice all paths are relative to Assets/Scripts/
 require.config({
@@ -174,7 +174,7 @@ Lets have a look at that dependancy…
 
 Here is the content of our ‘Assets/Scripts/App/people.js’ file…
 
-```js
+```
 /*
  * You see we've specified the jQuery library as a dependency without specifying its correct path (we've just specified the name 'jquery').
  * This is because jQuery's AMD support is based on it being defined as a 'Named Module'.
@@ -219,7 +219,7 @@ I’ve placed my build script (and the optimisation script) in the my main scrip
 
 My build script looks like this…
 
-```js
+```
 /*
  * http://requirejs.org/docs/optimization.html
  *

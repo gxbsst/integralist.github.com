@@ -38,13 +38,13 @@ We also use a custom data attribute `data-message` to store specific validation 
 
 So as an example here is a form with the mandatory class and the custom data attribute
 
-```html
+```
 <input name="card" class="js-mandatory-field" data-message="Please ensure you enter a valid credit card number">
 ```
 
 Our full form code looks like this…
 
-```html
+```
 <form action="http://www.google.com/" method="post" id="js-form">
     <p>Name: <input name="fullname" class="js-mandatory-field" data-message="Please ensure you enter your full name"></p>
     <p>Date of Birth: <input name="dob" placeholder="dd/mm/yyyy" class="js-mandatory-field" data-message="Please ensure you enter a valid date format"></p>
@@ -64,14 +64,14 @@ Next let's look at our JavaScript set-up: we're utilising AMD to help keep our s
 
 So in our HTML file we'll load up the JavaScript files required…
 
-```html
+```
 <script src="Assets/Scripts/curl.js"></script>
 <script src="Assets/Scripts/app.js"></script>
 ```
 
 Inside our app.js file we set-up a configuration object which handles the paths to the different dependencies we'll be using. We then load the 'Validation' module (which is a Backbone.View)…
 
-```js
+```
 var config = {
     baseUrl: './Assets/Scripts/',
     pluginPath: 'plugins',
@@ -125,7 +125,7 @@ The validation methods are:
 
 So within the initialisation stage of the View we do a few things…
 
-```js
+```
 initialize: function(){
     // Self explanatory: stores all mandatory fields
     this.mandatory_fields = $('.js-mandatory-field');
@@ -150,7 +150,7 @@ The reason we call the `get_template` method straight away (before the form has 
 
 The `get_template` method is called immediately but later on we also check to see if we need to try calling it again (e.g. when the user actually submits the form we check to see if `this.template` holds any value and if it does then we use it, otherwise we call `get_template` again to grab the data) so this is why we check within that method for a `callback` to be provided (when the template is loaded we want to continue on and process the errors found)
 
-```js
+```
 get_template: function (callback) {
     $.ajax({
         url: 'Assets/Templates/FormErrors.txt',
@@ -168,7 +168,7 @@ get_template: function (callback) {
 
 We then listen out for the form submission event to happen and call the `validate` method to handle the event…
 
-```js
+```
 events: {
     'submit': 'validate'
 }
@@ -180,7 +180,7 @@ If the validation method returns `true` then that means an issue was found and s
 
 After we've been through all the mandatory fields we check to see if the `errors` Array has any items, if it does then we know we need to process some errors and call `this.process_errors` and pass the `errors` Array through to that method.
 
-```js
+```
 validate: function(){
     var errors = [];
     var method;
@@ -238,7 +238,7 @@ Next we need to convert the jQuery collection into an actual Array for Hogan.js 
 
 Finally we check if the template file has been loaded already or not. If it hasn't then we load it via ajax and then call the `display_errors` method.
 
-```js
+```
 process_errors: function (errors) {
     /*
         Clean the errors list so we only have unique data.
@@ -280,7 +280,7 @@ We then update the URL hash to include the id value of the form errors element w
 
 I know some people will disagree with doing that and would prefer to display an error next to each field but I find that makes the design of the page a lot more complicated, especially when dealing with multiple screen dimensions. I personally prefer to have a single place to display all errors.
 
-```js
+```
 display_errors: function (data) {
     // First remove any errors that might already be on the page
     var existing_list = $('#js-formerrors');
@@ -305,7 +305,7 @@ display_errors: function (data) {
 
 The full module code is as follows...
 
-```js
+```
 define(['../Utils/Templating/hogan'], function (hogan) {
     
     var Validation = Backbone.View.extend({

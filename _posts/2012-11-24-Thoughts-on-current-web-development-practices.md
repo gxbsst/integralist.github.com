@@ -68,7 +68,7 @@ Things have a come a loooong way since the good 'ole days of web development. Ou
 
 Below is an example of a web page HTML structure…
 
-```html
+```
 <!doctype html>
 <!--[if IE 8]><html class="ie8" dir="ltr" lang="en"><![endif]-->
 <!--[if IE 9]><html class="ie9" dir="ltr" lang="en"><![endif]-->
@@ -156,7 +156,7 @@ After that, we have the `<body>` element which will contain the content of your 
 
 It's important that you use only elements that semantically match the content. There are easy examples and there are slightly more awkward examples. An easy example is a top level navigation menu, I think most of us are aware by now that the most semantically correct element to use here is an un-ordered list `<ul>`…
 
-```html
+```
 <ul>
 	<li><a href="">Home</a></li>
 	<li><a href="">About</a></li>
@@ -182,7 +182,7 @@ Service C    | Google+       | 22222 222222
 
 …you *could* use a `<dl>` element, but is this strictly the correct element to use? An example of what that would look like is…
 
-```html
+```
 <dl>
 	<dt>Services</dt>
 		<dd>Service A<dd>
@@ -207,7 +207,7 @@ Service C    | Google+       | 22222 222222
 
 …so this looks to be the right element to use as it is an "association list" (i.e. we've associated a list of items with the relevant title) but maybe instead we should have used a `<table>` element because we are kind of dealing with tabular data. There are defined headers with *associated* rows of content (similar to the association made with a `<dl>`). An example of what this would look like is…
 
-```html
+```
 <table>
     <thead>
         <tr>
@@ -318,7 +318,7 @@ So where you see the `.css` files inside of the /`Styles`/ directory - this is a
 
 For example, the home.scss file (which is what generates the home.css file) could contain the following content (note: that this content changes depending on the requirements of your project)…
 
-```css
+```
 // Configurations/Settings
 @import "Configurations/variables";
 
@@ -376,7 +376,7 @@ Now before we get into OOCSS let's first quickly demonstrate some issues with us
 
 Here is a typical usage of Sass:
 
-```css
+```
 .nav{
     li{
         a{}
@@ -386,7 +386,7 @@ Here is a typical usage of Sass:
 
 Which when the pre-processor executes equates to...
 
-```css
+```
 .nav {}
 .nav li {}
 .nav li a {}
@@ -394,7 +394,7 @@ Which when the pre-processor executes equates to...
 
 But this might not have been the result you intended, instead you actually wanted…
 
-```css
+```
 .nav {}
 .nav li {}
 .nav a {}
@@ -404,7 +404,7 @@ But this might not have been the result you intended, instead you actually wante
 
 To do that you just need to tweak the Sass code slightly…
 
-```css
+```
 .nav{
     li{
         
@@ -419,7 +419,7 @@ So just be careful with Sass and double check its output to ensure it is produci
 
 One tip for using nested selectors is to use the ampersand `&` character to reference the whole selector, so for example…
 
-```css
+```
 a {
 	text-decoration: none;
 
@@ -454,7 +454,7 @@ Other issues with pre-processors can come from Mixins, which although very usefu
 
 The `@extend` statement is slightly better in the sense that you can write a class `.funky-border` which contains a single declaration: `border: 10px dashed blue;` and then for every element that uses that same styling you can simply do…
 
-```css
+```
 .my-box {
 	@extend .funky-border;
 	color: red;
@@ -463,7 +463,7 @@ The `@extend` statement is slightly better in the sense that you can write a cla
 
 …what this ends up compiling to is something like this…
 
-```css
+```
 .funky-border,
 .my-box {
 	border: 10px dashed blue;
@@ -532,7 +532,7 @@ All of the following items are 'modular' in that sense (e.g. when it comes down 
 
 Example Mixin:
 
-```css
+```
 @mixin transition ($transition: all 0.2s linear) {
 	-webkit-transition: $transition;
 	   -moz-transition: $transition;
@@ -546,7 +546,7 @@ Example Mixin:
 
 Extensions are effectively re-usable classes which you can incorporate into any existing rule. An example of this could be having a class that lets you set a box shadow…
 
-```css
+```
 .shadow {
     @include shadow(0 3px 6px #666);
     border: 3px solid #fff;
@@ -555,7 +555,7 @@ Extensions are effectively re-usable classes which you can incorporate into any 
 
 …which would be used like so… 
 
-```css
+```
 .profile-photo {
     @extend .shadow;
     // other styles
@@ -581,7 +581,7 @@ So now I find the best way to manage modules is to keep the module, and the stat
 
 The way I keep the IE code within the same file is I stopped having them as separate files like so…
 
-```html
+```
 <!--[if IE 8]>
 <link rel="stylesheet" href="/Assets/Styles/IE8.css">
 <![endif]-->
@@ -593,7 +593,7 @@ The way I keep the IE code within the same file is I stopped having them as sepa
 
 …and instead went with the [Paul Irish solution](http://paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/)…
 
-```html
+```
 <!--[if IE 8]><html class="ie8" dir="ltr" lang="en"><![endif]-->
 <!--[if IE 9]><html class="ie9" dir="ltr" lang="en"><![endif]-->
 <!--[if gt IE 9]><!--> <html dir="ltr" lang="en"> <!--<![endif]-->
@@ -607,7 +607,7 @@ Selectors are a tricky subject in CSS. The key principle is to be as 'specific' 
 
 Where you may have `ul.menu` just use `.menu`. This is because if you had another element which isn't a `ul` but which needed similar stylings to your `.menu` class you can now reuse that class, where as before you would of had to of either written another class with similar code, or added another element selector to the rule like so…
 
-```css
+```
 ul.menu,
 ol.menu {
     // styles
@@ -667,7 +667,7 @@ But with percentages you wouldn't just set the width to `.15625%` you need to mo
 
 To help your images scale appropriately along with your responsive design you can set the `max-width` property to be 100% which means the image will never be larger than its container but can happily resize/scale downwards on smaller screens…
 
-```css
+```
 img {
     max-width: 100%;
 }
@@ -687,7 +687,7 @@ By doing: `960 / 16 = 60` (again it's that `target / context = result` algorithm
 
 We can now set our wrapper element like so…
 
-```css
+```
 .container {
     max-width: 60em;
 }
@@ -699,7 +699,7 @@ Because I make sure my sites are built using a responsive approach, it isn't a w
 
 The tool for that job are 'Media Queries'…
 
-```css
+```
 @media only screen and (min-width: 320px) {
 	// Mobile styles
 }
@@ -818,7 +818,7 @@ jshint **/*.js --config ./Lint/config.json
 
 ...this relies on a specific `config.json` file which is easier than manually typing all the options. It looks like this:
 
-```js
+```
 {
 	// Settings
     "passfail"      : false,  // Stop on first error.
@@ -908,7 +908,7 @@ When I run that command I see any bugs/issues with my JavaScript code that doesn
 
 One thing I find very useful to do for all my JavaScript files is to include a code structure comment at the top like so...
 
-```js
+```
 /*
  * Code Structure:
  * - Variables
@@ -993,7 +993,7 @@ But there are other aspects of your site that aren't simple to resolve - JavaScr
 
 Below is an example of a minor performance dilemma I had recently while writing CSS with the Sass pre-processor. Although this example would likely be an extremely neglible performance hit I still found it interesting (afterwards) how potentially easily it is to make mistakes when using a pre-processor. So here is some Sass driven CSS code… 
 
-```css
+```
 .dashboard-box {
     @include box-sizing(border-box);
 	@include shadow(1px 1px 3px rgba(0, 0, 0, .2));
@@ -1023,7 +1023,7 @@ Below is an example of a minor performance dilemma I had recently while writing 
 
 …which generates the following CSS…
 
-```css
+```
 .dashboard-box {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1059,7 +1059,7 @@ Below is an example of a minor performance dilemma I had recently while writing 
 
 …but at first I wasn't sure if having duplicated selectors (i.e. `.dashboard-box` and `.dashboard-box > div`) was very efficient, so I went back and changed my Sass code. This time I put `@include radius(.5em);` both at the top of the main declaration block as well as inside the `> div` declaration...
 
-```css
+```
 .dashboard-box {
     @include radius(.5em);
     @include box-sizing(border-box);
@@ -1086,7 +1086,7 @@ Below is an example of a minor performance dilemma I had recently while writing 
 
 ...which resulted in the following CSS… 
 
-```css
+```
 .dashboard-box {
   -webkit-border-radius: 0.5em;
   -moz-border-radius: 0.5em;

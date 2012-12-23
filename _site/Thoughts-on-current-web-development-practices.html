@@ -103,31 +103,31 @@
 <h3>Example HTML</h3>
 
 <p>Below is an example of a web page HTML structure…</p>
-<div class="highlight"><pre><code class="html"><span class="cp">&lt;!doctype html&gt;</span>
-<span class="c">&lt;!--[if IE 8]&gt;&lt;html class=&quot;ie8&quot; dir=&quot;ltr&quot; lang=&quot;en&quot;&gt;&lt;![endif]--&gt;</span>
-<span class="c">&lt;!--[if IE 9]&gt;&lt;html class=&quot;ie9&quot; dir=&quot;ltr&quot; lang=&quot;en&quot;&gt;&lt;![endif]--&gt;</span>
-<span class="c">&lt;!--[if gt IE 9]&gt;&lt;!--&gt;</span> <span class="nt">&lt;html</span> <span class="na">dir=</span><span class="s">&quot;ltr&quot;</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span> <span class="c">&lt;!--&lt;![endif]--&gt;</span>
+<div class="highlight"><pre><code class="text">&lt;!doctype html&gt;
+&lt;!--[if IE 8]&gt;&lt;html class=&quot;ie8&quot; dir=&quot;ltr&quot; lang=&quot;en&quot;&gt;&lt;![endif]--&gt;
+&lt;!--[if IE 9]&gt;&lt;html class=&quot;ie9&quot; dir=&quot;ltr&quot; lang=&quot;en&quot;&gt;&lt;![endif]--&gt;
+&lt;!--[if gt IE 9]&gt;&lt;!--&gt; &lt;html dir=&quot;ltr&quot; lang=&quot;en&quot;&gt; &lt;!--&lt;![endif]--&gt;
 
-    <span class="nt">&lt;head&gt;</span>
-        <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content=</span><span class="s">&quot;width=device-width, initial-scale=1&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;author&quot;</span> <span class="na">content=</span><span class="s">&quot;Mark McDonnell&quot;</span> <span class="nt">/&gt;</span>
-        <span class="nt">&lt;title&gt;</span>My thoughts on current web development practices<span class="nt">&lt;/title&gt;</span>
-        <span class="c">&lt;!--[if lt IE 9]&gt;</span>
-<span class="c">        &lt;script src=&quot;/Assets/Scripts/Utils/Elements/html5.js&quot;&gt;&lt;/script&gt;</span>
-<span class="c">        &lt;![endif]--&gt;</span>
-        <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;author&quot;</span> <span class="na">href=</span><span class="s">&quot;/humans.txt&quot;</span> <span class="na">type=</span><span class="s">&quot;text/plain&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;Assets/Styles/mobile.css&quot;</span>  <span class="na">media=</span><span class="s">&quot;only screen and (min-width: 320px)&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;Assets/Styles/tablet.css&quot;</span>  <span class="na">media=</span><span class="s">&quot;only screen and (min-width: 600px) and (max-width: 959px)&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;Assets/Styles/desktop.css&quot;</span> <span class="na">media=</span><span class="s">&quot;only screen and (min-width: 960px)&quot;</span><span class="nt">&gt;</span>
-        <span class="c">&lt;!--[if (lt IE 9) &amp; (!IEMobile)]&gt;</span>
-<span class="c">        &lt;link rel=&quot;stylesheet&quot; href=&quot;/Assets/Styles/desktop.css&quot;&gt;</span>
-<span class="c">        &lt;![endif]--&gt;</span>
-    <span class="nt">&lt;/head&gt;</span>
-    <span class="nt">&lt;body&gt;</span>
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+        &lt;meta name=&quot;author&quot; content=&quot;Mark McDonnell&quot; /&gt;
+        &lt;title&gt;My thoughts on current web development practices&lt;/title&gt;
+        &lt;!--[if lt IE 9]&gt;
+        &lt;script src=&quot;/Assets/Scripts/Utils/Elements/html5.js&quot;&gt;&lt;/script&gt;
+        &lt;![endif]--&gt;
+        &lt;link rel=&quot;author&quot; href=&quot;/humans.txt&quot; type=&quot;text/plain&quot;&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;Assets/Styles/mobile.css&quot;  media=&quot;only screen and (min-width: 320px)&quot;&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;Assets/Styles/tablet.css&quot;  media=&quot;only screen and (min-width: 600px) and (max-width: 959px)&quot;&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;Assets/Styles/desktop.css&quot; media=&quot;only screen and (min-width: 960px)&quot;&gt;
+        &lt;!--[if (lt IE 9) &amp; (!IEMobile)]&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;/Assets/Styles/desktop.css&quot;&gt;
+        &lt;![endif]--&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
         Content
-    <span class="nt">&lt;/body&gt;</span>
-<span class="nt">&lt;/html&gt;</span>
+    &lt;/body&gt;
+&lt;/html&gt;
 </code></pre></div>
 <p>This breaks down into the following basic structure…</p>
 
@@ -189,18 +189,18 @@ Location: Address
 <p>After that, we have the <code>&lt;body&gt;</code> element which will contain the content of your page.</p>
 
 <p>It&#39;s important that you use only elements that semantically match the content. There are easy examples and there are slightly more awkward examples. An easy example is a top level navigation menu, I think most of us are aware by now that the most semantically correct element to use here is an un-ordered list <code>&lt;ul&gt;</code>…</p>
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;ul&gt;</span>
-    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>Home<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
-    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>About<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
-    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>Services<span class="nt">&lt;/a&gt;</span>
-        <span class="nt">&lt;ul&gt;</span>
-            <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>Service A<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
-            <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>Service B<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
-            <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>Service C<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
-        <span class="nt">&lt;/ul&gt;</span>
-    <span class="nt">&lt;/li&gt;</span>
-    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>Contact<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
-<span class="nt">&lt;/ul&gt;</span>
+<div class="highlight"><pre><code class="text">&lt;ul&gt;
+    &lt;li&gt;&lt;a href=&quot;&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;&quot;&gt;About&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;&quot;&gt;Services&lt;/a&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;Service A&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;Service B&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;&quot;&gt;Service C&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;&quot;&gt;Contact&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 </code></pre></div>
 <p>A slightly more awkward example though: imagine we have one of those large &#39;web 2.0&#39; (how old does that sound already!) footer areas where the designer has a massive list of helpful links and contact information. The structure of that might be something like this…</p>
 
@@ -211,22 +211,22 @@ Service B    | Twitter       | 11111 111111
 Service C    | Google+       | 22222 222222</p>
 
 <p>…you <em>could</em> use a <code>&lt;dl&gt;</code> element, but is this strictly the correct element to use? An example of what that would look like is…</p>
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;dl&gt;</span>
-    <span class="nt">&lt;dt&gt;</span>Services<span class="nt">&lt;/dt&gt;</span>
-        <span class="nt">&lt;dd&gt;</span>Service A<span class="nt">&lt;dd&gt;</span>
-        <span class="nt">&lt;dd&gt;</span>Service B<span class="nt">&lt;dd&gt;</span>
-        <span class="nt">&lt;dd&gt;</span>Service C<span class="nt">&lt;dd&gt;</span>
+<div class="highlight"><pre><code class="text">&lt;dl&gt;
+    &lt;dt&gt;Services&lt;/dt&gt;
+        &lt;dd&gt;Service A&lt;dd&gt;
+        &lt;dd&gt;Service B&lt;dd&gt;
+        &lt;dd&gt;Service C&lt;dd&gt;
 
-    <span class="nt">&lt;dt&gt;</span>Social<span class="nt">&lt;/dt&gt;</span>
-        <span class="nt">&lt;dd&gt;</span>Facebook<span class="nt">&lt;dd&gt;</span>
-        <span class="nt">&lt;dd&gt;</span>Twitter<span class="nt">&lt;dd&gt;</span>
-        <span class="nt">&lt;dd&gt;</span>Google+<span class="nt">&lt;dd&gt;</span>
+    &lt;dt&gt;Social&lt;/dt&gt;
+        &lt;dd&gt;Facebook&lt;dd&gt;
+        &lt;dd&gt;Twitter&lt;dd&gt;
+        &lt;dd&gt;Google+&lt;dd&gt;
 
-    <span class="nt">&lt;dt&gt;</span>Contacts<span class="nt">&lt;/dt&gt;</span>
-        <span class="nt">&lt;dd&gt;</span>00000 000000<span class="nt">&lt;dd&gt;</span>
-        <span class="nt">&lt;dd&gt;</span>11111 111111<span class="nt">&lt;dd&gt;</span>
-        <span class="nt">&lt;dd&gt;</span>22222 222222<span class="nt">&lt;dd&gt;</span>
-<span class="nt">&lt;/dl&gt;</span>
+    &lt;dt&gt;Contacts&lt;/dt&gt;
+        &lt;dd&gt;00000 000000&lt;dd&gt;
+        &lt;dd&gt;11111 111111&lt;dd&gt;
+        &lt;dd&gt;22222 222222&lt;dd&gt;
+&lt;/dl&gt;
 </code></pre></div>
 <p>…if we look at the specification for this element it says… </p>
 
@@ -235,32 +235,32 @@ Service C    | Google+       | 22222 222222</p>
 </blockquote>
 
 <p>…so this looks to be the right element to use as it is an &quot;association list&quot; (i.e. we&#39;ve associated a list of items with the relevant title) but maybe instead we should have used a <code>&lt;table&gt;</code> element because we are kind of dealing with tabular data. There are defined headers with <em>associated</em> rows of content (similar to the association made with a <code>&lt;dl&gt;</code>). An example of what this would look like is…</p>
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;table&gt;</span>
-    <span class="nt">&lt;thead&gt;</span>
-        <span class="nt">&lt;tr&gt;</span>
-            <span class="nt">&lt;th</span> <span class="na">scope=</span><span class="s">&quot;col&quot;</span><span class="nt">&gt;</span>Services<span class="nt">&lt;/th&gt;</span>
-            <span class="nt">&lt;th</span> <span class="na">scope=</span><span class="s">&quot;col&quot;</span><span class="nt">&gt;</span>Social<span class="nt">&lt;/th&gt;</span>
-            <span class="nt">&lt;th</span> <span class="na">scope=</span><span class="s">&quot;col&quot;</span><span class="nt">&gt;</span>Contacts<span class="nt">&lt;/th&gt;</span>
-        <span class="nt">&lt;/tr&gt;</span>
-    <span class="nt">&lt;/thead&gt;</span>
-    <span class="nt">&lt;tbody&gt;</span>
-        <span class="nt">&lt;tr&gt;</span>
-            <span class="nt">&lt;td&gt;</span>Service A<span class="nt">&lt;/td&gt;</span>
-            <span class="nt">&lt;td&gt;</span>Facebook<span class="nt">&lt;/td&gt;</span>
-            <span class="nt">&lt;td&gt;</span>00000 000000<span class="nt">&lt;/td&gt;</span>
-        <span class="nt">&lt;/tr&gt;</span>
-        <span class="nt">&lt;tr&gt;</span>
-            <span class="nt">&lt;td&gt;</span>Service B<span class="nt">&lt;/td&gt;</span>
-            <span class="nt">&lt;td&gt;</span>Twitter<span class="nt">&lt;/td&gt;</span>
-            <span class="nt">&lt;td&gt;</span>11111 111111<span class="nt">&lt;/td&gt;</span>
-        <span class="nt">&lt;/tr&gt;</span>
-        <span class="nt">&lt;tr&gt;</span>
-            <span class="nt">&lt;td&gt;</span>Service C<span class="nt">&lt;/td&gt;</span>
-            <span class="nt">&lt;td&gt;</span>Google+<span class="nt">&lt;/td&gt;</span>
-            <span class="nt">&lt;td&gt;</span>22222 222222<span class="nt">&lt;/td&gt;</span>
-        <span class="nt">&lt;/tr&gt;</span>
-    <span class="nt">&lt;/tbody&gt;</span>
-<span class="nt">&lt;/table&gt;</span>
+<div class="highlight"><pre><code class="text">&lt;table&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th scope=&quot;col&quot;&gt;Services&lt;/th&gt;
+            &lt;th scope=&quot;col&quot;&gt;Social&lt;/th&gt;
+            &lt;th scope=&quot;col&quot;&gt;Contacts&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Service A&lt;/td&gt;
+            &lt;td&gt;Facebook&lt;/td&gt;
+            &lt;td&gt;00000 000000&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Service B&lt;/td&gt;
+            &lt;td&gt;Twitter&lt;/td&gt;
+            &lt;td&gt;11111 111111&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Service C&lt;/td&gt;
+            &lt;td&gt;Google+&lt;/td&gt;
+            &lt;td&gt;22222 222222&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;
 </code></pre></div>
 <p>…this is a bit of an anal analysis of &#39;semantic&#39; usage, but the fact is this sort of thing happens all the time. We look at something in a design and try to think of the most semantic element to use and although <code>&lt;dl&gt;</code> seems like the right choice, is it really? I guess it depends on how you interpret the specification. I know I&#39;ve used the <code>&lt;dl&gt;</code> elements many times but I sometimes wonder if I shouldn&#39;t have just gone with the <code>&lt;table&gt;</code> element instead (on a side note: I&#39;d love to hear people&#39;s feedback on this)</p>
 
@@ -376,44 +376,44 @@ Service C    | Google+       | 22222 222222</p>
 <p>So where you see the <code>.css</code> files inside of the /<code>Styles</code>/ directory - this is actually a single file that has been built up from selected Sass files.</p>
 
 <p>For example, the home.scss file (which is what generates the home.css file) could contain the following content (note: that this content changes depending on the requirements of your project)…</p>
-<div class="highlight"><pre><code class="css"><span class="o">//</span> <span class="nt">Configurations</span><span class="o">/</span><span class="nt">Settings</span>
-<span class="k">@import</span> <span class="s2">&quot;Configurations/variables&quot;</span><span class="p">;</span>
+<div class="highlight"><pre><code class="text">// Configurations/Settings
+@import &quot;Configurations/variables&quot;;
 
-<span class="o">//</span> <span class="nt">Functions</span>
-<span class="k">@import</span> <span class="s2">&quot;Functions/calcems&quot;</span><span class="p">;</span>
-<span class="k">@import</span> <span class="s2">&quot;Functions/calcpercentage&quot;</span><span class="p">;</span>
-<span class="k">@import</span> <span class="s2">&quot;Functions/fontsize&quot;</span><span class="p">;</span>
+// Functions
+@import &quot;Functions/calcems&quot;;
+@import &quot;Functions/calcpercentage&quot;;
+@import &quot;Functions/fontsize&quot;;
 
-<span class="o">//</span> <span class="nt">Base</span>
-<span class="k">@import</span> <span class="s2">&quot;Base/normalize&quot;</span><span class="p">;</span>
-<span class="k">@import</span> <span class="s2">&quot;Base/additions&quot;</span><span class="p">;</span>
-<span class="k">@import</span> <span class="s2">&quot;Base/theme&quot;</span><span class="p">;</span>
+// Base
+@import &quot;Base/normalize&quot;;
+@import &quot;Base/additions&quot;;
+@import &quot;Base/theme&quot;;
 
-<span class="o">//</span> <span class="nt">Layouts</span>
-<span class="k">@import</span> <span class="s2">&quot;Layouts/grid&quot;</span><span class="p">;</span>
-<span class="k">@import</span> <span class="s2">&quot;Layouts/container&quot;</span><span class="p">;</span>
+// Layouts
+@import &quot;Layouts/grid&quot;;
+@import &quot;Layouts/container&quot;;
 
-<span class="o">//</span> <span class="nt">Modules</span>
+// Modules
 
-    <span class="o">//</span> <span class="nt">Mixins</span>
-    <span class="k">@import</span> <span class="s2">&quot;Modules/Mixins/radius&quot;</span><span class="p">;</span>
-    <span class="k">@import</span> <span class="s2">&quot;Modules/Mixins/transition&quot;</span><span class="p">;</span>
+    // Mixins
+    @import &quot;Modules/Mixins/radius&quot;;
+    @import &quot;Modules/Mixins/transition&quot;;
 
-    <span class="o">//</span> <span class="nt">Components</span>
-    <span class="k">@import</span> <span class="s2">&quot;Modules/Components/media&quot;</span><span class="p">;</span>
+    // Components
+    @import &quot;Modules/Components/media&quot;;
 
-    <span class="o">//</span> <span class="nt">Helpers</span>
-    <span class="k">@import</span> <span class="s2">&quot;Modules/Helpers/clearfix&quot;</span><span class="p">;</span>
-    <span class="k">@import</span> <span class="s2">&quot;Modules/Helpers/hidetxt&quot;</span><span class="p">;</span>
-    <span class="k">@import</span> <span class="s2">&quot;Modules/Helpers/horizontal&quot;</span><span class="p">;</span>
+    // Helpers
+    @import &quot;Modules/Helpers/clearfix&quot;;
+    @import &quot;Modules/Helpers/hidetxt&quot;;
+    @import &quot;Modules/Helpers/horizontal&quot;;
 
-<span class="o">//</span> <span class="nt">Generic</span> <span class="nt">Styles</span> <span class="nt">for</span> <span class="nt">Modules</span> <span class="nt">that</span> <span class="nt">appear</span> <span class="nt">across</span> <span class="nt">the</span> <span class="nt">site</span> <span class="o">(</span><span class="nt">e</span><span class="nc">.g</span><span class="o">.</span> <span class="nt">header</span><span class="o">/</span><span class="nt">navigation</span><span class="o">/</span><span class="nt">footer</span><span class="o">)</span>
-<span class="k">@import</span> <span class="s2">&quot;Modules/header&quot;</span><span class="p">;</span>
-<span class="k">@import</span> <span class="s2">&quot;Modules/navigation&quot;</span><span class="p">;</span>
-<span class="k">@import</span> <span class="s2">&quot;Modules/footer&quot;</span><span class="p">;</span>
+// Generic Styles for Modules that appear across the site (e.g. header/navigation/footer)
+@import &quot;Modules/header&quot;;
+@import &quot;Modules/navigation&quot;;
+@import &quot;Modules/footer&quot;;
 
-<span class="o">//</span> <span class="nt">Page</span> <span class="nt">Specific</span> <span class="nt">Styles</span>
-<span class="k">@import</span> <span class="s2">&quot;Modules/Queries/960-home&quot;</span><span class="p">;</span>
+// Page Specific Styles
+@import &quot;Modules/Queries/960-home&quot;;
 </code></pre></div>
 <p>…so let&#39;s go over a couple of points about this Sass file.</p>
 
@@ -433,83 +433,83 @@ Service C    | Google+       | 22222 222222</p>
 <p>Now before we get into OOCSS let&#39;s first quickly demonstrate some issues with using pre-processors.</p>
 
 <p>Here is a typical usage of Sass:</p>
-<div class="highlight"><pre><code class="css"><span class="nc">.nav</span><span class="p">{</span>
-    <span class="n">li</span><span class="err">{</span>
-        <span class="n">a</span><span class="err">{</span><span class="p">}</span>
-    <span class="err">}</span>
-<span class="err">}</span>
+<div class="highlight"><pre><code class="text">.nav{
+    li{
+        a{}
+    }
+}
 </code></pre></div>
 <p>Which when the pre-processor executes equates to...</p>
-<div class="highlight"><pre><code class="css"><span class="nc">.nav</span> <span class="p">{}</span>
-<span class="nc">.nav</span> <span class="nt">li</span> <span class="p">{}</span>
-<span class="nc">.nav</span> <span class="nt">li</span> <span class="nt">a</span> <span class="p">{}</span>
+<div class="highlight"><pre><code class="text">.nav {}
+.nav li {}
+.nav li a {}
 </code></pre></div>
 <p>But this might not have been the result you intended, instead you actually wanted…</p>
-<div class="highlight"><pre><code class="css"><span class="nc">.nav</span> <span class="p">{}</span>
-<span class="nc">.nav</span> <span class="nt">li</span> <span class="p">{}</span>
-<span class="nc">.nav</span> <span class="nt">a</span> <span class="p">{}</span>
+<div class="highlight"><pre><code class="text">.nav {}
+.nav li {}
+.nav a {}
 </code></pre></div>
 <p>…which would have better performance and be more &#39;specific&#39; to your DOM structure.</p>
 
 <p>To do that you just need to tweak the Sass code slightly…</p>
-<div class="highlight"><pre><code class="css"><span class="nc">.nav</span><span class="p">{</span>
-    <span class="n">li</span><span class="err">{</span>
+<div class="highlight"><pre><code class="text">.nav{
+    li{
 
-    <span class="p">}</span>
-    <span class="nt">a</span> <span class="p">{</span>
+    }
+    a {
 
-    <span class="p">}</span>
-<span class="err">}</span>
+    }
+}
 </code></pre></div>
 <p>So just be careful with Sass and double check its output to ensure it is producing the selectors/rules you actually want. </p>
 
 <p>One tip for using nested selectors is to use the ampersand <code>&amp;</code> character to reference the whole selector, so for example…</p>
-<div class="highlight"><pre><code class="css"><span class="nt">a</span> <span class="p">{</span>
-    <span class="k">text-decoration</span><span class="o">:</span> <span class="k">none</span><span class="p">;</span>
+<div class="highlight"><pre><code class="text">a {
+    text-decoration: none;
 
-    <span class="o">//</span> <span class="n">this</span> <span class="n">will</span> <span class="n">be</span> <span class="n">compiled</span> <span class="n">to</span> 
-    <span class="o">//</span> <span class="n">a</span><span class="o">:</span><span class="n">hover</span><span class="o">,</span> <span class="n">a</span><span class="o">:</span><span class="n">focus</span>
-    <span class="o">&amp;:</span><span class="n">hover</span><span class="o">,</span>
-    <span class="o">&amp;:</span><span class="n">focus</span> <span class="err">{</span>
-        <span class="k">color</span><span class="o">:</span> <span class="err">$</span><span class="n">brand</span><span class="o">-</span><span class="k">color</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="err">}</span>
+    // this will be compiled to 
+    // a:hover, a:focus
+    &amp;:hover,
+    &amp;:focus {
+        color: $brand-color;
+    }
+}
 
-<span class="nc">.rate-options</span> <span class="p">{</span>
-    <span class="k">counter-reset</span><span class="o">:</span> <span class="n">rateoption</span><span class="p">;</span>
-    <span class="k">list-style</span><span class="o">:</span> <span class="k">none</span><span class="p">;</span>
-    <span class="k">margin-top</span><span class="o">:</span> <span class="m">2em</span><span class="p">;</span>
+.rate-options {
+    counter-reset: rateoption;
+    list-style: none;
+    margin-top: 2em;
 
-    <span class="n">li</span> <span class="err">{</span>
-        <span class="k">margin-right</span><span class="o">:</span> <span class="m">1.5em</span><span class="p">;</span>
+    li {
+        margin-right: 1.5em;
 
-        <span class="o">//</span> <span class="n">this</span> <span class="n">will</span> <span class="n">be</span> <span class="n">compiled</span> <span class="n">to</span> 
-        <span class="o">//</span> <span class="o">.</span><span class="n">rate</span><span class="o">-</span><span class="n">options</span> <span class="n">li</span><span class="o">:</span><span class="n">before</span>
-        <span class="o">&amp;:</span><span class="n">before</span> <span class="err">{</span>
-            <span class="k">color</span><span class="o">:</span> <span class="err">$</span><span class="n">action</span><span class="o">-</span><span class="k">color</span><span class="p">;</span>
-            <span class="k">content</span><span class="o">:</span> <span class="n">counters</span><span class="p">(</span><span class="n">rateoption</span><span class="o">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="s2">&quot; &quot;</span><span class="p">;</span>
-            <span class="k">counter-increment</span><span class="o">:</span> <span class="n">rateoption</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="err">}</span>
-<span class="err">}</span>
+        // this will be compiled to 
+        // .rate-options li:before
+        &amp;:before {
+            color: $action-color;
+            content: counters(rateoption, &quot;&quot;) &quot; &quot;;
+            counter-increment: rateoption;
+        }
+    }
+}
 </code></pre></div>
 <p>Other issues with pre-processors can come from Mixins, which although very useful, are also a waste of time/space if good OOCSS is already in place. Remember that the content of a Mixin is copied into every rule you specify it to be used. </p>
 
 <p>The <code>@extend</code> statement is slightly better in the sense that you can write a class <code>.funky-border</code> which contains a single declaration: <code>border: 10px dashed blue;</code> and then for every element that uses that same styling you can simply do…</p>
-<div class="highlight"><pre><code class="css"><span class="nc">.my-box</span> <span class="p">{</span>
-    <span class="o">@</span><span class="n">extend</span> <span class="o">.</span><span class="n">funky</span><span class="o">-</span><span class="k">border</span><span class="p">;</span>
-    <span class="k">color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span>
-<span class="p">}</span>
+<div class="highlight"><pre><code class="text">.my-box {
+    @extend .funky-border;
+    color: red;
+}
 </code></pre></div>
 <p>…what this ends up compiling to is something like this…</p>
-<div class="highlight"><pre><code class="css"><span class="nc">.funky-border</span><span class="o">,</span>
-<span class="nc">.my-box</span> <span class="p">{</span>
-    <span class="k">border</span><span class="o">:</span> <span class="m">10px</span> <span class="k">dashed</span> <span class="nb">blue</span><span class="p">;</span>
-<span class="p">}</span>
+<div class="highlight"><pre><code class="text">.funky-border,
+.my-box {
+    border: 10px dashed blue;
+}
 
-<span class="nc">.my-box</span> <span class="p">{</span>
-    <span class="k">color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span>
-<span class="p">}</span>
+.my-box {
+    color: red;
+}
 </code></pre></div>
 <p>…again, looks great but you need to be careful because in Internet Explorer there is a limit to the amount of selectors you can specify for a single rule! So if you were using <code>@extend</code> everywhere you might hit an issue (unlikely you&#39;ll reach that limit, but on a application big enough and with bad architecture in place that could still happen).</p>
 
@@ -572,32 +572,32 @@ Service C    | Google+       | 22222 222222</p>
 </ul>
 
 <p>Example Mixin:</p>
-<div class="highlight"><pre><code class="css"><span class="k">@mixin</span> <span class="nt">transition</span> <span class="o">(</span><span class="err">$</span><span class="nt">transition</span><span class="o">:</span> <span class="nt">all</span> <span class="nt">0</span><span class="nc">.2s</span> <span class="nt">linear</span><span class="o">)</span> <span class="p">{</span>
-    <span class="nt">-webkit-transition</span><span class="o">:</span> <span class="err">$</span><span class="nt">transition</span><span class="o">;</span>
-       <span class="nt">-moz-transition</span><span class="o">:</span> <span class="err">$</span><span class="nt">transition</span><span class="o">;</span>
-        <span class="nt">-ms-transition</span><span class="o">:</span> <span class="err">$</span><span class="nt">transition</span><span class="o">;</span>
-         <span class="nt">-o-transition</span><span class="o">:</span> <span class="err">$</span><span class="nt">transition</span><span class="o">;</span>
-            <span class="nt">transition</span><span class="o">:</span> <span class="err">$</span><span class="nt">transition</span><span class="o">;</span>
-<span class="p">}</span>
+<div class="highlight"><pre><code class="text">@mixin transition ($transition: all 0.2s linear) {
+    -webkit-transition: $transition;
+       -moz-transition: $transition;
+        -ms-transition: $transition;
+         -o-transition: $transition;
+            transition: $transition;
+}
 </code></pre></div>
 <h4>Extensions</h4>
 
 <p>Extensions are effectively re-usable classes which you can incorporate into any existing rule. An example of this could be having a class that lets you set a box shadow…</p>
-<div class="highlight"><pre><code class="css"><span class="nc">.shadow</span> <span class="p">{</span>
-    <span class="o">@</span><span class="n">include</span> <span class="n">shadow</span><span class="p">(</span><span class="m">0</span> <span class="m">3px</span> <span class="m">6px</span> <span class="m">#666</span><span class="p">);</span>
-    <span class="k">border</span><span class="o">:</span> <span class="m">3px</span> <span class="k">solid</span> <span class="m">#fff</span><span class="p">;</span>
-<span class="p">}</span>
+<div class="highlight"><pre><code class="text">.shadow {
+    @include shadow(0 3px 6px #666);
+    border: 3px solid #fff;
+}
 </code></pre></div>
 <p>…which would be used like so… </p>
-<div class="highlight"><pre><code class="css"><span class="nc">.profile-photo</span> <span class="p">{</span>
-    <span class="o">@</span><span class="n">extend</span> <span class="o">.</span><span class="n">shadow</span><span class="p">;</span>
-    <span class="o">//</span> <span class="n">other</span> <span class="n">styles</span>
-<span class="p">}</span>
+<div class="highlight"><pre><code class="text">.profile-photo {
+    @extend .shadow;
+    // other styles
+}
 
-<span class="nc">.company-logo</span> <span class="p">{</span>
-    <span class="o">@</span><span class="n">extend</span> <span class="o">.</span><span class="n">shadow</span><span class="p">;</span>
-    <span class="o">//</span> <span class="n">other</span> <span class="n">styles</span>
-<span class="p">}</span>
+.company-logo {
+    @extend .shadow;
+    // other styles
+}
 </code></pre></div>
 <p>…you could argue that this type of class should be incorporated into a &#39;module&#39; - and most of the time that is correct - but this isn&#39;t <em>always</em> appropriate.</p>
 
@@ -612,18 +612,18 @@ Service C    | Google+       | 22222 222222</p>
 <p>So now I find the best way to manage modules is to keep the module, and the state for that module, and any IE tweaks for that module ALL within the module file.</p>
 
 <p>The way I keep the IE code within the same file is I stopped having them as separate files like so…</p>
-<div class="highlight"><pre><code class="html"><span class="c">&lt;!--[if IE 8]&gt;</span>
-<span class="c">&lt;link rel=&quot;stylesheet&quot; href=&quot;/Assets/Styles/IE8.css&quot;&gt;</span>
-<span class="c">&lt;![endif]--&gt;</span>
+<div class="highlight"><pre><code class="text">&lt;!--[if IE 8]&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;/Assets/Styles/IE8.css&quot;&gt;
+&lt;![endif]--&gt;
 
-<span class="c">&lt;!--[if IE 7]&gt;</span>
-<span class="c">&lt;link rel=&quot;stylesheet&quot; href=&quot;/Assets/Styles/IE7.css&quot;&gt;</span>
-<span class="c">&lt;![endif]--&gt;</span>
+&lt;!--[if IE 7]&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;/Assets/Styles/IE7.css&quot;&gt;
+&lt;![endif]--&gt;
 </code></pre></div>
 <p>…and instead went with the <a href="http://paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/">Paul Irish solution</a>…</p>
-<div class="highlight"><pre><code class="html"><span class="c">&lt;!--[if IE 8]&gt;&lt;html class=&quot;ie8&quot; dir=&quot;ltr&quot; lang=&quot;en&quot;&gt;&lt;![endif]--&gt;</span>
-<span class="c">&lt;!--[if IE 9]&gt;&lt;html class=&quot;ie9&quot; dir=&quot;ltr&quot; lang=&quot;en&quot;&gt;&lt;![endif]--&gt;</span>
-<span class="c">&lt;!--[if gt IE 9]&gt;&lt;!--&gt;</span> <span class="nt">&lt;html</span> <span class="na">dir=</span><span class="s">&quot;ltr&quot;</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span> <span class="c">&lt;!--&lt;![endif]--&gt;</span>
+<div class="highlight"><pre><code class="text">&lt;!--[if IE 8]&gt;&lt;html class=&quot;ie8&quot; dir=&quot;ltr&quot; lang=&quot;en&quot;&gt;&lt;![endif]--&gt;
+&lt;!--[if IE 9]&gt;&lt;html class=&quot;ie9&quot; dir=&quot;ltr&quot; lang=&quot;en&quot;&gt;&lt;![endif]--&gt;
+&lt;!--[if gt IE 9]&gt;&lt;!--&gt; &lt;html dir=&quot;ltr&quot; lang=&quot;en&quot;&gt; &lt;!--&lt;![endif]--&gt;
 </code></pre></div>
 <p>…yes doing it this way <em>can</em> mean the overall file size of your CSS is larger for browsers that aren&#39;t affected by the IE specific code, but to be honest since dropping support for IE7 the amount of IE fixes needed has literally dropped off the radar!</p>
 
@@ -632,10 +632,10 @@ Service C    | Google+       | 22222 222222</p>
 <p>Selectors are a tricky subject in CSS. The key principle is to be as &#39;specific&#39; as possible.</p>
 
 <p>Where you may have <code>ul.menu</code> just use <code>.menu</code>. This is because if you had another element which isn&#39;t a <code>ul</code> but which needed similar stylings to your <code>.menu</code> class you can now reuse that class, where as before you would of had to of either written another class with similar code, or added another element selector to the rule like so…</p>
-<div class="highlight"><pre><code class="css"><span class="nt">ul</span><span class="nc">.menu</span><span class="o">,</span>
-<span class="nt">ol</span><span class="nc">.menu</span> <span class="p">{</span>
-    <span class="o">//</span> <span class="n">styles</span>
-<span class="p">}</span>
+<div class="highlight"><pre><code class="text">ul.menu,
+ol.menu {
+    // styles
+}
 </code></pre></div>
 <p>…both of which are bad situations, so just be specific (where possible/reasonable).</p>
 
@@ -693,9 +693,9 @@ Service C    | Google+       | 22222 222222</p>
 <h4>Responsive Images</h4>
 
 <p>To help your images scale appropriately along with your responsive design you can set the <code>max-width</code> property to be 100% which means the image will never be larger than its container but can happily resize/scale downwards on smaller screens…</p>
-<div class="highlight"><pre><code class="css"><span class="nt">img</span> <span class="p">{</span>
-    <span class="k">max-width</span><span class="o">:</span> <span class="m">100</span><span class="o">%</span><span class="p">;</span>
-<span class="p">}</span>
+<div class="highlight"><pre><code class="text">img {
+    max-width: 100%;
+}
 </code></pre></div>
 <h4>What about containing elements with unknown widths?</h4>
 
@@ -710,26 +710,26 @@ Service C    | Google+       | 22222 222222</p>
 <p>By doing: <code>960 / 16 = 60</code> (again it&#39;s that <code>target / context = result</code> algorithm!)</p>
 
 <p>We can now set our wrapper element like so…</p>
-<div class="highlight"><pre><code class="css"><span class="nc">.container</span> <span class="p">{</span>
-    <span class="k">max-width</span><span class="o">:</span> <span class="m">60em</span><span class="p">;</span>
-<span class="p">}</span>
+<div class="highlight"><pre><code class="text">.container {
+    max-width: 60em;
+}
 </code></pre></div>
 <h3>Mobile Design: <em>users on the move</em></h3>
 
 <p>Because I make sure my sites are built using a responsive approach, it isn&#39;t a whole lot of extra work to tweak the styles/design to look more appropriate for devices with smaller screen dimensions. </p>
 
 <p>The tool for that job are &#39;Media Queries&#39;…</p>
-<div class="highlight"><pre><code class="css"><span class="k">@media</span> <span class="nt">only</span> <span class="nt">screen</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">min-width</span><span class="o">:</span> <span class="nt">320px</span><span class="o">)</span> <span class="p">{</span>
-    <span class="o">//</span> <span class="nt">Mobile</span> <span class="nt">styles</span>
-<span class="p">}</span>
+<div class="highlight"><pre><code class="text">@media only screen and (min-width: 320px) {
+    // Mobile styles
+}
 
-<span class="k">@media</span> <span class="nt">only</span> <span class="nt">screen</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">min-width</span><span class="o">:</span> <span class="nt">600px</span><span class="o">)</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">max-width</span><span class="o">:</span> <span class="nt">959px</span><span class="o">)</span> <span class="p">{</span>
-    <span class="o">//</span> <span class="nt">Tablet</span> <span class="nt">styles</span>
-<span class="p">}</span>
+@media only screen and (min-width: 600px) and (max-width: 959px) {
+    // Tablet styles
+}
 
-<span class="k">@media</span> <span class="nt">only</span> <span class="nt">screen</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">min-width</span><span class="o">:</span> <span class="nt">960px</span><span class="o">)</span> <span class="p">{</span>
-    <span class="o">//</span> <span class="nt">Desktop</span> <span class="nt">styles</span>
-<span class="p">}</span>
+@media only screen and (min-width: 960px) {
+    // Desktop styles
+}
 </code></pre></div>
 <p>…yes I know these examples are <em>conveniently</em> matching the dimensions of an iPhone and iPad - which is a bad thing! What you ideally want to do is target good &#39;break-points&#39; in your design and not screen dimensions because let&#39;s face it: we know better by now that these assumptions will fail us in the future.</p>
 
@@ -824,108 +824,108 @@ jshint main.js --show-non-errors --config ./Lint/config.json // =&gt; example of
 <div class="highlight"><pre><code class="text">jshint **/*.js --config ./Lint/config.json
 </code></pre></div>
 <p>...this relies on a specific <code>config.json</code> file which is easier than manually typing all the options. It looks like this:</p>
-<div class="highlight"><pre><code class="js"><span class="p">{</span>
-    <span class="c1">// Settings</span>
-    <span class="s2">&quot;passfail&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Stop on first error.</span>
-    <span class="s2">&quot;maxerr&quot;</span>        <span class="o">:</span> <span class="mi">200</span><span class="p">,</span>    <span class="c1">// Maximum error before stopping.</span>
+<div class="highlight"><pre><code class="text">{
+    // Settings
+    &quot;passfail&quot;      : false,  // Stop on first error.
+    &quot;maxerr&quot;        : 200,    // Maximum error before stopping.
 
 
-    <span class="c1">// Predefined globals whom JSHint will ignore.</span>
-    <span class="s2">&quot;browser&quot;</span>       <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Standard browser globals e.g. `window`, `document`.</span>
+    // Predefined globals whom JSHint will ignore.
+    &quot;browser&quot;       : true,   // Standard browser globals e.g. `window`, `document`.
 
-    <span class="s2">&quot;node&quot;</span>          <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="s2">&quot;rhino&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="s2">&quot;couch&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="s2">&quot;wsh&quot;</span>           <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>   <span class="c1">// Windows Scripting Host.</span>
+    &quot;node&quot;          : false,
+    &quot;rhino&quot;         : false,
+    &quot;couch&quot;         : false,
+    &quot;wsh&quot;           : false,   // Windows Scripting Host.
 
-    <span class="s2">&quot;jquery&quot;</span>        <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-    <span class="s2">&quot;prototypejs&quot;</span>   <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="s2">&quot;mootools&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="s2">&quot;dojo&quot;</span>          <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    &quot;jquery&quot;        : true,
+    &quot;prototypejs&quot;   : false,
+    &quot;mootools&quot;      : false,
+    &quot;dojo&quot;          : false,
 
-    <span class="s2">&quot;predef&quot;</span>        <span class="o">:</span> <span class="p">[</span>  <span class="c1">// Custom globals.</span>
-        <span class="c1">// this is because we use require() from RequireJS library</span>
-        <span class="s2">&quot;require&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;define&quot;</span><span class="p">,</span>
+    &quot;predef&quot;        : [  // Custom globals.
+        // this is because we use require() from RequireJS library
+        &quot;require&quot;,
+        &quot;define&quot;,
 
-        <span class="c1">// this is because we use Jasmine BDD for unit-testing</span>
-        <span class="s2">&quot;jasmine&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;describe&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beforeEach&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;afterEach&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;it&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;expect&quot;</span>
-    <span class="p">],</span>
-
-
-    <span class="c1">// Development.</span>
-    <span class="s2">&quot;debug&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow debugger statements e.g. browser breakpoints.</span>
-    <span class="s2">&quot;devel&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow developments statements e.g. `console.log();`.</span>
+        // this is because we use Jasmine BDD for unit-testing
+        &quot;jasmine&quot;,
+        &quot;describe&quot;,
+        &quot;beforeEach&quot;,
+        &quot;afterEach&quot;,
+        &quot;it&quot;,
+        &quot;expect&quot;
+    ],
 
 
-    <span class="c1">// ECMAScript 5.</span>
-    <span class="s2">&quot;es5&quot;</span>           <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Allow ECMAScript 5 syntax.</span>
-    <span class="s2">&quot;strict&quot;</span>        <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Require `use strict` pragma  in every file.</span>
-    <span class="s2">&quot;globalstrict&quot;</span>  <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow global &quot;use strict&quot; (also enables &#39;strict&#39;).</span>
+    // Development.
+    &quot;debug&quot;         : false,  // Allow debugger statements e.g. browser breakpoints.
+    &quot;devel&quot;         : false,  // Allow developments statements e.g. `console.log();`.
 
 
-    <span class="c1">// The Good Parts.</span>
-    <span class="s2">&quot;asi&quot;</span>           <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate Automatic Semicolon Insertion (no semicolons).</span>
-    <span class="s2">&quot;laxbreak&quot;</span>      <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Tolerate unsafe line breaks e.g. `return [\n] x` without semicolons.</span>
-    <span class="s2">&quot;bitwise&quot;</span>       <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit bitwise operators (&amp;, |, ^, etc.).</span>
-    <span class="s2">&quot;boss&quot;</span>          <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Tolerate assignments inside if, for &amp; while. Usually conditions &amp; loops are for comparison, not assignments.</span>
-    <span class="s2">&quot;curly&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require {} for every new block or scope.</span>
-    <span class="s2">&quot;eqeqeq&quot;</span>        <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require triple equals i.e. `===`.</span>
-    <span class="s2">&quot;eqnull&quot;</span>        <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate use of `== null`.</span>
-    <span class="s2">&quot;evil&quot;</span>          <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate use of `eval`.</span>
-    <span class="s2">&quot;expr&quot;</span>          <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate `ExpressionStatement` as Programs.</span>
-    <span class="s2">&quot;forin&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate `for in` loops without `hasOwnPrototype`.</span>
-    <span class="s2">&quot;immed&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require immediate invocations to be wrapped in parens e.g. `( function(){}() );`</span>
-    <span class="s2">&quot;latedef&quot;</span>       <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohipit variable use before definition.</span>
-    <span class="s2">&quot;loopfunc&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow functions to be defined within loops.</span>
-    <span class="s2">&quot;noarg&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit use of `arguments.caller` and `arguments.callee`.</span>
-    <span class="s2">&quot;regexp&quot;</span>        <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Prohibit `.` and `[^...]` in regular expressions.</span>
-    <span class="s2">&quot;regexdash&quot;</span>     <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate unescaped last dash i.e. `[-...]`.</span>
-    <span class="s2">&quot;scripturl&quot;</span>     <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Tolerate script-targeted URLs.</span>
-    <span class="s2">&quot;shadow&quot;</span>        <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Allows re-define variables later in code e.g. `var x=1; x=2;`.</span>
-    <span class="s2">&quot;supernew&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate `new function () { ... };` and `new Object;`.</span>
-    <span class="s2">&quot;undef&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require all non-global variables be declared before they are used.</span>
+    // ECMAScript 5.
+    &quot;es5&quot;           : true,   // Allow ECMAScript 5 syntax.
+    &quot;strict&quot;        : false,  // Require `use strict` pragma  in every file.
+    &quot;globalstrict&quot;  : false,  // Allow global &quot;use strict&quot; (also enables &#39;strict&#39;).
 
 
-    <span class="c1">// Personal styling preferences.</span>
-    <span class="s2">&quot;newcap&quot;</span>        <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require capitalization of all constructor functions e.g. `new F()`.</span>
-    <span class="s2">&quot;noempty&quot;</span>       <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit use of empty blocks.</span>
-    <span class="s2">&quot;nonew&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit use of constructors for side-effects.</span>
-    <span class="s2">&quot;nomen&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit use of initial or trailing underbars in names.</span>
-    <span class="s2">&quot;onevar&quot;</span>        <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow only one `var` statement per function.</span>
-    <span class="s2">&quot;plusplus&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Prohibit use of `++` &amp; `--`.</span>
-    <span class="s2">&quot;sub&quot;</span>           <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate all forms of subscript notation besides dot notation e.g. `dict[&#39;key&#39;]` instead of `dict.key`.</span>
-    <span class="s2">&quot;trailing&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Prohibit trailing whitespaces.</span>
-    <span class="s2">&quot;white&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Check against strict whitespace and indentation rules.</span>
-    <span class="s2">&quot;indent&quot;</span>        <span class="o">:</span> <span class="mi">4</span><span class="p">,</span>      <span class="c1">// Specify indentation spacing</span>
-    <span class="s2">&quot;smarttabs&quot;</span>     <span class="o">:</span> <span class="kc">true</span>    <span class="c1">// Suppress warnings about mixed tabs and spaces</span>
-<span class="p">}</span>
+    // The Good Parts.
+    &quot;asi&quot;           : false,  // Tolerate Automatic Semicolon Insertion (no semicolons).
+    &quot;laxbreak&quot;      : true,   // Tolerate unsafe line breaks e.g. `return [\n] x` without semicolons.
+    &quot;bitwise&quot;       : true,   // Prohibit bitwise operators (&amp;, |, ^, etc.).
+    &quot;boss&quot;          : true,   // Tolerate assignments inside if, for &amp; while. Usually conditions &amp; loops are for comparison, not assignments.
+    &quot;curly&quot;         : true,   // Require {} for every new block or scope.
+    &quot;eqeqeq&quot;        : true,   // Require triple equals i.e. `===`.
+    &quot;eqnull&quot;        : false,  // Tolerate use of `== null`.
+    &quot;evil&quot;          : false,  // Tolerate use of `eval`.
+    &quot;expr&quot;          : false,  // Tolerate `ExpressionStatement` as Programs.
+    &quot;forin&quot;         : false,  // Tolerate `for in` loops without `hasOwnPrototype`.
+    &quot;immed&quot;         : true,   // Require immediate invocations to be wrapped in parens e.g. `( function(){}() );`
+    &quot;latedef&quot;       : true,   // Prohipit variable use before definition.
+    &quot;loopfunc&quot;      : false,  // Allow functions to be defined within loops.
+    &quot;noarg&quot;         : true,   // Prohibit use of `arguments.caller` and `arguments.callee`.
+    &quot;regexp&quot;        : false,  // Prohibit `.` and `[^...]` in regular expressions.
+    &quot;regexdash&quot;     : false,  // Tolerate unescaped last dash i.e. `[-...]`.
+    &quot;scripturl&quot;     : true,   // Tolerate script-targeted URLs.
+    &quot;shadow&quot;        : true,   // Allows re-define variables later in code e.g. `var x=1; x=2;`.
+    &quot;supernew&quot;      : false,  // Tolerate `new function () { ... };` and `new Object;`.
+    &quot;undef&quot;         : true,   // Require all non-global variables be declared before they are used.
+
+
+    // Personal styling preferences.
+    &quot;newcap&quot;        : true,   // Require capitalization of all constructor functions e.g. `new F()`.
+    &quot;noempty&quot;       : true,   // Prohibit use of empty blocks.
+    &quot;nonew&quot;         : true,   // Prohibit use of constructors for side-effects.
+    &quot;nomen&quot;         : true,   // Prohibit use of initial or trailing underbars in names.
+    &quot;onevar&quot;        : false,  // Allow only one `var` statement per function.
+    &quot;plusplus&quot;      : false,  // Prohibit use of `++` &amp; `--`.
+    &quot;sub&quot;           : false,  // Tolerate all forms of subscript notation besides dot notation e.g. `dict[&#39;key&#39;]` instead of `dict.key`.
+    &quot;trailing&quot;      : false,  // Prohibit trailing whitespaces.
+    &quot;white&quot;         : true,   // Check against strict whitespace and indentation rules.
+    &quot;indent&quot;        : 4,      // Specify indentation spacing
+    &quot;smarttabs&quot;     : true    // Suppress warnings about mixed tabs and spaces
+}
 </code></pre></div>
 <p>When I run that command I see any bugs/issues with my JavaScript code that doesn&#39;t appear to abide by the &#39;rules&#39; specified via the command line options. If I see nothing then that means there were no errors and I&#39;m good to go.</p>
 
 <h3>Code Structure</h3>
 
 <p>One thing I find very useful to do for all my JavaScript files is to include a code structure comment at the top like so...</p>
-<div class="highlight"><pre><code class="js"><span class="cm">/*</span>
-<span class="cm"> * Code Structure:</span>
-<span class="cm"> * - Variables</span>
-<span class="cm"> * - Functions</span>
-<span class="cm"> *   - fn_name_1</span>
-<span class="cm"> *   - fn_name_2</span>
-<span class="cm"> *   - fn_name_3</span>
-<span class="cm"> *   - fn_name_4</span>
-<span class="cm"> *   - fn_name_5</span>
-<span class="cm"> *   - fn_name_6</span>
-<span class="cm"> *   - fn_name_7</span>
-<span class="cm"> *   - fn_name_8</span>
-<span class="cm"> *   - fn_name_9</span>
-<span class="cm"> * - Initialisation</span>
-<span class="cm"> */</span>
+<div class="highlight"><pre><code class="text">/*
+ * Code Structure:
+ * - Variables
+ * - Functions
+ *   - fn_name_1
+ *   - fn_name_2
+ *   - fn_name_3
+ *   - fn_name_4
+ *   - fn_name_5
+ *   - fn_name_6
+ *   - fn_name_7
+ *   - fn_name_8
+ *   - fn_name_9
+ * - Initialisation
+ */
 </code></pre></div>
 <p>...this makes understanding where specific code is in the file a lot easier (at a glance). As you can see this code structure follows my <a href="https://github.com/Integralist/Style-Guides/blob/master/JavaScript%20Style%20Guide.md">JavaScript Style Guide</a> which goes into more detail about the specifics of my JavaScript code structure.</p>
 
@@ -997,122 +997,122 @@ jshint main.js --show-non-errors --config ./Lint/config.json // =&gt; example of
 <p>But there are other aspects of your site that aren&#39;t simple to resolve - JavaScript performance for one is a massive topic and one that I could never do justice to here, so I will instead simply recommend you read <a href="http://shop.oreilly.com/product/9780596802806.do">High Performance JavaScript </a> by Nicholas C. Zakas which is an excellent compilation of information about fine tuning your JavaScript.</p>
 
 <p>Below is an example of a minor performance dilemma I had recently while writing CSS with the Sass pre-processor. Although this example would likely be an extremely neglible performance hit I still found it interesting (afterwards) how potentially easily it is to make mistakes when using a pre-processor. So here is some Sass driven CSS code… </p>
-<div class="highlight"><pre><code class="css"><span class="nc">.dashboard-box</span> <span class="p">{</span>
-    <span class="o">@</span><span class="n">include</span> <span class="n">box</span><span class="o">-</span><span class="n">sizing</span><span class="p">(</span><span class="k">border</span><span class="o">-</span><span class="n">box</span><span class="p">);</span>
-    <span class="o">@</span><span class="n">include</span> <span class="n">shadow</span><span class="p">(</span><span class="m">1px</span> <span class="m">1px</span> <span class="m">3px</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="o">.</span><span class="m">2</span><span class="p">));</span>
-    <span class="o">@</span><span class="n">extend</span> <span class="o">.</span><span class="n">box</span><span class="o">-</span><span class="n">gradient</span><span class="o">-</span><span class="n">bg</span><span class="p">;</span>
+<div class="highlight"><pre><code class="text">.dashboard-box {
+    @include box-sizing(border-box);
+    @include shadow(1px 1px 3px rgba(0, 0, 0, .2));
+    @extend .box-gradient-bg;
 
-    <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="err">$</span><span class="n">grey</span><span class="p">;</span>
-    <span class="k">margin-bottom</span><span class="o">:</span> <span class="m">1.5em</span><span class="p">;</span>
+    border: 1px solid $grey;
+    margin-bottom: 1.5em;
 
-    <span class="o">&amp;,</span>
-    <span class="o">&gt;</span> <span class="n">div</span> <span class="err">{</span>
-       <span class="o">@</span><span class="n">include</span> <span class="n">radius</span><span class="p">(</span><span class="m">.5em</span><span class="p">);</span>
-    <span class="p">}</span>
+    &amp;,
+    &gt; div {
+       @include radius(.5em);
+    }
 
-    <span class="o">&gt;</span> <span class="nt">div</span> <span class="p">{</span>
-        <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="err">$</span><span class="nb">white</span><span class="p">;</span>
-        <span class="k">padding</span><span class="o">:</span> <span class="m">0.2em</span><span class="p">;</span>
-    <span class="p">}</span>
+    &gt; div {
+        border: 1px solid $white;
+        padding: 0.2em;
+    }
 
-    <span class="nc">.title</span> <span class="p">{</span>
-        <span class="o">@</span><span class="n">include</span> <span class="n">radius</span><span class="p">(</span><span class="m">.3em</span><span class="p">);</span>
-        <span class="o">@</span><span class="n">extend</span> <span class="o">.</span><span class="n">header</span><span class="o">-</span><span class="n">gradient</span><span class="o">-</span><span class="n">bg</span><span class="p">;</span>
-        <span class="k">font-size</span><span class="o">:</span> <span class="m">1.166666667em</span><span class="p">;</span>
-        <span class="k">margin</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="err">}</span>
+    .title {
+        @include radius(.3em);
+        @extend .header-gradient-bg;
+        font-size: 1.166666667em;
+        margin: 0;
+    }
+}
 </code></pre></div>
 <p>…which generates the following CSS…</p>
-<div class="highlight"><pre><code class="css"><span class="nc">.dashboard-box</span> <span class="p">{</span>
-  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">box</span><span class="o">-</span><span class="n">sizing</span><span class="o">:</span> <span class="k">border</span><span class="o">-</span><span class="n">box</span><span class="p">;</span>
-  <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">box</span><span class="o">-</span><span class="n">sizing</span><span class="o">:</span> <span class="k">border</span><span class="o">-</span><span class="n">box</span><span class="p">;</span>
-  <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="n">box</span><span class="o">-</span><span class="n">sizing</span><span class="o">:</span> <span class="k">border</span><span class="o">-</span><span class="n">box</span><span class="p">;</span>
-  <span class="n">box</span><span class="o">-</span><span class="n">sizing</span><span class="o">:</span> <span class="k">border</span><span class="o">-</span><span class="n">box</span><span class="p">;</span>
-  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="o">:</span> <span class="m">1px</span> <span class="m">1px</span> <span class="m">3px</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">.</span><span class="m">2</span><span class="p">);</span>
-  <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="o">:</span> <span class="m">1px</span> <span class="m">1px</span> <span class="m">3px</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">.</span><span class="m">2</span><span class="p">);</span>
-  <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="o">:</span> <span class="m">1px</span> <span class="m">1px</span> <span class="m">3px</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">.</span><span class="m">2</span><span class="p">);</span>
-  <span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="o">:</span> <span class="m">1px</span> <span class="m">1px</span> <span class="m">3px</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">.</span><span class="m">2</span><span class="p">);</span>
-  <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="m">#999999</span><span class="p">;</span>
-  <span class="k">margin-bottom</span><span class="o">:</span> <span class="m">1.5em</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="nc">.dashboard-box</span><span class="o">,</span>
-<span class="nc">.dashboard-box</span> <span class="o">&gt;</span> <span class="nt">div</span> <span class="p">{</span>
-  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
-  <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
-  <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
-  <span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="nc">.dashboard-box</span> <span class="o">&gt;</span> <span class="nt">div</span> <span class="p">{</span>
-  <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="nb">white</span><span class="p">;</span>
-  <span class="k">padding</span><span class="o">:</span> <span class="m">0.2em</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="nc">.dashboard-box</span> <span class="nc">.title</span> <span class="p">{</span>
-  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.3em</span><span class="p">;</span>
-  <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.3em</span><span class="p">;</span>
-  <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.3em</span><span class="p">;</span>
-  <span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.3em</span><span class="p">;</span>
-  <span class="k">font-size</span><span class="o">:</span> <span class="m">1.166666667em</span><span class="p">;</span>
-  <span class="k">margin</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span>
-<span class="p">}</span>
+<div class="highlight"><pre><code class="text">.dashboard-box {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  border: 1px solid #999999;
+  margin-bottom: 1.5em;
+}
+.dashboard-box,
+.dashboard-box &gt; div {
+  -webkit-border-radius: 0.5em;
+  -moz-border-radius: 0.5em;
+  -o-border-radius: 0.5em;
+  border-radius: 0.5em;
+}
+.dashboard-box &gt; div {
+  border: 1px solid white;
+  padding: 0.2em;
+}
+.dashboard-box .title {
+  -webkit-border-radius: 0.3em;
+  -moz-border-radius: 0.3em;
+  -o-border-radius: 0.3em;
+  border-radius: 0.3em;
+  font-size: 1.166666667em;
+  margin: 0;
+}
 </code></pre></div>
 <p>…but at first I wasn&#39;t sure if having duplicated selectors (i.e. <code>.dashboard-box</code> and <code>.dashboard-box &gt; div</code>) was very efficient, so I went back and changed my Sass code. This time I put <code>@include radius(.5em);</code> both at the top of the main declaration block as well as inside the <code>&gt; div</code> declaration...</p>
-<div class="highlight"><pre><code class="css"><span class="nc">.dashboard-box</span> <span class="p">{</span>
-    <span class="o">@</span><span class="n">include</span> <span class="n">radius</span><span class="p">(</span><span class="m">.5em</span><span class="p">);</span>
-    <span class="o">@</span><span class="n">include</span> <span class="n">box</span><span class="o">-</span><span class="n">sizing</span><span class="p">(</span><span class="k">border</span><span class="o">-</span><span class="n">box</span><span class="p">);</span>
-    <span class="o">@</span><span class="n">include</span> <span class="n">shadow</span><span class="p">(</span><span class="m">1px</span> <span class="m">1px</span> <span class="m">3px</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="o">.</span><span class="m">2</span><span class="p">));</span>
-    <span class="o">@</span><span class="n">extend</span> <span class="o">.</span><span class="n">box</span><span class="o">-</span><span class="n">gradient</span><span class="o">-</span><span class="n">bg</span><span class="p">;</span>
+<div class="highlight"><pre><code class="text">.dashboard-box {
+    @include radius(.5em);
+    @include box-sizing(border-box);
+    @include shadow(1px 1px 3px rgba(0, 0, 0, .2));
+    @extend .box-gradient-bg;
 
-    <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="err">$</span><span class="n">grey</span><span class="p">;</span>
-    <span class="k">margin-bottom</span><span class="o">:</span> <span class="m">1.5em</span><span class="p">;</span>
+    border: 1px solid $grey;
+    margin-bottom: 1.5em;
 
-    <span class="o">&gt;</span> <span class="n">div</span> <span class="err">{</span>
-        <span class="o">@</span><span class="n">include</span> <span class="n">radius</span><span class="p">(</span><span class="m">.5em</span><span class="p">);</span>
-        <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="err">$</span><span class="nb">white</span><span class="p">;</span>
-        <span class="k">padding</span><span class="o">:</span> <span class="m">0.2em</span><span class="p">;</span>
-    <span class="p">}</span>
+    &gt; div {
+        @include radius(.5em);
+        border: 1px solid $white;
+        padding: 0.2em;
+    }
 
-    <span class="nc">.title</span> <span class="p">{</span>
-        <span class="o">@</span><span class="n">include</span> <span class="n">radius</span><span class="p">(</span><span class="m">.3em</span><span class="p">);</span>
-        <span class="o">@</span><span class="n">extend</span> <span class="o">.</span><span class="n">header</span><span class="o">-</span><span class="n">gradient</span><span class="o">-</span><span class="n">bg</span><span class="p">;</span>
-        <span class="k">font-size</span><span class="o">:</span> <span class="m">1.166666667em</span><span class="p">;</span>
-        <span class="k">margin</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="err">}</span>
+    .title {
+        @include radius(.3em);
+        @extend .header-gradient-bg;
+        font-size: 1.166666667em;
+        margin: 0;
+    }
+}
 </code></pre></div>
 <p>...which resulted in the following CSS… </p>
-<div class="highlight"><pre><code class="css"><span class="nc">.dashboard-box</span> <span class="p">{</span>
-  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
-  <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
-  <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
-  <span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
-  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">box</span><span class="o">-</span><span class="n">sizing</span><span class="o">:</span> <span class="k">border</span><span class="o">-</span><span class="n">box</span><span class="p">;</span>
-  <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">box</span><span class="o">-</span><span class="n">sizing</span><span class="o">:</span> <span class="k">border</span><span class="o">-</span><span class="n">box</span><span class="p">;</span>
-  <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="n">box</span><span class="o">-</span><span class="n">sizing</span><span class="o">:</span> <span class="k">border</span><span class="o">-</span><span class="n">box</span><span class="p">;</span>
-  <span class="n">box</span><span class="o">-</span><span class="n">sizing</span><span class="o">:</span> <span class="k">border</span><span class="o">-</span><span class="n">box</span><span class="p">;</span>
-  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="o">:</span> <span class="m">1px</span> <span class="m">1px</span> <span class="m">3px</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">.</span><span class="m">2</span><span class="p">);</span>
-  <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="o">:</span> <span class="m">1px</span> <span class="m">1px</span> <span class="m">3px</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">.</span><span class="m">2</span><span class="p">);</span>
-  <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="o">:</span> <span class="m">1px</span> <span class="m">1px</span> <span class="m">3px</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">.</span><span class="m">2</span><span class="p">);</span>
-  <span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="o">:</span> <span class="m">1px</span> <span class="m">1px</span> <span class="m">3px</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">.</span><span class="m">2</span><span class="p">);</span>
-  <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="m">#999999</span><span class="p">;</span>
-  <span class="k">margin-bottom</span><span class="o">:</span> <span class="m">1.5em</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="nc">.dashboard-box</span> <span class="o">&gt;</span> <span class="nt">div</span> <span class="p">{</span>
-  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
-  <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
-  <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
-  <span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
-  <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="nb">white</span><span class="p">;</span>
-  <span class="k">padding</span><span class="o">:</span> <span class="m">0.2em</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="nc">.dashboard-box</span> <span class="nc">.title</span> <span class="p">{</span>
-  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.3em</span><span class="p">;</span>
-  <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.3em</span><span class="p">;</span>
-  <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.3em</span><span class="p">;</span>
-  <span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.3em</span><span class="p">;</span>
-  <span class="k">font-size</span><span class="o">:</span> <span class="m">1.166666667em</span><span class="p">;</span>
-  <span class="k">margin</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span>
-<span class="p">}</span>
+<div class="highlight"><pre><code class="text">.dashboard-box {
+  -webkit-border-radius: 0.5em;
+  -moz-border-radius: 0.5em;
+  -o-border-radius: 0.5em;
+  border-radius: 0.5em;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  border: 1px solid #999999;
+  margin-bottom: 1.5em;
+}
+.dashboard-box &gt; div {
+  -webkit-border-radius: 0.5em;
+  -moz-border-radius: 0.5em;
+  -o-border-radius: 0.5em;
+  border-radius: 0.5em;
+  border: 1px solid white;
+  padding: 0.2em;
+}
+.dashboard-box .title {
+  -webkit-border-radius: 0.3em;
+  -moz-border-radius: 0.3em;
+  -o-border-radius: 0.3em;
+  border-radius: 0.3em;
+  font-size: 1.166666667em;
+  margin: 0;
+}
 </code></pre></div>
 <p>Now, what has this given us? OK so yes this means I don&#39;t have the <code>.dashboard-box</code> or <code>.dashboard-box &gt; div</code> selectors duplicated (which is good), BUT now I&#39;ve got two different problems:</p>
 
