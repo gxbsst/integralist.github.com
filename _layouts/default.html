@@ -1,0 +1,68 @@
+<!doctype html>
+<!--[if IE 8]><html class="ie8" dir="ltr" lang="en"><![endif]-->
+<!--[if IE 9]><html class="ie9" dir="ltr" lang="en"><![endif]-->
+<!--[if gt IE 9]><!--> <html dir="ltr" lang="en"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="Mark McDonnell" />
+        <title>{% if page.title %} {{ page.title }} | {% endif %}Integralist</title>
+        <!--[if lt IE 9]>
+        <script src="/Assets/Scripts/html5.js"></script>
+        <![endif]-->
+        <link rel="stylesheet" href="/Assets/Styles/layout.css"     media="all">
+        <link rel="stylesheet" href="/Assets/Styles/layout-480.css" media="only screen and (min-width: 30em)">
+        <link rel="stylesheet" href="/Assets/Styles/layout-768.css" media="only screen and (min-width: 40em)">
+        <!--[if (lt IE 9) & (!IEMobile)]>
+        <link rel="stylesheet" href="/Assets/Styles/layout-480.css">
+        <link rel="stylesheet" href="/Assets/Styles/layout-768.css">
+        <![endif]-->
+    </head>
+    <body>
+        <header class="header container outline">
+            <p class="header__title"><a href="/" class="header__homelink">integralist</a></p>
+            <p class="header__strapline">Responsive/Mobile First Web Design, with Object-Oriented CSS and modular based JavaScript via AMD/RequireJS</p>
+            <a href="#info" class="header__moreinfo">More info about me&hellip;</a>
+        </header>
+        <section class="container outline">
+            {{ content }}
+        </section>
+        <section class="info container outline" id="info">
+            <section class="info__section">
+                <h3 class="info__title">Social</h3>
+                <ul class="info__list">
+                    <li><a href="http://www.github.com/integralist" target="_blank">GitHub</a></li>
+                    <li><a href="http://www.twitter.com/integralist" target="_blank">Twitter</a></li>
+                </ul>
+            </section>
+            <section class="info__section">
+                <h3 class="info__title">Skills</h3>
+                <ul class="info__list">
+                    <li>Object-Oriented/Scalable CSS</li>
+                    <li>Semantic/Efficient HTML</li>
+                    <li>Modular JavaScript</li>
+                </ul>
+            </section>
+            <section class="info__section">
+                <h3 class="info__title">Enjoys</h3>
+                <ul class="info__list">
+                    <li>Gracie Jiu-Jitsu</li>
+                    <li>Programming</li>
+                    <li>Integral Theory</li>
+                </ul>
+            </section>
+            <section class="info__section">
+                <h3 class="info__title">Listens</h3>
+                <ul class="info__list">
+                    <li>LTJ Bukem</li>
+                    <li>Tool</li>
+                    <li>Meshuggah</li>
+                    <li>Russian Circles</li>
+                    <li>Earthtone9</li>
+                    <li>Will Haven</li>
+                    <li>ISIS</li>
+                </ul>
+            </section>
+        </section>
+    </body>
+</html>

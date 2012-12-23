@@ -1,0 +1,12 @@
+.header__strapline,
+.article__strapline {
+    font-size: 1.125em; /* 18 / 16 */
+}
+
+.info__title {
+    font-size: 1.5em; /* 24 / 16 */
+}
+
+.info__list {
+    font-size: 1.25em; /* 20 / 16 */
+}
