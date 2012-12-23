@@ -34,7 +34,7 @@ Below we have a money calculator widget. You enter an amount of money (e.g. £2.
 
 The HTML is very simple...
 
-```html
+```
 <section>
     <h1>Sterling Calculator</h1>
     <form action="process.php" method="post">
