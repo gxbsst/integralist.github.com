@@ -1,7 +1,5 @@
-integralist.co.uk
-===
+##integralist.co.uk
 
-Description
----
+Moved over to the Jekyll static content generator system.
 
-Decided to host my website via GitHub.
+All blog posts are written in Markdown.
