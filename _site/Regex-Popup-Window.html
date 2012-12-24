@@ -38,52 +38,54 @@
 <p><code>^http(?:s)?:\/\/(?!(?:www.)?integralist)</code></p>
 
 <h2>Example Code</h2>
-<div class="highlight"><pre><code class="text">/**
- * The Integralist global namespace object.
- *
- * @class Integralist
- * @singleton
- * @static
- */
-function Integralist() {
-   // Constructor
-}
 
-/**
- * Augment the Integralist class so it includes a method
- * which finds all &lt;a&gt; elements that link to an external website
- * and sets them to open in a popup window
- */
-Integralist.prototype.external = function() {
-   var that = this; // Required to keep scope within the following Closure
-   this.settings = &#39;location=yes,resizable=yes,width=&#39; + screen.availWidth + &#39;,height=&#39; + screen.availHeight + &#39;,scrollbars=1,left=0,top=0&#39;;
-   this.popup = function(node) {
-      var url = node.href;
-      return function() {
-         window.open(url, &#39;external&#39; , that.settings);
-         return false;
-      };
-   };
+<pre><code> /**
+  * The Integralist global namespace object.
+  *
+  * @class Integralist
+  * @singleton
+  * @static
+  */
+ function Integralist() {
+    // Constructor
+ }
 
-   var a = document.getElementsByTagName(&#39;a&#39;), // Private variable to store HTMLCollection of all &lt;a&gt; elements
-       len = a.length, // Store array length in variable
-       pattern = /^http(?:s)?:\/\/(?!(?:www.)?integralist)/; // RegExp pattern to match any external URL&#39;s but not the current website
+ /**
+  * Augment the Integralist class so it includes a method
+  * which finds all &lt;a&gt; elements that link to an external website
+  * and sets them to open in a popup window
+  */
+ Integralist.prototype.external = function() {
+    var that = this; // Required to keep scope within the following Closure
+    this.settings = 'location=yes,resizable=yes,width=' + screen.availWidth + ',height=' + screen.availHeight + ',scrollbars=1,left=0,top=0';
+    this.popup = function(node) {
+       var url = node.href;
+       return function() {
+          window.open(url, 'external' , that.settings);
+          return false;
+       };
+    };
 
-   // Loop through the array checking for any A elements that link to an external URL
-   while (len--) {
-      var element = a[len].getAttribute(&#39;href&#39;);
-      if (pattern.test(element)) {
-         a[len].onclick = this.popup(a[len]);
-      }
-   }
-};
+    var a = document.getElementsByTagName('a'), // Private variable to store HTMLCollection of all &lt;a&gt; elements
+        len = a.length, // Store array length in variable
+        pattern = /^http(?:s)?:\/\/(?!(?:www.)?integralist)/; // RegExp pattern to match any external URL's but not the current website
 
-// Create a singleton of the Integralist Class
-var Integralist = new Integralist();
+    // Loop through the array checking for any A elements that link to an external URL
+    while (len--) {
+       var element = a[len].getAttribute('href');
+       if (pattern.test(element)) {
+          a[len].onclick = this.popup(a[len]);
+       }
+    }
+ };
 
-// Trigger &#39;external&#39; method
-window.onload = Integralist.external;
-</code></pre></div>
+ // Create a singleton of the Integralist Class
+ var Integralist = new Integralist();
+
+ // Trigger 'external' method
+ window.onload = Integralist.external;
+</code></pre>
+
 <h2>Update 1</h2>
 
 <p>Tweaked the regex again to make it simpler. Decided using a character class for just a single dot character was pointless, might as well just escape the dot. Also got rid of the non-capturing group around the s in https and just used an optional token <code>?</code> on its own as again it was pointless wrapping a single character in a non-capturing group.</p>

@@ -32,56 +32,58 @@
 <p>The basic premise to have code that appears more <code>Class</code> like is this: JavaScript functions created using the <code>new</code> keyword work in a similar way to what Class based languages refer to as ‘Constructors’. When a function uses the <code>new</code> keyword the Function object is given a <code>prototype</code> property which points (initially) to an empty object. This empty object can then have methods and properties added to it which will be available to all other objects that point their own prototype link to it.</p>
 
 <p>A basic example is as follows…</p>
-<div class="highlight"><pre><code class="text">var Person = function (settings) {
-   if (!settings) { settings = {}; } // code defensively
 
-   // Instance properties (any new instances of the Person class will have these properties)
-   this.name = settings.name || &#39;no name given&#39;;
-   this.age = settings.age || &#39;no age given&#39;;
+<pre><code>  var Person = function (settings) {
+     if (!settings) { settings = {}; } // code defensively
 
-   // Instance method (any new instances of the Person class will have this method)
-   this.getName = function() {
-      alert(this.name);
-   };
-};
+     // Instance properties (any new instances of the Person class will have these properties)
+     this.name = settings.name || 'no name given';
+     this.age = settings.age || 'no age given';
 
-// Create a new instance of the Person Class
-var integralist = new Person({ name:&#39;Mark&#39;, age:7 });
+     // Instance method (any new instances of the Person class will have this method)
+     this.getName = function() {
+        alert(this.name);
+     };
+  };
 
-// Add a method to this instance of the Person Class only (no other instances created will have this method)
-integralist.getAge = function() {
-   alert(this.age);
-}
+  // Create a new instance of the Person Class
+  var integralist = new Person({ name:'Mark', age:7 });
 
-// Test the integralist instance has access to both methods
-integralist.getName();
-integralist.getAge();
+  // Add a method to this instance of the Person Class only (no other instances created will have this method)
+  integralist.getAge = function() {
+     alert(this.age);
+  }
 
-// Create another instance of the Person Class
-var user = new Person();
+  // Test the integralist instance has access to both methods
+  integralist.getName();
+  integralist.getAge();
 
-// Notice the user has access to a &#39;getName&#39; method but not a &#39;getAge&#39; method
-user.getName();
+  // Create another instance of the Person Class
+  var user = new Person();
 
-// I know this will error so I&#39;m wrapping it in a try statement
-try {
-   user.getAge();
-} catch(err) {
-   alert(err); // Uncaught TypeError: Object [object Object] has no method &#39;getAge&#39;
-}
+  // Notice the user has access to a 'getName' method but not a 'getAge' method
+  user.getName();
 
-// Add a method to the Person Class&#39; prototype chain (all instances of the Person Class will now get this method - even those already defined)
-Person.prototype.getNameAndAge = function() {
-   alert(&#39;Hi, my name is &#39; + this.name + &#39;, and I\&#39;m &#39; + this.age + &#39; years old.&#39;);
-}
+  // I know this will error so I'm wrapping it in a try statement
+  try {
+     user.getAge();
+  } catch(err) {
+     alert(err); // Uncaught TypeError: Object [object Object] has no method 'getAge'
+  }
 
-// Test this new method is accessible to all instances of the Person Class
-integralist.getNameAndAge();
-user.getNameAndAge();
-</code></pre></div>
+  // Add a method to the Person Class' prototype chain (all instances of the Person Class will now get this method - even those already defined)
+  Person.prototype.getNameAndAge = function() {
+     alert('Hi, my name is ' + this.name + ', and I\'m ' + this.age + ' years old.');
+  }
+
+  // Test this new method is accessible to all instances of the Person Class
+  integralist.getNameAndAge();
+  user.getNameAndAge();
+</code></pre>
+
 <p>Personally I would suggest you learn how JavaScript implements its own form of inheritance (prototypal inheritance) which is more efficient and nicer to work with than the use of functions as Constructors.</p>
 
-<p>The Mozilla Developer Network has written up a short article on the differences between Class-based and Prototype-based languages which you can find here: <a href="https://developer.mozilla.org/en/Core_JavaScript_1.5_Guide/Details_of_the_Object_Model#Class-Based_vs._Prototype-Based_Languages">https://developer.mozilla.org/en/Core<em>JavaScript</em>1.5<em>Guide/Details</em>of<em>the</em>Object<em>Model#Class-Based</em>vs.<em>Prototype-Based</em>Languages</a></p>
+<p>The Mozilla Developer Network has written up a short article on the differences between Class-based and Prototype-based languages which you can find here: <a href="https://developer.mozilla.org/en/Core_JavaScript_1.5_Guide/Details_of_the_Object_Model#Class-Based_vs._Prototype-Based_Languages">https://developer.mozilla.org/en/Core_JavaScript_1.5_Guide/Details_of_the_Object_Model#Class-Based_vs._Prototype-Based_Languages</a></p>
 
 </div>
 

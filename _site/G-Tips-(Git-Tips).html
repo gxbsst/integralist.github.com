@@ -27,9 +27,9 @@
         <section class="container outline">
             <h1>G-Tips (Git tips)</h1>
 <div class="article__content">
-    <p>I thought I would get down in a blog post the different <a href="http://git-scm.com">Git</a> commands and tips that I find really useful, because every now and then it seems I need to refer back to these notes (which up until this point have been in a txt file in my Dropbox) if I&#39;ve not used a particular command in a while. </p>
+    <p>I thought I would get down in a blog post the different <a href="http://git-scm.com">Git</a> commands and tips that I find really useful, because every now and then it seems I need to refer back to these notes (which up until this point have been in a txt file in my Dropbox) if I've not used a particular command in a while.</p>
 
-<p>Hopefully you&#39;ll find them useful too…</p>
+<p>Hopefully you'll find them useful too…</p>
 
 <ol>
 <li>Show where Git is installed</li>
@@ -44,7 +44,7 @@
 <li>Shorter <code>git status</code></li>
 <li>Finding a commit that includes a specific phrase</li>
 <li>Only merging the files you want</li>
-<li>Stashing changes you&#39;re not ready to commit</li>
+<li>Stashing changes you're not ready to commit</li>
 <li>Revert all changes back to last commit</li>
 <li>Unstaging files</li>
 <li>Untrack a file without deleting it</li>
@@ -63,6 +63,7 @@
 <li>Modifying your Git history with <code>rebase</code></li>
 </ol>
 
+
 <h2>Show where Git is installed</h2>
 
 <p><code>which git</code></p>
@@ -72,18 +73,21 @@
 <p><code>git version</code></p>
 
 <h2>Update your global user details</h2>
-<div class="highlight"><pre><code class="text">git config --global user.name &quot;Your Name&quot;
-git config --global user.email &quot;Your Email&quot;
+
+<pre><code>git config --global user.name "Your Name"
+git config --global user.email "Your Email"
 git config --global apply.whitespace nowarn # ignore white space changes!
-</code></pre></div>
+</code></pre>
+
 <h2>Set-up a global ignore file</h2>
 
 <p>First create the global ignore file…</p>
 
 <p><code>touch ~/.gitignore_global</code></p>
 
-<p>Then add the following content to it (<em>this is a standard ignore file but I&#39;ve added some Sass CSS pre-processor files to it</em>)…</p>
-<div class="highlight"><pre><code class="text"># Compiled source #
+<p>Then add the following content to it (<em>this is a standard ignore file but I've added some Sass CSS pre-processor files to it</em>)…</p>
+
+<pre><code># Compiled source #
 ###################
 *.com
 *.class
@@ -96,7 +100,7 @@ git config --global apply.whitespace nowarn # ignore white space changes!
 
 # Packages #
 ############
-# it&#39;s better to unpack these files and commit the raw source
+# it's better to unpack these files and commit the raw source
 # git has its own built in compression methods
 *.7z
 *.dmg
@@ -123,15 +127,18 @@ git config --global apply.whitespace nowarn # ignore white space changes!
 Icon?
 ehthumbs.db
 Thumbs.db
-</code></pre></div>
+</code></pre>
+
 <p>You can let Git know about your global ignore file by editing your global <code>.gitconfig</code> file…</p>
 
 <p><code>nano ~/.gitconfig</code></p>
 
-<p>…then adding the following to it… </p>
-<div class="highlight"><pre><code class="text">[core]
+<p>…then adding the following to it…</p>
+
+<pre><code>[core]
     excludesfile = /Users/&lt;home-directory&gt;/.gitignore_global
-</code></pre></div>
+</code></pre>
+
 <p>…or once the <code>.gitignore_global</code> file is created you can just tell git by using this short-hand command…</p>
 
 <p><code>git config --global core.excludesfile ~/.gitignore_global</code></p>
@@ -144,26 +151,29 @@ Thumbs.db
 
 <p>A short git commit message would look like this…</p>
 
-<p><code>git commit -m &quot;My short commit message&quot;</code></p>
+<p><code>git commit -m "My short commit message"</code></p>
 
 <p>…but you should really be writing longer more descriptive commit messages which you do like so:</p>
 
 <p><code>git commit</code></p>
 
-<p>…what this does is open up the default editor for commit messages (which for most is Vim). Now Vim is a bizarre editor with all sorts of odd shortcuts for adding text. I&#39;ve only used Vim to write commit messages (nothing else) so I have a very focused set of commands to write my commands…</p>
+<p>…what this does is open up the default editor for commit messages (which for most is Vim). Now Vim is a bizarre editor with all sorts of odd shortcuts for adding text. I've only used Vim to write commit messages (nothing else) so I have a very focused set of commands to write my commands…</p>
 
-<p>Press <code>i</code> which puts Vim into &#39;insert&#39; mode (meaning you can actually write)</p>
-<div class="highlight"><pre><code class="text">This is my short description for this commit
+<p>Press <code>i</code> which puts Vim into 'insert' mode (meaning you can actually write)</p>
+
+<pre><code>This is my short description for this commit
 
 - Here is a break down of my changes
 - Another note about a particular change
-</code></pre></div>
-<p>After I&#39;ve written my commit I just need to save the commit and exit Vim…</p>
+</code></pre>
+
+<p>After I've written my commit I just need to save the commit and exit Vim…</p>
 
 <ul>
 <li>Press <code>Esc</code></li>
 <li>Press <code>:wq</code> (the colon means you can execute more commands, w = write, q = quit)</li>
 </ul>
+
 
 <h2>Viewing file changes while writing your commit</h2>
 
@@ -177,20 +187,24 @@ Thumbs.db
 
 <p>To get a better looking <code>git log</code> we need to write an alias called <code>git lg</code> that is just made up of standard Git commands/flags but when put together (along with specific colour settings) means we can have a short git command that provides us lots of useful information.</p>
 
-<p>What we need to do is open the <code>~/.gitconfig</code> file and then add the following content… </p>
-<div class="highlight"><pre><code class="text">[alias]
-    lg = log --color --graph --pretty=format:&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#39; --abbrev-commit --date=relative
-</code></pre></div>
+<p>What we need to do is open the <code>~/.gitconfig</code> file and then add the following content…</p>
+
+<pre><code>[alias]
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset' --abbrev-commit --date=relative
+</code></pre>
+
 <h2>Shorter <code>git status</code></h2>
 
-<p>As per the above tip, we can create two extra alias&#39; which give us a shorter command to type (I don&#39;t know about you but when typing really fast I seem to always misspell the word &#39;status&#39;) and doesn&#39;t show us all the unnecessary crap that someone new to Git needs to see.</p>
+<p>As per the above tip, we can create two extra alias' which give us a shorter command to type (I don't know about you but when typing really fast I seem to always misspell the word 'status') and doesn't show us all the unnecessary crap that someone new to Git needs to see.</p>
 
-<p>What we need to do is open the <code>~/.gitconfig</code> file and then add the following content… </p>
-<div class="highlight"><pre><code class="text">[alias] 
+<p>What we need to do is open the <code>~/.gitconfig</code> file and then add the following content…</p>
+
+<pre><code>[alias] 
     st = status
     sts = status -sb
-</code></pre></div>
-<p>…you don&#39;t need to specify <code>[alias]</code> if it&#39;s already in the file (see previous tip).</p>
+</code></pre>
+
+<p>…you don't need to specify <code>[alias]</code> if it's already in the file (see previous tip).</p>
 
 <p>Now typing <code>git st</code> will be the same as <code>git status</code>, and typing <code>git sts</code> will be the same as <code>git status -sb</code>.</p>
 
@@ -198,23 +212,23 @@ Thumbs.db
 
 <p><code>git log --grep=&lt;your-phrase-here&gt;</code></p>
 
-<p>For example, <code>git log --grep=CSS</code> will display all commits that contain the word &#39;CSS&#39; in the message.</p>
+<p>For example, <code>git log --grep=CSS</code> will display all commits that contain the word 'CSS' in the message.</p>
 
 <h2>Only merging the files you want</h2>
 
 <p><code>git checkout &lt;branch-name&gt; &lt;file1&gt; &lt;file2&gt; &lt;file3&gt;</code></p>
 
-<h2>Stashing changes you&#39;re not ready to commit</h2>
+<h2>Stashing changes you're not ready to commit</h2>
 
-<p>If you make changes to your branch and then want to quickly change branches without first having to commit your current &#39;dirty state&#39; then run:</p>
+<p>If you make changes to your branch and then want to quickly change branches without first having to commit your current 'dirty state' then run:</p>
 
 <p><code>git stash</code></p>
 
-<p>To apply a stashed state (git assumes the most recent stashed state if none specified) use: </p>
+<p>To apply a stashed state (git assumes the most recent stashed state if none specified) use:</p>
 
 <p><code>git stash apply</code></p>
 
-<p>To see which stashes you&#39;ve stored (on any branch) use:</p>
+<p>To see which stashes you've stored (on any branch) use:</p>
 
 <p><code>git stash list</code></p>
 
@@ -226,9 +240,9 @@ Thumbs.db
 
 <p><code>git stash show -p stash@{n}</code></p>
 
-<p>…where &#39;n&#39; is the numeric index of the stash</p>
+<p>…where 'n' is the numeric index of the stash</p>
 
-<p>Applying the stash doesn&#39;t mean it&#39;s removed from your list of stashes though(!) so you need to run:</p>
+<p>Applying the stash doesn't mean it's removed from your list of stashes though(!) so you need to run:</p>
 
 <p><code>git stash drop stash@{&lt;index&gt;}</code></p>
 
@@ -246,29 +260,31 @@ Thumbs.db
 
 <h2>Unstaging files</h2>
 
-<p>To unstage files we&#39;ve added to the staging area we need to run the command <code>reset HEAD</code> but that&#39;s a bit ugly and awkward to remember. What would be easier is if we could just say <code>git unstage</code>, so let&#39;s create an alias to help make that easier!</p>
+<p>To unstage files we've added to the staging area we need to run the command <code>reset HEAD</code> but that's a bit ugly and awkward to remember. What would be easier is if we could just say <code>git unstage</code>, so let's create an alias to help make that easier!</p>
 
-<p>Open up the file <code>~/.gitconfig</code> and then add the following content… </p>
-<div class="highlight"><pre><code class="text">[alias]
+<p>Open up the file <code>~/.gitconfig</code> and then add the following content…</p>
+
+<pre><code>[alias]
     unstage = reset HEAD
-</code></pre></div>
-<p>Note: you don&#39;t need to specify <code>[alias]</code> if it&#39;s already in the <code>~/.gitconfig</code> file.</p>
+</code></pre>
+
+<p>Note: you don't need to specify <code>[alias]</code> if it's already in the <code>~/.gitconfig</code> file.</p>
 
 <p>You can also unstage a single file using:</p>
 
 <p><code>git reset &lt;file&gt;</code></p>
 
-<p>If you&#39;ve staged files before any commits have been set (e.g. right at the start of your project) then you&#39;ll find the above wont work because technically there are no commits to revert back to. So instead you&#39;ll need to remove the files like so…</p>
+<p>If you've staged files before any commits have been set (e.g. right at the start of your project) then you'll find the above wont work because technically there are no commits to revert back to. So instead you'll need to remove the files like so…</p>
 
 <p><code>git rm --cached &lt;file&gt;</code></p>
 
 <h2>Untrack a file without deleting it</h2>
 
-<p>If you want to have Git stop tracking a file it&#39;s already tracking then you would think to run:</p>
+<p>If you want to have Git stop tracking a file it's already tracking then you would think to run:</p>
 
 <p><code>git rm &lt;file&gt;</code></p>
 
-<p>…but the problem with that command is that Git will also delete the file altogether!? Something we usually don&#39;t want to have happen.</p>
+<p>…but the problem with that command is that Git will also delete the file altogether!? Something we usually don't want to have happen.</p>
 
 <p>The work around to that issue is to use the <code>--cached</code> flag:</p>
 
@@ -276,13 +292,13 @@ Thumbs.db
 
 <h2>Amend your last commit</h2>
 
-<p>If you make a commit and then realise that you want to amend the commit message then don&#39;t make any changes to the files and just run…</p>
+<p>If you make a commit and then realise that you want to amend the commit message then don't make any changes to the files and just run…</p>
 
 <p><code>git commit --amend</code></p>
 
 <p>…which will open up the default editor for handling commits (usually Vim) and will let you amend the commit message.</p>
 
-<p>If on the other hand you decide that after you&#39;ve written a commit that you want to amend the commit by adding some more files to it then just add the files as normal and run the same command as above and when Vim opens to let you edit the commit message you&#39;ll see the extra files you added as part of that commit.</p>
+<p>If on the other hand you decide that after you've written a commit that you want to amend the commit by adding some more files to it then just add the files as normal and run the same command as above and when Vim opens to let you edit the commit message you'll see the extra files you added as part of that commit.</p>
 
 <h2>Show the files within a commit</h2>
 
@@ -316,7 +332,7 @@ Thumbs.db
 
 <p>What normally happens is this: you clone down a repository from GitHub and this repo will have multiple branches, but if you run <code>git branch</code> locally all you see is the <code>master</code> branch.</p>
 
-<p>If you run <code>git branch -a</code> you can see all the branches for that remote repository but you just can&#39;t access them or check them out?</p>
+<p>If you run <code>git branch -a</code> you can see all the branches for that remote repository but you just can't access them or check them out?</p>
 
 <p>So if you want to access the other branches within that repo then run the following command:</p>
 
@@ -340,7 +356,7 @@ Thumbs.db
 
 <p>If you have a file with lots of changes made, you might not want to have all the changes logged under one single commit.</p>
 
-<p>To split the single file into multiple commits you need to use Git&#39;s <code>patch</code> mode… </p>
+<p>To split the single file into multiple commits you need to use Git's <code>patch</code> mode…</p>
 
 <p><code>git add &lt;file&gt; -p</code></p>
 
@@ -353,19 +369,20 @@ Thumbs.db
 <li><code>s</code> - split current hunk into more hunks</li>
 </ul>
 
-<p>Sometimes you can&#39;t split a hunk into more hunks automatically, you have to do it manually. To do so you press <code>e</code> to edit and then use Vim to manually make changes.</p>
 
-<p>So if you have a line removed that you want to keep as part of the commit then you&#39;ll remove the <code>-</code> so there is just a space instead, and if you have a line added that you want to not have included as part of the commit then you remove the entire line. BUT the most important part it also updating the line numbers at the top of the file so that the number of lines in the file match what you are looking to commit (otherwise the commit will fail). To make the edit to the hunk final (pre-commit) press <code>esc</code> then <code>:wq</code> and then you&#39;ll be able to commit the selected changes.</p>
+<p>Sometimes you can't split a hunk into more hunks automatically, you have to do it manually. To do so you press <code>e</code> to edit and then use Vim to manually make changes.</p>
+
+<p>So if you have a line removed that you want to keep as part of the commit then you'll remove the <code>-</code> so there is just a space instead, and if you have a line added that you want to not have included as part of the commit then you remove the entire line. BUT the most important part it also updating the line numbers at the top of the file so that the number of lines in the file match what you are looking to commit (otherwise the commit will fail). To make the edit to the hunk final (pre-commit) press <code>esc</code> then <code>:wq</code> and then you'll be able to commit the selected changes.</p>
 
 <h2>Modifying your Git history with <code>rebase</code></h2>
 
-<p>To change multiple commits you must use the interactive mode of the <code>rebase</code> command and you must tell Git how many commits back you want to go (because it&#39;ll start from there and keep moving through the commits until it reaches the <code>HEAD</code>).</p>
+<p>To change multiple commits you must use the interactive mode of the <code>rebase</code> command and you must tell Git how many commits back you want to go (because it'll start from there and keep moving through the commits until it reaches the <code>HEAD</code>).</p>
 
-<p>REMEMBER: when using <code>rebase</code> every commit in the range specified is changed whether you change the message or not. So don&#39;t use <code>rebase</code> on commits that have already been pushed to a remote server as other users might have those commits pulled down and your changing of the commits will cause havoc for those users in the near future.</p>
+<p>REMEMBER: when using <code>rebase</code> every commit in the range specified is changed whether you change the message or not. So don't use <code>rebase</code> on commits that have already been pushed to a remote server as other users might have those commits pulled down and your changing of the commits will cause havoc for those users in the near future.</p>
 
 <p>To amend the last 3 commits we use: <code>git rebase -i HEAD~3</code> and follow the instructions.</p>
 
-<p>The principle is if you want to merge two commits then you&#39;ll need to have a commit to merge into and then change <code>pick</code> to <code>squash</code> on the other commits that you want to have squashed into the previous commit.</p>
+<p>The principle is if you want to merge two commits then you'll need to have a commit to merge into and then change <code>pick</code> to <code>squash</code> on the other commits that you want to have squashed into the previous commit.</p>
 
 <p>You can also re-order commits and other things like change commits (add files, rename the message) and remove commits completely.</p>
 

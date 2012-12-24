@@ -57,6 +57,7 @@
 <li>Best practices for Commit Messages</li>
 </ul>
 
+
 <p>But before we get started…</p>
 
 <h2>Using the GitHub interface</h2>
@@ -71,7 +72,7 @@
 
 <p>Once you’ve got your free account created you can start using GitHub for the more ‘basic’ Git features, such as ‘forking’ (i.e. taking a copy of…) an open-source project and making changes to it. We’ll create a new <code>fork</code> of the ‘jQuery JavaScript Library’ and start making some changes to the code base, and then submitting ‘commits’ to our own copy of the jQuery library project (i.e. saving our project’s current state). Then when happy with our changes we’ll submit a <code>pull</code> request to the jQuery owners! (and basically, by ‘pull’ we’re really saying “please jQuery, accept the changes we’ve made to your code base - we’d love for you to integrate them into the jQuery source”). So let’s take a look at the jQuery JavaScript Library page here:</p>
 
-<p><a href="https://github.com/jquery/jquery">https://github.com/jquery/jquery</a>. On this page you should see a ‘fork’ link near the top right of the page. Click on it. You’ll notice that GitHub will start making a copy of the jQuery JavaScript Library project and will generate a new project within your account under the same name. </p>
+<p><a href="https://github.com/jquery/jquery">https://github.com/jquery/jquery</a>. On this page you should see a ‘fork’ link near the top right of the page. Click on it. You’ll notice that GitHub will start making a copy of the jQuery JavaScript Library project and will generate a new project within your account under the same name.</p>
 
 <p>Now, you’ll see a list of all the files within this project and you can click on any folder/file to see its content. So let’s take a look at the README.md file by clicking on it’s name. You’ll see that GitHub does a nice little AJAX sliding animation and then shows you the README.md file… wonderful.</p>
 
@@ -94,13 +95,17 @@
 <p>When Git is installed the first thing we’ll probably want to do is to tell it what our name and email is (this way, when working with a system - such as GitHub - and having multiple users working on your code base you can easily see which users made changes to the code - and tell them off if they added/removed code that broke your application).</p>
 
 <p>To inform Git what your username and email address is, open the Terminal application on your Mac and enter:</p>
-<div class="highlight"><pre><code class="text">git config --global user.name &quot;Joe Bloggs&quot;
-git config --global user.email &quot;joe@bloggs.com&quot;
-</code></pre></div>
+
+<pre><code>git config --global user.name "Joe Bloggs"
+git config --global user.email "joe@bloggs.com"
+</code></pre>
+
 <p>You can check these settings at any time within the Terminal by typing:</p>
-<div class="highlight"><pre><code class="text">git config user.name
+
+<pre><code>git config user.name
 git config user.email
-</code></pre></div>
+</code></pre>
+
 <p>Next you want to make sure that Git ignores any ‘white space’ changes. Now this needs a little bit extra explanation: Git tracks file <em>content</em> and NOT individual files. So if you add an empty new line to a file (and Git is tracking that file) then Git will inform you that the file has been modified but you don’t really want a single empty line to be flagged up to you (not in web development really as white space is not that important). To have Git ignore whitespace changes you can enter the following into the Terminal:</p>
 
 <p><code>git config --global apply.whitespace nowarn</code></p>
@@ -120,9 +125,11 @@ git config user.email
 <p><code>git init</code></p>
 
 <p>If you’re Mac is set-up to not show ‘hidden’ folders then it wont look like much has happened (although you will now see a message in the Terminal telling you a new empty repository was created). If you really want to see hidden files and folders on your Mac then type the following into the Terminal…</p>
-<div class="highlight"><pre><code class="text">defaults write com.apple.Finder AppleShowAllFiles YES
+
+<pre><code>defaults write com.apple.Finder AppleShowAllFiles YES
 killall Finder
-</code></pre></div>
+</code></pre>
+
 <p>…the first line tells Finder to allow showing of hidden files, and the second line restarts Finder so you can see the changes take effect. Once you have a new Git repository set-up you need to tell Git what files/folders to start ‘tracking’.</p>
 
 <h2>Adding files for Git to track</h2>
@@ -155,7 +162,7 @@ killall Finder
 
 <h2>Commiting files to Git</h2>
 
-<p><code>git commit -m &#39;Add a README file to help explain the project&#39;</code></p>
+<p><code>git commit -m 'Add a README file to help explain the project'</code></p>
 
 <p>…the above command uses the <code>-m</code> ‘flag’ which means you’re about to add a comment to go along with this ‘commit’. You don’t have to use the <code>-m</code> flag, but if you don’t then Terminal will try and open the default text editor so you can enter your commit description and I find it quicker and easier just to use the <code>-m</code> command.</p>
 
@@ -173,12 +180,14 @@ killall Finder
 
 <p>Basically, in the Terminal you type…</p>
 
-<p><code>ssh-keygen -t rsa -C &quot;joe@bloggs.com&quot;</code></p>
+<p><code>ssh-keygen -t rsa -C "joe@bloggs.com"</code></p>
 
 <p>…obviously change the email address from <code>joe@bloggs.com</code> to whatever email address you used to sign-up to GitHub with. Terminal will then tell you…</p>
-<div class="highlight"><pre><code class="text">Generating public/private rsa key pair.
+
+<pre><code>Generating public/private rsa key pair.
 Enter file in which to save the key (/Users/tekkub/.ssh/id_rsa):
-</code></pre></div>
+</code></pre>
+
 <p>…but your message will be slightly different in that the directory path in the brackets (e.g. <code>(/Users/tekkub/.ssh/id_rsa)</code>) will likely be different on your computer.</p>
 
 <p>The next thing to do is to simply press <code>ENTER</code> and Terminal will generate a new SSH Public Key within the hidden ‘id_rsa’ file it mentions (if you didn’t hit <code>ENTER</code> then the Terminal would expect you to enter the name of a file to save the SSH Public Key into - so I didn’t bother messing around doing that and just saved the key into the file the Terminal suggested I use). Next Terminal will ask you to enter a pass phrase…</p>
@@ -236,10 +245,12 @@ Enter file in which to save the key (/Users/tekkub/.ssh/id_rsa):
 <p>Now we can start pushing files any time we like to this particular project. I had a file called ‘robots.txt’ in my project.</p>
 
 <p>Lets say I made an update to the file ‘robots.txt’ - I can push that on it’s own:</p>
-<div class="highlight"><pre><code class="text">git add robots.txt
-git commit -m &#39;Add some new robot configurations&#39;
+
+<pre><code>git add robots.txt
+git commit -m 'Add some new robot configurations'
 git push origin master
-</code></pre></div>
+</code></pre>
+
 <h2>Removing/Editing files</h2>
 
 <p>To remove a file (e.g. lets remove the ‘robots.txt’ file) simply type…</p>
@@ -247,9 +258,11 @@ git push origin master
 <p><code>git rm robots.txt</code></p>
 
 <p>…then do the normal commit with message and push.</p>
-<div class="highlight"><pre><code class="text">git commit -m &#39;Remove the robots.txt file&#39;
+
+<pre><code>git commit -m 'Remove the robots.txt file'
 git push origin master
-</code></pre></div>
+</code></pre>
+
 <p>To edit existing files is the same process as adding files. But beware, as you’ll get an error if the file hasn’t actually been changed!</p>
 
 <p>Remember, Git tracks file <em>content</em>, NOT individual files. So it wont like you wasting its time by uploading files that haven’t changed at all.</p>
@@ -288,7 +301,7 @@ git push origin master
 
 <p><code>git branch</code></p>
 
-<p>Create a new branch called “my<em>new</em>branch” which is a complete copy of ‘master’ for you to mess around with:</p>
+<p>Create a new branch called “my_new_branch” which is a complete copy of ‘master’ for you to mess around with:</p>
 
 <p><code>git branch my_new_branch</code></p>
 
@@ -310,7 +323,7 @@ git push origin master
 
 <p>By default it shows only the branch you are currently viewing - if you want it to show both branches at once the use <code>gitk --all</code>.</p>
 
-<p>If I wanted to merge a new branch ‘name<em>of</em>branch’ with my master branch then I would call:</p>
+<p>If I wanted to merge a new branch ‘name_of_branch’ with my master branch then I would call:</p>
 
 <p><code>git merge name_of_branch</code></p>
 
@@ -324,7 +337,7 @@ git push origin master
 
 <p><code>git tag tag_name (e.g. git tag v0.5.6)</code></p>
 
-<p><em>NOTE: tags must have no spaces (e.g. my<em>first</em>tag):</em></p>
+<p><em>NOTE: tags must have no spaces (e.g. my_first_tag):</em></p>
 
 <p>An annotated tag:</p>
 
@@ -332,7 +345,7 @@ git push origin master
 
 <p>An annotated tag with a comment:</p>
 
-<p><code>git tag -a tag_name -m &quot;my first release candidate&quot;</code></p>
+<p><code>git tag -a tag_name -m "my first release candidate"</code></p>
 
 <p>To push your tags you need to do the following - because git push alone wont do it (thanks to <a href="http://twitter.com/mathias">@mathias</a> for this information):</p>
 
@@ -356,7 +369,7 @@ git push origin master
 
 <p>*Note: it shows the name of the tag followed by how many commits have happened since its inception (as well as the first seven characters from the hash that references the commit, and the -g is not part of the hash; it’s a suffix that stands for “Git” - according to the Git documentation it “useful in an environment where people may use different SCMs”).</p>
 
-<p>e.g. my<em>first</em>tag-1-gd8a7d27*</p>
+<p>e.g. my_first_tag-1-gd8a7d27*</p>
 
 <h2>Tell Git to ignore certain files and formats</h2>
 
@@ -365,16 +378,20 @@ git push origin master
 <p>A good example of using .gitignore is if you wanted a config script - e.g. Settings.php - that held your database username/password ignored so it wasn’t accidentally pushed to a public repository (such as GitHub):</p>
 
 <p>You can use a <code>#</code> as a comment line and then specify the types of files or specific files to be ignored, such as:</p>
-<div class="highlight"><pre><code class="text">#Mac OS X files
+
+<pre><code>#Mac OS X files
 .DS_Store
 
 # VIM leave-behinds
 *.swp
-</code></pre></div>
+</code></pre>
+
 <p>You can also ignore all files of a certain type except one by using the bang (!) such as:</p>
-<div class="highlight"><pre><code class="text">*.log
+
+<pre><code>*.log
 !errors.log
-</code></pre></div>
+</code></pre>
+
 <h2>Best practices for Commit Messages</h2>
 
 <p>As requested by <a href="http://twitter.com/mathias">@Mathias</a> (on quite a few occasions…) there are a few best practices to consider when writing your commit messages.</p>
@@ -397,6 +414,7 @@ git push origin master
 <li><code>gitk</code> has a column for the summary</li>
 <li>GitHub uses the summary in various places in their user interface</li>
 </ul>
+
 
 <p>When writing your commit message it’s probably a good idea to write in the ‘present tense’ (e.g. ‘fix’ rather than ‘fixed’) - this is to help keep consistency between other git commands such as <code>git merge</code> | <code>git revert</code>.</p>
 

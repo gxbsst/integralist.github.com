@@ -63,11 +63,9 @@ Variables are a great way to not have to repeat entering the same value over and
 
 To create a variable in SASS you simply prefix the name of the variable with a dollar sign: `$brand_color: #C00;` I can now use `$brand_color` wherever I like. For example…
 
-```
-.header {
-	color: $brand_color;
-}
-```
+	.header {
+		color: $brand_color;
+	}
 
 This makes life a lot easier and although I've seen people claim that OOCSS can work around this, it can, but not easily and so using SASS for this alone is still extremely useful in my mind.
 
@@ -77,10 +75,8 @@ I can't imagine me ever using this feature, but I've included it because it also
 
 You can use all standard operators (*, /, +, -) for example:
 
-```
-$width: 10px; 
-$double_width: $width * 2;
-```
+	$width: 10px; 
+	$double_width: $width * 2;
 
 You can do calculations inline (i.e. where the property value is set) and you can also group calculations:
 
@@ -92,59 +88,45 @@ These are very useful. A lot of times you have for example 'hover' effects that 
 
 `lighten(colour, percentage)`
 	
-```
-.txt-light {
-	color: lighten($brand_color, 30%);
-}
-```
+	.txt-light {
+		color: lighten($brand_color, 30%);
+	}
 
 `darken(colour, percentage)`
 
-```
-.txt-dark {
-	color: darken($brand_color, 10%);
-}
-```
+	.txt-dark {
+		color: darken($brand_color, 10%);
+	}
 
 `saturate(colour, percentage)`
 
-```
-.txt-sat {
-	color: saturate($brand_color, 100%);
-}
-```
+	.txt-sat {
+		color: saturate($brand_color, 100%);
+	}
 
 `desaturate(colour, percentage)`
 
-```
-.txt-desat {
-	color: desaturate($brand_color, 20%);
-}
-```
+	.txt-desat {
+		color: desaturate($brand_color, 20%);
+	}
 
 `adjust-hue(colour, degrees)`
 
-```
-.txt-hue {
-	color: adjust-hue($brand_color, 180);
-}
-```
+	.txt-hue {
+		color: adjust-hue($brand_color, 180);
+	}
 
 `grayscale(colour)`
 
-```
-.txt-greyscale {
-	color: grayscale($brand_color);
-}
-```
+	.txt-greyscale {
+		color: grayscale($brand_color);
+	}
 
 `mix(colour, colour)`
 
-```
-.txt-mix {
-	color: mix($brand_color, #C00);
-}
-```
+	.txt-mix {
+		color: mix($brand_color, #C00);
+	}
 
 ###Importing
 
@@ -162,36 +144,30 @@ To be honest, it's likely that any stylesheets you have deemed modular enough to
 
 For example:
 
-```
-$brand_color = #0000FF;
-.brand { 
-	color: $brand_color; 
-}
-// MORE STYLES
-@import "other.scss";
-```
+	$brand_color = #0000FF;
+	.brand { 
+		color: $brand_color; 
+	}
+	// MORE STYLES
+	@import "other.scss";
 
 …generates the following CSS…
 
-```
-.brand { 
-	color: blue; 
-}
-// MORE STYLES
-.brand { 
-	background-color: red; 
-}
-```
+	.brand { 
+		color: blue; 
+	}
+	// MORE STYLES
+	.brand { 
+		background-color: red; 
+	}
 
 …which obviously isn't as efficient or clean as…
 
-```
-.brand { 
-	color: blue; 
-	background-color: red; 
-}
-// MORE STYLES
-```
+	.brand { 
+		color: blue; 
+		background-color: red; 
+	}
+	// MORE STYLES
 
 …but that's the trade-off between SASS features and the efficiency of the produced code.
 
@@ -207,30 +183,26 @@ The reason I'm even mentioning this feature is so you know not to bother with it
 
 Anywhere you have a CSS class you can re-import that inside another rule:
 
-```
-.myClass {
-	border: 1px solid #969;
-	color: red;
-}
+	.myClass {
+		border: 1px solid #969;
+		color: red;
+	}
 
-button {
-	@extend .myClass;
-	background-color: orange;
-}
-```
+	button {
+		@extend .myClass;
+		background-color: orange;
+	}
 
 …which generates the following CSS…
 
-```
-.myClass, button {
-	border: 1px solid #969;
-	color: red;
-}
+	.myClass, button {
+		border: 1px solid #969;
+		color: red;
+	}
 
-button {
-	background-color: orange;
-}
-```
+	button {
+		background-color: orange;
+	}
 
 A couple of last words of caution: `extend` avoids code duplication but it also causes other problems in that the amount of selectors can become an issue. If you @extend the same base class multiple times you may end up with a rule that has thousands of selectors, which isn't good for performance and can even make the browser crash (limit its use if you must use it).
 
@@ -244,69 +216,57 @@ Remember that this can cause code duplication so please do NOT use 'Mixins' (OOC
 
 You create a mixing like so:
 
-```
-@mixin .myMixin { 
-	color: blue; 
-}
-.product_title {
-	@include .myMixin;
-}
-```
+	@mixin .myMixin { 
+		color: blue; 
+	}
+	.product_title {
+		@include .myMixin;
+	}
 
 …and you can change the values like so…
 
-```
-@mixin .myMixin($set_colour) { 
-	color: $set_colour; 
-}
-.product_title {
-	@include .myMixin(#FF0000);
-}
-```
+	@mixin .myMixin($set_colour) { 
+		color: $set_colour; 
+	}
+	.product_title {
+		@include .myMixin(#FF0000);
+	}
 
 …you can also define a default value if none is provided…
 
-```
-@mixin .myMixin($set_colour: #0000FF) { 
-	color: $set_colour;
-}
-```
+	@mixin .myMixin($set_colour: #0000FF) { 
+		color: $set_colour;
+	}
 
 …you can use mixin's for things like CSS3 properties…
 
-```
-@mixin rounded_borders($color, $width: 5px, $rounding: 5px) { 
-	-moz-border-radius: $rounding $rounding; 
-	-webkit-border-radius: $rounding $rounding; 
-	-khtml-border-radius: $rounding $rounding; 
-	-o-border-radius: $rounding $rounding;
-     	border-radius: $rounding $rounding;
-     	border: $width solid $color;
-}
+	@mixin rounded_borders($color, $width: 5px, $rounding: 5px) { 
+		-moz-border-radius: $rounding $rounding; 
+		-webkit-border-radius: $rounding $rounding; 
+		-khtml-border-radius: $rounding $rounding; 
+		-o-border-radius: $rounding $rounding;
+	     	border-radius: $rounding $rounding;
+	     	border: $width solid $color;
+	}
 
-@mixin opacity($opacity) {
-	filter: alpha(opacity=#{$opacity}); // IE 5-9+ 
-	opacity: $opacity * 0.01; 
-}
-```
+	@mixin opacity($opacity) {
+		filter: alpha(opacity=#{$opacity}); // IE 5-9+ 
+		opacity: $opacity * 0.01; 
+	}
 
 …and use the opacity like so…
 
-```
-.h1 { 
-	// Use the IE numbering style (instead of the W3C's 0-1 numbering style)
-	@include opacity(60);
-}
-```
+	.h1 { 
+		// Use the IE numbering style (instead of the W3C's 0-1 numbering style)
+		@include opacity(60);
+	}
 
 …or you could use the reverse…
 
-```
-@mixin opacity($opacity) {
-	filter: alpha(opacity=#{$opacity*100}); // IE 5-9+ 
-	opacity: $opacity; 
-}
-```
+	@mixin opacity($opacity) {
+		filter: alpha(opacity=#{$opacity*100}); // IE 5-9+ 
+		opacity: $opacity; 
+	}
 
 ###Interpolation
 
@@ -314,21 +274,18 @@ One area where mixins can't help you is when there is some specific CSS3 syntax 
 
 One way to work around this issue is to use `interpolation`. The way it works is that you wrap a variable name with `#{}` e.g. `#{$my_variable}` and that will dynamically insert the value at that place in your CSS. Might sound a bit confusing so best to demonstrate this with an example, and the best example I can think of is again the `background-image` property with multiple different vendor prefixes… 
 
-```
-// Variable
-$prefixes:-webkit,-moz,-ms,-o;
+	// Variable
+	$prefixes:-webkit,-moz,-ms,-o;
 
-// Loop over each item in the $prefixes variable
-// using interpolation to insert the relevant value dynamically
-@each $prefix in $prefixes {
-	background-image: #{$prefix}-linear-gradient(rgba(255,255,255,0), rgba(0,0,0,0.1));
-}
+	// Loop over each item in the $prefixes variable
+	// using interpolation to insert the relevant value dynamically
+	@each $prefix in $prefixes {
+		background-image: #{$prefix}-linear-gradient(rgba(255,255,255,0), rgba(0,0,0,0.1));
+	}
 
-// The following example might be better placed inside a mixin or extend
-@each $prefix in $prefixes {
-	#{$prefix}-border-radius: 10px;
-}
-
-```
+	// The following example might be better placed inside a mixin or extend
+	@each $prefix in $prefixes {
+		#{$prefix}-border-radius: 10px;
+	}
 
 …most of the time mixins will help you work around CSS3 vendor prefixes but in the above instance `interpolation` is the way forward.
