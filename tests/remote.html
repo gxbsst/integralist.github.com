@@ -1,0 +1,71 @@
+<!doctype html>
+<html dir="ltr" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Seamless iframes - Remote</title>
+    </head>
+    <body>
+        Remote
+        
+        <script>
+            window.parent.addEventListener('message', function (e) {
+                var eventName = e.data[0];
+                var data      = e.data[1];
+                
+                switch (eventName) {
+                    case 'referrer':
+                        injectBaseElement(data);
+                        break;
+                    case 'styles':
+                        injectStyles(data);
+                        break;
+                }
+                //INSERT DYNAMICALLY <base href="http://localhost/seamless-iframe/" target="_parent">
+            }, false);
+
+            function injectBaseElement (data) {
+                alert(data);
+            }
+
+            function injectStyles (data) {
+                alert(data);
+                // using jQuery: $(document.body).css(styles);
+            }
+
+            function resize(){
+                var height = 1000;
+                // using jQuery: var height = $(html).height();
+
+                window.parent.postMessage(['setHeight', height], '*');
+            }
+
+            /*
+                Look at using Lo-Dash's `debounce` method to prevent lots of queued up calls to `resize` firing
+                
+                e.g.
+
+                updateDom(function(){
+                    $('#foo').append('<div>bar</div>');
+                });
+                
+                function updateDom(callback) {
+                    callback();
+                    resize();
+                }
+
+                // Fires resize function 50ms after *last* call
+
+                var resize = _.debounce(function () {
+                    _resize();
+                }, 50);
+
+                function _resize(){
+                    // work out size and postMessage to parent
+                }
+
+                Also look at David Walsh's DOM mutation posts & his 'detecting DOM changes via CSS' to see if any useful pointers can be found
+             */
+        </script>
+    </body>
+</html>
