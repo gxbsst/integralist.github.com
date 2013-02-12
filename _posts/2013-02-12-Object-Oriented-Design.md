@@ -1,7 +1,7 @@
 ---
 layout: article
 title: Object-Oriented Design (OOD)
-strapline: xxx
+strapline: After reading through Sandi Metz book Practical Object-Oriented Design in Ruby I wanted to make sure I put down in a blog post (a distilled) break-down of all the great advice she provides (note that this post is mainly for my own reference/reminder, I strongly recommend you read the book as there is so much more you'll gain from reading the book compared to this post)
 ---
 
 All of the following information has been distilled from Sandi Metz' [Practical Object-Oriented Design in Ruby](http://www.poodr.info/), and although the code in this post is based on the Ruby language, don't worry - the concepts are applicable for any object-oriented language.
