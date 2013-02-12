@@ -17,6 +17,13 @@ img {
     max-width: 100%;
 }
 
+blockquote {
+    background-color: rgba(0,0,0,0.5);
+    font-style: italic;
+    padding: 1em 1em .2em;
+    margin-bottom: 1em;
+}
+
 .container {
     color: #fff;
     margin: auto;
