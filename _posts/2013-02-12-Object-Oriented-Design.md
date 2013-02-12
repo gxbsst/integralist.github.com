@@ -22,20 +22,20 @@ I would highly recommend you read [Practical Object-Oriented Design in Ruby](htt
 
 ##Summary
 
-Here is a quick summary for those of you who want a quick run down of what we're discussing in this post… 
+Here is a quick summary for those of you who want a quick run down of what we're discussing in this postâ€¦ 
 
 - Decouple your code
 - Describe your class to see if it does too much (e.g. use a single line description and try to avoid the words 'and', 'or' from occuring)
 - Review each method - you may find it doesn't belong in your class
 - Manage your dependencies
-	- Look at the arguments you're passing around
-	- Use dependency injection (don't hard code class names)
-	- Avoid direct references to complex data structures (transform them into a more readable form)
-	- Single Responsibility Principle (SRP)
-	- Review comments to ensure their purpose and usefulness
-		- Your commented coded could be better handled by moving into a separate method with a descriptive name
+    - Look at the arguments you're passing around
+    - Use dependency injection (don't hard code class names)
+    - Avoid direct references to complex data structures (transform them into a more readable form)
+    - Single Responsibility Principle (SRP)
+    - Review comments to ensure their purpose and usefulness
+        - Your commented coded could be better handled by moving into a separate method with a descriptive name
 - Write more flexible interfaces
-	- Object-Oriented code is more about the 'messages' sent between objects than the objects themselves
+    - Object-Oriented code is more about the 'messages' sent between objects than the objects themselves
     - Think about the messages you want to send and create objects/interfaces to handle them
     - Ask for what you *want* and don't include *how* to do what you want
     - Ensure messages you send (e.g. method calls you make) don't rely on knowledge of the object that implements the method
@@ -49,7 +49,7 @@ Here is a quick summary for those of you who want a quick run down of what we're
 
 ##Objects
 
-In one line… 
+In one lineâ€¦ 
 
 > Object-Oriented Design is about the messages that get sent between objects and not the objects themselves.
 
@@ -63,7 +63,7 @@ Ask each method a question and see if any sound out of place.
 
 e.g. "Please Mr. `ClassName` what is your `method_name`?"
 
-For example… 
+For exampleâ€¦ 
 
     class Gear
         attr_reader :chainring, :cog, :rim, :tire
@@ -85,13 +85,13 @@ For example…
         end
     end
 
-…remember that `attr_reader` generates a getter method and those count too… 
+â€¦remember that `attr_reader` generates a getter method and those count tooâ€¦ 
 
 - "Please Mr. `Gear` what is your `ratio`?" **- fine**
 - "Please Mr. `Gear` what is your `gear_inches`?" **- fine**
 - "Please Mr. `Gear` what is your `tire`?" **- hmm? notice this doesn't sound like it quite fits the purpose of a 'Gears' class**
 
-Also ensure that a class accesses attributes/properties via a getter method rather than directly accessing them… 
+Also ensure that a class accesses attributes/properties via a getter method rather than directly accessing themâ€¦ 
 
     class Gear
         attr_reader :chainring, :cog
@@ -111,13 +111,13 @@ Also ensure that a class accesses attributes/properties via a getter method rath
 
 Dependencies can be many things, for example: external class references or arguments passed to methods.
 
-Below are some rules to help you spot a dependency and how to better manage them… 
+Below are some rules to help you spot a dependency and how to better manage themâ€¦ 
 
 - ###Direct References
 
-	Avoid 'direct references'. These are things like drilling down into a complex array structure to grab some data to work with. You may know the data structure now, but that's not to say it won't change in the future. But also, linking to a complicated data structure is confusing to new users because it obscures what the data really is. 
+    Avoid 'direct references'. These are things like drilling down into a complex array structure to grab some data to work with. You may know the data structure now, but that's not to say it won't change in the future. But also, linking to a complicated data structure is confusing to new users because it obscures what the data really is. 
 
-    So in the following example we are accessing `item[0]` and `item[1]`… 
+    So in the following example we are accessing `item[0]` and `item[1]`â€¦ 
     
         #BAD
         class MyClass
@@ -139,9 +139,9 @@ Below are some rules to help you spot a dependency and how to better manage them
         obj = MyClass.new([[10, 25],[3, 9],[41, 7]])
         obj.do_something
     
-    …but the order of the items may not always be what you think they are and the direct access is not very descriptive of what the data is that you're accessing. 
+    â€¦but the order of the items may not always be what you think they are and the direct access is not very descriptive of what the data is that you're accessing. 
     
-    Instead you should 'transform' your data structure into a simpler and easier to understand structure (you can do this in Ruby using `Struct` which is great for creating basic data classes)…
+    Instead you should 'transform' your data structure into a simpler and easier to understand structure (you can do this in Ruby using `Struct` which is great for creating basic data classes)â€¦
 
         #GOOD
         class MyClass
@@ -172,40 +172,40 @@ Below are some rules to help you spot a dependency and how to better manage them
         obj.do_something
 
 - ###Single Responsibility Principle
-	
-	You should refactor your methods so they do one thing (also known as the 'Single Responsibility Principle'). One reason for this is that methods become easier to test, but also it means their simplicity provides a greater clarity that can highlight whether certain methods should even be a part of your class. 
+    
+    You should refactor your methods so they do one thing (also known as the 'Single Responsibility Principle'). One reason for this is that methods become easier to test, but also it means their simplicity provides a greater clarity that can highlight whether certain methods should even be a part of your class. 
 
-	So for example, you may include a complex algorithm within a single method of your class and because of its complexity you may miss the fact that some of the algorithm should actually have been handled by a separate class altogether.
-	
-	Following the Single Responsibility Principle will result in smaller (and greater number of) small sized methods. This result will encourage greater code reuse from yourself as well as other users of your code and will also make your methods easier to test and to move around into different classes.
+    So for example, you may include a complex algorithm within a single method of your class and because of its complexity you may miss the fact that some of the algorithm should actually have been handled by a separate class altogether.
+    
+    Following the Single Responsibility Principle will result in smaller (and greater number of) small sized methods. This result will encourage greater code reuse from yourself as well as other users of your code and will also make your methods easier to test and to move around into different classes.
 
 - ###Remove comments
 
-	If a piece of code needs a comment then chances are you need to extract that code into a separate method. The name of the method should serve the same purpose as the comment once did. This isn't always the case, but as part of your analysis you should reconsider any comments to ensure they are helpful or just noise.
+    If a piece of code needs a comment then chances are you need to extract that code into a separate method. The name of the method should serve the same purpose as the comment once did. This isn't always the case, but as part of your analysis you should reconsider any comments to ensure they are helpful or just noise.
 
 - ###Do not tightly couple your code
 
-	Do not tightly couple your code. The best way to decouple your code is to manage your dependencies. 
+    Do not tightly couple your code. The best way to decouple your code is to manage your dependencies. 
 
-	For example, if you look at a class that utilises another class for some additional functionality, that secondary class has become the dependency. Also, if you use that dependency in multiple places and the class was to change in some way then how many places would your class potentially break or need to be updated? 
-	
-	A class referencing the name of another class isn't necessarily a major issue in itself (as the change of a class name can easily be rectified using a modern IDE find & replace feature), the bigger problem is from the lack of code reuse. Your method is tightly coupled to a specific class. 
-	
-	Some other things to look out for are: arguments passed to a method on the dependency class (if the class name itself is hard coded then technically that is an area of concern as well - if the dependency class was renamed then your code which references the old name would need to be updated). Even down to things like the order of the arguments could be considered a dependency. Every dependency results in more brittle, tightly coupled code. 
+    For example, if you look at a class that utilises another class for some additional functionality, that secondary class has become the dependency. Also, if you use that dependency in multiple places and the class was to change in some way then how many places would your class potentially break or need to be updated? 
+    
+    A class referencing the name of another class isn't necessarily a major issue in itself (as the change of a class name can easily be rectified using a modern IDE find & replace feature), the bigger problem is from the lack of code reuse. Your method is tightly coupled to a specific class. 
+    
+    Some other things to look out for are: arguments passed to a method on the dependency class (if the class name itself is hard coded then technically that is an area of concern as well - if the dependency class was renamed then your code which references the old name would need to be updated). Even down to things like the order of the arguments could be considered a dependency. Every dependency results in more brittle, tightly coupled code. 
 
 - ###Facade
 
-	Do not let external dependencies to permeate your code. 
-	
-	One way to prevent this is to wrap any dependencies in a method so you can implement a facade over the original interface allowing it to match your own API.
-	
-	For example, the argument order passed to a method can be normalised via a facade that accepts arguments as a hash.
+    Do not let external dependencies to permeate your code. 
+    
+    One way to prevent this is to wrap any dependencies in a method so you can implement a facade over the original interface allowing it to match your own API.
+    
+    For example, the argument order passed to a method can be normalised via a facade that accepts arguments as a hash.
 
 - ###Dependency Directions
 
-	Make sure you spend time considering the direction of your dependencies.
+    Make sure you spend time considering the direction of your dependencies.
 
-    When considering the direction of your dependencies (e.g. does class A rely more on class B, or vice versa) remember to think about the following 3 points…
+    When considering the direction of your dependencies (e.g. does class A rely more on class B, or vice versa) remember to think about the following 3 pointsâ€¦
 
     1. Some classes are more likely to change than others
 
@@ -225,7 +225,7 @@ Below are some rules to help you spot a dependency and how to better manage them
 
 - The key to managing dependencies is to control their direction. 
 
-And to quote another… 
+And to quote anotherâ€¦ 
 
 > "Depend on things that change less often than you do"
 
@@ -233,19 +233,19 @@ And to quote another…
 
 Object-Oriented applications are made up of objects(classes) but are defined by the messages that pass between these objects. 
 
-Our code must handle…
+Our code must handleâ€¦
 
 - What objects *know* (i.e. their responsibility)
 - *Who* they know (i.e. their dependencies)
 - *How* they talk to one another
 
-…and this is done via our object's interfaces. 
+â€¦and this is done via our object's interfaces. 
 
 Creating a flexible interface is essential to good Object-Oriented design. 
 
 Each object should reveal as little about itself, and know as little about other objects as possible. 
 
-There are two parts to our interfaces: a Public Interface and a Private Interface… 
+There are two parts to our interfaces: a Public Interface and a Private Interfaceâ€¦ 
 
 ###Public interface:
 
@@ -269,7 +269,7 @@ Avoid asking the question "What should this class do?".
 
 Make sure your interfaces are designed in such a way that they ask for what they want and don't tell another object what to do. 
 
-For example, If you have a Mechanic class then don't call its methods "clean_bike", "pump_tyres", "check_brakes" directly. Instead call a single method call "prepare_bike". This way if the mechanic object changes it's implementation then the object that calls "prepare_bike" doesn't have to change as well. 
+For example, If you have a Mechanic class and you want the class to prepare a bike for you then don't call the Mechanic's methods: "clean_bike", "pump_tyres", "check_brakes" directly. Instead you know the message you want to send so create an interface that supports it by creating a method on Mechanic called "prepare_bike" and send your message to that method. This way if the Mechanic class changes its implementation then the object that calls the "prepare_bike" method doesn't have to change as well. 
 
 ###Reducing Context
 
@@ -382,20 +382,20 @@ If on the other hand your objects are all different and the design of the object
 
 ##Summary
 
-So just to quickly recap on some of the important points covered… 
+So just to quickly recap on some of the important points coveredâ€¦ 
 
 - Decouple your code
 - Describe your class to see if it does too much (e.g. use a single line description and try to avoid the words 'and', 'or' from occuring)
 - Review each method - you may find it doesn't belong in your class
 - Manage your dependencies
-	- Look at the arguments you're passing around
-	- Use dependency injection (don't hard code class names)
-	- Avoid direct references to complex data structures (transform them into a more readable form)
-	- Single Responsibility Principle (SRP)
-	- Review comments to ensure their purpose and usefulness
-		- Your commented coded could be better handled by moving into a separate method with a descriptive name
+    - Look at the arguments you're passing around
+    - Use dependency injection (don't hard code class names)
+    - Avoid direct references to complex data structures (transform them into a more readable form)
+    - Single Responsibility Principle (SRP)
+    - Review comments to ensure their purpose and usefulness
+        - Your commented coded could be better handled by moving into a separate method with a descriptive name
 - Write more flexible interfaces
-	- Object-Oriented code is more about the 'messages' sent between objects than the objects themselves
+    - Object-Oriented code is more about the 'messages' sent between objects than the objects themselves
     - Think about the messages you want to send and create objects/interfaces to handle them
     - Ask for what you *want* and don't include *how* to do what you want
     - Ensure messages you send (e.g. method calls you make) don't rely on knowledge of the object that implements the method

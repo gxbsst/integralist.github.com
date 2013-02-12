@@ -48,7 +48,7 @@
 
 <h2>Summary</h2>
 
-<p>Here is a quick summary for those of you who want a quick run down of what we're discussing in this post…</p>
+<p>Here is a quick summary for those of you who want a quick run down of what we're discussing in this postâ€¦</p>
 
 <ul>
 <li>Decouple your code</li>
@@ -93,7 +93,7 @@
 
 <h2>Objects</h2>
 
-<p>In one line…</p>
+<p>In one lineâ€¦</p>
 
 <blockquote><p>Object-Oriented Design is about the messages that get sent between objects and not the objects themselves.</p></blockquote>
 
@@ -107,7 +107,7 @@
 
 <p>e.g. "Please Mr. <code>ClassName</code> what is your <code>method_name</code>?"</p>
 
-<p>For example…</p>
+<p>For exampleâ€¦</p>
 
 <pre><code>class Gear
     attr_reader :chainring, :cog, :rim, :tire
@@ -130,7 +130,7 @@
 end
 </code></pre>
 
-<p>…remember that <code>attr_reader</code> generates a getter method and those count too…</p>
+<p>â€¦remember that <code>attr_reader</code> generates a getter method and those count tooâ€¦</p>
 
 <ul>
 <li>"Please Mr. <code>Gear</code> what is your <code>ratio</code>?" <strong>- fine</strong></li>
@@ -139,7 +139,7 @@ end
 </ul>
 
 
-<p>Also ensure that a class accesses attributes/properties via a getter method rather than directly accessing them…</p>
+<p>Also ensure that a class accesses attributes/properties via a getter method rather than directly accessing themâ€¦</p>
 
 <pre><code>class Gear
     attr_reader :chainring, :cog
@@ -160,14 +160,14 @@ end
 
 <p>Dependencies can be many things, for example: external class references or arguments passed to methods.</p>
 
-<p>Below are some rules to help you spot a dependency and how to better manage them…</p>
+<p>Below are some rules to help you spot a dependency and how to better manage themâ€¦</p>
 
 <ul>
 <li><h3>Direct References</h3>
 
 <p>  Avoid 'direct references'. These are things like drilling down into a complex array structure to grab some data to work with. You may know the data structure now, but that's not to say it won't change in the future. But also, linking to a complicated data structure is confusing to new users because it obscures what the data really is.</p>
 
-<p>  So in the following example we are accessing <code>item[0]</code> and <code>item[1]</code>…</p>
+<p>  So in the following example we are accessing <code>item[0]</code> and <code>item[1]</code>â€¦</p>
 
 <pre><code>  #BAD
   class MyClass
@@ -190,9 +190,9 @@ end
   obj.do_something
 </code></pre>
 
-<p>  …but the order of the items may not always be what you think they are and the direct access is not very descriptive of what the data is that you're accessing.</p>
+<p>  â€¦but the order of the items may not always be what you think they are and the direct access is not very descriptive of what the data is that you're accessing.</p>
 
-<p>  Instead you should 'transform' your data structure into a simpler and easier to understand structure (you can do this in Ruby using <code>Struct</code> which is great for creating basic data classes)…</p>
+<p>  Instead you should 'transform' your data structure into a simpler and easier to understand structure (you can do this in Ruby using <code>Struct</code> which is great for creating basic data classes)â€¦</p>
 
 <pre><code>  #GOOD
   class MyClass
@@ -252,7 +252,7 @@ end
 
 <p>  Make sure you spend time considering the direction of your dependencies.</p>
 
-<p>  When considering the direction of your dependencies (e.g. does class A rely more on class B, or vice versa) remember to think about the following 3 points…</p>
+<p>  When considering the direction of your dependencies (e.g. does class A rely more on class B, or vice versa) remember to think about the following 3 pointsâ€¦</p>
 
 <ol>
 <li><p>Some classes are more likely to change than others</p></li>
@@ -274,7 +274,7 @@ end
 </ul>
 
 
-<p>And to quote another…</p>
+<p>And to quote anotherâ€¦</p>
 
 <blockquote><p>"Depend on things that change less often than you do"</p></blockquote>
 
@@ -282,7 +282,7 @@ end
 
 <p>Object-Oriented applications are made up of objects(classes) but are defined by the messages that pass between these objects.</p>
 
-<p>Our code must handle…</p>
+<p>Our code must handleâ€¦</p>
 
 <ul>
 <li>What objects <em>know</em> (i.e. their responsibility)</li>
@@ -291,13 +291,13 @@ end
 </ul>
 
 
-<p>…and this is done via our object's interfaces.</p>
+<p>â€¦and this is done via our object's interfaces.</p>
 
 <p>Creating a flexible interface is essential to good Object-Oriented design.</p>
 
 <p>Each object should reveal as little about itself, and know as little about other objects as possible.</p>
 
-<p>There are two parts to our interfaces: a Public Interface and a Private Interface…</p>
+<p>There are two parts to our interfaces: a Public Interface and a Private Interfaceâ€¦</p>
 
 <h3>Public interface:</h3>
 
@@ -327,7 +327,7 @@ end
 
 <p>Make sure your interfaces are designed in such a way that they ask for what they want and don't tell another object what to do.</p>
 
-<p>For example, If you have a Mechanic class then don't call its methods "clean_bike", "pump_tyres", "check_brakes" directly. Instead call a single method call "prepare_bike". This way if the mechanic object changes it's implementation then the object that calls "prepare_bike" doesn't have to change as well.</p>
+<p>For example, If you have a Mechanic class and you want the class to prepare a bike for you then don't call the Mechanic's methods: "clean_bike", "pump_tyres", "check_brakes" directly. Instead you know the message you want to send so create an interface that supports it by creating a method on Mechanic called "prepare_bike" and send your message to that method. This way if the Mechanic class changes its implementation then the object that calls the "prepare_bike" method doesn't have to change as well.</p>
 
 <h3>Reducing Context</h3>
 
@@ -445,7 +445,7 @@ end
 
 <h2>Summary</h2>
 
-<p>So just to quickly recap on some of the important points covered…</p>
+<p>So just to quickly recap on some of the important points coveredâ€¦</p>
 
 <ul>
 <li>Decouple your code</li>
