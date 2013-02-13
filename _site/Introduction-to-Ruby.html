@@ -57,8 +57,8 @@
 <li>Constants</li>
 <li>Symbols</li>
 <li>Functions/Methods</li>
-<li>Code Blocks</li>
-<li>Lambdas</li>
+<li>Blocks</li>
+<li>Lambdas/Procs</li>
 <li>Classes</li>
 <li>Loops</li>
 <li>Conditionals</li>
@@ -386,9 +386,11 @@ Hash.instance_methods # =&gt; [:rehash, :to_hash, :to_a, :inspect, :to_s, :==, :
 
 <hr />
 
-<h3>Code Blocks</h3>
+<h3>Blocks</h3>
 
-<p>In Ruby a <code>code block</code> is any piece of code within either <code>do..end</code> or curly brackets <code>{}</code> and when creating a method if you want to pass a code block in as an argument you need to prefix the argument name with an ampersand <code>&amp;</code> like so…</p>
+<p>In Ruby a <code>code block</code> is any piece of code within either <code>do..end</code> or curly brackets <code>{}</code>.</p>
+
+<p>When creating a method, if you want to pass a code block in as an argument, you need to prefix the argument name with an ampersand <code>&amp;</code> like so…</p>
 
 <pre><code>def myfn (&amp;code_block)
     %w(a e I o u).each do |vowel|
@@ -399,7 +401,7 @@ end
 myfn { |x| puts x }
 </code></pre>
 
-<p>…what the above code does is create an Array and then iterates over it. Every items in the Array is passed to a code block (the code block which is passed in as an argument to the method, but could have been any code block defined else where in the program).</p>
+<p>…what the above code does is create an Array and then iterates over it. Every item in the Array is passed to the code block (the code block which is passed in as an argument to the method).</p>
 
 <p>But the above can be simplified...</p>
 
@@ -416,17 +418,55 @@ myfn { |x| puts x }
 
 <hr />
 
-<h3>Lambdas</h3>
+<h3>Lambdas/Procs</h3>
 
-<p>An extra note on code blocks worth mentioning is the use of lambdas. Lambdas are just a function without a name (e.g. anonymous functions in JavaScript) and so like functions the last expression is the return value. Lambdas are used to save a code block into a variable. That code block can then be executed using the lambda's <code>call</code> method. Ruby provides a method called <code>lambda</code> which can be followed by a code block…</p>
+<p>Ruby also has Lambdas and Proc objects. These are similar to Blocks but have some differences worth mentioning.</p>
 
-<pre><code>my_codeblock = lambda { |x| puts x }
-my_codeblock.call("some txt to print")
+<h4>Procs</h4>
+
+<p>Procs are the same as blocks but can be saved into a variable so they are easily reusable. A block on the other hand can't be reused. It can only be retyped for every method that you want to use it on.</p>
+
+<p>The following is an example of how to use a Proc object instead of Block...</p>
+
+<pre><code>my_proc = Proc.new { |x| puts x }
+
+def myfn proc_obj
+    %w(a e I o u).each do |vowel|
+        proc_obj.call(vowel)
+    end
+end
+
+myfn my_proc
 </code></pre>
 
-<p>…lambdas are very popular in other languages hence it's inclusion in Ruby (it's a nice way to pass around code blocks).</p>
+<p>Notice we use a <code>call</code> method on the Proc object rather than the <code>yield</code> keyword which we use for a Block.</p>
 
-<p>In Ruby this type of action is sometimes called a <code>Proc</code> (so in case you see <code>lambda</code>, <code>Proc</code>, <code>code blocks</code> mentioned in different articles, you now know they are all related and how).</p>
+<p>So if you have a one time piece of code you want to pass to a method then a block would make sense, but if you have a piece of code that you want to reuse across multiple methods then best to make it into a Proc object.</p>
+
+<h4>Lambdas</h4>
+
+<p>Lambdas are the same as Proc objects but with two slight differences.</p>
+
+<ol>
+<li>If you pass in the wrong number of arguments then the lambda will throw <code>ArgumentError</code></li>
+<li>If they have a <code>return</code> statement then the whole method wont suddenly return from that point (Proc objects cause the rest of the method to halt)</li>
+</ol>
+
+
+<p>The following is an example of how to use a Proc object instead of Block...</p>
+
+<pre><code>my_lambda = lambda { |x| puts x }
+
+def myfn lambda_obj
+    %w(a e I o u).each do |vowel|
+        lambda_obj.call(vowel)
+    end
+end
+
+myfn my_lambda
+</code></pre>
+
+<p>Lambdas are very popular in other languages hence it's inclusion in Ruby (it's just a nice way to pass around code blocks).</p>
 
 <p>The following example is modified from a test on RubyMonk but is a good example of using lambdas…</p>
 
@@ -444,8 +484,6 @@ l = lambda { |name1, name2| "#{name1} #{name2}" }
 
 with_names(l)
 </code></pre>
-
-<p>…notice we can't use <code>yield</code> because although a lambda is like a code block it isn't identical, and where a code block can be used with <code>yield</code>, a lambda requires the <code>call</code> method be used.</p>
 
 <hr />
 
