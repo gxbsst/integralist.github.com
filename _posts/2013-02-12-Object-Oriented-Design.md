@@ -6,7 +6,7 @@ strapline: After reading through Sandi Metz' book Practical Object-Oriented Desi
 
 All of the following information has been distilled from Sandi Metz' [Practical Object-Oriented Design in Ruby](http://www.poodr.info/), and although the code in this post is based on the Ruby language, don't worry - the concepts are applicable for any object-oriented language.
 
-I would highly recommend you read [Practical Object-Oriented Design in Ruby](http://www.poodr.info/) as the author goes into far more code detail and background information (as well as other subjects such as writing tests) which will better help you understand the concepts. But hopefully the following distilled version should be a sufficient starting point for you to start writing more flexible code.
+I would highly recommend you read [Practical Object-Oriented Design in Ruby](http://www.poodr.info/) as the author goes into far more code detail and background information (as well as other subjects such as writing tests) which will better help you understand the concepts. But hopefully the following distilled version should be a sufficient starting point for your journey into writing more flexible and maintainable code.
 
 ###What we'll cover:
 
@@ -22,7 +22,7 @@ I would highly recommend you read [Practical Object-Oriented Design in Ruby](htt
 
 ##Summary
 
-Here is a quick summary for those of you who want a quick run down of what we're discussing in this postâ€¦ 
+Here is a summary for those of you who want a quick run down of what we'll be discussing in this post... 
 
 - Decouple your code
 - Describe your class to see if it does too much (e.g. use a single line description and try to avoid the words 'and', 'or' from occuring)
@@ -49,7 +49,7 @@ Here is a quick summary for those of you who want a quick run down of what we're
 
 ##Objects
 
-In one lineâ€¦ 
+In one line... 
 
 > Object-Oriented Design is about the messages that get sent between objects and not the objects themselves.
 
@@ -63,7 +63,7 @@ Ask each method a question and see if any sound out of place.
 
 e.g. "Please Mr. `ClassName` what is your `method_name`?"
 
-For exampleâ€¦ 
+For example... 
 
     class Gear
         attr_reader :chainring, :cog, :rim, :tire
@@ -85,13 +85,13 @@ For exampleâ€¦
         end
     end
 
-â€¦remember that `attr_reader` generates a getter method and those count tooâ€¦ 
+...remember that `attr_reader` generates a getter method and those count too... 
 
 - "Please Mr. `Gear` what is your `ratio`?" **- fine**
 - "Please Mr. `Gear` what is your `gear_inches`?" **- fine**
 - "Please Mr. `Gear` what is your `tire`?" **- hmm? notice this doesn't sound like it quite fits the purpose of a 'Gears' class**
 
-Also ensure that a class accesses attributes/properties via a getter method rather than directly accessing themâ€¦ 
+Also ensure that a class accesses attributes/properties via a getter method rather than directly accessing them... 
 
     class Gear
         attr_reader :chainring, :cog
@@ -111,13 +111,13 @@ Also ensure that a class accesses attributes/properties via a getter method rath
 
 Dependencies can be many things, for example: external class references or arguments passed to methods.
 
-Below are some rules to help you spot a dependency and how to better manage themâ€¦ 
+Below are some rules to help you spot a dependency and how to better manage them... 
 
 - ###Direct References
 
     Avoid 'direct references'. These are things like drilling down into a complex array structure to grab some data to work with. You may know the data structure now, but that's not to say it won't change in the future. But also, linking to a complicated data structure is confusing to new users because it obscures what the data really is. 
 
-    So in the following example we are accessing `item[0]` and `item[1]`â€¦ 
+    So in the following example we are accessing `item[0]` and `item[1]`... 
     
         #BAD
         class MyClass
@@ -139,9 +139,9 @@ Below are some rules to help you spot a dependency and how to better manage them
         obj = MyClass.new([[10, 25],[3, 9],[41, 7]])
         obj.do_something
     
-    â€¦but the order of the items may not always be what you think they are and the direct access is not very descriptive of what the data is that you're accessing. 
+    ...but the order of the items may not always be what you think they are and the direct access is not very descriptive of what the data is that you're accessing. 
     
-    Instead you should 'transform' your data structure into a simpler and easier to understand structure (you can do this in Ruby using `Struct` which is great for creating basic data classes)â€¦
+    Instead you should 'transform' your data structure into a simpler and easier to understand structure (you can do this in Ruby using `Struct` which is great for creating basic data classes)...
 
         #GOOD
         class MyClass
@@ -205,7 +205,7 @@ Below are some rules to help you spot a dependency and how to better manage them
 
     Make sure you spend time considering the direction of your dependencies.
 
-    When considering the direction of your dependencies (e.g. does class A rely more on class B, or vice versa) remember to think about the following 3 pointsâ€¦
+    When considering the direction of your dependencies (e.g. does class A rely more on class B, or vice versa) remember to think about the following 3 points...
 
     1. Some classes are more likely to change than others
 
@@ -225,7 +225,7 @@ Below are some rules to help you spot a dependency and how to better manage them
 
 - The key to managing dependencies is to control their direction. 
 
-And to quote anotherâ€¦ 
+And to quote another... 
 
 > "Depend on things that change less often than you do"
 
@@ -233,19 +233,19 @@ And to quote anotherâ€¦
 
 Object-Oriented applications are made up of objects(classes) but are defined by the messages that pass between these objects. 
 
-Our code must handleâ€¦
+Our code must handle...
 
 - What objects *know* (i.e. their responsibility)
 - *Who* they know (i.e. their dependencies)
 - *How* they talk to one another
 
-â€¦and this is done via our object's interfaces. 
+...and this is done via our object's interfaces. 
 
 Creating a flexible interface is essential to good Object-Oriented design. 
 
 Each object should reveal as little about itself, and know as little about other objects as possible. 
 
-There are two parts to our interfaces: a Public Interface and a Private Interfaceâ€¦ 
+There are two parts to our interfaces: a Public Interface and a Private Interface... 
 
 ###Public interface:
 
@@ -382,7 +382,7 @@ If on the other hand your objects are all different and the design of the object
 
 ##Summary
 
-So just to quickly recap on some of the important points coveredâ€¦ 
+So just to quickly recap on some of the important points covered... 
 
 - Decouple your code
 - Describe your class to see if it does too much (e.g. use a single line description and try to avoid the words 'and', 'or' from occuring)
