@@ -32,45 +32,54 @@
 <p>Hopefully you'll find them useful too…</p>
 
 <ol>
-<li>Show where Git is installed</li>
-<li>Show the Git version installed</li>
-<li>Update your global user details</li>
-<li>Set-up a global ignore file</li>
-<li>Adding all files (inc. those marked as deleted)</li>
-<li>Writing a long commit</li>
-<li>Viewing file changes while writing your commit</li>
-<li>Viewing what files have been committed</li>
-<li>Improving <code>git log</code> with <code>git lg</code></li>
-<li>Shorter <code>git status</code></li>
-<li>Finding a commit that includes a specific phrase</li>
-<li>Only merging the files you want</li>
-<li>Stashing changes you're not ready to commit</li>
-<li>Revert all changes back to last commit</li>
-<li>Unstaging files</li>
-<li>Untrack a file without deleting it</li>
-<li>Amend your last commit</li>
-<li>Show the files within a commit</li>
-<li>See any changes between current working directory and last commit</li>
-<li>See changes between two commits</li>
-<li>Creating a branch and moving to it at the same time</li>
-<li>Deleting a branch</li>
-<li>Viewing all branches of a remote</li>
-<li>Checkout a remote branch</li>
-<li>Remove a remote</li>
-<li>Revert a specfic file back to an earlier version</li>
-<li>Viewing all commits for a file and who made those changes</li>
-<li>Commiting only parts of a file rather than the whole file</li>
-<li>Modifying your Git history with <code>rebase</code></li>
+<li><a href="#1">Show where Git is installed</a></li>
+<li><a href="#2">Show the Git version installed</a></li>
+<li><a href="#3">Update your global user details</a></li>
+<li><a href="#4">Set-up a global ignore file</a></li>
+<li><a href="#5">Adding all files (inc. those marked as deleted)</a></li>
+<li><a href="#6">Writing a long commit</a></li>
+<li><a href="#7">Viewing file changes while writing your commit</a></li>
+<li><a href="#8">Viewing what files have been committed</a></li>
+<li><a href="#9">Improving <code>git log</code> with <code>git lg</code></a></li>
+<li><a href="#10">Shorter <code>git status</code></a></li>
+<li><a href="#11">Finding a commit that includes a specific phrase</a></li>
+<li><a href="#12">Only merging the files you want</a></li>
+<li><a href="#13">Stashing changes you're not ready to commit</a></li>
+<li><a href="#14">Revert all changes back to last commit</a></li>
+<li><a href="#15">Unstaging files</a></li>
+<li><a href="#16">Untrack a file without deleting it</a></li>
+<li><a href="#17">Amend your last commit</a></li>
+<li><a href="#18">Show the files within a commit</a></li>
+<li><a href="#19">See any changes between current working directory and last commit</a></li>
+<li><a href="#20">See changes between two commits</a></li>
+<li><a href="#21">Creating a branch and moving to it at the same time</a></li>
+<li><a href="#22">Deleting a branch</a></li>
+<li><a href="#23">Viewing all branches of a remote</a></li>
+<li><a href="#24">Checkout a remote branch</a></li>
+<li><a href="#25">Remove a remote</a></li>
+<li><a href="#26">Revert a specific file back to an earlier version</a></li>
+<li><a href="#27">Viewing all commits for a file and who made those changes</a></li>
+<li><a href="#28">Commiting only parts of a file rather than the whole file</a></li>
+<li><a href="#29">Modifying your Git history with <code>rebase</code></a></li>
 </ol>
+
+
+<div id="1"></div>
 
 
 <h2>Show where Git is installed</h2>
 
 <p><code>which git</code></p>
 
+<div id="2"></div>
+
+
 <h2>Show the Git version installed</h2>
 
 <p><code>git version</code></p>
+
+<div id="3"></div>
+
 
 <h2>Update your global user details</h2>
 
@@ -78,6 +87,9 @@
 git config --global user.email "Your Email"
 git config --global apply.whitespace nowarn # ignore white space changes!
 </code></pre>
+
+<div id="4"></div>
+
 
 <h2>Set-up a global ignore file</h2>
 
@@ -143,9 +155,15 @@ Thumbs.db
 
 <p><code>git config --global core.excludesfile ~/.gitignore_global</code></p>
 
+<div id="5"></div>
+
+
 <h2>Adding all files (inc. those marked as deleted)</h2>
 
 <p><code>git add -A</code></p>
+
+<div id="6"></div>
+
 
 <h2>Writing a long commit</h2>
 
@@ -175,13 +193,22 @@ Thumbs.db
 </ul>
 
 
+<div id="7"></div>
+
+
 <h2>Viewing file changes while writing your commit</h2>
 
 <p><code>git commit -v</code></p>
 
+<div id="8"></div>
+
+
 <h2>Viewing what files have been committed</h2>
 
 <p><code>git ls-files</code></p>
+
+<div id="9"></div>
+
 
 <h2>Improving <code>git log</code> with <code>git lg</code></h2>
 
@@ -192,6 +219,9 @@ Thumbs.db
 <pre><code>[alias]
     lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset' --abbrev-commit --date=relative
 </code></pre>
+
+<div id="10"></div>
+
 
 <h2>Shorter <code>git status</code></h2>
 
@@ -208,15 +238,24 @@ Thumbs.db
 
 <p>Now typing <code>git st</code> will be the same as <code>git status</code>, and typing <code>git sts</code> will be the same as <code>git status -sb</code>.</p>
 
+<div id="11"></div>
+
+
 <h2>Finding a commit that includes a specific phrase</h2>
 
 <p><code>git log --grep=&lt;your-phrase-here&gt;</code></p>
 
 <p>For example, <code>git log --grep=CSS</code> will display all commits that contain the word 'CSS' in the message.</p>
 
+<div id="12"></div>
+
+
 <h2>Only merging the files you want</h2>
 
 <p><code>git checkout &lt;branch-name&gt; &lt;file1&gt; &lt;file2&gt; &lt;file3&gt;</code></p>
+
+<div id="13"></div>
+
 
 <h2>Stashing changes you're not ready to commit</h2>
 
@@ -231,6 +270,10 @@ Thumbs.db
 <p>To see which stashes you've stored (on any branch) use:</p>
 
 <p><code>git stash list</code></p>
+
+<p>When viewing a list of stashes it can be useful if the stashes had corresponding messages (so you know what each stash holds), for that to happen you'll need to create stashes with an associated message using the <code>save</code> command:</p>
+
+<p><code>git stash save "my message here"</code></p>
 
 <p>If you have multiple stashes under a branch (e.g. <code>stash@{1}</code> <code>stash@{2}</code> <code>stash@{3}</code>) then you can reference a particular stash using:</p>
 
@@ -254,9 +297,17 @@ Thumbs.db
 
 <p>If you stash some work, leave it there for a while, and continue on the branch from which you stashed the work, you may have a problem reapplying the work. If the apply tries to modify a file that you’ve since modified, you’ll get a merge conflict and will have to try to resolve it. If you want an easier way to test the stashed changes again, you can run <code>git stash &lt;branch&gt;</code> which creates a new branch for you, checks out the commit you were on when you stashed your work, reapplies your work there, and then drops the stash if it applies successfully.</p>
 
+<div id="14"></div>
+
+
 <h2>Revert all changes back to last commit</h2>
 
 <p><code>git reset --hard</code></p>
+
+<p>Note: you can do a 'soft' reset <code>git reset --soft &lt;hash&gt;</code>. The difference between <code>--hard</code> and <code>--soft</code> is with <code>--hard</code> the specified commit hash's files are moved into the working directory and the staging area (as if there were no changes since that specified commit). But using <code>--soft</code> will leave whatever changes you've made in your working directory/staging area but will restore the specified commit you've selected.</p>
+
+<div id="15"></div>
+
 
 <h2>Unstaging files</h2>
 
@@ -278,6 +329,9 @@ Thumbs.db
 
 <p><code>git rm --cached &lt;file&gt;</code></p>
 
+<div id="16"></div>
+
+
 <h2>Untrack a file without deleting it</h2>
 
 <p>If you want to have Git stop tracking a file it's already tracking then you would think to run:</p>
@@ -290,6 +344,9 @@ Thumbs.db
 
 <p><code>git rm --cached &lt;file&gt;</code></p>
 
+<div id="17"></div>
+
+
 <h2>Amend your last commit</h2>
 
 <p>If you make a commit and then realise that you want to amend the commit message then don't make any changes to the files and just run…</p>
@@ -300,33 +357,68 @@ Thumbs.db
 
 <p>If on the other hand you decide that after you've written a commit that you want to amend the commit by adding some more files to it then just add the files as normal and run the same command as above and when Vim opens to let you edit the commit message you'll see the extra files you added as part of that commit.</p>
 
+<div id="18"></div>
+
+
 <h2>Show the files within a commit</h2>
 
 <p><code>git show &lt;hash&gt; --name-only</code></p>
 
-<h2>See any changes between current working directory and last commit</h2>
+<div id="19"></div>
+
+
+<h2>See differences between files</h2>
+
+<p>To see the difference between the current working directory and the last commit:</p>
 
 <p><code>git diff</code></p>
+
+<p>If your files have been added to the staging area already then you can use the <code>--cached</code> flag:</p>
+
+<p><code>git diff --cached</code></p>
 
 <p>To show specific changes use the <code>--word-diff</code> flag:</p>
 
 <p><code>git diff --word-diff</code></p>
 
+<p>To see the diff between the working directory and a specific commit:</p>
+
+<p><code>git diff &lt;hash&gt; &lt;file-name&gt;</code> (the file name is optional)</p>
+
+<p>To see the difference between branches:</p>
+
+<p><code>git diff &lt;branch-1&gt;..&lt;branch-2&gt;</code></p>
+
+<div id="20"></div>
+
+
 <h2>See changes between two commits</h2>
 
 <p><code>git diff &lt;more-recent-hash&gt; &lt;older-hash&gt;</code></p>
+
+<div id="21"></div>
+
 
 <h2>Creating a branch and moving to it at the same time</h2>
 
 <p><code>git checkout -b &lt;branch-name&gt;</code></p>
 
+<div id="22"></div>
+
+
 <h2>Deleting a branch</h2>
 
 <p><code>git branch -D &lt;branch-name&gt;</code></p>
 
+<div id="23"></div>
+
+
 <h2>Viewing all branches of a remote</h2>
 
 <p><code>git branch -a</code></p>
+
+<div id="24"></div>
+
 
 <h2>Checkout a remote branch</h2>
 
@@ -340,17 +432,31 @@ Thumbs.db
 
 <p>…this will create a new branch named whatever you called it and contains the content of the remote branch you specified.</p>
 
+<div id="25"></div>
+
+
 <h2>Remove a remote</h2>
 
 <p><code>git remove rm &lt;remote&gt;</code></p>
 
-<h2>Revert a specfic file back to an earlier version</h2>
+<div id="26"></div>
 
-<p><code>git checkout &lt;hash&gt; &lt;file-name&gt;</code></p>
+
+<h2>Revert a specific file back to an earlier version</h2>
+
+<p><code>git checkout &lt;hash|tag|HEAD&gt; &lt;file-name&gt;</code></p>
+
+<p>Note if you've staged your file and then started making changes to the file which you no longer want applied you can use: <code>git checkout -- &lt;file-name&gt;</code> to revert to the version of the file in the staging area.</p>
+
+<div id="27"></div>
+
 
 <h2>Viewing all commits for a file and who made those changes</h2>
 
 <p><code>git blame &lt;file&gt;</code></p>
+
+<div id="28"></div>
+
 
 <h2>Commiting only parts of a file rather than the whole file</h2>
 
@@ -373,6 +479,9 @@ Thumbs.db
 <p>Sometimes you can't split a hunk into more hunks automatically, you have to do it manually. To do so you press <code>e</code> to edit and then use Vim to manually make changes.</p>
 
 <p>So if you have a line removed that you want to keep as part of the commit then you'll remove the <code>-</code> so there is just a space instead, and if you have a line added that you want to not have included as part of the commit then you remove the entire line. BUT the most important part it also updating the line numbers at the top of the file so that the number of lines in the file match what you are looking to commit (otherwise the commit will fail). To make the edit to the hunk final (pre-commit) press <code>esc</code> then <code>:wq</code> and then you'll be able to commit the selected changes.</p>
+
+<div id="29"></div>
+
 
 <h2>Modifying your Git history with <code>rebase</code></h2>
 
