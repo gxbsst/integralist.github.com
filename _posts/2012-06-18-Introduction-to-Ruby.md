@@ -48,38 +48,50 @@ So without further ado, here we go…
 
 ###Installing Ruby
 
-OK, this was an absolute bitch to get set-up. Luckily for you, I've suffered so you don't have to (hopefully).
+UPDATE: I've found a super sweet way to get multiple versions of Ruby installed onto your Mac (notice I said Mac, not PC - so if you're on Windows then I'm afraid I can't help you).
 
-I'm running Mac OSX so your mileage may vary.
+First install [Ruby-Build](https://github.com/sstephenson/ruby-build) - preferable via the Mac package manager [Homebrew](http://mxcl.github.com/homebrew/) using the command `brew install ruby-build`.
 
-If you can get away with it, use the package manager homebrew to install: `brew install ruby`.
+Then install the Ruby switcher [rbfu](https://github.com/hmans/rbfu) using the command `brew install http://git.io/rbfu.rb` - make sure you update your shell startup script (`~/.zshrc` if your're using Zsh or `~/.bashrc`/`~/.bash_profile` etc if you're using Bash) to include the line `eval "$(rbfu --init --auto)"` (this information is documented on the rbfu github README so go there for more info, if you need it).
 
-But homebrew didn't work for me. It said it installed, but I couldn't get it to switch from the default Ruby 1.8 the Mac has pre-installed. So the next step was to install what is called 'rvm' which lets you install and manage multiple versions of Ruby.
+Then once those two items are installed you can start installing different Ruby versions using ruby-build and switching Ruby versions using rbfu.
 
-The process is as follows (open the Terminal and start typing):
+To install a new Ruby version, first check which ones are available by running the command: `ruby-build --definitions` - this will list all Ruby versions available to install.
 
-1. `bash -s stable < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)`
+Pick a version (for example `2.0.0-preview2`) and run the command:  
 
-    After rvm is installed you'll see a message asking you to to run the following...
+`ruby-build 2.0.0-preview2 $HOME/.rbfu/rubies/2.0.0-preview2`
+
+That takes care of installing that particular version of Ruby, but now for you to switch to using that version you need to create a `.ruby-version` file and place it inside the directory of your Ruby application. The content of that file should be `2.0.0-preview2` or whatever version of Ruby you have installed (via Ruby Build) that you want to run for that application.
+
+Now when you `cd` into that directory where your `.ruby-version` file is located you'll noticed the Terminal will state that it has activated the specific Ruby version requested.
+
+If for some reason you create a `.ruby-version` file but forget to run the Ruby Build install for the requested version then the Terminal will display a message to let you know that you need to install the requested version of Ruby.
+
+Below are my original notes, but you can ignore these now.
+
+---
+
+~~~OK, this was an absolute bitch to get set-up. Luckily for you, I've suffered so you don't have to (hopefully).~~~
+
+~~~I'm running Mac OSX so your mileage may vary.~~~
+
+~~~If you can get away with it, use the package manager homebrew to install: `brew install ruby`.~~~
+
+~~~But homebrew didn't work for me. It said it installed, but I couldn't get it to switch from the default Ruby 1.8 the Mac has pre-installed. So the next step was to install what is called 'rvm' which lets you install and manage multiple versions of Ruby.~~~
+
+~~~The process is as follows (open the Terminal and start typing):~~~
+
+~~~1. `bash -s stable < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)`. After rvm is installed you'll see a message asking you to to run the following...~~~
 
 
-2. `source /Users/<username>/.rvm/scripts/rvm` 
+~~~2. `source /Users/<username>/.rvm/scripts/rvm`. Remember to replace `<username>` with the name of your computer.~~~
 
-    Remember to replace `<username>` with the name of your computer.
+~~~3. `rvm install 1.9.3 --with-gcc=clang`. The `--with-gcc=clang` was suggested on Stack Overflow to fix issues Mac OSX Lion users were having trying to upgrade to the latest Ruby version 1.9.3. This worked fine at home, but at work it failed so instead I executed… `rvm install ruby-1.9.3-p125`~~~
 
-3. `rvm install 1.9.3 --with-gcc=clang`
-
-    The `--with-gcc=clang` was suggested on Stack Overflow to fix issues Mac OSX Lion users were having trying to upgrade to the latest Ruby version 1.9.3
+~~~4. `rvm use 1.9.3 --default`. We're now telling rvm to use version 1.9.3 as the default version of Ruby~~~
     
-    This worked fine at home, but at work it failed so instead I executed…
-    
-    `rvm install ruby-1.9.3-p125`
-
-4. `rvm use 1.9.3 --default`
-
-    We're now telling rvm to use version 1.9.3 as the default version of Ruby
-    
-5. `ruby -v` - just check the version quickly to be sure
+~~~5. `ruby -v` - just check the version quickly to be sure~~~
 
 ---
 
@@ -256,7 +268,7 @@ In Ruby everything is an Object (even Strings and Integers) so when you're defin
 To define a method the syntax is:
 
     def method_name (arguments)
-    	// function code
+        // function code
     end
 
 In JavaScript, if a method doesn't explicitly specify a return value then it returns `undefined`. In Ruby a method will return the last expression evaluated in its body, and if there isn't one then it will return `nil` (`nil` is equivalent to `null` in PHP).
@@ -288,7 +300,7 @@ e.g. `Person.speak ()` => error but `Person.speak()` or `Person.speak` is fine.
 You can specify default values for arguments…
 
     def welcome (name = "World", age = 1)
-    	puts "Hello #{name}!, I see you're #{age} years old."
+        puts "Hello #{name}!, I see you're #{age} years old."
     end
 
 …which can be used as follows…
@@ -446,10 +458,10 @@ The following example is modified from a test on RubyMonk but is a good example 
 The Classes syntax is as follows…
 
     class ClassName
-    	def initialize ()
-    		// code
-    	end
-    	// code
+        def initialize ()
+            // code
+        end
+        // code
     end
 
 Instance variables for classes are defined using `@variable_name` and are available to all methods of the class.
@@ -457,13 +469,13 @@ Instance variables for classes are defined using `@variable_name` and are availa
 For example…
 
     class Person
-    	def initialize (name = "Bob")
-    		@name = name
-    	end
+        def initialize (name = "Bob")
+            @name = name
+        end
 
-    	def speak
-    		puts "Hello, my name is #{@name}"
-    	end
+        def speak
+            puts "Hello, my name is #{@name}"
+        end
     end
 
     employee = Person.new("Mark") 
@@ -488,13 +500,13 @@ To create privileged methods, within the class we need to specify `attr_accessor
 For example…
 
     class Test
-    	attr_accessor :user_name
-    	def initialize (name)
-    		@user_name = name
-    	end
-    	def speak
-    		puts "hello #{@user_name}"
-    	end
+        attr_accessor :user_name
+        def initialize (name)
+            @user_name = name
+        end
+        def speak
+            puts "hello #{@user_name}"
+        end
     end
 
     tester = Test.new("Mark")
@@ -591,7 +603,7 @@ Building up string values can be a bit of a nightmare in other languages. I know
 For example… 
 
     def welcome (name)
-    	puts "Hello #{name}!"
+        puts "Hello #{name}!"
     end
 
     welcome("Mark")
@@ -599,7 +611,7 @@ For example…
 Multiple arguments work the same way…
 
     def welcome (name, age)
-    	puts "Hello #{name}!, I see you're #{age} years old."
+        puts "Hello #{name}!, I see you're #{age} years old."
     end
 
 You could do the same with simple string concatenation… 

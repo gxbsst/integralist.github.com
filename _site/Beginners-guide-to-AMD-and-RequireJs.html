@@ -61,24 +61,18 @@
 <p>The way we insert scripts into our pages has evolved over the years:</p>
 
 <ul>
-<li><p>Multiple <code>&lt;script&gt;</code> tags</p>
-
-<pre><code>  &lt;script src="script-1.js"&gt;
-  &lt;script src="script-2.js"&gt;
-  &lt;script src="script-3.js"&gt;
-</code></pre></li>
-<li><p>Script Loader (e.g. LABjs / YepNope.js …and many many more)</p>
-
-<pre><code>  // This example uses LABjs
-  &lt;script src="LAB.js"&gt;&lt;/script&gt;
-  &lt;script&gt;
-      $LAB.script('script-1.js').wait().script('script-2.js').script('script-3.js');
-  &lt;/script&gt;
-</code></pre></li>
-<li><p>AMD Script Loader (e.g. RequireJS / Curl …and a couple of others)</p>
-
-<pre><code>  &lt;script data-main="main" src="require.js"&gt;&lt;/script&gt;
-</code></pre></li>
+<li><p>Multiple <code>&lt;script&gt;</code> tags
+      <script src="script-1.js">
+      <script src="script-2.js">
+      <script src="script-3.js"></p></li>
+<li><p>Script Loader (e.g. LABjs / YepNope.js …and many many more)
+      // This example uses LABjs
+      <script src="LAB.js"></script>
+      <script>
+          $LAB.script('script-1.js').wait().script('script-2.js').script('script-3.js');
+      </script></p></li>
+<li><p>AMD Script Loader (e.g. RequireJS / Curl …and a couple of others)
+      <script data-main="main" src="require.js"></script></p></li>
 </ul>
 
 

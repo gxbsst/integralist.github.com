@@ -93,10 +93,8 @@
 <li>Then include your own JavaScript code ‘my-cool-library.js’</li>
 <li>Then include your own ‘my-tests.js’</li>
 <li>After that have an inline script which executes the Jasmine test runner…
-
-<pre><code>  jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
-  jasmine.getEnv().execute();
-</code></pre></li>
+      jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
+      jasmine.getEnv().execute();</li>
 </ul>
 
 
@@ -164,9 +162,7 @@ describe('CSS tests', function() {
 
 <ul>
 <li>We’ve grouped all our tests related to the CSS part of our code using Jasmine’s
-
-<pre><code>  describe('test suite name', function(){ /* tests */ });
-</code></pre></li>
+      describe('test suite name', function(){ /<em> tests </em>/ });</li>
 <li>We’re using a setUp method (which Jasmine calls <code>beforeEach</code>) to run some code to reset the class names before each test run (so we start from a clean slate for each test) - there is also a corresponding tearDown method which Jasmine calls <code>afterEach</code> (see documentation)</li>
 <li>Each test is represented by <code>it('expectation of this test', function(){ /* assertions */ });</code></li>
 <li>The assertions are handled by Jasmine’s <code>expect(expressions).matcher</code></li>

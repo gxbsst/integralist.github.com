@@ -277,10 +277,10 @@ end
 <p>  When considering the direction of your dependencies (e.g. does class A rely more on class B, or vice versa) remember to think about the following 3 points...</p>
 
 <ol>
-<li><p>Some classes are more likely to change than others</p></li>
-<li><p>Concrete classes are more likely to change than abstract classes.<br/>
+<li><p> Some classes are more likely to change than others</p></li>
+<li><p> Concrete classes are more likely to change than abstract classes.<br/>
 Imagine you have a class with a hard coded reference to another class. We could make the primary class more abstract by injecting the  dependency of the secondary class rather than having to reference it directly. This way the primary class is able to accept an object successfully as long as it implements the required method.</p></li>
-<li><p>A class with many dependants could result in widespread consequences.</p></li>
+<li><p> A class with many dependants could result in widespread consequences.</p></li>
 </ol>
 </li>
 </ul>

@@ -74,36 +74,49 @@
 
 <h3>Installing Ruby</h3>
 
-<p>OK, this was an absolute bitch to get set-up. Luckily for you, I've suffered so you don't have to (hopefully).</p>
+<p>UPDATE: I've found a super sweet way to get multiple versions of Ruby installed onto your Mac (notice I said Mac, not PC - so if you're on Windows then I'm afraid I can't help you).</p>
 
-<p>I'm running Mac OSX so your mileage may vary.</p>
+<p>First install <a href="https://github.com/sstephenson/ruby-build">Ruby-Build</a> - preferable via the Mac package manager <a href="http://mxcl.github.com/homebrew/">Homebrew</a> using the command <code>brew install ruby-build</code>.</p>
 
-<p>If you can get away with it, use the package manager homebrew to install: <code>brew install ruby</code>.</p>
+<p>Then install the Ruby switcher <a href="https://github.com/hmans/rbfu">rbfu</a> using the command <code>brew install http://git.io/rbfu.rb</code> - make sure you update your shell startup script (<code>~/.zshrc</code> if your're using Zsh or <code>~/.bashrc</code>/<code>~/.bash_profile</code> etc if you're using Bash) to include the line <code>eval "$(rbfu --init --auto)"</code> (this information is documented on the rbfu github README so go there for more info, if you need it).</p>
 
-<p>But homebrew didn't work for me. It said it installed, but I couldn't get it to switch from the default Ruby 1.8 the Mac has pre-installed. So the next step was to install what is called 'rvm' which lets you install and manage multiple versions of Ruby.</p>
+<p>Then once those two items are installed you can start installing different Ruby versions using ruby-build and switching Ruby versions using rbfu.</p>
 
-<p>The process is as follows (open the Terminal and start typing):</p>
+<p>To install a new Ruby version, first check which ones are available by running the command: <code>ruby-build --definitions</code> - this will list all Ruby versions available to install.</p>
 
-<ol>
-<li><p><code>bash -s stable &lt; &lt;(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)</code></p>
+<p>Pick a version (for example <code>2.0.0-preview2</code>) and run the command:</p>
 
-<p> After rvm is installed you'll see a message asking you to to run the following...</p></li>
-<li><p><code>source /Users/&lt;username&gt;/.rvm/scripts/rvm</code></p>
+<p><code>ruby-build 2.0.0-preview2 $HOME/.rbfu/rubies/2.0.0-preview2</code></p>
 
-<p> Remember to replace <code>&lt;username&gt;</code> with the name of your computer.</p></li>
-<li><p><code>rvm install 1.9.3 --with-gcc=clang</code></p>
+<p>That takes care of installing that particular version of Ruby, but now for you to switch to using that version you need to create a <code>.ruby-version</code> file and place it inside the directory of your Ruby application. The content of that file should be <code>2.0.0-preview2</code> or whatever version of Ruby you have installed (via Ruby Build) that you want to run for that application.</p>
 
-<p> The <code>--with-gcc=clang</code> was suggested on Stack Overflow to fix issues Mac OSX Lion users were having trying to upgrade to the latest Ruby version 1.9.3</p>
+<p>Now when you <code>cd</code> into that directory where your <code>.ruby-version</code> file is located you'll noticed the Terminal will state that it has activated the specific Ruby version requested.</p>
 
-<p> This worked fine at home, but at work it failed so instead I executed…</p>
+<p>If for some reason you create a <code>.ruby-version</code> file but forget to run the Ruby Build install for the requested version then the Terminal will display a message to let you know that you need to install the requested version of Ruby.</p>
 
-<p> <code>rvm install ruby-1.9.3-p125</code></p></li>
-<li><p><code>rvm use 1.9.3 --default</code></p>
+<p>Below are my original notes, but you can ignore these now.</p>
 
-<p> We're now telling rvm to use version 1.9.3 as the default version of Ruby</p></li>
-<li><p><code>ruby -v</code> - just check the version quickly to be sure</p></li>
-</ol>
+<hr />
 
+<p><del>OK, this was an absolute bitch to get set-up. Luckily for you, I've suffered so you don't have to (hopefully).</del></p>
+
+<p><del>I'm running Mac OSX so your mileage may vary.</del></p>
+
+<p><del>If you can get away with it, use the package manager homebrew to install: <code>brew install ruby</code>.</del></p>
+
+<p><del>But homebrew didn't work for me. It said it installed, but I couldn't get it to switch from the default Ruby 1.8 the Mac has pre-installed. So the next step was to install what is called 'rvm' which lets you install and manage multiple versions of Ruby.</del></p>
+
+<p><del>The process is as follows (open the Terminal and start typing):</del></p>
+
+<p><del>1. <code>bash -s stable &lt; &lt;(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)</code>. After rvm is installed you'll see a message asking you to to run the following...</del></p>
+
+<p><del>2. <code>source /Users/&lt;username&gt;/.rvm/scripts/rvm</code>. Remember to replace <code>&lt;username&gt;</code> with the name of your computer.</del></p>
+
+<p><del>3. <code>rvm install 1.9.3 --with-gcc=clang</code>. The <code>--with-gcc=clang</code> was suggested on Stack Overflow to fix issues Mac OSX Lion users were having trying to upgrade to the latest Ruby version 1.9.3. This worked fine at home, but at work it failed so instead I executed… <code>rvm install ruby-1.9.3-p125</code></del></p>
+
+<p><del>4. <code>rvm use 1.9.3 --default</code>. We're now telling rvm to use version 1.9.3 as the default version of Ruby</del></p>
+
+<p><del>5. <code>ruby -v</code> - just check the version quickly to be sure</del></p>
 
 <hr />
 

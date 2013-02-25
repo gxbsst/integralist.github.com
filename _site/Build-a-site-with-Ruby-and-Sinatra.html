@@ -479,17 +479,13 @@ set :server, %w[thin webrick]
 <li>To create an app on heroku use: <code>heroku create --stack cedar</code> (you can also do: <code>heroku create yourappname --stack cedar</code>) - <code>cedar</code> will shortly be the <em>default</em> web stack on heroku but for the time being it's worth including it in the command <code>--stack cedar</code> otherwise your app will be created on an older web stack which isn't as good.</li>
 </ul>
 </li>
-<li><p>Create a <code>config.ru</code> file and add the following content:</p>
-
-<pre><code> require 'app' # where app is the name of your main file that initializes your web application
- run Sinatra::Application
-</code></pre></li>
-<li><p>Create a Gemfile file (no file extension) and add the content:</p>
-
-<pre><code> source 'http://rubygems.org'
- gem 'sinatra', '1.3.2'
- gem 'thin', '1.3.1'
-</code></pre></li>
+<li><p>Create a <code>config.ru</code> file and add the following content:<br/>
+     require 'app' # where app is the name of your main file that initializes your web application
+     run Sinatra::Application</p></li>
+<li><p>Create a Gemfile file (no file extension) and add the content:<br/>
+     source 'http://rubygems.org'
+     gem 'sinatra', '1.3.2'
+     gem 'thin', '1.3.1'</p></li>
 <li><p>Go back to your CLI and enter:</p>
 
 <ul>
