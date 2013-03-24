@@ -6,7 +6,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="author" content="Mark McDonnell" />
-        <title> Beginners guide on how to test your code (using Jasmine BDD) | Integralist</title>
+        <title> Beginners guide on how to test your code | Integralist</title>
         <!--[if lt IE 9]>
         <script src="/Assets/Scripts/html5.js"></script>
         <![endif]-->
@@ -21,17 +21,18 @@
     <body>
         <header class="header container outline">
             <p class="header__title"><a href="/" class="header__homelink">integralist</a></p>
-            <p class="header__strapline">BBC News Engineer: Responsive/Mobile First/BEM based CSS with modular JavaScript via AMD/RequireJS and a dash of Ruby/PHP</p>
+            <p class="header__strapline">BBC News Engineer: Object-Oriented Design principles using Ruby, PHP, BEM, AMD</p>
             <a href="#info" class="header__moreinfo">More info about me&hellip;</a>
         </header>
         <section class="container outline">
-            <h1>Beginners guide on how to test your code (using Jasmine BDD)</h1>
+            <h1>Beginners guide on how to test your code</h1>
 <div class="article__content">
     <ul>
 <li>Introduction</li>
 <li>Start how you mean to go on</li>
 <li>The ‘write test first’ process</li>
 <li>Other aspects of TDD/BDD</li>
+<li>What do these test 'types' mean?</li>
 <li>Using Jasmine</li>
 <li>An example</li>
 <li>Review of example</li>
@@ -41,13 +42,25 @@
 
 <h2>Introduction</h2>
 
-<p>Any programmer worth a damn will tell you that you need to test your code. The way this is done is by using ‘unit-tests’.</p>
+<p>Any programmer worth a damn will tell you that you need to test your code.</p>
 
-<p>The principle is that you write a test for a piece of your applications code and see if it passes.</p>
+<p>There are different types of tests that inspect the different areas of your application:</p>
+
+<ul>
+<li>Unit Tests</li>
+<li>Integration Tests</li>
+<li>Acceptance Tests</li>
+<li>Regression Tests</li>
+</ul>
+
+
+<p>Although there are multiple areas of an application that need to be tested, the principle for each is that you write a test for a piece of your applications code and see if it passes.</p>
 
 <p>Within a test you write a number of ‘assertions’ (which means you’re expecting certain values to be returned at that point in a certain format or type) and if the code fails to produce the relevant value the assertion will fail and thus the test itself will fail.</p>
 
-<p>There are different methodologies for testing your code, the two most famous are Test-Driven Development (TDD) and Behaviour-Driven Development (BDD). Both are very similar and differ in perspective/terminology more than anything but I won’t get into that here because you’ll just end up getting confused.</p>
+<p>There are different methodologies for testing your code, the two most famous are Test-Driven Development (TDD) and Behaviour-Driven Development (BDD). Both are very similar and differ in 'direction' more than anything.</p>
+
+<p>Fundamentally TDD is about the developer and their perspective on testing a piece of code, where BDD is more about using language that management and stake holders can understand (so your tests are still written in code but uses more 'domain specific language' - e.g. instead of <code>assertEqual(x, y)</code> you would write <code>expect(x).toEqual(y)</code>).</p>
 
 <h2>Start how you mean to go on</h2>
 
@@ -75,15 +88,33 @@
 
 <h2>Other aspects of TDD/BDD</h2>
 
-<p>Here are a few other aspects of unit-testing worth mentioning before we get stuck into some examples: methods such as ‘setUp’ and ‘tearDown’ (which run before and after each test) are useful (for example…) because it means you can prepare each test to run from a fresh set-up.  This probably doesn’t make a lot of sense at the moment so I’ll demonstrate this later in our example code below, but trust me, when you’re testing your code it’s useful before each test (or after each test) to reset your environment.</p>
+<p>Here are a few other aspects of testing worth mentioning before we get stuck into some examples: methods such as ‘setUp’ and ‘tearDown’ (which run before and after each test) are useful (for example…) because it means you can prepare each test to run from a fresh set-up.  This probably doesn’t make a lot of sense at the moment so I’ll demonstrate this later in our example code below, but trust me, when you’re testing your code it’s useful before each test (or after each test) to reset your environment.</p>
 
-<p>There are also more complicated aspects such as mocks, stubs and spies which are useful when you start getting deep into unit-testing application code where ‘state’ becomes relevant (e.g. using some of these features makes testing code in the deepest parts of your application a lot easier).</p>
+<p>There are also more complicated aspects such as mocks, stubs and spies which are useful when you start getting deep into testing application code where ‘state’ becomes relevant (e.g. using some of these features makes testing code in the deepest parts of your application a lot easier).</p>
 
 <p>So with all this in mind, I would highly recommend you go and read a book titled ‘Test-Driven JavaScript Development’ by Christian Johansen (<a href="http://twitter.com/cjno">@cjno</a>) which covers all these topics in great detail.</p>
 
+<h2>What do these test 'types' mean?</h2>
+
+<h3>Unit Tests</h3>
+
+<p>These are very atomic (i.e. small) tests that test a specific chunk of code.</p>
+
+<h3>Integration Tests</h3>
+
+<p>These are tests that ensure all the separate parts of your application code work when interacting with each other.</p>
+
+<h3>Acceptance Tests</h3>
+
+<p>These are tests that prove to management or your stake holders that the application is providing all the functionality they require (typically acceptance tests are written using BDD which uses domain specific language that makes it easy for management to write tests for the developer to implement).</p>
+
+<h3>Regression Tests</h3>
+
+<p>This is the process of running your unit tests again after fixing any integration tests to make sure your fixes haven't caused your unit tests to break.</p>
+
 <h2>Using Jasmine</h2>
 
-<p>Now, we’re going to be using a BDD library called Jasmine to help run our tests. You can download it from here: <a href="http://pivotal.github.com/jasmine/">http://pivotal.github.com/jasmine/</a></p>
+<p>For the purpose of this article we're going to focus on unit testing but we're going to use a BDD library called Jasmine to help run our tests. You can download it from here: <a href="http://pivotal.github.com/jasmine/">http://pivotal.github.com/jasmine/</a></p>
 
 <p>The set-up is as follows:</p>
 

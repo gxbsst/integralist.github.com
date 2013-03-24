@@ -1,13 +1,14 @@
 ---
 layout: article
-title: Beginners guide on how to test your code (using Jasmine BDD)
-strapline: This was written before I discovered <a href="http://busterjs.org/" target="_blank">BusterJS</a> but still a good read on how to test your JavaScript code.
+title: Beginners guide on how to test your code
+strapline: This was written before I discovered <a href="http://busterjs.org/" target="_blank">BusterJS</a> but still a good read on how to test your JavaScript code - also provides background information on testing methodologies.
 ---
 
 * Introduction
 * Start how you mean to go on
 * The ‘write test first’ process
 * Other aspects of TDD/BDD
+* What do these test 'types' mean?
 * Using Jasmine
 * An example
 * Review of example
@@ -16,13 +17,22 @@ strapline: This was written before I discovered <a href="http://busterjs.org/" t
 Introduction
 ------------
 
-Any programmer worth a damn will tell you that you need to test your code. The way this is done is by using ‘unit-tests’.
+Any programmer worth a damn will tell you that you need to test your code.
 
-The principle is that you write a test for a piece of your applications code and see if it passes.
+There are different types of tests that inspect the different areas of your application:
+
+- Unit Tests
+- Integration Tests
+- Acceptance Tests
+- Regression Tests
+
+Although there are multiple areas of an application that need to be tested, the principle for each is that you write a test for a piece of your applications code and see if it passes.
 
 Within a test you write a number of ‘assertions’ (which means you’re expecting certain values to be returned at that point in a certain format or type) and if the code fails to produce the relevant value the assertion will fail and thus the test itself will fail.
 
-There are different methodologies for testing your code, the two most famous are Test-Driven Development (TDD) and Behaviour-Driven Development (BDD). Both are very similar and differ in perspective/terminology more than anything but I won’t get into that here because you’ll just end up getting confused.
+There are different methodologies for testing your code, the two most famous are Test-Driven Development (TDD) and Behaviour-Driven Development (BDD). Both are very similar and differ in 'direction' more than anything.
+
+Fundamentally TDD is about the developer and their perspective on testing a piece of code, where BDD is more about using language that management and stake holders can understand (so your tests are still written in code but uses more 'domain specific language' - e.g. instead of `assertEqual(x, y)` you would write `expect(x).toEqual(y)`).
 
 Start how you mean to go on
 ---------------------------
@@ -50,16 +60,35 @@ For those interested it goes a little like this:
 Other aspects of TDD/BDD
 ------------------------
 
-Here are a few other aspects of unit-testing worth mentioning before we get stuck into some examples: methods such as ‘setUp’ and ‘tearDown’ (which run before and after each test) are useful (for example…) because it means you can prepare each test to run from a fresh set-up.  This probably doesn’t make a lot of sense at the moment so I’ll demonstrate this later in our example code below, but trust me, when you’re testing your code it’s useful before each test (or after each test) to reset your environment.
+Here are a few other aspects of testing worth mentioning before we get stuck into some examples: methods such as ‘setUp’ and ‘tearDown’ (which run before and after each test) are useful (for example…) because it means you can prepare each test to run from a fresh set-up.  This probably doesn’t make a lot of sense at the moment so I’ll demonstrate this later in our example code below, but trust me, when you’re testing your code it’s useful before each test (or after each test) to reset your environment.
 
-There are also more complicated aspects such as mocks, stubs and spies which are useful when you start getting deep into unit-testing application code where ‘state’ becomes relevant (e.g. using some of these features makes testing code in the deepest parts of your application a lot easier).
+There are also more complicated aspects such as mocks, stubs and spies which are useful when you start getting deep into testing application code where ‘state’ becomes relevant (e.g. using some of these features makes testing code in the deepest parts of your application a lot easier).
 
 So with all this in mind, I would highly recommend you go and read a book titled ‘Test-Driven JavaScript Development’ by Christian Johansen ([@cjno](http://twitter.com/cjno)) which covers all these topics in great detail.
+
+What do these test 'types' mean?
+--------------------------------
+
+###Unit Tests
+
+These are very atomic (i.e. small) tests that test a specific chunk of code.
+
+###Integration Tests
+
+These are tests that ensure all the separate parts of your application code work when interacting with each other.
+
+###Acceptance Tests
+
+These are tests that prove to management or your stake holders that the application is providing all the functionality they require (typically acceptance tests are written using BDD which uses domain specific language that makes it easy for management to write tests for the developer to implement).
+
+###Regression Tests
+
+This is the process of running your unit tests again after fixing any integration tests to make sure your fixes haven't caused your unit tests to break.
 
 Using Jasmine
 -------------
 
-Now, we’re going to be using a BDD library called Jasmine to help run our tests. You can download it from here: [http://pivotal.github.com/jasmine/](http://pivotal.github.com/jasmine/)
+For the purpose of this article we're going to focus on unit testing but we're going to use a BDD library called Jasmine to help run our tests. You can download it from here: [http://pivotal.github.com/jasmine/](http://pivotal.github.com/jasmine/)
 
 The set-up is as follows:
 
