@@ -1,0 +1,172 @@
+<!doctype html>
+<!--[if IE 8]><html class="ie8" dir="ltr" lang="en"><![endif]-->
+<!--[if IE 9]><html class="ie9" dir="ltr" lang="en"><![endif]-->
+<!--[if gt IE 9]><!--> <html dir="ltr" lang="en"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="Mark McDonnell" />
+        <title> Message passing in Object-Oriented Code | Integralist</title>
+        <!--[if lt IE 9]>
+        <script src="/Assets/Scripts/html5.js"></script>
+        <![endif]-->
+        <link rel="stylesheet" href="/Assets/Styles/layout.css"     media="all">
+        <link rel="stylesheet" href="/Assets/Styles/layout-480.css" media="only screen and (min-width: 30em)">
+        <link rel="stylesheet" href="/Assets/Styles/layout-768.css" media="only screen and (min-width: 40em)">
+        <!--[if (lt IE 9) & (!IEMobile)]>
+        <link rel="stylesheet" href="/Assets/Styles/layout-480.css">
+        <link rel="stylesheet" href="/Assets/Styles/layout-768.css">
+        <![endif]-->
+    </head>
+    <body>
+        <header class="header container outline">
+            <p class="header__title"><a href="/" class="header__homelink">integralist</a></p>
+            <p class="header__strapline">BBC News Engineer: Object-Oriented Design principles using Ruby, PHP, BEM, AMD</p>
+            <a href="#info" class="header__moreinfo">More info about me&hellip;</a>
+        </header>
+        <section class="container outline">
+            <h1>Message passing in Object-Oriented Code</h1>
+<div class="article__content">
+    <h2>What we'll cover</h2>
+
+<ul>
+<li>Introduction</li>
+<li>Quick example</li>
+<li>The Proxy Design Pattern</li>
+<li>How Ruby handles method calls</li>
+<li>Implementing <code>method_missing</code></li>
+<li>Conclusion</li>
+</ul>
+
+
+<h2>Introduction</h2>
+
+<p>In my <a href="http://integralist.co.uk/Object-Oriented-Design.html">previous post</a> I quoted the following description of object-oriented design…</p>
+
+<blockquote><p>Object-Oriented Design is about the messages that get sent between objects and not the objects themselves.</p></blockquote>
+
+<p>The reason I felt this quote was important for good code design was because it helped focus our attention on improving our object's interfaces.</p>
+
+<p>Since then I've been reading through <a href="http://designpatternsinruby.com">Design Patterns in Ruby</a> by Russ Olsen, and in the chapter on the Proxy design pattern he reiterates thinking about objects more from the perspective of 'messages' and how that can help improve the Proxy pattern implementation.</p>
+
+<p>His comments really nailed home for me the design benefits of thinking more about 'messages' being passed to objects, and it's that point which I want to elaborate on below.</p>
+
+<h2>Quick example</h2>
+
+<p>Imagine the following code example: <code>account.deposit(50)</code></p>
+
+<p>When thinking about a statically typed language, object methods are generally considered to be more 'baked' into the objects, in the sense that running the above code example suggests you are 'calling' the <code>deposit</code> method found on the <code>account</code> object.</p>
+
+<p>But in a dynamically typed language (such as Ruby) this doesn't make a lot of sense because the <code>account</code> object might not actually contain a method called <code>deposit</code> (statically typed languages are compiled and so we can be assured that if we call a method on an object, it will be there - otherwise the program would fail to compile) so talking about 'calling' a method on an object is not as accurate as describing it like so:</p>
+
+<blockquote><p>"we're sending a deposit message to an account object"</p></blockquote>
+
+<h2>The Proxy Design Pattern</h2>
+
+<p>The Proxy design pattern is where we place an object between the user and the actual object the user wishes to interact with.</p>
+
+<p>There are a few different types of proxy object:</p>
+
+<ul>
+<li>Protection proxies</li>
+<li>Remote proxies</li>
+<li>Virtual proxies</li>
+</ul>
+
+
+<p>The reason 'message passing' came up in the Proxy design pattern (specifically when developing a 'virtual proxy' - which is where we create a proxy object to prevent an expensive object instantiation operation from happening until the user 'actually' interacts with one of the methods on the real object) was because the author wanted to avoid the situation where we would need to implement a stub method for each method found on the real object.</p>
+
+<p>This isn't necessarily an issue for all types of objects. But if you look at built-in objects such as the <code>Array</code> object, that has approximately 118 (maybe more) methods! So for us to implement a proxy for that object we'd theorectically need to implement 118 stub methods, each of which would simply forward on the request to the corresponding method on the real object to handle. That would not only be tedious but an inefficient way to implement our proxy object.</p>
+
+<h2>How Ruby handles method calls</h2>
+
+<p>In Ruby if you pass a message (e.g. call a method) to an object and that method doesn't exist, then Ruby will try to find another method on that object: <code>method_missing</code>.</p>
+
+<p>If <code>method_missing</code> doesn't exist then Ruby will try to lookup the method on the parent object, and will keep moving up the inheritance chain until it reaches the core <code>Object</code> object (which does implement <code>method_missing</code>) and which simply raises a <code>NoMethodError</code> exeception.</p>
+
+<h2>Implementing <code>method_missing</code></h2>
+
+<p>If you implement <code>method_missing</code> on your proxy object then you can pass on the message to the real object more efficiently than stubbing the method.</p>
+
+<p>So instead of this…</p>
+
+<pre><code>class AccountProxy
+    def initialize(real_object)
+        @real_object = real_object
+    end
+
+    def deposit(amount)
+        @real_object.deposit(amount)
+    end
+
+    … ad infinitum … 
+end
+
+account = Account.new
+proxy = AccountProxy.new(account)
+proxy.deposit(50)
+</code></pre>
+
+<p>…we should really take advantage of the dynamic nature of the Ruby language to avoid having to manually write out these methods by hand, like so…</p>
+
+<pre><code>class AccountProxy
+    def initialize(real_account)
+        @subject = real_account
+    end
+    def method_missing(name, *args)
+        @subject.send(name, *args)
+    end
+end
+</code></pre>
+
+<p>You can see from the above example that we're using the <a href="http://ruby-doc.org/core-2.0/Object.html#method-i-send">send</a> method to pass the message (i.e. the method invoked by the user on the proxy object) directly to the real object.</p>
+
+<h2>Conclusion</h2>
+
+<p>As you can see, focusing on passing messages not only helps inform us of better interfaces when designing our application but also makes us more efficient by utilising features unique to dynamically typed languages.</p>
+
+</div>
+
+        </section>
+        <section class="info container outline" id="info">
+            <section class="info__section">
+                <h3 class="info__title">Links</h3>
+                <ul class="info__list">
+                    <li><a href="http://www.github.com/integralist" target="_blank">GitHub</a></li>
+                    <li><a href="http://www.twitter.com/integralist" target="_blank">Twitter</a></li>
+                    <li><a href="http://integralist.co.uk/Resume/" target="_blank">Resume</a></li>
+                </ul>
+            </section>
+            <section class="info__section">
+                <h3 class="info__title">Skills</h3>
+                <ul class="info__list">
+                    <li>Practical Code Design and Architecture</li>
+                    <li>Object-Oriented/Scalable CSS</li>
+                    <li>Semantic/Efficient HTML</li>
+                    <li>Modular JavaScript</li>
+                </ul>
+            </section>
+            <section class="info__section">
+                <h3 class="info__title">Enjoys</h3>
+                <ul class="info__list">
+                    <li>Gracie Jiu-Jitsu</li>
+                    <li>Programming</li>
+                    <li>Integral Theory</li>
+                </ul>
+            </section>
+            <section class="info__section">
+                <h3 class="info__title">Listens</h3>
+                <ul class="info__list">
+                    <li>LTJ Bukem</li>
+                    <li>Clutch</li>
+                    <li>Tool</li>
+                    <li>Meshuggah</li>
+                    <li>Russian Circles</li>
+                    <li>Earthtone9</li>
+                    <li>Will Haven</li>
+                    <li>ISIS</li>
+                </ul>
+            </section>
+        </section>
+    </body>
+</html>
