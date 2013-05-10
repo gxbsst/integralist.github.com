@@ -100,6 +100,12 @@ th, td {
     padding-bottom: 1.4em;
 }
 
+.article__content {
+    padding-bottom: .2em;
+    padding-top: .2em;
+}
+
+h1,
 .article__title {
     background-color: #fff;
     margin-bottom: .5em;
@@ -107,7 +113,8 @@ th, td {
 }
 
 .article__strapline,
-.article__read {
+.article__read,
+.article__content {
     margin-left: 1em;
     margin-right: 1em;
 }
@@ -117,12 +124,15 @@ th, td {
     margin-bottom: 1.5em;
 }
 
-.article__strapline a {
+.article__strapline a,
+.article__content a {
     color: #fff;
 }
 
 .article__strapline a:hover,
-.article__strapline a:focus {
+.article__strapline a:focus,
+.article__content a:hover,
+.article__content a:focus {
     text-decoration: none;
 }
 
