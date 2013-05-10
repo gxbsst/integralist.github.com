@@ -72,13 +72,17 @@ When Git is installed the first thing we’ll probably want to do is to tell it 
 
 To inform Git what your username and email address is, open the Terminal application on your Mac and enter:
 
+{% highlight bash %}
     git config --global user.name "Joe Bloggs"
     git config --global user.email "joe@bloggs.com"
+{% endhighlight %}
 
 You can check these settings at any time within the Terminal by typing:
 
+{% highlight bash %}
     git config user.name
     git config user.email
+{% endhighlight %}
 
 Next you want to make sure that Git ignores any ‘white space’ changes. Now this needs a little bit extra explanation: Git tracks file *content* and NOT individual files. So if you add an empty new line to a file (and Git is tracking that file) then Git will inform you that the file has been modified but you don’t really want a single empty line to be flagged up to you (not in web development really as white space is not that important). To have Git ignore whitespace changes you can enter the following into the Terminal:
 
@@ -101,8 +105,10 @@ Once you’re inside the project folder you’ll need to create an empty Git ‘
 
 If you’re Mac is set-up to not show ‘hidden’ folders then it wont look like much has happened (although you will now see a message in the Terminal telling you a new empty repository was created). If you really want to see hidden files and folders on your Mac then type the following into the Terminal…
 
+{% highlight bash %}
     defaults write com.apple.Finder AppleShowAllFiles YES
     killall Finder
+{% endhighlight %}
 
 …the first line tells Finder to allow showing of hidden files, and the second line restarts Finder so you can see the changes take effect. Once you have a new Git repository set-up you need to tell Git what files/folders to start ‘tracking’.
 
@@ -162,8 +168,10 @@ Basically, in the Terminal you type…
 
 …obviously change the email address from `joe@bloggs.com` to whatever email address you used to sign-up to GitHub with. Terminal will then tell you…
 
+{% highlight bash %}
     Generating public/private rsa key pair.
     Enter file in which to save the key (/Users/tekkub/.ssh/id_rsa):
+{% endhighlight %}
 
 …but your message will be slightly different in that the directory path in the brackets (e.g. `(/Users/tekkub/.ssh/id_rsa)`) will likely be different on your computer.
 
@@ -225,9 +233,11 @@ Now we can start pushing files any time we like to this particular project. I ha
 
 Lets say I made an update to the file ‘robots.txt’ - I can push that on it’s own:
 
+{% highlight bash %}
     git add robots.txt
     git commit -m 'Add some new robot configurations'
     git push origin master
+{% endhighlight %}
 
 Removing/Editing files
 ----------------------
@@ -238,8 +248,10 @@ To remove a file (e.g. lets remove the ‘robots.txt’ file) simply type…
 
 …then do the normal commit with message and push.
 
+{% highlight bash %}
     git commit -m 'Remove the robots.txt file'
     git push origin master
+{% endhighlight %}
 
 To edit existing files is the same process as adding files. But beware, as you’ll get an error if the file hasn’t actually been changed!
 
@@ -359,16 +371,20 @@ A good example of using .gitignore is if you wanted a config script - e.g. Setti
 
 You can use a `#` as a comment line and then specify the types of files or specific files to be ignored, such as:
 
+{% highlight ini %}
     #Mac OS X files
     .DS_Store
 
     # VIM leave-behinds
     *.swp
+{% endhighlight %}
 
 You can also ignore all files of a certain type except one by using the bang (!) such as:
 
+{% highlight ini %}
     *.log
     !errors.log
+{% endhighlight %}
 
 Best practices for Commit Messages
 ----------------------------------

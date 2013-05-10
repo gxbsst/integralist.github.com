@@ -51,9 +51,11 @@ Hopefully you'll find them useful too…
 <div id="3"></div>
 ##Update your global user details
 
+{% highlight bash %}
     git config --global user.name "Your Name"
     git config --global user.email "Your Email"
     git config --global apply.whitespace nowarn # ignore white space changes!
+{% endhighlight %}
 
 <div id="4"></div>
 ##Set-up a global ignore file
@@ -64,6 +66,7 @@ First create the global ignore file…
 
 Then add the following content to it (*this is a standard ignore file but I've added some Sass CSS pre-processor files to it*)…
 
+{% highlight bash %}
     # Compiled source #
     ###################
     *.com
@@ -104,6 +107,7 @@ Then add the following content to it (*this is a standard ignore file but I've a
     Icon?
     ehthumbs.db
     Thumbs.db
+{% endhighlight %}
 
 You can let Git know about your global ignore file by editing your global `.gitconfig` file…
 
@@ -111,8 +115,10 @@ You can let Git know about your global ignore file by editing your global `.gitc
 
 …then adding the following to it… 
 
+{% highlight bash %}
     [core]
     	excludesfile = /Users/<home-directory>/.gitignore_global
+{% endhighlight %}
 
 …or once the `.gitignore_global` file is created you can just tell git by using this short-hand command…
 
@@ -138,10 +144,11 @@ A short git commit message would look like this…
 
 Press `i` which puts Vim into 'insert' mode (meaning you can actually write)
 
+{% highlight bash %}
     This is my short description for this commit
-
     - Here is a break down of my changes
     - Another note about a particular change
+{% endhighlight %}
 
 After I've written my commit I just need to save the commit and exit Vim…
 
@@ -165,8 +172,10 @@ To get a better looking `git log` we need to write an alias called `git lg` that
 
 What we need to do is open the `~/.gitconfig` file and then add the following content… 
 
+{% highlight bash %}
     [alias]
     	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+{% endhighlight %}
 
 <div id="10"></div>
 ##Shorter `git status`
@@ -175,9 +184,11 @@ As per the above tip, we can create two extra alias' which give us a shorter com
 
 What we need to do is open the `~/.gitconfig` file and then add the following content… 
 
+{% highlight bash %}
     [alias] 
     	st = status
         sts = status -sb
+{% endhighlight %}
 
 …you don't need to specify `[alias]` if it's already in the file (see previous tip).
 
@@ -250,8 +261,10 @@ To unstage files we've added to the staging area we need to run the command `res
 
 Open up the file `~/.gitconfig` and then add the following content… 
 
+{% highlight bash %}
     [alias]
     	unstage = reset HEAD
+{% endhighlight %}
 
 Note: you don't need to specify `[alias]` if it's already in the `~/.gitconfig` file.
 

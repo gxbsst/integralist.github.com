@@ -10,6 +10,7 @@
         <!--[if lt IE 9]>
         <script src="/Assets/Scripts/html5.js"></script>
         <![endif]-->
+        <link rel="stylesheet" href="/Assets/Styles/pygment.css"     media="all">
         <link rel="stylesheet" href="/Assets/Styles/layout.css"     media="all">
         <link rel="stylesheet" href="/Assets/Styles/layout-480.css" media="only screen and (min-width: 30em)">
         <link rel="stylesheet" href="/Assets/Styles/layout-768.css" media="only screen and (min-width: 40em)">
@@ -136,28 +137,29 @@
 
 <p>To see what 'gems' you have already installed you can run the command <code>gem list --local</code> and this will display something similar to this (which is what I have installed on my own machine currently)…</p>
 
-<pre><code>bundler (1.1.3)
-cgi_multipart_eof_fix (2.5.0)
-daemons (1.1.8)
-eventmachine (0.12.10)
-fastthread (1.0.7)
-gem_plugin (0.2.3)
-i18n (0.6.0)
-mail (2.4.4)
-mime-types (1.18)
-polyglot (0.3.3)
-pony (1.4)
-rack (1.4.1)
-rack-protection (1.2.0)
-rake (0.9.2.2, 0.9.2)
-rubygems-bundler (0.3.0, 0.2.8)
-sass (3.1.17)
-shotgun (0.9)
-sinatra (1.3.2)
-thin (1.3.1)
-tilt (1.3.3)
-treetop (1.4.10)
-</code></pre>
+<div class="highlight"><pre><code class="bash">    bundler <span class="o">(</span>1.1.3<span class="o">)</span>
+    cgi_multipart_eof_fix <span class="o">(</span>2.5.0<span class="o">)</span>
+    daemons <span class="o">(</span>1.1.8<span class="o">)</span>
+    eventmachine <span class="o">(</span>0.12.10<span class="o">)</span>
+    fastthread <span class="o">(</span>1.0.7<span class="o">)</span>
+    gem_plugin <span class="o">(</span>0.2.3<span class="o">)</span>
+    i18n <span class="o">(</span>0.6.0<span class="o">)</span>
+    mail <span class="o">(</span>2.4.4<span class="o">)</span>
+    mime-types <span class="o">(</span>1.18<span class="o">)</span>
+    polyglot <span class="o">(</span>0.3.3<span class="o">)</span>
+    pony <span class="o">(</span>1.4<span class="o">)</span>
+    rack <span class="o">(</span>1.4.1<span class="o">)</span>
+    rack-protection <span class="o">(</span>1.2.0<span class="o">)</span>
+    rake <span class="o">(</span>0.9.2.2, 0.9.2<span class="o">)</span>
+    rubygems-bundler <span class="o">(</span>0.3.0, 0.2.8<span class="o">)</span>
+    sass <span class="o">(</span>3.1.17<span class="o">)</span>
+    shotgun <span class="o">(</span>0.9<span class="o">)</span>
+    sinatra <span class="o">(</span>1.3.2<span class="o">)</span>
+    thin <span class="o">(</span>1.3.1<span class="o">)</span>
+    tilt <span class="o">(</span>1.3.3<span class="o">)</span>
+    treetop <span class="o">(</span>1.4.10<span class="o">)</span>
+</code></pre></div>
+
 
 <h3>Set-up</h3>
 
@@ -165,24 +167,26 @@ treetop (1.4.10)
 
 <p>First thing we want to do is to create a file that will be our application. So lets go ahead and do that and call it <code>app.rb</code> and lets add the following content to it…</p>
 
-<pre><code>#!/usr/bin/env ruby
+<div class="highlight"><pre><code class="ruby">    <span class="c1">#!/usr/bin/env ruby</span>
 
-require 'sinatra'
+    <span class="nb">require</span> <span class="s1">&#39;sinatra&#39;</span>
 
-get '/' do
-    "Hello World!"
-end
-</code></pre>
+    <span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+        <span class="s2">&quot;Hello World!&quot;</span>
+    <span class="k">end</span>
+</code></pre></div>
+
 
 <p>…now open your CLI, direct yourself to the folder where the above file is located and run <code>ruby app.rb</code>.</p>
 
 <p>You should see a message similar to this…</p>
 
-<pre><code>== Sinatra/1.3.2 has taken the stage on 4567 for development with backup from Thin
-&gt;&gt; Thin web server (v1.3.1 codename Triple Espresso)
-&gt;&gt; Maximum connections set to 1024
-&gt;&gt; Listening on 0.0.0.0:4567, CTRL+C to stop
-</code></pre>
+<div class="highlight"><pre><code class="bash">    <span class="o">==</span> Sinatra/1.3.2 has taken the stage on 4567 <span class="k">for </span>development with backup from Thin
+    &gt;&gt; Thin web server <span class="o">(</span>v1.3.1 codename Triple Espresso<span class="o">)</span>
+    &gt;&gt; Maximum connections <span class="nb">set </span>to 1024
+    &gt;&gt; Listening on 0.0.0.0:4567, CTRL+C to stop
+</code></pre></div>
+
 
 <p>You should now be able to open your web browser and go to: <code>http://localhost:4567/</code> and see the message "Hello World!"</p>
 
@@ -216,43 +220,47 @@ This is Sinatra's "Classic"** DSL syntax which basically says when someone loads
 
 <p>If you wanted to add a new page called "Projects" that you accessed via <code>http://localhost:4567/projects</code> then all you would need to do is add the following code…</p>
 
-<pre><code>get '/projects' do
-    # page content
-end
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="n">get</span> <span class="s1">&#39;/projects&#39;</span> <span class="k">do</span>
+        <span class="c1"># page content</span>
+    <span class="k">end</span>
+</code></pre></div>
+
 
 <p>What we've done is created a new 'route' - a new way for a user to access your application.</p>
 
 <p>Imagine now that this 'projects' page had a login form on it that let the user enter a username and password and this form POST'ed the data entered by the user back to the current page...</p>
 
-<pre><code>&lt;form method="post"&gt;
-    &lt;dl&gt;
-        &lt;dt&gt;Name&lt;/dt&gt;
-        &lt;dd&gt;&lt;input name="user" type="text"&gt;&lt;/dd&gt;
-        &lt;dt&gt;Email&lt;/dt&gt;
-        &lt;dd&gt;&lt;input name="password" type="password"&gt;&lt;/dd&gt;
-    &lt;/dl&gt;
-    &lt;p&gt;&lt;input type="submit" value="Send"&gt;&lt;/p&gt;
-&lt;/form&gt;
-</code></pre>
+<div class="highlight"><pre><code class="html">    <span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;dl&gt;</span>
+            <span class="nt">&lt;dt&gt;</span>Name<span class="nt">&lt;/dt&gt;</span>
+            <span class="nt">&lt;dd&gt;&lt;input</span> <span class="na">name=</span><span class="s">&quot;user&quot;</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span><span class="nt">&gt;&lt;/dd&gt;</span>
+            <span class="nt">&lt;dt&gt;</span>Email<span class="nt">&lt;/dt&gt;</span>
+            <span class="nt">&lt;dd&gt;&lt;input</span> <span class="na">name=</span><span class="s">&quot;password&quot;</span> <span class="na">type=</span><span class="s">&quot;password&quot;</span><span class="nt">&gt;&lt;/dd&gt;</span>
+        <span class="nt">&lt;/dl&gt;</span>
+        <span class="nt">&lt;p&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">value=</span><span class="s">&quot;Send&quot;</span><span class="nt">&gt;&lt;/p&gt;</span>
+    <span class="nt">&lt;/form&gt;</span>
+</code></pre></div>
+
 
 <p>...for you to access the POST'ed data then you would need to add another 'route' to handle it. But this time instead of using a <code>get</code> request it would be a <code>post</code> request like so…</p>
 
-<pre><code>post '/projects' do
-    # do something with the form fields
-    user = params[:user]
-    pass = params[:password]
-end
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="n">post</span> <span class="s1">&#39;/projects&#39;</span> <span class="k">do</span>
+        <span class="c1"># do something with the form fields</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:user</span><span class="o">]</span>
+        <span class="n">pass</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:password</span><span class="o">]</span>
+    <span class="k">end</span>
+</code></pre></div>
+
 
 <p>…you'll notice that the form data is passed to the block using special parameters called <code>params</code>. So in the above example we had two form fields with the names <code>user</code> and <code>password</code> and we're assigning their values to the variables <code>user</code> and <code>pass</code> where we can now do validation on the values.</p>
 
 <p>You can also use the URL path as a way for the user to interact with your application. For example if you had a page which added two numbers together then it could be handled directly via the URL as follows…</p>
 
-<pre><code>get '/add/:a/:b' do |a, b|
-    "#{a.to_i + b.to_i}"
-end
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="n">get</span> <span class="s1">&#39;/add/:a/:b&#39;</span> <span class="k">do</span> <span class="o">|</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">|</span>
+        <span class="s2">&quot;</span><span class="si">#{</span><span class="n">a</span><span class="o">.</span><span class="n">to_i</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">to_i</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">end</span>
+</code></pre></div>
+
 
 <p>…this would display on the page the result of adding <code>a</code> and <code>b</code> together. So if I went to the URL <code>http://localhost:4567/add/2/2</code> then this would display <code>4</code> as that would be the result of <code>2 + 2</code> (which was the two parameters I specified within the URL).</p>
 
@@ -266,14 +274,15 @@ end
 
 <p>Our code is going to start looking something like this…</p>
 
-<pre><code>get '/' do
-    erb :home
-end
+<div class="highlight"><pre><code class="ruby">    <span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+        <span class="n">erb</span> <span class="ss">:home</span>
+    <span class="k">end</span>
 
-get '/projects' do
-    erb :projects
-end
-</code></pre>
+    <span class="n">get</span> <span class="s1">&#39;/projects&#39;</span> <span class="k">do</span>
+        <span class="n">erb</span> <span class="ss">:projects</span>
+    <span class="k">end</span>
+</code></pre></div>
+
 
 <p>…what this is doing is using ERB (which stands for 'Embedded Ruby') and is the standard templating language available in Ruby - although there are many templating languages you could load and use in its place. What we've said here in our code is load the <code>:home</code> template (.erb file) when on the home page, and load the <code>:project</code> template (.erb file) when on the projects page.</p>
 
@@ -281,12 +290,13 @@ end
 
 <p>Inside our <code>views</code> folder we'll need to create two files then: <code>home.erb</code> and <code>projects.erb</code> and they'll look a little bit like this…</p>
 
-<pre><code>&lt;!-- home.erb --&gt;
-&lt;p&gt;HTML content for my home page&lt;/p&gt;
+<div class="highlight"><pre><code class="html">    <span class="c">&lt;!-- home.erb --&gt;</span>
+    <span class="nt">&lt;p&gt;</span>HTML content for my home page<span class="nt">&lt;/p&gt;</span>
 
-&lt;!-- projects.erb --&gt;
-&lt;p&gt;HTML content for my projects page&lt;/p&gt;
-</code></pre>
+    <span class="c">&lt;!-- projects.erb --&gt;</span>
+    <span class="nt">&lt;p&gt;</span>HTML content for my projects page<span class="nt">&lt;/p&gt;</span>
+</code></pre></div>
+
 
 <p>Now this doesn't look like much of a HTML page, and that's because I'm using (or I'm going to be using very shortly) what Sinatra refers to as a main layout file and this 'layout' file will contain the rest of my HTML code and will be wrapped around my above templates.</p>
 
@@ -294,77 +304,83 @@ end
 
 <p>But if I didn't create a <code>layout.erb</code> file then I could have modified my templates above to include a full set of HTML like so…</p>
 
-<pre><code>&lt;!-- home.erb --&gt;
-&lt;!doctype html&gt;
-&lt;html&gt;
-    &lt;head&gt;
-        &lt;meta charset="utf-8"&gt;
-        &lt;title&gt;My Page&lt;/title&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-       &lt;p&gt;HTML content for my home page&lt;/p&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+<div class="highlight"><pre><code class="html">    <span class="c">&lt;!-- home.erb --&gt;</span>
+    <span class="cp">&lt;!doctype html&gt;</span>
+    <span class="nt">&lt;html&gt;</span>
+        <span class="nt">&lt;head&gt;</span>
+            <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;title&gt;</span>My Page<span class="nt">&lt;/title&gt;</span>
+        <span class="nt">&lt;/head&gt;</span>
+        <span class="nt">&lt;body&gt;</span>
+           <span class="nt">&lt;p&gt;</span>HTML content for my home page<span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;/body&gt;</span>
+    <span class="nt">&lt;/html&gt;</span>
+</code></pre></div>
+
 
 <p>…but I prefer having a master layout to handle this stuff, so lets create a <code>layout.erb</code> file (within the <code>views</code> folder) and add the following content to it…</p>
 
-<pre><code>&lt;!-- layout.erb --&gt;
-&lt;!doctype html&gt;
-&lt;html&gt;
-    &lt;head&gt;
-        &lt;meta charset="utf-8"&gt;
-        &lt;title&gt;My Page&lt;/title&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-       &lt;%= yield %&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+<div class="highlight"><pre><code class="erb"><span class="x">    &lt;!-- layout.erb --&gt;</span>
+<span class="x">    &lt;!doctype html&gt;</span>
+<span class="x">    &lt;html&gt;</span>
+<span class="x">        &lt;head&gt;</span>
+<span class="x">            &lt;meta charset=&quot;utf-8&quot;&gt;</span>
+<span class="x">            &lt;title&gt;My Page&lt;/title&gt;</span>
+<span class="x">        &lt;/head&gt;</span>
+<span class="x">        &lt;body&gt;</span>
+<span class="x">           </span><span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">        &lt;/body&gt;</span>
+<span class="x">    &lt;/html&gt;</span>
+</code></pre></div>
+
 
 <p>…you should notice the Ruby tags <code>&lt;% %&gt;</code> which are used to place Ruby code inside of them. Here we're telling Ruby to <code>yield</code> to the template file we're loading. So for example when a user accesses the home page and we load <code>home.erb</code>, we're effectively loading the <code>layout.erb</code> file and telling it that when it reaches the <code>body</code> tag we want it to load in the content from the <code>home.erb</code> file into it so it will end up rendering in the web browser like this…</p>
 
-<pre><code>&lt;!doctype html&gt;
-&lt;html&gt;
-    &lt;head&gt;
-        &lt;meta charset="utf-8"&gt;
-        &lt;title&gt;My Page&lt;/title&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-       &lt;p&gt;HTML content for my home page&lt;/p&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+<div class="highlight"><pre><code class="html">    <span class="cp">&lt;!doctype html&gt;</span>
+    <span class="nt">&lt;html&gt;</span>
+        <span class="nt">&lt;head&gt;</span>
+            <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;title&gt;</span>My Page<span class="nt">&lt;/title&gt;</span>
+        <span class="nt">&lt;/head&gt;</span>
+        <span class="nt">&lt;body&gt;</span>
+           <span class="nt">&lt;p&gt;</span>HTML content for my home page<span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;/body&gt;</span>
+    <span class="nt">&lt;/html&gt;</span>
+</code></pre></div>
+
 
 <p>If you want to load a different master layout for a specific page then you can do that also. For example I have a page that I display to users of Internet Explorer version 7 or lower. The master layout for that page is a lot simpler than the other pages of my site in that it loads different stylesheets specifically for this IE page. So in my application file I have the following…</p>
 
-<pre><code>get '/internet-explorer' do
-    erb :ie, :layout =&gt; :layout_ie
-end
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="n">get</span> <span class="s1">&#39;/internet-explorer&#39;</span> <span class="k">do</span>
+        <span class="n">erb</span> <span class="ss">:ie</span><span class="p">,</span> <span class="ss">:layout</span> <span class="o">=&gt;</span> <span class="ss">:layout_ie</span>
+    <span class="k">end</span>
+</code></pre></div>
+
 
 <p>…and what you can see here is that I'm not only telling Sinatra to load the <code>ie.erb</code> file but to also use the <code>layout_ie.erb</code> file as the master layout file for this page rather than the default <code>layout.erb</code>.</p>
 
 <p>One other thing worth mentioning is that you can pass variables from your route block into your template using class instance variables…</p>
 
-<pre><code>post '/contact' do
-    redirect "/contact-error/name" if params[:user].empty?
-    redirect "/contact-error/email" if params[:email].empty?
-    redirect "/contact-error/message" if params[:message].empty?
+<div class="highlight"><pre><code class="ruby">    <span class="n">post</span> <span class="s1">&#39;/contact&#39;</span> <span class="k">do</span>
+        <span class="n">redirect</span> <span class="s2">&quot;/contact-error/name&quot;</span> <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:user</span><span class="o">].</span><span class="n">empty?</span>
+        <span class="n">redirect</span> <span class="s2">&quot;/contact-error/email&quot;</span> <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:email</span><span class="o">].</span><span class="n">empty?</span>
+        <span class="n">redirect</span> <span class="s2">&quot;/contact-error/message&quot;</span> <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:message</span><span class="o">].</span><span class="n">empty?</span>
 
-    erb :contact_success
-end
+        <span class="n">erb</span> <span class="ss">:contact_success</span>
+    <span class="k">end</span>
 
-get '/contact-error/:field' do |field|
-    @field = field
-    erb :contact_error
-end
-</code></pre>
+    <span class="n">get</span> <span class="s1">&#39;/contact-error/:field&#39;</span> <span class="k">do</span> <span class="o">|</span><span class="n">field</span><span class="o">|</span>
+        <span class="vi">@field</span> <span class="o">=</span> <span class="n">field</span>
+        <span class="n">erb</span> <span class="ss">:contact_error</span>
+    <span class="k">end</span>
+</code></pre></div>
+
 
 <p>…in the above example when a user makes an error on my contact form I redirect them to a page that shows them what field they made an error on. In my template file I have…</p>
 
-<pre><code>&lt;p&gt;Sorry there was an error with your form submission. Seems you didn't fill in the &lt;%= @field %&gt; field.&lt;/p&gt;
-</code></pre>
+<div class="highlight"><pre><code class="html">    <span class="nt">&lt;p&gt;</span>Sorry there was an error with your form submission. Seems you didn&#39;t fill in the <span class="err">&lt;</span>%= @field %&gt; field.<span class="nt">&lt;/p&gt;</span>
+</code></pre></div>
+
 
 <p>…notice I picked up the field from the URL and stored it in a class instance variable and used that variable within my template.</p>
 
@@ -390,10 +406,11 @@ end
 
 <p>If the user tries to access a page that doesn't exist then you can direct them to your own <code>404 error</code> page by using the following route…</p>
 
-<pre><code>not_found do
-    erb :notfound
-end
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="n">not_found</span> <span class="k">do</span>
+        <span class="n">erb</span> <span class="ss">:notfound</span>
+    <span class="k">end</span>
+</code></pre></div>
+
 
 <p>…as you can see I'm loading a 'notfound.erb' template for the content. This will get called anytime an unknown URL is specified by the user.</p>
 
@@ -401,10 +418,11 @@ end
 
 <p>To fix this you can do the following…</p>
 
-<pre><code>before do
-    request.path_info.sub! %r{/$}, ''
-end
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="n">before</span> <span class="k">do</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">path_info</span><span class="o">.</span><span class="n">sub!</span> <span class="sr">%r{/$}</span><span class="p">,</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">end</span>
+</code></pre></div>
+
 
 <p>…the above code block is referred to as a 'filter' block and it is executed before every HTTP request.</p>
 
@@ -414,17 +432,19 @@ end
 
 <p>If there is an actual error then you can use…</p>
 
-<pre><code>error do
-    erb :error
-end
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="n">error</span> <span class="k">do</span>
+        <span class="n">erb</span> <span class="ss">:error</span>
+    <span class="k">end</span>
+</code></pre></div>
+
 
 <p>In a development environment Sinatra tries to be helpful by displaying very detailed error messages. But you may find this overrides your custom error page which you would want to show to a user. So if you want to just test your error page is working correct before you 'go live' then simply add <code>disable :show_exceptions</code> to some where near the top of your application file and this will mean the detailed error stack is no longer shown when you encounter an error during development and so you'll end up seeing what your users will see in the live environment.</p>
 
 <p>Also, within your <code>error.erb</code> template file you can access the error using the environment variable <code>sinatra.error</code>…</p>
 
-<pre><code>&lt;p&gt;Sorry there was the following error: &lt;strong class="error"&gt;&lt;%= env["sinatra.error"] %&gt;&lt;/strong&gt;&lt;/p&gt;
-</code></pre>
+<div class="highlight"><pre><code class="erb"><span class="x">    &lt;p&gt;Sorry there was the following error: &lt;strong class=&quot;error&quot;&gt;</span><span class="cp">&lt;%=</span> <span class="n">env</span><span class="o">[</span><span class="s2">&quot;sinatra.error&quot;</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x">&lt;/strong&gt;&lt;/p&gt;</span>
+</code></pre></div>
+
 
 <h3>Performance</h3>
 
@@ -439,26 +459,26 @@ end
 </ol>
 
 
-<h4>1. Cache static resources</h4>
+<h3>Cache static resources</h3>
 
-<h1>We set the cache control for static resources to approximately 1 month</h1>
+<p>We set the cache control for static resources to approximately 1 month</p>
 
-<p>set :static_cache_control, [:public, :max_age => 2678400]</p>
+<p><code>set :static_cache_control, [:public, :max_age =&gt; 2678400]</code></p>
 
-<h4>2. Use the <code>Thin</code> Web Server</h4>
+<h3>Use the <code>Thin</code> Web Server</h3>
 
 <p>You can also tell Sinatra to use the <code>Thin</code> server rather than the default <code>WEBrick</code> server if it's available (<code>Thin</code> is a supremely better performing web server so do please use it!)</p>
 
-<pre><code># We specify which server we want to use (Thin is tried first and then failing that WEBrick)
-set :server, %w[thin webrick]
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="c1"># We specify which server we want to use (Thin is tried first and then failing that WEBrick)</span>
+    <span class="n">set</span> <span class="ss">:server</span><span class="p">,</span> <span class="sx">%w[thin webrick]</span>
+</code></pre></div>
 
-<h4>3. GZIP all content</h4>
+
+<h3>GZIP all content</h3>
 
 <p>We can also have the web server automatically GZIP all our static resources (which can reduce the file size of a resource by up to 70%!) such as HTML content, JavaScript files, CSS files by using one line of Ruby code…</p>
 
-<pre><code>use Rack::Deflater
-</code></pre>
+<p><code>use Rack::Deflater</code></p>
 
 <p>…this uses the 'Rack' middleware application (Rack is what sits behind Sinatra and is the actual HTTP web server interface), but Sinatra hides all of that behind the DSL syntax of <code>get</code> and <code>post</code> calls (nice huh).</p>
 
@@ -482,11 +502,18 @@ set :server, %w[thin webrick]
 <li><p>Create a <code>config.ru</code> file and add the following content:<br/>
      require 'app' # where app is the name of your main file that initializes your web application
      run Sinatra::Application</p></li>
-<li><p>Create a Gemfile file (no file extension) and add the content:<br/>
-     source 'http://rubygems.org'
-     gem 'sinatra', '1.3.2'
-     gem 'thin', '1.3.1'</p></li>
-<li><p>Go back to your CLI and enter:</p>
+<li><p>Create a Gemfile file (no file extension) and add the content:</p></li>
+</ol>
+
+
+<div class="highlight"><pre><code class="ruby">    <span class="n">source</span> <span class="s1">&#39;http://rubygems.org&#39;</span>
+    <span class="n">gem</span> <span class="s1">&#39;sinatra&#39;</span><span class="p">,</span> <span class="s1">&#39;1.3.2&#39;</span>
+    <span class="n">gem</span> <span class="s1">&#39;thin&#39;</span><span class="p">,</span> <span class="s1">&#39;1.3.1&#39;</span>
+</code></pre></div>
+
+
+<ol>
+<li>Go back to your CLI and enter:
 
 <ul>
 <li><code>bundle install</code> which will create a <code>Gemfile.lock</code> file specifying ALL the dependancies needed for your app to run (you shouldn't need to manually create your own Gemfile - as I've told you to do in step 5. - but just in case <code>bundle install</code> doesn't work for you then you can at least do it manually).</li>

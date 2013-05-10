@@ -63,9 +63,11 @@ Variables are a great way to not have to repeat entering the same value over and
 
 To create a variable in SASS you simply prefix the name of the variable with a dollar sign: `$brand_color: #C00;` I can now use `$brand_color` wherever I like. For example…
 
+{% highlight css %}
 	.header {
 		color: $brand_color;
 	}
+{% endhighlight %}
 
 This makes life a lot easier and although I've seen people claim that OOCSS can work around this, it can, but not easily and so using SASS for this alone is still extremely useful in my mind.
 
@@ -75,8 +77,10 @@ I can't imagine me ever using this feature, but I've included it because it also
 
 You can use all standard operators (*, /, +, -) for example:
 
+{% highlight css %}
 	$width: 10px; 
 	$double_width: $width * 2;
+{% endhighlight %}
 
 You can do calculations inline (i.e. where the property value is set) and you can also group calculations:
 
@@ -88,45 +92,59 @@ These are very useful. A lot of times you have for example 'hover' effects that 
 
 `lighten(colour, percentage)`
 	
+{% highlight css %}
 	.txt-light {
 		color: lighten($brand_color, 30%);
 	}
+{% endhighlight %}
 
 `darken(colour, percentage)`
 
+{% highlight css %}
 	.txt-dark {
 		color: darken($brand_color, 10%);
 	}
+{% endhighlight %}
 
 `saturate(colour, percentage)`
 
+{% highlight css %}
 	.txt-sat {
 		color: saturate($brand_color, 100%);
 	}
+{% endhighlight %}
 
 `desaturate(colour, percentage)`
 
+{% highlight css %}
 	.txt-desat {
 		color: desaturate($brand_color, 20%);
 	}
+{% endhighlight %}
 
 `adjust-hue(colour, degrees)`
 
+{% highlight css %}
 	.txt-hue {
 		color: adjust-hue($brand_color, 180);
 	}
+{% endhighlight %}
 
 `grayscale(colour)`
 
+{% highlight css %}
 	.txt-greyscale {
 		color: grayscale($brand_color);
 	}
+{% endhighlight %}
 
 `mix(colour, colour)`
 
+{% highlight css %}
 	.txt-mix {
 		color: mix($brand_color, #C00);
 	}
+{% endhighlight %}
 
 ###Importing
 
@@ -144,15 +162,18 @@ To be honest, it's likely that any stylesheets you have deemed modular enough to
 
 For example:
 
+{% highlight css %}
 	$brand_color = #0000FF;
 	.brand { 
 		color: $brand_color; 
 	}
 	// MORE STYLES
 	@import "other.scss";
+{% endhighlight %}
 
 …generates the following CSS…
 
+{% highlight css %}
 	.brand { 
 		color: blue; 
 	}
@@ -160,14 +181,17 @@ For example:
 	.brand { 
 		background-color: red; 
 	}
+{% endhighlight %}
 
 …which obviously isn't as efficient or clean as…
 
+{% highlight css %}
 	.brand { 
 		color: blue; 
 		background-color: red; 
 	}
 	// MORE STYLES
+{% endhighlight %}
 
 …but that's the trade-off between SASS features and the efficiency of the produced code.
 
@@ -183,6 +207,7 @@ The reason I'm even mentioning this feature is so you know not to bother with it
 
 Anywhere you have a CSS class you can re-import that inside another rule:
 
+{% highlight css %}
 	.myClass {
 		border: 1px solid #969;
 		color: red;
@@ -192,9 +217,11 @@ Anywhere you have a CSS class you can re-import that inside another rule:
 		@extend .myClass;
 		background-color: orange;
 	}
+{% endhighlight %}
 
 …which generates the following CSS…
 
+{% highlight css %}
 	.myClass, button {
 		border: 1px solid #969;
 		color: red;
@@ -203,6 +230,7 @@ Anywhere you have a CSS class you can re-import that inside another rule:
 	button {
 		background-color: orange;
 	}
+{% endhighlight %}
 
 A couple of last words of caution: `extend` avoids code duplication but it also causes other problems in that the amount of selectors can become an issue. If you @extend the same base class multiple times you may end up with a rule that has thousands of selectors, which isn't good for performance and can even make the browser crash (limit its use if you must use it).
 
@@ -216,30 +244,37 @@ Remember that this can cause code duplication so please do NOT use 'Mixins' (OOC
 
 You create a mixing like so:
 
+{% highlight css %}
 	@mixin .myMixin { 
 		color: blue; 
 	}
 	.product_title {
 		@include .myMixin;
 	}
+{% endhighlight %}
 
 …and you can change the values like so…
 
+{% highlight css %}
 	@mixin .myMixin($set_colour) { 
 		color: $set_colour; 
 	}
 	.product_title {
 		@include .myMixin(#FF0000);
 	}
+{% endhighlight %}
 
 …you can also define a default value if none is provided…
 
+{% highlight css %}
 	@mixin .myMixin($set_colour: #0000FF) { 
 		color: $set_colour;
 	}
+{% endhighlight %}
 
 …you can use mixin's for things like CSS3 properties…
 
+{% highlight css %}
 	@mixin rounded_borders($color, $width: 5px, $rounding: 5px) { 
 		-moz-border-radius: $rounding $rounding; 
 		-webkit-border-radius: $rounding $rounding; 
@@ -253,20 +288,25 @@ You create a mixing like so:
 		filter: alpha(opacity=#{$opacity}); // IE 5-9+ 
 		opacity: $opacity * 0.01; 
 	}
+{% endhighlight %}
 
 …and use the opacity like so…
 
+{% highlight css %}
 	.h1 { 
 		// Use the IE numbering style (instead of the W3C's 0-1 numbering style)
 		@include opacity(60);
 	}
+{% endhighlight %}
 
 …or you could use the reverse…
 
+{% highlight css %}
 	@mixin opacity($opacity) {
 		filter: alpha(opacity=#{$opacity*100}); // IE 5-9+ 
 		opacity: $opacity; 
 	}
+{% endhighlight %}
 
 ###Interpolation
 
@@ -274,6 +314,7 @@ One area where mixins can't help you is when there is some specific CSS3 syntax 
 
 One way to work around this issue is to use `interpolation`. The way it works is that you wrap a variable name with `#{}` e.g. `#{$my_variable}` and that will dynamically insert the value at that place in your CSS. Might sound a bit confusing so best to demonstrate this with an example, and the best example I can think of is again the `background-image` property with multiple different vendor prefixes… 
 
+{% highlight css %}
 	// Variable
 	$prefixes:-webkit,-moz,-ms,-o;
 
@@ -287,5 +328,6 @@ One way to work around this issue is to use `interpolation`. The way it works is
 	@each $prefix in $prefixes {
 		#{$prefix}-border-radius: 10px;
 	}
+{% endhighlight %}
 
 …most of the time mixins will help you work around CSS3 vendor prefixes but in the above instance `interpolation` is the way forward.

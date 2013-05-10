@@ -18,6 +18,7 @@ The (original) Regex Solution
 Example Code
 ------------
 
+{% highlight javascript %}
      /**
       * The Integralist global namespace object.
       *
@@ -63,6 +64,7 @@ Example Code
 
      // Trigger 'external' method
      window.onload = Integralist.external;
+{% endhighlight %}
 
 Update 1
 --------

@@ -10,6 +10,7 @@ The basic premise to have code that appears more `Class` like is this: JavaScrip
 
 A basic example is as follows…
 
+{% highlight javascript %}
       var Person = function (settings) {
          if (!settings) { settings = {}; } // code defensively
 
@@ -56,6 +57,7 @@ A basic example is as follows…
       // Test this new method is accessible to all instances of the Person Class
       integralist.getNameAndAge();
       user.getNameAndAge();
+{% endhighlight %}
 
 Personally I would suggest you learn how JavaScript implements its own form of inheritance (prototypal inheritance) which is more efficient and nicer to work with than the use of functions as Constructors.
 

@@ -10,6 +10,7 @@
         <!--[if lt IE 9]>
         <script src="/Assets/Scripts/html5.js"></script>
         <![endif]-->
+        <link rel="stylesheet" href="/Assets/Styles/pygment.css"     media="all">
         <link rel="stylesheet" href="/Assets/Styles/layout.css"     media="all">
         <link rel="stylesheet" href="/Assets/Styles/layout-480.css" media="only screen and (min-width: 30em)">
         <link rel="stylesheet" href="/Assets/Styles/layout-768.css" media="only screen and (min-width: 40em)">
@@ -33,53 +34,54 @@
 
 <p>A basic example is as follows…</p>
 
-<pre><code>  var Person = function (settings) {
-     if (!settings) { settings = {}; } // code defensively
+<div class="highlight"><pre><code class="javascript">      <span class="kd">var</span> <span class="nx">Person</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">settings</span><span class="p">)</span> <span class="p">{</span>
+         <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">settings</span><span class="p">)</span> <span class="p">{</span> <span class="nx">settings</span> <span class="o">=</span> <span class="p">{};</span> <span class="p">}</span> <span class="c1">// code defensively</span>
 
-     // Instance properties (any new instances of the Person class will have these properties)
-     this.name = settings.name || 'no name given';
-     this.age = settings.age || 'no age given';
+         <span class="c1">// Instance properties (any new instances of the Person class will have these properties)</span>
+         <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">settings</span><span class="p">.</span><span class="nx">name</span> <span class="o">||</span> <span class="s1">&#39;no name given&#39;</span><span class="p">;</span>
+         <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">settings</span><span class="p">.</span><span class="nx">age</span> <span class="o">||</span> <span class="s1">&#39;no age given&#39;</span><span class="p">;</span>
 
-     // Instance method (any new instances of the Person class will have this method)
-     this.getName = function() {
-        alert(this.name);
-     };
-  };
+         <span class="c1">// Instance method (any new instances of the Person class will have this method)</span>
+         <span class="k">this</span><span class="p">.</span><span class="nx">getName</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+         <span class="p">};</span>
+      <span class="p">};</span>
 
-  // Create a new instance of the Person Class
-  var integralist = new Person({ name:'Mark', age:7 });
+      <span class="c1">// Create a new instance of the Person Class</span>
+      <span class="kd">var</span> <span class="nx">integralist</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">({</span> <span class="nx">name</span><span class="o">:</span><span class="s1">&#39;Mark&#39;</span><span class="p">,</span> <span class="nx">age</span><span class="o">:</span><span class="mi">7</span> <span class="p">});</span>
 
-  // Add a method to this instance of the Person Class only (no other instances created will have this method)
-  integralist.getAge = function() {
-     alert(this.age);
-  }
+      <span class="c1">// Add a method to this instance of the Person Class only (no other instances created will have this method)</span>
+      <span class="nx">integralist</span><span class="p">.</span><span class="nx">getAge</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+         <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">age</span><span class="p">);</span>
+      <span class="p">}</span>
 
-  // Test the integralist instance has access to both methods
-  integralist.getName();
-  integralist.getAge();
+      <span class="c1">// Test the integralist instance has access to both methods</span>
+      <span class="nx">integralist</span><span class="p">.</span><span class="nx">getName</span><span class="p">();</span>
+      <span class="nx">integralist</span><span class="p">.</span><span class="nx">getAge</span><span class="p">();</span>
 
-  // Create another instance of the Person Class
-  var user = new Person();
+      <span class="c1">// Create another instance of the Person Class</span>
+      <span class="kd">var</span> <span class="nx">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">();</span>
 
-  // Notice the user has access to a 'getName' method but not a 'getAge' method
-  user.getName();
+      <span class="c1">// Notice the user has access to a &#39;getName&#39; method but not a &#39;getAge&#39; method</span>
+      <span class="nx">user</span><span class="p">.</span><span class="nx">getName</span><span class="p">();</span>
 
-  // I know this will error so I'm wrapping it in a try statement
-  try {
-     user.getAge();
-  } catch(err) {
-     alert(err); // Uncaught TypeError: Object [object Object] has no method 'getAge'
-  }
+      <span class="c1">// I know this will error so I&#39;m wrapping it in a try statement</span>
+      <span class="k">try</span> <span class="p">{</span>
+         <span class="nx">user</span><span class="p">.</span><span class="nx">getAge</span><span class="p">();</span>
+      <span class="p">}</span> <span class="k">catch</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+         <span class="nx">alert</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="c1">// Uncaught TypeError: Object [object Object] has no method &#39;getAge&#39;</span>
+      <span class="p">}</span>
 
-  // Add a method to the Person Class' prototype chain (all instances of the Person Class will now get this method - even those already defined)
-  Person.prototype.getNameAndAge = function() {
-     alert('Hi, my name is ' + this.name + ', and I\'m ' + this.age + ' years old.');
-  }
+      <span class="c1">// Add a method to the Person Class&#39; prototype chain (all instances of the Person Class will now get this method - even those already defined)</span>
+      <span class="nx">Person</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">getNameAndAge</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+         <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;Hi, my name is &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;, and I\&#39;m &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">+</span> <span class="s1">&#39; years old.&#39;</span><span class="p">);</span>
+      <span class="p">}</span>
 
-  // Test this new method is accessible to all instances of the Person Class
-  integralist.getNameAndAge();
-  user.getNameAndAge();
-</code></pre>
+      <span class="c1">// Test this new method is accessible to all instances of the Person Class</span>
+      <span class="nx">integralist</span><span class="p">.</span><span class="nx">getNameAndAge</span><span class="p">();</span>
+      <span class="nx">user</span><span class="p">.</span><span class="nx">getNameAndAge</span><span class="p">();</span>
+</code></pre></div>
+
 
 <p>Personally I would suggest you learn how JavaScript implements its own form of inheritance (prototypal inheritance) which is more efficient and nicer to work with than the use of functions as Constructors.</p>
 

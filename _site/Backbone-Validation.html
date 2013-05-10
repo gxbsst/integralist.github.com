@@ -10,6 +10,7 @@
         <!--[if lt IE 9]>
         <script src="/Assets/Scripts/html5.js"></script>
         <![endif]-->
+        <link rel="stylesheet" href="/Assets/Styles/pygment.css"     media="all">
         <link rel="stylesheet" href="/Assets/Styles/layout.css"     media="all">
         <link rel="stylesheet" href="/Assets/Styles/layout-480.css" media="only screen and (min-width: 30em)">
         <link rel="stylesheet" href="/Assets/Styles/layout-768.css" media="only screen and (min-width: 40em)">
@@ -73,18 +74,19 @@
 
 <p>Our full form code looks like this…</p>
 
-<pre><code>&lt;form action="http://www.google.com/" method="post" id="js-form"&gt;
-    &lt;p&gt;Name: &lt;input name="fullname" class="js-mandatory-field" data-message="Please ensure you enter your full name"&gt;&lt;/p&gt;
-    &lt;p&gt;Date of Birth: &lt;input name="dob" placeholder="dd/mm/yyyy" class="js-mandatory-field" data-message="Please ensure you enter a valid date format"&gt;&lt;/p&gt;
-    &lt;p&gt;Age: &lt;input name="age" type="number" class="js-mandatory-field" data-message="Please ensure you enter a valid age"&gt;&lt;/p&gt;
-    &lt;p&gt;Email: &lt;input name="email" type="email" class="js-mandatory-field" data-message="Please ensure you enter a valid email"&gt;&lt;/p&gt;
-    &lt;p&gt;Mobile: &lt;input name="mobile" class="js-mandatory-field" data-message="Please ensure you enter a valid mobile number"&gt;&lt;/p&gt;
-    &lt;p&gt;Password (8 alpha-numerical characters, at least either 1 number or 1 text character): &lt;input name="password" type="password" class="js-mandatory-field" data-message="Please ensure you enter a password that matches the criteria"&gt;&lt;/p&gt;
-    &lt;p&gt;Credit Card: &lt;input name="card" class="js-mandatory-field" data-message="Please ensure you enter a valid credit card number"&gt;&lt;/p&gt;
-    &lt;p&gt;To proceed please tick this box: &lt;input name="proceed" type="checkbox" class="js-mandatory-field" data-message="Please ensure you tick the box to proceed"&gt;&lt;/p&gt;
-    &lt;p&gt;&lt;input type="submit" value="Submit Form"&gt;&lt;/p&gt;
-&lt;/form&gt;
-</code></pre>
+<div class="highlight"><pre><code class="html">    <span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;http://www.google.com/&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span> <span class="na">id=</span><span class="s">&quot;js-form&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;p&gt;</span>Name: <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;fullname&quot;</span> <span class="na">class=</span><span class="s">&quot;js-mandatory-field&quot;</span> <span class="na">data-message=</span><span class="s">&quot;Please ensure you enter your full name&quot;</span><span class="nt">&gt;&lt;/p&gt;</span>
+        <span class="nt">&lt;p&gt;</span>Date of Birth: <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;dob&quot;</span> <span class="na">placeholder=</span><span class="s">&quot;dd/mm/yyyy&quot;</span> <span class="na">class=</span><span class="s">&quot;js-mandatory-field&quot;</span> <span class="na">data-message=</span><span class="s">&quot;Please ensure you enter a valid date format&quot;</span><span class="nt">&gt;&lt;/p&gt;</span>
+        <span class="nt">&lt;p&gt;</span>Age: <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;age&quot;</span> <span class="na">type=</span><span class="s">&quot;number&quot;</span> <span class="na">class=</span><span class="s">&quot;js-mandatory-field&quot;</span> <span class="na">data-message=</span><span class="s">&quot;Please ensure you enter a valid age&quot;</span><span class="nt">&gt;&lt;/p&gt;</span>
+        <span class="nt">&lt;p&gt;</span>Email: <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;email&quot;</span> <span class="na">type=</span><span class="s">&quot;email&quot;</span> <span class="na">class=</span><span class="s">&quot;js-mandatory-field&quot;</span> <span class="na">data-message=</span><span class="s">&quot;Please ensure you enter a valid email&quot;</span><span class="nt">&gt;&lt;/p&gt;</span>
+        <span class="nt">&lt;p&gt;</span>Mobile: <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;mobile&quot;</span> <span class="na">class=</span><span class="s">&quot;js-mandatory-field&quot;</span> <span class="na">data-message=</span><span class="s">&quot;Please ensure you enter a valid mobile number&quot;</span><span class="nt">&gt;&lt;/p&gt;</span>
+        <span class="nt">&lt;p&gt;</span>Password (8 alpha-numerical characters, at least either 1 number or 1 text character): <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;password&quot;</span> <span class="na">type=</span><span class="s">&quot;password&quot;</span> <span class="na">class=</span><span class="s">&quot;js-mandatory-field&quot;</span> <span class="na">data-message=</span><span class="s">&quot;Please ensure you enter a password that matches the criteria&quot;</span><span class="nt">&gt;&lt;/p&gt;</span>
+        <span class="nt">&lt;p&gt;</span>Credit Card: <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;card&quot;</span> <span class="na">class=</span><span class="s">&quot;js-mandatory-field&quot;</span> <span class="na">data-message=</span><span class="s">&quot;Please ensure you enter a valid credit card number&quot;</span><span class="nt">&gt;&lt;/p&gt;</span>
+        <span class="nt">&lt;p&gt;</span>To proceed please tick this box: <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;proceed&quot;</span> <span class="na">type=</span><span class="s">&quot;checkbox&quot;</span> <span class="na">class=</span><span class="s">&quot;js-mandatory-field&quot;</span> <span class="na">data-message=</span><span class="s">&quot;Please ensure you tick the box to proceed&quot;</span><span class="nt">&gt;&lt;/p&gt;</span>
+        <span class="nt">&lt;p&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">value=</span><span class="s">&quot;Submit Form&quot;</span><span class="nt">&gt;&lt;/p&gt;</span>
+    <span class="nt">&lt;/form&gt;</span>
+</code></pre></div>
+
 
 <h2>JavaScript set-up</h2>
 
@@ -92,38 +94,40 @@
 
 <p>So in our HTML file we'll load up the JavaScript files required…</p>
 
-<pre><code>&lt;script src="Assets/Scripts/curl.js"&gt;&lt;/script&gt;
-&lt;script src="Assets/Scripts/app.js"&gt;&lt;/script&gt;
-</code></pre>
+<div class="highlight"><pre><code class="html">    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;Assets/Scripts/curl.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;Assets/Scripts/app.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre></div>
+
 
 <p>Inside our app.js file we set-up a configuration object which handles the paths to the different dependencies we'll be using. We then load the 'Validation' module (which is a Backbone.View)…</p>
 
-<pre><code>var config = {
-    baseUrl: './Assets/Scripts/',
-    pluginPath: 'plugins',
-    paths: {
-        'jquery': 'Libraries/jquery',
-        'lodash': 'Libraries/lodash',
-        'backbone': 'Libraries/backbone'
-    },
-    preloads: ['jquery', 'lodash']
-};
+<div class="highlight"><pre><code class="javascript">    <span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">baseUrl</span><span class="o">:</span> <span class="s1">&#39;./Assets/Scripts/&#39;</span><span class="p">,</span>
+        <span class="nx">pluginPath</span><span class="o">:</span> <span class="s1">&#39;plugins&#39;</span><span class="p">,</span>
+        <span class="nx">paths</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s1">&#39;jquery&#39;</span><span class="o">:</span> <span class="s1">&#39;Libraries/jquery&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;lodash&#39;</span><span class="o">:</span> <span class="s1">&#39;Libraries/lodash&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;backbone&#39;</span><span class="o">:</span> <span class="s1">&#39;Libraries/backbone&#39;</span>
+        <span class="p">},</span>
+        <span class="nx">preloads</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;jquery&#39;</span><span class="p">,</span> <span class="s1">&#39;lodash&#39;</span><span class="p">]</span>
+    <span class="p">};</span>
 
-/*
-    The `exports` suffix ensures we receive a reference to the global Backbone object
-    It also provides a way to check that the script loaded correctly.
-    Without the `exports` suffix, there's no way to tell if IE or Opera 404'ed.
- */
-curl(config, ['jquery', 'lodash', 'js!backbone!exports=Backbone'], init, error);
+    <span class="cm">/*</span>
+<span class="cm">        The `exports` suffix ensures we receive a reference to the global Backbone object</span>
+<span class="cm">        It also provides a way to check that the script loaded correctly.</span>
+<span class="cm">        Without the `exports` suffix, there&#39;s no way to tell if IE or Opera 404&#39;ed.</span>
+<span class="cm">     */</span>
+    <span class="nx">curl</span><span class="p">(</span><span class="nx">config</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;jquery&#39;</span><span class="p">,</span> <span class="s1">&#39;lodash&#39;</span><span class="p">,</span> <span class="s1">&#39;js!backbone!exports=Backbone&#39;</span><span class="p">],</span> <span class="nx">init</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
 
-function init ($, _, Backbone) {
-    curl('Views/Validation');
-}
+    <span class="kd">function</span> <span class="nx">init</span> <span class="p">(</span><span class="nx">$</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">Backbone</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">curl</span><span class="p">(</span><span class="s1">&#39;Views/Validation&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
 
-function error (err) {
-    console.warn(err);
-}
-</code></pre>
+    <span class="kd">function</span> <span class="nx">error</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">warn</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+    <span class="p">}</span>
+</code></pre></div>
+
 
 <p>Now we have our JavaScript set-up lets move onto the Backbone.View that will handle the validation of our form.</p>
 
@@ -157,20 +161,21 @@ function error (err) {
 
 <p>So within the initialisation stage of the View we do a few things…</p>
 
-<pre><code>initialize: function(){
-    // Self explanatory: stores all mandatory fields
-    this.mandatory_fields = $('.js-mandatory-field');
+<div class="highlight"><pre><code class="javascript">    <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="c1">// Self explanatory: stores all mandatory fields</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">mandatory_fields</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.js-mandatory-field&#39;</span><span class="p">);</span>
 
-    // This holds the template file we'll compile with data pulled from server
-    this.template = null;
+        <span class="c1">// This holds the template file we&#39;ll compile with data pulled from server</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">template</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
 
-    // This holds the actual rendered template content
-    this.template_content = null;
+        <span class="c1">// This holds the actual rendered template content</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">template_content</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
 
-    // We'll go ahead and grab the error message template file (no point waiting until the last minute and making the user wait).
-    this.get_template();
-}}
-</code></pre>
+        <span class="c1">// We&#39;ll go ahead and grab the error message template file (no point waiting until the last minute and making the user wait).</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">get_template</span><span class="p">();</span>
+    <span class="p">}}</span>
+</code></pre></div>
+
 
 <ul>
 <li>Store a reference to all mandatory fields</li>
@@ -184,27 +189,29 @@ function error (err) {
 
 <p>The <code>get_template</code> method is called immediately but later on we also check to see if we need to try calling it again (e.g. when the user actually submits the form we check to see if <code>this.template</code> holds any value and if it does then we use it, otherwise we call <code>get_template</code> again to grab the data) so this is why we check within that method for a <code>callback</code> to be provided (when the template is loaded we want to continue on and process the errors found)</p>
 
-<pre><code>get_template: function (callback) {
-    $.ajax({
-        url: 'Assets/Templates/FormErrors.txt',
-        dataType: 'html',
-        success: _.bind(function (tmp) {
-            this.template = hogan.compile(tmp);
+<div class="highlight"><pre><code class="javascript">    <span class="nx">get_template</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+            <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;Assets/Templates/FormErrors.txt&#39;</span><span class="p">,</span>
+            <span class="nx">dataType</span><span class="o">:</span> <span class="s1">&#39;html&#39;</span><span class="p">,</span>
+            <span class="nx">success</span><span class="o">:</span> <span class="nx">_</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">tmp</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">template</span> <span class="o">=</span> <span class="nx">hogan</span><span class="p">.</span><span class="nx">compile</span><span class="p">(</span><span class="nx">tmp</span><span class="p">);</span>
 
-            if (callback) {
-                callback();
-            }
-        }, this)
-    });
-}
-</code></pre>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">callback</span><span class="p">();</span>
+                <span class="p">}</span>
+            <span class="p">},</span> <span class="k">this</span><span class="p">)</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+</code></pre></div>
+
 
 <p>We then listen out for the form submission event to happen and call the <code>validate</code> method to handle the event…</p>
 
-<pre><code>events: {
-    'submit': 'validate'
-}
-</code></pre>
+<div class="highlight"><pre><code class="javascript">    <span class="nx">events</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s1">&#39;submit&#39;</span><span class="o">:</span> <span class="s1">&#39;validate&#39;</span>
+    <span class="p">}</span>
+</code></pre></div>
+
 
 <p>The <code>validate</code> method creates an Array to hold any errors we encounter. The way we determine if there are any errors is to loop through all the mandatory fields and to check the name attribute value to see if we can find a match to known values. If we can't find a match then we just validate the field to make sure it has a value. If we do find a match (e.g. if the name attribute is "email") then we know which validation method to pass the field on to validate against.</p>
 
@@ -212,54 +219,55 @@ function error (err) {
 
 <p>After we've been through all the mandatory fields we check to see if the <code>errors</code> Array has any items, if it does then we know we need to process some errors and call <code>this.process_errors</code> and pass the <code>errors</code> Array through to that method.</p>
 
-<pre><code>validate: function(){
-    var errors = [];
-    var method;
+<div class="highlight"><pre><code class="javascript">    <span class="nx">validate</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="kd">var</span> <span class="nx">errors</span> <span class="o">=</span> <span class="p">[];</span>
+        <span class="kd">var</span> <span class="nx">method</span><span class="p">;</span>
+        
+        <span class="c1">// Loop through all the fields checking for validation errors</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">mandatory_fields</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// First we check what the current field is and validate it against a specific method</span>
+            <span class="k">switch</span> <span class="p">(</span><span class="nx">item</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">case</span> <span class="s1">&#39;dob&#39;</span><span class="o">:</span>
+                    <span class="nx">method</span> <span class="o">=</span> <span class="s1">&#39;validate_date&#39;</span><span class="p">;</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="k">case</span> <span class="s1">&#39;age&#39;</span><span class="o">:</span>
+                    <span class="nx">method</span> <span class="o">=</span> <span class="s1">&#39;validate_number&#39;</span><span class="p">;</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="k">case</span> <span class="s1">&#39;email&#39;</span><span class="o">:</span>
+                    <span class="nx">method</span> <span class="o">=</span> <span class="s1">&#39;validate_email&#39;</span><span class="p">;</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="k">case</span> <span class="s1">&#39;mobile&#39;</span><span class="o">:</span>
+                    <span class="nx">method</span> <span class="o">=</span> <span class="s1">&#39;validate_mobile&#39;</span><span class="p">;</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="k">case</span> <span class="s1">&#39;password&#39;</span><span class="o">:</span>
+                    <span class="nx">method</span> <span class="o">=</span> <span class="s1">&#39;validate_password&#39;</span><span class="p">;</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="k">case</span> <span class="s1">&#39;card&#39;</span><span class="o">:</span>
+                    <span class="nx">method</span> <span class="o">=</span> <span class="s1">&#39;validate_cardnumber&#39;</span><span class="p">;</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="k">case</span> <span class="s1">&#39;proceed&#39;</span><span class="o">:</span>
+                    <span class="nx">method</span> <span class="o">=</span> <span class="s1">&#39;validate_checkbox&#39;</span><span class="p">;</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="k">default</span><span class="o">:</span>
+                    <span class="nx">method</span> <span class="o">=</span> <span class="s1">&#39;validate_text&#39;</span><span class="p">;</span>
+            <span class="p">}</span>
 
-    // Loop through all the fields checking for validation errors
-    this.mandatory_fields.each(_.bind(function (index, item) {
-        // First we check what the current field is and validate it against a specific method
-        switch (item.name) {
-            case 'dob':
-                method = 'validate_date';
-                break;
-            case 'age':
-                method = 'validate_number';
-                break;
-            case 'email':
-                method = 'validate_email';
-                break;
-            case 'mobile':
-                method = 'validate_mobile';
-                break;
-            case 'password':
-                method = 'validate_password';
-                break;
-            case 'card':
-                method = 'validate_cardnumber';
-                break;
-            case 'proceed':
-                method = 'validate_checkbox';
-                break;
-            default:
-                method = 'validate_text';
-        }
+            <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">[</span><span class="nx">method</span><span class="p">](</span><span class="nx">item</span><span class="p">))</span> <span class="p">{</span>
+                <span class="c1">// Store just the messages and not the element itself (we only need the list of messages)</span>
+                <span class="nx">errors</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">item</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;data-message&#39;</span><span class="p">));</span>
+            <span class="p">}</span>
+        <span class="p">},</span> <span class="k">this</span><span class="p">));</span>
 
-        if (this[method](item)) {
-            // Store just the messages and not the element itself (we only need the list of messages)
-            errors.push(item.getAttribute('data-message'));
-        }
-    }, this));
+        <span class="c1">// If there are any errors then display warning messsage to the user</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">errors</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">process_errors</span><span class="p">(</span><span class="nx">errors</span><span class="p">);</span>
+            <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre></div>
 
-    // If there are any errors then display warning messsage to the user
-    if (errors.length) {
-        this.process_errors(errors);
-        return false;
-    } else {
-        return true;
-    }
-}
-</code></pre>
 
 <p>The first thing the <code>process_errors</code> method does is it makes sure we are only dealing with unique error messages. For example if we have a set of 'sort code' fields (which are typically three separate fields) they will all have the same error message but we don't want that error message displayed three times so the <code>_.unique</code> method ensures our errors are unique.</p>
 
@@ -269,36 +277,37 @@ function error (err) {
 
 <p>Finally we check if the template file has been loaded already or not. If it hasn't then we load it via ajax and then call the <code>display_errors</code> method.</p>
 
-<pre><code>process_errors: function (errors) {
-    /*
-        Clean the errors list so we only have unique data.
-        This happens for things like the postcode validation (no point showing the postcode field error message twice)
-     */
-    var clean_list = _.unique(errors);
+<div class="highlight"><pre><code class="javascript">    <span class="nx">process_errors</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">errors</span><span class="p">)</span> <span class="p">{</span>
+        <span class="cm">/*</span>
+<span class="cm">            Clean the errors list so we only have unique data.</span>
+<span class="cm">            This happens for things like the postcode validation (no point showing the postcode field error message twice)</span>
+<span class="cm">         */</span>
+        <span class="kd">var</span> <span class="nx">clean_list</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">unique</span><span class="p">(</span><span class="nx">errors</span><span class="p">);</span>
 
-    // The list needs to be converted into an Object for Hogan.js to compile the data into its template
-    var converted_list = $(clean_list).map(function (index, item) {
-        return {
-            error: item
-        };
-    });
+        <span class="c1">// The list needs to be converted into an Object for Hogan.js to compile the data into its template</span>
+        <span class="kd">var</span> <span class="nx">converted_list</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">clean_list</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="nx">error</span><span class="o">:</span> <span class="nx">item</span>
+            <span class="p">};</span>
+        <span class="p">});</span>
 
-    // Spent far longer on this than I wanted to, but this is it: jQuery collection is not an Array and so needs to be converted to an Array for Hogan.js to compile it
-    var final_list = jQuery.makeArray(converted_list);
+        <span class="c1">// Spent far longer on this than I wanted to, but this is it: jQuery collection is not an Array and so needs to be converted to an Array for Hogan.js to compile it</span>
+        <span class="kd">var</span> <span class="nx">final_list</span> <span class="o">=</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">makeArray</span><span class="p">(</span><span class="nx">converted_list</span><span class="p">);</span>
 
-    // If the template file has been stored already then we'll just proceed to render the content
-    if (this.template) {
-        this.display_errors({ errors: final_list });
-    } 
-    // Otherwise grab the template file and then render the content
-    else {
-        // Have to rebind the `this` value as otherwise it would be equal to the global object (Window)
-        this.get_template(_.bind(function(){
-            this.display_errors({ errors: final_list });
-        }, this));
-    }
-}
-</code></pre>
+        <span class="c1">// If the template file has been stored already then we&#39;ll just proceed to render the content</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">template</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">display_errors</span><span class="p">({</span> <span class="nx">errors</span><span class="o">:</span> <span class="nx">final_list</span> <span class="p">});</span>
+        <span class="p">}</span> 
+        <span class="c1">// Otherwise grab the template file and then render the content</span>
+        <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// Have to rebind the `this` value as otherwise it would be equal to the global object (Window)</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">get_template</span><span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">display_errors</span><span class="p">({</span> <span class="nx">errors</span><span class="o">:</span> <span class="nx">final_list</span> <span class="p">});</span>
+            <span class="p">},</span> <span class="k">this</span><span class="p">));</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre></div>
+
 
 <p>The <code>display_errors</code> method takes in the object of errors we've created and tries to compile it into the template file using Hogan.js</p>
 
@@ -310,300 +319,302 @@ function error (err) {
 
 <p>I know some people will disagree with doing that and would prefer to display an error next to each field but I find that makes the design of the page a lot more complicated, especially when dealing with multiple screen dimensions. I personally prefer to have a single place to display all errors.</p>
 
-<pre><code>display_errors: function (data) {
-    // First remove any errors that might already be on the page
-    var existing_list = $('#js-formerrors');
-    if (existing_list.length) {
-        existing_list.remove();
-    }
+<div class="highlight"><pre><code class="javascript">    <span class="nx">display_errors</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// First remove any errors that might already be on the page</span>
+        <span class="kd">var</span> <span class="nx">existing_list</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#js-formerrors&#39;</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">existing_list</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">existing_list</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
+        <span class="p">}</span>
+        
+        <span class="c1">// Render the data into the template</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">template_content</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">template</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+        
+        <span class="c1">// Insert the error messages into the page</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">prepend</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">template_content</span><span class="p">);</span>
 
-    // Render the data into the template
-    this.template_content = this.template.render(data);
+        <span class="cm">/*</span>
+<span class="cm">            Focus page to the error message element.</span>
+<span class="cm">            Had issue with WebKit where it wouldn&#39;t reposition window to the named anchor unless we reset the hash back to nothing and then set it again to the named anchor</span>
+<span class="cm">         */</span>
+        <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">hash</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+        <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">hash</span> <span class="o">=</span> <span class="s1">&#39;js-formerrors&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></div>
 
-    // Insert the error messages into the page
-    this.$el.prepend(this.template_content);
-
-    /*
-        Focus page to the error message element.
-        Had issue with WebKit where it wouldn't reposition window to the named anchor unless we reset the hash back to nothing and then set it again to the named anchor
-     */
-    window.location.hash = '';
-    window.location.hash = 'js-formerrors';
-}
-</code></pre>
 
 <p>The full module code is as follows...</p>
 
-<pre><code>define(['../Utils/Templating/hogan'], function (hogan) {
+<div class="highlight"><pre><code class="javascript">    <span class="nx">define</span><span class="p">([</span><span class="s1">&#39;../Utils/Templating/hogan&#39;</span><span class="p">],</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">hogan</span><span class="p">)</span> <span class="p">{</span>
+        
+        <span class="kd">var</span> <span class="nx">Validation</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+            <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+                <span class="c1">// Self explanatory: stores all mandatory fields</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">mandatory_fields</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.js-mandatory-field&#39;</span><span class="p">);</span>
 
-    var Validation = Backbone.View.extend({
-        initialize: function(){
-            // Self explanatory: stores all mandatory fields
-            this.mandatory_fields = $('.js-mandatory-field');
+                <span class="c1">// This holds the template file we&#39;ll compile with data pulled from server</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">template</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
 
-            // This holds the template file we'll compile with data pulled from server
-            this.template = null;
+                <span class="c1">// This holds the actual rendered template content</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">template_content</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
 
-            // This holds the actual rendered template content
-            this.template_content = null;
+                <span class="c1">// We&#39;ll go ahead and grab the error message template file (no point waiting until the last minute and making the user wait).</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">get_template</span><span class="p">();</span>
+            <span class="p">},</span>
 
-            // We'll go ahead and grab the error message template file (no point waiting until the last minute and making the user wait).
-            this.get_template();
-        },
+            <span class="nx">el</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#js-form&#39;</span><span class="p">),</span>
 
-        el: $('#js-form'),
+            <span class="nx">events</span><span class="o">:</span> <span class="p">{</span>
+                <span class="s1">&#39;submit&#39;</span><span class="o">:</span> <span class="s1">&#39;validate&#39;</span>
+            <span class="p">},</span>
 
-        events: {
-            'submit': 'validate'
-        },
+            <span class="nx">get_template</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+                    <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;Assets/Templates/FormErrors.txt&#39;</span><span class="p">,</span>
+                    <span class="nx">dataType</span><span class="o">:</span> <span class="s1">&#39;html&#39;</span><span class="p">,</span>
+                    <span class="nx">success</span><span class="o">:</span> <span class="nx">_</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">tmp</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="k">this</span><span class="p">.</span><span class="nx">template</span> <span class="o">=</span> <span class="nx">hogan</span><span class="p">.</span><span class="nx">compile</span><span class="p">(</span><span class="nx">tmp</span><span class="p">);</span>
 
-        get_template: function (callback) {
-            $.ajax({
-                url: 'Assets/Templates/FormErrors.txt',
-                dataType: 'html',
-                success: _.bind(function (tmp) {
-                    this.template = hogan.compile(tmp);
+                        <span class="k">if</span> <span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+                            <span class="nx">callback</span><span class="p">();</span>
+                        <span class="p">}</span>
+                    <span class="p">},</span> <span class="k">this</span><span class="p">)</span>
+                <span class="p">});</span>
+            <span class="p">},</span>
 
-                    if (callback) {
-                        callback();
-                    }
-                }, this)
-            });
-        },
+            <span class="nx">validate</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+                <span class="kd">var</span> <span class="nx">errors</span> <span class="o">=</span> <span class="p">[];</span>
+                <span class="kd">var</span> <span class="nx">method</span><span class="p">;</span>
+                
+                <span class="c1">// Loop through all the fields checking for validation errors</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">mandatory_fields</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="c1">// First we check what the current field is and validate it against a specific method</span>
+                    <span class="k">switch</span> <span class="p">(</span><span class="nx">item</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="k">case</span> <span class="s1">&#39;dob&#39;</span><span class="o">:</span>
+                            <span class="nx">method</span> <span class="o">=</span> <span class="s1">&#39;validate_date&#39;</span><span class="p">;</span>
+                            <span class="k">break</span><span class="p">;</span>
+                        <span class="k">case</span> <span class="s1">&#39;age&#39;</span><span class="o">:</span>
+                            <span class="nx">method</span> <span class="o">=</span> <span class="s1">&#39;validate_number&#39;</span><span class="p">;</span>
+                            <span class="k">break</span><span class="p">;</span>
+                        <span class="k">case</span> <span class="s1">&#39;email&#39;</span><span class="o">:</span>
+                            <span class="nx">method</span> <span class="o">=</span> <span class="s1">&#39;validate_email&#39;</span><span class="p">;</span>
+                            <span class="k">break</span><span class="p">;</span>
+                        <span class="k">case</span> <span class="s1">&#39;mobile&#39;</span><span class="o">:</span>
+                            <span class="nx">method</span> <span class="o">=</span> <span class="s1">&#39;validate_mobile&#39;</span><span class="p">;</span>
+                            <span class="k">break</span><span class="p">;</span>
+                        <span class="k">case</span> <span class="s1">&#39;password&#39;</span><span class="o">:</span>
+                            <span class="nx">method</span> <span class="o">=</span> <span class="s1">&#39;validate_password&#39;</span><span class="p">;</span>
+                            <span class="k">break</span><span class="p">;</span>
+                        <span class="k">case</span> <span class="s1">&#39;card&#39;</span><span class="o">:</span>
+                            <span class="nx">method</span> <span class="o">=</span> <span class="s1">&#39;validate_cardnumber&#39;</span><span class="p">;</span>
+                            <span class="k">break</span><span class="p">;</span>
+                        <span class="k">case</span> <span class="s1">&#39;proceed&#39;</span><span class="o">:</span>
+                            <span class="nx">method</span> <span class="o">=</span> <span class="s1">&#39;validate_checkbox&#39;</span><span class="p">;</span>
+                            <span class="k">break</span><span class="p">;</span>
+                        <span class="k">default</span><span class="o">:</span>
+                            <span class="nx">method</span> <span class="o">=</span> <span class="s1">&#39;validate_text&#39;</span><span class="p">;</span>
+                    <span class="p">}</span>
 
-        validate: function(){
-            var errors = [];
-            var method;
+                    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">[</span><span class="nx">method</span><span class="p">](</span><span class="nx">item</span><span class="p">))</span> <span class="p">{</span>
+                        <span class="c1">// Store just the messages and not the element itself (we only need the list of messages)</span>
+                        <span class="nx">errors</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">item</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;data-message&#39;</span><span class="p">));</span>
+                    <span class="p">}</span>
+                <span class="p">},</span> <span class="k">this</span><span class="p">));</span>
 
-            // Loop through all the fields checking for validation errors
-            this.mandatory_fields.each(_.bind(function (index, item) {
-                // First we check what the current field is and validate it against a specific method
-                switch (item.name) {
-                    case 'dob':
-                        method = 'validate_date';
-                        break;
-                    case 'age':
-                        method = 'validate_number';
-                        break;
-                    case 'email':
-                        method = 'validate_email';
-                        break;
-                    case 'mobile':
-                        method = 'validate_mobile';
-                        break;
-                    case 'password':
-                        method = 'validate_password';
-                        break;
-                    case 'card':
-                        method = 'validate_cardnumber';
-                        break;
-                    case 'proceed':
-                        method = 'validate_checkbox';
-                        break;
-                    default:
-                        method = 'validate_text';
-                }
+                <span class="c1">// If there are any errors then display warning messsage to the user</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">errors</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">this</span><span class="p">.</span><span class="nx">process_errors</span><span class="p">(</span><span class="nx">errors</span><span class="p">);</span>
+                    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
 
-                if (this[method](item)) {
-                    // Store just the messages and not the element itself (we only need the list of messages)
-                    errors.push(item.getAttribute('data-message'));
-                }
-            }, this));
+            <span class="nx">validate_text</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">field</span><span class="p">)</span> <span class="p">{</span>
+                <span class="cm">/*</span>
+<span class="cm">                    If the length is zero (meaning the field is empty) then zero will coerce to false </span>
+<span class="cm">                    so we return the opposite of that using the ! operator (so the first part of the following condition is met) </span>
+<span class="cm">                    and if the length is greater than zero then the regex checks to see if the content isn&#39;t just empty spaces.</span>
 
-            // If there are any errors then display warning messsage to the user
-            if (errors.length) {
-                this.process_errors(errors);
-                return false;
-            } else {
-                return true;
-            }
-        },
+<span class="cm">                    If there was an error then we return true, if there wasn&#39;t an error then undefined will be returned (which coerces to false)</span>
+<span class="cm">                 */</span>
+                <span class="k">if</span> <span class="p">(</span><span class="sr">/^\s+$/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span> <span class="o">||</span> <span class="o">!</span><span class="nx">field</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
 
-        validate_text: function (field) {
-            /*
-                If the length is zero (meaning the field is empty) then zero will coerce to false 
-                so we return the opposite of that using the ! operator (so the first part of the following condition is met) 
-                and if the length is greater than zero then the regex checks to see if the content isn't just empty spaces.
+            <span class="nx">validate_number</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">field</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="sr">/^\D+/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span> <span class="o">||</span> <span class="o">!</span><span class="nx">field</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
 
-                If there was an error then we return true, if there wasn't an error then undefined will be returned (which coerces to false)
-             */
-            if (/^\s+$/.test(field.value) || !field.value.length) {
-                return true;
-            }
-        },
+            <span class="nx">validate_date</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">field</span><span class="p">)</span> <span class="p">{</span>
+                <span class="cm">/*</span>
+<span class="cm">                    The regex allows either double figure formats or singular...</span>
+<span class="cm">                    00/00/00</span>
+<span class="cm">                    0/0/0</span>
+<span class="cm">                 */</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="sr">/^\d{1,2}\/\d{1,2}\/\d{1,2}$/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span> <span class="o">||</span> <span class="o">!</span><span class="nx">field</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
 
-        validate_number: function (field) {
-            if (/^\D+/.test(field.value) || !field.value.length) {
-                return true;
-            }
-        },
+            <span class="nx">validate_email</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">field</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span> <span class="o">||</span> <span class="o">!</span><span class="nx">field</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
 
-        validate_date: function (field) {
-            /*
-                The regex allows either double figure formats or singular...
-                00/00/00
-                0/0/0
-             */
-            if (!/^\d{1,2}\/\d{1,2}\/\d{1,2}$/.test(field.value) || !field.value.length) {
-                return true;
-            }
-        },
+            <span class="nx">validate_mobile</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">field</span><span class="p">)</span> <span class="p">{</span>
+                <span class="cm">/*</span>
+<span class="cm">                    The regex allows the following formats:</span>
+<span class="cm">                        +44 07000000000</span>
+<span class="cm">                        07000000000</span>
+<span class="cm">                        +4407000000000</span>
+<span class="cm">                    </span>
+<span class="cm">                    So there is an optional +000 country code at the start (wrapped in a non-capturing group)</span>
+<span class="cm">                    We then allow for an optional space after the optional country code</span>
+<span class="cm">                    Finally we allow for 11 digits (no spaces - but we also strip out any spaces found before running the regex so the &#39;no spaces&#39; thing doesn&#39;t really matter)</span>
+<span class="cm">                 */</span>
+                <span class="kd">var</span> <span class="nx">strip_spaces</span> <span class="o">=</span> <span class="nx">field</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">);</span> <span class="c1">// some people seem to add odd spacing when enterin numbers?</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="sr">/^(?:\+\d{1,3})?\s?\d{11}$/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">strip_spaces</span><span class="p">)</span> <span class="o">||</span> <span class="o">!</span><span class="nx">field</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
 
-        validate_email: function (field) {
-            if (field.value.indexOf("@") === -1 || !field.value.length) {
-                return true;
-            }
-        },
+            <span class="nx">validate_password</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">field</span><span class="p">)</span> <span class="p">{</span>
+                <span class="cm">/*</span>
+<span class="cm">                    The regex makes sure there is at least 8 alpha-numerical characters</span>
+<span class="cm">                    And that at least one of those values is a number</span>
+<span class="cm">                    And that at least one of those values is a text character</span>
+<span class="cm">                    We use a positive lookahead (which checks to see if a sub pattern matches a specific position)</span>
+<span class="cm">                    The lookahead checks for any character (zero or more times) is followed by a digit (e.g. making sure there is at least one digit)</span>
+<span class="cm">                    The lookahead then checks for any character (zero or more times) is followed by a text character (e.g. making sure there is at least one text character)</span>
+<span class="cm">                    Finally after the two lookaheads we have the standard regex which makes sure there is at least 8 alpha-numerical characters</span>
+<span class="cm">                 */</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="sr">/^(?=.*\d)(?=.*[a-z])\w{8,}/i</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nx">value</span><span class="p">))</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
 
-        validate_mobile: function (field) {
-            /*
-                The regex allows the following formats:
-                    +44 07000000000
-                    07000000000
-                    +4407000000000
+            <span class="nx">validate_cardnumber</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">field</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kd">function</span> <span class="nx">luhn</span> <span class="p">(</span><span class="nx">cardnumber</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="c1">// Build an array with the digits in the card number</span>
+                    <span class="kd">var</span> <span class="nx">getdigits</span> <span class="o">=</span> <span class="sr">/\d/g</span><span class="p">;</span>
+                    <span class="kd">var</span> <span class="nx">digits</span> <span class="o">=</span> <span class="p">[];</span>
+                    <span class="kd">var</span> <span class="nx">match</span><span class="p">;</span>
+                    
+                    <span class="k">while</span> <span class="p">(</span><span class="nx">match</span> <span class="o">=</span> <span class="nx">getdigits</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">cardnumber</span><span class="p">))</span> <span class="p">{</span>
+                        <span class="nx">digits</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">match</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">10</span><span class="p">));</span>
+                    <span class="p">}</span>
+                    
+                    <span class="c1">// Run the Luhn algorithm on the array</span>
+                    <span class="kd">var</span> <span class="nx">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+                    <span class="kd">var</span> <span class="nx">alt</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+                    
+                    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">digits</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="c1">// On every other number in the card sequence...</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="nx">alt</span><span class="p">)</span> <span class="p">{</span>
+                            <span class="nx">digits</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">// multiple the number by itself</span>
+                            
+                            <span class="c1">// If the number is now over 9 then we&#39;ll minus 9 from the number</span>
+                            <span class="k">if</span> <span class="p">(</span><span class="nx">digits</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">9</span><span class="p">)</span> <span class="p">{</span>
+                                <span class="nx">digits</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">9</span><span class="p">;</span>
+                            <span class="p">}</span>
+                        <span class="p">}</span>
+                        
+                        <span class="c1">// Add this digit onto the current total sum</span>
+                        <span class="nx">sum</span> <span class="o">+=</span> <span class="nx">digits</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+                        
+                        <span class="c1">// Alternate</span>
+                        <span class="nx">alt</span> <span class="o">=</span> <span class="o">!</span><span class="nx">alt</span><span class="p">;</span>
+                    <span class="p">}</span>
+                    
+                    <span class="cm">/*</span>
+<span class="cm">                        The individual card numbers (after the above algorithm is applied and then when added together) </span>
+<span class="cm">                        should be possible to divide by 10 with zero left over</span>
+<span class="cm">                     */</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="nx">sum</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+                    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+                
+                <span class="c1">// The following regex was actually borrowed from The Regular Expression Cookbook (co-written by the regex legend @stevenlevithan)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="sr">/^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/g</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nx">value</span><span class="p">))</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="c1">// If the card number appears to be valid we then run the Luhn test</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">luhn</span><span class="p">(</span><span class="nx">field</span><span class="p">.</span><span class="nx">value</span><span class="p">))</span> <span class="p">{</span>
+                        <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
 
-                So there is an optional +000 country code at the start (wrapped in a non-capturing group)
-                We then allow for an optional space after the optional country code
-                Finally we allow for 11 digits (no spaces - but we also strip out any spaces found before running the regex so the 'no spaces' thing doesn't really matter)
-             */
-            var strip_spaces = field.value.replace(' ', ''); // some people seem to add odd spacing when enterin numbers?
-            if (!/^(?:\+\d{1,3})?\s?\d{11}$/.test(strip_spaces) || !field.value.length) {
-                return true;
-            }
-        },
+            <span class="nx">validate_checkbox</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">field</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">field</span><span class="p">.</span><span class="nx">checked</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
 
-        validate_password: function (field) {
-            /*
-                The regex makes sure there is at least 8 alpha-numerical characters
-                And that at least one of those values is a number
-                And that at least one of those values is a text character
-                We use a positive lookahead (which checks to see if a sub pattern matches a specific position)
-                The lookahead checks for any character (zero or more times) is followed by a digit (e.g. making sure there is at least one digit)
-                The lookahead then checks for any character (zero or more times) is followed by a text character (e.g. making sure there is at least one text character)
-                Finally after the two lookaheads we have the standard regex which makes sure there is at least 8 alpha-numerical characters
-             */
-            if (!/^(?=.*\d)(?=.*[a-z])\w{8,}/i.test(field.value)) {
-                return true;
-            }
-        },
+            <span class="nx">process_errors</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">errors</span><span class="p">)</span> <span class="p">{</span>
+                <span class="cm">/*</span>
+<span class="cm">                    Clean the errors list so we only have unique data.</span>
+<span class="cm">                    This happens for things like the postcode validation (no point showing the postcode field error message twice)</span>
+<span class="cm">                 */</span>
+                <span class="kd">var</span> <span class="nx">clean_list</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">unique</span><span class="p">(</span><span class="nx">errors</span><span class="p">);</span>
 
-        validate_cardnumber: function (field) {
-            function luhn (cardnumber) {
-                // Build an array with the digits in the card number
-                var getdigits = /\d/g;
-                var digits = [];
-                var match;
+                <span class="c1">// The list needs to be converted into an Object for Hogan.js to compile the data into its template</span>
+                <span class="kd">var</span> <span class="nx">converted_list</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">clean_list</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="p">{</span>
+                        <span class="nx">error</span><span class="o">:</span> <span class="nx">item</span>
+                    <span class="p">};</span>
+                <span class="p">});</span>
 
-                while (match = getdigits.exec(cardnumber)) {
-                    digits.push(parseInt(match[0], 10));
-                }
+                <span class="c1">// Spent far longer on this than I wanted to, but this is it: jQuery collection is not an Array and so needs to be converted to an Array for Hogan.js to compile it</span>
+                <span class="kd">var</span> <span class="nx">final_list</span> <span class="o">=</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">makeArray</span><span class="p">(</span><span class="nx">converted_list</span><span class="p">);</span>
 
-                // Run the Luhn algorithm on the array
-                var sum = 0;
-                var alt = false;
+                <span class="c1">// If the template file has been stored already then we&#39;ll just proceed to render the content</span>
+                <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">template</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">this</span><span class="p">.</span><span class="nx">display_errors</span><span class="p">({</span> <span class="nx">errors</span><span class="o">:</span> <span class="nx">final_list</span> <span class="p">});</span>
+                <span class="p">}</span> 
+                <span class="c1">// Otherwise grab the template file and then render the content</span>
+                <span class="k">else</span> <span class="p">{</span>
+                    <span class="c1">// Have to rebind the `this` value as otherwise it would be equal to the global object (Window)</span>
+                    <span class="k">this</span><span class="p">.</span><span class="nx">get_template</span><span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+                        <span class="k">this</span><span class="p">.</span><span class="nx">display_errors</span><span class="p">({</span> <span class="nx">errors</span><span class="o">:</span> <span class="nx">final_list</span> <span class="p">});</span>
+                    <span class="p">},</span> <span class="k">this</span><span class="p">));</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
 
-                for (var i = digits.length - 1; i &gt;= 0; i--) {
-                    // On every other number in the card sequence...
-                    if (alt) {
-                        digits[i] *= 2; // multiple the number by itself
+            <span class="nx">display_errors</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// First remove any errors that might already be on the page</span>
+                <span class="kd">var</span> <span class="nx">existing_list</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#js-formerrors&#39;</span><span class="p">);</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">existing_list</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">existing_list</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
+                <span class="p">}</span>
+                
+                <span class="c1">// Render the data into the template</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">template_content</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">template</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+                
+                <span class="c1">// Insert the error messages into the page</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">prepend</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">template_content</span><span class="p">);</span>
 
-                        // If the number is now over 9 then we'll minus 9 from the number
-                        if (digits[i] &gt; 9) {
-                            digits[i] -= 9;
-                        }
-                    }
+                <span class="cm">/*</span>
+<span class="cm">                    Focus page to the error message element.</span>
+<span class="cm">                    Had issue with WebKit where it wouldn&#39;t reposition window to the named anchor unless we reset the hash back to nothing and then set it again to the named anchor</span>
+<span class="cm">                 */</span>
+                <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">hash</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+                <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">hash</span> <span class="o">=</span> <span class="s1">&#39;js-formerrors&#39;</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">});</span>
 
-                    // Add this digit onto the current total sum
-                    sum += digits[i];
+        <span class="k">new</span> <span class="nx">Validation</span><span class="p">();</span>
 
-                    // Alternate
-                    alt = !alt;
-                }
+    <span class="p">});</span>
+</code></pre></div>
 
-                /*
-                    The individual card numbers (after the above algorithm is applied and then when added together) 
-                    should be possible to divide by 10 with zero left over
-                 */
-                if (sum % 10 == 0) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-
-            // The following regex was actually borrowed from The Regular Expression Cookbook (co-written by the regex legend @stevenlevithan)
-            if (!/^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/g.test(field.value)) {
-                return true;
-            } else {
-                // If the card number appears to be valid we then run the Luhn test
-                if (!luhn(field.value)) {
-                    return true;
-                }
-            }
-        },
-
-        validate_checkbox: function (field) {
-            if (!field.checked) {
-                return true;
-            }
-        },
-
-        process_errors: function (errors) {
-            /*
-                Clean the errors list so we only have unique data.
-                This happens for things like the postcode validation (no point showing the postcode field error message twice)
-             */
-            var clean_list = _.unique(errors);
-
-            // The list needs to be converted into an Object for Hogan.js to compile the data into its template
-            var converted_list = $(clean_list).map(function (index, item) {
-                return {
-                    error: item
-                };
-            });
-
-            // Spent far longer on this than I wanted to, but this is it: jQuery collection is not an Array and so needs to be converted to an Array for Hogan.js to compile it
-            var final_list = jQuery.makeArray(converted_list);
-
-            // If the template file has been stored already then we'll just proceed to render the content
-            if (this.template) {
-                this.display_errors({ errors: final_list });
-            } 
-            // Otherwise grab the template file and then render the content
-            else {
-                // Have to rebind the `this` value as otherwise it would be equal to the global object (Window)
-                this.get_template(_.bind(function(){
-                    this.display_errors({ errors: final_list });
-                }, this));
-            }
-        },
-
-        display_errors: function (data) {
-            // First remove any errors that might already be on the page
-            var existing_list = $('#js-formerrors');
-            if (existing_list.length) {
-                existing_list.remove();
-            }
-
-            // Render the data into the template
-            this.template_content = this.template.render(data);
-
-            // Insert the error messages into the page
-            this.$el.prepend(this.template_content);
-
-            /*
-                Focus page to the error message element.
-                Had issue with WebKit where it wouldn't reposition window to the named anchor unless we reset the hash back to nothing and then set it again to the named anchor
-             */
-            window.location.hash = '';
-            window.location.hash = 'js-formerrors';
-        }
-    });
-
-    new Validation();
-
-});
-</code></pre>
 
 <h2>Conclusion</h2>
 

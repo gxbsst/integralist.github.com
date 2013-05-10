@@ -42,11 +42,13 @@ CSSLint
 
 **Example usage:**
 
+{% highlight bash %}
     csslint [options] [file|dir]*
     csslint file1.css file2.css  
     csslint ./  
     csslint --errors=box-model,ids test.css // => decide what should be errors  
     csslint --warnings=box-model,ids test.css // => decide what should be warnings
+{% endhighlight %}
 
 **Configuration:**  
 You can view the options by running `csslint --help`  
@@ -61,8 +63,10 @@ It's recommended to create a shell script to wrap the CSS Lint functionality so 
 
 For Linux/Mac, create a file named `csslint` and add the following to the file:  
 
+{% highlight bash %}
     #!/bin/bash
     java -jar js.jar csslint-rhino.js $@
+{% endhighlight %}
 
 After creating the file, you need to ensure it can be executed, so go to the command line and type:  
 `chmod +x csslint`
@@ -80,11 +84,13 @@ npm install jshint
 
 **Example usage:**  
 
+{% highlight bash %}
     jshint path path2 [options] // => run against specific scripts
     jshint *.js // => run against all scripts
     jshint main.js --show-non-errors // => show non-errors (e.g. Implied globals etc)
     jshint main.js --config ./Lint/config.json // => use specific configuration options
     jshint main.js --show-non-errors --config ./Lint/config.json // => example of showing non-errors against specific configuration settings
+{% endhighlight %}
 
 If you get no errors then that means the script ran fine
 
@@ -94,6 +100,7 @@ If you get no errors then that means the script ran fine
 **Configuration:**  
 Your `config.json` file could look like the following…
 
+{% highlight javascript %}
     {
     	// Settings
         "passfail"      : false,  // Stop on first error.
@@ -175,7 +182,7 @@ Your `config.json` file could look like the following…
         "indent"        : 4,      // Specify indentation spacing
         "smarttabs"		: true	  // Suppress warnings about mixed tabs and spaces
     }
-
+{% endhighlight %}
 
 RequireJS/r.js
 ---
@@ -190,6 +197,7 @@ RequireJS/r.js
 **Configuration:**  
 You create a 'build' script file (see below for an example) and then you use NodeJs to execute the `r.js` optimization script and pass through your build script as an argument
 
+{% highlight javascript %}
     /*
      * http://requirejs.org/docs/optimization.html
      *
@@ -227,7 +235,7 @@ You create a 'build' script file (see below for an example) and then you use Nod
             }
         ]
     })
-
+{% endhighlight %}
 
 gh-markdown-cli
 ---

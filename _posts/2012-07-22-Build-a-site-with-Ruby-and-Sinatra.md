@@ -93,6 +93,7 @@ All we need to do is to execute the following command `gem install name_of_gem`.
 
 To see what 'gems' you have already installed you can run the command `gem list --local` and this will display something similar to this (which is what I have installed on my own machine currently)…
 
+{% highlight bash %}
     bundler (1.1.3)
     cgi_multipart_eof_fix (2.5.0)
     daemons (1.1.8)
@@ -114,6 +115,7 @@ To see what 'gems' you have already installed you can run the command `gem list 
     thin (1.3.1)
     tilt (1.3.3)
     treetop (1.4.10)
+{% endhighlight %}
 
 ###Set-up
 
@@ -121,6 +123,7 @@ Now we have our software set-up, lets open our programming tool of choice and st
 
 First thing we want to do is to create a file that will be our application. So lets go ahead and do that and call it `app.rb` and lets add the following content to it…
 
+{% highlight ruby %}
     #!/usr/bin/env ruby
 
     require 'sinatra'
@@ -128,15 +131,18 @@ First thing we want to do is to create a file that will be our application. So l
     get '/' do
         "Hello World!"
     end
+{% endhighlight %}
 
 …now open your CLI, direct yourself to the folder where the above file is located and run `ruby app.rb`.
 
 You should see a message similar to this…
 
+{% highlight bash %}
     == Sinatra/1.3.2 has taken the stage on 4567 for development with backup from Thin
     >> Thin web server (v1.3.1 codename Triple Espresso)
     >> Maximum connections set to 1024
     >> Listening on 0.0.0.0:4567, CTRL+C to stop
+{% endhighlight %}
 
 You should now be able to open your web browser and go to: `http://localhost:4567/` and see the message "Hello World!"
 
@@ -169,14 +175,17 @@ So at this point you've got some Ruby code and you're able to view it in a web b
 
 If you wanted to add a new page called "Projects" that you accessed via `http://localhost:4567/projects` then all you would need to do is add the following code…
 
+{% highlight ruby %}
     get '/projects' do
         # page content
     end
+{% endhighlight %}
 
 What we've done is created a new 'route' - a new way for a user to access your application.
 
 Imagine now that this 'projects' page had a login form on it that let the user enter a username and password and this form POST'ed the data entered by the user back to the current page...
 
+{% highlight html %}
     <form method="post">
     	<dl>
     		<dt>Name</dt>
@@ -186,22 +195,27 @@ Imagine now that this 'projects' page had a login form on it that let the user e
     	</dl>
     	<p><input type="submit" value="Send"></p>
     </form>
+{% endhighlight %}
 
 ...for you to access the POST'ed data then you would need to add another 'route' to handle it. But this time instead of using a `get` request it would be a `post` request like so…
 
+{% highlight ruby %}
     post '/projects' do
         # do something with the form fields
         user = params[:user]
         pass = params[:password]
     end
+{% endhighlight %}
 
 …you'll notice that the form data is passed to the block using special parameters called `params`. So in the above example we had two form fields with the names `user` and `password` and we're assigning their values to the variables `user` and `pass` where we can now do validation on the values.
 
 You can also use the URL path as a way for the user to interact with your application. For example if you had a page which added two numbers together then it could be handled directly via the URL as follows…
 
+{% highlight ruby %}
     get '/add/:a/:b' do |a, b|
         "#{a.to_i + b.to_i}"
     end
+{% endhighlight %}
 
 …this would display on the page the result of adding `a` and `b` together. So if I went to the URL `http://localhost:4567/add/2/2` then this would display `4` as that would be the result of `2 + 2` (which was the two parameters I specified within the URL).
 
@@ -215,6 +229,7 @@ Note that templates can be inlined inside your Ruby code, but personally I prefe
 
 Our code is going to start looking something like this…
 
+{% highlight ruby %}
     get '/' do
         erb :home
     end
@@ -222,6 +237,7 @@ Our code is going to start looking something like this…
     get '/projects' do
         erb :projects
     end
+{% endhighlight %}
 
 …what this is doing is using ERB (which stands for 'Embedded Ruby') and is the standard templating language available in Ruby - although there are many templating languages you could load and use in its place. What we've said here in our code is load the `:home` template (.erb file) when on the home page, and load the `:project` template (.erb file) when on the projects page.
 
@@ -229,11 +245,13 @@ By default Sinatra looks for templates inside of a root folder called `views` (y
 
 Inside our `views` folder we'll need to create two files then: `home.erb` and `projects.erb` and they'll look a little bit like this…
 
+{% highlight html %}
     <!-- home.erb -->
     <p>HTML content for my home page</p>
 
     <!-- projects.erb -->
     <p>HTML content for my projects page</p>
+{% endhighlight %}
 
 Now this doesn't look like much of a HTML page, and that's because I'm using (or I'm going to be using very shortly) what Sinatra refers to as a main layout file and this 'layout' file will contain the rest of my HTML code and will be wrapped around my above templates. 
 
@@ -241,6 +259,7 @@ What this means is I can have a 'master' HTML file that stays the same for every
 
 But if I didn't create a `layout.erb` file then I could have modified my templates above to include a full set of HTML like so…
 
+{% highlight html %}
     <!-- home.erb -->
     <!doctype html>
     <html>
@@ -252,9 +271,11 @@ But if I didn't create a `layout.erb` file then I could have modified my templat
     	   <p>HTML content for my home page</p>
     	</body>
     </html>
+{% endhighlight %}
 
 …but I prefer having a master layout to handle this stuff, so lets create a `layout.erb` file (within the `views` folder) and add the following content to it…
 
+{% highlight erb %}
     <!-- layout.erb -->
     <!doctype html>
     <html>
@@ -266,9 +287,11 @@ But if I didn't create a `layout.erb` file then I could have modified my templat
     	   <%= yield %>
     	</body>
     </html>
+{% endhighlight %}
 
 …you should notice the Ruby tags `<% %>` which are used to place Ruby code inside of them. Here we're telling Ruby to `yield` to the template file we're loading. So for example when a user accesses the home page and we load `home.erb`, we're effectively loading the `layout.erb` file and telling it that when it reaches the `body` tag we want it to load in the content from the `home.erb` file into it so it will end up rendering in the web browser like this…
 
+{% highlight html %}
     <!doctype html>
     <html>
     	<head>
@@ -279,17 +302,21 @@ But if I didn't create a `layout.erb` file then I could have modified my templat
     	   <p>HTML content for my home page</p>
     	</body>
     </html>
+{% endhighlight %}
 
 If you want to load a different master layout for a specific page then you can do that also. For example I have a page that I display to users of Internet Explorer version 7 or lower. The master layout for that page is a lot simpler than the other pages of my site in that it loads different stylesheets specifically for this IE page. So in my application file I have the following…
 
+{% highlight ruby %}
     get '/internet-explorer' do
         erb :ie, :layout => :layout_ie
     end
+{% endhighlight %}
 
 …and what you can see here is that I'm not only telling Sinatra to load the `ie.erb` file but to also use the `layout_ie.erb` file as the master layout file for this page rather than the default `layout.erb`.
 
 One other thing worth mentioning is that you can pass variables from your route block into your template using class instance variables…
 
+{% highlight ruby%}
     post '/contact' do
         redirect "/contact-error/name" if params[:user].empty?
         redirect "/contact-error/email" if params[:email].empty?
@@ -302,10 +329,13 @@ One other thing worth mentioning is that you can pass variables from your route 
     	@field = field
     	erb :contact_error
     end
+{% endhighlight %}
 
 …in the above example when a user makes an error on my contact form I redirect them to a page that shows them what field they made an error on. In my template file I have…
 
+{% highlight html %}
     <p>Sorry there was an error with your form submission. Seems you didn't fill in the <%= @field %> field.</p>
+{% endhighlight %}
 
 …notice I picked up the field from the URL and stored it in a class instance variable and used that variable within my template.
 
@@ -331,9 +361,11 @@ If this sounds a bit confusing then have a look at the GitHub repo linked at the
 
 If the user tries to access a page that doesn't exist then you can direct them to your own `404 error` page by using the following route…
 
+{% highlight ruby %}
     not_found do
         erb :notfound
     end
+{% endhighlight %}
 
 …as you can see I'm loading a 'notfound.erb' template for the content. This will get called anytime an unknown URL is specified by the user.
 
@@ -341,9 +373,11 @@ One thing you might not want to have happen is if someone types in `http://local
 
 To fix this you can do the following…
 
+{% highlight ruby %}
     before do
         request.path_info.sub! %r{/$}, ''
     end
+{% endhighlight %}
 
 …the above code block is referred to as a 'filter' block and it is executed before every HTTP request. 
 
@@ -353,15 +387,19 @@ Note: there is also a `after` filter block as well for doing tidy up work (altho
 
 If there is an actual error then you can use…
 
+{% highlight ruby %}
     error do
         erb :error
     end
+{% endhighlight %}
 
 In a development environment Sinatra tries to be helpful by displaying very detailed error messages. But you may find this overrides your custom error page which you would want to show to a user. So if you want to just test your error page is working correct before you 'go live' then simply add `disable :show_exceptions` to some where near the top of your application file and this will mean the detailed error stack is no longer shown when you encounter an error during development and so you'll end up seeing what your users will see in the live environment.
 
 Also, within your `error.erb` template file you can access the error using the environment variable `sinatra.error`…
 
+{% highlight erb %}
     <p>Sorry there was the following error: <strong class="error"><%= env["sinatra.error"] %></strong></p>
+{% endhighlight %}
 
 ###Performance
 
@@ -373,23 +411,26 @@ Here are some things you can do to help improve the performance of your web appl
 2. Use the `Thin` Web Server
 3. GZIP all content
 
-####1. Cache static resources
+###Cache static resources
 
-# We set the cache control for static resources to approximately 1 month
-set :static_cache_control, [:public, :max_age => 2678400]
+We set the cache control for static resources to approximately 1 month
 
-####2. Use the `Thin` Web Server
+`set :static_cache_control, [:public, :max_age => 2678400]`
+
+###Use the `Thin` Web Server
 
 You can also tell Sinatra to use the `Thin` server rather than the default `WEBrick` server if it's available (`Thin` is a supremely better performing web server so do please use it!)
 
+{% highlight ruby %}
     # We specify which server we want to use (Thin is tried first and then failing that WEBrick)
     set :server, %w[thin webrick]
+{% endhighlight %}
 
-####3. GZIP all content
+###GZIP all content
 
 We can also have the web server automatically GZIP all our static resources (which can reduce the file size of a resource by up to 70%!) such as HTML content, JavaScript files, CSS files by using one line of Ruby code…
 
-    use Rack::Deflater
+`use Rack::Deflater`
 
 …this uses the 'Rack' middleware application (Rack is what sits behind Sinatra and is the actual HTTP web server interface), but Sinatra hides all of that behind the DSL syntax of `get` and `post` calls (nice huh).
 
@@ -410,9 +451,12 @@ This is going to be short and quick…
         run Sinatra::Application
 
 5. Create a Gemfile file (no file extension) and add the content:  
-        source 'http://rubygems.org'
-        gem 'sinatra', '1.3.2'
-        gem 'thin', '1.3.1'
+        
+{% highlight ruby %}
+    source 'http://rubygems.org'
+    gem 'sinatra', '1.3.2'
+    gem 'thin', '1.3.1'
+{% endhighlight %}
 
 6. Go back to your CLI and enter:
 	* `bundle install` which will create a `Gemfile.lock` file specifying ALL the dependancies needed for your app to run (you shouldn't need to manually create your own Gemfile - as I've told you to do in step 5. - but just in case `bundle install` doesn't work for you then you can at least do it manually).

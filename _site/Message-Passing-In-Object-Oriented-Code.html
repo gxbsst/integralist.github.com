@@ -10,6 +10,7 @@
         <!--[if lt IE 9]>
         <script src="/Assets/Scripts/html5.js"></script>
         <![endif]-->
+        <link rel="stylesheet" href="/Assets/Styles/pygment.css"     media="all">
         <link rel="stylesheet" href="/Assets/Styles/layout.css"     media="all">
         <link rel="stylesheet" href="/Assets/Styles/layout-480.css" media="only screen and (min-width: 30em)">
         <link rel="stylesheet" href="/Assets/Styles/layout-768.css" media="only screen and (min-width: 40em)">
@@ -90,34 +91,36 @@
 
 <p>So instead of this…</p>
 
-<pre><code>class AccountProxy
-    def initialize(real_object)
-        @real_object = real_object
-    end
+<div class="highlight"><pre><code class="ruby"> <span class="k">class</span> <span class="nc">AccountProxy</span>
+        <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">real_object</span><span class="p">)</span>
+            <span class="vi">@real_object</span> <span class="o">=</span> <span class="n">real_object</span>
+        <span class="k">end</span>
+        
+        <span class="k">def</span> <span class="nf">deposit</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span>
+            <span class="vi">@real_object</span><span class="o">.</span><span class="n">deposit</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span>
+        <span class="k">end</span>
+        
+        <span class="err">…</span> <span class="n">ad</span> <span class="n">infinitum</span> <span class="err">…</span> 
+    <span class="k">end</span>
 
-    def deposit(amount)
-        @real_object.deposit(amount)
-    end
+    <span class="n">account</span> <span class="o">=</span> <span class="no">Account</span><span class="o">.</span><span class="n">new</span>
+    <span class="n">proxy</span> <span class="o">=</span> <span class="no">AccountProxy</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">account</span><span class="p">)</span>
+    <span class="n">proxy</span><span class="o">.</span><span class="n">deposit</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+</code></pre></div>
 
-    … ad infinitum … 
-end
-
-account = Account.new
-proxy = AccountProxy.new(account)
-proxy.deposit(50)
-</code></pre>
 
 <p>…we should really take advantage of the dynamic nature of the Ruby language to avoid having to manually write out these methods by hand, like so…</p>
 
-<pre><code>class AccountProxy
-    def initialize(real_account)
-        @subject = real_account
-    end
-    def method_missing(name, *args)
-        @subject.send(name, *args)
-    end
-end
-</code></pre>
+<div class="highlight"><pre><code class="ruby"> <span class="k">class</span> <span class="nc">AccountProxy</span>
+        <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">real_account</span><span class="p">)</span>
+            <span class="vi">@subject</span> <span class="o">=</span> <span class="n">real_account</span>
+        <span class="k">end</span>
+        <span class="k">def</span> <span class="nf">method_missing</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+            <span class="vi">@subject</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+</code></pre></div>
+
 
 <p>You can see from the above example that we're using the <a href="http://ruby-doc.org/core-2.0/Object.html#method-i-send">send</a> method to pass the message (i.e. the method invoked by the user on the proxy object) directly to the real object.</p>
 

@@ -10,6 +10,7 @@
         <!--[if lt IE 9]>
         <script src="/Assets/Scripts/html5.js"></script>
         <![endif]-->
+        <link rel="stylesheet" href="/Assets/Styles/pygment.css"     media="all">
         <link rel="stylesheet" href="/Assets/Styles/layout.css"     media="all">
         <link rel="stylesheet" href="/Assets/Styles/layout-480.css" media="only screen and (min-width: 30em)">
         <link rel="stylesheet" href="/Assets/Styles/layout-768.css" media="only screen and (min-width: 40em)">
@@ -70,8 +71,6 @@
 </ul>
 
 
-<hr />
-
 <h3>Installing Ruby</h3>
 
 <p>UPDATE: I've found a super sweet way to get multiple versions of Ruby installed onto your Mac (notice I said Mac, not PC - so if you're on Windows then I'm afraid I can't help you).</p>
@@ -118,8 +117,6 @@
 
 <p><del>5. <code>ruby -v</code> - just check the version quickly to be sure</del></p>
 
-<hr />
-
 <h3>The Interactive Ruby Console</h3>
 
 <p>Beginners are advised to use the interactive Ruby console to get to know the language. So to start it up, in your Terminal type: <code>irb</code> (and if you want to quit use: <code>Ctrl+D</code>).</p>
@@ -130,11 +127,12 @@
 
 <p>Take the following example…</p>
 
-<pre><code>5.times {
-    print "This gets written five times"
-    sleep 2
-}
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="mi">5</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span>
+        <span class="nb">print</span> <span class="s2">&quot;This gets written five times&quot;</span>
+        <span class="nb">sleep</span> <span class="mi">2</span>
+    <span class="p">}</span>
+</code></pre></div>
+
 
 <p>…which every two seconds displays the sentence "This gets written five times"…</p>
 
@@ -143,8 +141,6 @@
 <p>…and returns <code>=&gt; 5</code>. Notice the sentence is printed on one line. If you were to change <code>print</code> to <code>puts</code> it would automatically generate a newline for you making it easier to read.</p>
 
 <p>As far as I understand it, the other more subtle difference is that <code>print</code> buffers the output, so rather than displaying the sentence every two seconds it waits until ten seconds (2 seconds * 5 times) before printing the sentence five times. Now, I tried this myself both via <code>irb</code> and via a standard Ruby script but <code>print</code> definitely was executing every two seconds, so this may only occur under certain environments - but it's still worth being aware of. See <a href="http://mattberther.com/2009/02/11/puts-vs-print-in-ruby">this article</a> which is where I first heard about this subtle difference.</p>
-
-<hr />
 
 <h3>How to execute Ruby scripts</h3>
 
@@ -156,22 +152,19 @@
 
 <p>Then within the Terminal application, <code>cd</code> to the directory where that file is located and execute the command <code>ruby name_of_file.rb</code></p>
 
-<hr />
-
 <h3>Comments</h3>
 
 <p>In Ruby you have single line comments <code># this is a comment</code> and multi-line comments:</p>
 
-<pre><code>=begin
-    Lots and lots of
-    code that I want
-    to comment out all at once
-=end
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="o">=</span><span class="k">begin</span>
+        <span class="no">Lots</span> <span class="ow">and</span> <span class="n">lots</span> <span class="n">of</span>
+        <span class="n">code</span> <span class="n">that</span> <span class="n">I</span> <span class="n">want</span>
+        <span class="n">to</span> <span class="n">comment</span> <span class="n">out</span> <span class="n">all</span> <span class="n">at</span> <span class="n">once</span>
+    <span class="o">=</span><span class="k">end</span>
+</code></pre></div>
+
 
 <p>With multi-line comments there must be no whitespace before the <code>=begin</code> and <code>=end</code> statements otherwise your script will throw an error.</p>
-
-<hr />
 
 <h3>Variables</h3>
 
@@ -179,10 +172,11 @@
 
 <p>You can assign multiple variables at once like so…</p>
 
-<pre><code>x, y = 1, 2     # which is effectively the same as x = 1, y = 2
-a, b = b, a     # which switches the values of each variable
-x,y,z = [1,2,3] # assign each array item value to a variable, so x = 1, y = 2, z = 3
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>     <span class="c1"># which is effectively the same as x = 1, y = 2</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span>     <span class="c1"># which switches the values of each variable</span>
+    <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="o">]</span> <span class="c1"># assign each array item value to a variable, so x = 1, y = 2, z = 3</span>
+</code></pre></div>
+
 
 <p>Variables in JavaScript typically come in two flavours: Global and Local. In JavaScript if you declare a variable with the <code>var</code> syntax then the variable is added as a property to the global object (which depending on the environment JavaScript is running in) most of the time will be the <code>window</code> object. If you declare a variable inside of a function in JavaScript using the <code>var</code> syntax then that variable is only available within that function (unless it's accessible via some priviledged object).</p>
 
@@ -192,71 +186,68 @@ x,y,z = [1,2,3] # assign each array item value to a variable, so x = 1, y = 2, z
 
 <p>So for example, if I have a class called "MyClass" and inside of it I set <code>@@my_var</code> to equal 456 instead of 123 then every object created from "MyClass" will have <code>my_var</code> set to 456. Whereas if "MyClass" had <code>@my_var</code> set to 123 and I create a new object from that class and set <code>@my_var</code> to 456 - an 'instance variable' - then only that object would see the value of <code>@my_var</code> as 456, all other objects created from the class would still see the value as 123. It sounds tricky but it's not that bad really. Here is an example of what the above was trying to explain…</p>
 
-<pre><code># Following classes 'MyClass' and 'MyClass2' demonstrate difference between 'class variable' and 'instance variable'
-class MyClass
-    def initialize
-        @@class_var = 123
-    end
-    def showValue
-        puts @@class_var
-    end
-    def setValue
-        @@class_var = 456;
-    end
-end
+<div class="highlight"><pre><code class="ruby">    <span class="c1"># Following classes &#39;MyClass&#39; and &#39;MyClass2&#39; demonstrate difference between &#39;class variable&#39; and &#39;instance variable&#39;</span>
+    <span class="k">class</span> <span class="nc">MyClass</span>
+        <span class="k">def</span> <span class="nf">initialize</span>
+            <span class="vc">@@class_var</span> <span class="o">=</span> <span class="mi">123</span>
+        <span class="k">end</span>
+        <span class="k">def</span> <span class="nf">showValue</span>
+            <span class="nb">puts</span> <span class="vc">@@class_var</span>
+        <span class="k">end</span>
+        <span class="k">def</span> <span class="nf">setValue</span>
+            <span class="vc">@@class_var</span> <span class="o">=</span> <span class="mi">456</span><span class="p">;</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
 
-class MyClass2
-    def initialize
-        @class_var = 123
-    end
-    def showValue
-        puts @class_var
-    end
-    def setValue
-        @class_var = 456;
-    end
-end
+    <span class="k">class</span> <span class="nc">MyClass2</span>
+        <span class="k">def</span> <span class="nf">initialize</span>
+            <span class="vi">@class_var</span> <span class="o">=</span> <span class="mi">123</span>
+        <span class="k">end</span>
+        <span class="k">def</span> <span class="nf">showValue</span>
+            <span class="nb">puts</span> <span class="vi">@class_var</span>
+        <span class="k">end</span>
+        <span class="k">def</span> <span class="nf">setValue</span>
+            <span class="vi">@class_var</span> <span class="o">=</span> <span class="mi">456</span><span class="p">;</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
 
-#############################
+    <span class="c1">#############################</span>
 
-# This is the 'class variable'
+    <span class="c1"># This is the &#39;class variable&#39;</span>
 
-objA = MyClass.new()
-objB = MyClass.new()
+    <span class="n">objA</span> <span class="o">=</span> <span class="no">MyClass</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
+    <span class="n">objB</span> <span class="o">=</span> <span class="no">MyClass</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
 
-objA.showValue # =&gt; 123
-objB.showValue # =&gt; 123
+    <span class="n">objA</span><span class="o">.</span><span class="n">showValue</span> <span class="c1"># =&gt; 123</span>
+    <span class="n">objB</span><span class="o">.</span><span class="n">showValue</span> <span class="c1"># =&gt; 123</span>
 
-objA.setValue
+    <span class="n">objA</span><span class="o">.</span><span class="n">setValue</span>
 
-objA.showValue # =&gt; 456
-objB.showValue # =&gt; 456
+    <span class="n">objA</span><span class="o">.</span><span class="n">showValue</span> <span class="c1"># =&gt; 456</span>
+    <span class="n">objB</span><span class="o">.</span><span class="n">showValue</span> <span class="c1"># =&gt; 456</span>
 
-#############################
+    <span class="c1">#############################</span>
 
-# This is the 'instance variable'
+    <span class="c1"># This is the &#39;instance variable&#39;</span>
 
-objC = MyClass2.new()
-objD = MyClass2.new()
+    <span class="n">objC</span> <span class="o">=</span> <span class="no">MyClass2</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
+    <span class="n">objD</span> <span class="o">=</span> <span class="no">MyClass2</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
 
-objC.showValue # =&gt; 123
-objD.showValue # =&gt; 123
+    <span class="n">objC</span><span class="o">.</span><span class="n">showValue</span> <span class="c1"># =&gt; 123</span>
+    <span class="n">objD</span><span class="o">.</span><span class="n">showValue</span> <span class="c1"># =&gt; 123</span>
 
-objC.setValue
+    <span class="n">objC</span><span class="o">.</span><span class="n">setValue</span>
 
-objC.showValue # =&gt; 456
-objD.showValue # =&gt; 123
-</code></pre>
+    <span class="n">objC</span><span class="o">.</span><span class="n">showValue</span> <span class="c1"># =&gt; 456</span>
+    <span class="n">objD</span><span class="o">.</span><span class="n">showValue</span> <span class="c1"># =&gt; 123</span>
+</code></pre></div>
 
-<hr />
 
 <h3>Magic Variables</h3>
 
 <p>There are 'magic' variables (like predefined variables in PHP).</p>
 
 <p>For example you have <code>__FILE__</code> which refers to the current file being executed and there is also <code>$0</code> which refers to the file used to start the program. I mention these two specifically because these are used in the getting started examples on the <a href="http://www.ruby-lang.org/">Ruby website</a>.</p>
-
-<hr />
 
 <h3>Constants</h3>
 
@@ -266,31 +257,29 @@ objD.showValue # =&gt; 123
 
 <p>If you try to overwrite a constant you'll get the following message: <code>warning: already initialized constant</code> - although as far as I can tell by testing this in irb it seems to change the constant and only warns you rather than actually preventing you from changing the value? <strong><em>Maybe a Rubyist reading this can clarify if this is expected behaviour.</em></strong></p>
 
-<hr />
-
 <h3>Symbols</h3>
 
 <p>Symbols are like static variables (or constants). They are used as identifiers, as a way to keep code cleaner.</p>
 
 <p>If you had lots of hashes (which we'll come to later) and you have a key/property called "name" then you could write your hash like so…</p>
 
-<pre><code>hash1 = { "name" =&gt; "Mark" }
-hash2 = { "name" =&gt; "Brad" }
-hash3 = { "name" =&gt; "Ash" }
-hash4 = { "name" =&gt; "Neil" }
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="n">hash1</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Mark&quot;</span> <span class="p">}</span>
+    <span class="n">hash2</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Brad&quot;</span> <span class="p">}</span>
+    <span class="n">hash3</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Ash&quot;</span> <span class="p">}</span>
+    <span class="n">hash4</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Neil&quot;</span> <span class="p">}</span>
+</code></pre></div>
+
 
 <p>…but <code>"name"</code> is being re-created in memory every time it's referenced. It's much more energy efficient to use a Symbol which looks like a variable but is prefixed with a colon <code>:name</code>…</p>
 
-<pre><code>hash1 = { :name =&gt; "Mark" }
-hash2 = { :name =&gt; "Brad" }
-hash3 = { :name =&gt; "Ash" }
-hash4 = { :name =&gt; "Neil" }
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="n">hash1</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Mark&quot;</span> <span class="p">}</span>
+    <span class="n">hash2</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Brad&quot;</span> <span class="p">}</span>
+    <span class="n">hash3</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Ash&quot;</span> <span class="p">}</span>
+    <span class="n">hash4</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Neil&quot;</span> <span class="p">}</span>
+</code></pre></div>
+
 
 <p>…as you can see, Symbols don't have values like variables, they are literally just used as efficient identifiers.</p>
-
-<hr />
 
 <h3>Functions/Methods</h3>
 
@@ -298,21 +287,23 @@ hash4 = { :name =&gt; "Neil" }
 
 <p>To define a method the syntax is:</p>
 
-<pre><code>def method_name (arguments)
-    // function code
-end
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="k">def</span> <span class="nf">method_name</span> <span class="p">(</span><span class="n">arguments</span><span class="p">)</span>
+        <span class="sr">//</span> <span class="n">function</span> <span class="n">code</span>
+    <span class="k">end</span>
+</code></pre></div>
+
 
 <p>In JavaScript, if a method doesn't explicitly specify a return value then it returns <code>undefined</code>. In Ruby a method will return the last expression evaluated in its body, and if there isn't one then it will return <code>nil</code> (<code>nil</code> is equivalent to <code>null</code> in PHP).</p>
 
 <p>As was noted in the above 'Variables' section about variables being able to assigned multiple values, this can come in handy with method returning multiple values as well (which is quite interesting as I'm only used to functions in JavaScript returning a single value)…</p>
 
-<pre><code>def myMethod 
-    [1, 2] # this being the last expression, this is what's returned
-end
+<div class="highlight"><pre><code class="ruby">    <span class="k">def</span> <span class="nf">myMethod</span> 
+        <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">]</span> <span class="c1"># this being the last expression, this is what&#39;s returned</span>
+    <span class="k">end</span>
 
-a, b = myMethod; # =&gt; a = 1, b = 2
-</code></pre>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">myMethod</span><span class="p">;</span> <span class="c1"># =&gt; a = 1, b = 2</span>
+</code></pre></div>
+
 
 <p>You can call a method without parenthesis, e.g. <code>myMethod</code> apposed to <code>myMethod()</code>. The choice is yours whether you use parenthesis or not - personally there are times where I can see myself not needing them and other times using them so it's crystal clear that what I'm doing is calling a method (time will tell - but I understand a good practice is to use parenthesis whenever a method expects arguments to be passed otherwise there is no point in using them).</p>
 
@@ -320,10 +311,11 @@ a, b = myMethod; # =&gt; a = 1, b = 2
 
 <p>So for example, these work…</p>
 
-<pre><code>welcome("Mark", 30)
-welcome"Mark", 30
-welcome "Mark", 30
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="n">welcome</span><span class="p">(</span><span class="s2">&quot;Mark&quot;</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+    <span class="n">welcome</span><span class="s2">&quot;Mark&quot;</span><span class="p">,</span> <span class="mi">30</span>
+    <span class="n">welcome</span> <span class="s2">&quot;Mark&quot;</span><span class="p">,</span> <span class="mi">30</span>
+</code></pre></div>
+
 
 <p>…but this doesn't <code>welcome ("Mark", 30)</code>.</p>
 
@@ -333,10 +325,11 @@ welcome "Mark", 30
 
 <p>You can specify default values for arguments…</p>
 
-<pre><code>def welcome (name = "World", age = 1)
-    puts "Hello #{name}!, I see you're #{age} years old."
-end
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="k">def</span> <span class="nf">welcome</span> <span class="p">(</span><span class="nb">name</span> <span class="o">=</span> <span class="s2">&quot;World&quot;</span><span class="p">,</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="nb">puts</span> <span class="s2">&quot;Hello </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">!, I see you&#39;re </span><span class="si">#{</span><span class="n">age</span><span class="si">}</span><span class="s2"> years old.&quot;</span>
+    <span class="k">end</span>
+</code></pre></div>
+
 
 <p>…which can be used as follows…</p>
 
@@ -346,58 +339,60 @@ end
 
 <p>You can also add new methods to an existing object just by prefixing the name of the method with the relevant object…</p>
 
-<pre><code>def Math.someNewThing (x) 
-    puts "#{x} was here"
-end
+<div class="highlight"><pre><code class="ruby">    <span class="k">def</span> <span class="nc">Math</span><span class="o">.</span><span class="nf">someNewThing</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> 
+        <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">x</span><span class="si">}</span><span class="s2"> was here&quot;</span>
+    <span class="k">end</span>
 
-Math.respond_to?("someNewThing") # =&gt; true
+    <span class="no">Math</span><span class="o">.</span><span class="n">respond_to?</span><span class="p">(</span><span class="s2">&quot;someNewThing&quot;</span><span class="p">)</span> <span class="c1"># =&gt; true</span>
 
-Math.someNewThing(123) # =&gt; 123 was here
-Math.someNewThing("abc") # =&gt; abc was here
-</code></pre>
+    <span class="no">Math</span><span class="o">.</span><span class="n">someNewThing</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span> <span class="c1"># =&gt; 123 was here</span>
+    <span class="no">Math</span><span class="o">.</span><span class="n">someNewThing</span><span class="p">(</span><span class="s2">&quot;abc&quot;</span><span class="p">)</span> <span class="c1"># =&gt; abc was here</span>
+</code></pre></div>
+
 
 <p>…in Ruby these types of method declarations are referred to as 'class methods' (or 'singleton methods')</p>
 
 <p>In a similar example of extending already defined Classes:</p>
 
-<pre><code>class Fixnum
-    def seconds
-        self
-    end
-    def minutes
-        self * 60
-    end
-    def hours
-        self * 60 * 60
-    end
-    def days
-        self * 60 * 60 * 24
-    end 
-end
+<div class="highlight"><pre><code class="ruby">    <span class="k">class</span> <span class="nc">Fixnum</span>
+        <span class="k">def</span> <span class="nf">seconds</span>
+            <span class="nb">self</span>
+        <span class="k">end</span>
+        <span class="k">def</span> <span class="nf">minutes</span>
+            <span class="nb">self</span> <span class="o">*</span> <span class="mi">60</span>
+        <span class="k">end</span>
+        <span class="k">def</span> <span class="nf">hours</span>
+            <span class="nb">self</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span>
+        <span class="k">end</span>
+        <span class="k">def</span> <span class="nf">days</span>
+            <span class="nb">self</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">24</span>
+        <span class="k">end</span> 
+    <span class="k">end</span>
 
-puts Time.now
-puts Time.now + 10.minutes
-puts Time.now + 16.hours
-puts Time.now - 7.days
-</code></pre>
+    <span class="nb">puts</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span>
+    <span class="nb">puts</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span> <span class="o">+</span> <span class="mi">10</span><span class="o">.</span><span class="n">minutes</span>
+    <span class="nb">puts</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span> <span class="o">+</span> <span class="mi">16</span><span class="o">.</span><span class="n">hours</span>
+    <span class="nb">puts</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span> <span class="o">-</span> <span class="mi">7</span><span class="o">.</span><span class="n">days</span>
+</code></pre></div>
+
 
 <p>Note: you might see methods that are called using a ? at the end, these indicate that the method will return a Boolean value (e.g. <code>respond_to?</code> which you'll see below in the 'Classes' section)…</p>
 
-<pre><code>x = []
-x.empty? # =&gt; true (…or x.empty?() if you prefer the use of parenthesis)
+<div class="highlight"><pre><code class="ruby">    <span class="n">x</span> <span class="o">=</span> <span class="o">[]</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">empty?</span> <span class="c1"># =&gt; true (…or x.empty?() if you prefer the use of parenthesis)</span>
 
-x = [1, 2, 3]
-x.empty? # =&gt; false
-</code></pre>
+    <span class="n">x</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">empty?</span> <span class="c1"># =&gt; false</span>
+</code></pre></div>
+
 
 <p>If you want to know what methods are available to an object/class then look at the <code>class</code> of the object and then inspect the methods available…</p>
 
-<pre><code>my_hash = { :name =&gt; "Mark" }
-my_hash.class # =&gt; Hash
-Hash.instance_methods # =&gt; [:rehash, :to_hash, :to_a, :inspect, :to_s, :==, :[], :hash, :eql?, :fetch, :[]=, :store, :default, :default=, :default_proc, :default_proc=, :key, :index, :size, :length, :empty?, :each_value, :each_key, :each_pair, :each, :keys, :values, :values_at, :shift, :delete, :delete_if, :keep_if, :select, :select!, :reject, :reject!, :clear, :invert, :update, :replace, :merge!, :merge, :assoc, :rassoc, :flatten, :include?, :member?, :has_key?, :has_value?, :key?, :value?, :compare_by_identity, :compare_by_identity?, :entries, :sort, :sort_by, :grep, :count, :find, :detect, :find_index, :find_all, :collect, :map, :flat_map, :collect_concat, :inject, :reduce, :partition, :group_by, :first, :all?, :any?, :one?, :none?, :min, :max, :minmax, :min_by, :max_by, :minmax_by, :each_with_index, :reverse_each, :each_entry, :each_slice, :each_cons, :each_with_object, :zip, :take, :take_while, :drop, :drop_while, :cycle, :chunk, :slice_before, :nil?, :===, :=~, :!~, :&lt;=&gt;, :class, :singleton_class, :clone, :dup, :initialize_dup, :initialize_clone, :taint, :tainted?, :untaint, :untrust, :untrusted?, :trust, :freeze, :frozen?, :methods, :singleton_methods, :protected_methods, :private_methods, :public_methods, :instance_variables, :instance_variable_get, :instance_variable_set, :instance_variable_defined?, :instance_of?, :kind_of?, :is_a?, :tap, :send, :public_send, :respond_to?, :respond_to_missing?, :extend, :display, :method, :public_method, :define_singleton_method, :object_id, :to_enum, :enum_for, :equal?, :!, :!=, :instance_eval, :instance_exec, :__send__, :__id__]
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="n">my_hash</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Mark&quot;</span> <span class="p">}</span>
+    <span class="n">my_hash</span><span class="o">.</span><span class="n">class</span> <span class="c1"># =&gt; Hash</span>
+    <span class="no">Hash</span><span class="o">.</span><span class="n">instance_methods</span> <span class="c1"># =&gt; [:rehash, :to_hash, :to_a, :inspect, :to_s, :==, :[], :hash, :eql?, :fetch, :[]=, :store, :default, :default=, :default_proc, :default_proc=, :key, :index, :size, :length, :empty?, :each_value, :each_key, :each_pair, :each, :keys, :values, :values_at, :shift, :delete, :delete_if, :keep_if, :select, :select!, :reject, :reject!, :clear, :invert, :update, :replace, :merge!, :merge, :assoc, :rassoc, :flatten, :include?, :member?, :has_key?, :has_value?, :key?, :value?, :compare_by_identity, :compare_by_identity?, :entries, :sort, :sort_by, :grep, :count, :find, :detect, :find_index, :find_all, :collect, :map, :flat_map, :collect_concat, :inject, :reduce, :partition, :group_by, :first, :all?, :any?, :one?, :none?, :min, :max, :minmax, :min_by, :max_by, :minmax_by, :each_with_index, :reverse_each, :each_entry, :each_slice, :each_cons, :each_with_object, :zip, :take, :take_while, :drop, :drop_while, :cycle, :chunk, :slice_before, :nil?, :===, :=~, :!~, :&lt;=&gt;, :class, :singleton_class, :clone, :dup, :initialize_dup, :initialize_clone, :taint, :tainted?, :untaint, :untrust, :untrusted?, :trust, :freeze, :frozen?, :methods, :singleton_methods, :protected_methods, :private_methods, :public_methods, :instance_variables, :instance_variable_get, :instance_variable_set, :instance_variable_defined?, :instance_of?, :kind_of?, :is_a?, :tap, :send, :public_send, :respond_to?, :respond_to_missing?, :extend, :display, :method, :public_method, :define_singleton_method, :object_id, :to_enum, :enum_for, :equal?, :!, :!=, :instance_eval, :instance_exec, :__send__, :__id__]</span>
+</code></pre></div>
 
-<hr />
 
 <h3>Blocks</h3>
 
@@ -405,31 +400,31 @@ Hash.instance_methods # =&gt; [:rehash, :to_hash, :to_a, :inspect, :to_s, :==, :
 
 <p>When creating a method, if you want to pass a code block in as an argument, you need to prefix the argument name with an ampersand <code>&amp;</code> like so…</p>
 
-<pre><code>def myfn (&amp;code_block)
-    %w(a e I o u).each do |vowel|
-        code_block.call(vowel)
-    end
-end
+<div class="highlight"><pre><code class="ruby">    <span class="k">def</span> <span class="nf">myfn</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">code_block</span><span class="p">)</span>
+        <span class="sx">%w(a e I o u)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">vowel</span><span class="o">|</span>
+            <span class="n">code_block</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">vowel</span><span class="p">)</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
 
-myfn { |x| puts x }
-</code></pre>
+    <span class="n">myfn</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">x</span> <span class="p">}</span>
+</code></pre></div>
+
 
 <p>…what the above code does is create an Array and then iterates over it. Every item in the Array is passed to the code block (the code block which is passed in as an argument to the method).</p>
 
 <p>But the above can be simplified...</p>
 
-<pre><code>def myfn
-    %w(a e I o u).each do |vowel|
-        yield vowel
-    end
-end
+<div class="highlight"><pre><code class="ruby">    <span class="k">def</span> <span class="nf">myfn</span>
+        <span class="sx">%w(a e I o u)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">vowel</span><span class="o">|</span>
+            <span class="k">yield</span> <span class="n">vowel</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
 
-myfn { |x| puts x }
-</code></pre>
+    <span class="n">myfn</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">x</span> <span class="p">}</span>
+</code></pre></div>
+
 
 <p>...this isn't as obvious but is less verbose (the <code>yield</code> keyword automatically detects the code block and passes control to it rather than us having to pass through the code block and executing the <code>call</code> method on the code block).</p>
-
-<hr />
 
 <h3>Lambdas/Procs</h3>
 
@@ -441,16 +436,17 @@ myfn { |x| puts x }
 
 <p>The following is an example of how to use a Proc object instead of Block...</p>
 
-<pre><code>my_proc = Proc.new { |x| puts x }
+<div class="highlight"><pre><code class="ruby">    <span class="n">my_proc</span> <span class="o">=</span> <span class="no">Proc</span><span class="o">.</span><span class="n">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">x</span> <span class="p">}</span>
 
-def myfn proc_obj
-    %w(a e I o u).each do |vowel|
-        proc_obj.call(vowel)
-    end
-end
+    <span class="k">def</span> <span class="nf">myfn</span> <span class="n">proc_obj</span>
+        <span class="sx">%w(a e I o u)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">vowel</span><span class="o">|</span>
+            <span class="n">proc_obj</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">vowel</span><span class="p">)</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
 
-myfn my_proc
-</code></pre>
+    <span class="n">myfn</span> <span class="n">my_proc</span>
+</code></pre></div>
+
 
 <p>Notice we use a <code>call</code> method on the Proc object rather than the <code>yield</code> keyword which we use for a Block.</p>
 
@@ -468,66 +464,68 @@ myfn my_proc
 
 <p>The following is an example of how to use a Proc object instead of Block...</p>
 
-<pre><code>my_lambda = lambda { |x| puts x }
+<div class="highlight"><pre><code class="ruby">    <span class="n">my_lambda</span> <span class="o">=</span> <span class="nb">lambda</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">x</span> <span class="p">}</span>
 
-def myfn lambda_obj
-    %w(a e I o u).each do |vowel|
-        lambda_obj.call(vowel)
-    end
-end
+    <span class="k">def</span> <span class="nf">myfn</span> <span class="n">lambda_obj</span>
+        <span class="sx">%w(a e I o u)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">vowel</span><span class="o">|</span>
+            <span class="n">lambda_obj</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">vowel</span><span class="p">)</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
 
-myfn my_lambda
-</code></pre>
+    <span class="n">myfn</span> <span class="n">my_lambda</span>
+</code></pre></div>
+
 
 <p>Lambdas are very popular in other languages hence it's inclusion in Ruby (it's just a nice way to pass around code blocks).</p>
 
 <p>The following example is modified from a test on RubyMonk but is a good example of using lambdas…</p>
 
-<pre><code>def with_names(fn)
-  result = []
-  [ ["Christopher", "Alexander"],
-    ["John", "McCarthy"],
-    ["Joshua", "Norton"] ].each do |pair|
-      result &lt;&lt; fn.call(pair[0], pair[1])
-  end
-  result
-end
+<div class="highlight"><pre><code class="ruby">    <span class="k">def</span> <span class="nf">with_names</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+      <span class="n">result</span> <span class="o">=</span> <span class="o">[]</span>
+      <span class="o">[</span> <span class="o">[</span><span class="s2">&quot;Christopher&quot;</span><span class="p">,</span> <span class="s2">&quot;Alexander&quot;</span><span class="o">]</span><span class="p">,</span>
+        <span class="o">[</span><span class="s2">&quot;John&quot;</span><span class="p">,</span> <span class="s2">&quot;McCarthy&quot;</span><span class="o">]</span><span class="p">,</span>
+        <span class="o">[</span><span class="s2">&quot;Joshua&quot;</span><span class="p">,</span> <span class="s2">&quot;Norton&quot;</span><span class="o">]</span> <span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">pair</span><span class="o">|</span>
+          <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="n">fn</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">pair</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span> <span class="n">pair</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">)</span>
+      <span class="k">end</span>
+      <span class="n">result</span>
+    <span class="k">end</span>
 
-l = lambda { |name1, name2| "#{name1} #{name2}" } 
+    <span class="n">l</span> <span class="o">=</span> <span class="nb">lambda</span> <span class="p">{</span> <span class="o">|</span><span class="n">name1</span><span class="p">,</span> <span class="n">name2</span><span class="o">|</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">name1</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">name2</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">}</span> 
 
-with_names(l)
-</code></pre>
+    <span class="n">with_names</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+</code></pre></div>
 
-<hr />
 
 <h3>Classes</h3>
 
 <p>The Classes syntax is as follows…</p>
 
-<pre><code>class ClassName
-    def initialize ()
-        // code
-    end
-    // code
-end
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="k">class</span> <span class="nc">ClassName</span>
+        <span class="k">def</span> <span class="nf">initialize</span> <span class="p">()</span>
+            <span class="sr">//</span> <span class="n">code</span>
+        <span class="k">end</span>
+        <span class="sr">//</span> <span class="n">code</span>
+    <span class="k">end</span>
+</code></pre></div>
+
 
 <p>Instance variables for classes are defined using <code>@variable_name</code> and are available to all methods of the class.</p>
 
 <p>For example…</p>
 
-<pre><code>class Person
-    def initialize (name = "Bob")
-        @name = name
-    end
+<div class="highlight"><pre><code class="ruby">    <span class="k">class</span> <span class="nc">Person</span>
+        <span class="k">def</span> <span class="nf">initialize</span> <span class="p">(</span><span class="nb">name</span> <span class="o">=</span> <span class="s2">&quot;Bob&quot;</span><span class="p">)</span>
+            <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+        <span class="k">end</span>
 
-    def speak
-        puts "Hello, my name is #{@name}"
-    end
-end
+        <span class="k">def</span> <span class="nf">speak</span>
+            <span class="nb">puts</span> <span class="s2">&quot;Hello, my name is </span><span class="si">#{</span><span class="vi">@name</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
 
-employee = Person.new("Mark") 
-</code></pre>
+    <span class="n">employee</span> <span class="o">=</span> <span class="no">Person</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Mark&quot;</span><span class="p">)</span> 
+</code></pre></div>
+
 
 <p>…executing this via irb returns <code>#&lt;Person:0x007feb988ce048 @name="Mark"&gt;</code></p>
 
@@ -548,18 +546,19 @@ employee = Person.new("Mark")
 
 <p>For example…</p>
 
-<pre><code>class Test
-    attr_accessor :user_name
-    def initialize (name)
-        @user_name = name
-    end
-    def speak
-        puts "hello #{@user_name}"
-    end
-end
+<div class="highlight"><pre><code class="ruby">    <span class="k">class</span> <span class="nc">Test</span>
+        <span class="kp">attr_accessor</span> <span class="ss">:user_name</span>
+        <span class="k">def</span> <span class="nf">initialize</span> <span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+            <span class="vi">@user_name</span> <span class="o">=</span> <span class="nb">name</span>
+        <span class="k">end</span>
+        <span class="k">def</span> <span class="nf">speak</span>
+            <span class="nb">puts</span> <span class="s2">&quot;hello </span><span class="si">#{</span><span class="vi">@user_name</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
 
-tester = Test.new("Mark")
-</code></pre>
+    <span class="n">tester</span> <span class="o">=</span> <span class="no">Test</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Mark&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 
 <p><code>tester.speak</code> => hello Mark<br/>
 <code>tester.user_name</code> => "Mark"<br/>
@@ -568,89 +567,89 @@ tester = Test.new("Mark")
 
 <p>Note: as well as <code>:attr_accessor</code> which creates getter and setter methods, there is <code>:attr_reader</code> which only creates a getter method, and <code>:attr_writer</code> which only creates a setter method.</p>
 
-<hr />
-
 <h3>Loops</h3>
 
 <p>Loops in Ruby are straight forward…</p>
 
-<pre><code>list = ["a", "b", "c"]
+<div class="highlight"><pre><code class="ruby">    <span class="n">list</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="o">]</span>
+        
+    <span class="n">list</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
+        <span class="nb">puts</span> <span class="n">item</span>
+    <span class="k">end</span>
+</code></pre></div>
 
-list.each do |item|
-    puts item
-end
-</code></pre>
 
 <p>The <code>each</code> method executes a block of code for each item in the Array. The <code>do…end</code> section is such a block. The pipes <code>||</code> denotes the parameter <code>|name|</code> and that parameter is bound to each list item.</p>
 
 <p>One thing to be aware of (and you'll see this later under the 'Numbers' section), you can swap out <code>do…end</code> for normal curly brackets…</p>
 
-<pre><code>list = ["a", "b", "c"]
+<div class="highlight"><pre><code class="ruby">    <span class="n">list</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="o">]</span>
+        
+    <span class="n">list</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
+        <span class="nb">puts</span> <span class="n">item</span>
+    <span class="p">}</span>
+</code></pre></div>
 
-list.each { |item|
-    puts item
-}
-</code></pre>
 
 <p>…but for an <code>each</code> loop it doesn't look as nice as <code>do…end</code> so I keep with that style instead. But as you'll see I still like using curly brackets for other types of loops that don't have parameters.</p>
 
 <p>There is a standard <code>while</code> loop as well within Ruby…</p>
 
-<pre><code>count = 0
-while count &lt; 10
-    puts "count = #{count}"
-    count += 1 # Ruby has neither ++ or -- to increment/decrement a value
-end
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="mi">10</span>
+        <span class="nb">puts</span> <span class="s2">&quot;count = </span><span class="si">#{</span><span class="n">count</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span> <span class="c1"># Ruby has neither ++ or -- to increment/decrement a value</span>
+    <span class="k">end</span>
+</code></pre></div>
+
 
 <p>Also with a <code>while</code> loop (if you're using a 'switch..case' style statement - like you would see in JavaScript) you can explicitly return a value…</p>
 
-<pre><code>def myFunction
-    xyz = "def"
-    while true
-        case xyz
-            when "abc"
-                return true
-            when "def"
-                return false
-            else
-                return nil # in case xyz doesn't equal what we expect
-        end
-    end
-end
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="k">def</span> <span class="nf">myFunction</span>
+        <span class="n">xyz</span> <span class="o">=</span> <span class="s2">&quot;def&quot;</span>
+        <span class="k">while</span> <span class="kp">true</span>
+            <span class="k">case</span> <span class="n">xyz</span>
+                <span class="k">when</span> <span class="s2">&quot;abc&quot;</span>
+                    <span class="k">return</span> <span class="kp">true</span>
+                <span class="k">when</span> <span class="s2">&quot;def&quot;</span>
+                    <span class="k">return</span> <span class="kp">false</span>
+                <span class="k">else</span>
+                    <span class="k">return</span> <span class="kp">nil</span> <span class="c1"># in case xyz doesn&#39;t equal what we expect</span>
+            <span class="k">end</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+</code></pre></div>
+
 
 <p>There are other types of iterator methods such as <code>map</code>…</p>
 
-<pre><code>myArray = [1, 2, 3, 4]
-newArray = myArray.map do |x|
-    x*x
-end
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="n">myArray</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="o">]</span>
+    <span class="n">newArray</span> <span class="o">=</span> <span class="n">myArray</span><span class="o">.</span><span class="n">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+        <span class="n">x</span><span class="o">*</span><span class="n">x</span>
+    <span class="k">end</span>
+</code></pre></div>
+
 
 <p>…which returns <code>[1, 4, 9, 16]</code></p>
-
-<hr />
 
 <h3>Conditionals</h3>
 
 <p>Ruby is slightly different to other programming languages in that even its syntax is very expression-oriented. So where a control structure like <code>if</code> would be called a 'statement' in other languages, in Ruby it is actually an expression which means it can be assigned to a variable like so…</p>
 
-<pre><code>x = 5
-y = 10
-result = if x &lt; y then 
-    x
-else 
-    y
-end
+<div class="highlight"><pre><code class="ruby">    <span class="n">x</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span> <span class="k">then</span> 
+        <span class="n">x</span>
+    <span class="k">else</span> 
+        <span class="n">y</span>
+    <span class="k">end</span>
 
-# depending on how complicated your condition is you could put it all on one line like so… 
-result = if x &lt; y then x else y end
-</code></pre>
+    <span class="c1"># depending on how complicated your condition is you could put it all on one line like so… </span>
+    <span class="n">result</span> <span class="o">=</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span> <span class="k">then</span> <span class="n">x</span> <span class="k">else</span> <span class="n">y</span> <span class="k">end</span>
+</code></pre></div>
+
 
 <p>…and so, as we've mentioned before with <code>functions</code>, these types of blocks return the last expression evalutated inside the block, so in the above example the last expression is returned and stored in the <code>result</code> variable.</p>
-
-<hr />
 
 <h3>Strings</h3>
 
@@ -658,19 +657,21 @@ result = if x &lt; y then x else y end
 
 <p>For example…</p>
 
-<pre><code>def welcome (name)
-    puts "Hello #{name}!"
-end
+<div class="highlight"><pre><code class="ruby">    <span class="k">def</span> <span class="nf">welcome</span> <span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+        <span class="nb">puts</span> <span class="s2">&quot;Hello </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">!&quot;</span>
+    <span class="k">end</span>
 
-welcome("Mark")
-</code></pre>
+    <span class="n">welcome</span><span class="p">(</span><span class="s2">&quot;Mark&quot;</span><span class="p">)</span>
+</code></pre></div>
+
 
 <p>Multiple arguments work the same way…</p>
 
-<pre><code>def welcome (name, age)
-    puts "Hello #{name}!, I see you're #{age} years old."
-end
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="k">def</span> <span class="nf">welcome</span> <span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span>
+        <span class="nb">puts</span> <span class="s2">&quot;Hello </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">!, I see you&#39;re </span><span class="si">#{</span><span class="n">age</span><span class="si">}</span><span class="s2"> years old.&quot;</span>
+    <span class="k">end</span>
+</code></pre></div>
+
 
 <p>You could do the same with simple string concatenation…</p>
 
@@ -692,29 +693,28 @@ puts "Hello" + name + "!, I see you're " + age + " years old."
 
 <p>For example…</p>
 
-<pre><code>"foobarfoobar".sub('bar','foo')
-# =&gt; foofoofoobar
+<div class="highlight"><pre><code class="ruby">    <span class="s2">&quot;foobarfoobar&quot;</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span>
+    <span class="c1"># =&gt; foofoofoobar</span>
 
-"foobarfoobar".gsub('bar','foo')
-# =&gt; foofoofoofoo
+    <span class="s2">&quot;foobarfoobar&quot;</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span>
+    <span class="c1"># =&gt; foofoofoofoo</span>
 
-x = "This is a test"
-x.sub(/^[a-zA-Z]{4}/, 'Hello')
-# =&gt; "Hello is a test"
+    <span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;This is a test&quot;</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sr">/^[a-zA-Z]{4}/</span><span class="p">,</span> <span class="s1">&#39;Hello&#39;</span><span class="p">)</span>
+    <span class="c1"># =&gt; &quot;Hello is a test&quot;</span>
 
-x = "The car cost £2000 in 2012"
-x.scan(/\d+/) { |match| puts match }
-# =&gt; 2000
-# =&gt; 2012
-# scan() without the code block returns an array of matches
+    <span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;The car cost £2000 in 2012&quot;</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/\d+/</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">match</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">match</span> <span class="p">}</span>
+    <span class="c1"># =&gt; 2000</span>
+    <span class="c1"># =&gt; 2012</span>
+    <span class="c1"># scan() without the code block returns an array of matches</span>
 
-x = "This is a test".match(/(\w+) (\w+)/)
-puts x[0] # =&gt; This is
-puts x[1] # =&gt; This
-puts x[2] # =&gt; is
-</code></pre>
+    <span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;This is a test&quot;</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sr">/(\w+) (\w+)/</span><span class="p">)</span>
+    <span class="nb">puts</span> <span class="n">x</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="c1"># =&gt; This is</span>
+    <span class="nb">puts</span> <span class="n">x</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="c1"># =&gt; This</span>
+    <span class="nb">puts</span> <span class="n">x</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span> <span class="c1"># =&gt; is</span>
+</code></pre></div>
 
-<hr />
 
 <h3>Arrays</h3>
 
@@ -722,18 +722,20 @@ puts x[2] # =&gt; is
 
 <p>The bitwise operator <code>&lt;&lt;</code> is used to add a new item to an array:</p>
 
-<pre><code>x = []
-x &lt;&lt; "abc"
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="n">x</span> <span class="o">=</span> <span class="o">[]</span>
+    <span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;abc&quot;</span>
+</code></pre></div>
+
 
 <p>…which is equivalent to <code>x.push("abc")</code></p>
 
 <p>Note: Strings also use the <code>&lt;&lt;</code> operator to add content to them:</p>
 
-<pre><code>testString = "this is my string"
-testString &lt;&lt; " that has extra stuff added to it"
-testString # =&gt; "this is my string that has extra stuff added to it" 
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="n">testString</span> <span class="o">=</span> <span class="s2">&quot;this is my string&quot;</span>
+    <span class="n">testString</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; that has extra stuff added to it&quot;</span>
+    <span class="n">testString</span> <span class="c1"># =&gt; &quot;this is my string that has extra stuff added to it&quot; </span>
+</code></pre></div>
+
 
 <p>There are methods for removing the last item in the Array <code>x.pop()</code> as well as joining an array items into a string using the specified character(s) as a separator <code>x.join(", ")</code>.</p>
 
@@ -741,10 +743,11 @@ testString # =&gt; "this is my string that has extra stuff added to it"
 
 <p>If you need to concatenate two Arrays you can use the <code>concat</code> method…</p>
 
-<pre><code>arr = ["a", "b", "c"]
-arr.concat(["d", "e"])
-arr # =&gt; ["a", "b", "c", "d", "e"] 
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="n">arr</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="o">]</span>
+    <span class="n">arr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="o">[</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="o">]</span><span class="p">)</span>
+    <span class="n">arr</span> <span class="c1"># =&gt; [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;] </span>
+</code></pre></div>
+
 
 <p>…there is also more basic concatenation using the <code>+</code> operator <code>arr + ["d", "e"]</code> which returns <code>["a", "b", "c", "d", "e"]</code> but one caveat is that you must remember to set the array to be overwritten. For example, the previous code will return an Array which is a combination of <code>arr</code> and <code>["d", "e"]</code> but it doesn't actually overwrite the original Array (<code>arr</code> will still return <code>["a", "b", "c"]</code>). If you were expecting <code>arr</code> to be changed to <code>["a", "b", "c", "d", "e"]</code> then you would need to explicitly overwrite <code>arr</code> using: <code>arr += ["d", "e"]</code> instead.</p>
 
@@ -754,12 +757,11 @@ arr # =&gt; ["a", "b", "c", "d", "e"]
 
 <p>There are many Array methods for inserting new items into an Array, but you can also use Ranges (which normally work like <code>('A'..'Z')</code>):</p>
 
-<pre><code>arr = [0, 1, 2, 3, 4, 5, 6]
-arr[1..3] = ["a", "b", "c"]
-arr # =&gt; [0, "a", "b", "c", 4, 5, 6]
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="n">arr</span> <span class="o">=</span> <span class="o">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="o">]</span>
+    <span class="n">arr</span><span class="o">[</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">3</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="o">]</span>
+    <span class="n">arr</span> <span class="c1"># =&gt; [0, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, 4, 5, 6]</span>
+</code></pre></div>
 
-<hr />
 
 <h3>Hashes</h3>
 
@@ -767,26 +769,29 @@ arr # =&gt; [0, "a", "b", "c", 4, 5, 6]
 
 <p>So for example to create a hash you would use…</p>
 
-<pre><code>h = { 
-    "a" =&gt; 1, 
-    "b" =&gt; 2
-}
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="n">h</span> <span class="o">=</span> <span class="p">{</span> 
+        <span class="s2">&quot;a&quot;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> 
+        <span class="s2">&quot;b&quot;</span> <span class="o">=&gt;</span> <span class="mi">2</span>
+    <span class="p">}</span>
+</code></pre></div>
+
 
 <p>…then you can access the relevant key/values (and add new key/values) like so…</p>
 
-<pre><code>h["a"]     # =&gt; 1
-h["b"]     # =&gt; 2
-h["c"] = 3 # create a new key/value
-h["c"]     # =&gt; 3
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="n">h</span><span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="o">]</span>     <span class="c1"># =&gt; 1</span>
+    <span class="n">h</span><span class="o">[</span><span class="s2">&quot;b&quot;</span><span class="o">]</span>     <span class="c1"># =&gt; 2</span>
+    <span class="n">h</span><span class="o">[</span><span class="s2">&quot;c&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1"># create a new key/value</span>
+    <span class="n">h</span><span class="o">[</span><span class="s2">&quot;c&quot;</span><span class="o">]</span>     <span class="c1"># =&gt; 3</span>
+</code></pre></div>
+
 
 <p>…and finally you can loop through the hash…</p>
 
-<pre><code>h.each do |key, value|
-    puts "The value: #{value} belongs to the key #{key}"
-end
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="n">h</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span>
+        <span class="nb">puts</span> <span class="s2">&quot;The value: </span><span class="si">#{</span><span class="n">value</span><span class="si">}</span><span class="s2"> belongs to the key </span><span class="si">#{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">end</span>
+</code></pre></div>
+
 
 <p>You don't have to use a String as a hash <code>key</code>. You can use any object or Symbol.</p>
 
@@ -794,49 +799,50 @@ end
 
 <p>To see what keys are available in an object use the <code>keys</code> property:</p>
 
-<pre><code>hash = { :name =&gt; "Mark", :age =&gt; 30 }
-hash.keys # =&gt; [:name, :age]
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="nb">hash</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Mark&quot;</span><span class="p">,</span> <span class="ss">:age</span> <span class="o">=&gt;</span> <span class="mi">30</span> <span class="p">}</span>
+    <span class="nb">hash</span><span class="o">.</span><span class="n">keys</span> <span class="c1"># =&gt; [:name, :age]</span>
+</code></pre></div>
+
 
 <p>You can delete a key/value from the hash using <code>hash.delete(key)</code></p>
 
 <p>Hashes also have shortcut for deleting properties depending on their value: <code>hash.delete_if { |key, value| value &lt;= 30 }</code></p>
 
-<hr />
-
 <h3>Numbers (and how 'everything is an object' - similar to JavaScript)</h3>
 
 <p>In Ruby, all values are objects. This includes even simple things like numeric literals. So for example you can use a number to help carry out a certain action 'x' amount of times…</p>
 
-<pre><code>3.times {
-    puts "This gets written three times"
-}
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="mi">3</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span>
+        <span class="nb">puts</span> <span class="s2">&quot;This gets written three times&quot;</span>
+    <span class="p">}</span>
+</code></pre></div>
+
 
 <p>And as explained earlier you can swap curly brackets for <code>do…end</code>…</p>
 
-<pre><code>3.times do
-    puts "This gets written three times"
-end
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="mi">3</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+        <span class="nb">puts</span> <span class="s2">&quot;This gets written three times&quot;</span>
+    <span class="k">end</span>
+</code></pre></div>
+
 
 <p>But you can also do…</p>
 
-<pre><code>1.upto(9) { 
-    |x| puts x 
-}
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="mi">1</span><span class="o">.</span><span class="n">upto</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span> <span class="p">{</span> 
+        <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">x</span> 
+    <span class="p">}</span>
+</code></pre></div>
+
 
 <p>…which can be interchanged with…</p>
 
-<pre><code>1.upto(9) do |x| 
-    puts x 
-end
-</code></pre>
+<div class="highlight"><pre><code class="ruby">    <span class="mi">1</span><span class="o">.</span><span class="n">upto</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> 
+        <span class="nb">puts</span> <span class="n">x</span> 
+    <span class="k">end</span>
+</code></pre></div>
+
 
 <p>I normally find anything that takes parameters <code>|x|</code> looks better with <code>do…end</code> style syntax.</p>
-
-<hr />
 
 <h3>Conclusion</h3>
 

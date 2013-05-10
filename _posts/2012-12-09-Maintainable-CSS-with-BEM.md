@@ -34,6 +34,7 @@ Below we have a money calculator widget. You enter an amount of money (e.g. £2.
 
 The HTML is very simple...
 
+{% highlight html %}
     <section>
         <h1>Sterling Calculator</h1>
         <form action="process.php" method="post">
@@ -44,9 +45,11 @@ The HTML is very simple...
             </p>
         </form>
     </section>
+{% endhighlight %}
 
 So lets add in our classes for styling this widget and lets go on to break down what we've added and why...
 
+{% highlight html %}
     <section class="widget">
         <h1 class="widget__header">Sterling Calculator</h1>
         <form class="widget__form" action="process.php" method="post">
@@ -57,6 +60,7 @@ So lets add in our classes for styling this widget and lets go on to break down 
             </p>
         </form>
     </section>
+{% endhighlight %}
 
 First thing to notice is that we've determined the top level `<section>` element to be our 'block'. This is the top level containing element. We've added a class of `widget` and this will be our namespace for this object/widget (whatever you prefer to call it).
 
@@ -79,6 +83,7 @@ Modifiers are written with two hyphens(dashes) like so: `block__element--modifie
 
 This means that our CSS code for this widget ends up looking like this…
 
+{% highlight css %}
     .widget {
         background-color: #FC3;
     }
@@ -109,6 +114,7 @@ This means that our CSS code for this widget ends up looking like this…
         background-color: #EEE;
         border: 0;
     }
+{% endhighlight %}
 
 ##Why BEM over the others?
 

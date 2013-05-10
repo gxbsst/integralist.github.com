@@ -10,6 +10,7 @@
         <!--[if lt IE 9]>
         <script src="/Assets/Scripts/html5.js"></script>
         <![endif]-->
+        <link rel="stylesheet" href="/Assets/Styles/pygment.css"     media="all">
         <link rel="stylesheet" href="/Assets/Styles/layout.css"     media="all">
         <link rel="stylesheet" href="/Assets/Styles/layout-480.css" media="only screen and (min-width: 30em)">
         <link rel="stylesheet" href="/Assets/Styles/layout-768.css" media="only screen and (min-width: 40em)">
@@ -83,10 +84,13 @@
 
 <h2>Update your global user details</h2>
 
-<pre><code>git config --global user.name "Your Name"
-git config --global user.email "Your Email"
-git config --global apply.whitespace nowarn # ignore white space changes!
-</code></pre>
+<div class="highlight"><pre><code class="bash">    git config --global user.name <span class="s2">&quot;Your Name&quot;</span>
+    git config --global user.email <span class="s2">&quot;Your Email&quot;</span>
+    git config --global apply.whitespace nowarn <span class="c"># ignore white space changes!</span>
+</code></pre></div>
+
+
+
 
 <div id="4"></div>
 
@@ -99,47 +103,48 @@ git config --global apply.whitespace nowarn # ignore white space changes!
 
 <p>Then add the following content to it (<em>this is a standard ignore file but I've added some Sass CSS pre-processor files to it</em>)…</p>
 
-<pre><code># Compiled source #
-###################
-*.com
-*.class
-*.dll
-*.exe
-*.o
-*.so
-*.sass-cache
-*.scssc
+<div class="highlight"><pre><code class="bash">    <span class="c"># Compiled source #</span>
+    <span class="c">###################</span>
+    *.com
+    *.class
+    *.dll
+    *.exe
+    *.o
+    *.so
+    *.sass-cache
+    *.scssc
 
-# Packages #
-############
-# it's better to unpack these files and commit the raw source
-# git has its own built in compression methods
-*.7z
-*.dmg
-*.gz
-*.iso
-*.jar
-*.rar
-*.tar
-*.zip
+    <span class="c"># Packages #</span>
+    <span class="c">############</span>
+    <span class="c"># it&#39;s better to unpack these files and commit the raw source</span>
+    <span class="c"># git has its own built in compression methods</span>
+    *.7z
+    *.dmg
+    *.gz
+    *.iso
+    *.jar
+    *.rar
+    *.tar
+    *.zip
 
-# Logs and databases #
-######################
-*.log
-*.sql
-*.sqlite
+    <span class="c"># Logs and databases #</span>
+    <span class="c">######################</span>
+    *.log
+    *.sql
+    *.sqlite
 
-# OS generated files #
-######################
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-Icon?
-ehthumbs.db
-Thumbs.db
-</code></pre>
+    <span class="c"># OS generated files #</span>
+    <span class="c">######################</span>
+    .DS_Store
+    .DS_Store?
+    ._*
+    .Spotlight-V100
+    .Trashes
+    Icon?
+    ehthumbs.db
+    Thumbs.db
+</code></pre></div>
+
 
 <p>You can let Git know about your global ignore file by editing your global <code>.gitconfig</code> file…</p>
 
@@ -147,9 +152,10 @@ Thumbs.db
 
 <p>…then adding the following to it…</p>
 
-<pre><code>[core]
-    excludesfile = /Users/&lt;home-directory&gt;/.gitignore_global
-</code></pre>
+<div class="highlight"><pre><code class="bash">    <span class="o">[</span>core<span class="o">]</span>
+        <span class="nv">excludesfile</span> <span class="o">=</span> /Users/&lt;home-directory&gt;/.gitignore_global
+</code></pre></div>
+
 
 <p>…or once the <code>.gitignore_global</code> file is created you can just tell git by using this short-hand command…</p>
 
@@ -179,11 +185,11 @@ Thumbs.db
 
 <p>Press <code>i</code> which puts Vim into 'insert' mode (meaning you can actually write)</p>
 
-<pre><code>This is my short description for this commit
+<div class="highlight"><pre><code class="bash">    This is my short description <span class="k">for </span>this commit
+    - Here is a <span class="nb">break </span>down of my changes
+    - Another note about a particular change
+</code></pre></div>
 
-- Here is a break down of my changes
-- Another note about a particular change
-</code></pre>
 
 <p>After I've written my commit I just need to save the commit and exit Vim…</p>
 
@@ -216,9 +222,12 @@ Thumbs.db
 
 <p>What we need to do is open the <code>~/.gitconfig</code> file and then add the following content…</p>
 
-<pre><code>[alias]
-    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset' --abbrev-commit --date=relative
-</code></pre>
+<div class="highlight"><pre><code class="bash">    <span class="o">[</span><span class="nb">alias</span><span class="o">]</span>
+        <span class="nv">lg</span> <span class="o">=</span> log --color --graph --pretty<span class="o">=</span>format:<span class="s1">&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#39;</span> --abbrev-commit --date<span class="o">=</span>relative
+</code></pre></div>
+
+
+
 
 <div id="10"></div>
 
@@ -229,10 +238,11 @@ Thumbs.db
 
 <p>What we need to do is open the <code>~/.gitconfig</code> file and then add the following content…</p>
 
-<pre><code>[alias] 
-    st = status
-    sts = status -sb
-</code></pre>
+<div class="highlight"><pre><code class="bash">    <span class="o">[</span><span class="nb">alias</span><span class="o">]</span> 
+        <span class="nv">st</span> <span class="o">=</span> status
+        <span class="nv">sts</span> <span class="o">=</span> status -sb
+</code></pre></div>
+
 
 <p>…you don't need to specify <code>[alias]</code> if it's already in the file (see previous tip).</p>
 
@@ -315,9 +325,10 @@ Thumbs.db
 
 <p>Open up the file <code>~/.gitconfig</code> and then add the following content…</p>
 
-<pre><code>[alias]
-    unstage = reset HEAD
-</code></pre>
+<div class="highlight"><pre><code class="bash">    <span class="o">[</span><span class="nb">alias</span><span class="o">]</span>
+        <span class="nv">unstage</span> <span class="o">=</span> reset HEAD
+</code></pre></div>
+
 
 <p>Note: you don't need to specify <code>[alias]</code> if it's already in the <code>~/.gitconfig</code> file.</p>
 

@@ -34,6 +34,7 @@ img {
 
 blockquote {
     background-color: rgba(0,0,0,0.5);
+    color: #fff;
     font-style: italic;
     padding: 1em 1em .2em;
     margin-bottom: 1em;
@@ -45,22 +46,17 @@ blockquote {
     padding: 1em;
 }
 
-pre,
-code {
-    background-color: rgba(255, 255, 255, 0.3);
-    color: #FC3;
-    padding: 1em;
-    overflow: auto;
-    text-shadow: #333 1px 1px 1px;
-}
-
-code {
+li > code,
+p > code {
+    color: #fff;
     font-size: 1.3em;
-    padding: .2em .4em;
+    text-shadow: red 1px 1px 1px;
 }
 
-pre > code {
-    background-color: transparent;
+.highlight {
+    background-color: rgba(255, 255, 255, 1);
+    margin-bottom: 1em;
+    overflow: auto;
 }
 
 table {
@@ -106,10 +102,24 @@ th, td {
 }
 
 h1,
+h2,
+h3,
 .article__title {
     background-color: #fff;
     margin-bottom: .5em;
     padding: .4em .7em;
+}
+
+.article__content h2 {
+    background-color: #c75045;
+    color: #fff;
+    font-size: 1.2em;
+}
+
+.article__content h3 {
+    background-color: #464442;
+    color: #fff;
+    font-size: 1em;
 }
 
 .article__strapline,
@@ -155,6 +165,10 @@ h1,
 .info {
     background-color: #464442;
     color: #f0bb51;
+}
+
+.info__title {
+    background-color: #45382b;
 }
 
 .info a {

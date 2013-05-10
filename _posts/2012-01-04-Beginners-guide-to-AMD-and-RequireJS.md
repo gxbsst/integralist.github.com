@@ -34,20 +34,29 @@ How did we get here?
 
 The way we insert scripts into our pages has evolved over the years:
 
-* Multiple `<script>` tags
-        <script src="script-1.js">
-        <script src="script-2.js">
-        <script src="script-3.js">
+###Multiple `<script>` tags
 
-* Script Loader (e.g. LABjs / YepNope.js …and many many more)
-        // This example uses LABjs
-        <script src="LAB.js"></script>
-        <script>
-            $LAB.script('script-1.js').wait().script('script-2.js').script('script-3.js');
-        </script>
+{% highlight html %}
+    <script src="script-1.js">
+    <script src="script-2.js">
+    <script src="script-3.js">
+{% endhighlight %}
 
-* AMD Script Loader (e.g. RequireJS / Curl …and a couple of others)
-        <script data-main="main" src="require.js"></script>
+###Script Loader (e.g. LABjs / YepNope.js …and many many more)
+
+{% highlight html %}
+    // This example uses LABjs
+    <script src="LAB.js"></script>
+    <script>
+        $LAB.script('script-1.js').wait().script('script-2.js').script('script-3.js');
+    </script>
+{% endhighlight %}
+
+###AMD Script Loader (e.g. RequireJS / Curl …and a couple of others)
+
+{% highlight html %}
+    <script data-main="main" src="require.js"></script>
+{% endhighlight %}
 
 The ‘multiple scripts’ has served us long and true, but means that the rendering of the page takes three times as long, as each `<script>` tag must be downloaded, then executed before the browser can move onto the next `<script>` (this is what is meant by loading scripts ‘synchronously’). Imagine if you are loading a JavaScript framework followed by a whole bucket full of plugins and then some of your own scripts. The page load time would increase quite significantly.
 
@@ -117,7 +126,9 @@ For this example the structure would be:
 	
 In my main page I’ll insert the following script tag at the bottom of the page, just above the closing `</body>` tag…
 
+{% highlight html %}
     <script data-main="Assets/Scripts/main" src="Assets/Scripts/Require.js"></script>
+{% endhighlight %}
 
 …you’ll notice that we have specified a custom attribute on the script tag that points to our script folder and a file called ‘main’.
 
@@ -127,6 +138,7 @@ This does two things, it loads the Assets/Scripts/main.js file but it also tells
 
 Inside main.js we have the following code…
 
+{% highlight javascript %}
     // This allows us to specify jQuery as a dependancy in one of our modules
     // You'll notice all paths are relative to Assets/Scripts/
     require.config({
@@ -152,6 +164,7 @@ Inside main.js we have the following code…
         
         console.log(iCanCallThisAnythingILike.list, iCanCallThisAnythingILike.scripts);
     });
+{% endhighlight %}
 
 So far we have our main script loading in a single dependancy (Assets/Scripts/App/people.js).
 
@@ -161,6 +174,7 @@ Lets have a look at that dependancy…
 
 Here is the content of our ‘Assets/Scripts/App/people.js’ file…
 
+{% highlight javascript %}
     /*
      * You see we've specified the jQuery library as a dependency without specifying its correct path (we've just specified the name 'jquery').
      * This is because jQuery's AMD support is based on it being defined as a 'Named Module'.
@@ -185,6 +199,7 @@ Here is the content of our ‘Assets/Scripts/App/people.js’ file…
         };
 
     });
+{% endhighlight %}
 
 Be aware that nothing should be declared outside of a single define() call. 
 
@@ -204,6 +219,7 @@ I’ve placed my build script (and the optimisation script) in the my main scrip
 
 My build script looks like this…
 
+{% highlight javascript %}
     /*
      * http://requirejs.org/docs/optimization.html
      *
@@ -232,6 +248,7 @@ My build script looks like this…
             }
         ]
     })
+{% endhighlight %}
 
 See the code comments above for the command you need to use to execute the build script using the optimisation tool.
 

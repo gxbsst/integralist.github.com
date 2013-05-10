@@ -18,15 +18,18 @@ Example is as follows…
 
 First we need to write a function to insert our script(s):
 
+{% highlight javascript %}
 	function insertScript(script, container) {
 		var elem = document.createElement('script');
 		elem.type = 'text/javascript';
 		elem.src = 'Assets/Scripts/' + script + '.js';
 		container.appendChild(elem);
 	}
+{% endhighlight %}
 
 Next we need to detect the current page (details are in the code comments):
 
+{% highlight javascript %}
 	// The 'pagechange' event is triggered after the changePage() request has finished loading the page into the DOM 
 	// and all page transition animations have completed.
 	// See: https://gist.github.com/1336327 for some other page events
@@ -55,6 +58,7 @@ Next we need to detect the current page (details are in the code comments):
 		}
 		
 	});
+{% endhighlight %}
 
 That’s all there is to it.
 

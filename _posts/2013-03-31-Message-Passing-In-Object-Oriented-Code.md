@@ -61,6 +61,7 @@ If you implement `method_missing` on your proxy object then you can pass on the 
 
 So instead of this…
 
+{% highlight ruby %}
 	class AccountProxy
 		def initialize(real_object)
 			@real_object = real_object
@@ -76,9 +77,11 @@ So instead of this…
 	account = Account.new
 	proxy = AccountProxy.new(account)
 	proxy.deposit(50)
+{% endhighlight %}
 
 …we should really take advantage of the dynamic nature of the Ruby language to avoid having to manually write out these methods by hand, like so… 
 
+{% highlight ruby %}
 	class AccountProxy
 		def initialize(real_account)
 			@subject = real_account
@@ -87,6 +90,7 @@ So instead of this…
 			@subject.send(name, *args)
 		end
 	end
+{% endhighlight %}
 
 You can see from the above example that we're using the [send](http://ruby-doc.org/core-2.0/Object.html#method-i-send) method to pass the message (i.e. the method invoked by the user on the proxy object) directly to the real object.
 

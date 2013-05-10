@@ -104,24 +104,29 @@ Within your own ‘my-tests.js’ file is where you’ll write your unit-tests.
 
 Different unit-testing libraries have different API’s. Jasmine’s API is as follows…
 
+{% highlight javascript %}
 	describe('test suite name', function(){
 		// assertions for your code to try and pass
 		// if any assertions fail then this entire suite fails
 	});
+{% endhighlight %}
 
 An example
 ----------
 
 So now imagine your ‘my-cool-library.js’ consisted of an object whose API let the user add/remove or check for CSS classes on an element. Lets say the API was as follows…
 
+{% highlight javascript %}
 	var header = document.getElementById('my-header');
 	css.add(header, 'newclass') // --> adds the class 'newclass' to the specified element 'header'
 	css.has(header, 'newclass') // --> returns a boolean value (true/false) depending on whether the class 'newclass' is found
 	css.remove(header, 'newclass') // --> removes the class 'newclass' from the specified element 'header'
 	css.classes(header) // --> returns an Array of classes found on this element
+{% endhighlight %}
 
 Your test suite for this code could look something like (don’t worry, we’ll discuss after)…
 
+{% highlight javascript %}
 	// Test Suite
 	describe('CSS tests', function() {
 		
@@ -157,6 +162,7 @@ Your test suite for this code could look something like (don’t worry, we’ll 
 		});
 		
 	});
+{% endhighlight %}
 
 …so a few things you’ll notice:
 
@@ -177,6 +183,7 @@ Jasmine has a few more matchers which you can read more about in the documentati
 
 You can even create your own matchers…
 
+{% highlight javascript %}
 	// Add our two new matchers. One to check if an object is an Array and the other to check if the result is a Number
 	// You create these within the beforeEach method which is executed before each test is run
 	beforeEach(function() {
@@ -192,6 +199,7 @@ You can even create your own matchers…
 			}
 		});
 	});
+{% endhighlight %}
 
 Review of example
 -----------------
@@ -202,10 +210,12 @@ I’ve set-up an example of the code found in this post on Github: [https://gith
 
 So lets look at one of the tests…
 
+{% highlight javascript %}
 	it('should add class to element', function() {
 		css.add(header, 'newclass');
 		expect(header.className).toBe('myclassa myclassb newclass');
 	});
+{% endhighlight %}
 
 …as you can see the test starts by describing what is expected of it. In this case it should add a class to the specified element.
 
@@ -221,11 +231,13 @@ Now when you run the test-runner.html file (remembering that now one of the test
 
 [See screenshot image](http://cl.ly/1z3b1g3U1z0e2r2U2c2H)
 
+{% highlight bash %}
 	4 specs, 1 failure in 0.014s
 	> CSS tests (this is the name of the test suite that failed - as you could have multiple suites running this helps narrow it down)
 	>> should add class to element (this tells you the exact test that fails)
 	>>> Expected 'myclassa myclassb newclass' to be 'x myclassa myclassb newclass'. (this tells you what the result actually was followed by what the test was expecting - so you can see where the result went wrong)
 	>>>> (after this you get a stack trace of what was executed so you can see specifics of where the error occurred)
+{% endhighlight %}
 
 Conclusion
 ----------

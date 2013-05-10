@@ -44,8 +44,6 @@ So without further ado, here we go…
 * Numbers (and how 'everything is an object' - similar to JavaScript)
 * Conclusion
 
----
-
 ###Installing Ruby
 
 UPDATE: I've found a super sweet way to get multiple versions of Ruby installed onto your Mac (notice I said Mac, not PC - so if you're on Windows then I'm afraid I can't help you).
@@ -93,8 +91,6 @@ Below are my original notes, but you can ignore these now.
     
 ~~~5. `ruby -v` - just check the version quickly to be sure~~~
 
----
-
 ###The Interactive Ruby Console
 
 Beginners are advised to use the interactive Ruby console to get to know the language. So to start it up, in your Terminal type: `irb` (and if you want to quit use: `Ctrl+D`).
@@ -105,10 +101,12 @@ For example to display something you would use `puts` (this is similar to `Repon
 
 Take the following example…
 
+{% highlight ruby %}
     5.times {
         print "This gets written five times"
         sleep 2
     }
+{% endhighlight %}
 
 …which every two seconds displays the sentence "This gets written five times"…
 
@@ -117,8 +115,6 @@ Take the following example…
 …and returns `=> 5`. Notice the sentence is printed on one line. If you were to change `print` to `puts` it would automatically generate a newline for you making it easier to read. 
 
 As far as I understand it, the other more subtle difference is that `print` buffers the output, so rather than displaying the sentence every two seconds it waits until ten seconds (2 seconds * 5 times) before printing the sentence five times. Now, I tried this myself both via `irb` and via a standard Ruby script but `print` definitely was executing every two seconds, so this may only occur under certain environments - but it's still worth being aware of. See [this article](http://mattberther.com/2009/02/11/puts-vs-print-in-ruby) which is where I first heard about this subtle difference.
-
----
 
 ###How to execute Ruby scripts
 
@@ -130,21 +126,19 @@ Simply create a file with an extension of `.rb` and at the top of that file incl
 
 Then within the Terminal application, `cd` to the directory where that file is located and execute the command `ruby name_of_file.rb`
 
----
-
 ###Comments
 
 In Ruby you have single line comments `# this is a comment` and multi-line comments:
 
+{% highlight ruby %}
     =begin
         Lots and lots of
         code that I want
         to comment out all at once
     =end
+{% endhighlight %}
 
 With multi-line comments there must be no whitespace before the `=begin` and `=end` statements otherwise your script will throw an error.
-
----
 
 ###Variables
 
@@ -152,9 +146,11 @@ Variables do not have to be declared. So you can literally write `a = 123`.
 
 You can assign multiple variables at once like so…
 
+{% highlight ruby %}
     x, y = 1, 2     # which is effectively the same as x = 1, y = 2
     a, b = b, a     # which switches the values of each variable
     x,y,z = [1,2,3] # assign each array item value to a variable, so x = 1, y = 2, z = 3
+{% endhighlight %}
 
 Variables in JavaScript typically come in two flavours: Global and Local. In JavaScript if you declare a variable with the `var` syntax then the variable is added as a property to the global object (which depending on the environment JavaScript is running in) most of the time will be the `window` object. If you declare a variable inside of a function in JavaScript using the `var` syntax then that variable is only available within that function (unless it's accessible via some priviledged object).
 
@@ -164,6 +160,7 @@ When using Classes, if you declare a variable within the class using an `@` pref
 
 So for example, if I have a class called "MyClass" and inside of it I set `@@my_var` to equal 456 instead of 123 then every object created from "MyClass" will have `my_var` set to 456. Whereas if "MyClass" had `@my_var` set to 123 and I create a new object from that class and set `@my_var` to 456 - an 'instance variable' - then only that object would see the value of `@my_var` as 456, all other objects created from the class would still see the value as 123. It sounds tricky but it's not that bad really. Here is an example of what the above was trying to explain… 
 
+{% highlight ruby %}
     # Following classes 'MyClass' and 'MyClass2' demonstrate difference between 'class variable' and 'instance variable'
     class MyClass
         def initialize
@@ -218,16 +215,13 @@ So for example, if I have a class called "MyClass" and inside of it I set `@@my_
 
     objC.showValue # => 456
     objD.showValue # => 123
-
----
+{% endhighlight %}
 
 ###Magic Variables
 
 There are 'magic' variables (like predefined variables in PHP).
 
 For example you have `__FILE__` which refers to the current file being executed and there is also `$0` which refers to the file used to start the program. I mention these two specifically because these are used in the getting started examples on the [Ruby website](http://www.ruby-lang.org/).
-
----
 
 ###Constants
 
@@ -237,29 +231,29 @@ In other languages a constant is normally either prefixed with the keyword `cons
 
 If you try to overwrite a constant you'll get the following message: `warning: already initialized constant` - although as far as I can tell by testing this in irb it seems to change the constant and only warns you rather than actually preventing you from changing the value? ***Maybe a Rubyist reading this can clarify if this is expected behaviour.*** 
 
----
-
 ###Symbols
 
 Symbols are like static variables (or constants). They are used as identifiers, as a way to keep code cleaner.
 
 If you had lots of hashes (which we'll come to later) and you have a key/property called "name" then you could write your hash like so…
 
+{% highlight ruby %}
     hash1 = { "name" => "Mark" }
     hash2 = { "name" => "Brad" }
     hash3 = { "name" => "Ash" }
     hash4 = { "name" => "Neil" }
+{% endhighlight %}
 
 …but `"name"` is being re-created in memory every time it's referenced. It's much more energy efficient to use a Symbol which looks like a variable but is prefixed with a colon `:name`…
 
+{% highlight ruby %}
     hash1 = { :name => "Mark" }
     hash2 = { :name => "Brad" }
     hash3 = { :name => "Ash" }
     hash4 = { :name => "Neil" }
+{% endhighlight %}
 
 …as you can see, Symbols don't have values like variables, they are literally just used as efficient identifiers.
-
----
 
 ###Functions/Methods
 
@@ -267,19 +261,23 @@ In Ruby everything is an Object (even Strings and Integers) so when you're defin
 
 To define a method the syntax is:
 
+{% highlight ruby %}
     def method_name (arguments)
         // function code
     end
+{% endhighlight %}
 
 In JavaScript, if a method doesn't explicitly specify a return value then it returns `undefined`. In Ruby a method will return the last expression evaluated in its body, and if there isn't one then it will return `nil` (`nil` is equivalent to `null` in PHP).
 
 As was noted in the above 'Variables' section about variables being able to assigned multiple values, this can come in handy with method returning multiple values as well (which is quite interesting as I'm only used to functions in JavaScript returning a single value)… 
 
+{% highlight ruby %}
     def myMethod 
         [1, 2] # this being the last expression, this is what's returned
     end
 
     a, b = myMethod; # => a = 1, b = 2
+{% endhighlight %}
 
 You can call a method without parenthesis, e.g. `myMethod` apposed to `myMethod()`. The choice is yours whether you use parenthesis or not - personally there are times where I can see myself not needing them and other times using them so it's crystal clear that what I'm doing is calling a method (time will tell - but I understand a good practice is to use parenthesis whenever a method expects arguments to be passed otherwise there is no point in using them).
 
@@ -287,9 +285,11 @@ But note that with multiple arguments the caller must not have a space between t
 
 So for example, these work…
 
+{% highlight ruby %}
     welcome("Mark", 30)
     welcome"Mark", 30
     welcome "Mark", 30
+{% endhighlight %}
 
 …but this doesn't `welcome ("Mark", 30)`.
 
@@ -299,9 +299,11 @@ e.g. `Person.speak ()` => error but `Person.speak()` or `Person.speak` is fine.
 
 You can specify default values for arguments…
 
+{% highlight ruby%}
     def welcome (name = "World", age = 1)
         puts "Hello #{name}!, I see you're #{age} years old."
     end
+{% endhighlight %}
 
 …which can be used as follows…
 
@@ -311,6 +313,7 @@ You can specify default values for arguments…
 
 You can also add new methods to an existing object just by prefixing the name of the method with the relevant object… 
 
+{% highlight ruby %}
     def Math.someNewThing (x) 
         puts "#{x} was here"
     end
@@ -319,11 +322,13 @@ You can also add new methods to an existing object just by prefixing the name of
 
     Math.someNewThing(123) # => 123 was here
     Math.someNewThing("abc") # => abc was here
+{% endhighlight %}
 
 …in Ruby these types of method declarations are referred to as 'class methods' (or 'singleton methods')
 
 In a similar example of extending already defined Classes:
 
+{% highlight ruby %}
     class Fixnum
         def seconds
             self
@@ -343,22 +348,25 @@ In a similar example of extending already defined Classes:
     puts Time.now + 10.minutes
     puts Time.now + 16.hours
     puts Time.now - 7.days
+{% endhighlight %}
 
 Note: you might see methods that are called using a ? at the end, these indicate that the method will return a Boolean value (e.g. `respond_to?` which you'll see below in the 'Classes' section)… 
 
+{% highlight ruby %}
     x = []
     x.empty? # => true (…or x.empty?() if you prefer the use of parenthesis)
 
     x = [1, 2, 3]
     x.empty? # => false
+{% endhighlight %}
 
 If you want to know what methods are available to an object/class then look at the `class` of the object and then inspect the methods available… 
 
+{% highlight ruby %}
     my_hash = { :name => "Mark" }
     my_hash.class # => Hash
     Hash.instance_methods # => [:rehash, :to_hash, :to_a, :inspect, :to_s, :==, :[], :hash, :eql?, :fetch, :[]=, :store, :default, :default=, :default_proc, :default_proc=, :key, :index, :size, :length, :empty?, :each_value, :each_key, :each_pair, :each, :keys, :values, :values_at, :shift, :delete, :delete_if, :keep_if, :select, :select!, :reject, :reject!, :clear, :invert, :update, :replace, :merge!, :merge, :assoc, :rassoc, :flatten, :include?, :member?, :has_key?, :has_value?, :key?, :value?, :compare_by_identity, :compare_by_identity?, :entries, :sort, :sort_by, :grep, :count, :find, :detect, :find_index, :find_all, :collect, :map, :flat_map, :collect_concat, :inject, :reduce, :partition, :group_by, :first, :all?, :any?, :one?, :none?, :min, :max, :minmax, :min_by, :max_by, :minmax_by, :each_with_index, :reverse_each, :each_entry, :each_slice, :each_cons, :each_with_object, :zip, :take, :take_while, :drop, :drop_while, :cycle, :chunk, :slice_before, :nil?, :===, :=~, :!~, :<=>, :class, :singleton_class, :clone, :dup, :initialize_dup, :initialize_clone, :taint, :tainted?, :untaint, :untrust, :untrusted?, :trust, :freeze, :frozen?, :methods, :singleton_methods, :protected_methods, :private_methods, :public_methods, :instance_variables, :instance_variable_get, :instance_variable_set, :instance_variable_defined?, :instance_of?, :kind_of?, :is_a?, :tap, :send, :public_send, :respond_to?, :respond_to_missing?, :extend, :display, :method, :public_method, :define_singleton_method, :object_id, :to_enum, :enum_for, :equal?, :!, :!=, :instance_eval, :instance_exec, :__send__, :__id__]
-
----
+{% endhighlight %}
 
 ###Blocks
 
@@ -366,6 +374,7 @@ In Ruby a `code block` is any piece of code within either `do..end` or curly bra
 
 When creating a method, if you want to pass a code block in as an argument, you need to prefix the argument name with an ampersand `&` like so…
 
+{% highlight ruby %}
     def myfn (&code_block)
         %w(a e I o u).each do |vowel|
             code_block.call(vowel)
@@ -373,11 +382,13 @@ When creating a method, if you want to pass a code block in as an argument, you 
     end
 
     myfn { |x| puts x }
+{% endhighlight %}
 
 …what the above code does is create an Array and then iterates over it. Every item in the Array is passed to the code block (the code block which is passed in as an argument to the method).
 
 But the above can be simplified...
 
+{% highlight ruby %}
     def myfn
         %w(a e I o u).each do |vowel|
             yield vowel
@@ -385,10 +396,9 @@ But the above can be simplified...
     end
 
     myfn { |x| puts x }
+{% endhighlight %}
 
 ...this isn't as obvious but is less verbose (the `yield` keyword automatically detects the code block and passes control to it rather than us having to pass through the code block and executing the `call` method on the code block).
-
----
 
 ###Lambdas/Procs
 
@@ -400,6 +410,7 @@ Procs are the same as blocks but can be saved into a variable so they are easily
 
 The following is an example of how to use a Proc object instead of Block...
 
+{% highlight ruby %}
     my_proc = Proc.new { |x| puts x }
 
     def myfn proc_obj
@@ -409,6 +420,7 @@ The following is an example of how to use a Proc object instead of Block...
     end
 
     myfn my_proc
+{% endhighlight %}
 
 Notice we use a `call` method on the Proc object rather than the `yield` keyword which we use for a Block.
 
@@ -423,6 +435,7 @@ Lambdas are the same as Proc objects but with two slight differences.
 
 The following is an example of how to use a Proc object instead of Block...
 
+{% highlight ruby %}
     my_lambda = lambda { |x| puts x }
 
     def myfn lambda_obj
@@ -432,11 +445,13 @@ The following is an example of how to use a Proc object instead of Block...
     end
 
     myfn my_lambda
+{% endhighlight %}
 
 Lambdas are very popular in other languages hence it's inclusion in Ruby (it's just a nice way to pass around code blocks). 
 
 The following example is modified from a test on RubyMonk but is a good example of using lambdas…
 
+{% highlight ruby %}
     def with_names(fn)
       result = []
       [ ["Christopher", "Alexander"],
@@ -450,24 +465,26 @@ The following example is modified from a test on RubyMonk but is a good example 
     l = lambda { |name1, name2| "#{name1} #{name2}" } 
 
     with_names(l)
-
----
+{% endhighlight %}
 
 ###Classes
 
 The Classes syntax is as follows…
 
+{% highlight ruby %}
     class ClassName
         def initialize ()
             // code
         end
         // code
     end
+{% endhighlight %}
 
 Instance variables for classes are defined using `@variable_name` and are available to all methods of the class.
 
 For example…
 
+{% highlight ruby %}
     class Person
         def initialize (name = "Bob")
             @name = name
@@ -479,6 +496,7 @@ For example…
     end
 
     employee = Person.new("Mark") 
+{% endhighlight %}
 
 …executing this via irb returns `#<Person:0x007feb988ce048 @name="Mark">`
 
@@ -499,6 +517,7 @@ To create privileged methods, within the class we need to specify `attr_accessor
 
 For example…
 
+{% highlight ruby %}
     class Test
         attr_accessor :user_name
         def initialize (name)
@@ -510,6 +529,7 @@ For example…
     end
 
     tester = Test.new("Mark")
+{% endhighlight %}
 
 `tester.speak` => hello Mark  
 `tester.user_name` => "Mark"  
@@ -518,40 +538,45 @@ For example…
 
 Note: as well as `:attr_accessor` which creates getter and setter methods, there is `:attr_reader` which only creates a getter method, and `:attr_writer` which only creates a setter method.
 
----
-
 ###Loops
 
 Loops in Ruby are straight forward…
 
+{% highlight ruby %}
     list = ["a", "b", "c"]
         
     list.each do |item|
         puts item
     end
+{% endhighlight %}
 
 The `each` method executes a block of code for each item in the Array. The `do…end` section is such a block. The pipes `||` denotes the parameter `|name|` and that parameter is bound to each list item.
 
 One thing to be aware of (and you'll see this later under the 'Numbers' section), you can swap out `do…end` for normal curly brackets… 
 
+{% highlight ruby %}
     list = ["a", "b", "c"]
         
     list.each { |item|
         puts item
     }
+{% endhighlight %}
 
 …but for an `each` loop it doesn't look as nice as `do…end` so I keep with that style instead. But as you'll see I still like using curly brackets for other types of loops that don't have parameters.
 
 There is a standard `while` loop as well within Ruby… 
 
+{% highlight ruby %}
     count = 0
     while count < 10
         puts "count = #{count}"
         count += 1 # Ruby has neither ++ or -- to increment/decrement a value
     end
+{% endhighlight %}
 
 Also with a `while` loop (if you're using a 'switch..case' style statement - like you would see in JavaScript) you can explicitly return a value… 
 
+{% highlight ruby %}
     def myFunction
         xyz = "def"
         while true
@@ -565,22 +590,24 @@ Also with a `while` loop (if you're using a 'switch..case' style statement - lik
             end
         end
     end
+{% endhighlight %}
 
 There are other types of iterator methods such as `map`… 
 
+{% highlight ruby %}
     myArray = [1, 2, 3, 4]
     newArray = myArray.map do |x|
         x*x
     end
+{% endhighlight %}
 
 …which returns `[1, 4, 9, 16]`
-
----
 
 ###Conditionals
 
 Ruby is slightly different to other programming languages in that even its syntax is very expression-oriented. So where a control structure like `if` would be called a 'statement' in other languages, in Ruby it is actually an expression which means it can be assigned to a variable like so…
 
+{% highlight ruby %}
     x = 5
     y = 10
     result = if x < y then 
@@ -591,10 +618,9 @@ Ruby is slightly different to other programming languages in that even its synta
 
     # depending on how complicated your condition is you could put it all on one line like so… 
     result = if x < y then x else y end
+{% endhighlight %}
 
 …and so, as we've mentioned before with `functions`, these types of blocks return the last expression evalutated inside the block, so in the above example the last expression is returned and stored in the `result` variable.
-
----
 
 ###Strings
 
@@ -602,17 +628,21 @@ Building up string values can be a bit of a nightmare in other languages. I know
 
 For example… 
 
+{% highlight ruby %}
     def welcome (name)
         puts "Hello #{name}!"
     end
 
     welcome("Mark")
+{% endhighlight %}
 
 Multiple arguments work the same way…
 
+{% highlight ruby %}
     def welcome (name, age)
         puts "Hello #{name}!, I see you're #{age} years old."
     end
+{% endhighlight %}
 
 You could do the same with simple string concatenation… 
 
@@ -631,6 +661,7 @@ As mentioned earlier, as everything in Ruby is an object (even Strings) there ar
 
 For example…
 
+{% highlight ruby %}
     "foobarfoobar".sub('bar','foo')
     # => foofoofoobar
 
@@ -651,8 +682,7 @@ For example…
     puts x[0] # => This is
     puts x[1] # => This
     puts x[2] # => is
-
----
+{% endhighlight %}
 
 ###Arrays
 
@@ -660,16 +690,20 @@ We've seen Arrays used quite a bit already, but lets look at some additional met
 
 The bitwise operator `<<` is used to add a new item to an array:
 
+{% highlight ruby %}
     x = []
     x << "abc"
+{% endhighlight %}
 
 …which is equivalent to `x.push("abc")`
 
 Note: Strings also use the `<<` operator to add content to them:
 
+{% highlight ruby %}
     testString = "this is my string"
     testString << " that has extra stuff added to it"
     testString # => "this is my string that has extra stuff added to it" 
+{% endhighlight %}
 
 There are methods for removing the last item in the Array `x.pop()` as well as joining an array items into a string using the specified character(s) as a separator `x.join(", ")`.
 
@@ -677,9 +711,11 @@ With Strings you can use the `split` method to convert a string into an Array: `
 
 If you need to concatenate two Arrays you can use the `concat` method… 
 
+{% highlight ruby %}
     arr = ["a", "b", "c"]
     arr.concat(["d", "e"])
     arr # => ["a", "b", "c", "d", "e"] 
+{% endhighlight %}
 
 …there is also more basic concatenation using the `+` operator `arr + ["d", "e"]` which returns `["a", "b", "c", "d", "e"]` but one caveat is that you must remember to set the array to be overwritten. For example, the previous code will return an Array which is a combination of `arr` and `["d", "e"]` but it doesn't actually overwrite the original Array (`arr` will still return `["a", "b", "c"]`). If you were expecting `arr` to be changed to `["a", "b", "c", "d", "e"]` then you would need to explicitly overwrite `arr` using: `arr += ["d", "e"]` instead.
 
@@ -689,11 +725,11 @@ Some other interesting features of Ruby is the ability to write Arrays more quic
 
 There are many Array methods for inserting new items into an Array, but you can also use Ranges (which normally work like `('A'..'Z')`):
 
+{% highlight ruby %}
     arr = [0, 1, 2, 3, 4, 5, 6]
     arr[1..3] = ["a", "b", "c"]
     arr # => [0, "a", "b", "c", 4, 5, 6]
-
----
+{% endhighlight %}
 
 ###Hashes
 
@@ -701,23 +737,29 @@ Hashes are like 'objects' in JavaScript and 'associative arrays' in other langua
 
 So for example to create a hash you would use… 
 
+{% highlight ruby %}
     h = { 
         "a" => 1, 
         "b" => 2
     }
+{% endhighlight %}
 
 …then you can access the relevant key/values (and add new key/values) like so… 
 
+{% highlight ruby %}
     h["a"]     # => 1
     h["b"]     # => 2
     h["c"] = 3 # create a new key/value
     h["c"]     # => 3
+{% endhighlight %}
 
 …and finally you can loop through the hash…
 
+{% highlight ruby %}
     h.each do |key, value|
         puts "The value: #{value} belongs to the key #{key}"
     end
+{% endhighlight %}
 
 You don't have to use a String as a hash `key`. You can use any object or Symbol.
 
@@ -725,44 +767,50 @@ In Ruby 1.9 the keys of a hash are returned in the order they were added when lo
 
 To see what keys are available in an object use the `keys` property:
 
+{% highlight ruby %}
     hash = { :name => "Mark", :age => 30 }
     hash.keys # => [:name, :age]
+{% endhighlight %}
 
 You can delete a key/value from the hash using `hash.delete(key)`
 
 Hashes also have shortcut for deleting properties depending on their value: `hash.delete_if { |key, value| value <= 30 }`
 
----
-
 ### Numbers (and how 'everything is an object' - similar to JavaScript)
 
 In Ruby, all values are objects. This includes even simple things like numeric literals. So for example you can use a number to help carry out a certain action 'x' amount of times…
 
+{% highlight ruby %}
     3.times {
         puts "This gets written three times"
     }
+{% endhighlight %}
 
 And as explained earlier you can swap curly brackets for `do…end`…
 
+{% highlight ruby %}
     3.times do
         puts "This gets written three times"
     end
+{% endhighlight %}
 
 But you can also do…
 
+{% highlight ruby %}
     1.upto(9) { 
         |x| puts x 
     }
+{% endhighlight %}
 
 …which can be interchanged with… 
 
+{% highlight ruby %}
     1.upto(9) do |x| 
         puts x 
     end
+{% endhighlight %}
 
 I normally find anything that takes parameters `|x|` looks better with `do…end` style syntax.
-
----
 
 ###Conclusion
 

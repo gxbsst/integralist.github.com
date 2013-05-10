@@ -10,6 +10,7 @@
         <!--[if lt IE 9]>
         <script src="/Assets/Scripts/html5.js"></script>
         <![endif]-->
+        <link rel="stylesheet" href="/Assets/Styles/pygment.css"     media="all">
         <link rel="stylesheet" href="/Assets/Styles/layout.css"     media="all">
         <link rel="stylesheet" href="/Assets/Styles/layout-480.css" media="only screen and (min-width: 30em)">
         <link rel="stylesheet" href="/Assets/Styles/layout-768.css" media="only screen and (min-width: 40em)">
@@ -39,52 +40,53 @@
 
 <h2>Example Code</h2>
 
-<pre><code> /**
-  * The Integralist global namespace object.
-  *
-  * @class Integralist
-  * @singleton
-  * @static
-  */
- function Integralist() {
-    // Constructor
- }
+<div class="highlight"><pre><code class="javascript">     <span class="cm">/**</span>
+<span class="cm">      * The Integralist global namespace object.</span>
+<span class="cm">      *</span>
+<span class="cm">      * @class Integralist</span>
+<span class="cm">      * @singleton</span>
+<span class="cm">      * @static</span>
+<span class="cm">      */</span>
+     <span class="kd">function</span> <span class="nx">Integralist</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// Constructor</span>
+     <span class="p">}</span>
 
- /**
-  * Augment the Integralist class so it includes a method
-  * which finds all &lt;a&gt; elements that link to an external website
-  * and sets them to open in a popup window
-  */
- Integralist.prototype.external = function() {
-    var that = this; // Required to keep scope within the following Closure
-    this.settings = 'location=yes,resizable=yes,width=' + screen.availWidth + ',height=' + screen.availHeight + ',scrollbars=1,left=0,top=0';
-    this.popup = function(node) {
-       var url = node.href;
-       return function() {
-          window.open(url, 'external' , that.settings);
-          return false;
-       };
-    };
+     <span class="cm">/**</span>
+<span class="cm">      * Augment the Integralist class so it includes a method</span>
+<span class="cm">      * which finds all &lt;a&gt; elements that link to an external website</span>
+<span class="cm">      * and sets them to open in a popup window</span>
+<span class="cm">      */</span>
+     <span class="nx">Integralist</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">external</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span> <span class="c1">// Required to keep scope within the following Closure</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">settings</span> <span class="o">=</span> <span class="s1">&#39;location=yes,resizable=yes,width=&#39;</span> <span class="o">+</span> <span class="nx">screen</span><span class="p">.</span><span class="nx">availWidth</span> <span class="o">+</span> <span class="s1">&#39;,height=&#39;</span> <span class="o">+</span> <span class="nx">screen</span><span class="p">.</span><span class="nx">availHeight</span> <span class="o">+</span> <span class="s1">&#39;,scrollbars=1,left=0,top=0&#39;</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">popup</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">node</span><span class="p">)</span> <span class="p">{</span>
+           <span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">node</span><span class="p">.</span><span class="nx">href</span><span class="p">;</span>
+           <span class="k">return</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+              <span class="nb">window</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="s1">&#39;external&#39;</span> <span class="p">,</span> <span class="nx">that</span><span class="p">.</span><span class="nx">settings</span><span class="p">);</span>
+              <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+           <span class="p">};</span>
+        <span class="p">};</span>
 
-    var a = document.getElementsByTagName('a'), // Private variable to store HTMLCollection of all &lt;a&gt; elements
-        len = a.length, // Store array length in variable
-        pattern = /^http(?:s)?:\/\/(?!(?:www.)?integralist)/; // RegExp pattern to match any external URL's but not the current website
+        <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span> <span class="c1">// Private variable to store HTMLCollection of all &lt;a&gt; elements</span>
+            <span class="nx">len</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span> <span class="c1">// Store array length in variable</span>
+            <span class="nx">pattern</span> <span class="o">=</span> <span class="sr">/^http(?:s)?:\/\/(?!(?:www.)?integralist)/</span><span class="p">;</span> <span class="c1">// RegExp pattern to match any external URL&#39;s but not the current website</span>
 
-    // Loop through the array checking for any A elements that link to an external URL
-    while (len--) {
-       var element = a[len].getAttribute('href');
-       if (pattern.test(element)) {
-          a[len].onclick = this.popup(a[len]);
-       }
-    }
- };
+        <span class="c1">// Loop through the array checking for any A elements that link to an external URL</span>
+        <span class="k">while</span> <span class="p">(</span><span class="nx">len</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+           <span class="kd">var</span> <span class="nx">element</span> <span class="o">=</span> <span class="nx">a</span><span class="p">[</span><span class="nx">len</span><span class="p">].</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">);</span>
+           <span class="k">if</span> <span class="p">(</span><span class="nx">pattern</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">element</span><span class="p">))</span> <span class="p">{</span>
+              <span class="nx">a</span><span class="p">[</span><span class="nx">len</span><span class="p">].</span><span class="nx">onclick</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">popup</span><span class="p">(</span><span class="nx">a</span><span class="p">[</span><span class="nx">len</span><span class="p">]);</span>
+           <span class="p">}</span>
+        <span class="p">}</span>
+     <span class="p">};</span>
 
- // Create a singleton of the Integralist Class
- var Integralist = new Integralist();
+     <span class="c1">// Create a singleton of the Integralist Class</span>
+     <span class="kd">var</span> <span class="nx">Integralist</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Integralist</span><span class="p">();</span>
 
- // Trigger 'external' method
- window.onload = Integralist.external;
-</code></pre>
+     <span class="c1">// Trigger &#39;external&#39; method</span>
+     <span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="nx">Integralist</span><span class="p">.</span><span class="nx">external</span><span class="p">;</span>
+</code></pre></div>
+
 
 <h2>Update 1</h2>
 

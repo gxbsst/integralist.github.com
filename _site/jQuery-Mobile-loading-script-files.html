@@ -10,6 +10,7 @@
         <!--[if lt IE 9]>
         <script src="/Assets/Scripts/html5.js"></script>
         <![endif]-->
+        <link rel="stylesheet" href="/Assets/Styles/pygment.css"     media="all">
         <link rel="stylesheet" href="/Assets/Styles/layout.css"     media="all">
         <link rel="stylesheet" href="/Assets/Styles/layout-480.css" media="only screen and (min-width: 30em)">
         <link rel="stylesheet" href="/Assets/Styles/layout-768.css" media="only screen and (min-width: 40em)">
@@ -41,45 +42,47 @@
 
 <p>First we need to write a function to insert our script(s):</p>
 
-<pre><code>function insertScript(script, container) {
-    var elem = document.createElement('script');
-    elem.type = 'text/javascript';
-    elem.src = 'Assets/Scripts/' + script + '.js';
-    container.appendChild(elem);
-}
-</code></pre>
+<div class="highlight"><pre><code class="javascript">   <span class="kd">function</span> <span class="nx">insertScript</span><span class="p">(</span><span class="nx">script</span><span class="p">,</span> <span class="nx">container</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">elem</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span>
+        <span class="nx">elem</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;text/javascript&#39;</span><span class="p">;</span>
+        <span class="nx">elem</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s1">&#39;Assets/Scripts/&#39;</span> <span class="o">+</span> <span class="nx">script</span> <span class="o">+</span> <span class="s1">&#39;.js&#39;</span><span class="p">;</span>
+        <span class="nx">container</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">elem</span><span class="p">);</span>
+    <span class="p">}</span>
+</code></pre></div>
+
 
 <p>Next we need to detect the current page (details are in the code comments):</p>
 
-<pre><code>// The 'pagechange' event is triggered after the changePage() request has finished loading the page into the DOM 
-// and all page transition animations have completed.
-// See: https://gist.github.com/1336327 for some other page events
-$(document).bind('pagechange', function(event){
+<div class="highlight"><pre><code class="javascript">   <span class="c1">// The &#39;pagechange&#39; event is triggered after the changePage() request has finished loading the page into the DOM </span>
+    <span class="c1">// and all page transition animations have completed.</span>
+    <span class="c1">// See: https://gist.github.com/1336327 for some other page events</span>
+    <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;pagechange&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">){</span>
 
-    // grab a list of all the divs's found in the page that have the attribute "role" with a value of "page"
-    var pages = $('div[data-role="page"]'),
+        <span class="c1">// grab a list of all the divs&#39;s found in the page that have the attribute &quot;role&quot; with a value of &quot;page&quot;</span>
+        <span class="kd">var</span> <span class="nx">pages</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;div[data-role=&quot;page&quot;]&#39;</span><span class="p">),</span>
+            
+            <span class="c1">// the current page is always the last div in the Array, so we store it in a variable</span>
+            <span class="nx">currentPage</span> <span class="o">=</span> <span class="nx">pages</span><span class="p">[</span><span class="nx">pages</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+            
+            <span class="c1">// grab the url of the page the  was loaded from (e.g. what page have we just ajax&#39;ed into view)</span>
+            <span class="nx">attr</span> <span class="o">=</span> <span class="nx">currentPage</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;data-url&#39;</span><span class="p">);</span>
+        
+        <span class="c1">// basic conditional checks for the url we&#39;re expecting</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">attr</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;home.html&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// now we know what page we&#39;re on we can insert the required scripts.</span>
+            <span class="c1">// In this case i&#39;m inserting a &#39;script.js&#39; file.</span>
+            <span class="c1">// I do this by passing through the name of the file and the &#39;currentPage&#39; variable</span>
+            <span class="nx">insertScript</span><span class="p">(</span><span class="s1">&#39;search&#39;</span><span class="p">,</span> <span class="nx">currentPage</span><span class="p">);</span>
+        <span class="p">}</span>
+        
+        <span class="c1">// rinse and repeat...</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">attr</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;profile.html&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">insertScript</span><span class="p">(</span><span class="s1">&#39;profile&#39;</span><span class="p">,</span> <span class="nx">currentPage</span><span class="p">);</span>
+        <span class="p">}</span>
+        
+    <span class="p">});</span>
+</code></pre></div>
 
-        // the current page is always the last div in the Array, so we store it in a variable
-        currentPage = pages[pages.length-1],
-
-        // grab the url of the page the  was loaded from (e.g. what page have we just ajax'ed into view)
-        attr = currentPage.getAttribute('data-url');
-
-    // basic conditional checks for the url we're expecting
-    if (attr.indexOf('home.html') !== -1) {
-        // now we know what page we're on we can insert the required scripts.
-        // In this case i'm inserting a 'script.js' file.
-        // I do this by passing through the name of the file and the 'currentPage' variable
-        insertScript('search', currentPage);
-    }
-
-    // rinse and repeat...
-    if (attr.indexOf('profile.html') !== -1) {
-        insertScript('profile', currentPage);
-    }
-
-});
-</code></pre>
 
 <p>That’s all there is to it.</p>
 

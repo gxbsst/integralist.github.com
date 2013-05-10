@@ -44,6 +44,7 @@ So as an example here is a form with the mandatory class and the custom data att
 
 Our full form code looks like this…
 
+{% highlight html %}
     <form action="http://www.google.com/" method="post" id="js-form">
         <p>Name: <input name="fullname" class="js-mandatory-field" data-message="Please ensure you enter your full name"></p>
         <p>Date of Birth: <input name="dob" placeholder="dd/mm/yyyy" class="js-mandatory-field" data-message="Please ensure you enter a valid date format"></p>
@@ -55,6 +56,7 @@ Our full form code looks like this…
         <p>To proceed please tick this box: <input name="proceed" type="checkbox" class="js-mandatory-field" data-message="Please ensure you tick the box to proceed"></p>
         <p><input type="submit" value="Submit Form"></p>
     </form>
+{% endhighlight %}
 
 ##JavaScript set-up
 
@@ -62,11 +64,14 @@ Next let's look at our JavaScript set-up: we're utilising AMD to help keep our s
 
 So in our HTML file we'll load up the JavaScript files required…
 
+{% highlight html %}
     <script src="Assets/Scripts/curl.js"></script>
     <script src="Assets/Scripts/app.js"></script>
+{% endhighlight %}
 
 Inside our app.js file we set-up a configuration object which handles the paths to the different dependencies we'll be using. We then load the 'Validation' module (which is a Backbone.View)…
 
+{% highlight javascript %}
     var config = {
         baseUrl: './Assets/Scripts/',
         pluginPath: 'plugins',
@@ -92,6 +97,7 @@ Inside our app.js file we set-up a configuration object which handles the paths 
     function error (err) {
         console.warn(err);
     }
+{% endhighlight %}
 
 Now we have our JavaScript set-up lets move onto the Backbone.View that will handle the validation of our form.
 
@@ -119,6 +125,7 @@ The validation methods are:
 
 So within the initialisation stage of the View we do a few things…
 
+{% highlight javascript %}
     initialize: function(){
         // Self explanatory: stores all mandatory fields
         this.mandatory_fields = $('.js-mandatory-field');
@@ -132,6 +139,7 @@ So within the initialisation stage of the View we do a few things…
         // We'll go ahead and grab the error message template file (no point waiting until the last minute and making the user wait).
         this.get_template();
     }}
+{% endhighlight %}
 
 * Store a reference to all mandatory fields
 * Create a `template` property
@@ -142,6 +150,7 @@ The reason we call the `get_template` method straight away (before the form has 
 
 The `get_template` method is called immediately but later on we also check to see if we need to try calling it again (e.g. when the user actually submits the form we check to see if `this.template` holds any value and if it does then we use it, otherwise we call `get_template` again to grab the data) so this is why we check within that method for a `callback` to be provided (when the template is loaded we want to continue on and process the errors found)
 
+{% highlight javascript %}
     get_template: function (callback) {
         $.ajax({
             url: 'Assets/Templates/FormErrors.txt',
@@ -155,12 +164,15 @@ The `get_template` method is called immediately but later on we also check to se
             }, this)
         });
     }
+{% endhighlight %}
 
 We then listen out for the form submission event to happen and call the `validate` method to handle the event…
 
+{% highlight javascript %}
     events: {
         'submit': 'validate'
     }
+{% endhighlight %}
 
 The `validate` method creates an Array to hold any errors we encounter. The way we determine if there are any errors is to loop through all the mandatory fields and to check the name attribute value to see if we can find a match to known values. If we can't find a match then we just validate the field to make sure it has a value. If we do find a match (e.g. if the name attribute is "email") then we know which validation method to pass the field on to validate against.
 
@@ -168,6 +180,7 @@ If the validation method returns `true` then that means an issue was found and s
 
 After we've been through all the mandatory fields we check to see if the `errors` Array has any items, if it does then we know we need to process some errors and call `this.process_errors` and pass the `errors` Array through to that method.
 
+{% highlight javascript %}
     validate: function(){
         var errors = [];
         var method;
@@ -215,6 +228,7 @@ After we've been through all the mandatory fields we check to see if the `errors
             return true;
         }
     }
+{% endhighlight %}
 
 The first thing the `process_errors` method does is it makes sure we are only dealing with unique error messages. For example if we have a set of 'sort code' fields (which are typically three separate fields) they will all have the same error message but we don't want that error message displayed three times so the `_.unique` method ensures our errors are unique.
 
@@ -224,6 +238,7 @@ Next we need to convert the jQuery collection into an actual Array for Hogan.js 
 
 Finally we check if the template file has been loaded already or not. If it hasn't then we load it via ajax and then call the `display_errors` method.
 
+{% highlight javascript %}
     process_errors: function (errors) {
         /*
             Clean the errors list so we only have unique data.
@@ -253,6 +268,7 @@ Finally we check if the template file has been loaded already or not. If it hasn
             }, this));
         }
     }
+{% endhighlight %}
 
 The `display_errors` method takes in the object of errors we've created and tries to compile it into the template file using Hogan.js
 
@@ -264,6 +280,7 @@ We then update the URL hash to include the id value of the form errors element w
 
 I know some people will disagree with doing that and would prefer to display an error next to each field but I find that makes the design of the page a lot more complicated, especially when dealing with multiple screen dimensions. I personally prefer to have a single place to display all errors.
 
+{% highlight javascript %}
     display_errors: function (data) {
         // First remove any errors that might already be on the page
         var existing_list = $('#js-formerrors');
@@ -284,9 +301,11 @@ I know some people will disagree with doing that and would prefer to display an 
         window.location.hash = '';
         window.location.hash = 'js-formerrors';
     }
+{% endhighlight %}
 
 The full module code is as follows...
 
+{% highlight javascript %}
     define(['../Utils/Templating/hogan'], function (hogan) {
         
         var Validation = Backbone.View.extend({
@@ -556,6 +575,7 @@ The full module code is as follows...
         new Validation();
 
     });
+{% endhighlight %}
 
 ##Conclusion
 
