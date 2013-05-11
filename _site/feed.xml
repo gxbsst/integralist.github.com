@@ -9,20 +9,20 @@
   >
 
   <channel>
-    <title></title>
+    <title>Integralist</title>
     <atom:link href="http://integralist.co.uk/feed.xml" rel="self" type="application/rss+xml" />
     <link>http://integralist.co.uk/</link>
     <description></description>
-    <lastBuildDate>Sat, 11 May 2013 18:25:45 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 11 May 2013 18:36:49 +0100</lastBuildDate>
     <language>en</language>
     <copyright>Integralist</copyright>
 
     
       <item>
         <title>Message passing in Object-Oriented Code</title>
-        <link></link>
+        <link>/Message-Passing-In-Object-Oriented-Code.html</link>
         <pubDate>Sun, 31 Mar 2013 00:00:00 +0000</pubDate>
-        <guid></guid>
+        <guid>/Message-Passing-In-Object-Oriented-Code.html</guid>
         <description>
         Thoughts about passing messages between objects in true object-oriented design.
         </description>
@@ -31,9 +31,9 @@
     
       <item>
         <title>Object-Oriented Design (OOD)</title>
-        <link></link>
+        <link>/Object-Oriented-Design.html</link>
         <pubDate>Tue, 12 Feb 2013 00:00:00 +0000</pubDate>
-        <guid></guid>
+        <guid>/Object-Oriented-Design.html</guid>
         <description>
         After reading through Sandi Metz' book Practical Object-Oriented Design in Ruby I wanted to make sure I put down in a blog post (a distilled) break-down of all the great advice she provides (note that this post is mainly for my own reference/reminder, I strongly recommend you read the book as there is so much more you'll gain from reading the book compared to this post)
         </description>
@@ -42,9 +42,9 @@
     
       <item>
         <title>G-Tips (Git tips)</title>
-        <link></link>
+        <link>/G-Tips-%28Git-Tips%29.html</link>
         <pubDate>Sun, 16 Dec 2012 00:00:00 +0000</pubDate>
-        <guid></guid>
+        <guid>/G-Tips-%28Git-Tips%29.html</guid>
         <description>
         I've been meaning to take my long list of fragmented notes on Git commands and put them altogether into a single blog post. Hopefully they'll be of use to others confused about Git.
         </description>
@@ -53,9 +53,9 @@
     
       <item>
         <title>Maintainable CSS with BEM</title>
-        <link></link>
+        <link>/Maintainable-CSS-with-BEM.html</link>
         <pubDate>Sun, 09 Dec 2012 00:00:00 +0000</pubDate>
-        <guid></guid>
+        <guid>/Maintainable-CSS-with-BEM.html</guid>
         <description>
         A look at how to utilise the BEM (Block, Element, Modifier) methodology for writing simple but structured and maintainable CSS.
         </description>
@@ -64,9 +64,9 @@
     
       <item>
         <title>Backbone Validation</title>
-        <link></link>
+        <link>/Backbone-Validation.html</link>
         <pubDate>Mon, 26 Nov 2012 00:00:00 +0000</pubDate>
-        <guid></guid>
+        <guid>/Backbone-Validation.html</guid>
         <description>
         I demonstrate how to create a Backbone.View to help ease the validation of a form and the displaying of custom error messages.
         </description>
@@ -75,9 +75,9 @@
     
       <item>
         <title>JavaScript 101</title>
-        <link></link>
+        <link>/JavaScript-101.html</link>
         <pubDate>Sat, 24 Nov 2012 00:00:00 +0000</pubDate>
-        <guid></guid>
+        <guid>/JavaScript-101.html</guid>
         <description>
         A more 'fundamental' introduction to the JavaScript language/syntax, proper terminology and concepts.
         </description>
@@ -86,9 +86,9 @@
     
       <item>
         <title>MVC in JavaScript with Backbone.js</title>
-        <link></link>
+        <link>/MVC-in-JavaScript-with-Backbone.html</link>
         <pubDate>Thu, 16 Aug 2012 00:00:00 +0100</pubDate>
-        <guid></guid>
+        <guid>/MVC-in-JavaScript-with-Backbone.html</guid>
         <description>
         MVC in the front-end engineer's toolkit is a big thing (as of 2012). This post discusses how to utilise the (currently) most popular framework &lt;a href=&quot;http://backbonejs.org&quot; target=&quot;_blank&quot;&gt;Backbone.js&lt;/a&gt;
         </description>
@@ -97,9 +97,9 @@
     
       <item>
         <title>Build a site with Ruby and Sinatra</title>
-        <link></link>
+        <link>/Build-a-site-with-Ruby-and-Sinatra.html</link>
         <pubDate>Sun, 22 Jul 2012 00:00:00 +0100</pubDate>
-        <guid></guid>
+        <guid>/Build-a-site-with-Ruby-and-Sinatra.html</guid>
         <description>
         Whilst I was learning about Ruby, I found the most frustrating aspect was finding information on how to build a web application using it (Ruby is a GPL and not designed for the 'web'). This post explains how to build a web application using the &lt;a href=&quot;http://www.sinatrarb.com&quot; target=&quot;_blank&quot;&gt;Sintra&lt;/a&gt; web framework.
         </description>
@@ -108,9 +108,9 @@
     
       <item>
         <title>Introduction to Ruby (a front-end developers perspective)</title>
-        <link></link>
+        <link>/Introduction-to-Ruby.html</link>
         <pubDate>Mon, 18 Jun 2012 00:00:00 +0100</pubDate>
-        <guid></guid>
+        <guid>/Introduction-to-Ruby.html</guid>
         <description>
         Written for front-end developers to help get them up and running with the Ruby language.
         </description>
@@ -119,9 +119,9 @@
     
       <item>
         <title>Building a game with HTML5 Canvas</title>
-        <link></link>
+        <link>/Building-a-game-with-HTML5-Canvas.html</link>
         <pubDate>Mon, 18 Jun 2012 00:00:00 +0100</pubDate>
-        <guid></guid>
+        <guid>/Building-a-game-with-HTML5-Canvas.html</guid>
         <description>
         Facebook contacted me about joining their team and as part of the recruitment process I needed to build them an image puzzle game. This was the result.
         </description>

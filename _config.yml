@@ -6,12 +6,11 @@ safe: true
 lsi: false
 pygments: true
 
-site: 
-    title: "Integralist"
-    url: "http://integralist.co.uk/"
+title: "Integralist"
+url: "http://integralist.co.uk/"
 
 googleAnalytics: 
     id: "UA-33159515-1"
 
 feedburner:
-  id: "Integralist"
+  id: "co/GtWC"
