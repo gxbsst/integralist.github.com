@@ -13,20 +13,10 @@
     <atom:link href="http://integralist.co.uk/feed.xml" rel="self" type="application/rss+xml" />
     <link>http://integralist.co.uk</link>
     <description></description>
-    <lastBuildDate>Sun, 12 May 2013 19:38:54 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 11 May 2013 18:47:05 +0100</lastBuildDate>
     <language>en</language>
     <copyright>Integralist</copyright>
 
-    
-      <item>
-        <title>Grunt Boilerplate</title>
-        <link>http://integralist.co.uk/Grunt-Boilerplate.html</link>
-        <pubDate>Mon, 13 May 2013 00:00:00 +0100</pubDate>
-        <guid>http://integralist.co.uk/Grunt-Boilerplate.html</guid>
-        <description>
-        Grunt is a JavaScript task runner. In this article I break down my &lt;a href=&quot;https://github.com/Integralist/Grunt-Boilerplate&quot; target=&quot;_blank&quot;&gt;Grunt Boilerplate&lt;/a&gt; which is a base project set-up using Grunt to take care of some standard tasks such as compiling AMD modules using RequireJS, watching/compiling Sass into CSS, watching and linting JS code as well as running unit tests.
-        </description>
-      </item>
     
       <item>
         <title>Message passing in Object-Oriented Code</title>
@@ -115,6 +105,16 @@
         <guid>http://integralist.co.uk/Introduction-to-Ruby.html</guid>
         <description>
         Written for front-end developers to help get them up and running with the Ruby language.
+        </description>
+      </item>
+    
+      <item>
+        <title>Building a game with HTML5 Canvas</title>
+        <link>http://integralist.co.uk/Building-a-game-with-HTML5-Canvas.html</link>
+        <pubDate>Mon, 18 Jun 2012 00:00:00 +0100</pubDate>
+        <guid>http://integralist.co.uk/Building-a-game-with-HTML5-Canvas.html</guid>
+        <description>
+        Facebook contacted me about joining their team and as part of the recruitment process I needed to build them an image puzzle game. This was the result.
         </description>
       </item>
     
