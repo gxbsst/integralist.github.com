@@ -76,7 +76,7 @@
 </ul>
 
 
-<p>…but there are many more for tasks such as: compiling JavaScript to CoffeeScript, concatenating files, connecting to a web server, copying files and folders, precompiling handlebar templates, live reload within a web browser, compiling code documentation - just to name a few.</p>
+<p>…but there are many more for tasks such as: compiling CoffeeScript to JavaScript, concatenating files, connecting to a web server, copying files and folders, precompiling handlebar templates, live reload within a web browser, compiling code documentation - just to name a few.</p>
 
 <p>See the <a href="http://gruntjs.com/plugins">Grunt Plugins</a> page for a more comprehensive list (but also check GitHub).</p>
 
@@ -93,7 +93,7 @@
 </ol>
 
 
-<p>The easiest way to install these are using <a href="http://mxcl.github.io/homebrew/">Homebrew</a> which is an excellent package manager for OS X.</p>
+<p>The easiest way to install these are using <a href="http://mxcl.github.io/homebrew/">Homebrew</a> which is an excellent package manager for OS X (if you use Windows, my apologies but you're on your own).</p>
 
 <p>Your mileage may vary, but if you have homebrew installed you can run the following commands via your terminal to install Node.js and NPM: <code>brew install node</code>.</p>
 
@@ -110,7 +110,7 @@
 <p>Below is the <code>package.json</code> file for my Grunt Boilerplate project...</p>
 
 <pre><code>{
-    "name": "Integralist",
+    "name": "Grunt Boilerplate",
     "version": "0.1.0",
     "description": "This is a project set-up using Grunt to take case of some standard tasks such as: compiling AMD based modules using RequireJS, watching/compiling Sass into CSS, watching/linting JS code and some other things such as running unit tests",
     "main": "Gruntfile.js",
@@ -145,7 +145,7 @@
 }
 </code></pre>
 
-<p>…most of it is populated with content I provided when I ran <code>npm init</code> and the rest (such as <code>devDependencies</code>) was automatically generated for me when I started installing my pre-built Grunt tasks (see next section).</p>
+<p>…most of it is populated with content I provided when I ran <code>npm init</code> and the rest (such as <code>devDependencies</code>) was automatically generated for me when I started installing Grunt tasks (see next section).</p>
 
 <h2>Dependencies</h2>
 
@@ -155,7 +155,7 @@
 
 <p>For example, you might install a Grunt task with a version number of 1.0 and by the time you start your next project that task might have been updated to version 2.0 and part of the major version update was a complete change in their API. So if you globally updated the task, your last project would break as it's using the old API.</p>
 
-<p>But you still want to use the latest and greatest version of that task so instead of installing your dependencies globally, install them locally (e.g. install them into the specific project you're currently working on) which means there will no chance of conflicts between projects.</p>
+<p>But you still want to use the latest and greatest version of that task. So instead of installing your dependencies globally, install them locally (e.g. install them into the specific project you're currently working on) which means there will no chance of conflicts between projects.</p>
 
 <p>Below are the tasks I install locally as part of my Grunt Boilerplate project…</p>
 
@@ -188,7 +188,7 @@
 
 <p><code>Gruntfile.js</code> is the main set-up file and contains the settings for each task we have installed.</p>
 
-<p>Because Grunt is run using Node.js you'll notice the content of the file is wrapped in a closure…</p>
+<p>Because Grunt is run using Node.js you'll notice the content of the file is wrapped in a closure and assigned to a module <code>exports</code> property…</p>
 
 <pre><code>module.exports = function (grunt) {
     grunt.initConfig({
@@ -197,13 +197,13 @@
 };
 </code></pre>
 
-<p>…within the <code>initConfig</code> call we pass an object literal of our settings.</p>
+<p>…within the function we call <code>initConfig</code> on the Grunt object, and we pass through an object literal holding our task settings.</p>
 
-<p>One of the first properties we set is <code>pkg: grunt.file.readJSON('package.json')</code> which means from the other properties of our object we can access settings specified within our <code>package.json</code> configuration file.</p>
+<p>One of the first properties we set is <code>pkg: grunt.file.readJSON('package.json')</code> which means that from within the other properties of our object we can access settings specified within our <code>package.json</code> configuration file.</p>
 
-<p>For example, if we wanted to access the name of our package (which if you remember was set <code>"name":"Integralist"</code>) then we could access it from within our object using <code>&lt;%= pkg.name %&gt;</code>.</p>
+<p>For example, if we wanted to access the name of our package (which if you remember was set <code>"name":"Grunt Boilerplate"</code>) then we could access it from within our object using <code>&lt;%= pkg.name %&gt;</code>.</p>
 
-<p>From here this is where we now start to explore the different tasks we previously installed (for full details of each task's own settings please go to their corresponding website/github repo).</p>
+<p>From here, this is where we now start to explore the different tasks we previously installed (for full details of each task's own settings please go to their corresponding website/github repo).</p>
 
 <h2>Sass</h2>
 
@@ -242,7 +242,7 @@
 
 <p>You'll see in the above example we've set-up two sub tasks <code>dist</code> and <code>dev</code>.</p>
 
-<p>The reason I've created two sub tasks is because while I'm developing my application I want my Sass files to compile to expanded CSS (including debugging information), but when I finish my project I want to compile my Sass files to be  compressed/minified CSS instead.</p>
+<p>The reason I've created two sub tasks is because while I'm developing my application I want my Sass files to compile in to expanded CSS (including debugging information), but when I finish my project I want to compile my Sass files in to compressed/minified CSS instead.</p>
 
 <p>You'll see for each sub task I specify a <code>options</code> object which tells the compiler how I want the Sass to be compiled and where to find any additional Sass helper scripts.</p>
 
