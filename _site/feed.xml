@@ -13,10 +13,20 @@
     <atom:link href="http://integralist.co.uk/feed.xml" rel="self" type="application/rss+xml" />
     <link>http://integralist.co.uk</link>
     <description></description>
-    <lastBuildDate>Mon, 13 May 2013 09:37:07 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 01 Jun 2013 18:21:15 +0100</lastBuildDate>
     <language>en</language>
     <copyright>Integralist</copyright>
 
+    
+      <item>
+        <title>The Clean Coder - How to be a Professional</title>
+        <link>http://integralist.co.uk/The-Clean-Coder-How-To-Be-A-Professional.html</link>
+        <pubDate>Sat, 01 Jun 2013 00:00:00 +0100</pubDate>
+        <guid>http://integralist.co.uk/The-Clean-Coder-How-To-Be-A-Professional.html</guid>
+        <description>
+        A quick review of Robert C. Martin's book &quot;The Clean Coder&quot; (which is a follow-up to his classic &quot;Clean Code&quot;). The subject isn't actually about code this time but about how to act and think like a professional. This is a fantastic read and would be very useful to both developers and managers alike.
+        </description>
+      </item>
     
       <item>
         <title>Grunt Boilerplate</title>
@@ -105,16 +115,6 @@
         <guid>http://integralist.co.uk/Build-a-site-with-Ruby-and-Sinatra.html</guid>
         <description>
         Whilst I was learning about Ruby, I found the most frustrating aspect was finding information on how to build a web application using it (Ruby is a GPL and not designed for the 'web'). This post explains how to build a web application using the &lt;a href=&quot;http://www.sinatrarb.com&quot; target=&quot;_blank&quot;&gt;Sintra&lt;/a&gt; web framework.
-        </description>
-      </item>
-    
-      <item>
-        <title>Introduction to Ruby (a front-end developers perspective)</title>
-        <link>http://integralist.co.uk/Introduction-to-Ruby.html</link>
-        <pubDate>Mon, 18 Jun 2012 00:00:00 +0100</pubDate>
-        <guid>http://integralist.co.uk/Introduction-to-Ruby.html</guid>
-        <description>
-        Written for front-end developers to help get them up and running with the Ruby language.
         </description>
       </item>
     
