@@ -4,21 +4,23 @@ title: Host Methods vs Native Methods
 strapline: Surprising how difficult it is for developers to understand the difference between 'host' methods and 'native' methods. Hopefully this post helps clear up any confusion.
 ---
 
-This was intended as a short and overly simplified post about Host methods and Native methods:
+## What we'll cover *reading time: approx. 6mins*
 
-* What they are?
-* How to detect them?
-* When is it OK to modify them?
+- Introduction
+- What they are?
+- How to detect them?
+- When is it OK to modify them?
 
-What they are?
---------------
+## Introduction
+This was intended as a short and overly simplified post about Host methods and Native methods.
+
+## What they are?
 
 Native methods are built-in functions provided by the ECMAScript core specification. So things like Object methods (e.g. `Object.create`), Array methods (e.g. `Array#forEach`) etc.
 
 Host methods are functions provided by the host environment (most of the time when working in web development the host environment will be the user’s web browser). So things like the DOM API and the Events object are host objects/methods (e.g. `attachEvent` is a host method and `addEventListener` is a host method)
 
-How to detect them?
--------------------
+## How to detect them?
 
 Detecting Native methods is relatively straight forward. The real problem comes when you need to determine whether the object/method you’re detecting actually works the way the specification dictates it should work. So just checking it is available to use isn’t good enough.
 
@@ -91,8 +93,7 @@ So lets take a quick re-cap of what’s going on here:
 	
 	So, in IE calling the `typeof` operator with properties of an ActiveX Object will result in `unknown`.
 	
-When is it OK to modify them?
------------------------------
+## When is it OK to modify them?
 
 Modifying built-in Native objects isn’t as dangerous as host objects (as already noted by Kangax [http://perfectionkills.com/extending-built-in-native-objects-evil-or-not/](http://perfectionkills.com/extending-built-in-native-objects-evil-or-not/)) but care needs to be taken to ensure the augmented object works as the spec dictates (something that isn’t possible all the time, for example like with `Object.create`).
 

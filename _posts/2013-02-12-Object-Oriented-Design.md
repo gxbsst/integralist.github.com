@@ -4,12 +4,10 @@ title: Object-Oriented Design (OOD)
 strapline: After reading through Sandi Metz' book Practical Object-Oriented Design in Ruby I wanted to make sure I put down in a blog post (a distilled) break-down of all the great advice she provides (note that this post is mainly for my own reference/reminder, I strongly recommend you read the book as there is so much more you'll gain from reading the book compared to this post)
 ---
 
-All of the following information has been distilled from Sandi Metz' [Practical Object-Oriented Design in Ruby](http://www.poodr.info/), and although the code in this post is based on the Ruby language, don't worry - the concepts are applicable for any object-oriented language.
+## What we'll cover *reading time: approx. 22mins*
 
-I would highly recommend you read [Practical Object-Oriented Design in Ruby](http://www.poodr.info/) as the author goes into far more code detail and background information (as well as covering other subjects such as test-driven development and the process of writing efficient unit tests) which will help you understand the concepts better than I could in this single post. But hopefully the following distilled version should be a sufficient starting point for your journey into writing more flexible and maintainable code.
-
-###What we'll cover:
-
+- Quick Summary
+- Introduction
 - Objects
 - Class Analysis
 - Dependencies
@@ -20,7 +18,7 @@ I would highly recommend you read [Practical Object-Oriented Design in Ruby](htt
 - Further good rules of development from Sandi Metz
 - Summary
 
-##Summary
+## Quick Summary
 
 Here is a short summary for those of you who prefer to see a quick bullet-point list of items covered... 
 
@@ -47,8 +45,13 @@ e.g. for each class write down a single line description and try to avoid the wo
     - Make sure sub classes inherit only what they need
     - Avoid calling `super` as it's a code smell
 
+## Introduction
 
-##Objects
+All of the following information has been distilled from Sandi Metz' [Practical Object-Oriented Design in Ruby](http://www.poodr.info/), and although the code in this post is based on the Ruby language, don't worry - the concepts are applicable for any object-oriented language.
+
+I would highly recommend you read [Practical Object-Oriented Design in Ruby](http://www.poodr.info/) as the author goes into far more code detail and background information (as well as covering other subjects such as test-driven development and the process of writing efficient unit tests) which will help you understand the concepts better than I could in this single post. But hopefully the following distilled version should be a sufficient starting point for your journey into writing more flexible and maintainable code.
+
+## Objects
 
 The best description I have ever read regarding good Object-Oriented design goes like this... 
 
@@ -120,13 +123,13 @@ One other potential code smell worth avoiding is the direct referencing of class
     end
 {% endhighlight %}
 
-##Dependencies
+## Dependencies
 
 Dependencies can be many things, for example: external class references or arguments passed to methods.
 
 Below are some rules to help you spot a dependency and how to better manage them... 
 
-###Direct References
+### Direct References
 
 Avoid 'direct references'. These are things like drilling down into a complex array structure to grab some data to work with. You may know the data structure now, but that's not to say it won't change in the future. But also, linking to a complicated data structure is confusing to other users because it obscures what the data really is and what it is meant to represent. 
 
@@ -188,7 +191,7 @@ Instead you should 'transform' your data structure into a simpler and easier to 
     obj.do_something
 {% endhighlight %}
 
-###Single Responsibility Principle
+### Single Responsibility Principle
     
 You should refactor your methods so they do one thing (also known as the 'Single Responsibility Principle'). One reason to do this is so that your methods become easier to test, and also their new found simplicity can provide a greater clarity that can highlight whether other methods within the class should even be there.
 
@@ -196,11 +199,11 @@ So for example, you may have a complex algorithm contained within a single metho
 
 Following the Single Responsibility Principle will result in smaller (and greater number of) small sized methods. This result will encourage greater code reuse from yourself (as well as other users of your code) and will also make your methods easier to test and to move around into different classes.
 
-###Remove comments
+### Remove comments
 
 If a piece of code needs a comment then chances are you need to extract that code into a separate method. The name of the method should serve the same purpose as the comment once did. This isn't always the case, but as part of your analysis you should reconsider any comments to ensure they are helpful or just noise.
 
-###Do not tightly couple your code
+### Do not tightly couple your code
 
 The best way to decouple your code is to manage your dependencies. 
 
@@ -216,7 +219,7 @@ Some other things to look out for are:
 
 Every dependency results in more brittle, tightly coupled code.
 
-###Facades
+### Facades
 
 Do not let external dependencies permeate your code. 
 
@@ -224,7 +227,7 @@ One way to prevent this is to wrap any dependencies in a method so you can imple
 
 For example, if your dependency had a method which required arguments to be sent in a specific order then you could wrap the call to the method in a facade which allowed the user of your class to pass in the arguments in another format. Your facade could then normalise the data before passing it over to the dependency's method.
 
-###Dependency Directions
+### Dependency Directions
 
 Make sure you spend time considering the direction of your dependencies.
 
@@ -237,7 +240,7 @@ Imagine you have a class with a hard coded reference to another class. We could 
 
 3. A class with many dependants could result in widespread consequences.
 
-###Summary of dependencies...
+### Summary of dependencies...
 
 - Dependency management is core to creating future-proof applications. 
 
@@ -253,7 +256,7 @@ And to quote another...
 
 > "Depend on things that change less often than you do"
 
-##Flexible Interfaces
+## Flexible Interfaces
 
 Object-Oriented applications are made up of objects(classes) but are defined by the messages that pass between these objects. 
 
@@ -271,14 +274,14 @@ Each object should reveal as little about itself, and know as little about other
 
 There are two parts to our interfaces: a Public Interface and a Private Interface... 
 
-###Public interface:
+### Public interface:
 
 - Should reveal the primary responsibility 
 - Is expected to be invoked by others
 - Will be unlikely to change (so safe for other objects to depend on)
 - Testable
 
-###Private interface
+### Private interface
 
 - Should handle implementation details
 - Not be accessible by other objects
@@ -295,7 +298,7 @@ Avoid asking the question "What should this class do?" and make sure your interf
 
 For example, If you have a Mechanic class and you want the class to prepare a bike for you then don't call the Mechanic's individual methods: "clean_bike", "pump_tyres", "check_brakes" directly. Instead you know the message you want to send (in this case you want to have a bike prepared for you) so create an interface that supports that message requirement. Do this by creating a method on the Mechanic class called "prepare_bike" and send your message to that method. This way if the Mechanic class changes its implementation then the object that calls the "prepare_bike" method doesn't have to change as well. 
 
-###Reducing Context
+### Reducing Context
 
 The things an object knows about other objects make up its 'context'. 
 
@@ -305,13 +308,13 @@ For an object to become more reusable and more easily testable it must reduce it
 
 Dependency injection reduces the context. For example if you had an object which called a generic method and passed 'self' as an argument then the receiving object could handle the request (and because the first object was injected as a dependency) then the second object could call the first object when it's finished with the request. 
 
-###Summary of Interfaces
+### Summary of Interfaces
 
 Your interface defines your application and determines its future. 
 
 Object-Oriented applications are defined by messages that pass between objects. This is handled via public interfaces. Ask for what you want and don't include any 'hows' as part of the request which would be telling the receiving object how to behave rather than it handling the how itself. 
 
-##Duck Typing
+## Duck Typing
 
 Duck Typing is the process of making code more flexible and less tightly coupled by taking into consideration that if an object "sounds like a duck, and quacks like a duck" then it stands to reason the object must indeed be (or act like) a duck.
 
@@ -323,13 +326,13 @@ Instead, for each object create a generically named method (same name for each o
 
 Also, any where you see the use of `is_a?` or `responds_to?` then that is an indication of a potential code smell because the principle issue identical to the switch statement. 
 
-##Inheritance
+## Inheritance
 
-###Abstract your base class
+### Abstract your base class
 
 When inheriting from another class it is essential that the parent class is as abstract as possible. For example, it only holds enough code that is relevant for all its sub classes. A sub class should never inherit redundant data or methods. If it does then your parent class isn't abstract enough. 
 
-###Default values
+### Default values
 
 Be careful when using default values. If your base class has a common property which is different for each sub class, but is required within each sub class (hence sticking it in the base class) then you won't want to give it a value inside the base class. Your base class should take in the value via the constructor and if the value isn't provided you should set the default using a method like so...
 
@@ -347,7 +350,7 @@ So far so good. But if a new user doesn't read the documentation (which states t
 
 Note: the above custom error message raised will display automatically the name of the method (`default_xxx_value`) at the end of the message when it is displayed to the user (hence we don't need to manually include it). 
 
-###Super
+### Super
 
 Beware calls to `super` via a sub class, as this is a code smell. 
 
@@ -371,7 +374,7 @@ This works with other methods not just the constructor. The base class could hav
 
 ...the sub class can then implement its own `local_spares` method which returns a hash. So when a user creates a new instance of the sub class and calls the `spares` method, the base class handles the functionality. The sub class can insert its own specialised data without knowing how the base class works (other than the interface design dictates the sub class should implement a method called `local_spares`). 
 
-###Modules
+### Modules
 
 Not all objects are specialised versions of another object and so they shouldn't always inherit functionality via the inheritance pattern. 
 
@@ -383,13 +386,13 @@ Modules are placed inside the same lookup path as methods acquired through inher
 
 For example, any object which includes the module needs to provide their own specialisation of a hook method implemented in the module. This means an object which includes the module doesn't have to create a dependency by calling `super`, thus avoiding needing to know anything about the included module (other than its implied interface contract) and ultimately reducing its context (i.e. what it knows - a dumb object is a reusable object). 
 
-###Composition
+### Composition
 
 The composition pattern is effectively the same as using modules (where you copy in functionality rather than inheriting it - thus creating a '*has-a*' relationship rather than a '*is-a*' relationship). 
 
 But composition from a design perspective is more about the resulting 'whole', than the subsequent parts that make up the whole. 
 
-##Inheritance vs Composition
+## Inheritance vs Composition
 
 Inheritance is the more appropriate solution if your design dictates that the objects have a well defined concrete class of functionality and that most of that base functionality is the same for all other objects. With inheritance you would write only small amounts of new code to extend the base functionality so the extending objects become more specialised.
 
@@ -401,7 +404,7 @@ If on the other hand your objects are all different and the design of the object
 > Use composition when the behaviour is more than the sum of it's parts  
 *Grady Booch, Object-Oriented Analysis and Design*
 
-##Further good rules of development from Sandi Metz
+## Further good rules of development from Sandi Metz
 
 1. Your class can be no longer than a hundred lines of code.
 2. Your methods can be no longer than five lines of code
@@ -410,7 +413,7 @@ If on the other hand your objects are all different and the design of the object
 5. Your view can only know about one instance variable.
 6. Rules are meant to be broken if by breaking them you produce better code. [ ...where "better code" is validated by explaining why you want to break the rule to someone else. ]
 
-##Summary
+## Summary
 
 So just to quickly recap on some of the important points covered... 
 

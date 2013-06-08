@@ -4,8 +4,28 @@ title: How to use Git and GitHub
 strapline: This was a lazy-web request by <a href="http://paulirish.com/" target="_blank">Paul Irish</a>. He provided the relevant feedback and I submitted to his approval.
 ---
 
+## What we'll cover *reading time: approx. 26mins*
+
+- Introduction
+- What is Git/GitHub?
+- Using the GitHub interface
+- Installing Git
+- Setting up a new Git repository
+- Adding files for Git to track
+- Commiting files to Git
+- Setting up a GitHub account
+- Generating an SSH Public Key
+- Creating a new GitHub repository
+- Pushing your project up to GitHub’s repository
+- Removing/Editing files
+- Git Tips
+- Tell Git to ignore certain files and formats
+- Best practices for Commit Messages
+
+## Introduction
 If you’re having trouble understanding how to get up and running with GitHub, or you just wanted to find a free version-control system and heard about this thing called ‘Git’ then hopefully the following information should help…
 
+## What is Git/GitHub?
 When I first heard about GitHub I was unsure as to its purpose and why it was such a hit with other developers. I had never heard of ‘Git’ before and whenever people spoke of GitHub they would mention Git at the same time, and so because they both had ‘Git’ in their name I just assumed they were one and the same thing - which as it turns out was quite wrong indeed.
 
 To clarify, ‘Git’ is a program. Once installed on your computer it can be accessed via the Command Line. You could very well have yourself a nice little ‘version control’ set-up on your computer using just Git and without ever needing to look at, or even having heard of, ‘GitHub’.
@@ -16,26 +36,9 @@ It’s an incredibly powerful tool.
 
 So with this in mind it’s best to learn about Git first, so then using GitHub will suddenly make a whole lot more sense! And this is why I think I struggled with GitHub initially: because I had no idea about what Git was and how it worked.
 
-To help you read through this post, I’ve broken the page down into sections:
-
-* Using the GitHub interface
-* Installing Git
-* Setting up a new Git repository
-* Adding files for Git to track
-* Commiting files to Git
-* Setting up a GitHub account
-* Generating an SSH Public Key
-* Creating a new GitHub repository
-* Pushing your project up to GitHub’s repository
-* Removing/Editing files
-* Git Tips
-* Tell Git to ignore certain files and formats
-* Best practices for Commit Messages
-
 But before we get started…
 
-Using the GitHub interface
---------------------------
+## Using the GitHub interface
 
 Now I know I said we would start with learning Git first, THEN GitHub. But it is worth noting at this stage (mainly by [@paul_irish](http://twitter.com/paul_irish)’s request) that you can in fact update files directly via the GitHub website!
 
@@ -61,8 +64,7 @@ You need to now tell jQuery about your very important change and get them to int
 
 From here you can sit back and relax, I think? Again I’ve read somewhere previously (for jQuery UI) that you need to add a link to your commit to the ticket in their tracker system (jQuery may very well have something similar I’m not sure though). But enough of this GUI nonsense, lets start using Git how it was meant to be used… on the command line!
 
-Installing Git
---------------
+## Installing Git
 
 OK, first thing first, lets get Git installed (by the way I work on a Mac so hopefully this guide is still somewhat useful to PC users). I personally found the easiest way to install git is via a pre-compiled installer: [http://code.google.com/p/git-osx-installer/](http://code.google.com/p/git-osx-installer/).
 
@@ -90,8 +92,7 @@ Next you want to make sure that Git ignores any ‘white space’ changes. Now t
 
 Now that we’ve got Git set-up we need to look at how we can tell it to ‘track’ certain files & folders in your project.
 
-Setting up a new Git repository
--------------------------------
+## Setting up a new Git repository
 
 Now, using Git does require a tiny bit of command line knowledge (such as navigating your computer via command line, making new directories and files, removing files etc). I’ll try and cover as much of this as I think is needed to use Git (you may need more commands than I cover but then I’ll leave that up to you to look into further). OK, so with the Terminal still open, navigate to your project folder (we do this by using the `cd` command - which stands for ‘change directory’)…
 
@@ -112,8 +113,7 @@ If you’re Mac is set-up to not show ‘hidden’ folders then it wont look lik
 
 …the first line tells Finder to allow showing of hidden files, and the second line restarts Finder so you can see the changes take effect. Once you have a new Git repository set-up you need to tell Git what files/folders to start ‘tracking’.
 
-Adding files for Git to track
------------------------------
+## Adding files for Git to track
 
 If you don’t already have any files in your project folder then we can at least add one file (via the Terminal as well) which will become useful later when you start to use GitHub as a code sharing platform. To create a file via the Terminal we must use the `touch` command like so…
 
@@ -141,8 +141,7 @@ The Staging Area is a place to add your files/folders before ‘commiting’ the
 
 You can add some files, go away and make a cup of tea, work on something else and then come back and add some more files to the Staging Area. But for any of these files to be ‘committed’ and thus have a ‘snap shot’ of the project (so we can - if we need to - revert back to an older version) we need to use the `commit` command to tell Git we want it to snap shot our project in its current state…
 
-Commiting files to Git
-----------------------
+## Commiting files to Git
 
 `git commit -m 'Add a README file to help explain the project'`
 
@@ -150,8 +149,7 @@ Commiting files to Git
 
 Now that we’ve been acquainted with Git, and created a new Git repository, added some files and committed them to Git we can start looking at using a remote server for collaborating on our project. To do this we’re going to use [https://github.com/](https://github.com/) the ‘Social Coding’ website.
 
-Setting up a GitHub account
----------------------------
+## Setting up a GitHub account
 
 Note: if you need extra help (beyond what I’ve shared) then you can refer to the official GitHub help pages here: [http://learn.github.com/p/setup.html](http://learn.github.com/p/setup.html) So the first thing to do is to register for an account (you have to go through the ‘Pricing and Signup’ page to find the ‘free’ account set-up): [https://github.com/signup/free](https://github.com/signup/free) (as you’ll see on that page, there are paid for options available so your team of developers can collaborate with a version-controlled project using GitHub’s servers, rather than having to work out how to set-up their own ‘remote’ server to push code changes to).
 
@@ -159,8 +157,7 @@ Once you’ve signed up, I recommend the first thing you do is to create a SSH P
 
 Most of you will find that you can skip the first part of the page and head straight down to the section titled ‘Generating a key’ (I mention how to set-up your SSH Public Key below, but do have a read over the provided link as it should help clarify what to do).
 
-Generating an SSH Public Key
-----------------------------
+## Generating an SSH Public Key
 
 Basically, in the Terminal you type…
 
@@ -191,8 +188,7 @@ Now go back to the Terminal and enter the following command to copy your SSH Pub
 
 …once copied into your clipboard, go back to the relevant GitHub SSH page and paste your key in and save the changes to your account settings. This now leaves just one last thing for you to do while logged into the GitHub website and that is to create a new ‘repository’.
 
-Creating a new GitHub repository
---------------------------------
+## Creating a new GitHub repository
 
 To create a new repository you’ll need to go to this page [https://github.com/repositories/new](https://github.com/repositories/new) (you’ll find links all over the place for creating a new repository, but it’s easier if I just link to it for you).
 
@@ -200,8 +196,7 @@ Now enter the information GitHub asks for (I created a repository called ‘Proj
 
 Once you’ve created a new repository on GitHub, it will show you some Terminal commands you can run for setting up Git locally and pushing the project file to GitHub’s online repository.
 
-Pushing your project up to GitHub’s repository
-----------------------------------------------
+## Pushing your project up to GitHub’s repository
 
 In the Terminal, lets make sure we’re still in our project directory…
 
@@ -239,8 +234,7 @@ Lets say I made an update to the file ‘robots.txt’ - I can push that on it�
     git push origin master
 {% endhighlight %}
 
-Removing/Editing files
-----------------------
+## Removing/Editing files
 
 To remove a file (e.g. lets remove the ‘robots.txt’ file) simply type…
 
@@ -257,8 +251,7 @@ To edit existing files is the same process as adding files. But beware, as you�
 
 Remember, Git tracks file *content*, NOT individual files. So it wont like you wasting its time by uploading files that haven’t changed at all.
 
-Git Tips
---------
+## Git Tips
 
 Any time you need to check the status of a `.git` repository:
 
@@ -362,8 +355,7 @@ The following command only works after looking at a tag:
 
 e.g. my_first_tag-1-gd8a7d27*
 
-Tell Git to ignore certain files and formats
---------------------------------------------
+## Tell Git to ignore certain files and formats
 
 `.gitignore` is a file that you can create to hold rules about what items Git should ignore.
 
@@ -386,8 +378,7 @@ You can also ignore all files of a certain type except one by using the bang (!)
     !errors.log
 {% endhighlight %}
 
-Best practices for Commit Messages
-----------------------------------
+## Best practices for Commit Messages
 
 As requested by [@Mathias](http://twitter.com/mathias) (on quite a few occasions…) there are a few best practices to consider when writing your commit messages.
 
@@ -412,7 +403,6 @@ When writing your commit message it’s probably a good idea to write in the ‘
 
 Also, when writing the ‘body’ part of your commit message, make sure to keep the character length to 72 per line. Feel free to read up on the details of why at [tbaggery.com](http://tbaggery.com/), but the principle is basically that using certain git commands on certain set-ups could cause the text to overflow off the edge of the screen. The previous link also includes some tips on how to achieve this via Vim or TextMate.
 
-Conclusion
-----------
+## Conclusion
 
 And that’s about it for the “Git Basics”. There is so much more that you can learn and I can’t recommend the book “Getting Good with Git” enough! Go check that out here: [http://rockablepress.com/books/getting-good-with-git/](http://rockablepress.com/books/getting-good-with-git/).

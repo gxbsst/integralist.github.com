@@ -4,7 +4,7 @@ title: Build a site with Ruby and Sinatra
 strapline: Whilst I was learning about Ruby, I found the most frustrating aspect was finding information on how to build a web application using it (Ruby is a GPL and not designed for the 'web'). This post explains how to build a web application using the <a href="http://www.sinatrarb.com" target="_blank">Sintra</a> web framework.
 ---
 
-##Table of Contents
+## What we'll cover *reading time: approx. 23mins*
 
 * Introduction
     * DSL vs GPL
@@ -23,13 +23,13 @@ strapline: Whilst I was learning about Ruby, I found the most frustrating aspect
     * Hosting our application
 * Conclusions
 
-##Introduction
+## Introduction
 
 In my opinion there's isn't enough good information on the web about how to get started building a [Ruby][1] based website (unless you want to use the ever popular [Ruby on Rails][2] framework). 
 
 But even then, it's not as straight forward as you'd think (not for someone new to the language or server-side coding in general).
 
-###DSL vs GPL
+### DSL vs GPL
 
 Before we go any further, it's worth clarifying the difference between a Domain Specific Language (DSL) and a General Purpose Language (GPL). Languages like JavaScript and PHP are DSL's** because they were designed to be run within a specific 'domain' (and by domain we really mean 'environment') such as the web. But languages like Python and Ruby are GPL's because they can run within many different domains (e.g. Ruby can run on the web, desktop, command line etc).
 
@@ -41,17 +41,17 @@ With a GPL such as Ruby it isn't so straight forward (it's like the old adage "t
 
 My issue with Ruby is that there is no "just get started" guide for those who want to build a site with it but not have to deal with design patterns such as MVC (maybe not straight away at least). I wouldn't be surprised if developers new to Ruby felt obliged to use Ruby on Rails because it seems to be the only Ruby related framework out there that gets any real spotlight - and I understand why, because it truly is an all encompassing framework - but I wanted a Ruby site without the bloat of a framework like [Ruby on Rails][2]. I didn't want all the confusing MVC structure and features that I'd never use. Hence why I'm writing this now.
 
-##GitHub Repository
+## GitHub Repository
 
 You can find an example repository with all code discussed in this article here: [https://github.com/Integralist/passage](https://github.com/Integralist/passage)
 
-##Sinatra
+## Sinatra
 
 So, let me begin by introducing you to [Sinatra][4]. Sinatra is a micro web framework for Ruby that although small (much smaller than a framework such as Ruby on Rails) is still surprising complex and powerful (I'd highly recommend reading O'Reilly's book "[Sinatra: Up and Running][5]").
 
 Sinatra does require you to do a lot of work off your own back, but at the same time it doesn't enforce a particular style on you. It's also very easy to get a site up and running with Sinatra and that is hopefully what I'll demonstrate here today.
 
-##Hosting
+## Hosting
 
 Now running a site locally on your computer is one thing, but you want to be able to share it with the community and let others use it! Ruby hosting is something I'm still looking into but I have found two popular options for those who aren't willing to put their money where their mouth is just yet (e.g. developers who are just experimenting with Ruby to see if it'll work for them). These are:
 
@@ -66,9 +66,9 @@ This means we can use either one to host our application for free and so allow u
 
 For today we'll be using the first option Heroku, but we'll come back to the hosting aspect at the end of this article when we're ready to actually upload our test application.
 
-##Example
+## Example
 
-###Requirements
+### Requirements
 
 OK, for us to build our application we're going to need to install the following software...
 
@@ -117,7 +117,7 @@ To see what 'gems' you have already installed you can run the command `gem list 
     treetop (1.4.10)
 {% endhighlight %}
 
-###Set-up
+### Set-up
 
 Now we have our software set-up, lets open our programming tool of choice and start writing some code.
 
@@ -161,7 +161,7 @@ This is Sinatra's "Classic"** DSL syntax which basically says when someone loads
 
 ***There are two ways to build Sinatra applications: one is the "Classic" way (which we'll be doing as it's much easier to understand) and the other is the "Modular" way which doesn't use the DSL syntax and taps straight into the base Sinatra Class.*
 
-###Shotgun
+### Shotgun
 
 One quick note about running your Ruby application: we used `ruby app.rb` but for development purposes we want to use our `shotgun` utility instead. 
 
@@ -171,7 +171,7 @@ What `shotgun` does is it restarts the web server for every HTTP request it rece
 
 So at this point you've got some Ruby code and you're able to view it in a web browser. Now lets look further at Sinatra's DSL syntax...
 
-###Loading pages
+### Loading pages
 
 If you wanted to add a new page called "Projects" that you accessed via `http://localhost:4567/projects` then all you would need to do is add the following code…
 
@@ -219,7 +219,7 @@ You can also use the URL path as a way for the user to interact with your applic
 
 …this would display on the page the result of adding `a` and `b` together. So if I went to the URL `http://localhost:4567/add/2/2` then this would display `4` as that would be the result of `2 + 2` (which was the two parameters I specified within the URL).
 
-###Loading templates
+### Loading templates
 
 Now at the moment we're using the fact that with Ruby, the last expression inside a function is what gets returned from that function. These calls to `get` and `post` are actually function calls hidden behind an abstraction. So in my original example we were displaying "Hello World!" to the page because that was the last expression inside the `get` call.
 
@@ -339,7 +339,7 @@ One other thing worth mentioning is that you can pass variables from your route 
 
 …notice I picked up the field from the URL and stored it in a class instance variable and used that variable within my template.
 
-###Static resources
+### Static resources
 
 OK, the next thing to be aware of is that Sinatra serves up ALL static resources from a folder called `public` (again you can change this but I'm happy using it - as the name is perfectly logical already).
 
@@ -357,7 +357,7 @@ So for example in all my projects I have my JavaScript files in the following di
 
 If this sounds a bit confusing then have a look at the GitHub repo linked at the top of this article to see what I'm talking about.
 
-###Handling errors
+### Handling errors
 
 If the user tries to access a page that doesn't exist then you can direct them to your own `404 error` page by using the following route…
 
@@ -401,7 +401,7 @@ Also, within your `error.erb` template file you can access the error using the e
     <p>Sorry there was the following error: <strong class="error"><%= env["sinatra.error"] %></strong></p>
 {% endhighlight %}
 
-###Performance
+### Performance
 
 The performance of your application is very important, and specifically for a web application you want to make sure that all resources are sent to the user as quickly as possible.
 
@@ -411,13 +411,13 @@ Here are some things you can do to help improve the performance of your web appl
 2. Use the `Thin` Web Server
 3. GZIP all content
 
-###Cache static resources
+### Cache static resources
 
 We set the cache control for static resources to approximately 1 month
 
 `set :static_cache_control, [:public, :max_age => 2678400]`
 
-###Use the `Thin` Web Server
+### Use the `Thin` Web Server
 
 You can also tell Sinatra to use the `Thin` server rather than the default `WEBrick` server if it's available (`Thin` is a supremely better performing web server so do please use it!)
 
@@ -426,7 +426,7 @@ You can also tell Sinatra to use the `Thin` server rather than the default `WEBr
     set :server, %w[thin webrick]
 {% endhighlight %}
 
-###GZIP all content
+### GZIP all content
 
 We can also have the web server automatically GZIP all our static resources (which can reduce the file size of a resource by up to 70%!) such as HTML content, JavaScript files, CSS files by using one line of Ruby code…
 
@@ -434,7 +434,7 @@ We can also have the web server automatically GZIP all our static resources (whi
 
 …this uses the 'Rack' middleware application (Rack is what sits behind Sinatra and is the actual HTTP web server interface), but Sinatra hides all of that behind the DSL syntax of `get` and `post` calls (nice huh).
 
-###Hosting our application
+### Hosting our application
 
 Right. Let's get our application uploaded shall we.
 
@@ -471,7 +471,7 @@ This is going to be short and quick…
 	
 Hopefully if you followed along, and had no errors, then you should see your new app online and hosted by heroku!
 
-##Conclusions
+## Conclusions
 
 Well, there you have it. Building a website using Sinatra and Ruby, and actually getting it hosted online.
 

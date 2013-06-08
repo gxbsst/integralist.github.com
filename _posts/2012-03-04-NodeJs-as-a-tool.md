@@ -4,18 +4,21 @@ title: Node.js as a tool
 strapline: I had started to utilise <a href="http://nodejs.org/" target="_blank">NodeJS</a> a lot more as a productivity tool (via specific 3rd party tools) and thought I'd share some information on how I was using it.
 ---
 
+## What we'll cover *reading time: approx. 6mins*
+
+- Introduction
+- Prerequisite
+- CSSLint
+- JsHint
+- RequireJS/r.js
+- gh-markdown-cli
+
+## Introduction
 NodeJs is best known for running server-side JavaScript, but it can also be used for other processes that run on your local machine: See: [Node.js as a build script](http://blog.millermedeiros.com/node-js-as-a-build-script/) (by [@millermedeiros](https://github.com/millermedeiros/)) for lots of examples of this.
 
-With the help of [Homebrew](http://mxcl.github.com/homebrew/) (yes I know I'm only catering for Mac users here - what a scum bag I am - but the principles are the same I'm just using `Homebrew` to get these packages installed) the items we'll cover are:
+With the help of [Homebrew](http://mxcl.github.com/homebrew/) (yes I know I'm only catering for Mac users here - what a scum bag I am - but the principles are the same I'm just using `Homebrew` to get these packages installed) we can get our prerequisite installed.
 
-* CSSLint
-* JsHint
-* RequireJS/r.js
-* gh-markdown-cli
-
-
-Prerequisite
----
+## Prerequisite
 
 I have to assume you've already got Homebrewm, Node and NPM installed? If not then open up your terminal/command line tool of choice and follow these steps:
 
@@ -30,8 +33,7 @@ I have to assume you've already got Homebrewm, Node and NPM installed? If not th
 
 After that you should be able to execute `brew --version`, `node --version` and `npm --version` and get version numbers back to show that they've installed.
 
-CSSLint
----
+## CSSLint
 
 "*Automated linting of Cascading Stylesheets*"
 
@@ -72,8 +74,7 @@ After creating the file, you need to ensure it can be executed, so go to the com
 `chmod +x csslint`
 
 
-JsHint
----
+## JsHint
 
 "*CLI and NPM package for JSHint*"
 
@@ -184,8 +185,7 @@ Your `config.json` file could look like the following…
     }
 {% endhighlight %}
 
-RequireJS/r.js
----
+## RequireJS/r.js
 
 "*Runs RequireJS in Node and used to run the RequireJS optimizer*"
 
@@ -237,8 +237,7 @@ You create a 'build' script file (see below for an example) and then you use Nod
     })
 {% endhighlight %}
 
-gh-markdown-cli
----
+## gh-markdown-cli
 
 "*Node.js command-line tool to batch convert Markdown files into HTML*"
 

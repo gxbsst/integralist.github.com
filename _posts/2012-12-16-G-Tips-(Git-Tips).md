@@ -1,12 +1,14 @@
 ---
 layout: article
-title: G-Tips (Git tips)
+title: Git Tips
 strapline: I've been meaning to take my long list of fragmented notes on Git commands and put them altogether into a single blog post. Hopefully they'll be of use to others confused about Git.
 ---
 
 I thought I would get down in a blog post the different [Git](http://git-scm.com) commands and tips that I find really useful, because every now and then it seems I need to refer back to these notes (which up until this point have been in a txt file in my Dropbox) if I've not used a particular command in a while. 
 
-Hopefully you'll find them useful too…
+Hopefully you'll find them useful too.
+
+## What we'll cover *reading time: approx. 13mins*
 
 1. <a href="#1">Show where Git is installed</a>
 2. <a href="#2">Show the Git version installed</a>
@@ -39,17 +41,17 @@ Hopefully you'll find them useful too…
 29. <a href="#29">Modifying your Git history with `rebase`</a>
 
 <div id="1"></div>
-##Show where Git is installed
+## Show where Git is installed
 
 `which git`
 
 <div id="2"></div>
-##Show the Git version installed
+## Show the Git version installed
 
 `git version`
 
 <div id="3"></div>
-##Update your global user details
+## Update your global user details
 
 {% highlight bash %}
     git config --global user.name "Your Name"
@@ -58,7 +60,7 @@ Hopefully you'll find them useful too…
 {% endhighlight %}
 
 <div id="4"></div>
-##Set-up a global ignore file
+## Set-up a global ignore file
 
 First create the global ignore file…
 
@@ -125,12 +127,12 @@ You can let Git know about your global ignore file by editing your global `.gitc
 `git config --global core.excludesfile ~/.gitignore_global`
 
 <div id="5"></div>
-##Adding all files (inc. those marked as deleted)
+## Adding all files (inc. those marked as deleted)
 
 `git add -A`
 
 <div id="6"></div>
-##Writing a long commit
+## Writing a long commit
 
 A short git commit message would look like this…
 
@@ -156,17 +158,17 @@ After I've written my commit I just need to save the commit and exit Vim…
 * Press `:wq` (the colon means you can execute more commands, w = write, q = quit)
 
 <div id="7"></div>
-##Viewing file changes while writing your commit
+## Viewing file changes while writing your commit
 
 `git commit -v`
 
 <div id="8"></div>
-##Viewing what files have been committed
+## Viewing what files have been committed
 
 `git ls-files`
 
 <div id="9"></div>
-##Improving `git log` with `git lg`
+## Improving `git log` with `git lg`
 
 To get a better looking `git log` we need to write an alias called `git lg` that is just made up of standard Git commands/flags but when put together (along with specific colour settings) means we can have a short git command that provides us lots of useful information.
 
@@ -178,7 +180,7 @@ What we need to do is open the `~/.gitconfig` file and then add the following co
 {% endhighlight %}
 
 <div id="10"></div>
-##Shorter `git status`
+## Shorter `git status`
 
 As per the above tip, we can create two extra alias' which give us a shorter command to type (I don't know about you but when typing really fast I seem to always misspell the word 'status') and doesn't show us all the unnecessary crap that someone new to Git needs to see.
 
@@ -195,19 +197,19 @@ What we need to do is open the `~/.gitconfig` file and then add the following co
 Now typing `git st` will be the same as `git status`, and typing `git sts` will be the same as `git status -sb`.
 
 <div id="11"></div>
-##Finding a commit that includes a specific phrase
+## Finding a commit that includes a specific phrase
 
 `git log --grep=<your-phrase-here>`
 
 For example, `git log --grep=CSS` will display all commits that contain the word 'CSS' in the message.
 
 <div id="12"></div>
-##Only merging the files you want
+## Only merging the files you want
 
 `git checkout <branch-name> <file1> <file2> <file3>`
 
 <div id="13"></div>
-##Stashing changes you're not ready to commit
+## Stashing changes you're not ready to commit
 
 If you make changes to your branch and then want to quickly change branches without first having to commit your current 'dirty state' then run:
 
@@ -248,14 +250,14 @@ You can also apply and drop the stash at the same time:
 If you stash some work, leave it there for a while, and continue on the branch from which you stashed the work, you may have a problem reapplying the work. If the apply tries to modify a file that you’ve since modified, you’ll get a merge conflict and will have to try to resolve it. If you want an easier way to test the stashed changes again, you can run `git stash <branch>` which creates a new branch for you, checks out the commit you were on when you stashed your work, reapplies your work there, and then drops the stash if it applies successfully.
 
 <div id="14"></div>
-##Revert all changes back to last commit
+## Revert all changes back to last commit
 
 `git reset --hard`
 
 Note: you can do a 'soft' reset `git reset --soft <hash>`. The difference between `--hard` and `--soft` is with `--hard` the specified commit hash's files are moved into the working directory and the staging area (as if there were no changes since that specified commit). But using `--soft` will leave whatever changes you've made in your working directory/staging area but will restore the specified commit you've selected.
 
 <div id="15"></div>
-##Unstaging files
+## Unstaging files
 
 To unstage files we've added to the staging area we need to run the command `reset HEAD` but that's a bit ugly and awkward to remember. What would be easier is if we could just say `git unstage`, so let's create an alias to help make that easier!
 
@@ -277,7 +279,7 @@ If you've staged files before any commits have been set (e.g. right at the start
 `git rm --cached <file>`
 
 <div id="16"></div>
-##Untrack a file without deleting it
+## Untrack a file without deleting it
 
 If you want to have Git stop tracking a file it's already tracking then you would think to run:
 
@@ -290,7 +292,7 @@ The work around to that issue is to use the `--cached` flag:
 `git rm --cached <file>`
 
 <div id="17"></div>
-##Amend your last commit
+## Amend your last commit
 
 If you make a commit and then realise that you want to amend the commit message then don't make any changes to the files and just run…
 
@@ -301,12 +303,12 @@ If you make a commit and then realise that you want to amend the commit message 
 If on the other hand you decide that after you've written a commit that you want to amend the commit by adding some more files to it then just add the files as normal and run the same command as above and when Vim opens to let you edit the commit message you'll see the extra files you added as part of that commit.
 
 <div id="18"></div>
-##Show the files within a commit
+## Show the files within a commit
 
 `git show <hash> --name-only`
 
 <div id="19"></div>
-##See differences between files
+## See differences between files
 
 To see the difference between the current working directory and the last commit:  
 
@@ -329,27 +331,27 @@ To see the difference between branches:
 `git diff <branch-1>..<branch-2>`
 
 <div id="20"></div>
-##See changes between two commits
+## See changes between two commits
 
 `git diff <more-recent-hash> <older-hash>`
 
 <div id="21"></div>
-##Creating a branch and moving to it at the same time
+## Creating a branch and moving to it at the same time
 
 `git checkout -b <branch-name>`
 
 <div id="22"></div>
-##Deleting a branch
+## Deleting a branch
 
 `git branch -D <branch-name>`
 
 <div id="23"></div>
-##Viewing all branches of a remote
+## Viewing all branches of a remote
 
 `git branch -a`
 
 <div id="24"></div>
-##Checkout a remote branch
+## Checkout a remote branch
 
 What normally happens is this: you clone down a repository from GitHub and this repo will have multiple branches, but if you run `git branch` locally all you see is the `master` branch.
 
@@ -362,24 +364,24 @@ So if you want to access the other branches within that repo then run the follow
 …this will create a new branch named whatever you called it and contains the content of the remote branch you specified.
 
 <div id="25"></div>
-##Remove a remote
+## Remove a remote
 
 `git remove rm <remote>`
 
 <div id="26"></div>
-##Revert a specific file back to an earlier version
+## Revert a specific file back to an earlier version
 
 `git checkout <hash|tag|HEAD> <file-name>`
 
 Note if you've staged your file and then started making changes to the file which you no longer want applied you can use: `git checkout -- <file-name>` to revert to the version of the file in the staging area.
 
 <div id="27"></div>
-##Viewing all commits for a file and who made those changes
+## Viewing all commits for a file and who made those changes
 
 `git blame <file>`
 
 <div id="28"></div>
-##Commiting only parts of a file rather than the whole file
+## Commiting only parts of a file rather than the whole file
 
 If you have a file with lots of changes made, you might not want to have all the changes logged under one single commit.
 
@@ -399,7 +401,7 @@ Sometimes you can't split a hunk into more hunks automatically, you have to do i
 So if you have a line removed that you want to keep as part of the commit then you'll remove the `-` so there is just a space instead, and if you have a line added that you want to not have included as part of the commit then you remove the entire line. BUT the most important part it also updating the line numbers at the top of the file so that the number of lines in the file match what you are looking to commit (otherwise the commit will fail). To make the edit to the hunk final (pre-commit) press `esc` then `:wq` and then you'll be able to commit the selected changes.
 
 <div id="29"></div>
-##Modifying your Git history with `rebase`
+## Modifying your Git history with `rebase`
 
 To change multiple commits you must use the interactive mode of the `rebase` command and you must tell Git how many commits back you want to go (because it'll start from there and keep moving through the commits until it reaches the `HEAD`).
 

@@ -6,41 +6,41 @@ strapline: As of early 2012 the foundation of web development had changed at a r
 
 Be warned, this is a 'long one', so go grab a cup of coffee… 
 
-##Table of Contents
+## What we'll cover *reading time: approx. 53mins*
 
-* Introduction
-* HTML: the foundation
-	* Example HTML
-	* Semantic Elements
-	* Brief Example of Media Queries
-	* Better practice Media Queries
-	* Mobile First Approach
-* CSS: the styling
-	* OOCSS & Sass
-	* Modular Structure
-	* Sass Example
-	* Avoiding pre-processor pitfalls
-	* How I write OOCSS
-	* Selectors
-	* Sprites
-	* Responsive Design
-	* Mobile Design: users on the move
-	* Mobile First 
-	* Tools
-	* Linting via the Command Line
-* JavaScript: the behaviour
-    * AMD
-    * Linting
-    * Code Structure
-    * Pure Functions
-* Style Guides: keeping things consistent
-* Testing: making sure stuff works
-* Performance: running fast
-* Version Control: keeping track of things
-* Automation: making life easier
-* Conclusion
+- Introduction
+- HTML: the foundation
+	- Example HTML
+	- Semantic Elements
+	- Brief Example of Media Queries
+	- Better practice Media Queries
+	- Mobile First Approach
+- CSS: the styling
+	- OOCSS & Sass
+	- Modular Structure
+	- Sass Example
+	- Avoiding pre-processor pitfalls
+	- How I write OOCSS
+	- Selectors
+	- Sprites
+	- Responsive Design
+	- Mobile Design: users on the move
+	- Mobile First 
+	- Tools
+	- Linting via the Command Line
+- JavaScript: the behaviour
+ - AMD
+ - Linting
+ - Code Structure
+ - Pure Functions
+- Style Guides: keeping things consistent
+- Testing: making sure stuff works
+- Performance: running fast
+- Version Control: keeping track of things
+- Automation: making life easier
+- Conclusion
 
-##Introduction
+## Introduction
 
 I wanted to get down in writing my process for building websites using the *current* techology available to us (July 2012). It seemed like a good idea to share how I approach web development and to discuss the tools I use to help make my life easier. I've had a (un)fortunate history of being able to work on a few large scale applications that have turned out fine but have become a nightmare to maintain or scale - what this means is: I know what techniques just don't work *for me* and I'd like to share some insights as to what techniques and tools I think **do** work for getting your project off to the best start possible.
 
@@ -56,7 +56,7 @@ Now, some of the techniques and tools I'll be talking about just wont fit right 
 
 Take what you need and move on. Shall we begin?
 
-##HTML: *the foundation*
+## HTML: *the foundation*
 
 > "Hamburgers! The cornerstone to any nutritious breakfast"
 
@@ -64,7 +64,7 @@ Well, the beginning of any web site (web page/app whatever you happening to be w
 
 Things have a come a loooong way since the good 'ole days of web development. Our HTML mark-up has become streamlined and easier to remember. Hell, I can now remember how to write my `doctype` without using a template file or Googling for the answer.
 
-###Example HTML
+### Example HTML
 
 Below is an example of a web page HTML structure…
 
@@ -128,7 +128,7 @@ Next we have a line of code which lets the host know there is a `humans.txt` fil
     Twitter: http://twitter.com/username
     Location: Address
 
-###Brief Example of Media Queries
+### Brief Example of Media Queries
 
 After this we link to some CSS files. These stylesheets apply styles based on certain 'conditions' (known as 'Media Queries') such as the width of the user's device. 
 
@@ -136,7 +136,7 @@ So for example, if the user's device is 960px wide then we make the assumption t
 
 Yes this 'assumption' about the users device screen can be problematic as it relies on the assumption that devices are of a known width - and obviously if history has taught us anything - these assumptions will fail at some point in the future. 
 
-###Better practice Media Queries
+### Better practice Media Queries
 
 While we're here I wanted to suggest a better practice for writing Media Queries which is to not have stylesheets load based on the dimensions of current devices, but instead to set-up 'break points' for where your site starts to naturally break down. 
 
@@ -144,11 +144,11 @@ So for example, rather than trying to target an iPhone (which you know has a dim
 
 This is still a bit 'hit and miss', as you might decide your site doesn't look good at x pixels wide but that means certain devices either jump up/down a stylesheet when you didn't expect them to. But as long as you're using an 'adaptive' approach to loading your CSS then that can ultimately only be a good thing for your users compared to loading the desktop variation of your site's design on a smaller screen mobile device.
 
-###Mobile First Approach
+### Mobile First Approach
 
 The stylesheets in this example are using a 'mobile first' approach, and by this I mean we're building a site from the mobile design upwards. If we didn't do this then we would end up loading lots of CSS onto the mobile device that was actually only needed for the desktop computer (this is because the desktop version of the site would have a more complicated design compared to the design for the mobile version of the site). I'll go into this in more detail later but it's important to note here because after the stylesheet links you'll see another 'conditional comment' `<!--[if (lt IE 9) & (!IEMobile)]>` which is there because Internet Explorer browsers less than version 9 do not understand CSS Media Queries and so if we take a mobile first approach then IE < 9 wont have any stylesheet to load (as it wont know 'how' to load them). So this conditional comment is a 'fallback' for those browsers. So if a user is on an older crappy Windows based phone then they'll at the very least get the desktop version of the site loaded (which is still likely to be a better experience than having no styling on the content at all).
 
-###Semantic Elements
+### Semantic Elements
 
 After that, we have the `<body>` element which will contain the content of your page.
 
@@ -236,14 +236,14 @@ Service C    | Google+       | 22222 222222
 
 …this is a bit of an anal analysis of 'semantic' usage, but the fact is this sort of thing happens all the time. We look at something in a design and try to think of the most semantic element to use and although `<dl>` seems like the right choice, is it really? I guess it depends on how you interpret the specification. I know I've used the `<dl>` elements many times but I sometimes wonder if I shouldn't have just gone with the `<table>` element instead (on a side note: I'd love to hear people's feedback on this)
 
-###Automation
+### Automation
 
 I've not discussed it here but one thing we'll come back to later in this article is the idea of 'automation' - so that your 'generic' HTML never need to be typed out by hand again. You should either have a re-usable template project/file or use a generator system that handles it for you.
 
 
-##CSS: *the styling*
+## CSS: *the styling*
 
-###OOCSS & Sass
+### OOCSS & Sass
 
 CSS is the one area of web development that has been changing pretty much constantly for me these past couple of years. 
 
@@ -251,7 +251,7 @@ I've been trying to settle on a technique or style that would mean the maintenan
 
 The principles vary depending on the author (e.g. [stubbornella](https://github.com/stubbornella/oocss/), [SMACSS](http://smacss.com/), [the single responsibility principle](http://csswizardry.com/2012/04/the-single-responsibility-principle-applied-to-css/) and many more), and my way of utilising OOCSS is a bit of an amalgamation of the existing styles available today. Also, I utilise the CSS pre-processor [Sass](http://sass-lang.com/) which originally I wasn't too keen on (I saw it in a similar light to tools like jQuery where it wasn't necessary, and caused more problems than it solved) but I'm now more sold on it's benefits, and because of my skeptical mindset I know what issues can occur when using a pre-processor and how to avoid those issues.
 
-###Modular Structure
+### Modular Structure
 
 Here follows is my current CSS/Sass structure…
 
@@ -310,7 +310,7 @@ Here follows is my current CSS/Sass structure…
 
 …now this may look like a **lot** of style sheets, but the beauty of using a pre-processor such as Sass is that it allows you to have a very modular code base and yet for deployment/production (e.g. the pushing of your code to the 'live' server) you can *build* your separate code modules into a single (compressed/minified) stylesheet.
 
-###Sass Example
+### Sass Example
 
 So where you see the `.css` files inside of the /`Styles`/ directory - this is actually a single file that has been built up from selected Sass files.
 
@@ -368,7 +368,7 @@ Initially it seems like a bit of work is involved, but once you get used to stru
 
 There are many benefits to having a modular code base, but the most important thing to remember is: don't start thinking that because you're using Sass that it will some how magically make you write better code, it wont - that is still *your* responsibility. 
 
-###Avoiding pre-processor pitfalls
+### Avoiding pre-processor pitfalls
 
 Now before we get into OOCSS let's first quickly demonstrate some issues with using pre-processors.
 
@@ -476,7 +476,7 @@ The `@extend` statement is slightly better in the sense that you can write a cla
 
 There is another more complicated example given within the 'performance' section of this article which discusses more structural concerns, but we'll come to that soon enough.
 
-###How I write OOCSS
+### How I write OOCSS
 
 This is where things get interesting because OOCSS is still (although around for a few years now) a moving target and something that isn't a straight forward "*this is how it's done*" process.
 
@@ -490,7 +490,7 @@ Term        | Description
 'extension' | this is a class that can be applied to multiple modules/elements
 'state'     | can be applied to both layouts and modules to affect how they look
 
-####Base
+#### Base
 
 My 'Base' styles cover two areas: 
 
@@ -505,7 +505,7 @@ My `_placeholder.scss` is used in conjunction with my the `/Scripts/Utils/Polyfi
 
 Eagle eye readers will probably notice that in my folder struture above I also had an `_additions.scss` stylesheet which consists of some extra base rules that `Normalize.css` doesn't cover. You'll see later in the section about 'automation' that I've now started using Git/GitHub to manage 3rd party code dependancies and so really I could add my 'additions' into the one Normalize.css file and then if Normalise.css ever had an update I could pull in those changes from GitHub and merge them into my version of Normalise, that way I wouldn't override my version completely but just integrate the latest updates. But for the time being, because Sass concatenates all stylesheets into one, it doesn't really matter that this `_additions.scss` is a separate file.
 
-####Layout
+#### Layout
 
 These are the easiest component in the CSS stack so far. Layouts hold content. They don't try to style content in any way, they literally just contain a module or content of some kind.
 
@@ -513,7 +513,7 @@ Layouts can be manually created or they can be created using a grid system (see:
 
 I'm still a bit skeptical of using 'grids' because of the extra overhead as far as HTML is concerned but they can be pretty useful when used sparingly and in the right situations. [Harry Roberts](http://csswizardry.com/) once told me to think of grids as 'shelves' which you place items upon, and that's pretty much an accurate portrayal of the role grids take - nothing more complicated than that really.
 
-####Modules?
+#### Modules?
 
 The word 'module' in my CSS means different things, mainly because it refers to something as being 'modular'.
 
@@ -540,7 +540,7 @@ Example Mixin:
     }
 {% endhighlight %}
 
-####Extensions
+#### Extensions
 
 Extensions are effectively re-usable classes which you can incorporate into any existing rule. An example of this could be having a class that lets you set a box shadow…
 
@@ -567,7 +567,7 @@ Extensions are effectively re-usable classes which you can incorporate into any 
 
 …you could argue that this type of class should be incorporated into a 'module' - and most of the time that is correct - but this isn't *always* appropriate.
 
-####State
+#### State
 
 State classes are pretty self-explanatory in that they affect the state of an object/element, and the syntax is `.is-xxxx`.
 
@@ -599,7 +599,7 @@ The way I keep the IE code within the same file is I stopped having them as sepa
 
 …yes doing it this way *can* mean the overall file size of your CSS is larger for browsers that aren't affected by the IE specific code, but to be honest since dropping support for IE7 the amount of IE fixes needed has literally dropped off the radar!
 
-###Selectors
+### Selectors
 
 Selectors are a tricky subject in CSS. The key principle is to be as 'specific' as possible.
 
@@ -620,7 +620,7 @@ For a more indepth analysis of how best to write your selectors then I recommend
 
 Using this type of questioning we know when it's OK to not be too specific (e.g. `.header > ul`) and when we *must* be specific to avoid changes in the future causing us problems.
 
-###Sprites
+### Sprites
 
 The idea behind sprites is pretty straight forward. Take all the little icons or miscellaneous imagery and stick them in one single image file, like so…
 
@@ -630,7 +630,7 @@ The idea behind sprites is pretty straight forward. Take all the little icons or
 
 You could argue the overall size of the image sprite can become very large and some pages might not use all the icons/images within the sprite, but by that point the sprite would have been loaded and cached by the browser and so that argument becomes redundant.
 
-####Image Source Files
+#### Image Source Files
 
 One other important thing to do (and there was no where else appropriate for me to mention this) is to have a `/Source/` folder inside your `/Images/` folder to hold all the source files (same as if you had a `/Flash/` folder for your animations then you should have a sub folder inside that called `/Source/` to hold all the `.fla` files). 
 
@@ -640,7 +640,7 @@ In modern web development there isn't usually a whole lot of these types of file
 
 The biggest benefit I've found is when going back to a website after (let's say) two years! You had all the source files on a backup server somewhere and now you have to go find it. Maybe it's in the loft, or locked in a fireproof safe at your work office, either way it's a pain in the ass to get to and try and locate these files when you could just connect to the web server and find them there alongside your website files!
 
-###Responsive Design
+### Responsive Design
 
 The principle solution to making your site design responsive is to not set widths on anything. Depending on the design of your site the layouts will need a width set - for example a two column layout needs to have a width set on each column (you can't avoid that), but any modules you have shouldn't have a width set on them.
 
@@ -661,7 +661,7 @@ But with percentages you wouldn't just set the width to `.15625%` you need to mo
 
 `target / context = result` is *THE* algorithm for responsive design!
 
-####Responsive Images
+#### Responsive Images
 
 To help your images scale appropriately along with your responsive design you can set the `max-width` property to be 100% which means the image will never be larger than its container but can happily resize/scale downwards on smaller screens…
 
@@ -671,7 +671,7 @@ To help your images scale appropriately along with your responsive design you ca
     }
 {% endhighlight %}
 
-####What about containing elements with unknown widths?
+#### What about containing elements with unknown widths?
 
 Normally what you see in web design is the main website content is wrapped in an element such as a `<div>` with a set `max-width` of 960px (so it fits onto a range of devices without requiring a horizontal scrollbar to appear). We use `max-width` instead of `width` for the same reason we use it for our responsive images, so it never gets larger than it should but can happily resize downwards depending on the size of the device viewing it.
 
@@ -691,7 +691,7 @@ We can now set our wrapper element like so…
     }
 {% endhighlight %}
 
-###Mobile Design: *users on the move*
+### Mobile Design: *users on the move*
 
 Because I make sure my sites are built using a responsive approach, it isn't a whole lot of extra work to tweak the styles/design to look more appropriate for devices with smaller screen dimensions. 
 
@@ -715,7 +715,7 @@ The tool for that job are 'Media Queries'…
 
 When you have your media queries in place you can amend your designs so they are easier to view on those smaller screen dimensions.
 
-###Mobile First
+### Mobile First
 
 Building sites that *look* good on mobile devices is one thing, but the performance of those sites will be worse than those built to take a 'mobile first' approach.
 
@@ -725,11 +725,11 @@ The beauty of this approach is that the DOM structure is clean and uncluttered m
 
 The 'mobile first' approach can be very strange and uncomfortable, but I guess that - like anything - if you do it enough then the benefits will shine through and you'll wonder how you did things any other way.
 
-###Tools
+### Tools
 
 There is only really one CSS tool I use and that is a [CSS gradient generator](http://www.colorzilla.com/gradient-editor/) from ColorZilla. The reason I use it is because it generates a gradient based on an image! So I can take our designers files and then export a slice of any gradient used, upload it and get CSS generated for me that perfectly matches the gradient the designers have used.
 
-###Linting via the Command Line
+### Linting via the Command Line
 
 Linting your code is very important. Linting helps highlight problems and potential bugs in your code.
 
@@ -761,13 +761,13 @@ csslint --errors=import,compatible-vendor-prefixes,display-property-grouping,ove
 
 When I run that command I see any bugs/issues with my CSS code that doesn't appear to abide by the 'rules' specified via the command line options.
 
-##JavaScript: *the behaviour*
+## JavaScript: *the behaviour*
 
 Wow, have we really managed to get through the CSS section!?
 
 OK, JavaScript, here we go…
 
-###AMD
+### AMD
 
 I guess the best place to start is with a good foundation and that is: AMD
 
@@ -783,7 +783,7 @@ That's right, using modules is great but you still need to consider performance 
 
 The great thing to remember about modules is the maintainability of the project and the re-usable code you get from it.
 
-###Linting
+### Linting
 
 Similar to my CSS work flow (see above), I use the command line to lint my JavaScript code - which helps me find silly errors in my code before I go off to production.
 
@@ -901,7 +901,7 @@ jshint **/*.js --config ./Lint/config.json
 
 When I run that command I see any bugs/issues with my JavaScript code that doesn't appear to abide by the 'rules' specified via the command line options. If I see nothing then that means there were no errors and I'm good to go.
 
-###Code Structure
+### Code Structure
 
 One thing I find very useful to do for all my JavaScript files is to include a code structure comment at the top like so...
 
@@ -925,7 +925,7 @@ One thing I find very useful to do for all my JavaScript files is to include a c
 
 ...this makes understanding where specific code is in the file a lot easier (at a glance). As you can see this code structure follows my [JavaScript Style Guide](https://github.com/Integralist/Style-Guides/blob/master/JavaScript%20Style%20Guide.md) which goes into more detail about the specifics of my JavaScript code structure.
 
-###Pure Functions
+### Pure Functions
 
 Something else I've started to do more recently - and this was something I used to avoid in the past as I was 'scare mongered' into believing it was a performance concern - is the idea of making more use of functions in a 'pure' style, and by this I mean writing functions that do one thing and one thing only without causing side effects.
 
@@ -933,7 +933,7 @@ Writing functions that only do one thing - rather than 5 or more different thing
 
 On top of that it just *feels* cleaner. A bit *Zen* like and how they say if you clear your desk then you've cleared your mind. I find more relaxed knowing each of my functions do one thing and one thing only, I know they aren't becoming overly complex and bloated and I can more easily refactor them without worrying about side effects on my code.
 
-##Style Guides: *keeping things consistent*
+## Style Guides: *keeping things consistent*
 
 I strongly recommend the use of a Style Guides for a team of developers. Mainly because it means there is a consistency in the code style, and that alone can make a great difference in the ease of maintaining a large code base.
 
@@ -945,7 +945,7 @@ I've written a few Style Guides already so I wont go into specifics here:
 
 [CSS Style Guide](https://github.com/Integralist/Style-Guides/blob/master/CSS%20Style%20Guide.md)
 
-##Testing: *making sure stuff works*
+## Testing: *making sure stuff works*
 
 Well, we all know we should test our code and I admit I just don't do this enough.
 
@@ -967,7 +967,7 @@ I highly recommend you use the TDD specific [BusterJs](http://busterjs.org/), wh
 
 I've also written an article about [using the Behaviour-Driven Development testing framework Jasmine](https://github.com/Integralist/Blog-Posts/blob/master/Beginners-guide-on-how-to-test-your-code-%28using-Jasmine-BDD%29.md) - it goes into detail about testing your code and the differences between TDD/BDD and 'unit testing'.
 
-##Performance: *running fast*
+## Performance: *running fast*
 
 Performance has had a mention in quite a few areas of this post already so it seems silly not to dedicate a section to it.
 
@@ -1131,7 +1131,7 @@ So in the end I went back to the original solution I had which meant the selecto
 
 In this example neither option was really wrong, but it goes to show that you not only need to be careful when using a pre-processor but also you need to be thinking about how performance and maintenance tie together when writing your code.
 
-##Version Control: keeping track of things
+## Version Control: keeping track of things
 
 Using version control software is a no-brainer really. Depending on whether you use the comand line interface or a visual app is a personal choice and I prefer to use the command line as it's just more efficient.
 
@@ -1149,7 +1149,7 @@ I also recommend using [GitHub](https://github.com/integralist) for storing your
 
 You can also have GitHub host simple website pages for you - [my site](http://www.integralist.co.uk/) for example is hosted by GitHub and so I can push my site changes live straight from the command line without needing an FTP program (which is amazing in it's simplicity and ease) - a nice side effect from having my site hosted on GitHub is that all my GitHub pages are also mapped to my domain - so for example [http://integralist.github.com/Passage](http://integralist.github.com/Passage) actually redirects to [http://integralist.co.uk/Passage/](http://integralist.co.uk/Passage/).
 
-##Automation: *making life easier*
+## Automation: *making life easier*
 
 There are many ways to automate your work flow, doing so makes you more efficient and productive and in general can just save you hassle.
 
@@ -1176,7 +1176,7 @@ I use the command line to handle my dependancies by pulling in GitHub hosted rep
 
 My CSS and JavaScript files are concatenated and minified with a combination of Sass and the RequireJS build script and so the only thing left to do is start programming.
 
-##Conclusion
+## Conclusion
 
 I felt this (damn)long post deserved a 'conclusion' but I've suddenly realised that I'm not actually very good at writing them, but here we go:
 

@@ -4,20 +4,20 @@ title: MVC in JavaScript with Backbone.js
 strapline: MVC in the front-end engineer's toolkit is a big thing (as of 2012). This post discusses how to utilise the (currently) most popular framework <a href="http://backbonejs.org" target="_blank">Backbone.js</a>
 ---
 
-##Table of Contents
+## What we'll cover *reading time: approx. 34mins*
 
-* Introduction
-* What is MVC?
-* Backbone's interpretation of MVC
-* Using AMD Modules and RequireJS
-* Scope Access
-* Project
-* Set-up
-* Architecture
-* Wrap-up
-* Conclusion
+- Introduction
+- What is MVC?
+- Backbone's interpretation of MVC
+- Using AMD Modules and RequireJS
+- Scope Access
+- Project
+- Set-up
+- Architecture
+- Wrap-up
+- Conclusion
 
-##Introduction
+## Introduction
 
 I'll be honest and tell you that I struggled for quite a while to actually see the point of using [Backbone.js](http://backbonejs.org/). 
 
@@ -46,11 +46,11 @@ But my own biggest concern was that although my MVC library was *structurally* e
 
 It was obvious I needed to spend a lot more time on this library of mine for it to be genuinely usable in a production environment, and that's when I decided to instead take another look into Backbone.js to see what it could offer me, because from all the examples I had looked at in the past the code produced appeared very clean, flexible and well structured. Plus there are *lots* of agencies/companies implementing Backbone nowadays. So out of all the MVC libraries available (and there are quite a few) it seemed like a pretty safe bet to take another look at it.
 
-##What is MVC?
+## What is MVC?
 
 For those who've not heard of the MVC Design Pattern it is quite simple: each letter of the acronym is a separate area of concern…
 
-###M: Model
+### M: Model
 
 A Model is a piece of data.
 
@@ -62,17 +62,17 @@ If you owned a pet store then each animal would be a Model.
 
 You get the idea.
 
-###V: View
+### V: View
 
 A View is the user interface.
 
 This could literally be anything the user of your program interacts with. So any HTML element could be made into a 'View'.
 
-###C: Controller
+### C: Controller
 
 A Controller is the brains of the program and determines what happens and when.
 
-###Communication between them?
+### Communication between them?
 
 The traditional concept of MVC states that a Model should only handle its own data and should have no other logic bound to it. So for example, a Model can have a method for getting/updating its data but it should have no logic built-in to determine *when* it should get that data (that's what the Controller does). 
 
@@ -80,7 +80,7 @@ Both the Model and the View can alert the Controller of any changes or interacti
 
 Typically you'll have one Controller for every View/Model but you could have multiple Views/Models per Controller.
 
-##Backbone's interpretation of MVC
+## Backbone's interpretation of MVC
 
 Backbone.js is much like all the other JavaScript MVC libraries available today (with the exception of Peter Michaux's [Maria](https://github.com/petermichaux/maria/)) where by it's not strictly MVC but a variation of the pattern.
 
@@ -88,13 +88,13 @@ Addy Osmani (from Google) has covered this subject in-depth and so I highly reco
 
 But the basic premise for most of these libraries is that they implement the Model and the View but the Controller is swapped out for something else. So in Backbone's case it doesn't have a Controller, instead the View handles both the traditional View responsibilities as well as the Controller logic.
 
-###Collections?
+### Collections?
 
 Backbone.js also introduces another concept called a 'Collection'. A Collection is simply a group of a specific Models. So if you had a Model called "PhotoModel" and you created a few instances of that Model you might want to create a Collection called "PhotoAlbum". PhotoAlbum would then be a *collection* of PhotoModels.
 
 Collections trigger events when a Model is added or removed from the Collection and you are able to iterate over the Collection and pull out a specific Model, so they can end up being pretty useful.
 
-###Router/History?
+### Router/History?
 
 Backbone.js provides a History object which monitors the `hashchange` event and also provides an opt-in HTML5 `pushState` variation (which falls back to standard AJAX style hash bang navigation).
 
@@ -102,13 +102,13 @@ There is also a Router object provided which handles the set-up of simple URL ro
 
 So far I've only lightly interacted with the `Backbone.Router`/`Backbone.History` aspects but I've provided examples below of how to utilise them.
 
-##Using AMD Modules and RequireJS
+## Using AMD Modules and RequireJS
 
 Backbone.js can be used with standard `<script>` tags, so there is no need for you to use a module system such as AMD (or a module loader such as RequireJS). But my personal preference is to using both AMD with RequireJS, and that's what the example project I'll show you will use.
 
 I wont go into the details of what AMD is or how to use RequireJS, I'll instead point you to [another article I've written on the subject](https://github.com/Integralist/Blog-Posts/blob/master/Beginners-guide-to-AMD-and-RequireJS.md).
 
-##Scope Access
+## Scope Access
 
 Because we're using AMD (which keeps our code self-contained so it doesn't introduce global variables) it can be awkward (in some situations) to share information across modules.
 
@@ -120,7 +120,7 @@ One thing I wanted to do recently was access a View instance from within another
 
 …which option you go with depends on personal preference more than anything. I went with the second option.
 
-##Project
+## Project
 
 The project we'll build is a basic Contact Manager. 
 
@@ -132,7 +132,7 @@ Next to the menu will be a form where we can add a new contact and once added it
 
 A finished version of this project can be found [on my GitHub](https://github.com/Integralist/Backbone-Playground).
 
-##Set-up
+## Set-up
 
 Let's take a top level view of our directory structure…
 
@@ -162,9 +162,9 @@ Let's take a top level view of our directory structure…
         * styles.css
 * index.html
 
-##Architecture
+## Architecture
 
-###HTML
+### HTML
 
 The HTML page `index.html` consists of a few different elements that we'll use as 'Views'. 
 
@@ -215,7 +215,7 @@ The full HTML page looks like this...
     </html>
 {% endhighlight %}
 
-###Styles
+### Styles
 
 The styles for this project are just basic - we're not worrying about design here… 
 
@@ -247,7 +247,7 @@ The styles for this project are just basic - we're not worrying about design her
     }
 {% endhighlight %}
 
-###JavaScript
+### JavaScript
 
 RequireJS allows us to utilise just a single `<script>` tag which points to our main script file that contains the following structure… 
 
@@ -363,7 +363,7 @@ RequireJS allows us to utilise just a single `<script>` tag which points to our 
 
 …this breaks down to the following… 
 
-###We set-up configurations for RequireJS
+### We set-up configurations for RequireJS
 Such as Backbone's dependencies - this is done using RequireJS' `shim` feature for libraries that aren't AMD compatible.  
 &nbsp;  
 You'll also notice we aren't using the Underscore library, instead we're using Lo-dash which is a better performing/API compatible utility library.
@@ -379,7 +379,7 @@ You'll also notice we aren't using the Underscore library, instead we're using L
     });
 {% endhighlight %}
 
-###Specify dependencies and execute callback function once all are loaded
+### Specify dependencies and execute callback function once all are loaded
 The dependencies we're loading are the relevant Models, Views, Collections required for this application to work - once loaded we can create new instances of them.
 
 {% highlight javascript %}
@@ -387,7 +387,7 @@ The dependencies we're loading are the relevant Models, Views, Collections requi
     function (Contact, Contacts, ContactsView, AddContactView, ContactView, Routing) {
 {% endhighlight %}
 
-###Generate some data for the initial `<select>` menu population
+### Generate some data for the initial `<select>` menu population
 We've loaded the `Contact` Model and we create two new instances of it and pass in the relevant properties for the Model data.
 
 {% highlight javascript %}
@@ -408,7 +408,7 @@ We've loaded the `Contact` Model and we create two new instances of it and pass 
     });
 {% endhighlight %}
 
-###Create a Collection that will hold the Model data we've just created
+### Create a Collection that will hold the Model data we've just created
 Backbone lets us pass through an Array of Models to instantiate the Collection with
 
 {% highlight javascript%}
@@ -419,7 +419,7 @@ Backbone lets us pass through an Array of Models to instantiate the Collection w
     var contacts = new Contacts([manager, developer]);
 {% endhighlight %}
 
-###Create the View
+### Create the View
 You'll notice that when creating the view Backbone gives us the ability to pass in specific properties such as the HTML element we want to associate our View object with (in this case I'm passing in the `<select>` element).  
 
 Backbone also lets us specify a Collection for this View to be associated with (this is so we can watch for any events - such as a adding/removing Models - so we can keep the View in sync with any data changes)  
@@ -446,7 +446,7 @@ Lastly, we pass in a custom property I've called `associated_view` and the value
     });
 {% endhighlight %}
 
-###Create a View for the `<form>` that will create new Model data
+### Create a View for the `<form>` that will create new Model data
 What you'll probably notice is that out of the three Views we have created instances for, they all use the same `contacts` Collection.
 
 {% highlight javascript %}
@@ -460,7 +460,7 @@ What you'll probably notice is that out of the three Views we have created insta
     });
 {% endhighlight %}
 
-###Load more Model data into our Collection
+### Load more Model data into our Collection
 We initially loaded some Model data into our Collection when starting our application, but now we're using a Backbone provided method called `fetch` which lets us grab more data from the server and populate our Collection with that server data.
 
 {% highlight javascript %}
@@ -479,7 +479,7 @@ We initially loaded some Model data into our Collection when starting our applic
     });
 {% endhighlight %}
 
-###Fetching Collection Data
+### Fetching Collection Data
 
 In the previous section we used `contacts.fetch` to grab Model data from the server.
 
@@ -564,7 +564,7 @@ The PHP script we're using would normally connect to a database and return its d
 
 You may have also noticed that back in our main JavaScript file (when we called the `fetch` method) we had specified a property called `add` and set its value to `true`. The reason we did this was because if we left that property out then when Backbone fetched the data from the server it would have cleared our Collection of all Model data and replaced it with the data from the server. Setting `add: true` means we don't overwrite any existing data but instead add the data on top of what's already there.
 
-###Model Structure
+### Model Structure
 
 So far we have a main script file where we have created new instances of some Backbone Views as well as created a Backbone Collection. We've populated that Collection with specific Model data, but now lets look at the Model itself that we've been using to construct our data from… 
 
@@ -619,7 +619,7 @@ The reason we specify Backbone as a dependency in each of these module files (ra
 
 Let's now break down the specific sections of the Model we've created:
 
-###First we specify default values
+### First we specify default values
 This is in case (when creating a new Model instance) we don't have all the values readily available
 
 {% highlight javascript %}
@@ -630,7 +630,7 @@ This is in case (when creating a new Model instance) we don't have all the value
     }
 {% endhighlight %}
 
-###Carry out some initial set-up stuff when a new instance is created
+### Carry out some initial set-up stuff when a new instance is created
 In this example we want to set-up some event listeners for when the `age` property is changed as well as when an error occurs.
 
 {% highlight javascript %}
@@ -646,7 +646,7 @@ In this example we want to set-up some event listeners for when the `age` proper
     }
 {% endhighlight %}
 
-###Validate data before actually making any changes
+### Validate data before actually making any changes
 Backbone.js provides a `validate` method that returns your own specified error message.  
 If the function doesn't return any value then it is assumed the data is valid.  
 If the function returns *any thing* then whatever was returned is used as the error message.
@@ -663,7 +663,7 @@ If the function returns *any thing* then whatever was returned is used as the er
     }
 {% endhighlight %}
 
-###Create a custom `birthday` method
+### Create a custom `birthday` method
 We use two Backbone methods: `get` and `set` to increment the age of the user.  
 First we `get` the current age, then we `set` the age using the prefixed `++` increment operator
 
@@ -689,7 +689,7 @@ So in our main script file you'll remember we used this custom method like so…
     developer.birthday();
 {% endhighlight %}
 
-###View Structures
+### View Structures
 
 So again, in our main script file we have created three new View instances. Lets now take a look at each of the View files so we can see what they're doing and how they work.
 
@@ -782,7 +782,7 @@ So let's take a look at that particular View file…
 
 …and let's break down what it's doing… 
 
-###Carry out some initial set-up stuff when a new instance is created
+### Carry out some initial set-up stuff when a new instance is created
 A few things going on here:  
   
 We first grab the `<select>` element using Backbone's `$el` property (this property references the element we passed through to the View's `extend` method when creating a new instance. It's effectively a jQuery wrapped version of the element - which is why we're able to use jQuery's `find` method.  
@@ -805,7 +805,7 @@ Because we're using AMD we've made our Views into separate modules/files, but be
     }
 {% endhighlight %}
 
-###Define some events
+### Define some events
 We specify a 'change' event for the `<select>` element  
 which when triggered executes the `display_selected` method we've created for this View.
 
@@ -815,7 +815,7 @@ which when triggered executes the `display_selected` method we've created for th
     }
 {% endhighlight %}
 
-###Custom `populate` function
+### Custom `populate` function
 This method builds up the content of the `<select>` menu.  
 It does this by looping through the Collection data and accessing each individual Model stored within it.  
 You'll notice that we set the value of each `<option>` element to be whatever the `cid` value for the Model is (the `cid` value is set automatically by Backbone on each Model)
@@ -837,7 +837,7 @@ You'll notice that we set the value of each `<option>` element to be whatever th
     }
 {% endhighlight %}
 
-###Custom `display_selected` function
+### Custom `display_selected` function
 This methods works out which menu item was selected and then  
 uses a Backbone specific method `getByCid` to access the required Model.  
 We then call the `ContactView`'s `render` method and pass through the Model data that needs to be rendered.
@@ -853,7 +853,7 @@ We then call the `ContactView`'s `render` method and pass through the Model data
     }
 {% endhighlight %}
 
-###Custom `update` function
+### Custom `update` function
 Every time a Model is added to the Collection it triggers an `model:added` event.  
 This event causes the View's `update` method to be executed, which inserts the new Model directly into the `<select>` menu.
 
@@ -865,7 +865,7 @@ This event causes the View's `update` method to be executed, which inserts the n
     }
 {% endhighlight %}
 
-###Template for the Associated View
+### Template for the Associated View
 
 Let's take a look at the associated View that we created…
 
@@ -909,7 +909,7 @@ In this example we've gotten the content of the template file from within the HT
 
 Ideally though you'd have the template content as a separate file and then AJAX in that template file. The reason I recommend keeping your template in a separate file is because relying on the browser to not execute a script just because it has an unknown attribute value is very fragile and likely to break in future, but for the purpose of this example it'll do.
 
-###Adding a new Model
+### Adding a new Model
 
 We have one more View left to look at, this is the HTML `<form>` element which lets us add a new contact to the list of contacts…
 
@@ -1006,7 +1006,7 @@ We have one more View left to look at, this is the HTML `<form>` element which l
 
 …this does a lot of stuff so lets break it down…
 
-###Event listeners
+### Event listeners
 We set-up a listener for the `click` event for the form's submit button which calls the `add_contact` method.
 
 {% highlight javascript %}
@@ -1015,7 +1015,7 @@ We set-up a listener for the `click` event for the form's submit button which ca
     }
 {% endhighlight %}
 
-###Add a new contact and validate the user input
+### Add a new contact and validate the user input
 We call the `add_contact` method and immediately call `e.preventDefault` which stops the form from submitting and thus refreshing the page (which we don't want to have happen as we'll lose the state of the page).
 
 {% highlight javascript %}
@@ -1047,7 +1047,7 @@ We call the `add_contact` method and immediately call `e.preventDefault` which s
         }
 {% endhighlight %}
 
-###Handle any invalid data
+### Handle any invalid data
 If the success message (from a previous successful record added) is still visible then remove it to save from confusing the user.  
 Then display any errors found.
 
@@ -1063,7 +1063,7 @@ Then display any errors found.
     }
 {% endhighlight %}
 
-###Add a new contact
+### Add a new contact
 This adds the new Model data, then updates the `<select>` menu, then inserts a success message to let the user know the details were added without issue.
 
 {% highlight javascript %}
@@ -1101,7 +1101,7 @@ This adds the new Model data, then updates the `<select>` menu, then inserts a s
     }
 {% endhighlight %}
 
-###URL Routing
+### URL Routing
 
 I've not built in any real routing logic into this particular example application, but I've included below part of the example from the Backbone website so you at least have an idea of how it works...
 
@@ -1158,7 +1158,7 @@ You also have the facility to take advantage of HTML5's `pushState` which remove
 
 If a user accesses the application with a hashbang URL and the application is set-up to use `pushState` then Backbone will update the URL from the hashbang to the proper HTML5 variation.
 
-##Wrap-up
+## Wrap-up
 
 So this is where we end. 
 
@@ -1168,7 +1168,7 @@ The Views and Models/Collection are tied together and the application is functio
 
 There are lots of things we could do to improve this example, but as a basic example of an MVC style application built using Backbone.js I think it does everything it needs to.
 
-##Conclusion
+## Conclusion
 
 When you start using Backbone.js the concepts can be a bit confusing, but you quickly learn your way around. 
 
@@ -1178,7 +1178,7 @@ The main [Backbone.js website](http://www.backbonejs.org/) is the best documenta
 
 Also, the following links are excellent resources to understand the MV* concepts discussed at the start of this post.
 
-##Links**
+## Links**
 
 * [Backbone Fundamentals](http://addyosmani.com/blog/backbone-fundamentals/)
 * [Short Musings On JavaScript MV* Tech Stacks](http://addyosmani.com/blog/short-musings-on-javascript-mv-tech-stacks/)

@@ -4,18 +4,26 @@ title: jQuery Mobile - loading script files
 strapline: This post discusses a work-around to a script loading issue I had whilst working on an early beta jQuery Mobile project.
 ---
 
+## What we'll cover *reading time: approx. 3mins*
+
+- Introduction
+- My solution
+- Example code
+- Conclusion
+
+## Introduction
 I’m working on a jQuery Mobile web application and I need to load specific JavaScript files for each page.
 
 This is a common thing to do and if you check the jQuery Mobile forum you’ll see lots of people are suffering from the same issue that occurs when trying to achieve this, which is that when loading a page using ajax, jQuery is stripping out the `<script>` tags - I assume for security reasons to help protect the user, but then if they were doing that then they should be providing the user with a way to disable that feature as in my case I know the scripts I’m loading are safe.
 
+## My solution
 So far on the jQuery Mobile Forums I’ve only really seen the same ‘solution’ proposed over and over which is to have all your JavaScript in a single script file that you include on every page of your application. In my opinion: that stinks!
 
 I potentially will have LOTS of JavaScript code (in total) to load by the time my application is finished and the only solution proposed so far has been “hey, just load it all together on every page”.
 
 My solution: have a single script file that yes is included on every page of your application but acts as nothing more than a ‘bootstrapper’ file which detects the current page and then inserts the JavaScript file(s) into the DOM.
 
-Example is as follows…
-
+## Example Code
 First we need to write a function to insert our script(s):
 
 {% highlight javascript %}
@@ -60,6 +68,7 @@ Next we need to detect the current page (details are in the code comments):
 	});
 {% endhighlight %}
 
+## Conclusion
 That’s all there is to it.
 
 Let me know your thoughts or if you’ve found any better ways to work around this issue.

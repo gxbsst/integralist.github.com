@@ -120,6 +120,12 @@ h3,
     font-size: 1.2em;
 }
 
+.article__content h2 em {
+    float: right;
+    font-style: normal;
+    font-size: .8em;
+}
+
 .article__content h3 {
     background-color: #464442;
     color: #fff;

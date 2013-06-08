@@ -4,18 +4,19 @@ title: Beginners guide on how to test your code
 strapline: This was written before I discovered <a href="http://busterjs.org/" target="_blank">BusterJS</a> but still a good read on how to test your JavaScript code - also provides background information on testing methodologies.
 ---
 
-* Introduction
-* Start how you mean to go on
-* The ‘write test first’ process
-* Other aspects of TDD/BDD
-* What do these test 'types' mean?
-* Using Jasmine
-* An example
-* Review of example
-* Conclusion
+## What we'll cover *reading time: approx. 11mins*
 
-Introduction
-------------
+- Introduction
+- Start how you mean to go on
+- The ‘write test first’ process
+- Other aspects of TDD/BDD
+- What do these test 'types' mean?
+- Using Jasmine
+- An example
+- Review of example
+- Conclusion
+
+## Introduction
 
 Any programmer worth a damn will tell you that you need to test your code.
 
@@ -34,8 +35,7 @@ There are different methodologies for testing your code, the two most famous are
 
 Fundamentally TDD is about the developer and their perspective on testing a piece of code, where BDD is more about using language that management and stake holders can understand (so your tests are still written in code but uses more 'domain specific language' - e.g. instead of `assertEqual(x, y)` you would write `expect(x).toEqual(y)`).
 
-Start how you mean to go on
----------------------------
+## Start how you mean to go on
 
 Something else you normally hear from the TDD crowd is that you *should* write your tests first! That’s probably going to sound a bit alien to you because how can you write tests for code that doesn’t yet exist? Why would anyone do that?
 
@@ -45,8 +45,7 @@ So the idea of writing tests first is that you’re thinking about your API from
 
 Although we’re not worrying about “writing tests first” in this article, I mention it so you are at least aware of the process.
 
-The ‘write test first’ process
-------------------------------
+## The ‘write test first’ process
 
 For those interested it goes a little like this:
 
@@ -57,8 +56,7 @@ For those interested it goes a little like this:
 * Once the test passes, go back and refactor your code so it’s how it should be (i.e. clean/efficient)
 * Run the test again and watch it pass
 
-Other aspects of TDD/BDD
-------------------------
+## Other aspects of TDD/BDD
 
 Here are a few other aspects of testing worth mentioning before we get stuck into some examples: methods such as ‘setUp’ and ‘tearDown’ (which run before and after each test) are useful (for example…) because it means you can prepare each test to run from a fresh set-up.  This probably doesn’t make a lot of sense at the moment so I’ll demonstrate this later in our example code below, but trust me, when you’re testing your code it’s useful before each test (or after each test) to reset your environment.
 
@@ -66,27 +64,25 @@ There are also more complicated aspects such as mocks, stubs and spies which are
 
 So with all this in mind, I would highly recommend you go and read a book titled ‘Test-Driven JavaScript Development’ by Christian Johansen ([@cjno](http://twitter.com/cjno)) which covers all these topics in great detail.
 
-What do these test 'types' mean?
---------------------------------
+## What do these test 'types' mean?
 
-###Unit Tests
+### Unit Tests
 
 These are very atomic (i.e. small) tests that test a specific chunk of code.
 
-###Integration Tests
+### Integration Tests
 
 These are tests that ensure all the separate parts of your application code work when interacting with each other.
 
-###Acceptance Tests
+### Acceptance Tests
 
 These are tests that prove to management or your stake holders that the application is providing all the functionality they require (typically acceptance tests are written using BDD which uses domain specific language that makes it easy for management to write tests for the developer to implement).
 
-###Regression Tests
+### Regression Tests
 
 This is the process of running your unit tests again after fixing any integration tests to make sure your fixes haven't caused your unit tests to break.
 
-Using Jasmine
--------------
+## Using Jasmine
 
 For the purpose of this article we're going to focus on unit testing but we're going to use a BDD library called Jasmine to help run our tests. You can download it from here: [http://pivotal.github.com/jasmine/](http://pivotal.github.com/jasmine/)
 
@@ -111,8 +107,7 @@ Different unit-testing libraries have different API’s. Jasmine’s API is as f
 	});
 {% endhighlight %}
 
-An example
-----------
+## An example
 
 So now imagine your ‘my-cool-library.js’ consisted of an object whose API let the user add/remove or check for CSS classes on an element. Lets say the API was as follows…
 
@@ -201,8 +196,7 @@ You can even create your own matchers…
 	});
 {% endhighlight %}
 
-Review of example
------------------
+## Review of example 
 
 We’ll look at one of the example tests and explain what’s happening so you get an idea of how Jasmine works, then from there you should be at least good to go in getting up and running and playing around with it yourself.
 
@@ -239,8 +233,7 @@ Now when you run the test-runner.html file (remembering that now one of the test
 	>>>> (after this you get a stack trace of what was executed so you can see specifics of where the error occurred)
 {% endhighlight %}
 
-Conclusion
-----------
+## Conclusion
 
 Hopefully this has given you a taster for how easy it is to get started writing unit-tests for your code (even if you don’t take the “write tests first” approach).
 

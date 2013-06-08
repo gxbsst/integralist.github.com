@@ -4,24 +4,22 @@ title: Beginners guide to AMD and RequireJS
 strapline: <a href="http://addyosmani.com/" target="_blank">Addy Osmani</a> (from Google) asked me if he could use this post on the new jQuery learning site, and of course I was happy to have it featured.
 ---
 
-Here is a short list of what we’ll cover in this post:
+## What we'll cover *reading time: approx. 11mins*
 
-* What is AMD?
-* Why does it matter?
-* How did we get here?
-* How does RequireJS (and alternatives) fit in?
-* Can we use jQuery?
-* Basic Example
-* What now?
-* Links/Reference Material
+- What is AMD?
+- Why does it matter?
+- How did we get here?
+- How does RequireJS (and alternatives) fit in?
+- Can we use jQuery?
+- Basic Example
+- What now?
+- Links/Reference Material
 
-What is AMD?
-------------
+## What is AMD?
 
 AMD stands for “Asynchronous Module Definition” and is a proposed API for loading modules (i.e. scripts) asynchronously.
 
-Why does it matter?
--------------------
+## Why does it matter?
 
 A few reasons, the summary of which is:
 
@@ -29,12 +27,11 @@ A few reasons, the summary of which is:
 * Modular (which means code that is easier to maintain and re-use).
 * Best practice (helps to reduce global variables, maintain dependancies, and your code will follow guidelines that will in the future become the standards for the next iteration of JavaScript)
 
-How did we get here?
---------------------
+## How did we get here?
 
 The way we insert scripts into our pages has evolved over the years:
 
-###Multiple `<script>` tags
+### Multiple `<script>` tags
 
 {% highlight html %}
     <script src="script-1.js">
@@ -42,7 +39,7 @@ The way we insert scripts into our pages has evolved over the years:
     <script src="script-3.js">
 {% endhighlight %}
 
-###Script Loader (e.g. LABjs / YepNope.js …and many many more)
+### Script Loader (e.g. LABjs / YepNope.js …and many many more)
 
 {% highlight html %}
     // This example uses LABjs
@@ -52,7 +49,7 @@ The way we insert scripts into our pages has evolved over the years:
     </script>
 {% endhighlight %}
 
-###AMD Script Loader (e.g. RequireJS / Curl …and a couple of others)
+### AMD Script Loader (e.g. RequireJS / Curl …and a couple of others)
 
 {% highlight html %}
     <script data-main="main" src="require.js"></script>
@@ -64,22 +61,19 @@ The way forward from there is using a ‘Script Loader’ which effectively lets
 
 So moving forward from that slightly better situation we come to ‘AMD Script Loaders’ which also lets you load scripts asynchronously but the scripts you are loading aren’t just a hodge podgy of random scripts pulled from the different corners of the web, they are well structured ‘modules’ that define their own dependancies and can be easily re-used across different projects because of their loose coupling with other scripts. They are also defined within their own scope so they don’t interfere with other scripts that may have been added by another developer before you, and so make it easier not to have a page full of global variables floating around causing havoc.
 
-How does RequireJS (and alternatives) fit in?
----------------------------------------------
+## How does RequireJS (and alternatives) fit in?
 
 RequireJS is one of the more well known (and thus ‘popular’) AMD script loaders. It follows the ‘Modules Transport/C’ specification laid out by the CommonJs group ([http://wiki.commonjs.org/wiki/CommonJS](http://wiki.commonjs.org/wiki/CommonJS)).
 
 The RequireJS website has a lot of information to get you started, but can be a bit confusing for those new to the concept. So we’ll dive into some of our own examples which will make it easier to understand how you can use RequireJS and AMD in general in your projects.
 
-Can we use jQuery?
-------------------
+## Can we use jQuery?
 
 Sure! RequireJS actually has a special build of it that includes jQuery, but as jQuery too has seen AMD as the future, it has made itself AMD compatible (well, for those who might have more knowledge about AMD, it’s compatible in the sense that it can be loaded as a ‘named module’). 
 
 So for the 1.7 release of jQuery it will be possible to not need the RequireJS specific build that includes jQuery - you’ll be able to just load jQuery as a dependancy when defining your ‘module’.
 
-Basic Example
--------------
+## Basic Example
 
 “OK, this is sounding groovy, how do I get involved?”
 
@@ -256,8 +250,7 @@ As you can see above we could tell the build script to ‘include’ or ‘exclu
 
 The above build script only takes a second and it generates a lovely single script file called main.js and actually places it *outside* of my website directory into a folder called ‘project-build’ (i don’t like to risk accidentally over-writing my source JavaScript files… if you know what I mean).
 
-What now?
----------
+## What now?
 
 Well… start using AMD in your projects. 
 
@@ -265,9 +258,8 @@ The best way to learn it is to use it. Try out some of the basic structural chan
 
 I’ve covered RequireJS here, but I’ve heard good things about [@unscriptable](http://twitter.com/unscriptable)’s Curl loader ([https://github.com/unscriptable/curl](https://github.com/unscriptable/curl)) so I’d recommend checking that out too.
 
-Links/Reference Material
-------------------------
+## Links/Reference Material
 
-* [https://github.com/amdjs/amdjs-api/wiki/AMD](https://github.com/amdjs/amdjs-api/wiki/AMD)
-* [http://unscriptable.com/index.php/2011/03/30/curl-js-yet-another-amd-loader/](http://unscriptable.com/index.php/2011/03/30/curl-js-yet-another-amd-loader/)
-* [http://wiki.commonjs.org/wiki/CommonJS](http://wiki.commonjs.org/wiki/CommonJS)
+- [https://github.com/amdjs/amdjs-api/wiki/AMD](https://github.com/amdjs/amdjs-api/wiki/AMD)
+- [http://unscriptable.com/index.php/2011/03/30/curl-js-yet-another-amd-loader/](http://unscriptable.com/index.php/2011/03/30/curl-js-yet-another-amd-loader/)
+- [http://wiki.commonjs.org/wiki/CommonJS](http://wiki.commonjs.org/wiki/CommonJS)

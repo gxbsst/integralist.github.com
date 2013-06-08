@@ -37,23 +37,10 @@
         <section class="articles container">
             <h1>Building a game with HTML5 Canvas</h1>
 <div class="article__content">
-    <h2>Introduction</h2>
-
-<p>I've been playing around with the <a href="https://developer.mozilla.org/en/HTML/Canvas">Canvas</a> element for a little bit now, using it for more realistic features such as manipulating user uploaded images (using <a href="http://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html">XHR2</a>). For example, within a custom Content Management System where the user controls the images that appear on their website we would normally let the server handle the manipulation of the uploaded image using an external library such as <a href="http://www.imagemagick.org/">ImageMagick</a>, but now we handle this all on the client-side using Canvas.</p>
-
-<p>I've also played with the raw pixel data in images to apply filters and effect the colours of an image, which is interesting (although I have no actual use for that sort of manipulation at the present time).</p>
-
-<p>So I thought I would dive a little bit further into the Canvas element and use it for building a game (as that's what most people are using it for). Nothing fancy, just the classic "sliding image puzzle" game we have all played at some point.  If you've never played this game: the idea is to take an image and to split it into pieces. You then jumble up the pieces and remove one piece so there is an empty space. You then have to re-assemble the original image by sliding the pieces around but only able to move one piece at a time via the empty space that is available to you.</p>
-
-<p>The game works on both desktop and mobile devices (e.g. 'touch' based devices).</p>
-
-<p>To see an example of the game then go to my <a href="https://github.com/Integralist/HTML5-Image-Slider-Game/">GitHub repository here</a> and run the HTML file in a browser that supports the HTML5 Canvas element.</p>
-
-<p>In this article we're going to discuss the process I went through to build this game in more detail. The first two sections (HTML, CSS) are brief because the main chunk of work is residing inside the JavaScript so for that section we're going to step through each section of the code and explain what's happening.</p>
-
-<h2>Table of Contents</h2>
+    <h2>What we'll cover <em>reading time: approx. 39mins</em></h2>
 
 <ul>
+<li>Introduction</li>
 <li>HTML</li>
 <li>CSS</li>
 <li>JavaScript
@@ -75,7 +62,21 @@
 </ul>
 
 
-<h3>HTML</h3>
+<h2>Introduction</h2>
+
+<p>I've been playing around with the <a href="https://developer.mozilla.org/en/HTML/Canvas">Canvas</a> element for a little bit now, using it for more realistic features such as manipulating user uploaded images (using <a href="http://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html">XHR2</a>). For example, within a custom Content Management System where the user controls the images that appear on their website we would normally let the server handle the manipulation of the uploaded image using an external library such as <a href="http://www.imagemagick.org/">ImageMagick</a>, but now we handle this all on the client-side using Canvas.</p>
+
+<p>I've also played with the raw pixel data in images to apply filters and effect the colours of an image, which is interesting (although I have no actual use for that sort of manipulation at the present time).</p>
+
+<p>So I thought I would dive a little bit further into the Canvas element and use it for building a game (as that's what most people are using it for). Nothing fancy, just the classic "sliding image puzzle" game we have all played at some point.  If you've never played this game: the idea is to take an image and to split it into pieces. You then jumble up the pieces and remove one piece so there is an empty space. You then have to re-assemble the original image by sliding the pieces around but only able to move one piece at a time via the empty space that is available to you.</p>
+
+<p>The game works on both desktop and mobile devices (e.g. 'touch' based devices).</p>
+
+<p>To see an example of the game then go to my <a href="https://github.com/Integralist/HTML5-Image-Slider-Game/">GitHub repository here</a> and run the HTML file in a browser that supports the HTML5 Canvas element.</p>
+
+<p>In this article we're going to discuss the process I went through to build this game in more detail. The first two sections (HTML, CSS) are brief because the main chunk of work is residing inside the JavaScript so for that section we're going to step through each section of the code and explain what's happening.</p>
+
+<h2>HTML</h2>
 
 <p>The HTML is pretty straight forward, it consists of a <code>meta</code> tag which tells the device to set the width to be 760px wide (this is so the game fits the full width of the device) and also specifies that the user cannot resize the content - the reason being is we want to ensure the game is always fitting the screen. After this we have a link to our style sheet - note: there are some declarations in our CSS which are included specifically to help with 'touch' based devices (e.g. devices such as smart phones which don't utilise a 'mouse' to interact with the content) - along with a single <code>canvas</code> element (which we could have created via JavaScript but I decided I preferred to have the element coded into the HTML). We also have a checkbox on the page which lets the user make the game a little easier by allowing them to move certain 'illegal' puzzle pieces, and finally we have the <code>script</code> element which obviously is pointing to our JavaScript file which creates the game…</p>
 
@@ -96,7 +97,7 @@
 </code></pre></div>
 
 
-<h3>CSS</h3>
+<h2>CSS</h2>
 
 <p>The CSS is also pretty straight forward - with the exception of one part we'll come to in a moment - the main chunk of this style sheet is simply setting generic styles and normalising certain elements.</p>
 
@@ -141,11 +142,11 @@
 </code></pre></div>
 
 
-<h3>JavaScript</h3>
+<h2>JavaScript</h2>
 
 <p>Now the JavaScript is where it gets interesting…</p>
 
-<h4>requestAnimationFrame</h4>
+<h3>requestAnimationFrame</h3>
 
 <p>The first thing you'll notice is a polyfill for <a href="https://developer.mozilla.org/en/DOM/window.requestAnimationFrame">requestAnimationFrame</a>. If you don't know what it is, <code>requestAnimationFrame</code> is a more efficient alternative for <code>setInterval</code>and <code>setTimeout</code>. It's actually based more on <code>setTimeout</code> than <code>setInterval</code>, and what I mean by this is your specified function to be executed must itself call <code>requestAnimationFrame</code> (unless you want the animation to stop).</p>
 
@@ -197,7 +198,7 @@
 </code></pre></div>
 
 
-<h4>Variables</h4>
+<h3>Variables</h3>
 
 <p>Now, if you look at my <a href="https://github.com/Integralist/Style-Guides/blob/master/JavaScript%20Style%20Guide.md#javascript-style-guide">JavaScript Style Guide</a> you'll see that I like to set-up the structure of my code as follows…</p>
 
@@ -250,7 +251,7 @@
 
 <p>…looking at these variables you can see that we're not only getting a reference to the <code>canvas</code> element in the page but we're also creating another <code>canvas</code> element. The purpose of having two <code>canvas</code>'es is that the one found inside the HTML will be used for holding the puzzle pieces. The second <code>canvas</code> (created via JavaScript) is used for handling event listeners and also handling the 'drag and drop' of individual puzzle pieces.</p>
 
-<h4>Events alias'</h4>
+<h3>Events alias'</h3>
 
 <p>You'll also see that we've created an object called <code>eventsMap</code> which we're using to map our own events (such as 'select', 'down', 'up', 'move') to the relevant mouse events available. This is because it makes it easier for us to swap to using touch events if they are supported by the users browser. So for example, just after setting up these variables we do a check for whether touch events are supported and if they are we swap the mouse specific values for touch specific values…</p>
 
@@ -266,7 +267,7 @@
 </code></pre></div>
 
 
-<h4>Image loading</h4>
+<h3>Image loading</h3>
 
 <p>You'll also see that within the variable declarations we're creating an <code>Image</code> object and after the variables we now set a <code>src</code> value which points to the image we're going to use for our game. We then set an <code>onload</code> event listener to be triggered when the image has loaded.</p>
 
@@ -294,7 +295,7 @@
 
 <p>…one other small note is the use of the bitwise operator <code>~~</code> which you can see I've used inside the <code>onload</code> listener: <code>piece_height = ~~(this.height / canvas_grid);</code>. What this does is functionally equivalent to <code>Math.floor</code> and is a technique I discovered from <a href="http://james.padolsey.com/javascript/double-bitwise-not/">James Padolsey</a>.</p>
 
-<h4>Clearing the Canvas</h4>
+<h3>Clearing the Canvas</h3>
 
 <p>Next we see a function called <code>clearCanvas</code>…</p>
 
@@ -306,7 +307,7 @@
 
 <p>This does exactly what you think it does. But instead of using the API method <code>clearRect</code> to clear the <code>canvas</code> it uses a trick where by if you set the width and height of the <code>canvas</code> to the same dimensions as the <code>canvas</code> itself then the <code>canvas</code> will clear. <strong>BUT BE WARNED:</strong> this will also erase all state from the <code>canvas</code>! (for more information on 'state' <a href="http://html5.litten.com/understanding-save-and-restore-for-the-canvas-context/">see here</a>)</p>
 
-<h4>Load image onto Canvas</h4>
+<h3>Load image onto Canvas</h3>
 
 <p>Now we move onto the function <code>loadImageOntoCanvas</code>…</p>
 
@@ -345,7 +346,7 @@ context.fillText(opening_message, (canvas_width / 2) - text_dimensions.width, (c
 dragCanvas.addEventListener(eventsMap.select, init, false);
 </code></p>
 
-<h4>Initialise Game</h4>
+<h3>Initialise Game</h3>
 
 <p>In short: the <code>init</code> function clears the <code>canvas</code> and splits up the image into individual pieces and then displays them in a jumbled order. From there it sets up further event listeners for 'down' and 'up' events (which map to <code>mousedown</code>/<code>mouseup</code> and <code>touchstart</code>/<code>touchend</code>).</p>
 
@@ -411,7 +412,7 @@ dragCanvas.addEventListener(eventsMap.select, init, false);
 
 <p>…these event listeners are going to help us detect when the user wants to move a puzzle piece.</p>
 
-<h4>User interaction</h4>
+<h3>User interaction</h3>
 
 <p>So we can see that the 'down' event will call the <code>checkDrag</code> function, so lets start from there…</p>
 
@@ -456,7 +457,7 @@ dragCanvas.addEventListener(eventsMap.select, init, false);
 
 <p>UPDATE: I have since realised another way I could have implemented 'drag &amp; drop' which is to check the 'move' event (remember this is an alias for <code>mousemove</code> and <code>touchmove</code>) while the 'down' event was triggered and to set a threshold of let's say 4px in any direction before triggering the drag and drop mechanism. I don't know how much this would have simplified things but maybe that could be an exercise for the reader to investigate.</p>
 
-<h4>Automatic puzzle piece animation</h4>
+<h3>Automatic puzzle piece animation</h3>
 
 <p>We have two routes to go down now: <code>startDrag</code> or <code>movePiece</code>.</p>
 
@@ -728,7 +729,7 @@ dragCanvas.addEventListener(eventsMap.select, init, false);
 </code></pre></div>
 
 
-<h4>Drag and Drop interaction</h4>
+<h3>Drag and Drop interaction</h3>
 
 <p>So now we've been through the automatic moving of puzzle pieces lets start looking at how the 'drag and drop' route works.</p>
 
@@ -1029,7 +1030,7 @@ dragCanvas.addEventListener(eventsMap.select, init, false);
 
 <p>…the first thing we do is remove the 'move' event - <em>now to be honest, as I'm writing this post a few weeks after completing the game, I'm not sure why I'm removing the event again in that section as it should have already been removed? I'll leave this in for now and re-evaluate the code at a later date to see if it is indeed as redundant as it appears to be now</em> - then we update <code>wasJustDragging</code> so we know that we just completed a drag and drop motion. Then we call the <code>resetOptions</code> function (which we went over earlier) and finally we call the function <code>checkIfGameFinished</code> which nicely leads us into our final section…</p>
 
-<h4>Determining the end of game</h4>
+<h3>Determining the end of game</h3>
 
 <p>The <code>checkIfGameFinished</code> function simply loops through all puzzle pieces to see if they match the correct order…</p>
 

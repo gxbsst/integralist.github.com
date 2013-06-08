@@ -4,6 +4,8 @@ title: Backbone Validation
 strapline: I demonstrate how to create a Backbone.View to help ease the validation of a form and the displaying of custom error messages.
 ---
 
+## What we'll cover *reading time: approx. 17mins*
+
 * Introduction
 * Dependencies
 * HTML set-up
@@ -11,7 +13,7 @@ strapline: I demonstrate how to create a Backbone.View to help ease the validati
 * Validation Module
 * Conclusion
 
-##Introduction
+## Introduction
 
 A while ago I had any issue with validating a form using the Backbone.Model's `validate` method and so I went to the official Backbone GitHub issues area to raise a query. The problem I had isn't necessarily important but the ultimate result I got from the discussion with the maintainers of Backbone was that validating a form using a Model wasn't really the way you should use a Model.
 
@@ -21,14 +23,14 @@ So I decided to create a validation module that would make validating a form (an
 
 You can download the [full project code from GitHub](https://github.com/Integralist/Backbone-Validation-View)
 
-##Dependencies
+## Dependencies
 
 * Backbone (obviously, so this includes the dependencies required by Backbone)
 * [Hogan.js](http://twitter.github.com/hogan.js/) (for loading the error messages)
 
 Now although I've used Backbone/Hogan you don't have to. The code is straight forward enough to port over to use whatever you like. You could rewrite the code to not use a framework at all. The principles are very simple.
 
-##HTML set-up
+## HTML set-up
 
 OK, so the HTML requires a bit of setting up. Nothing major, but we utilise specific classes and custom data attributes in the HTML to help us validate the form.
 
@@ -58,7 +60,7 @@ Our full form code looks like this…
     </form>
 {% endhighlight %}
 
-##JavaScript set-up
+## JavaScript set-up
 
 Next let's look at our JavaScript set-up: we're utilising AMD to help keep our scripts modular and I'm using the [Curl.js AMD loader](https://github.com/cujojs/curl).
 
@@ -101,7 +103,7 @@ Inside our app.js file we set-up a configuration object which handles the paths 
 
 Now we have our JavaScript set-up lets move onto the Backbone.View that will handle the validation of our form.
 
-##Validation Module
+## Validation Module
 
 We will go through each of the methods within this module so we can better understand what they're doing. There are four main methods and the rest are different validation methods.
 
@@ -577,7 +579,7 @@ The full module code is as follows...
     });
 {% endhighlight %}
 
-##Conclusion
+## Conclusion
 
 OK, so that's our full validation method! It looks big but when you break it down it's not actually that complicated.
 

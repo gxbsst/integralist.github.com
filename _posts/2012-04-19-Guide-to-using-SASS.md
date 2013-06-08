@@ -4,9 +4,21 @@ title: Guide to using SASS
 strapline: This is an old post on how to use the CSS pre-processor <a href="http://sass-lang.com/" target="_blank">Sass</a> (note the syntax has changed since).
 ---
 
-Note: for working examples see [https://github.com/Integralist/Guide-to-using-SASS](https://github.com/Integralist/Guide-to-using-SASS)
+## What we'll cover *reading time: approx. 11mins*
 
-##Introduction
+- Introduction
+- Installation
+- How to run
+- Comments
+- Variables
+- Calculations
+- Colour functions
+- Importing
+- Extend
+- Mixins
+- Interpolation
+
+## Introduction
 
 I agree that 'pre-processors' such as LESS, SASS, Compass etc are normally a bad idea because generally they are used badly by developers/designers who could do better without them (see: [Object-Oriented CSS](https://github.com/stubbornella/oocss/wiki)).
 
@@ -14,20 +26,7 @@ That being said, there are some areas where pre-processors can really help out, 
 
 In this post I've purposely not included details on everything that SASS can do because I don't believe they are useful. I would rather you utilise principles of OOCSS and only use SASS as an addition to that which helps round off those rough edges when developing CSS for large scale applications. Two items I have mentioned which should be avoided (and I'll repeat this later as well) are `@extend` and `@mixin`. Both of these causes more problems than they solve and can be worked around with good OOCSS structuring, but I've mentioned them so curious readers don't think I've neglected them out of hand and so I've detailed some of the potential issues with using them (use at your own risk!)
 
-Below are some of the items we'll cover:
-
-* Installation
-* How to run
-* Comments
-* Variables
-* Calculations
-* Colour functions
-* Importing
-* Extend
-* Mixins
-* Interpolation
-
-###Installation
+## Installation
 
 To install SASS you need to have `Ruby` installed.
 
@@ -39,7 +38,7 @@ Once `Ruby` is installed, you'll need to open your command line interface of cho
 
 From the command line execute `gem install sass` (I needed to use `sudo` along with that because I didn't have authorisation to install in the directory it wanted)
 
-###How to run
+## How to run
 
 Within the command line navigate to your website directory and execute the command `sass --watch Assets/Styles/` (change `Assets/Styles/` to whatever path your SASS/CSS files are). As you can see in my example, from the root directory of my website I have my SASS files stored here: `Assets/Styles`. This command uses the `--watch` flag which means every time a `.scss` file is saved a corresponding `.css` file is compiled automatically for you.
 
@@ -51,13 +50,13 @@ One last point here is that if you execute the above command then you will need 
 
 …this basically says "watch the folder `Assets/Styles/Sass/` and compile any files into the parent folder `Assets/Styles`" - you'll notice that the colon character `:` is what helped make that happen.
 
-###Comments
+## Comments
 
 Comments are a standard feature of CSS, but sometimes it would be nice to use a easier syntax for writing them (as seen in other programming languages). Such as: `// this is a comment` rather than having to write `/* a typical CSS comment */`.
 
 SASS lets you do this, but it's worth keeping in mind that the reason they provide this is so you can have 'private' comments, and by this they mean that comments like `// comment` are not included in the compiled CSS file, where as the standard comments style `/* comment */` are. Not that this should matter because when you push your CSS to the production server it should be minified for performance purposes, but it's worth knowing about.
 
-###Variables
+## Variables
 
 Variables are a great way to not have to repeat entering the same value over and over. The most common use case is the client's branding colours. Normally this colour will appear in lots of different areas of the site (links, hover effects etc) and if the colour does need to change slightly then you either do it by hand or you run a 'find and replace' function.
 
@@ -71,7 +70,7 @@ To create a variable in SASS you simply prefix the name of the variable with a d
 
 This makes life a lot easier and although I've seen people claim that OOCSS can work around this, it can, but not easily and so using SASS for this alone is still extremely useful in my mind.
 
-###Calculations
+## Calculations
 
 I can't imagine me ever using this feature, but I've included it because it also doesn't cause any negative effect (unlike `@extend` and `@mixin`).
 
@@ -86,7 +85,7 @@ You can do calculations inline (i.e. where the property value is set) and you ca
 
 `width: $width * (1 - $sidebar_percent);`
 
-###Colour functions
+## Colour functions
 
 These are very useful. A lot of times you have for example 'hover' effects that need a colour that is similar in shade to the main brand colour. Normally you have to open up a colour palette and randomly pick something, whereas the following functions help with that process:
 
@@ -146,7 +145,7 @@ These are very useful. A lot of times you have for example 'hover' effects that 
 	}
 {% endhighlight %}
 
-###Importing
+## Importing
 
 You can import other SASS files into your main stylesheet using `@import "other.scss"`
 
@@ -199,7 +198,7 @@ Note: you can import a normal CSS file (as you would in standard CSS) but it'll 
 
 Lastly, be aware that you could end up trying to import the same SASS file multiple times, and the way SASS handles that situation is by only including the imported file once BUT in the last place it was referenced (which may or may not cause you specificity issues).
 
-###Extend
+## Extend
 
 This feature is almost pointless as you really should be developing OOCSS (object-oriented CSS). All this does is repeat properties in the compiled CSS file. 
 
@@ -236,7 +235,7 @@ A couple of last words of caution: `extend` avoids code duplication but it also 
 
 Also, you could end up adding properties that are already specified in the `extend`/`mixin` because let's face it you're unlikely to remember every property set inside them, so when you do use them and come back a few days/weeks/months later to make further updates you'll have to keep checking them before you can safely add another property just to make sure you're not doubling up on properties already there - which is hassle and can lead to mistakes.
 
-###Mixins
+## Mixins
 
 These are functionally similar to `extend`, but a mixin's properties are copied into the class rather than referenced (`extend` is designed to be used as a mechanism for proper inheritance as seen in other classical object-oriented programming languages), but more importantly with mixins you can also change the values when calling the mixin into your class (like they were a function).
 
@@ -308,7 +307,7 @@ You create a mixing like so:
 	}
 {% endhighlight %}
 
-###Interpolation
+## Interpolation
 
 One area where mixins can't help you is when there is some specific CSS3 syntax such as `background-image` (with gradients). This is because not only the value changes but the syntax itself is different for each browser. 
 

@@ -4,7 +4,30 @@ title: Introduction to Ruby (a front-end developers perspective)
 strapline: Written for front-end developers to help get them up and running with the Ruby language.
 ---
 
-##Introduction
+## What we'll cover *reading time: approx. 27mins*
+
+- Introduction
+- Installing Ruby
+- The Interactive Ruby Console
+- How to execute Ruby scripts
+- Comments
+- Variables
+- Magic Variables
+- Constants
+- Symbols
+- Functions/Methods
+- Blocks
+- Lambdas/Procs
+- Classes
+- Loops
+- Conditionals
+- Strings
+- Arrays
+- Hashes
+- Numbers (and how 'everything is an object' - similar to JavaScript)
+- Conclusion
+
+## Introduction
 
 I'm not a Ruby developer. I'm a front-end developer who focuses on JavaScript, Regular Expressions, HTML and CSS (and that means I like to keep up to speed with each of the latest iterations of the languages, currently: ES5/6, HTML5, CSS3/4 etc). 
 
@@ -22,29 +45,7 @@ So without further ado, here we go…
 
 *Ps, [http://rubymonk.com/toc](http://rubymonk.com/) looks like a pretty good learning resource - I've only taken a quick peek at it so far but it looks interesting*
 
-##Table of Contents
-
-* Installing Ruby
-* The Interactive Ruby Console
-* How to execute Ruby scripts
-* Comments
-* Variables
-* Magic Variables
-* Constants
-* Symbols
-* Functions/Methods
-* Blocks
-* Lambdas/Procs
-* Classes
-* Loops
-* Conditionals
-* Strings
-* Arrays
-* Hashes
-* Numbers (and how 'everything is an object' - similar to JavaScript)
-* Conclusion
-
-###Installing Ruby
+## Installing Ruby
 
 UPDATE: I've found a super sweet way to get multiple versions of Ruby installed onto your Mac (notice I said Mac, not PC - so if you're on Windows then I'm afraid I can't help you).
 
@@ -91,7 +92,7 @@ Below are my original notes, but you can ignore these now.
     
 ~~~5. `ruby -v` - just check the version quickly to be sure~~~
 
-###The Interactive Ruby Console
+## The Interactive Ruby Console
 
 Beginners are advised to use the interactive Ruby console to get to know the language. So to start it up, in your Terminal type: `irb` (and if you want to quit use: `Ctrl+D`).
 
@@ -116,7 +117,7 @@ Take the following example…
 
 As far as I understand it, the other more subtle difference is that `print` buffers the output, so rather than displaying the sentence every two seconds it waits until ten seconds (2 seconds * 5 times) before printing the sentence five times. Now, I tried this myself both via `irb` and via a standard Ruby script but `print` definitely was executing every two seconds, so this may only occur under certain environments - but it's still worth being aware of. See [this article](http://mattberther.com/2009/02/11/puts-vs-print-in-ruby) which is where I first heard about this subtle difference.
 
-###How to execute Ruby scripts
+## How to execute Ruby scripts
 
 Simply create a file with an extension of `.rb` and at the top of that file include the following line… 
 
@@ -126,7 +127,7 @@ Simply create a file with an extension of `.rb` and at the top of that file incl
 
 Then within the Terminal application, `cd` to the directory where that file is located and execute the command `ruby name_of_file.rb`
 
-###Comments
+## Comments
 
 In Ruby you have single line comments `# this is a comment` and multi-line comments:
 
@@ -140,7 +141,7 @@ In Ruby you have single line comments `# this is a comment` and multi-line comme
 
 With multi-line comments there must be no whitespace before the `=begin` and `=end` statements otherwise your script will throw an error.
 
-###Variables
+## Variables
 
 Variables do not have to be declared. So you can literally write `a = 123`.
 
@@ -217,13 +218,13 @@ So for example, if I have a class called "MyClass" and inside of it I set `@@my_
     objD.showValue # => 123
 {% endhighlight %}
 
-###Magic Variables
+## Magic Variables
 
 There are 'magic' variables (like predefined variables in PHP).
 
 For example you have `__FILE__` which refers to the current file being executed and there is also `$0` which refers to the file used to start the program. I mention these two specifically because these are used in the getting started examples on the [Ruby website](http://www.ruby-lang.org/).
 
-###Constants
+## Constants
 
 Constants are variables that cannot be changed once they are set. Any variable that is capitalised (e.g. `Myconstant`) is made into a constant. 
 
@@ -231,7 +232,7 @@ In other languages a constant is normally either prefixed with the keyword `cons
 
 If you try to overwrite a constant you'll get the following message: `warning: already initialized constant` - although as far as I can tell by testing this in irb it seems to change the constant and only warns you rather than actually preventing you from changing the value? ***Maybe a Rubyist reading this can clarify if this is expected behaviour.*** 
 
-###Symbols
+## Symbols
 
 Symbols are like static variables (or constants). They are used as identifiers, as a way to keep code cleaner.
 
@@ -255,7 +256,7 @@ If you had lots of hashes (which we'll come to later) and you have a key/propert
 
 …as you can see, Symbols don't have values like variables, they are literally just used as efficient identifiers.
 
-###Functions/Methods
+## Functions/Methods
 
 In Ruby everything is an Object (even Strings and Integers) so when you're defining a function you're really defining a method (methods are the same as functions but you normally call a function a method when it's attached to an object).
 
@@ -368,7 +369,7 @@ If you want to know what methods are available to an object/class then look at t
     Hash.instance_methods # => [:rehash, :to_hash, :to_a, :inspect, :to_s, :==, :[], :hash, :eql?, :fetch, :[]=, :store, :default, :default=, :default_proc, :default_proc=, :key, :index, :size, :length, :empty?, :each_value, :each_key, :each_pair, :each, :keys, :values, :values_at, :shift, :delete, :delete_if, :keep_if, :select, :select!, :reject, :reject!, :clear, :invert, :update, :replace, :merge!, :merge, :assoc, :rassoc, :flatten, :include?, :member?, :has_key?, :has_value?, :key?, :value?, :compare_by_identity, :compare_by_identity?, :entries, :sort, :sort_by, :grep, :count, :find, :detect, :find_index, :find_all, :collect, :map, :flat_map, :collect_concat, :inject, :reduce, :partition, :group_by, :first, :all?, :any?, :one?, :none?, :min, :max, :minmax, :min_by, :max_by, :minmax_by, :each_with_index, :reverse_each, :each_entry, :each_slice, :each_cons, :each_with_object, :zip, :take, :take_while, :drop, :drop_while, :cycle, :chunk, :slice_before, :nil?, :===, :=~, :!~, :<=>, :class, :singleton_class, :clone, :dup, :initialize_dup, :initialize_clone, :taint, :tainted?, :untaint, :untrust, :untrusted?, :trust, :freeze, :frozen?, :methods, :singleton_methods, :protected_methods, :private_methods, :public_methods, :instance_variables, :instance_variable_get, :instance_variable_set, :instance_variable_defined?, :instance_of?, :kind_of?, :is_a?, :tap, :send, :public_send, :respond_to?, :respond_to_missing?, :extend, :display, :method, :public_method, :define_singleton_method, :object_id, :to_enum, :enum_for, :equal?, :!, :!=, :instance_eval, :instance_exec, :__send__, :__id__]
 {% endhighlight %}
 
-###Blocks
+## Blocks
 
 In Ruby a `code block` is any piece of code within either `do..end` or curly brackets `{}`. 
 
@@ -400,11 +401,11 @@ But the above can be simplified...
 
 ...this isn't as obvious but is less verbose (the `yield` keyword automatically detects the code block and passes control to it rather than us having to pass through the code block and executing the `call` method on the code block).
 
-###Lambdas/Procs
+## Lambdas/Procs
 
 Ruby also has Lambdas and Proc objects. These are similar to Blocks but have some differences worth mentioning.
 
-####Procs
+### Procs
 
 Procs are the same as blocks but can be saved into a variable so they are easily reusable. A block on the other hand can't be reused. It can only be retyped for every method that you want to use it on. 
 
@@ -426,7 +427,7 @@ Notice we use a `call` method on the Proc object rather than the `yield` keyword
 
 So if you have a one time piece of code you want to pass to a method then a block would make sense, but if you have a piece of code that you want to reuse across multiple methods then best to make it into a Proc object.
 
-####Lambdas
+### Lambdas
 
 Lambdas are the same as Proc objects but with two slight differences.
 
@@ -467,7 +468,7 @@ The following example is modified from a test on RubyMonk but is a good example 
     with_names(l)
 {% endhighlight %}
 
-###Classes
+## Classes
 
 The Classes syntax is as follows…
 
@@ -538,7 +539,7 @@ For example…
 
 Note: as well as `:attr_accessor` which creates getter and setter methods, there is `:attr_reader` which only creates a getter method, and `:attr_writer` which only creates a setter method.
 
-###Loops
+## Loops
 
 Loops in Ruby are straight forward…
 
@@ -603,7 +604,7 @@ There are other types of iterator methods such as `map`…
 
 …which returns `[1, 4, 9, 16]`
 
-###Conditionals
+## Conditionals
 
 Ruby is slightly different to other programming languages in that even its syntax is very expression-oriented. So where a control structure like `if` would be called a 'statement' in other languages, in Ruby it is actually an expression which means it can be assigned to a variable like so…
 
@@ -622,7 +623,7 @@ Ruby is slightly different to other programming languages in that even its synta
 
 …and so, as we've mentioned before with `functions`, these types of blocks return the last expression evalutated inside the block, so in the above example the last expression is returned and stored in the `result` variable.
 
-###Strings
+## Strings
 
 Building up string values can be a bit of a nightmare in other languages. I know in PHP and JavaScript it's a real pain without including some kind of templating rendering (such as `Mustache`). But in Ruby they provide a technique called Interpolation which is where method arguments and variables can be inserted into a string (must be a double quoted string, not single quotes) using: `#{variable_name}`. 
 
@@ -684,7 +685,7 @@ For example…
     puts x[2] # => is
 {% endhighlight %}
 
-###Arrays
+## Arrays
 
 We've seen Arrays used quite a bit already, but lets look at some additional methods and operators available… 
 
@@ -731,7 +732,7 @@ There are many Array methods for inserting new items into an Array, but you can 
     arr # => [0, "a", "b", "c", 4, 5, 6]
 {% endhighlight %}
 
-###Hashes
+## Hashes
 
 Hashes are like 'objects' in JavaScript and 'associative arrays' in other languages. Like Arrays they have an iterator method called `each` which works the same way, the only difference being is that is doesn't just pass the value through but the 'key' as well.
 
@@ -776,7 +777,7 @@ You can delete a key/value from the hash using `hash.delete(key)`
 
 Hashes also have shortcut for deleting properties depending on their value: `hash.delete_if { |key, value| value <= 30 }`
 
-### Numbers (and how 'everything is an object' - similar to JavaScript)
+## Numbers (and how 'everything is an object' - similar to JavaScript)
 
 In Ruby, all values are objects. This includes even simple things like numeric literals. So for example you can use a number to help carry out a certain action 'x' amount of times…
 
@@ -812,6 +813,6 @@ But you can also do…
 
 I normally find anything that takes parameters `|x|` looks better with `do…end` style syntax.
 
-###Conclusion
+## Conclusion
 
 Well, this is just an 'introduction' so as you can see although we've covered a lot of ground already we're still literally just scratching the surface. As I start learning more about Ruby I'll create new blog posts to follow on from here.

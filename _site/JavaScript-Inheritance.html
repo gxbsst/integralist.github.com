@@ -37,9 +37,25 @@
         <section class="articles container">
             <h1>JavaScript Inheritance</h1>
 <div class="article__content">
-    <p><a href="http://en.wikipedia.org/wiki/Class_(object-oriented_programming)">Class based inheritance</a> doesn’t exist in JavaScript (<em>note: ECMAScript had plans to implement in ES6 basic Class syntax, but as of April 2012 this seems to be in doubt again</em>), but you can replicate its syntax by using functions as Constructors.</p>
+    <h2>What we'll cover <em>reading time: approx. 2mins</em></h2>
+
+<ul>
+<li>Introduction</li>
+<li>Constructors</li>
+<li>Example Code</li>
+<li>Conclusion</li>
+</ul>
+
+
+<h2>Introduction</h2>
+
+<p><a href="http://en.wikipedia.org/wiki/Class_(object-oriented_programming)">Class based inheritance</a> doesn’t exist in JavaScript (<em>note: ECMAScript had plans to implement in ES6 basic Class syntax, but as of April 2012 this seems to be in doubt again</em>), but you can replicate its syntax by using functions as Constructors.</p>
+
+<h2>Constructors</h2>
 
 <p>The basic premise to have code that appears more <code>Class</code> like is this: JavaScript functions created using the <code>new</code> keyword work in a similar way to what Class based languages refer to as ‘Constructors’. When a function uses the <code>new</code> keyword the Function object is given a <code>prototype</code> property which points (initially) to an empty object. This empty object can then have methods and properties added to it which will be available to all other objects that point their own prototype link to it.</p>
+
+<h2>Example Code</h2>
 
 <p>A basic example is as follows…</p>
 
@@ -91,6 +107,8 @@
       <span class="nx">user</span><span class="p">.</span><span class="nx">getNameAndAge</span><span class="p">();</span>
 </code></pre></div>
 
+
+<h2>Conclusion</h2>
 
 <p>Personally I would suggest you learn how JavaScript implements its own form of inheritance (prototypal inheritance) which is more efficient and nicer to work with than the use of functions as Constructors.</p>
 

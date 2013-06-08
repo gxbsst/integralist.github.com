@@ -13,7 +13,7 @@
     <atom:link href="http://integralist.co.uk/feed.xml" rel="self" type="application/rss+xml" />
     <link>http://integralist.co.uk</link>
     <description></description>
-    <lastBuildDate>Sat, 01 Jun 2013 18:21:15 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 08 Jun 2013 08:53:41 +0100</lastBuildDate>
     <language>en</language>
     <copyright>Integralist</copyright>
 
@@ -59,7 +59,7 @@
       </item>
     
       <item>
-        <title>G-Tips (Git tips)</title>
+        <title>Git Tips</title>
         <link>http://integralist.co.uk/G-Tips-%28Git-Tips%29.html</link>
         <pubDate>Sun, 16 Dec 2012 00:00:00 +0000</pubDate>
         <guid>http://integralist.co.uk/G-Tips-%28Git-Tips%29.html</guid>

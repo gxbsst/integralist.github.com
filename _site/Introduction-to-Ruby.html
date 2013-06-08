@@ -37,27 +37,10 @@
         <section class="articles container">
             <h1>Introduction to Ruby (a front-end developers perspective)</h1>
 <div class="article__content">
-    <h2>Introduction</h2>
-
-<p>I'm not a Ruby developer. I'm a front-end developer who focuses on JavaScript, Regular Expressions, HTML and CSS (and that means I like to keep up to speed with each of the latest iterations of the languages, currently: ES5/6, HTML5, CSS3/4 etc).</p>
-
-<p>I've experience with PHP. Writing object-oriented code, creating databases and bespoke Content Managed Systems etc, but I've not touched that sort of stuff for a few years now as the front-end stack is where I've concentrated my attention (it's what I enjoy most).</p>
-
-<p>So with that admission out in the open, this introduction to the Ruby programming language is likely to be full of holes you could drive a truck through (any Ruby enthusiasts reading this are welcome to comment on anything I have incorrect). So why do it? Because with the arrival of JavaScript pre-processors such as CoffeeScript and the new additions to both ES5 (and much more so in ES6), these new additions are pushing the JavaScript language to be more 'functional' and thus similar in syntax to the Ruby programming language.</p>
-
-<p>Looking at CoffeeScript I wasn't convinced. I like the JavaScript syntax, I think it's actually quite a beautiful language (when written correctly). But I decided that the future is just around the corner so why wait to see what all the fuss is about. In my mind, the best way to get involved with the new JavaScript/CoffeeScript style syntax is to investigate some of its inspirations which (seem to) stem from Ruby.</p>
-
-<p>What I found though was that Ruby is itself an amazingly flexible and beautiful language. Very expressive and a joy to write and use (and to look at).</p>
-
-<p>Warning: this introduction assumes you have prior programming knowledge (doesn't matter really whether it's JavaScript or C# as long as you've had some programming experience). I'm not going to be explaining the basics of what are 'expressions', 'block statements', 'variables', 'arrays', 'functions/methods' etc.</p>
-
-<p>So without further ado, here we go…</p>
-
-<p><em>Ps, <a href="http://rubymonk.com/">http://rubymonk.com/toc</a> looks like a pretty good learning resource - I've only taken a quick peek at it so far but it looks interesting</em></p>
-
-<h2>Table of Contents</h2>
+    <h2>What we'll cover <em>reading time: approx. 27mins</em></h2>
 
 <ul>
+<li>Introduction</li>
 <li>Installing Ruby</li>
 <li>The Interactive Ruby Console</li>
 <li>How to execute Ruby scripts</li>
@@ -80,7 +63,25 @@
 </ul>
 
 
-<h3>Installing Ruby</h3>
+<h2>Introduction</h2>
+
+<p>I'm not a Ruby developer. I'm a front-end developer who focuses on JavaScript, Regular Expressions, HTML and CSS (and that means I like to keep up to speed with each of the latest iterations of the languages, currently: ES5/6, HTML5, CSS3/4 etc).</p>
+
+<p>I've experience with PHP. Writing object-oriented code, creating databases and bespoke Content Managed Systems etc, but I've not touched that sort of stuff for a few years now as the front-end stack is where I've concentrated my attention (it's what I enjoy most).</p>
+
+<p>So with that admission out in the open, this introduction to the Ruby programming language is likely to be full of holes you could drive a truck through (any Ruby enthusiasts reading this are welcome to comment on anything I have incorrect). So why do it? Because with the arrival of JavaScript pre-processors such as CoffeeScript and the new additions to both ES5 (and much more so in ES6), these new additions are pushing the JavaScript language to be more 'functional' and thus similar in syntax to the Ruby programming language.</p>
+
+<p>Looking at CoffeeScript I wasn't convinced. I like the JavaScript syntax, I think it's actually quite a beautiful language (when written correctly). But I decided that the future is just around the corner so why wait to see what all the fuss is about. In my mind, the best way to get involved with the new JavaScript/CoffeeScript style syntax is to investigate some of its inspirations which (seem to) stem from Ruby.</p>
+
+<p>What I found though was that Ruby is itself an amazingly flexible and beautiful language. Very expressive and a joy to write and use (and to look at).</p>
+
+<p>Warning: this introduction assumes you have prior programming knowledge (doesn't matter really whether it's JavaScript or C# as long as you've had some programming experience). I'm not going to be explaining the basics of what are 'expressions', 'block statements', 'variables', 'arrays', 'functions/methods' etc.</p>
+
+<p>So without further ado, here we go…</p>
+
+<p><em>Ps, <a href="http://rubymonk.com/">http://rubymonk.com/toc</a> looks like a pretty good learning resource - I've only taken a quick peek at it so far but it looks interesting</em></p>
+
+<h2>Installing Ruby</h2>
 
 <p>UPDATE: I've found a super sweet way to get multiple versions of Ruby installed onto your Mac (notice I said Mac, not PC - so if you're on Windows then I'm afraid I can't help you).</p>
 
@@ -126,7 +127,7 @@
 
 <p><del>5. <code>ruby -v</code> - just check the version quickly to be sure</del></p>
 
-<h3>The Interactive Ruby Console</h3>
+<h2>The Interactive Ruby Console</h2>
 
 <p>Beginners are advised to use the interactive Ruby console to get to know the language. So to start it up, in your Terminal type: <code>irb</code> (and if you want to quit use: <code>Ctrl+D</code>).</p>
 
@@ -151,7 +152,7 @@
 
 <p>As far as I understand it, the other more subtle difference is that <code>print</code> buffers the output, so rather than displaying the sentence every two seconds it waits until ten seconds (2 seconds * 5 times) before printing the sentence five times. Now, I tried this myself both via <code>irb</code> and via a standard Ruby script but <code>print</code> definitely was executing every two seconds, so this may only occur under certain environments - but it's still worth being aware of. See <a href="http://mattberther.com/2009/02/11/puts-vs-print-in-ruby">this article</a> which is where I first heard about this subtle difference.</p>
 
-<h3>How to execute Ruby scripts</h3>
+<h2>How to execute Ruby scripts</h2>
 
 <p>Simply create a file with an extension of <code>.rb</code> and at the top of that file include the following line…</p>
 
@@ -161,7 +162,7 @@
 
 <p>Then within the Terminal application, <code>cd</code> to the directory where that file is located and execute the command <code>ruby name_of_file.rb</code></p>
 
-<h3>Comments</h3>
+<h2>Comments</h2>
 
 <p>In Ruby you have single line comments <code># this is a comment</code> and multi-line comments:</p>
 
@@ -175,7 +176,7 @@
 
 <p>With multi-line comments there must be no whitespace before the <code>=begin</code> and <code>=end</code> statements otherwise your script will throw an error.</p>
 
-<h3>Variables</h3>
+<h2>Variables</h2>
 
 <p>Variables do not have to be declared. So you can literally write <code>a = 123</code>.</p>
 
@@ -252,13 +253,13 @@
 </code></pre></div>
 
 
-<h3>Magic Variables</h3>
+<h2>Magic Variables</h2>
 
 <p>There are 'magic' variables (like predefined variables in PHP).</p>
 
 <p>For example you have <code>__FILE__</code> which refers to the current file being executed and there is also <code>$0</code> which refers to the file used to start the program. I mention these two specifically because these are used in the getting started examples on the <a href="http://www.ruby-lang.org/">Ruby website</a>.</p>
 
-<h3>Constants</h3>
+<h2>Constants</h2>
 
 <p>Constants are variables that cannot be changed once they are set. Any variable that is capitalised (e.g. <code>Myconstant</code>) is made into a constant.</p>
 
@@ -266,7 +267,7 @@
 
 <p>If you try to overwrite a constant you'll get the following message: <code>warning: already initialized constant</code> - although as far as I can tell by testing this in irb it seems to change the constant and only warns you rather than actually preventing you from changing the value? <strong><em>Maybe a Rubyist reading this can clarify if this is expected behaviour.</em></strong></p>
 
-<h3>Symbols</h3>
+<h2>Symbols</h2>
 
 <p>Symbols are like static variables (or constants). They are used as identifiers, as a way to keep code cleaner.</p>
 
@@ -290,7 +291,7 @@
 
 <p>…as you can see, Symbols don't have values like variables, they are literally just used as efficient identifiers.</p>
 
-<h3>Functions/Methods</h3>
+<h2>Functions/Methods</h2>
 
 <p>In Ruby everything is an Object (even Strings and Integers) so when you're defining a function you're really defining a method (methods are the same as functions but you normally call a function a method when it's attached to an object).</p>
 
@@ -403,7 +404,7 @@
 </code></pre></div>
 
 
-<h3>Blocks</h3>
+<h2>Blocks</h2>
 
 <p>In Ruby a <code>code block</code> is any piece of code within either <code>do..end</code> or curly brackets <code>{}</code>.</p>
 
@@ -435,11 +436,11 @@
 
 <p>...this isn't as obvious but is less verbose (the <code>yield</code> keyword automatically detects the code block and passes control to it rather than us having to pass through the code block and executing the <code>call</code> method on the code block).</p>
 
-<h3>Lambdas/Procs</h3>
+<h2>Lambdas/Procs</h2>
 
 <p>Ruby also has Lambdas and Proc objects. These are similar to Blocks but have some differences worth mentioning.</p>
 
-<h4>Procs</h4>
+<h3>Procs</h3>
 
 <p>Procs are the same as blocks but can be saved into a variable so they are easily reusable. A block on the other hand can't be reused. It can only be retyped for every method that you want to use it on.</p>
 
@@ -461,7 +462,7 @@
 
 <p>So if you have a one time piece of code you want to pass to a method then a block would make sense, but if you have a piece of code that you want to reuse across multiple methods then best to make it into a Proc object.</p>
 
-<h4>Lambdas</h4>
+<h3>Lambdas</h3>
 
 <p>Lambdas are the same as Proc objects but with two slight differences.</p>
 
@@ -505,7 +506,7 @@
 </code></pre></div>
 
 
-<h3>Classes</h3>
+<h2>Classes</h2>
 
 <p>The Classes syntax is as follows…</p>
 
@@ -576,7 +577,7 @@
 
 <p>Note: as well as <code>:attr_accessor</code> which creates getter and setter methods, there is <code>:attr_reader</code> which only creates a getter method, and <code>:attr_writer</code> which only creates a setter method.</p>
 
-<h3>Loops</h3>
+<h2>Loops</h2>
 
 <p>Loops in Ruby are straight forward…</p>
 
@@ -641,7 +642,7 @@
 
 <p>…which returns <code>[1, 4, 9, 16]</code></p>
 
-<h3>Conditionals</h3>
+<h2>Conditionals</h2>
 
 <p>Ruby is slightly different to other programming languages in that even its syntax is very expression-oriented. So where a control structure like <code>if</code> would be called a 'statement' in other languages, in Ruby it is actually an expression which means it can be assigned to a variable like so…</p>
 
@@ -660,7 +661,7 @@
 
 <p>…and so, as we've mentioned before with <code>functions</code>, these types of blocks return the last expression evalutated inside the block, so in the above example the last expression is returned and stored in the <code>result</code> variable.</p>
 
-<h3>Strings</h3>
+<h2>Strings</h2>
 
 <p>Building up string values can be a bit of a nightmare in other languages. I know in PHP and JavaScript it's a real pain without including some kind of templating rendering (such as <code>Mustache</code>). But in Ruby they provide a technique called Interpolation which is where method arguments and variables can be inserted into a string (must be a double quoted string, not single quotes) using: <code>#{variable_name}</code>.</p>
 
@@ -725,7 +726,7 @@ puts "Hello" + name + "!, I see you're " + age + " years old."
 </code></pre></div>
 
 
-<h3>Arrays</h3>
+<h2>Arrays</h2>
 
 <p>We've seen Arrays used quite a bit already, but lets look at some additional methods and operators available…</p>
 
@@ -772,7 +773,7 @@ puts "Hello" + name + "!, I see you're " + age + " years old."
 </code></pre></div>
 
 
-<h3>Hashes</h3>
+<h2>Hashes</h2>
 
 <p>Hashes are like 'objects' in JavaScript and 'associative arrays' in other languages. Like Arrays they have an iterator method called <code>each</code> which works the same way, the only difference being is that is doesn't just pass the value through but the 'key' as well.</p>
 
@@ -817,7 +818,7 @@ puts "Hello" + name + "!, I see you're " + age + " years old."
 
 <p>Hashes also have shortcut for deleting properties depending on their value: <code>hash.delete_if { |key, value| value &lt;= 30 }</code></p>
 
-<h3>Numbers (and how 'everything is an object' - similar to JavaScript)</h3>
+<h2>Numbers (and how 'everything is an object' - similar to JavaScript)</h2>
 
 <p>In Ruby, all values are objects. This includes even simple things like numeric literals. So for example you can use a number to help carry out a certain action 'x' amount of times…</p>
 
@@ -853,7 +854,7 @@ puts "Hello" + name + "!, I see you're " + age + " years old."
 
 <p>I normally find anything that takes parameters <code>|x|</code> looks better with <code>do…end</code> style syntax.</p>
 
-<h3>Conclusion</h3>
+<h2>Conclusion</h2>
 
 <p>Well, this is just an 'introduction' so as you can see although we've covered a lot of ground already we're still literally just scratching the surface. As I start learning more about Ruby I'll create new blog posts to follow on from here.</p>
 

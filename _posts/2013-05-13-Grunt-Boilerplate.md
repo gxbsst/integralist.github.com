@@ -4,7 +4,7 @@ title: Grunt Boilerplate
 strapline: Grunt is a JavaScript task runner. In this article I break down my <a href="https://github.com/Integralist/Grunt-Boilerplate" target="_blank">Grunt Boilerplate</a> which is a base project set-up using Grunt to take care of some standard tasks such as compiling AMD modules using RequireJS, watching/compiling Sass into CSS, watching and linting JS code as well as running unit tests.
 ---
 
-##What we'll cover
+## What we'll cover *reading time: approx. 19mins*
 
 - What is Grunt?
 - Installation
@@ -22,7 +22,7 @@ strapline: Grunt is a JavaScript task runner. In this article I break down my <a
 - Our full Grunt file
 - Conclusion
 
-##What is Grunt?
+## What is Grunt?
 
 [Grunt](http://gruntjs.com/) is a JavaScript based task runner. What this means is that it will help you spend less time manually running tasks that can be automated.
 
@@ -41,7 +41,7 @@ There are approximately 700+ tasks built for Grunt (as of May 2013) and the list
 
 See the [Grunt Plugins](http://gruntjs.com/plugins) page for a more comprehensive list (but also check GitHub).
 
-##Installation
+## Installation
 
 Grunt uses [Node.js](http://nodejs.org/) and Node's package manager system (NPM) to handle the installation of Grunt tasks.
 
@@ -59,7 +59,7 @@ The next step is to install Grunt CLI which you can do using: `npm install -g gr
 
 Now you'll also want to run: `npm install -g grunt-init` and once that's done you've effectively installed the basic requirements for Grunt.
 
-##Package.json
+## Package.json
 
 Before you can start using Grunt you'll need a `package.json` file which stores all the base configuration settings.
 
@@ -104,7 +104,7 @@ Below is the `package.json` file for my Grunt Boilerplate project...
 
 …most of it is populated with content I provided when I ran `npm init` and the rest (such as `devDependencies`) was automatically generated for me when I started installing Grunt tasks (see next section).
 
-##Dependencies
+## Dependencies
 
 Typically we don't want dependencies we install to be installed globally (remember we installed Grunt globally using the `-g` flag). 
 
@@ -138,7 +138,7 @@ I suggest you create a `.gitignore` file (you are using [Git](http://git-scm.com
 
 OK, now that we have all the dependencies/tasks installed, lets look at the remaining piece of the puzzle, the `Gruntfile.js`.
 
-##Gruntfile.js
+## Gruntfile.js
 
 `Gruntfile.js` is the main set-up file and contains the settings for each task we have installed.
 
@@ -158,7 +158,7 @@ For example, if we wanted to access the name of our package (which if you rememb
 
 From here, this is where we now start to explore the different tasks we previously installed (for full details of each task's own settings please go to their corresponding website/github repo).
 
-##Sass
+## Sass
 
 The Sass task allows us to compile our Sass files into CSS.
 
@@ -217,7 +217,7 @@ To run this specific task we could open our terminal and execute: `grunt sass` (
 
 I won't explain the running of specific tasks again from here because effectively it's exactly the same for all tasks.
 
-##RequireJS
+## RequireJS
 
 This task is effectively the `r.js` build script that comes with RequireJS so I won't go into the details of how to write a build script - I'll instead refer you to the [r.js documentation](https://github.com/jrburke/r.js/blob/master/build/example.build.js), but know that the following has exactly the same settings as you would have used for `r.js` previously… 
 
@@ -239,7 +239,7 @@ This task is effectively the `r.js` build script that comes with RequireJS so I 
     }
 {% endhighlight %}
 
-##JSHint
+## JSHint
 
 JSHint is a task that mimics the [web interface](http://www.jshint.com/) in that it lets you specify files to lint (i.e. makes sure the code is written with valid syntax according to a set of rules you want it to abide by)… 
 
@@ -291,7 +291,7 @@ Also, you'll see we've told JSHint about certain variables that we expect to be 
 
 Finally, for the full list of rules that JSHint abides by see the [JSHint site](http://www.jshint.com/docs/#enforcing_options).
 
-##Jasmine BDD
+## Jasmine BDD
 
 Jasmine is a Behaviour-Driven unit testing framework and assertion library.
 
@@ -339,7 +339,7 @@ You'll see that we just need to tell `grunt-template-jasmine-requirejs` where ou
 
 If the tests pass then the `_SpecRunner.html` is removed so you never notice it, but if there are any failing tests then the file is left in your root directory so you can inspect the file and run it manually via a real web browser and try and debug any failing tests.
 
-##Image Minification
+## Image Minification
 
 The ImageMin task does exactly what you would expect, it searches out any images it finds (png or jpg format) and compresses them so they are smaller in file size.
 
@@ -378,7 +378,7 @@ As you can see from the below example we're using the `expand: true` setting (an
     }
 {% endhighlight %}
 
-##HTML Minification
+## HTML Minification
 
 The HTMLMin task does exactly what you would expect, it searches out any HTML files it finds and compresses them so they are minified and thus smaller in file size.
 
@@ -403,7 +403,7 @@ As you can see from the below example we've NOT used the `expand: true` setting 
     }
 {% endhighlight %}
 
-##Registering tasks
+## Registering tasks
 
 So far we've looked at running specific Grunt tasks like so: `grunt sass:dev` and `grunt jshint` but you can also set-up a custom task which does nothing but run other tasks.
 
@@ -421,7 +421,7 @@ When you execute the command `grunt` by itself then it will  look for a register
 
 …in this case we're telling it to execute our JavaScript linting task, then to check our unit tests are still passing and finally to generate debug versions of our CSS.
 
-##Watching files
+## Watching files
 
 Instead of manually running a Grunt command every time we make a change (e.g. imagine making a change to your Sass file and then having to go to the terminal and running `grunt sass:dev` to get the Sass to compile to CSS just so you can see the change reflected in your browser), we can instead get Grunt to do the hard work for us and to automatically run a task (or multiple tasks) whenever a specific set of files have been changed/updated… 
 
@@ -438,7 +438,7 @@ The syntax is: `<%= jshint.files %>` and in this instance it means "look at the 
 
 So as you can see from the above example, we're telling the watch task to look out for any changes made to our JavaScript and Sass files, and if so run the `default` registered task.
 
-##Our full Grunt file
+## Our full Grunt file
 
 You can find the following file on my [Grunt Boilerplate repo](https://github.com/Integralist/Grunt-Boilerplate)… 
 
@@ -672,6 +672,8 @@ You can find the following file on my [Grunt Boilerplate repo](https://github.co
     };
 {% endhighlight %}
 
-##Conclusion
+## Conclusion
 
 Hopefully this guide gives you a good starting point to begin using Grunt to automate more of your work flow. It's an extremely powerful tool and we haven't even begun to scratch the surface as there is the custom task features built-in that let you write your own tasks that interact with the file system and do pretty much anything you want. Well worth investigating further.
+
+Note: my [Grunt Boilerplate](https://github.com/Integralist/Grunt-Boilerplate) project is constantly being updated so watch the repo to keep up to speed.

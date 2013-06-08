@@ -3,11 +3,21 @@ layout: article
 title: JavaScript Inheritance
 strapline: A super short introduction on how to utilise code reuse via the Constructor inheritance pattern.
 ---
+ 
+## What we'll cover *reading time: approx. 2mins*
 
+- Introduction
+- Constructors
+- Example Code
+- Conclusion
+
+## Introduction
 [Class based inheritance](http://en.wikipedia.org/wiki/Class_(object-oriented_programming\)) doesn’t exist in JavaScript (*note: ECMAScript had plans to implement in ES6 basic Class syntax, but as of April 2012 this seems to be in doubt again*), but you can replicate its syntax by using functions as Constructors.
 
+## Constructors
 The basic premise to have code that appears more `Class` like is this: JavaScript functions created using the `new` keyword work in a similar way to what Class based languages refer to as ‘Constructors’. When a function uses the `new` keyword the Function object is given a `prototype` property which points (initially) to an empty object. This empty object can then have methods and properties added to it which will be available to all other objects that point their own prototype link to it.
 
+## Example Code
 A basic example is as follows…
 
 {% highlight javascript %}
@@ -59,6 +69,8 @@ A basic example is as follows…
       user.getNameAndAge();
 {% endhighlight %}
 
+
+## Conclusion
 Personally I would suggest you learn how JavaScript implements its own form of inheritance (prototypal inheritance) which is more efficient and nicer to work with than the use of functions as Constructors.
 
 The Mozilla Developer Network has written up a short article on the differences between Class-based and Prototype-based languages which you can find here: [https://developer.mozilla.org/en/Core_JavaScript_1.5_Guide/Details_of_the_Object_Model#Class-Based_vs._Prototype-Based_Languages](https://developer.mozilla.org/en/Core_JavaScript_1.5_Guide/Details_of_the_Object_Model#Class-Based_vs._Prototype-Based_Languages)

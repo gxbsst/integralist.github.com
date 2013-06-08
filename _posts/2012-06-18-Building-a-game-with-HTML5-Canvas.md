@@ -4,8 +4,25 @@ title: Building a game with HTML5 Canvas
 strapline: Facebook contacted me about joining their team and as part of the recruitment process I needed to build them an image puzzle game. This was the result.
 ---
 
-##Introduction
+## What we'll cover *reading time: approx. 39mins*
 
+- Introduction
+- HTML
+- CSS
+- JavaScript
+	- requestAnimationFrame
+	- Variables
+	- Events alias'
+	- Image loading
+	- Clearing the Canvas
+	- Load image onto Canvas
+	- Initialise Game
+	- User interaction
+	- Automatic puzzle piece animation
+	- Drag and Drop interaction
+	- Determining the end of game
+
+## Introduction
 I've been playing around with the [Canvas](https://developer.mozilla.org/en/HTML/Canvas) element for a little bit now, using it for more realistic features such as manipulating user uploaded images (using [XHR2](http://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html)). For example, within a custom Content Management System where the user controls the images that appear on their website we would normally let the server handle the manipulation of the uploaded image using an external library such as [ImageMagick](http://www.imagemagick.org/), but now we handle this all on the client-side using Canvas.
 
 I've also played with the raw pixel data in images to apply filters and effect the colours of an image, which is interesting (although I have no actual use for that sort of manipulation at the present time).
@@ -18,24 +35,7 @@ To see an example of the game then go to my [GitHub repository here](https://git
 
 In this article we're going to discuss the process I went through to build this game in more detail. The first two sections (HTML, CSS) are brief because the main chunk of work is residing inside the JavaScript so for that section we're going to step through each section of the code and explain what's happening.
 
-##Table of Contents
-
-* HTML
-* CSS
-* JavaScript
-	* requestAnimationFrame
-	* Variables
-	* Events alias'
-	* Image loading
-	* Clearing the Canvas
-	* Load image onto Canvas
-	* Initialise Game
-	* User interaction
-	* Automatic puzzle piece animation
-	* Drag and Drop interaction
-	* Determining the end of game
-
-###HTML
+## HTML
 
 The HTML is pretty straight forward, it consists of a `meta` tag which tells the device to set the width to be 760px wide (this is so the game fits the full width of the device) and also specifies that the user cannot resize the content - the reason being is we want to ensure the game is always fitting the screen. After this we have a link to our style sheet - note: there are some declarations in our CSS which are included specifically to help with 'touch' based devices (e.g. devices such as smart phones which don't utilise a 'mouse' to interact with the content) - along with a single `canvas` element (which we could have created via JavaScript but I decided I preferred to have the element coded into the HTML). We also have a checkbox on the page which lets the user make the game a little easier by allowing them to move certain 'illegal' puzzle pieces, and finally we have the `script` element which obviously is pointing to our JavaScript file which creates the game… 
 
@@ -56,7 +56,7 @@ The HTML is pretty straight forward, it consists of a `meta` tag which tells the
     </html>
 {% endhighlight %}
 
-###CSS
+## CSS
 
 The CSS is also pretty straight forward - with the exception of one part we'll come to in a moment - the main chunk of this style sheet is simply setting generic styles and normalising certain elements. 
 
@@ -101,11 +101,11 @@ The `canvas` selector sets a rule which has some specific declarations (along wi
     }
 {% endhighlight %}
 
-###JavaScript
+## JavaScript
 
 Now the JavaScript is where it gets interesting…  
 
-####requestAnimationFrame
+### requestAnimationFrame
 
 The first thing you'll notice is a polyfill for [requestAnimationFrame](https://developer.mozilla.org/en/DOM/window.requestAnimationFrame). If you don't know what it is, `requestAnimationFrame` is a more efficient alternative for `setInterval `and `setTimeout`. It's actually based more on `setTimeout` than `setInterval`, and what I mean by this is your specified function to be executed must itself call `requestAnimationFrame` (unless you want the animation to stop).
 
@@ -157,7 +157,7 @@ Following this is our main script which we've wrapped in an 'immediately invoked
     }(this));
 {% endhighlight %}
 
-####Variables
+### Variables
 
 Now, if you look at my [JavaScript Style Guide](https://github.com/Integralist/Style-Guides/blob/master/JavaScript%20Style%20Guide.md#javascript-style-guide) you'll see that I like to set-up the structure of my code as follows… 
 
@@ -207,7 +207,7 @@ Now, if you look at my [JavaScript Style Guide](https://github.com/Integralist/S
 
 …looking at these variables you can see that we're not only getting a reference to the `canvas` element in the page but we're also creating another `canvas` element. The purpose of having two `canvas`'es is that the one found inside the HTML will be used for holding the puzzle pieces. The second `canvas` (created via JavaScript) is used for handling event listeners and also handling the 'drag and drop' of individual puzzle pieces.
 
-####Events alias'
+### Events alias'
 
 You'll also see that we've created an object called `eventsMap` which we're using to map our own events (such as 'select', 'down', 'up', 'move') to the relevant mouse events available. This is because it makes it easier for us to swap to using touch events if they are supported by the users browser. So for example, just after setting up these variables we do a check for whether touch events are supported and if they are we swap the mouse specific values for touch specific values… 
 
@@ -223,7 +223,7 @@ You'll also see that we've created an object called `eventsMap` which we're usin
     }
 {% endhighlight %}
 
-####Image loading
+### Image loading
 	
 You'll also see that within the variable declarations we're creating an `Image` object and after the variables we now set a `src` value which points to the image we're going to use for our game. We then set an `onload` event listener to be triggered when the image has loaded. 
 
@@ -251,7 +251,7 @@ We then finally call `loadImageOntoCanvas` to load the image on to the main `can
 
 …one other small note is the use of the bitwise operator `~~` which you can see I've used inside the `onload` listener: `piece_height = ~~(this.height / canvas_grid);`. What this does is functionally equivalent to `Math.floor` and is a technique I discovered from [James Padolsey](http://james.padolsey.com/javascript/double-bitwise-not/).
 
-####Clearing the Canvas
+### Clearing the Canvas
 
 Next we see a function called `clearCanvas`… 
 
@@ -263,7 +263,7 @@ Next we see a function called `clearCanvas`…
 
 This does exactly what you think it does. But instead of using the API method `clearRect` to clear the `canvas` it uses a trick where by if you set the width and height of the `canvas` to the same dimensions as the `canvas` itself then the `canvas` will clear. **BUT BE WARNED:** this will also erase all state from the `canvas`! (for more information on 'state' [see here](http://html5.litten.com/understanding-save-and-restore-for-the-canvas-context/))
 
-####Load image onto Canvas
+### Load image onto Canvas
 
 Now we move onto the function `loadImageOntoCanvas`… 
 
@@ -302,7 +302,7 @@ The last part of that function is an event listener for the `click`/`touchstart`
 dragCanvas.addEventListener(eventsMap.select, init, false);
 ```
 
-####Initialise Game
+### Initialise Game
 
 In short: the `init` function clears the `canvas` and splits up the image into individual pieces and then displays them in a jumbled order. From there it sets up further event listeners for 'down' and 'up' events (which map to `mousedown`/`mouseup` and `touchstart`/`touchend`).
 
@@ -368,7 +368,7 @@ And the last part of the `init` function is to set-up the event listeners for th
 
 …these event listeners are going to help us detect when the user wants to move a puzzle piece.
 
-####User interaction
+### User interaction
 
 So we can see that the 'down' event will call the `checkDrag` function, so lets start from there… 
 
@@ -413,7 +413,7 @@ For example, I had a problem where if the user did a 'drag and drop' movement th
 
 UPDATE: I have since realised another way I could have implemented 'drag & drop' which is to check the 'move' event (remember this is an alias for `mousemove` and `touchmove`) while the 'down' event was triggered and to set a threshold of let's say 4px in any direction before triggering the drag and drop mechanism. I don't know how much this would have simplified things but maybe that could be an exercise for the reader to investigate. 
 
-####Automatic puzzle piece animation
+### Automatic puzzle piece animation
 
 We have two routes to go down now: `startDrag` or `movePiece`.
 
@@ -685,7 +685,7 @@ Lastly, we call `resetOptions` and do one final check to see if all the pieces a
     }
 {% endhighlight %}
 
-####Drag and Drop interaction
+### Drag and Drop interaction
 
 So now we've been through the automatic moving of puzzle pieces lets start looking at how the 'drag and drop' route works.
 
@@ -986,7 +986,7 @@ So now lets look at the contents of the `stopDrag` function…
 
 …the first thing we do is remove the 'move' event - *now to be honest, as I'm writing this post a few weeks after completing the game, I'm not sure why I'm removing the event again in that section as it should have already been removed? I'll leave this in for now and re-evaluate the code at a later date to see if it is indeed as redundant as it appears to be now* - then we update `wasJustDragging` so we know that we just completed a drag and drop motion. Then we call the `resetOptions` function (which we went over earlier) and finally we call the function `checkIfGameFinished` which nicely leads us into our final section… 
 
-####Determining the end of game
+### Determining the end of game
 
 The `checkIfGameFinished` function simply loops through all puzzle pieces to see if they match the correct order… 
 

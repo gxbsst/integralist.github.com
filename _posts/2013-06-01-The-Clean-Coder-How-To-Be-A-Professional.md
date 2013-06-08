@@ -3,8 +3,8 @@ layout: article
 title: The Clean Coder - How to be a Professional
 strapline: A quick review of Robert C. Martin's book "The Clean Coder" (which is a follow-up to his classic "Clean Code"). The subject isn't actually about code this time but about how to act and think like a professional. This is a fantastic read and would be very useful to both developers and managers alike.
 ---
-
-##What we'll cover
+ 
+## What we'll cover *reading time: approx. 16mins*
 
 - Who is Robert C. Martin?
 - What's it all about?
