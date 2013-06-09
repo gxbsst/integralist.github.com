@@ -105,6 +105,10 @@ th, td {
     padding-top: .2em;
 }
 
+.article__content > pre {
+    overflow: auto;
+}
+
 h1,
 h2,
 h3,
@@ -118,12 +122,22 @@ h3,
     background-color: #c75045;
     color: #fff;
     font-size: 1.2em;
+    position: relative; 
 }
 
 .article__content h2 em {
-    float: right;
+    display: block;
     font-style: normal;
-    font-size: .8em;
+    font-size: .6em;
+}
+
+@media (min-width: 400px) {
+    .article__content h2 em {
+        font-size: .8em;
+        position: absolute;
+        right: .8em;
+        top: .6em;
+    }
 }
 
 .article__content h3 {
