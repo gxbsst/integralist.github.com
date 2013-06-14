@@ -1,7 +1,7 @@
 ---
 layout: article
 title: Build a site with Ruby and Sinatra
-strapline: Whilst I was learning about Ruby, I found the most frustrating aspect was finding information on how to build a web application using it (Ruby is a GPL and not designed for the 'web'). This post explains how to build a web application using the <a href="http://www.sinatrarb.com" target="_blank">Sintra</a> web framework.
+strapline: Whilst I was learning about Ruby, I found the most frustrating aspect was finding information on how to build a web application using it (Ruby is a GPL and not designed for the 'web'). This post explains how to build a web application using the <a href="http://www.sinatrarb.com" target="_blank">Sinatra</a> web framework.
 ---
 
 ## What we'll cover *reading time: approx. 23mins*

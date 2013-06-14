@@ -13,7 +13,7 @@
     <atom:link href="http://integralist.co.uk/feed.xml" rel="self" type="application/rss+xml" />
     <link>http://integralist.co.uk</link>
     <description></description>
-    <lastBuildDate>Sun, 09 Jun 2013 17:54:28 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 14 Jun 2013 09:08:24 +0100</lastBuildDate>
     <language>en</language>
     <copyright>Integralist</copyright>
 
@@ -114,7 +114,7 @@
         <pubDate>Sun, 22 Jul 2012 00:00:00 +0100</pubDate>
         <guid>http://integralist.co.uk/Build-a-site-with-Ruby-and-Sinatra.html</guid>
         <description>
-        Whilst I was learning about Ruby, I found the most frustrating aspect was finding information on how to build a web application using it (Ruby is a GPL and not designed for the 'web'). This post explains how to build a web application using the &lt;a href=&quot;http://www.sinatrarb.com&quot; target=&quot;_blank&quot;&gt;Sintra&lt;/a&gt; web framework.
+        Whilst I was learning about Ruby, I found the most frustrating aspect was finding information on how to build a web application using it (Ruby is a GPL and not designed for the 'web'). This post explains how to build a web application using the &lt;a href=&quot;http://www.sinatrarb.com&quot; target=&quot;_blank&quot;&gt;Sinatra&lt;/a&gt; web framework.
         </description>
       </item>
     
