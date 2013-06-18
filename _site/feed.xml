@@ -13,10 +13,20 @@
     <atom:link href="http://integralist.co.uk/feed.xml" rel="self" type="application/rss+xml" />
     <link>http://integralist.co.uk</link>
     <description></description>
-    <lastBuildDate>Fri, 14 Jun 2013 09:08:24 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 18 Jun 2013 13:30:11 +0100</lastBuildDate>
     <language>en</language>
     <copyright>Integralist</copyright>
 
+    
+      <item>
+        <title>Dynamically Generated Grunt Tasks</title>
+        <link>http://integralist.co.uk/Dynamically-Generated-Grunt-Tasks.html</link>
+        <pubDate>Mon, 17 Jun 2013 00:00:00 +0100</pubDate>
+        <guid>http://integralist.co.uk/Dynamically-Generated-Grunt-Tasks.html</guid>
+        <description>
+        A slightly deeper dive into Grunt on how to generate sub tasks dynamically dependent on the contents of a particular folder structure
+        </description>
+      </item>
     
       <item>
         <title>The Clean Coder - How to be a Professional</title>
@@ -105,16 +115,6 @@
         <guid>http://integralist.co.uk/MVC-in-JavaScript-with-Backbone.html</guid>
         <description>
         MVC in the front-end engineer's toolkit is a big thing (as of 2012). This post discusses how to utilise the (currently) most popular framework &lt;a href=&quot;http://backbonejs.org&quot; target=&quot;_blank&quot;&gt;Backbone.js&lt;/a&gt;
-        </description>
-      </item>
-    
-      <item>
-        <title>Build a site with Ruby and Sinatra</title>
-        <link>http://integralist.co.uk/Build-a-site-with-Ruby-and-Sinatra.html</link>
-        <pubDate>Sun, 22 Jul 2012 00:00:00 +0100</pubDate>
-        <guid>http://integralist.co.uk/Build-a-site-with-Ruby-and-Sinatra.html</guid>
-        <description>
-        Whilst I was learning about Ruby, I found the most frustrating aspect was finding information on how to build a web application using it (Ruby is a GPL and not designed for the 'web'). This post explains how to build a web application using the &lt;a href=&quot;http://www.sinatrarb.com&quot; target=&quot;_blank&quot;&gt;Sinatra&lt;/a&gt; web framework.
         </description>
       </item>
     

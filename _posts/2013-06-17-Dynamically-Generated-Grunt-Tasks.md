@@ -1,0 +1,261 @@
+---
+layout: article
+title: Dynamically Generated Grunt Tasks
+strapline: A slightly deeper dive into Grunt on how to generate sub tasks dynamically dependent on the contents of a particular folder structure
+---
+
+## What we'll cover *reading time: approx. 9mins*
+
+- Background
+- What are we trying to do?
+- So what's the problem?
+- So what are we going to do?
+- How are we going to do it?
+- Example code
+- Conclusion
+
+## Background
+
+I work on the BBC News responsive website. You may have seen [@jcleveley](http://twitter.com/jcleveley) and [@tmaslen](http://twitter.com/tmaslen) speak at a few different conferences about how we went about putting the responsive codebase together and how we handle issues like responsive images (in a recent issue of .net magazine both were interviewed to share their thoughts on responsive, device testing and other such matters).
+
+I'm in the process of integrating [Grunt.js](http://gruntjs.com/) into our work flow. If you're not sure what Grunt is all about then check out a [previous post of mine](http://integralist.co.uk/Grunt-Boilerplate.html) where I explain what it is and how it works and how you might want to use it (including a link to my Grunt Boilerplate project on GitHub).
+
+It's because of this that we ran into a concern about keeping Grunt maintainable/scalable…
+
+## What are we trying to do?
+
+At BBC News we have our core product and we have 27 different language services.
+
+We're in the process of moving all 27 languages over to our responsive code base. We've only moved over 8 so far and already we've noticed an issue with how we set-up Grunt to handle compilation of our [Sass](http://sass-lang.com/) files into CSS.
+
+Given we have quite a few Sass files within the responsive code base (and we are having more and more Sass files added as part of our World Services moving to the responsive code base), the time to compile is exponentially growing.
+
+To work-around this we set-up Grunt to watch specific directories for changes and to run a specific Sass sub task so only the files relevant are compiled. 
+
+For example, if one of the World Service teams are working on the Arabic site then they'll run `grunt watch:arabic` and any time those specific Sass files change then we execute the Sass sub task `grunt sass:arabic`.
+
+This all works fine.
+
+## So what's the problem?
+
+The problem we have is that adding a new language to the Grunt file is a manual process. If we have 27 languages this is a lot of duplicated code that needs to be created (and manually) every time a new language is being moved over to the responsive code base.
+
+That goes against the principle of DRY (Don't Repeat Yourself).
+
+## So what are we going to do?
+
+We're going to automate the process!
+
+## How are we going to do it?
+
+We're going to take advantage of the fact that we have access to Node.js (as Grunt utilises Node.js and it's package manager NPM).
+
+So we're going to use Node.js with a little bit of Grunt to rewrite the Grunt file and dynamically insert sub tasks for both the Watch and Sass Grunt tasks (that's a bit of a mouthful).
+
+I'm not going to comment the following code too much because of lot of it should be self explanatory. I will be providing notes below on what the code is doing so you can understand the flow of what the scripts do and why I'm doing certain things (but the code itself you should be able to read without any problems)…
+
+## Example code
+
+The code ranges over three files…
+
+1. Gruntfile.js
+2. grunt-customtasks.js
+3. grunt-dynamic.js
+
+### Gruntfile.js
+
+So the first file is obviously our main Grunt application file. 
+
+Inside that file we have the following code (not this is a *really* stripped back version just so it's a little bit more readable)…
+
+{% highlight javascript %}
+    module.exports = function (grunt) {
+
+        grunt.initConfig({
+
+            dir: {
+                static: './tabloid/webapp/static/',
+                static_sass: '<%= dir.static %>' + 'sass/',
+                static_css: '<%= dir.static %>' + 'stylesheets/',
+            },
+
+            sass: {
+                dist: {
+                    options: {
+                        style: 'compressed',
+                        require: ['<%= dir.static_sass %>partials/helpers/url64.rb']
+                    },
+                    expand: true,
+                    cwd: '<%= dir.static_sass %>',
+                    src: ['**/*.scss', '!**/_*.scss', '!locator/*.scss'],
+                    dest: '<%= dir.static_css %>',
+                    ext: '.css'
+                },
+                dev: {
+                    options: {
+                        style: 'expanded',
+                        debugInfo: true,
+                        lineNumbers: true,
+                        require: ['<%= dir.static_sass %>partials/helpers/url64.rb']
+                    },
+                    expand: true,
+                    cwd: '<%= dir.static_sass %>',
+                    src: ['**/*.scss', '!**/_*.scss', '!locator/*.scss'],
+                    dest: '<%= dir.static_css %>',
+                    ext: '.css'
+                }
+                // Dynamic Sass Content
+                // Dynamic Sass Content Ended
+            },
+
+            watch: {
+                // Dynamic Watch Content
+                // Dynamic Watch Content Ended
+            }
+
+        });
+
+        grunt.loadNpmTasks('grunt-contrib-watch');
+        grunt.loadNpmTasks('grunt-contrib-sass');
+
+        require('./grunt-dynamic.js')(grunt);
+        require('./grunt-customtasks.js')(grunt);
+        
+    };
+{% endhighlight %}
+
+…as you can see we have loaded the relevant Sass and Watch Grunt tasks and we've set-up some default configurations for them.
+
+You'll also see that we're loading in the two other scripts I mentioned previously at the bottom of the Gruntfile. These files `export` a function, which means when the scripts are loaded we can store off their return value (in this case the return value is a function which we can execute whenever we want to). In this case I'm executing the returned functions the very moment the scripts are loaded.
+
+The final part of this Gruntfile to pay attention to is the use of some code comments for the Sass task `// Dynamic Sass Content` and `// Dynamic Sass Content Ended` (there is also the same for the 'Watch' task).
+
+I use these code comments as a hook. Because we're opening up the Gruntfile and editing it dynamically we need an easy way to find the content we want to replace. Using code comments gives us that easy hook. Otherwise we'd need some pretty hairy code/syntax parsing to figure out where we need to insert new dynamically generated content.
+
+### grunt-customtasks.js
+
+{% highlight javascript %}
+    module.exports = function (grunt) {
+        grunt.registerTask('noop', 'x', function(){ console.log('noop run'); });
+
+        grunt.registerTask('concat_specjs', 'Concatenate all JS test/spec files into a single file', function(){
+            var specs = grunt.file.expand('tabloid/webapp/static/js/jasmine/spec/*.js'),
+                contents;
+
+            specs = specs.map(function(file_path){
+                return "'" + file_path.split('tabloid/webapp/static/js/')[1].split('.js')[0] + "'";
+            });
+
+            contents = "define([\n" + specs.join(',\n') + "], \nfunction(){ return ''; });";
+
+            grunt.file.write('tabloid/webapp/static/js/jasmine-runner.js', contents);
+        });
+    };
+{% endhighlight %}
+
+OK, this isn't strictly speaking a file that has anything to do with the problem/solution that we're working on. The reason I mention this file is because you'll see that I've written two custom Grunt tasks.
+
+Now, A.) this is probably of interest to people reading this and B.) the first custom task was useful to me for testing the rest of my code was working.
+
+Considering A.) mentioned above, the custom task 'concat_specjs' is a good look at how you can use Grunt/Node.js to search for files in specifically directories and manipulate them by opening up a file and writing in content to them using the Grunt API. Nothing actually really complicated about it to be honest, the code speaks for it self.
+
+Considering B.) mentioned above, the reason I created a 'noop' (which stands for 'no-op', no-operation) task is because I wanted to test how my code was running without actually running any tasks that would take longer than a nano second to run. Hence I created a custom task that basically does nothing and is there only to see how my dynamic content generation would be affected by running a Grunt task.
+
+The only other thing worth mentioning is the `module.exports = function(grunt){};` that wraps around our code. Effectively this file when loaded is a standalone module. This module could just execute some code and end there. But this module needs to have access to Grunt and to do that we make sure the module exports some data (in this case it exports itself as a function) which can be stored off when the module is loaded and utilised however necessary.
+
+So in this case I'm exporting my code as function which takes in a single argument called `grunt` -> which is the actual Grunt passed down into it from our main Gruntfile.js when we included the line `require('./grunt-customtasks.js')(grunt);`.
+
+### grunt-dynamic.js
+
+This is where the actual work comes in… finally!
+
+{% highlight javascript %}
+    module.exports = function (grunt) {
+        var file = grunt.file.read('Gruntfile.js'),
+            services = grunt.file.expand('tabloid/webapp/static/sass/services/*').map(removePath).filter(removeBlacklistedDirectories),
+            watch_subtasks = generateWatchSubTasks(), 
+            sass_subtasks = generateSassSubTasks(),
+            counter = 0;
+
+        function removePath(element) {
+            return element.split('/').pop();
+        }
+
+        function removeBlacklistedDirectories(element) {
+            if (element.indexOf('journalism') !== -1) {
+                return false
+            }
+
+            return true;
+        }
+
+        function generateWatchSubTasks() {
+            var generatedContent = '// Dynamic Watch Content\n            ';
+
+            services.forEach(function(service) {
+                generatedContent += ",\n            " + service + ": {\n\
+                    files: ['<%= dir.static_sass %>/partials/**/*.scss',\n\
+                            '<%= dir.static_sass %>services/" + service + "/*.scss'],\n\
+                    tasks: ['sass:" + service + "']\n            }";
+            });
+
+            return generatedContent += '\n            // Dynamic Watch Content Ended';
+        }
+
+        function generateSassSubTasks() {
+            var generatedContent = '// Dynamic Sass Content\n            ';
+
+            services.forEach(function(service) {
+                generatedContent += ",\n            " + service + ": {\n\
+                    options: {\n\
+                        style: 'expanded',\n\
+                        debugInfo: true,\n\
+                        lineNumbers: true,\n\
+                        require: ['<%= dir.static_sass %>partials/helpers/url64.rb']\n\
+                    },\n\
+                    expand: true,\n\
+                    cwd: '<%= dir.static_sass %>/services/" + service + "',\n\
+                    src: ['*.scss', '!_*.scss'],\n\
+                    dest: '<%= dir.static_css %>/services/" + service + "',\n\
+                    ext: '.css'\n\
+                }";
+            });
+
+            return generatedContent += '\n            // Dynamic Sass Content Ended';
+        }
+
+        /*
+            Following regex searches our Gruntfile.js for either "// Dynamic Sass Content" or "// Dynamic Watch Content".
+            It then continues to find the associated ending code comment.
+         */
+        file = file.replace(/(\/\/ Dynamic (Sass|Watch) Content)(?:\r|\n(?:.|\r|\n)+?\1 Ended)?/gmi, function(match, cg1, cg2) {
+            counter++;
+
+            if (cg2 === 'Sass') {
+                returnValue = sass_subtasks;
+            }
+
+            if (cg2 === 'Watch') {
+                returnValue = watch_subtasks;
+            }
+
+            return returnValue;
+        });
+
+        grunt.file.write('Gruntfile.js', file);
+    };
+{% endhighlight %}
+
+So again, you can see we're using a mixture of Grunt API's and Node.js to accomplish what we need. In this case we're doing the following…
+
+- Storing the contents of our Gruntfile.js
+- Creating an Array of language services (e.g. `['afrique', 'arabic', 'hausa', …]`) by using `grunt.file.expand` and then using some Array methods such as `map` and `filter` to clean up the data (we use `map` to strip the directory path and we use `filter` to remove any blacklisted folders -> by that we mean folders we don't want to include).
+- We have two functions for generating the String data that makes up our sub tasks for Sass and Watch (effectively, just loops through the Array of languages and creates a String of JavaScript code that we'll then inject into our Gruntfile).
+- Use a regular expression with the String `replace` method to find the code comment hooks we have in our Gruntfile.
+- Once the hooks are found, we check which hook it is (Sass or Watch) and then inject the relevant String of JavaScript code we dynamically created earlier inside our `generateWatchSubTasks` and `generateSassSubTasks` functions by using Grunt's `grunt.file.write` API.
+
+## Conclusion
+
+That's it! I hope this was a useful look at how to write some custom Grunt tasks and also how to take advantage of the Grunt API and Node.js to doing something a little bit more specialised with Grunt.
+
+Hopefully this post was better than the same old Grunt posts that only just tell you how to use the pre-built tasks to do mundane things like minify your JavaScript or other tediously boring stuff.

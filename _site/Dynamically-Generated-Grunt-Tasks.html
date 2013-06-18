@@ -1,0 +1,350 @@
+<!doctype html>
+<!--[if IE 8]><html class="ie8" dir="ltr" lang="en"><![endif]-->
+<!--[if IE 9]><html class="ie9" dir="ltr" lang="en"><![endif]-->
+<!--[if gt IE 9]><!--> <html dir="ltr" lang="en"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="Mark McDonnell" />
+        <title> Dynamically Generated Grunt Tasks | Integralist</title>
+        <!--[if lt IE 9]>
+        <script src="/Assets/Scripts/html5.js"></script>
+        <![endif]-->
+        <link rel="stylesheet" href="/Assets/Styles/pygment.css" media="all">
+        <link rel="stylesheet" href="/Assets/Styles/layout.css" media="all">
+        <!--[if (lt IE 9) & (!IEMobile)]>
+        <link rel="stylesheet" href="/Assets/Styles/layout-480.css">
+        <link rel="stylesheet" href="/Assets/Styles/layout-768.css">
+        <![endif]-->
+        
+        <link rel="alternate" type="application/atom+xml" title="Integralist" href="http://feeds.feedburner.com/Integralist">
+        
+        
+        <script>
+            var _gaq=[['_setAccount','UA-33159515-1'],['_trackPageview']];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script>
+        
+    </head>
+    <body>
+        <header class="header container">
+            <p class="header__title"><a href="/" class="header__homelink">integralist</a></p>
+            <p class="header__strapline">BBC News Engineer: Object-Oriented Design principles using Ruby, PHP, BEM, AMD, TDD and BDD</p>
+            <a href="#info" class="header__moreinfo">More info about me&hellip;</a>
+        </header>
+        <section class="articles container">
+            <h1>Dynamically Generated Grunt Tasks</h1>
+<div class="article__content">
+    <h2>What we'll cover <em>reading time: approx. 9mins</em></h2>
+
+<ul>
+<li>Background</li>
+<li>What are we trying to do?</li>
+<li>So what's the problem?</li>
+<li>So what are we going to do?</li>
+<li>How are we going to do it?</li>
+<li>Example code</li>
+<li>Conclusion</li>
+</ul>
+
+
+<h2>Background</h2>
+
+<p>I work on the BBC News responsive website. You may have seen <a href="http://twitter.com/jcleveley">@jcleveley</a> and <a href="http://twitter.com/tmaslen">@tmaslen</a> speak at a few different conferences about how we went about putting the responsive codebase together and how we handle issues like responsive images (in a recent issue of .net magazine both were interviewed to share their thoughts on responsive, device testing and other such matters).</p>
+
+<p>I'm in the process of integrating <a href="http://gruntjs.com/">Grunt.js</a> into our work flow. If you're not sure what Grunt is all about then check out a <a href="http://integralist.co.uk/Grunt-Boilerplate.html">previous post of mine</a> where I explain what it is and how it works and how you might want to use it (including a link to my Grunt Boilerplate project on GitHub).</p>
+
+<p>It's because of this that we ran into a concern about keeping Grunt maintainable/scalable…</p>
+
+<h2>What are we trying to do?</h2>
+
+<p>At BBC News we have our core product and we have 27 different language services.</p>
+
+<p>We're in the process of moving all 27 languages over to our responsive code base. We've only moved over 8 so far and already we've noticed an issue with how we set-up Grunt to handle compilation of our <a href="http://sass-lang.com/">Sass</a> files into CSS.</p>
+
+<p>Given we have quite a few Sass files within the responsive code base (and we are having more and more Sass files added as part of our World Services moving to the responsive code base), the time to compile is exponentially growing.</p>
+
+<p>To work-around this we set-up Grunt to watch specific directories for changes and to run a specific Sass sub task so only the files relevant are compiled.</p>
+
+<p>For example, if one of the World Service teams are working on the Arabic site then they'll run <code>grunt watch:arabic</code> and any time those specific Sass files change then we execute the Sass sub task <code>grunt sass:arabic</code>.</p>
+
+<p>This all works fine.</p>
+
+<h2>So what's the problem?</h2>
+
+<p>The problem we have is that adding a new language to the Grunt file is a manual process. If we have 27 languages this is a lot of duplicated code that needs to be created (and manually) every time a new language is being moved over to the responsive code base.</p>
+
+<p>That goes against the principle of DRY (Don't Repeat Yourself).</p>
+
+<h2>So what are we going to do?</h2>
+
+<p>We're going to automate the process!</p>
+
+<h2>How are we going to do it?</h2>
+
+<p>We're going to take advantage of the fact that we have access to Node.js (as Grunt utilises Node.js and it's package manager NPM).</p>
+
+<p>So we're going to use Node.js with a little bit of Grunt to rewrite the Grunt file and dynamically insert sub tasks for both the Watch and Sass Grunt tasks (that's a bit of a mouthful).</p>
+
+<p>I'm not going to comment the following code too much because of lot of it should be self explanatory. I will be providing notes below on what the code is doing so you can understand the flow of what the scripts do and why I'm doing certain things (but the code itself you should be able to read without any problems)…</p>
+
+<h2>Example code</h2>
+
+<p>The code ranges over three files…</p>
+
+<ol>
+<li>Gruntfile.js</li>
+<li>grunt-customtasks.js</li>
+<li>grunt-dynamic.js</li>
+</ol>
+
+
+<h3>Gruntfile.js</h3>
+
+<p>So the first file is obviously our main Grunt application file.</p>
+
+<p>Inside that file we have the following code (not this is a <em>really</em> stripped back version just so it's a little bit more readable)…</p>
+
+<div class="highlight"><pre><code class="javascript">    <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
+
+        <span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">({</span>
+
+            <span class="nx">dir</span><span class="o">:</span> <span class="p">{</span>
+                <span class="kr">static</span><span class="o">:</span> <span class="s1">&#39;./tabloid/webapp/static/&#39;</span><span class="p">,</span>
+                <span class="nx">static_sass</span><span class="o">:</span> <span class="s1">&#39;&lt;%= dir.static %&gt;&#39;</span> <span class="o">+</span> <span class="s1">&#39;sass/&#39;</span><span class="p">,</span>
+                <span class="nx">static_css</span><span class="o">:</span> <span class="s1">&#39;&lt;%= dir.static %&gt;&#39;</span> <span class="o">+</span> <span class="s1">&#39;stylesheets/&#39;</span><span class="p">,</span>
+            <span class="p">},</span>
+
+            <span class="nx">sass</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">dist</span><span class="o">:</span> <span class="p">{</span>
+                    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+                        <span class="nx">style</span><span class="o">:</span> <span class="s1">&#39;compressed&#39;</span><span class="p">,</span>
+                        <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;%= dir.static_sass %&gt;partials/helpers/url64.rb&#39;</span><span class="p">]</span>
+                    <span class="p">},</span>
+                    <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                    <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;&lt;%= dir.static_sass %&gt;&#39;</span><span class="p">,</span>
+                    <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!**/_*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!locator/*.scss&#39;</span><span class="p">],</span>
+                    <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;&lt;%= dir.static_css %&gt;&#39;</span><span class="p">,</span>
+                    <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span>
+                <span class="p">},</span>
+                <span class="nx">dev</span><span class="o">:</span> <span class="p">{</span>
+                    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+                        <span class="nx">style</span><span class="o">:</span> <span class="s1">&#39;expanded&#39;</span><span class="p">,</span>
+                        <span class="nx">debugInfo</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                        <span class="nx">lineNumbers</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                        <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;%= dir.static_sass %&gt;partials/helpers/url64.rb&#39;</span><span class="p">]</span>
+                    <span class="p">},</span>
+                    <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                    <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;&lt;%= dir.static_sass %&gt;&#39;</span><span class="p">,</span>
+                    <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!**/_*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!locator/*.scss&#39;</span><span class="p">],</span>
+                    <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;&lt;%= dir.static_css %&gt;&#39;</span><span class="p">,</span>
+                    <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span>
+                <span class="p">}</span>
+                <span class="c1">// Dynamic Sass Content</span>
+                <span class="c1">// Dynamic Sass Content Ended</span>
+            <span class="p">},</span>
+
+            <span class="nx">watch</span><span class="o">:</span> <span class="p">{</span>
+                <span class="c1">// Dynamic Watch Content</span>
+                <span class="c1">// Dynamic Watch Content Ended</span>
+            <span class="p">}</span>
+
+        <span class="p">});</span>
+
+        <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-watch&#39;</span><span class="p">);</span>
+        <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-sass&#39;</span><span class="p">);</span>
+
+        <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./grunt-dynamic.js&#39;</span><span class="p">)(</span><span class="nx">grunt</span><span class="p">);</span>
+        <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./grunt-customtasks.js&#39;</span><span class="p">)(</span><span class="nx">grunt</span><span class="p">);</span>
+        
+    <span class="p">};</span>
+</code></pre></div>
+
+
+<p>…as you can see we have loaded the relevant Sass and Watch Grunt tasks and we've set-up some default configurations for them.</p>
+
+<p>You'll also see that we're loading in the two other scripts I mentioned previously at the bottom of the Gruntfile. These files <code>export</code> a function, which means when the scripts are loaded we can store off their return value (in this case the return value is a function which we can execute whenever we want to). In this case I'm executing the returned functions the very moment the scripts are loaded.</p>
+
+<p>The final part of this Gruntfile to pay attention to is the use of some code comments for the Sass task <code>// Dynamic Sass Content</code> and <code>// Dynamic Sass Content Ended</code> (there is also the same for the 'Watch' task).</p>
+
+<p>I use these code comments as a hook. Because we're opening up the Gruntfile and editing it dynamically we need an easy way to find the content we want to replace. Using code comments gives us that easy hook. Otherwise we'd need some pretty hairy code/syntax parsing to figure out where we need to insert new dynamically generated content.</p>
+
+<h3>grunt-customtasks.js</h3>
+
+<div class="highlight"><pre><code class="javascript">    <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;noop&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;noop run&#39;</span><span class="p">);</span> <span class="p">});</span>
+
+        <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;concat_specjs&#39;</span><span class="p">,</span> <span class="s1">&#39;Concatenate all JS test/spec files into a single file&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+            <span class="kd">var</span> <span class="nx">specs</span> <span class="o">=</span> <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">expand</span><span class="p">(</span><span class="s1">&#39;tabloid/webapp/static/js/jasmine/spec/*.js&#39;</span><span class="p">),</span>
+                <span class="nx">contents</span><span class="p">;</span>
+
+            <span class="nx">specs</span> <span class="o">=</span> <span class="nx">specs</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">file_path</span><span class="p">){</span>
+                <span class="k">return</span> <span class="s2">&quot;&#39;&quot;</span> <span class="o">+</span> <span class="nx">file_path</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;tabloid/webapp/static/js/&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">].</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;.js&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">;</span>
+            <span class="p">});</span>
+
+            <span class="nx">contents</span> <span class="o">=</span> <span class="s2">&quot;define([\n&quot;</span> <span class="o">+</span> <span class="nx">specs</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;,\n&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;], \nfunction(){ return &#39;&#39;; });&quot;</span><span class="p">;</span>
+
+            <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;tabloid/webapp/static/js/jasmine-runner.js&#39;</span><span class="p">,</span> <span class="nx">contents</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">};</span>
+</code></pre></div>
+
+
+<p>OK, this isn't strictly speaking a file that has anything to do with the problem/solution that we're working on. The reason I mention this file is because you'll see that I've written two custom Grunt tasks.</p>
+
+<p>Now, A.) this is probably of interest to people reading this and B.) the first custom task was useful to me for testing the rest of my code was working.</p>
+
+<p>Considering A.) mentioned above, the custom task 'concat_specjs' is a good look at how you can use Grunt/Node.js to search for files in specifically directories and manipulate them by opening up a file and writing in content to them using the Grunt API. Nothing actually really complicated about it to be honest, the code speaks for it self.</p>
+
+<p>Considering B.) mentioned above, the reason I created a 'noop' (which stands for 'no-op', no-operation) task is because I wanted to test how my code was running without actually running any tasks that would take longer than a nano second to run. Hence I created a custom task that basically does nothing and is there only to see how my dynamic content generation would be affected by running a Grunt task.</p>
+
+<p>The only other thing worth mentioning is the <code>module.exports = function(grunt){};</code> that wraps around our code. Effectively this file when loaded is a standalone module. This module could just execute some code and end there. But this module needs to have access to Grunt and to do that we make sure the module exports some data (in this case it exports itself as a function) which can be stored off when the module is loaded and utilised however necessary.</p>
+
+<p>So in this case I'm exporting my code as function which takes in a single argument called <code>grunt</code> -> which is the actual Grunt passed down into it from our main Gruntfile.js when we included the line <code>require('./grunt-customtasks.js')(grunt);</code>.</p>
+
+<h3>grunt-dynamic.js</h3>
+
+<p>This is where the actual work comes in… finally!</p>
+
+<div class="highlight"><pre><code class="javascript">    <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">file</span> <span class="o">=</span> <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">read</span><span class="p">(</span><span class="s1">&#39;Gruntfile.js&#39;</span><span class="p">),</span>
+            <span class="nx">services</span> <span class="o">=</span> <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">expand</span><span class="p">(</span><span class="s1">&#39;tabloid/webapp/static/sass/services/*&#39;</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nx">removePath</span><span class="p">).</span><span class="nx">filter</span><span class="p">(</span><span class="nx">removeBlacklistedDirectories</span><span class="p">),</span>
+            <span class="nx">watch_subtasks</span> <span class="o">=</span> <span class="nx">generateWatchSubTasks</span><span class="p">(),</span> 
+            <span class="nx">sass_subtasks</span> <span class="o">=</span> <span class="nx">generateSassSubTasks</span><span class="p">(),</span>
+            <span class="nx">counter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+        <span class="kd">function</span> <span class="nx">removePath</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">element</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">).</span><span class="nx">pop</span><span class="p">();</span>
+        <span class="p">}</span>
+
+        <span class="kd">function</span> <span class="nx">removeBlacklistedDirectories</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;journalism&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="kc">false</span>
+            <span class="p">}</span>
+
+            <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="kd">function</span> <span class="nx">generateWatchSubTasks</span><span class="p">()</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">generatedContent</span> <span class="o">=</span> <span class="s1">&#39;// Dynamic Watch Content\n            &#39;</span><span class="p">;</span>
+
+            <span class="nx">services</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">service</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">generatedContent</span> <span class="o">+=</span> <span class="s2">&quot;,\n            &quot;</span> <span class="o">+</span> <span class="nx">service</span> <span class="o">+</span> <span class="s2">&quot;: {\n\</span>
+<span class="s2">                    files: [&#39;&lt;%= dir.static_sass %&gt;/partials/**/*.scss&#39;,\n\</span>
+<span class="s2">                            &#39;&lt;%= dir.static_sass %&gt;services/&quot;</span> <span class="o">+</span> <span class="nx">service</span> <span class="o">+</span> <span class="s2">&quot;/*.scss&#39;],\n\</span>
+<span class="s2">                    tasks: [&#39;sass:&quot;</span> <span class="o">+</span> <span class="nx">service</span> <span class="o">+</span> <span class="s2">&quot;&#39;]\n            }&quot;</span><span class="p">;</span>
+            <span class="p">});</span>
+
+            <span class="k">return</span> <span class="nx">generatedContent</span> <span class="o">+=</span> <span class="s1">&#39;\n            // Dynamic Watch Content Ended&#39;</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="kd">function</span> <span class="nx">generateSassSubTasks</span><span class="p">()</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">generatedContent</span> <span class="o">=</span> <span class="s1">&#39;// Dynamic Sass Content\n            &#39;</span><span class="p">;</span>
+
+            <span class="nx">services</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">service</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">generatedContent</span> <span class="o">+=</span> <span class="s2">&quot;,\n            &quot;</span> <span class="o">+</span> <span class="nx">service</span> <span class="o">+</span> <span class="s2">&quot;: {\n\</span>
+<span class="s2">                    options: {\n\</span>
+<span class="s2">                        style: &#39;expanded&#39;,\n\</span>
+<span class="s2">                        debugInfo: true,\n\</span>
+<span class="s2">                        lineNumbers: true,\n\</span>
+<span class="s2">                        require: [&#39;&lt;%= dir.static_sass %&gt;partials/helpers/url64.rb&#39;]\n\</span>
+<span class="s2">                    },\n\</span>
+<span class="s2">                    expand: true,\n\</span>
+<span class="s2">                    cwd: &#39;&lt;%= dir.static_sass %&gt;/services/&quot;</span> <span class="o">+</span> <span class="nx">service</span> <span class="o">+</span> <span class="s2">&quot;&#39;,\n\</span>
+<span class="s2">                    src: [&#39;*.scss&#39;, &#39;!_*.scss&#39;],\n\</span>
+<span class="s2">                    dest: &#39;&lt;%= dir.static_css %&gt;/services/&quot;</span> <span class="o">+</span> <span class="nx">service</span> <span class="o">+</span> <span class="s2">&quot;&#39;,\n\</span>
+<span class="s2">                    ext: &#39;.css&#39;\n\</span>
+<span class="s2">                }&quot;</span><span class="p">;</span>
+            <span class="p">});</span>
+
+            <span class="k">return</span> <span class="nx">generatedContent</span> <span class="o">+=</span> <span class="s1">&#39;\n            // Dynamic Sass Content Ended&#39;</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="cm">/*</span>
+<span class="cm">            Following regex searches our Gruntfile.js for either &quot;// Dynamic Sass Content&quot; or &quot;// Dynamic Watch Content&quot;.</span>
+<span class="cm">            It then continues to find the associated ending code comment.</span>
+<span class="cm">         */</span>
+        <span class="nx">file</span> <span class="o">=</span> <span class="nx">file</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/(\/\/ Dynamic (Sass|Watch) Content)(?:\r|\n(?:.|\r|\n)+?\1 Ended)?/gmi</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">match</span><span class="p">,</span> <span class="nx">cg1</span><span class="p">,</span> <span class="nx">cg2</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">counter</span><span class="o">++</span><span class="p">;</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="nx">cg2</span> <span class="o">===</span> <span class="s1">&#39;Sass&#39;</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">returnValue</span> <span class="o">=</span> <span class="nx">sass_subtasks</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="nx">cg2</span> <span class="o">===</span> <span class="s1">&#39;Watch&#39;</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">returnValue</span> <span class="o">=</span> <span class="nx">watch_subtasks</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="k">return</span> <span class="nx">returnValue</span><span class="p">;</span>
+        <span class="p">});</span>
+
+        <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;Gruntfile.js&#39;</span><span class="p">,</span> <span class="nx">file</span><span class="p">);</span>
+    <span class="p">};</span>
+</code></pre></div>
+
+
+<p>So again, you can see we're using a mixture of Grunt API's and Node.js to accomplish what we need. In this case we're doing the following…</p>
+
+<ul>
+<li>Storing the contents of our Gruntfile.js</li>
+<li>Creating an Array of language services (e.g. <code>['afrique', 'arabic', 'hausa', …]</code>) by using <code>grunt.file.expand</code> and then using some Array methods such as <code>map</code> and <code>filter</code> to clean up the data (we use <code>map</code> to strip the directory path and we use <code>filter</code> to remove any blacklisted folders -> by that we mean folders we don't want to include).</li>
+<li>We have two functions for generating the String data that makes up our sub tasks for Sass and Watch (effectively, just loops through the Array of languages and creates a String of JavaScript code that we'll then inject into our Gruntfile).</li>
+<li>Use a regular expression with the String <code>replace</code> method to find the code comment hooks we have in our Gruntfile.</li>
+<li>Once the hooks are found, we check which hook it is (Sass or Watch) and then inject the relevant String of JavaScript code we dynamically created earlier inside our <code>generateWatchSubTasks</code> and <code>generateSassSubTasks</code> functions by using Grunt's <code>grunt.file.write</code> API.</li>
+</ul>
+
+
+<h2>Conclusion</h2>
+
+<p>That's it! I hope this was a useful look at how to write some custom Grunt tasks and also how to take advantage of the Grunt API and Node.js to doing something a little bit more specialised with Grunt.</p>
+
+<p>Hopefully this post was better than the same old Grunt posts that only just tell you how to use the pre-built tasks to do mundane things like minify your JavaScript or other tediously boring stuff.</p>
+
+</div>
+
+        </section>
+        <section class="info container" id="info">
+            <section class="info__section">
+                <h3 class="info__title">Links</h3>
+                <ul class="info__list">
+                    <li><a href="http://www.github.com/integralist" target="_blank">GitHub</a></li>
+                    <li><a href="http://www.twitter.com/integralist" target="_blank">Twitter</a></li>
+                    <li><a href="http://integralist.co.uk/Resume/" target="_blank">Resume</a></li>
+                </ul>
+            </section>
+            <section class="info__section">
+                <h3 class="info__title">Skills</h3>
+                <ul class="info__list">
+                    <li>Practical Code Design and Architecture</li>
+                    <li>Test/Behaviour Driven Development</li>
+                    <li>Object-Oriented/Scalable CSS</li>
+                    <li>Semantic/Efficient HTML</li>
+                    <li>Modular JavaScript</li>
+                </ul>
+            </section>
+            <section class="info__section">
+                <h3 class="info__title">Enjoys</h3>
+                <ul class="info__list">
+                    <li>Gracie Jiu-Jitsu</li>
+                    <li>Programming</li>
+                    <li>Integral Theory</li>
+                </ul>
+            </section>
+            <section class="info__section">
+                <h3 class="info__title">Listens</h3>
+                <ul class="info__list">
+                    <li>LTJ Bukem</li>
+                    <li>Clutch</li>
+                    <li>Tool</li>
+                    <li>Meshuggah</li>
+                    <li>Russian Circles</li>
+                    <li>Earthtone9</li>
+                    <li>Will Haven</li>
+                    <li>ISIS</li>
+                </ul>
+            </section>
+        </section>
+    </body>
+</html>
