@@ -4,7 +4,7 @@ title: Dynamically Generated Grunt Tasks
 strapline: A slightly deeper dive into Grunt on how to generate sub tasks dynamically dependent on the contents of a particular folder structure
 ---
 
-## What we'll cover *reading time: approx. 9mins*
+## What we'll cover *reading time: approx. 10mins*
 
 - Background
 - What are we trying to do?
@@ -28,9 +28,24 @@ At BBC News we have our core product and we have 27 different language services.
 
 We're in the process of moving all 27 languages over to our responsive code base. We've only moved over 8 so far and already we've noticed an issue with how we set-up Grunt to handle compilation of our [Sass](http://sass-lang.com/) files into CSS.
 
-Given we have quite a few Sass files within the responsive code base (and we are having more and more Sass files added as part of our World Services moving to the responsive code base), the time to compile is exponentially growing.
+Given we have quite a few Sass files within the responsive code base (and more are being added every time we move a language service over to responsive), the time to compile is exponentially growing.
 
-To work-around this we set-up Grunt to watch specific directories for changes and to run a specific Sass sub task so only the files relevant are compiled. 
+The issue is actually a slightly deeper one in it's a fundamental problem with Sass. We divide up our languages into separate sub folders so it's easier to maintain, like so...
+
+- /partials/
+    - /mixins/
+    - etc
+- /services/
+    - /afrique/
+    - /arabic/
+    - /hausa/
+    - etc
+
+...but Sass has issues with how it 'watches' folders and so this structure doesn't work very well with it. 
+
+By that I mean, if we watch a single language folder (let's say 'arabic'), Sass can detect changes to the files inside the arabic folder, but it can't detect changes to any `@import`'ed files that may sit outside of that folder (such as any /partials/ that may have been imported).
+
+To work-around this issue we set-up Grunt to watch specific directories for changes and to run a specific Sass sub task so only the files relevant are compiled but also allows us to properly watch a single language and still detect changes to partial files being imported. 
 
 For example, if one of the World Service teams are working on the Arabic site then they'll run `grunt watch:arabic` and any time those specific Sass files change then we execute the Sass sub task `grunt sass:arabic`.
 
@@ -48,11 +63,11 @@ We're going to automate the process!
 
 ## How are we going to do it?
 
-We're going to take advantage of the fact that we have access to Node.js (as Grunt utilises Node.js and it's package manager NPM).
+We're going to take advantage of the fact that we have access to Node.js (as Grunt utilises it and its package manager NPM).
 
-So we're going to use Node.js with a little bit of Grunt to rewrite the Grunt file and dynamically insert sub tasks for both the Watch and Sass Grunt tasks (that's a bit of a mouthful).
+So we're going to use Node with a little bit of Grunt to rewrite the Grunt file itself. We'll dynamically generate and insert sub tasks for both the Watch and Sass Grunt tasks (that's a bit of a mouthful).
 
-I'm not going to comment the following code too much because of lot of it should be self explanatory. I will be providing notes below on what the code is doing so you can understand the flow of what the scripts do and why I'm doing certain things (but the code itself you should be able to read without any problems)…
+I'm not going to comment the following code too much because a lot of it should be self explanatory. I will be providing notes below on what the code is doing so you can understand the flow of what the scripts do and why I'm doing certain things (but the code itself you should be able to read without any problems)…
 
 ## Example code
 
@@ -66,7 +81,7 @@ The code ranges over three files…
 
 So the first file is obviously our main Grunt application file. 
 
-Inside that file we have the following code (not this is a *really* stripped back version just so it's a little bit more readable)…
+Inside that file we have the following code (note: this is a *really* stripped back version just so it's a little bit more readable)…
 
 {% highlight javascript %}
     module.exports = function (grunt) {
@@ -134,6 +149,8 @@ I use these code comments as a hook. Because we're opening up the Gruntfile and 
 
 ### grunt-customtasks.js
 
+OK, this isn't strictly speaking a file that has anything to do with the problem/solution that we're working on. The reason I've included it here is because you'll see that I've written two custom Grunt tasks which I've gone ahead and made the assumption that A.) this would be of interest to those of you reading this and B.) one of the custom tasks was quite useful in helping me quickly test my code was working... 
+
 {% highlight javascript %}
     module.exports = function (grunt) {
         grunt.registerTask('noop', 'x', function(){ console.log('noop run'); });
@@ -153,13 +170,9 @@ I use these code comments as a hook. Because we're opening up the Gruntfile and 
     };
 {% endhighlight %}
 
-OK, this isn't strictly speaking a file that has anything to do with the problem/solution that we're working on. The reason I mention this file is because you'll see that I've written two custom Grunt tasks.
+The custom task 'concat_specjs' is a good look at how you can use Grunt/Node.js to search for files within specific directories and manipulate them by opening them up and writing content into them using the Grunt API. Nothing actually really complicated about it to be honest, the code speaks for itself.
 
-Now, A.) this is probably of interest to people reading this and B.) the first custom task was useful to me for testing the rest of my code was working.
-
-Considering A.) mentioned above, the custom task 'concat_specjs' is a good look at how you can use Grunt/Node.js to search for files in specifically directories and manipulate them by opening up a file and writing in content to them using the Grunt API. Nothing actually really complicated about it to be honest, the code speaks for it self.
-
-Considering B.) mentioned above, the reason I created a 'noop' (which stands for 'no-op', no-operation) task is because I wanted to test how my code was running without actually running any tasks that would take longer than a nano second to run. Hence I created a custom task that basically does nothing and is there only to see how my dynamic content generation would be affected by running a Grunt task.
+The reason I created a 'noop' (which stands for 'no-op', no-operation) task is because I wanted to test how my code was running without actually running any tasks that would take longer than a nano second to run. Hence I created a custom task that basically does nothing and is there only to see how my dynamic content generation would be affected by running a Grunt task.
 
 The only other thing worth mentioning is the `module.exports = function(grunt){};` that wraps around our code. Effectively this file when loaded is a standalone module. This module could just execute some code and end there. But this module needs to have access to Grunt and to do that we make sure the module exports some data (in this case it exports itself as a function) which can be stored off when the module is loaded and utilised however necessary.
 
@@ -174,8 +187,7 @@ This is where the actual work comes in… finally!
         var file = grunt.file.read('Gruntfile.js'),
             services = grunt.file.expand('tabloid/webapp/static/sass/services/*').map(removePath).filter(removeBlacklistedDirectories),
             watch_subtasks = generateWatchSubTasks(), 
-            sass_subtasks = generateSassSubTasks(),
-            counter = 0;
+            sass_subtasks = generateSassSubTasks();
 
         function removePath(element) {
             return element.split('/').pop();
@@ -229,8 +241,6 @@ This is where the actual work comes in… finally!
             It then continues to find the associated ending code comment.
          */
         file = file.replace(/(\/\/ Dynamic (Sass|Watch) Content)(?:\r|\n(?:.|\r|\n)+?\1 Ended)?/gmi, function(match, cg1, cg2) {
-            counter++;
-
             if (cg2 === 'Sass') {
                 returnValue = sass_subtasks;
             }
@@ -252,7 +262,13 @@ So again, you can see we're using a mixture of Grunt API's and Node.js to accomp
 - Creating an Array of language services (e.g. `['afrique', 'arabic', 'hausa', …]`) by using `grunt.file.expand` and then using some Array methods such as `map` and `filter` to clean up the data (we use `map` to strip the directory path and we use `filter` to remove any blacklisted folders -> by that we mean folders we don't want to include).
 - We have two functions for generating the String data that makes up our sub tasks for Sass and Watch (effectively, just loops through the Array of languages and creates a String of JavaScript code that we'll then inject into our Gruntfile).
 - Use a regular expression with the String `replace` method to find the code comment hooks we have in our Gruntfile.
-- Once the hooks are found, we check which hook it is (Sass or Watch) and then inject the relevant String of JavaScript code we dynamically created earlier inside our `generateWatchSubTasks` and `generateSassSubTasks` functions by using Grunt's `grunt.file.write` API.
+- Once the hooks are found, we check which hook it is (Sass or Watch) and then inject the relevant String of JavaScript code we dynamically created earlier (this was done inside our `generateWatchSubTasks` and `generateSassSubTasks` functions and uses the `grunt.file.write` API).
+
+This code is run before any other tasks are executed. So every time I run `grunt noop` the above code gets run and the dynamically generated sub tasks are injected into the Gruntfile.
+
+This actually runs super quick and so hasn't (currently) raised any performance problems (e.g. we've not had any "hmm, whenever I execute a task it takes ages for it to actually run?" comments). 
+
+If we wanted to we could maybe cache this so it didn't happen every single time a task is run but it's so quick at the moment it's just not worth worrying about.
 
 ## Conclusion
 

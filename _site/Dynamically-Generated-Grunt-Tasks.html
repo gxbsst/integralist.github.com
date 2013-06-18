@@ -37,7 +37,7 @@
         <section class="articles container">
             <h1>Dynamically Generated Grunt Tasks</h1>
 <div class="article__content">
-    <h2>What we'll cover <em>reading time: approx. 9mins</em></h2>
+    <h2>What we'll cover <em>reading time: approx. 10mins</em></h2>
 
 <ul>
 <li>Background</li>
@@ -64,9 +64,35 @@
 
 <p>We're in the process of moving all 27 languages over to our responsive code base. We've only moved over 8 so far and already we've noticed an issue with how we set-up Grunt to handle compilation of our <a href="http://sass-lang.com/">Sass</a> files into CSS.</p>
 
-<p>Given we have quite a few Sass files within the responsive code base (and we are having more and more Sass files added as part of our World Services moving to the responsive code base), the time to compile is exponentially growing.</p>
+<p>Given we have quite a few Sass files within the responsive code base (and more are being added every time we move a language service over to responsive), the time to compile is exponentially growing.</p>
 
-<p>To work-around this we set-up Grunt to watch specific directories for changes and to run a specific Sass sub task so only the files relevant are compiled.</p>
+<p>The issue is actually a slightly deeper one in it's a fundamental problem with Sass. We divide up our languages into separate sub folders so it's easier to maintain, like so...</p>
+
+<ul>
+<li>/partials/
+
+<ul>
+<li>/mixins/</li>
+<li>etc</li>
+</ul>
+</li>
+<li>/services/
+
+<ul>
+<li>/afrique/</li>
+<li>/arabic/</li>
+<li>/hausa/</li>
+<li>etc</li>
+</ul>
+</li>
+</ul>
+
+
+<p>...but Sass has issues with how it 'watches' folders and so this structure doesn't work very well with it.</p>
+
+<p>By that I mean, if we watch a single language folder (let's say 'arabic'), Sass can detect changes to the files inside the arabic folder, but it can't detect changes to any <code>@import</code>'ed files that may sit outside of that folder (such as any /partials/ that may have been imported).</p>
+
+<p>To work-around this issue we set-up Grunt to watch specific directories for changes and to run a specific Sass sub task so only the files relevant are compiled but also allows us to properly watch a single language and still detect changes to partial files being imported.</p>
 
 <p>For example, if one of the World Service teams are working on the Arabic site then they'll run <code>grunt watch:arabic</code> and any time those specific Sass files change then we execute the Sass sub task <code>grunt sass:arabic</code>.</p>
 
@@ -84,11 +110,11 @@
 
 <h2>How are we going to do it?</h2>
 
-<p>We're going to take advantage of the fact that we have access to Node.js (as Grunt utilises Node.js and it's package manager NPM).</p>
+<p>We're going to take advantage of the fact that we have access to Node.js (as Grunt utilises it and its package manager NPM).</p>
 
-<p>So we're going to use Node.js with a little bit of Grunt to rewrite the Grunt file and dynamically insert sub tasks for both the Watch and Sass Grunt tasks (that's a bit of a mouthful).</p>
+<p>So we're going to use Node with a little bit of Grunt to rewrite the Grunt file itself. We'll dynamically generate and insert sub tasks for both the Watch and Sass Grunt tasks (that's a bit of a mouthful).</p>
 
-<p>I'm not going to comment the following code too much because of lot of it should be self explanatory. I will be providing notes below on what the code is doing so you can understand the flow of what the scripts do and why I'm doing certain things (but the code itself you should be able to read without any problems)…</p>
+<p>I'm not going to comment the following code too much because a lot of it should be self explanatory. I will be providing notes below on what the code is doing so you can understand the flow of what the scripts do and why I'm doing certain things (but the code itself you should be able to read without any problems)…</p>
 
 <h2>Example code</h2>
 
@@ -105,7 +131,7 @@
 
 <p>So the first file is obviously our main Grunt application file.</p>
 
-<p>Inside that file we have the following code (not this is a <em>really</em> stripped back version just so it's a little bit more readable)…</p>
+<p>Inside that file we have the following code (note: this is a <em>really</em> stripped back version just so it's a little bit more readable)…</p>
 
 <div class="highlight"><pre><code class="javascript">    <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
 
@@ -173,6 +199,8 @@
 
 <h3>grunt-customtasks.js</h3>
 
+<p>OK, this isn't strictly speaking a file that has anything to do with the problem/solution that we're working on. The reason I've included it here is because you'll see that I've written two custom Grunt tasks which I've gone ahead and made the assumption that A.) this would be of interest to those of you reading this and B.) one of the custom tasks was quite useful in helping me quickly test my code was working...</p>
+
 <div class="highlight"><pre><code class="javascript">    <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
         <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;noop&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;noop run&#39;</span><span class="p">);</span> <span class="p">});</span>
 
@@ -192,13 +220,9 @@
 </code></pre></div>
 
 
-<p>OK, this isn't strictly speaking a file that has anything to do with the problem/solution that we're working on. The reason I mention this file is because you'll see that I've written two custom Grunt tasks.</p>
+<p>The custom task 'concat_specjs' is a good look at how you can use Grunt/Node.js to search for files within specific directories and manipulate them by opening them up and writing content into them using the Grunt API. Nothing actually really complicated about it to be honest, the code speaks for itself.</p>
 
-<p>Now, A.) this is probably of interest to people reading this and B.) the first custom task was useful to me for testing the rest of my code was working.</p>
-
-<p>Considering A.) mentioned above, the custom task 'concat_specjs' is a good look at how you can use Grunt/Node.js to search for files in specifically directories and manipulate them by opening up a file and writing in content to them using the Grunt API. Nothing actually really complicated about it to be honest, the code speaks for it self.</p>
-
-<p>Considering B.) mentioned above, the reason I created a 'noop' (which stands for 'no-op', no-operation) task is because I wanted to test how my code was running without actually running any tasks that would take longer than a nano second to run. Hence I created a custom task that basically does nothing and is there only to see how my dynamic content generation would be affected by running a Grunt task.</p>
+<p>The reason I created a 'noop' (which stands for 'no-op', no-operation) task is because I wanted to test how my code was running without actually running any tasks that would take longer than a nano second to run. Hence I created a custom task that basically does nothing and is there only to see how my dynamic content generation would be affected by running a Grunt task.</p>
 
 <p>The only other thing worth mentioning is the <code>module.exports = function(grunt){};</code> that wraps around our code. Effectively this file when loaded is a standalone module. This module could just execute some code and end there. But this module needs to have access to Grunt and to do that we make sure the module exports some data (in this case it exports itself as a function) which can be stored off when the module is loaded and utilised however necessary.</p>
 
@@ -212,8 +236,7 @@
         <span class="kd">var</span> <span class="nx">file</span> <span class="o">=</span> <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">read</span><span class="p">(</span><span class="s1">&#39;Gruntfile.js&#39;</span><span class="p">),</span>
             <span class="nx">services</span> <span class="o">=</span> <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">expand</span><span class="p">(</span><span class="s1">&#39;tabloid/webapp/static/sass/services/*&#39;</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nx">removePath</span><span class="p">).</span><span class="nx">filter</span><span class="p">(</span><span class="nx">removeBlacklistedDirectories</span><span class="p">),</span>
             <span class="nx">watch_subtasks</span> <span class="o">=</span> <span class="nx">generateWatchSubTasks</span><span class="p">(),</span> 
-            <span class="nx">sass_subtasks</span> <span class="o">=</span> <span class="nx">generateSassSubTasks</span><span class="p">(),</span>
-            <span class="nx">counter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="nx">sass_subtasks</span> <span class="o">=</span> <span class="nx">generateSassSubTasks</span><span class="p">();</span>
 
         <span class="kd">function</span> <span class="nx">removePath</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
             <span class="k">return</span> <span class="nx">element</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">).</span><span class="nx">pop</span><span class="p">();</span>
@@ -267,8 +290,6 @@
 <span class="cm">            It then continues to find the associated ending code comment.</span>
 <span class="cm">         */</span>
         <span class="nx">file</span> <span class="o">=</span> <span class="nx">file</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/(\/\/ Dynamic (Sass|Watch) Content)(?:\r|\n(?:.|\r|\n)+?\1 Ended)?/gmi</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">match</span><span class="p">,</span> <span class="nx">cg1</span><span class="p">,</span> <span class="nx">cg2</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">counter</span><span class="o">++</span><span class="p">;</span>
-
             <span class="k">if</span> <span class="p">(</span><span class="nx">cg2</span> <span class="o">===</span> <span class="s1">&#39;Sass&#39;</span><span class="p">)</span> <span class="p">{</span>
                 <span class="nx">returnValue</span> <span class="o">=</span> <span class="nx">sass_subtasks</span><span class="p">;</span>
             <span class="p">}</span>
@@ -292,9 +313,15 @@
 <li>Creating an Array of language services (e.g. <code>['afrique', 'arabic', 'hausa', …]</code>) by using <code>grunt.file.expand</code> and then using some Array methods such as <code>map</code> and <code>filter</code> to clean up the data (we use <code>map</code> to strip the directory path and we use <code>filter</code> to remove any blacklisted folders -> by that we mean folders we don't want to include).</li>
 <li>We have two functions for generating the String data that makes up our sub tasks for Sass and Watch (effectively, just loops through the Array of languages and creates a String of JavaScript code that we'll then inject into our Gruntfile).</li>
 <li>Use a regular expression with the String <code>replace</code> method to find the code comment hooks we have in our Gruntfile.</li>
-<li>Once the hooks are found, we check which hook it is (Sass or Watch) and then inject the relevant String of JavaScript code we dynamically created earlier inside our <code>generateWatchSubTasks</code> and <code>generateSassSubTasks</code> functions by using Grunt's <code>grunt.file.write</code> API.</li>
+<li>Once the hooks are found, we check which hook it is (Sass or Watch) and then inject the relevant String of JavaScript code we dynamically created earlier (this was done inside our <code>generateWatchSubTasks</code> and <code>generateSassSubTasks</code> functions and uses the <code>grunt.file.write</code> API).</li>
 </ul>
 
+
+<p>This code is run before any other tasks are executed. So every time I run <code>grunt noop</code> the above code gets run and the dynamically generated sub tasks are injected into the Gruntfile.</p>
+
+<p>This actually runs super quick and so hasn't (currently) raised any performance problems (e.g. we've not had any "hmm, whenever I execute a task it takes ages for it to actually run?" comments).</p>
+
+<p>If we wanted to we could maybe cache this so it didn't happen every single time a task is run but it's so quick at the moment it's just not worth worrying about.</p>
 
 <h2>Conclusion</h2>
 
