@@ -13,10 +13,20 @@
     <atom:link href="http://integralist.co.uk/feed.xml" rel="self" type="application/rss+xml" />
     <link>http://integralist.co.uk</link>
     <description></description>
-    <lastBuildDate>Tue, 18 Jun 2013 14:10:46 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 21 Jun 2013 09:53:17 +0100</lastBuildDate>
     <language>en</language>
     <copyright>Integralist</copyright>
 
+    
+      <item>
+        <title>Using Grunts Config API</title>
+        <link>http://integralist.co.uk/Using-Grunts-Config-API.html</link>
+        <pubDate>Fri, 21 Jun 2013 00:00:00 +0100</pubDate>
+        <guid>http://integralist.co.uk/Using-Grunts-Config-API.html</guid>
+        <description>
+        This is a continuation from my previous Grunt post where I was trying to dynamically update the main Grunt file at runtime. Seems there is a better (and more official) way to do this using aspects of the Grunt API
+        </description>
+      </item>
     
       <item>
         <title>Dynamically Generated Grunt Tasks</title>
@@ -105,16 +115,6 @@
         <guid>http://integralist.co.uk/JavaScript-101.html</guid>
         <description>
         A more 'fundamental' introduction to the JavaScript language/syntax, proper terminology and concepts.
-        </description>
-      </item>
-    
-      <item>
-        <title>MVC in JavaScript with Backbone.js</title>
-        <link>http://integralist.co.uk/MVC-in-JavaScript-with-Backbone.html</link>
-        <pubDate>Thu, 16 Aug 2012 00:00:00 +0100</pubDate>
-        <guid>http://integralist.co.uk/MVC-in-JavaScript-with-Backbone.html</guid>
-        <description>
-        MVC in the front-end engineer's toolkit is a big thing (as of 2012). This post discusses how to utilise the (currently) most popular framework &lt;a href=&quot;http://backbonejs.org&quot; target=&quot;_blank&quot;&gt;Backbone.js&lt;/a&gt;
         </description>
       </item>
     
