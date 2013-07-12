@@ -204,3 +204,71 @@ h3,
     color: #b19459;
     text-decoration: none;
 }
+
+.social-links {
+    float: right;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.social-links a {
+    background-color: #fff;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: 50px;
+    border-radius: 2em;
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+}
+
+.social-links > li {
+    float: left;
+}
+
+.social-links :first-child {
+    margin-right: .5em;
+}
+
+.social-links span {
+    position: relative;
+    visibility: hidden;
+}
+
+.social-links__twitter {
+    background-image: url(../Images/icon-twitter.png);
+}
+
+.social-links__github {
+    background-image: url(../Images/icon-github.png);
+}
+
+.social-links .social-links__github {
+    background-color: transparent;
+}
+
+/*
+    GitHub logo black with icon as a transparency (so background colour becomes icon colour)
+    Unfortunately with a border-radius the white background colour bleeds through the edges.
+    So we need to use a pseudo-element to create the white background to hack around this.
+ */
+
+.social-links__github span:before {
+    background-color: #fff;
+    border-radius: 2em;
+    content: '';
+    height: 47px;
+    left: 2px;
+    position: absolute;
+    top: 0;
+    visibility: visible;
+    width: 46px;
+    z-index: -1;
+}
+
+@media (max-width: 319px) {
+    .social-links {
+        display: none;
+    }
+}
