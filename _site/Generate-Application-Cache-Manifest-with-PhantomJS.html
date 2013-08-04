@@ -85,13 +85,13 @@
 
 <p>Here's a super quick introduction on how to use PhantomJS…</p>
 
-<div class="highlight"><pre><code class="javascript">       <span class="kd">var</span> <span class="nx">page</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;webpage&#39;</span><span class="p">).</span><span class="nx">create</span><span class="p">(),</span>
-                <span class="nx">url</span> <span class="o">=</span> <span class="s1">&#39;http://www.phantomjs.org/&#39;</span><span class="p">;</span>
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">page</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;webpage&#39;</span><span class="p">).</span><span class="nx">create</span><span class="p">(),</span>
+    <span class="nx">url</span> <span class="o">=</span> <span class="s1">&#39;http://www.phantomjs.org/&#39;</span><span class="p">;</span>
 
-        <span class="nx">page</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">// Page is loaded!</span>
-            <span class="nx">phantom</span><span class="p">.</span><span class="nx">exit</span><span class="p">();</span>
-        <span class="p">});</span>
+<span class="nx">page</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Page is loaded!</span>
+    <span class="nx">phantom</span><span class="p">.</span><span class="nx">exit</span><span class="p">();</span>
+<span class="p">});</span>
 </code></pre></div>
 
 
