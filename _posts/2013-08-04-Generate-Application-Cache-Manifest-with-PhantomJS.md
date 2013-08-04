@@ -80,7 +80,7 @@ The process of our script is as follows…
 6. Open the URL specified by the user (the clean-up version).
 7. Get a list of all anchors/links found in the web page.
 8. Make sure we have a unique list of each resource type.
-9. Call a function `populateManifest()` that will being the process of populating our manifest file.
+9. Call a function `populateManifest()` that will begin the process of populating our manifest file.
 10. Exit our PhantomJS script.
 
 ### Set-up
