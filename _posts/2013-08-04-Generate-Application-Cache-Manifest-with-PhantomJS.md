@@ -11,7 +11,7 @@ strapline: Quick run down of using PhantomJS to generate an ApplicationCache man
 - How can we use it?
 - Basic introduction
 - Let's break down Squirrel
-- Other features
+- Other PhantomJS features
 - Conclusion
 
 ## What is PhantomJS?
@@ -235,9 +235,13 @@ So how do we use this script? Well, once you've cloned down the repo and followe
 
 `phantomjs appcache.js bbc.co.uk/news`
 
-## Other features
+## Other PhantomJS features
 
-Here are three (of many, many, many) features available to you when using PhantomJS, just check the [PhantomJS API](https://github.com/ariya/phantomjs/wiki/API-Reference) for full details.
+Here follows are a quick run down of some other features available to you when using PhantomJS, just check the [PhantomJS API](https://github.com/ariya/phantomjs/wiki/API-Reference) for full details.
+
+- Custom Headers
+- Remote Debugging
+- View Port Sizing
 
 ### Custom Headers
 
@@ -264,8 +268,8 @@ You can change the dimensions of the page being loaded using the `viewportSize` 
 
 ## Conclusion
 
-Hope this introduction to PhantomJS was useful. The Squirrel repo is a work in progress so feel free to open up either an issue (or better yet a pull request) on GitHub if you find any problems.
+Hopefully this introduction to PhantomJS was useful. The Squirrel repo is still a work in progress so feel free to open up an issue (or better yet a pull request) on GitHub if you find any problems.
 
 I'll likely follow up this article at some point in the future with one about using CasperJS so keep your eyes peeled for that.
 
-Any other feedback then catch me on twitter.
+Any other feedback then catch me on [twitter](http://twitter.com/integralist).
