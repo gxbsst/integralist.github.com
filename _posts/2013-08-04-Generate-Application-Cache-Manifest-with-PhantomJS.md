@@ -49,13 +49,13 @@ I won't go into the details of what the Application Cache does (or should do), I
 Here's a super quick introduction on how to use PhantomJS… 
 
 {% highlight javascript %}
-var page = require('webpage').create(),
-    url = 'http://www.phantomjs.org/';
+    var page = require('webpage').create(),
+        url = 'http://www.phantomjs.org/';
 
-page.open(url, function (status) {
-    // Page is loaded!
-    phantom.exit();
-});
+    page.open(url, function (status) {
+        // Page is loaded!
+        phantom.exit();
+    });
 {% endhighlight %}
 
 …here we load the PhantomJS `webpage` module, and call the `create()` method which instantiates a new web page.
