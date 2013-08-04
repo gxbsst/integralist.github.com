@@ -13,10 +13,20 @@
     <atom:link href="http://integralist.co.uk/feed.xml" rel="self" type="application/rss+xml" />
     <link>http://integralist.co.uk</link>
     <description></description>
-    <lastBuildDate>Thu, 01 Aug 2013 21:05:47 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 04 Aug 2013 21:01:48 +0100</lastBuildDate>
     <language>en</language>
     <copyright>Integralist</copyright>
 
+    
+      <item>
+        <title>Generate Application Cache Manifest with PhantomJS</title>
+        <link>http://integralist.co.uk/Generate-Application-Cache-Manifest-with-PhantomJS.html</link>
+        <pubDate>Sun, 04 Aug 2013 00:00:00 +0100</pubDate>
+        <guid>http://integralist.co.uk/Generate-Application-Cache-Manifest-with-PhantomJS.html</guid>
+        <description>
+        Quick run down of using PhantomJS to generate an ApplicationCache manifest file (covers different aspects of Phantom's API)
+        </description>
+      </item>
     
       <item>
         <title>Using Grunts Config API</title>
@@ -105,16 +115,6 @@
         <guid>http://integralist.co.uk/Backbone-Validation.html</guid>
         <description>
         I demonstrate how to create a Backbone.View to help ease the validation of a form and the displaying of custom error messages.
-        </description>
-      </item>
-    
-      <item>
-        <title>JavaScript 101</title>
-        <link>http://integralist.co.uk/JavaScript-101.html</link>
-        <pubDate>Sat, 24 Nov 2012 00:00:00 +0000</pubDate>
-        <guid>http://integralist.co.uk/JavaScript-101.html</guid>
-        <description>
-        A more 'fundamental' introduction to the JavaScript language/syntax, proper terminology and concepts.
         </description>
       </item>
     
