@@ -24,7 +24,7 @@ To quote the source…
 
 So why do you care? Well, having a headless WebKit allows you to do all sorts of things. You can automate anything within a browser environment, and that's very cool!
 
-So for example, I work for BBC News on the responsive code base and some of the very talented guys here have recently released an open-source project called [Wraith](https://github.com/BBC-News/wraith) which is a front-end regression testing tool that lets you grab screen shot images web pages at different dimensions (it's great for making sure your recent CSS commits or changes hasn't broken your site, it doesn't replace acceptance tests, unit tests or manual testing but it helps improve confidence). 
+So for example, I work for BBC News on the responsive code base and some of the very talented guys here have recently released an open-source project called [Wraith](https://github.com/BBC-News/wraith) which is a front-end regression testing tool that lets you grab screen shot images of web pages at different dimensions (it's great for making sure your recent CSS commits or changes hasn't broken your site, it doesn't replace acceptance tests, unit tests or manual testing but it helps improve confidence). 
 
 In case you're wondering, the definition of 'wraith' is…
 
