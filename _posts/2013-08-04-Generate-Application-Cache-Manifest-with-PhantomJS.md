@@ -4,7 +4,7 @@ title: Generate Application Cache Manifest with PhantomJS
 strapline: Quick run down of using PhantomJS to generate an ApplicationCache manifest file (covers different aspects of Phantom's API)
 ---
 
-## What we'll cover *reading time: approx. 9mins*
+## What we'll cover *reading time: approx. 11mins*
 
 - What is PhantomJS?
 - Why use PhantomJS?
