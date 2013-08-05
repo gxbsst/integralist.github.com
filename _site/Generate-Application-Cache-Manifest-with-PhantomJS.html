@@ -152,13 +152,110 @@
 
 <ul>
 <li><code>getLinks</code> uses the PhantomJS' <code>evaluate</code> method on the web page object (which lets you parse the open web page using JavaScript, meaning you run JavaScript code within the context of the open web page).</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="javascript">    <span class="kd">function</span> <span class="nx">getLinks</span><span class="p">(){</span>
+        <span class="kd">var</span> <span class="nx">results</span> <span class="o">=</span> <span class="nx">page</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+            <span class="k">return</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)).</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nx">item</span><span class="p">.</span><span class="nx">href</span><span class="p">;</span>
+            <span class="p">});</span>
+        <span class="p">});</span>
+
+        <span class="k">return</span> <span class="nx">results</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></div>
+
+
+<ul>
 <li><code>populateManifest</code> is called next but this just delegates calls to the following other functions.</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="javascript">    <span class="kd">function</span> <span class="nx">populateManifest</span><span class="p">(){</span>
+        <span class="nx">writeVersion</span><span class="p">();</span>
+
+        <span class="nx">writeListContentFor</span><span class="p">(</span><span class="s1">&#39;Images&#39;</span><span class="p">,</span> <span class="nx">images</span><span class="p">);</span>
+        <span class="nx">writeListContentFor</span><span class="p">(</span><span class="s1">&#39;Internal HTML documents&#39;</span><span class="p">,</span> <span class="nx">links</span><span class="p">);</span>
+        <span class="nx">writeListContentFor</span><span class="p">(</span><span class="s1">&#39;Style Sheets&#39;</span><span class="p">,</span> <span class="nx">css</span><span class="p">);</span>
+        <span class="nx">writeListContentFor</span><span class="p">(</span><span class="s1">&#39;JavaScript&#39;</span><span class="p">,</span> <span class="nx">javascript</span><span class="p">);</span>
+
+        <span class="nx">writeManifest</span><span class="p">();</span>
+    <span class="p">}</span>
+</code></pre></div>
+
+
+<ul>
 <li><code>writeVersion</code> replaces the current time stamp within our manifest file (we're doing this in memory, not saving the change back to the manifest file yet).</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="javascript">    <span class="kd">function</span> <span class="nx">writeVersion</span><span class="p">(){</span>
+        <span class="nx">manifest</span> <span class="o">=</span> <span class="nx">manifest</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/# Timestamp: \d+/i</span><span class="p">,</span> <span class="s1">&#39;# Timestamp: &#39;</span> <span class="o">+</span> <span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">()).</span><span class="nx">getTime</span><span class="p">());</span>
+    <span class="p">}</span>
+</code></pre></div>
+
+
+<ul>
 <li><code>writeListContentFor</code> is called multiple times and is just an abstraction for a common pattern of code which looks through the manifest file content for 'hooks' and then replace the content found with the updated content that we've parsed from the page as it was loading (e.g. the event listener we set-up for <code>onResourceReceived</code> which checked the <code>contentType</code> of the resource being loaded).</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="javascript">    <span class="kd">function</span> <span class="nx">writeListContentFor</span> <span class="p">(</span><span class="nx">str</span><span class="p">,</span> <span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">manifest</span> <span class="o">=</span> <span class="nx">manifest</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="s1">&#39;(# &#39;</span> <span class="o">+</span> <span class="nx">str</span> <span class="o">+</span> <span class="s1">&#39;)\\n[\\s\\S]+?\\n\\n&#39;</span><span class="p">,</span> <span class="s1">&#39;igm&#39;</span><span class="p">),</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">match</span><span class="p">,</span> <span class="nx">cg</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">cg</span> <span class="o">+</span> <span class="s1">&#39;\n&#39;</span> <span class="o">+</span> <span class="nx">type</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;\n\n&#39;</span><span class="p">;</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+</code></pre></div>
+
+
+<ul>
+<li><code>writeManifest</code> opens up our original manifest file using Node's file system module and writes over the content with the new content string we've constructed in the <code>manifest</code> variable.</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="javascript">    <span class="kd">function</span> <span class="nx">writeManifest</span><span class="p">(){</span>
+        <span class="nx">fs</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">path</span><span class="p">,</span> <span class="nx">manifest</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+</code></pre></div>
+
+
+<ul>
 <li><code>urlProvided</code> just checks to make sure an argument was provided by the user on the command line.</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="javascript">    <span class="kd">function</span> <span class="nx">urlProvided</span><span class="p">(){</span>
+        <span class="k">return</span> <span class="nx">args</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="sr">/(?:www\.)?[a-z-z1-9]+\./i</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+    <span class="p">}</span>
+</code></pre></div>
+
+
+<ul>
 <li><code>cleanUrl</code> takes in a URL and formats it so it doesn't break PhantomJS</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="javascript">    <span class="kd">function</span> <span class="nx">cleanUrl</span> <span class="p">(</span><span class="nx">providedUrl</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// If no http or https found at the start of the url...</span>
+        <span class="k">if</span> <span class="p">(</span><span class="sr">/^(?!https?:\/\/)[\w\d]/i</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">providedUrl</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="s1">&#39;http://&#39;</span> <span class="o">+</span> <span class="nx">providedUrl</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre></div>
+
+
+<ul>
 <li><code>bbcNews</code> checks to see if the URL is for the BBC News site (if it is then later on we'll do something specific for that scenario). It's not essential for the script to work, just something specific I wanted to demonstrate.</li>
 </ul>
+
+
+<div class="highlight"><pre><code class="javascript">    <span class="kd">function</span> <span class="nx">bbcNews</span><span class="p">(){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="sr">/bbc.co.uk\/news/i</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">url</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre></div>
 
 
 <h3>Checking resources that are loaded</h3>
@@ -193,6 +290,26 @@
                 <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;data:image&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
                     <span class="nx">gifs</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
                 <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+</code></pre></div>
+
+
+<p>To be honest we don't need to separate the content types out into jpg, gif and png. We could just have an images Array that holds them all - it would be cleaner and more efficient code, something like...</p>
+
+<div class="highlight"><pre><code class="javascript">    <span class="nx">page</span><span class="p">.</span><span class="nx">onResourceReceived</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">contentType</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">contentType</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;text/css&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">css</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+            <span class="p">}</span>
+            
+            <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">contentType</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;javascript&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">javascript</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="sr">/image\/(?:png|jpeg|gif)/i</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">contentType</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;data:image&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">images</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
             <span class="p">}</span>
         <span class="p">}</span>
     <span class="p">};</span>

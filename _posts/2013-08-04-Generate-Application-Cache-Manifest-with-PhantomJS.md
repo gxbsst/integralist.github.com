@@ -111,12 +111,73 @@ You might be wondering about the long list of empty Arrays, well we have to set 
 We have a whole group of functions that carry out different things for us, so we'll just quickly scan over them…
 
 - `getLinks` uses the PhantomJS' `evaluate` method on the web page object (which lets you parse the open web page using JavaScript, meaning you run JavaScript code within the context of the open web page).
+{% highlight javascript %}
+    function getLinks(){
+        var results = page.evaluate(function(){
+            return Array.prototype.slice.call(document.getElementsByTagName('a')).map(function (item) {
+                return item.href;
+            });
+        });
+
+        return results;
+    }
+{% endhighlight %}
 - `populateManifest` is called next but this just delegates calls to the following other functions.
+{% highlight javascript %}
+    function populateManifest(){
+        writeVersion();
+
+        writeListContentFor('Images', images);
+        writeListContentFor('Internal HTML documents', links);
+        writeListContentFor('Style Sheets', css);
+        writeListContentFor('JavaScript', javascript);
+
+        writeManifest();
+    }
+{% endhighlight %}
 - `writeVersion` replaces the current time stamp within our manifest file (we're doing this in memory, not saving the change back to the manifest file yet).
+{% highlight javascript %}
+    function writeVersion(){
+        manifest = manifest.replace(/# Timestamp: \d+/i, '# Timestamp: ' + (new Date()).getTime());
+    }
+{% endhighlight %}
 - `writeListContentFor` is called multiple times and is just an abstraction for a common pattern of code which looks through the manifest file content for 'hooks' and then replace the content found with the updated content that we've parsed from the page as it was loading (e.g. the event listener we set-up for `onResourceReceived` which checked the `contentType` of the resource being loaded).
+{% highlight javascript %}
+    function writeListContentFor (str, type) {
+        manifest = manifest.replace(new RegExp('(# ' + str + ')\\n[\\s\\S]+?\\n\\n', 'igm'), function (match, cg) {
+            return cg + '\n' + type.join('\n') + '\n\n';
+        });
+    }
+{% endhighlight %}
+- `writeManifest` opens up our original manifest file using Node's file system module and writes over the content with the new content string we've constructed in the `manifest` variable.
+{% highlight javascript %}
+    function writeManifest(){
+        fs.write(path, manifest, 'w');
+    }
+{% endhighlight %}
 - `urlProvided` just checks to make sure an argument was provided by the user on the command line.
+{% highlight javascript %}
+    function urlProvided(){
+        return args.length > 1 && /(?:www\.)?[a-z-z1-9]+\./i.test(args[1]);
+    }
+{% endhighlight %}
 - `cleanUrl` takes in a URL and formats it so it doesn't break PhantomJS
+{% highlight javascript %}
+    function cleanUrl (providedUrl) {
+        // If no http or https found at the start of the url...
+        if (/^(?!https?:\/\/)[\w\d]/i.test(providedUrl)) {
+            return 'http://' + providedUrl + '/';
+        }
+    }
+{% endhighlight %}
 - `bbcNews` checks to see if the URL is for the BBC News site (if it is then later on we'll do something specific for that scenario). It's not essential for the script to work, just something specific I wanted to demonstrate.
+{% highlight javascript %}
+    function bbcNews(){
+        if (/bbc.co.uk\/news/i.test(url)) {
+            return true;
+        }
+    }
+{% endhighlight %}
 
 ### Checking resources that are loaded
 
@@ -151,6 +212,26 @@ The following is our event handler that checks the content type of the resource 
                 if (request.url.indexOf('data:image') === -1) {
                     gifs.push(request.url);
                 }
+            }
+        }
+    };
+{% endhighlight %}
+
+To be honest we don't need to separate the content types out into jpg, gif and png. We could just have an images Array that holds them all - it would be cleaner and more efficient code, something like...
+
+{% highlight javascript %}
+    page.onResourceReceived = function (request) {
+        if (request.contentType) {
+            if (request.contentType.indexOf('text/css') !== -1) {
+                css.push(request.url);
+            }
+            
+            if (request.contentType.indexOf('javascript') !== -1) {
+                javascript.push(request.url);
+            }
+
+            if (/image\/(?:png|jpeg|gif)/i.test(request.contentType) && request.url.indexOf('data:image') === -1) {
+                images.push(request.url);
             }
         }
     };
