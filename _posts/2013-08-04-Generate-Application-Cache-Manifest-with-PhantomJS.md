@@ -36,7 +36,7 @@ But there are other spin-offs such as [CasperJS](http://casperjs.org/) and [Polt
 
 ## How can we use it?
 
-We'll be using PhantomJS to help us interrogate a web page of the user's choice. It will will check the network requests, store them and then generate a Application Cache manifest file based on the content of the web page.
+We'll be using PhantomJS to help us interrogate a web page of the user's choice. It will check the network requests, store them and then generate a Application Cache manifest file based on the content of the web page.
 
 So I wrote a small script that allows you to do this which I called [Squirrel](https://github.com/integralist/squirrel) because you're storing away small pieces of information… like… nuts? Yeah I think you see where I'm coming from.
 
