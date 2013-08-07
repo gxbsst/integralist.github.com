@@ -112,6 +112,7 @@ th, td {
 h1,
 h2,
 h3,
+h4,
 .article__title {
     background-color: #fff;
     margin-bottom: .5em;
@@ -122,6 +123,8 @@ h3,
     background-color: #c75045;
     color: #fff;
     font-size: 1.2em;
+    margin-left: -.7em;
+    margin-right: -.7em;
     position: relative; 
 }
 
@@ -140,17 +143,26 @@ h3,
     }
 }
 
+.article__content h2 + p {
+    margin-top: 1em;
+}
+
 .article__content h3 {
     background-color: #464442;
     color: #fff;
     font-size: 1em;
 }
 
+.article__content h4 {
+    background-color: #999;
+    color: #000;
+}
+
 .article__strapline,
 .article__read,
 .article__content {
-    margin-left: 1em;
-    margin-right: 1em;
+    margin-left: 1.8em;
+    margin-right: 1.8em;
 }
 
 .article__strapline {
