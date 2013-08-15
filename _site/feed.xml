@@ -13,10 +13,20 @@
     <atom:link href="http://integralist.co.uk/feed.xml" rel="self" type="application/rss+xml" />
     <link>http://integralist.co.uk</link>
     <description></description>
-    <lastBuildDate>Wed, 07 Aug 2013 14:22:54 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 15 Aug 2013 08:45:30 +0100</lastBuildDate>
     <language>en</language>
     <copyright>Integralist</copyright>
 
+    
+      <item>
+        <title>Imager.js (BBC News responsive images solution)</title>
+        <link>http://integralist.co.uk/Imager.html</link>
+        <pubDate>Wed, 14 Aug 2013 00:00:00 +0100</pubDate>
+        <guid>http://integralist.co.uk/Imager.html</guid>
+        <description>
+        This is a duplication of a post I wrote for the BBC &quot;responsive news&quot; blog. It discusses the BBC News' open-source project Imager.js and how it helps with implementing a responsive images solution on a very large scale web application.
+        </description>
+      </item>
     
       <item>
         <title>Stark - Simplified separation of components into decoupled applications</title>
@@ -105,16 +115,6 @@
         <guid>http://integralist.co.uk/G-Tips-%28Git-Tips%29.html</guid>
         <description>
         I've been meaning to take my long list of fragmented notes on Git commands and put them altogether into a single blog post. Hopefully they'll be of use to others confused about Git.
-        </description>
-      </item>
-    
-      <item>
-        <title>Maintainable CSS with BEM</title>
-        <link>http://integralist.co.uk/Maintainable-CSS-with-BEM.html</link>
-        <pubDate>Sun, 09 Dec 2012 00:00:00 +0000</pubDate>
-        <guid>http://integralist.co.uk/Maintainable-CSS-with-BEM.html</guid>
-        <description>
-        A look at how to utilise the BEM (Block, Element, Modifier) methodology for writing simple but structured and maintainable CSS.
         </description>
       </item>
     
