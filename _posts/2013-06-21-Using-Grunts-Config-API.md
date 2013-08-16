@@ -14,6 +14,7 @@ strapline: This is a continuation from my previous Grunt post where I was trying
 - The Grunt API
 - Example code
 - Conclusion
+- Update
 
 ## What was the problem again?
 
@@ -270,3 +271,7 @@ OK, finally we get to see some code! Hopefully by now it should be much clearer 
 ## Conclusion
 
 So there you have it. A real-world look at using the Grunt API to do something a little bit more involved with Grunt. Hopefully you found it useful and will give you a better idea of how you can integrate Grunt with your own work flow and solve your own specific domain problems.
+
+## Update
+
+A quick update to say we found a slightly simpler route to handle the dynamic generation of Sass content using Grunt's ability to access the arguments passed through the command line: `<%= grunt.task.current.args[0] %>` and then calling the task like so: `'sass:service:<%= grunt.task.current.args[1] %>'` -> worth your time reading the API documentation to discover these little gems :-)
