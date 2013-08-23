@@ -294,14 +294,14 @@ So here is a more realistic example...
             expand: true,
             cwd: '/sass/',
             src: ['services/<%= grunt.task.current.args[0] %>/*.scss', '!**_*.scss'],
-            dest: 'tabloid/webapp/static/stylesheets/',
+            dest: '/stylesheets/',
             ext: '.css'
         },
         dist: {
             expand: true,
             cwd: '/sass/',
             src: ['**/*.scss', '!**/_*.scss', '!locator/*.scss'],
-            dest: 'tabloid/webapp/static/stylesheets/',
+            dest: '/stylesheets/',
             ext: '.css',
             options: {
                 style: "compressed"
@@ -311,7 +311,7 @@ So here is a more realistic example...
             expand: true,
             cwd: '/sass/',
             src: ['**/*.scss', '!**/_*.scss', '!locator/*.scss'],
-            dest: 'tabloid/webapp/static/stylesheets/',
+            dest: '/stylesheets/',
             ext: '.css',
             options: {
                 debugInfo: true,
