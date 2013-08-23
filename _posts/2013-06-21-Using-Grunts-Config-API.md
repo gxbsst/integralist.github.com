@@ -274,4 +274,53 @@ So there you have it. A real-world look at using the Grunt API to do something a
 
 ## Update
 
-A quick update to say we found a slightly simpler route to handle the dynamic generation of Sass content using Grunt's ability to access the arguments passed through the command line: `<%= grunt.task.current.args[0] %>` and then calling the task like so: `'sass:service:<%= grunt.task.current.args[1] %>'` -> worth your time reading the API documentation to discover these little gems :-)
+A quick update to say we found a much simpler route to handle the dynamic generation of Sass content and this came from recognising Grunt's ability to access arguments passed through the command line: `<%= grunt.task.current.args[0] %>`.
+
+We this knowledge we then call the task like so: `'sass:service:<%= grunt.task.current.args[0] %>'`.
+
+Goes to show it's always worth your time reading through all of the API documentation for the tools you use to discover these little gems :-)
+
+So here is a more realistic example...
+
+{% highlight javascript %}
+    sass: {
+        /*
+            Example usage...
+            
+            grunt sass:service:afrique
+            grunt sass:service:news
+         */
+        service: {
+            expand: true,
+            cwd: '/sass/',
+            src: ['services/<%= grunt.task.current.args[0] %>/*.scss', '!**_*.scss'],
+            dest: 'tabloid/webapp/static/stylesheets/',
+            ext: '.css'
+        },
+        dist: {
+            expand: true,
+            cwd: '/sass/',
+            src: ['**/*.scss', '!**/_*.scss', '!locator/*.scss'],
+            dest: 'tabloid/webapp/static/stylesheets/',
+            ext: '.css',
+            options: {
+                style: "compressed"
+            }
+        },
+        dev: {
+            expand: true,
+            cwd: '/sass/',
+            src: ['**/*.scss', '!**/_*.scss', '!locator/*.scss'],
+            dest: 'tabloid/webapp/static/stylesheets/',
+            ext: '.css',
+            options: {
+                debugInfo: true,
+                lineNumbers: true
+            }
+        },
+        options: {
+            style: 'expanded',
+            require: ['/sass/partials/helpers/url64.rb']
+        }
+    }
+{% endhighlight %}
