@@ -276,7 +276,7 @@ So there you have it. A real-world look at using the Grunt API to do something a
 
 A quick update to say we found a much simpler route to handle the dynamic generation of Sass content and this came from recognising Grunt's ability to access arguments passed through the command line: `<%= grunt.task.current.args[0] %>`.
 
-We this knowledge we then call the task like so: `'sass:service:<%= grunt.task.current.args[0] %>'`.
+With this knowledge we then call the task like so: `'sass:service:<%= grunt.task.current.args[0] %>'`.
 
 Goes to show it's always worth your time reading through all of the API documentation for the tools you use to discover these little gems :-)
 
