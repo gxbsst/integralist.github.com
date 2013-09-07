@@ -316,9 +316,9 @@
 
 <h3>Cursor Movement</h3>
 
-<p><code>h</code> : left
-<code>l</code> : right
-<code>k</code> : up
+<p><code>h</code> : left<br/>
+<code>l</code> : right<br/>
+<code>k</code> : up<br/>
 <code>j</code> : down</p>
 
 <p>Note: you can use your arrow keys still, but it's considered best practice by the VIM community to get used to using the above keys rather than the arrow keys.</p>
@@ -327,42 +327,45 @@
 
 <p>Rather than moving up and down a file line by line, we can instead just move up and down the file in sections.</p>
 
-<p><code>Ctrl+u</code> : move one page up
-<code>Ctrl+d</code> : move one page down
-<code>Ctrl+b</code> : move half page up
+<p><code>Ctrl+u</code> : move one page up<br/>
+<code>Ctrl+d</code> : move one page down<br/>
+<code>Ctrl+b</code> : move half page up<br/>
 <code>Ctrl+f</code> : move half page down</p>
 
 <h3>Motions</h3>
 
 <p>With some commands we need to indicate what direction or motion we want to take.</p>
 
-<p><code>e</code> : move to the end of a word
+<p><code>e</code> : move to the end of a word<br/>
 <code>w</code> : move to the start of next word (use with counter 5w)</p>
 
 <p><strong>Examples</strong>:</p>
 
-<p><code>5e</code> = move to the end of the 5th word in the sentence
+<p><code>5e</code> = move to the end of the 5th word in the sentence<br/>
 <code>5w</code> = move to the start of the word after the 5th (so actually move to the start of the 6th word)</p>
 
 <h3>Operators</h3>
 
 <p>Here are some common operators available to use:</p>
 
-<p><code>0</code> : moves cursor to the start of the line
-<code>$</code> : moves cursor to the end of the line
-<code>d</code> : delete (e.g. <code>d$</code> deletes the entire line)
-<code>G</code> : go to line (e.g. <code>5G</code> takes you to the 5th line of the file)
-<code>v</code> : select (e.g. <code>v1e</code> selects one word, note: need to be in VISUAL mode)
-<code>V</code> : select entire line (e.g. <code>V</code> selects the entire line, note: need to be in VISUAL mode)
-<code>j</code> : move down one line (e.g. <code>d5j</code> deletes 5 lines)
-<code>y</code> : copy selected text (e.g. select text and then press <code>y</code>)
-<code>yy</code>    : copy line (e.g. <code>yy</code> copies line to buffer ready to be pasted)
-<code>p</code> : paste after cursor (e.g. <code>p</code> pastes content, but obviously requires content to have been copied previously)
-<code>c</code> : change (the change command deletes the selection and then puts user into INSERT mode so e.g. <code>cw</code> deletes the current word ready to have a new word entered)
-<code>i</code> : inside of (e.g. <code>yi"</code> this will (y)ank all content (i)snide of the next set of quotation marks)
-<code>f</code> : forward (e.g. <code>f,</code> moves to first comma. if you then press <code>;</code> you'll move to the next instance of the specified character. You can also move a set number of characters, so <code>2f,</code> will move the cursor to the second instance of a comma)
-<code>x</code> : delete after cursor (e.g. place cursor where you want to delete a character and press <code>x</code> to delete it)
-<code>u</code> : undo (e.g. just pressing <code>u</code> will undo the last change made)</p>
+<ul>
+<li><code>0</code> : moves cursor to the start of the line</li>
+<li><code>$</code> : moves cursor to the end of the line</li>
+<li><code>d</code> : delete (e.g. <code>d$</code> deletes the entire line)</li>
+<li><code>G</code> : go to line (e.g. <code>5G</code> takes you to the 5th line of the file)</li>
+<li><code>v</code>   : select (e.g. <code>v1e</code> selects one word, note: need to be in VISUAL mode)</li>
+<li><code>V</code>   : select entire line (e.g. <code>V</code> selects the entire line, note: need to be in VISUAL mode)</li>
+<li><code>j</code>   : move down one line (e.g. <code>d5j</code> deletes 5 lines)</li>
+<li><code>y</code> : copy selected text (e.g. select text and then press <code>y</code>)</li>
+<li><code>yy</code>  : copy line (e.g. <code>yy</code> copies line to buffer ready to be pasted)</li>
+<li><code>p</code>   : paste after cursor (e.g. <code>p</code> pastes content, but obviously requires content to have been copied previously)</li>
+<li><code>c</code>   : change (the change command deletes the selection and then puts user into INSERT mode so e.g. <code>cw</code> deletes the current word ready to have a new word entered)</li>
+<li><code>i</code>   : inside of (e.g. <code>yi"</code> this will (y)ank all content (i)snide of the next set of quotation marks)</li>
+<li><code>f</code>   : forward (e.g. <code>f,</code> moves to first comma. if you then press <code>;</code> you'll move to the next instance of the specified character. You can also move a set number of characters, so <code>2f,</code> will move the cursor to the second instance of a comma)</li>
+<li><code>x</code>   : delete after cursor (e.g. place cursor where you want to delete a character and press <code>x</code> to delete it)</li>
+<li><code>u</code>   : undo (e.g. just pressing <code>u</code> will undo the last change made)</li>
+</ul>
+
 
 <h3>Search and Replace</h3>
 
@@ -374,19 +377,10 @@
 
 <h3>Misc</h3>
 
-<p>(these use a specific plugin)
-gcc = comment out a line
-gcu = uncomment the commented line</p>
+<p>The following commands use the <code>vim-commentary.git</code> plugin…</p>
 
-<p>'+n will move you back through previously opened files (or maybe buffer)</p>
-
-<p>2f{ will move you to second instance of {
-character, then press ; to move forward to
-the next instance</p>
-
-<div class="highlight"><pre><code class="bash">
-</code></pre></div>
-
+<p><code>gcc</code> = comment out a line<br/>
+<code>gcu</code> = uncomment the commented line</p>
 
 <h3>Keep to the basics</h3>
 
