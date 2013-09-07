@@ -13,10 +13,20 @@
     <atom:link href="http://integralist.co.uk/feed.xml" rel="self" type="application/rss+xml" />
     <link>http://integralist.co.uk</link>
     <description></description>
-    <lastBuildDate>Fri, 23 Aug 2013 14:57:07 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 07 Sep 2013 20:52:53 +0100</lastBuildDate>
     <language>en</language>
     <copyright>Integralist</copyright>
 
+    
+      <item>
+        <title>A guide to getting started with VIM</title>
+        <link>http://integralist.co.uk/VIM.html</link>
+        <pubDate>Sun, 08 Sep 2013 00:00:00 +0100</pubDate>
+        <guid>http://integralist.co.uk/VIM.html</guid>
+        <description>
+        I explain how you can get started using VIM as your main editor and development environment
+        </description>
+      </item>
     
       <item>
         <title>Imager.js (BBC News responsive images solution)</title>
@@ -105,16 +115,6 @@
         <guid>http://integralist.co.uk/Object-Oriented-Design.html</guid>
         <description>
         After reading through Sandi Metz' book Practical Object-Oriented Design in Ruby I wanted to make sure I put down in a blog post (a distilled) break-down of all the great advice she provides (note that this post is mainly for my own reference/reminder, I strongly recommend you read the book as there is so much more you'll gain from reading the book compared to this post)
-        </description>
-      </item>
-    
-      <item>
-        <title>Git Tips</title>
-        <link>http://integralist.co.uk/G-Tips-%28Git-Tips%29.html</link>
-        <pubDate>Sun, 16 Dec 2012 00:00:00 +0000</pubDate>
-        <guid>http://integralist.co.uk/G-Tips-%28Git-Tips%29.html</guid>
-        <description>
-        I've been meaning to take my long list of fragmented notes on Git commands and put them altogether into a single blog post. Hopefully they'll be of use to others confused about Git.
         </description>
       </item>
     
