@@ -101,7 +101,7 @@
 
 <p>For example, the current hotness (as of 2013) is to use Sublime Text (a nice editor with good keyboard based features but also allows users to interact with it using a mouse). But what happens when Sublime Text stops getting updates (TextMate? Don't think it can't happen), or gets bought out by a competitor and then is dumped (this happens <em>all</em> the time in the software industry)?</p>
 
-<p>Where do developers go next? <br/>
+<p>Where do developers go next?
 Typically developers find another editor.</p>
 
 <h2>Here comes the old man</h2>
@@ -246,9 +246,17 @@ Typically developers find another editor.</p>
 
 <p>Now we have a layout instance set-up, to use it we just run <code>tmuxinator start project</code> (or in my case <code>tmuxinator start work</code>).</p>
 
-<h3>Closing tmuxinator</h3>
+<h3>Closing tmux</h3>
 
-<p>Chances are you'll just leave the tmux session open, but if you want a quick way to close it then just run <code>Ctrl+a d</code></p>
+<p>Chances are you'll just leave the tmux session open, but if you want a quick way to detach from the tmux session (but leave the session open in the background so you can come back to it) then just run <code>Ctrl+a d</code></p>
+
+<p>You can see what tmux sessions are still open by running <code>tmux ls</code> which will show a number and a associated session.</p>
+
+<p>You can re-attach to an existing session by running <code>tmux attach -t {number}</code> where <code>{number}</code> is the number of the session.</p>
+
+<p>If there is only one session then you can just run <code>tmux attach</code>.</p>
+
+<p>To totally kill a session just run <code>tmux kill-session -t {number}</code>.</p>
 
 <h2>Vundle</h2>
 
@@ -269,7 +277,7 @@ Typically developers find another editor.</p>
         Bundle <span class="s1">&#39;gmarik/vundle&#39;</span>
         filetype plugin indent on
 
-        <span class="s2">&quot; ALL OF THE ABOVE IS ALSO REQUIRED </span>
+        <span class="s2">&quot; ALL OF THE ABOVE IS ALSO REQUIRED</span>
 <span class="s2">       &quot;</span> FOR SUCCESSFUL VUNDLE INSTALL
         <span class="err">&quot;</span> THE FOLLOWING IS NEW FOR US…
 
@@ -347,9 +355,9 @@ Typically developers find another editor.</p>
 
 <h3>Cursor Movement</h3>
 
-<p><code>h</code> : left<br/>
-<code>l</code> : right<br/>
-<code>k</code> : up<br/>
+<p><code>h</code> : left
+<code>l</code> : right
+<code>k</code> : up
 <code>j</code> : down</p>
 
 <p>Note: you can use your arrow keys still, but it's considered best practice by the VIM community to get used to using the above keys rather than the arrow keys.</p>
@@ -358,21 +366,21 @@ Typically developers find another editor.</p>
 
 <p>Rather than moving up and down a file line by line, we can instead just move up and down the file in sections.</p>
 
-<p><code>Ctrl+u</code> : move one page up<br/>
-<code>Ctrl+d</code> : move one page down<br/>
-<code>Ctrl+b</code> : move half page up<br/>
+<p><code>Ctrl+u</code> : move one page up
+<code>Ctrl+d</code> : move one page down
+<code>Ctrl+b</code> : move half page up
 <code>Ctrl+f</code> : move half page down</p>
 
 <h3>Motions</h3>
 
 <p>With some commands we need to indicate what direction or motion we want to take.</p>
 
-<p><code>e</code> : move to the end of a word<br/>
+<p><code>e</code> : move to the end of a word
 <code>w</code> : move to the start of next word (use with a counter -> a counter meaning "a number")</p>
 
 <p><strong>Examples</strong>:</p>
 
-<p><code>5e</code> = move to the end of the 5th word in the sentence<br/>
+<p><code>5e</code> = move to the end of the 5th word in the sentence
 <code>5w</code> = move to the start of the word after the 5th (so actually move to the start of the 6th word)</p>
 
 <h3>Operators</h3>
@@ -417,7 +425,7 @@ Typically developers find another editor.</p>
 
 <p>The following commands use the <code>vim-commentary.git</code> plugin…</p>
 
-<p><code>gcc</code> = comment out a line<br/>
+<p><code>gcc</code> = comment out a line
 <code>gcu</code> = uncomment the commented line</p>
 
 <h3>Keep to the basics</h3>
@@ -535,7 +543,7 @@ Typically developers find another editor.</p>
 
 <span class="s1">       &quot; don&#39;</span>t <span class="nb">let </span>ctrlp take over the screen!
     <span class="nb">let </span>g:ctrlp_max_height<span class="o">=</span>30
-    
+
         <span class="s2">&quot; lets make sure we don&#39;t show these files</span>
 <span class="s2">       set wildignore+=*/.git/*,*/.hg/*,*/.svn/*.,*/.DS_Store</span>
 
