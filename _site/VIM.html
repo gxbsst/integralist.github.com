@@ -407,7 +407,7 @@ Typically developers find another editor.</p>
 
 <p>…what this means is we limit the search range from line 50 up to line 100, we then look for the phrase <code>search</code> and we replace it with the phrase <code>replace</code>. We then use the <code>g</code> global flag which means don't stop after finding the first match. The <code>c</code> flag means don't just replace the instance, check with us first by asking us if we definitely want to carry out the replace.</p>
 
-<p>You don't have to use the range numbers, you can just use: <code>:s/search/replace/gc</code>.</p>
+<p>You don't have to use the range numbers, you can just use: <code>:%s/search/replace/gc</code> (but notice, now we don't have the range we need to include a <code>%</code> at the start).</p>
 
 <p>You can also use regular expressions which is awesome.</p>
 
