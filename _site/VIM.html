@@ -42,8 +42,9 @@
 
 <ul>
 <li>Introduction</li>
-<li>Overview</li>
-<li>Installation</li>
+<li>Here comes the old man</li>
+<li>The focus of this post</li>
+<li>Step 1: Installation</li>
 <li>TMUX</li>
 <li>TMUXinator</li>
 <li>Vundle
@@ -63,11 +64,9 @@
 
 <h2>Introduction</h2>
 
-<p>In the web development community there are few topics that can cause true uproar and dissent like "spaces vs tabs" or "what editor do you use for programming?".</p>
+<p>So, what editor do you use for programming?</p>
 
-<p>The latter is the focus of this post.</p>
-
-<p>My own timeline of editors has gone something like…</p>
+<p>In case you're wondering, here is the list of editors I've tried at one point or another…</p>
 
 <ul>
 <li>Homesite</li>
@@ -82,50 +81,53 @@
 
 <p>…and that's not including some of the real <em>random</em> editors that have cropped up over the years.</p>
 
-<p>The one consistent thing I've noticed though is the reduction of basic interaction features, and the increase in more simplified (but yet advanced) short-cut features.</p>
+<p>It seems popular editors nowadays are becoming more minimalist (oxymoron?). The UI appears to be reducing in favour of keyboard short-cuts they keep developer productivity high.</p>
 
-<p>By that I mean, we're seeing most users becoming more comfortable moving from using a mouse to utilising keyboard shortcuts.</p>
+<p>One example of this is the use of a 'fuzzy keyword search'. The principle idea being that you press a short-cut key and you're presented with a field where you can type whatever you like and the editor will attempt to list out a group of files that match (in some way) what you've typed.</p>
 
-<p>So for example, in your editor of choice you would of had a tree of files on your system and you may have used your mouse to find a file in the list and then double clicked on the file to open it in your editor. But that would have meant clicking on folders in the list, drilling down until you found the file you were after. If it was buried 4 or more levels down (or you went down the wrong path) then you'd find yourself clicking around quite a bit to find a single file to open.</p>
+<p>The reason this is a good thing is that it makes finding and opening files a lot quicker.</p>
 
-<p>Compare that to using a short-cut on the keyboard which lets you do a 'fuzzy' search instead (a 'fuzzy' search basically means you type in a few characters of what you're looking for and the software returns a list of files it thinks you might be after). This means you don't need to know the exact location of the file, just a rough idea of what it was called or the name of a folder it might be stored under.</p>
+<p>Imagine you don't know where a file lives (easily done in a cross team environment where other devs are working on code for a feature you're not). Fuzzy file searching makes life a lot easier.</p>
+
+<p>Imagine you <em>do</em> know where a file lives, fuzzy file searching is still quicker than reaching for your mouse, moving over to the file system and clicking on folders until you find the file and then double click to open it.</p>
 
 <p>A lot of editors have a feature like this nowadays (Sublime Text is one such popular example).</p>
 
-<p>The problem with all these editors is that there is no real longevity to them.</p>
+<p>The problem is that most editors don't normally have a long shelf live (non that are worth using anyway).</p>
 
-<p>For example, the current hotness (as of 2013) is to use Sublime Text (a nice editor with good keyboard based features but also allows users to interact with it using a mouse). But what happens when Sublime Text goes out of business, or gets bought out by a competitor and then the code base is dumped?</p>
+<p>For example, the current hotness (as of 2013) is to use Sublime Text (a nice editor with good keyboard based features but also allows users to interact with it using a mouse). But what happens when Sublime Text stops getting updates (TextMate? Don't think it can't happen), or gets bought out by a competitor and then is dumped (this happens <em>all</em> the time in the software industry)?</p>
 
-<p>Where do you developers go next?</p>
+<p>Where do you developers go next? <br/>
+Typically developers find another editor.</p>
 
-<p>Well, there is an editor that has been around for a <em>very</em> long time and is available everywhere (and in most cases is installed by default).</p>
+<h2>Here comes the old man</h2>
 
-<p>That editor is <a href="http://en.wikipedia.org/wiki/Vi">VI</a> and it was originally created back in 1976!</p>
+<p>Well, there is an editor that has been around for a <em>very</em> long time and is available everywhere (and in most cases is installed by default) but also has tons of plug-ins and is pretty much the Perl of keyboard short-cuts.</p>
+
+<p>That editor is <a href="http://en.wikipedia.org/wiki/Vi">VI</a> (well, as you'll see, more specifically VIM) and it was originally created back in 1976!</p>
 
 <p>Since then there has been improvements to the editor which nowadays (~1981 onwards) is more commonly known as VIM (meaning: VI Improved) and you can find more information on VIM at its website <a href="http://www.vim.org/">http://www.vim.org/</a>.</p>
 
-<h2>Overview</h2>
+<h2>The focus of this post</h2>
 
-<p>OK, so the problem with VIM is that it although it's a great program to use it unfortunately has a <em>very</em> steep learning curve which normally puts off beginners.</p>
+<p>OK, so the problem with VIM is that although it's a great program to use, it unfortunately has a <em>very</em> steep learning curve which puts off new comers.</p>
 
-<p>Also VIM by itself isn't as useful as it could be, there are a number of tools available that help make it more usable as a developer environment and that trips up a lot of new users as well.</p>
+<p>Also, VIM by itself isn't as useful (as a development environment) without a few plug-ins that help give it a bit of jazz. That also trips up new comers to VIM as they assume what they see other developers using is <em>just</em> VIM but it's not. VIM by itself is very nondescript, it's the plug-ins and custom VIM configurations that make all the difference to the look and feel of VIM.</p>
 
-<p>So, the key to using VIM as a developer tool is:</p>
+<p>So, the key to using VIM (for the first time) as a developer tool is:</p>
 
 <ul>
 <li>Get a nice clean command line shell</li>
 <li>Get ourselves a set of primary plugins installed first</li>
-<li>Then focus on basic VIM commandd</li>
+<li>Then focus on basic VIM commands last (typically this is considered the first step, but I think that's a mistake)</li>
 </ul>
 
 
-<p>…that's effectively what we're going to aim for in this post.</p>
+<p>I want to get the primary tools set-up first, and to show you those BEFORE we get ourselves bogged down with VIM commands.</p>
 
-<p>I want to get the primary tools set-up first, show you those BEFORE we get ourselves bogged down with VIM commands.</p>
+<h2>Step 1: Installation</h2>
 
-<h2>Installation</h2>
-
-<p>I'm not going to cover the installation of VIM because chances are it's already installed. Also, I'm running a Mac and so this tutorial is aimed at that environment (i.e. your mileage may vary).</p>
+<p>I'm not going to cover the installation of VIM because chances are it's already installed! Also, I'm running a Mac and so this tutorial is aimed at that environment (i.e. your mileage may vary otherwise if you're on Windows or a non Unix system).</p>
 
 <p>But here are the things we're going to install…</p>
 
@@ -138,25 +140,25 @@
 </ul>
 
 
-<p>…now there are a million plugins and other things you could install but the above are the fundamental ones that you'll require (you might decide that's all you need, I'll leave it up to you to decide).</p>
+<p>…now there are loads of plugins you could install but the above are the fundamental ones that you'll require (you might decide that's all you need, I'll leave it up to you to decide).</p>
 
 <h2>Zsh</h2>
 
-<p>To use VIM we'll need to use a terminal. So let's get that open now.</p>
+<p>To use VIM we'll need to use a terminal shell. So let's get that open now (if you're on a Mac you'll have a Terminal.app you can run).</p>
 
 <p>The default terminal shell for the GNU operating system, Linux and Mac OS X is 'Bash' but we want to use 'Zsh' instead.</p>
 
-<p>I won't delve into the reasons why but effectively Zsh is a more modern and efficient shell.</p>
+<p>I won't delve into the reasons why but effectively Zsh is a more efficient shell and offers better features than Bash and in general is more enjoyable to use.</p>
 
-<p>To see what shells are available you can run the command <code>cat /etc/shells</code> (hopefully you'll see <code>/bin/zsh</code> in the list).</p>
+<p>To see what shells are available on your system you can run the command <code>cat /etc/shells</code> (hopefully you'll see <code>/bin/zsh</code> in the list).</p>
 
 <p>To change shells run the command <code>chsh -s /bin/zsh</code>.</p>
 
 <p>Terminal shells can be configured using (what's typically referred to as) a 'dot file'. These are files that are prefixed with a period character and so are hidden from standard users.</p>
 
-<p>To see the hidden files in a directory run the command <code>ls -la</code>.</p>
+<p>To see the hidden files in a directory just run the command <code>ls -la</code> and you should see a whole host of hidden dot files and folders.</p>
 
-<p>For Zsh there should be a <code>.zshrc</code> file in your home directory (if there isn't then create one as we'll need it shortly). You can do this very simply using the command <code>touch .zshrc</code>.</p>
+<p>For Zsh there should be a <code>.zshrc</code> file in your home directory (if there isn't then create one, as we'll need it shortly). You can do this very simply using the command <code>touch .zshrc</code>.</p>
 
 <p>As we'll be using VIM there should also be in the home directory a <code>.vimrc</code> file for configuring VIM. If there isn't then create one (again, we'll be needing it shortly).</p>
 
@@ -168,33 +170,37 @@
 
 <p>So let's get it installed. Go to <a href="https://github.com/sindresorhus/pure">https://github.com/sindresorhus/pure</a> and download the file <code>pure.zsh</code> to your home directory (or wherever you want, just remember where you save it).</p>
 
-<p>In your <code>.zshrc</code> import the <code>pure.zsh</code> file by adding the following line: <code>. /path/to/pure.zsh</code></p>
+<p>You can import the <code>pure.zsh</code> file by adding the following line into the <code>.zshrc</code> file: <code>. /path/to/pure.zsh</code></p>
 
 <h2>TMUX</h2>
 
-<p>So what is tmux? The authors describe it as…</p>
+<p>So what is tmux? The authors definition is…</p>
 
 <blockquote><p>It lets you switch easily between several programs in one terminal, detach them (they keep running in the background) and reattach them to a different terminal. And do a lot more.</p></blockquote>
 
-<p>OK, so there are a couple of ways to install <a href="http://tmux.sourceforge.net/">TMUX</a> the easiest is with <a href="http://brew.sh/">Homebrew</a>: <code>brew install tmux</code></p>
+<p>OK, so in short tmux makes it easy for you to create new terminal windows with panes and complex layouts (stuff you can do with raw VIM but tmux makes easier).</p>
+
+<p>There are a couple of ways to install <a href="http://tmux.sourceforge.net/">TMUX</a> the easiest is with <a href="http://brew.sh/">Homebrew</a>: <code>brew install tmux</code></p>
 
 <p>Once you have tmux installed you can start it by simply running the command <code>tmux</code> in your terminal.</p>
 
-<p>You may wonder if anything has actually happened because tmux doesn't look any different, but what you don't realise is that you now have quite a few new keyboard shortcuts you can use to split your terminal into 'panes', 'windows' or 'tabs'.</p>
+<p>You may wonder if anything has actually happened because tmux doesn't look any different from what your normal terminal shell looks like, but what you don't realise is that you now have quite a few new keyboard shortcuts you can use to split your terminal into 'panes', 'windows' or 'tabs'.</p>
 
 <p>We won't go into the details yet on how to do that because first we're going to set-up an associated tool called '<a href="https://github.com/aziz/tmuxinator">tmuxinator</a>' which helps us manage complex tmux sessions.</p>
 
 <h2>TMUXinator</h2>
 
-<p>Basically, rather than you opening up the terminal and manually creating a set of panes and windows we can store the details of them as a 'default' set-up in a text file instead.</p>
+<p>Basically, rather than you (every day) opening up the terminal and manually creating the same set of panes and windows, opening files in tmux, we can store the details of this 'set-up' as one instance of a layout. We do this by creating a text file that holds the configuration details for your layout.</p>
 
-<p>First thing to do is to install it. Sorry but we need more technologies, this time it's Ruby. We need to run the command <code>gem install tmuxinator</code>.</p>
+<p>First thing to do is to install TMUXinator.</p>
 
-<p>Depending on your set-up Ruby might install the tmuxinator gem globally or it may install it locally to the directory you're currently in (it comes down to how you have Ruby installed but I won't go into that here).</p>
+<p>Sorry, but we need more technologies and this time it's Ruby.</p>
 
-<p>Once installed we can run the command <code>tmuxinator new [project]</code>. You can call your project whatever you like (I went with <code>tmuxinator new work</code>).</p>
+<p>To install it we need to run the command <code>gem install tmuxinator</code>.</p>
 
-<p>Running this command is going to create a dot file <code>.tmux.conf</code> and also a folder called <code>.tmuxinator</code> which holds a <code>project.yml</code> (where the name of the file matches the name of the project).</p>
+<p>Once installed we can create a new instance by running the command <code>tmuxinator new [project]</code>. You can call your project whatever you like (I went with <code>tmuxinator new work</code>).</p>
+
+<p>Running this command is going to create a dot file <code>.tmux.conf</code> and also a dot folder called <code>.tmuxinator</code> which holds a <code>project.yml</code> (where the name of the file matches the name of the project, so for me it created a <code>work.yml</code> file).</p>
 
 <p>If you open the yaml file you'll see it has a basic example set-up ready for you to configure…</p>
 
@@ -215,7 +221,7 @@
 
 <p>…above is an example of my <code>work.yml</code>.</p>
 
-<p>You can see I have three tabs created:</p>
+<p>You can see I specify that I want to have three tabs created:</p>
 
 <ul>
 <li>editor</li>
@@ -224,15 +230,17 @@
 </ul>
 
 
-<p>Within the first tab <code>editor</code> I have a specific layout used called <code>main-vertical</code> (tmux comes with many different pre-built layouts). The layout I'm using splits the screen into two columns. In the left column I have <code>vim</code> running and in the right column I have two rows. The top row checks the status of my git repository, and the bottom row opens up a VIM cheat sheet  so I have it to hand (because I still have lots to learn).</p>
+<p>Within the first tab <code>editor</code> I have a specific layout used called <code>main-vertical</code> (tmux comes with many different pre-built layouts, this is just one of them).</p>
 
-<p>In the second tab <code>sandbox</code> we are connected to our local development sandbox (via ssh).</p>
+<p>The layout I'm using splits the screen into two columns. In the left column I have <code>vim</code> running and in the right column I have two rows. The top row checks the status of my git repository, and the bottom row opens up a VIM cheat sheet.</p>
 
-<p>In the third tab <code>sass</code> we are running Sass on our development files.</p>
+<p>In the second tab <code>sandbox</code> I've told tmux I want to connect to our local development sandbox (via ssh).</p>
+
+<p>In the third tab <code>sass</code> I've told tmux I want to run a task that watches our Sass development files for any changes (and then compiles the files when a change is detected).</p>
 
 <h3>Starting tmuxinator</h3>
 
-<p>To use our default set-up in future we just run <code>tmuxinator start project</code> (or in my case <code>tmuxinator start work</code>).</p>
+<p>Now we have a layout instance set-up, to use it we just run <code>tmuxinator start project</code> (or in my case <code>tmuxinator start work</code>).</p>
 
 <h3>Closing tmuxinator</h3>
 
@@ -244,19 +252,22 @@
 
 <p>To install Vundle run <code>git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle</code></p>
 
-<p>Now you have it installed, you can add plug-ins to your <code>.vimrc</code> file and install them by running a command from within VIM.</p>
+<p>Now you have it installed, you can add plug-ins to your <code>.vimrc</code> configuration file and install them by running a <code>:BundleInstall</code> command from within VIM.</p>
 
 <h3>Set-up some bundles</h3>
 
-<p>We're jumping ahead a little bit but let's open our <code>.vimrc</code> and add some plug-ins we're going to need…</p>
+<p>We're jumping ahead a little bit (because at the end of this section you'll see we'll be using VIM to type one command, but it's OK we won't do any more than that until later).</p>
+
+<p>Let's open our <code>.vimrc</code> file and add some plug-ins we're going to need (code comments start with ")…</p>
 
 <div class="highlight"><pre><code class="bash">     <span class="nb">set </span>rtp+<span class="o">=</span><span class="nv">$HOME</span>/.vim/bundle/vundle
         call vundle#rc<span class="o">()</span>
         Bundle <span class="s1">&#39;gmarik/vundle&#39;</span>
         filetype plugin indent on
 
-        <span class="s2">&quot; ALL OF THE ABOVE IS REQUIRED</span>
-<span class="s2">       &quot;</span> THE FOLLOWING IS NEW FOR US…
+        <span class="s2">&quot; ALL OF THE ABOVE IS ALSO REQUIRED </span>
+<span class="s2">       &quot;</span> FOR SUCCESSFUL VUNDLE INSTALL
+        <span class="err">&quot;</span> THE FOLLOWING IS NEW FOR US…
 
         Bundle <span class="s1">&#39;kien/ctrlp.vim&#39;</span>
         Bundle <span class="s1">&#39;vim-scripts/The-NERD-tree&#39;</span>
@@ -271,7 +282,11 @@
 </ol>
 
 
-<p>To actually get these installed then open VIM by running <code>vim</code> and then running the command <code>:BundleInstall</code> from within VIM (it might not be very obvious but you can run commands from within VIM so for now when VIM is open just press ESC and then type <code>:BundleInstall</code> followed by pressing ENTER)</p>
+<p>If you check the Vundle README on GitHub you'll see there are multiple ways to specify a 'bundle', in our case we're installing two bundles that are available on GitHub so you'll notice that the paths specified are actually the GitHub username/repo-name.</p>
+
+<p>To actually get these two bundles installed (using the Vundle plug-in) means we need to first open VIM so we can run the relevant install command.</p>
+
+<p>So to open VIM literally just run: <code>vim</code> and then to run the install command press ESC (just to make sure you're in the right mode, don't worry we'll cover this later) then type <code>:BundleInstall</code> and press ENTER.</p>
 
 <h3>Where can I find bundles?</h3>
 
@@ -279,13 +294,13 @@
 
 <p>The two bundles we've pointed to are references to their GitHub repositories.</p>
 
-<p>But you can also point to non-github repos, local git repos, or direct to VIM scripts.</p>
+<p>But you can also point to non-github repos, local git repos, or direct to VIM scripts. See the Vundle README for more information.</p>
 
 <h2>NERDTree</h2>
 
 <p>NERDTree is a tree explorer plugin for navigating the filesystem. This is the closest thing you're going to get to a standard editor feature.</p>
 
-<p>We'll cover how to use it in the following VIM Basics section.</p>
+<p>We'll cover how to use it in the following VIM Basics section. Suffice to say, with the <code>Ctrl+p</code> plug-in we shouldn't need to use the NERDTree very often (but sometimes it can come in handy)</p>
 
 <h2>Ctrl+p</h2>
 
@@ -295,32 +310,36 @@
 
 <h2>VIM Basics</h2>
 
+<p>So here we are! We made it to the part where we can actually use VIM!</p>
+
 <p>VIM is all about not using the mouse, just the keyboard.</p>
 
-<p>VIM has 3 modes:</p>
+<p>One of the first things to know about VIM are that it has 3 modes:</p>
 
 <ol>
-<li>NORMAL (you run majority of your commands from this mode)</li>
+<li>NORMAL (you run the majority of your commands from this mode)</li>
 <li>INSERT (you spend the least amount of time in this mode)</li>
 <li>VISUAL (you select text in this mode)</li>
 </ol>
 
 
-<p>To switch modes you first press the <code>ESC</code> key and then either <code>i</code> to go into INSERT mode and <code>v</code> to go into VISUAL mode. The act of pressing <code>ESC</code> automatically puts us into NORMAL mode.</p>
+<p>To switch modes you first press the <code>ESC</code> key and then either <code>i</code> to go into INSERT mode and <code>v</code> to go into VISUAL mode. The act of pressing <code>ESC</code> automatically puts you into NORMAL mode.</p>
 
 <p>Once you're in NORMAL or VISUAL mode, to actually run a command (let's say the command we want is <code>d$</code>, don't worry what that means for now) you first press <code>:</code> followed by <code>d$</code>.</p>
 
 <h3>Using Ctrl+p to do fuzzy file searching</h3>
 
-<p>Get ourselves into NORMAL mode by pressing <code>ESC</code>, followed by <code>:</code>, followed by <code>CtrlP</code> (note: for this particular plug-in, if you're already in NORMAL mode, you can just press the <code>Ctrl</code> and <code>p</code> keys together to trigger the fuzzy search to open).</p>
+<p>Get ourselves into NORMAL mode by pressing <code>ESC</code>, followed by <code>:</code>, followed by <code>CtrlP</code> (note: for this particular plug-in, if you're already in NORMAL mode, you can just press the <code>Ctrl</code> and <code>p</code> keys together to trigger the fuzzy search to open, but to not confuse ourselves let's keep to the standard <code>:some-command</code> format).</p>
 
-<p>Once the plug-in is open we can just start typing the name of file we're looking for and you'll see that it lists our all files it thinks matches what we're looking for.</p>
+<p>Once the plug-in is open we can just start typing the name of the file we're looking for, and you'll see that it lists all the files it thinks matches what we're looking for.</p>
+
+<p>Simply use the arrow keys to select the relevant file you want to open and press ENTER.</p>
 
 <h3>More Commands</h3>
 
-<p>It's worth remembering that most commands follow the process: <code>operator [number] motion</code>.</p>
+<p>It's worth remembering that most commands follow the format: <code>operator [number] motion</code> (not all the time, but enough of the time - you'll soon get used to the order you do things).</p>
 
-<p>Here follows is a super short list of commands and what they do.</p>
+<p>What follows is a super short list of commands and what they do.</p>
 
 <h3>Cursor Movement</h3>
 
@@ -368,7 +387,7 @@
 <li><code>yy</code>  : copy line (e.g. <code>yy</code> copies line to buffer ready to be pasted)</li>
 <li><code>p</code>   : paste after cursor (e.g. <code>p</code> pastes content, but obviously requires content to have been copied previously)</li>
 <li><code>c</code>   : change (the change command deletes the selection and then puts user into INSERT mode so e.g. <code>cw</code> deletes the current word ready to have a new word entered)</li>
-<li><code>i</code>   : inside of (e.g. <code>yi"</code> this will (y)ank all content (i)snide of the next set of quotation marks)</li>
+<li><code>i</code>   : inside of (e.g. <code>yi"</code> this will (y)ank all content (i)nside of the next set of quotation marks)</li>
 <li><code>f</code>   : forward (e.g. <code>f,</code> moves to first comma. if you then press <code>;</code> you'll move to the next instance of the specified character. You can also move a set number of characters, so <code>2f,</code> will move the cursor to the second instance of a comma)</li>
 <li><code>x</code>   : delete after cursor (e.g. place cursor where you want to delete a character and press <code>x</code> to delete it)</li>
 <li><code>u</code>   : undo (e.g. just pressing <code>u</code> will undo the last change made)</li>
@@ -377,11 +396,17 @@
 
 <h3>Search and Replace</h3>
 
-<p>You can search and replace within a file by first moving into NORMAL mode and then after pressing <code>:</code> enter the following…</p>
+<p>You can search and replace within a file by first moving into NORMAL mode and then after pressing <code>:</code> and entering the following…</p>
 
 <p><code>50,100s/search/replace/gc</code></p>
 
 <p>…what this means is we limit the search range from line 50 up to line 100, we then look for the phrase <code>search</code> and we replace it with the phrase <code>replace</code>. We then use the <code>g</code> global flag which means don't stop after finding the first match. The <code>c</code> flag means don't just replace the instance, check with us first by asking us if we definitely want to carry out the replace.</p>
+
+<p>You don't have to use the range numbers, you can just use: <code>:s/search/replace/gc</code>.</p>
+
+<p>You can also use regular expressions which is awesome.</p>
+
+<p>Note: You can also do a site wide search and replace using the <code>Ack</code> plug-in (e.g. add <code>Bundle 'mileszs/ack.vim'</code> to our <code>.vimrc</code> file and run the <code>:BundleInstall</code> again). Checkout the Ack repo on GitHub to see how it works.</p>
 
 <h3>Misc</h3>
 
@@ -394,7 +419,7 @@
 
 <p>The above commands quite literally do not even scratch the surface of what's available within VIM.</p>
 
-<p>So the best thing to do is to find a comfortable set of commands from the list above and don't deviate from them until you've got them memorised (it's ok to Google for something you don't know but try to just focus on the basic commands for now).</p>
+<p>So the best thing to do is to find a comfortable set of commands from the list above and don't deviate from them until you've got them memorised (it's ok to Google for something you don't know, but try to just focus on the basic commands for now).</p>
 
 <h2>VIM Configuration</h2>
 
@@ -522,11 +547,13 @@
 
 <p>…hopefully the comments are self explanatory. There is so much you can configure with VIM that you just need to take the time to look at what set-up works for you, as chances are you'll be able to change it.</p>
 
+<p>You can find loads of VIM configurations on GitHub where you can pinch ideas and settings from.</p>
+
 <h2>Conclusion</h2>
 
-<p>So there you have it. A painfully short introduction to using VIM as your new web development environment.</p>
+<p>So there you have it. A painfully short introduction to using VIM as your new web development environment. But hopefully enough to get you started.</p>
 
-<p>VIM is so powerful that it would take a life time to really cover everything. It just takes dedication.</p>
+<p>VIM is so powerful that it would probably take a life time to really cover everything. It just takes dedication.</p>
 
 </div>
 
