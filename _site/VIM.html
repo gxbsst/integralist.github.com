@@ -95,6 +95,8 @@
 
 <p>A lot of editors have a feature like this nowadays (Sublime Text is one such popular example).</p>
 
+<p><img src="http://www.integralist.co.uk/Assets/Images/sublime-text-fuzzy.png" alt="Sublime Text Fuzzy Search" /></p>
+
 <p>The problem is that most editors don't normally have a long shelf life (none that any serious developer would consider using  nowadays -> I'm looking at Dreamweaver here**).</p>
 
 <p>**yes I'm sure they'll be some people who still use Dreamweaver and will not like that sentence, but I think it's safe to say that the developer community has grown up considerably since those early Macromedia days and developers have long since moved away to other more advanced and efficient development environments.</p>
@@ -176,6 +178,8 @@ Typically developers find another editor.</p>
 
 <p>You can import the <code>pure.zsh</code> file by adding the following line into the <code>.zshrc</code> file: <code>. /path/to/pure.zsh</code></p>
 
+<p><img src="http://www.integralist.co.uk/Assets/Images/pure-zsh.png" alt="pure zsh" /></p>
+
 <h2>TMUX</h2>
 
 <p>So what is tmux? The authors definition is…</p>
@@ -190,11 +194,35 @@ Typically developers find another editor.</p>
 
 <p>You may wonder if anything has actually happened because tmux doesn't look any different from what your normal terminal shell looks like, but what you don't realise is that you now have quite a few new keyboard shortcuts you can use to split your terminal into 'panes', 'windows' or 'tabs'.</p>
 
-<p>We won't go into the details yet on how to do that because first we're going to set-up an associated tool called '<a href="https://github.com/aziz/tmuxinator">tmuxinator</a>' which helps us manage complex tmux sessions.</p>
+<p><img src="http://www.integralist.co.uk/Assets/Images/tmux.png" alt="tmux" /></p>
+
+<h3>Prefix?</h3>
+
+<p>In tmux whenever you want to run a command you first run a opening command called 'the prefix'. The prefix is typically <code>Ctrl+b</code> (i.e. press the <code>Ctrl</code> button and then the <code>b</code> key).</p>
+
+<p>In my case I've updated the prefix to be <code>Ctrl+a</code> instead of <code>Ctrl+b</code> via a <code>tmux.conf</code> configuration file (you'll find out more about this file in the next section "tmuxinator").</p>
+
+<h3>Creating windows</h3>
+
+<p>To create a new window just run the prefix command and then press the <code>c</code> key (e.g. <code>Ctrl+b</code> then <code>c</code>)</p>
+
+<p>To close a window either run <code>exit</code> or press <code>Ctrl+d</code></p>
+
+<h3>Creating panes</h3>
+
+<p>To create a new horizontal pane run the prefix command and then press <code>Shift+5</code> (the <code>%</code> key).</p>
+
+<p><img src="http://www.integralist.co.uk/Assets/Images/tmux-horizontal.png" alt="tmux horizontal pane" /></p>
+
+<p>To create a new vertical pane run the prefix command and then press <code>Shift+'</code> (the <code>"</code> key).</p>
+
+<p><img src="http://www.integralist.co.uk/Assets/Images/tmux-vertical.png" alt="tmux vertical pane" /></p>
 
 <h2>TMUXinator</h2>
 
-<p>Basically, rather than you (every day) opening up the terminal and manually creating the same set of panes and windows, opening files in tmux, we can store the details of this 'set-up' as one instance of a layout. We do this by creating a text file that holds the configuration details for your layout.</p>
+<p>We're now going to set-up a tool associated with tmux called '<a href="https://github.com/aziz/tmuxinator">tmuxinator</a>' and this will help us manage complex tmux sessions.</p>
+
+<p>Basically, rather than you (every day) opening up the terminal and manually creating the same set of panes and windows and opening files in tmux, we can just store these preferences as a template. We do this by creating a text file that holds this configuration information.</p>
 
 <p>First thing to do is to install TMUXinator.</p>
 
@@ -209,7 +237,7 @@ Typically developers find another editor.</p>
 <p>If you open the yaml file you'll see it has a basic example set-up ready for you to configure…</p>
 
 <div class="highlight"><pre><code class="yaml">    <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">test-project</span>
-    <span class="l-Scalar-Plain">root</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~/Code/news</span>
+    <span class="l-Scalar-Plain">root</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~/Code/news/workspace/</span>
 
     <span class="l-Scalar-Plain">windows</span><span class="p-Indicator">:</span>
       <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">editor</span><span class="p-Indicator">:</span>
@@ -218,8 +246,8 @@ Typically developers find another editor.</p>
             <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">vim</span>
             <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">git status</span>
             <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">cd path/to/my/cheatsheet &amp;&amp; vim cheat-sheet.txt</span>
-      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sandbox</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">cd workspace &amp;&amp; vagrant ssh</span>
-      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sass</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">cd workspace &amp;&amp; grunt watch:service:news</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sandbox</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">vagrant ssh</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sass</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">grunt watch:service:news</span>
 </code></pre></div>
 
 
@@ -242,9 +270,11 @@ Typically developers find another editor.</p>
 
 <p>In the third tab <code>sass</code> I've told tmux I want to run a task that watches our Sass development files for any changes (and then compiles the files when a change is detected).</p>
 
+<p><img src="http://www.integralist.co.uk/Assets/Images/tmuxinator.png" alt="tmuxinator" /></p>
+
 <h3>Starting tmuxinator</h3>
 
-<p>Now we have a layout instance set-up, to use it we just run <code>tmuxinator start project</code> (or in my case <code>tmuxinator start work</code>).</p>
+<p>Now we have a template set-up, to use it we just run <code>tmuxinator start project</code> (or in my case <code>tmuxinator start work</code>).</p>
 
 <h3>Closing tmux</h3>
 
@@ -347,6 +377,14 @@ Typically developers find another editor.</p>
 
 <p>Simply use the arrow keys to select the relevant file you want to open and press ENTER.</p>
 
+<p><img src="http://www.integralist.co.uk/Assets/Images/ctrlp.png" alt="Ctrl+P" /></p>
+
+<h3>Using NERDTree to search our file system</h3>
+
+<p>When VIM is open and in NORMAL mode press <code>:</code> followed by <code>NERDTreeToggle</code> this will open NERDTree at the current location. You can then use your arrow keys to move up and down the file system and press <code>ENTER</code> to open folders. Once you find a file you want to open press <code>ENTER</code> once you're cursor is on the item of interest.</p>
+
+<p><img src="http://www.integralist.co.uk/Assets/Images/nerdtree.png" alt="NERDTree" /></p>
+
 <h3>More Commands</h3>
 
 <p>It's worth remembering that most commands follow the format: <code>operator [number] motion</code> (not all the time, but enough of the time - you'll soon get used to the order you do things).</p>
@@ -355,9 +393,9 @@ Typically developers find another editor.</p>
 
 <h3>Cursor Movement</h3>
 
-<p><code>h</code> : left
-<code>l</code> : right
-<code>k</code> : up
+<p><code>h</code> : left<br/>
+<code>l</code> : right<br/>
+<code>k</code> : up<br/>
 <code>j</code> : down</p>
 
 <p>Note: you can use your arrow keys still, but it's considered best practice by the VIM community to get used to using the above keys rather than the arrow keys.</p>
@@ -366,9 +404,9 @@ Typically developers find another editor.</p>
 
 <p>Rather than moving up and down a file line by line, we can instead just move up and down the file in sections.</p>
 
-<p><code>Ctrl+u</code> : move one page up
-<code>Ctrl+d</code> : move one page down
-<code>Ctrl+b</code> : move half page up
+<p><code>Ctrl+u</code> : move one page up<br/>
+<code>Ctrl+d</code> : move one page down<br/>
+<code>Ctrl+b</code> : move half page up<br/>
 <code>Ctrl+f</code> : move half page down</p>
 
 <h3>Motions</h3>
@@ -425,7 +463,7 @@ Typically developers find another editor.</p>
 
 <p>The following commands use the <code>vim-commentary.git</code> plugin…</p>
 
-<p><code>gcc</code> = comment out a line
+<p><code>gcc</code> = comment out a line<br/>
 <code>gcu</code> = uncomment the commented line</p>
 
 <h3>Keep to the basics</h3>
