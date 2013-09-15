@@ -12,10 +12,19 @@ module.exports = function (grunt) {
                 options: {
                     sizes: [
                         {
-                            width: 320,
+                            width: 320
+                        },
+                        {
+                            width: 480
                         },
                         {
                             width: 640
+                        },
+                        {
+                            width: 760
+                        },
+                        {
+                            width: 920
                         },
                         {
                             width: 1024
