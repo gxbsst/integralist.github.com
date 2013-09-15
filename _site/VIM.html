@@ -236,6 +236,10 @@ Typically developers find another editor.</p>
 
 <p>You can actually shift the panes around so that if a pane is in one position (let's say top left), you can move it to a different location (let's say bottom right) simply by running the prefix command followed by <code>Shift+{</code>, every time you press that combination all the panes will shift around.</p>
 
+<h3>Renaming a session</h3>
+
+<p>When you create a new tmux session (i.e. run <code>tmux</code>). You can opt to give it a name using <code>tmux new -s session_name</code>, but if you forget to do that and want to give the session a name later on (I do this all the time) then from within the session just run the prefix command followed by <code>Shift+4</code> (which is the <code>$</code> key) or alternatively run the prefix command followed by a <code>:</code> and then <code>rename-session -t [current-name] [new-name]</code> (if it has no current name then you'll just use the number assigned).</p>
+
 <h2>TMUXinator</h2>
 
 <p>We're now going to set-up a tool associated with tmux called '<a href="https://github.com/aziz/tmuxinator">tmuxinator</a>' and this will help us manage complex tmux sessions.</p>
