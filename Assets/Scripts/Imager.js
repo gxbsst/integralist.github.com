@@ -204,6 +204,6 @@
 var imager = new Imager({
     lazyload: true,
     scrollDelay: 100,
-    availableWidths: [320, 640, 1024],
+    availableWidths: [320, 480, 640, 760, 920, 1024],
     regex: /^(Assets\/Images\/src\/generated\/)(.+?)\d+(\.(?:jpg|png|gif))$/i
 });
