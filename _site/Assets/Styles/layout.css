@@ -125,7 +125,7 @@ h4,
     font-size: 1.2em;
     margin-left: -.7em;
     margin-right: -.7em;
-    position: relative; 
+    position: relative;
 }
 
 .article__content h2 em {
@@ -186,7 +186,7 @@ h4,
     -webkit-border-radius: 5px;
        -moz-border-radius: 5px;
             border-radius: 5px;
-    
+
     background-color: #c75045;
     color: #fff;
     padding: .5em;
@@ -283,4 +283,14 @@ h4,
     .social-links {
         display: none;
     }
+}
+
+.delayed-image-load {
+    border: 1px dashed #CCC;
+    min-height: 10em;
+}
+
+.delayed-image-load,
+.image-replace {
+   margin-bottom: 1em;
 }
