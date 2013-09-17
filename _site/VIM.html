@@ -514,9 +514,15 @@ vundle.git
 
 <h3>Run terminal commands within VIM</h3>
 
-<p><code>:!{terminal command}</code> allows to run terminal commands from within vim (e.g. <code>:!pwd</code> shows us the current working directory), this takes you out of VIM so you can see the results and then you can press <code>ENTER</code> to jump back into VIM.</p>
+<p>Running the prefix command and then typing <code>:!{terminal command}</code> allows you to run terminal commands from within vim (e.g. <code>:!pwd</code> shows us the current working directory).</p>
 
-<p>You can also try <code>Ctrl+z</code> (which suspends our VIM process) which takes us back to the terminal to run whatever commands we like and then in the terminal just type <code>fg</code> to bring VIM back to the (f)ore (g)round.</p>
+<p>Note: doing this takes you out of VIM so you can see the results, but if you just press <code>ENTER</code> you'll be sent back into VIM.</p>
+
+<h3>Suspend VIM</h3>
+
+<p>Another way to run terminal commands while VIM is running is to actually suspend VIM.</p>
+
+<p>If you run the prefix command this will take us back to the terminal to run whatever commands we like and then in the terminal just type <code>fg</code> to bring VIM back to the (f)ore (g)round.</p>
 
 <h3>Visual Block Mode</h3>
 
