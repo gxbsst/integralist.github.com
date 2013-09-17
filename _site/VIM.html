@@ -467,6 +467,8 @@ vundle.git
 <li><code>P</code>   : paste before cursor (e.g. <code>P</code> pastes content, but obviously requires content to have been copied previously)</li>
 <li><code>c</code>   : change (the change command deletes the selection and then puts user into INSERT mode so e.g. <code>cw</code> deletes the current word ready to have a new word entered)</li>
 <li><code>i</code>   : inside of (e.g. <code>yi"</code> this will (y)ank all content (i)nside of the next set of quotation marks)</li>
+<li><code>a</code> : same as <code>i</code> but content comes after the cursor rather than before</li>
+<li><code>o</code> : moves cursor to the next line and jumps into insert mode</li>
 <li><code>f</code>   : forward (e.g. <code>f,</code> moves to first comma. if you then press <code>;</code> you'll move to the next instance of the specified character. You can also move a set number of characters, so <code>2f,</code> will move the cursor to the second instance of a comma)</li>
 <li><code>x</code>   : cut after cursor (e.g. place cursor where you want to cut a character and press <code>x</code> to cut it, ready for pasting elsewhere)</li>
 <li><code>u</code>   : undo (e.g. just pressing <code>u</code> will undo the last change made)</li>
@@ -487,12 +489,48 @@ vundle.git
 
 <p>Note: You can also do a site wide search and replace using the <code>Ack</code> plug-in (e.g. add <code>Bundle 'mileszs/ack.vim'</code> to our <code>.vimrc</code> file and run the <code>:BundleInstall</code> again). Checkout the Ack repo on GitHub to see how it works.</p>
 
-<h3>Misc</h3>
+<h3>Viewing different buffers</h3>
+
+<p>Our <code>.vimrc</code> maps <code>\y</code>…</p>
+
+<p><code>map &lt;leader&gt;y :CtrlPBuffer&lt;cr&gt;</code></p>
+
+<p>…so it shows us what the current buffer is (this allows us to jump between files within VIM).</p>
+
+<p>Note: in VIM the <code>&lt;leader&gt;</code> key is a backslash <code>\</code></p>
+
+<h3>Code Comments</h3>
 
 <p>The following commands use the <code>vim-commentary.git</code> plugin…</p>
 
 <p><code>gcc</code> = comment out a line<br/>
 <code>gcu</code> = uncomment the commented line</p>
+
+<h3>Syntax Formatting</h3>
+
+<p>You can set the formatting of a file using <code>:setf</code></p>
+
+<p>e.g. <code>:serf cucumber</code> (where <code>cucumber</code> is a syntax format installed)</p>
+
+<h3>Run terminal commands within VIM</h3>
+
+<p><code>:!{terminal command}</code> allows to run terminal commands from within vim (e.g. <code>:!pwd</code> shows us the current working directory), this takes you out of VIM so you can see the results and then you can press <code>ENTER</code> to jump back into VIM.</p>
+
+<p>You can also try <code>Ctrl+z</code> (which suspends our VIM process) which takes us back to the terminal to run whatever commands we like and then in the terminal just type <code>fg</code> to bring VIM back to the (f)ore (g)round.</p>
+
+<h3>Visual Block Mode</h3>
+
+<p><code>Ctrl+v</code> puts us into Visual Block mode which allows us to select single columns and make multiple changes. So for example if you have a long list of items such as…</p>
+
+<p><code>
+_List Item 1
+_List Item 2
+_List Item 3
+_List Item 4
+_List Item 5
+</code></p>
+
+<p>…if you wanted to remove the opening <code>_</code> underscore then you could enter Visual Block mode, select the underscores by using the direction keys (make sure you're on the first or last underscore when you enter Visual Block mode) and then after all are selected just press <code>d</code> to delete them.</p>
 
 <h3>Keep to the basics</h3>
 
