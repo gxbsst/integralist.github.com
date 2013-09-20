@@ -137,6 +137,20 @@ Typically developers find another editor.</p>
 
 <p>I'm not going to cover the installation of VIM because chances are it's already installed! Also, I'm running a Mac and so this tutorial is aimed at that environment (i.e. your mileage may vary otherwise if you're on Windows or a non Unix system).</p>
 
+<h3>Updating your VIM version?</h3>
+
+<p>If you decide you want to update your version of VIM (which when using a Mac is probably something you'll want to do as the included version is quite old).</p>
+
+<p>You can do this by installing the latest version of VIM using <a href="http://brew.sh/">Homebrew</a>: <code>brew install vim</code>.</p>
+
+<p>The problem you'll likely hit is that the Mac will still be using the original version of VIM.</p>
+
+<p>Run <code>which vim</code> to see where the system is looking for VIM and if it's not running from a local user directory then you'll know it's not using the Homebrew install version.</p>
+
+<p>So go to that directory specified by <code>which vim</code> and then rename the VIM folder (e.g. VimVersionXXXX) and then run <code>which vim</code> again and you should find that your system tries looking elsewhere for VIM and it will find the Homebrew install.</p>
+
+<h3>Things we're going to install to go along with VIM</h3>
+
 <p>But here are the things we're going to install…</p>
 
 <ul>
@@ -215,6 +229,10 @@ Typically developers find another editor.</p>
 <h3>Renaming windows</h3>
 
 <p>You can rename a window by running the prefix command and then pressing the <code>,</code> key.</p>
+
+<h3>Changing windows</h3>
+
+<p>You can move around your tmux windows using the prefix command and either <code>n</code> (for next) or <code>p</code> (for previous) or specifying a number that correlates with the window number.</p>
 
 <h3>Creating panes</h3>
 
@@ -406,6 +424,10 @@ vundle.git
 <div class="delayed-image-load" data-src="Assets/Images/src/generated/ctrlp-1024.png" data-width="1024"></div>
 
 
+<h3>Updating Ctrl+P's list</h3>
+
+<p>If you have VIM open and you add a new file then the list that Ctrl+P uses (which is cached) will be out of date. To fix this, open Ctrl+P and then press <code>F5</code> to refresh the list of files it can search for.</p>
+
 <h3>Using NERDTree to search our file system</h3>
 
 <p>When VIM is open and in NORMAL mode press <code>:</code> followed by <code>NERDTreeToggle</code> this will open NERDTree at the current location. You can then use your arrow keys to move up and down the file system and press <code>ENTER</code> to open folders. Once you find a file you want to open press <code>ENTER</code> once you're cursor is on the item of interest.</p>
@@ -475,6 +497,29 @@ vundle.git
 </ul>
 
 
+<h3>Deleting</h3>
+
+<p>You can select multiple lines and just press <code>d</code> to delete.</p>
+
+<p>When selecting multiple lines for deletion (e.g. <code>d5j</code>) it is better to use <code>d5d</code> as it deletes the expected number of lines.</p>
+
+<p>For example…</p>
+
+<p><code>
+Line 1
+Line 2
+Line 3
+Line 4
+Line 5
+Line 6
+Line 7
+Line 8
+Line 9
+Line 10
+</code></p>
+
+<p>…if the cursor is on line 3 and you run <code>d4j</code> you'll end up deleting lines 3-7 but if you run <code>d4d</code> you'll delete 3-6 which visually is more likely what you intended (this is because <code>j</code> includes the current line on top of the specified number of lines to delete).</p>
+
 <h3>Search and Replace</h3>
 
 <p>You can search and replace within a file by first moving into NORMAL mode and then after pressing <code>:</code> and entering the following…</p>
@@ -503,8 +548,10 @@ vundle.git
 
 <p>The following commands use the <code>vim-commentary.git</code> plugin…</p>
 
-<p><code>gcc</code> = comment out a line<br/>
-<code>gcu</code> = uncomment the commented line</p>
+<p><code>gcc</code> = comment out a line (or <code>\\\</code>)<br/>
+<code>gcu</code> = uncomment the commented line (you can do <code>gcc</code> as a toggle)</p>
+
+<p>When you select multiple lines to comment out you can just use <code>gc</code> (rather than <code>gcc</code>)</p>
 
 <h3>Syntax Formatting</h3>
 
