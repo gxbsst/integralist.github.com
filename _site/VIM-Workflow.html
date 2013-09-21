@@ -6,7 +6,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="author" content="Mark McDonnell" />
-        <title> VIM Workflow | Integralist</title>
+        <title> Vim Workflow | Integralist</title>
         <!--[if lt IE 9]>
         <script src="/Assets/Scripts/html5.js"></script>
         <![endif]-->
@@ -36,24 +36,102 @@
             <a href="#info" class="header__moreinfo">More info about me&hellip;</a>
         </header>
         <section class="articles container">
-            <h1>VIM Workflow</h1>
+            <h1>Vim Workflow</h1>
 <div class="article__content">
-    <h2>What we'll cover <em>reading time: approx. mins</em></h2>
+    <h2>What we'll cover <em>reading time: approx. 5mins</em></h2>
 
 <ul>
 <li>Introduction</li>
-<li>x</li>
+<li>Starting up</li>
+<li>Top Pane</li>
+<li>What if there isn't enough space to work in one of the panes?</li>
+<li>What if you need more than three panes?</li>
+<li>Why not just use Vim panes?</li>
 <li>Conclusion</li>
 </ul>
 
 
 <h2>Introduction</h2>
 
-<p>TBA</p>
+<p>If you saw my last post about <a href="http://integralist.co.uk/VIM.html">Vim</a> you'll see that I've started using Vim as my main editor for development work.</p>
+
+<p>But up until this point I had just been whimsically opening files and editing them and I realised quite quickly this wasn't going to 'cut it' in the long run. So I wanted to show you the work flow I'm currently using in my day to day life.</p>
+
+<h2>Starting up</h2>
+
+<p>First thing first, I've found the best way to work is to keep things simple (oh wow, that 'simple' philosophy just keeps cropping up <em>everywhere</em> doesn't it, must be a sign! Maybe keeping things simple is the way we should do things. What a novel idea!)</p>
+
+<p>So to achieve this lets just have two panes open.<br/>
+One to hold our code and one to handle our terminal.</p>
+
+<p>It'll look something like this…</p>
+
+<div class="delayed-image-load" data-src="Assets/Images/src/generated/Vim-TwoPane-1024.png" data-width="1024"></div>
+
+
+<p>The idea being: in my Vim pane I can then split into two panes if I really need to, like so…</p>
+
+<div class="delayed-image-load" data-src="Assets/Images/src/generated/Vim-ThreePane-1024.png" data-width="1024"></div>
+
+
+<p>But anything more than that then you'll want to open a new tmux window as otherwise you have too much going on.</p>
+
+<p>To do this I run the following commands…</p>
+
+<ol>
+<li><code>tmux</code></li>
+<li><code>Ctrl-b</code> (or whatever your tmux prefix command is) and then <code>Shift-"</code> (to create a horizontal split pane)</li>
+<li>In the bottom pane I'll <code>cd</code> into whatever directory my project is</li>
+<li>Then in the bottom pane we'll run <code>Ctrl-b</code> and type <code>:resize-pane -D 5</code>** to change the height of the bottom pane</li>
+<li>In the top panel I'll run <code>vim</code></li>
+</ol>
+
+
+<p>That's it.</p>
+
+<p>**if I'm on a large screen and not my laptop then I'll change the value from 5 to 10</p>
+
+<h2>Top Pane</h2>
+
+<p>So as I said, the top pane is there literally to just run Vim. But because I use the <a href="https://github.com/kien/ctrlp.vim">Ctrl-P</a> plugin and Vim has been opened from the root directory of my project, I can just run a fuzzy file search using Ctrl-P to easily open up any file in my project work space. So I don't need lots of panes open as I can just keep jumping around my files really easily with fuzzy searching.</p>
+
+<p>If for whatever reason I feel I need another file open side by side then I'll run tmux's prefix command followed by <code>Shift-5</code> to create a vertical split pane, where I can then run <code>vim</code> and again use my fuzzy file search to locate the file I want.</p>
+
+<p>I don't open any more panes than that (3 max).</p>
+
+<h2>What if there isn't enough space to work in one of the panes?</h2>
+
+<p>Just make the pane you're currently working in full screen by running <code>Ctrl-b</code> then <code>z</code>. Just run that same command again to go back to the normal pane size.</p>
+
+<h2>What if you need more than three panes?</h2>
+
+<p>If I do need more than three panes then I'll just open up a new tmux window. No point over loading the screen unnecessarily. Why make your life difficult, that's what windows are there for!</p>
+
+<h2>Why not just use Vim panes?</h2>
+
+<p>I don't use Vim's own panes. I prefer tmux's.</p>
+
+<p>There are two reasons for this:</p>
+
+<ol>
+<li><p>If I used Vim's own panes exclusively (so all 3 panes were Vim panes) then I couldn't have the terminal running in the bottom pane. Yes I can run terminal commands either in Vim (or suspend Vim) but this isn't as nice as having a proper terminal screen running freely in the bottom pane.</p></li>
+<li><p>Also, if I open Vim in my top pane and then decide to create a vertical split, the file in the right side <em>has</em> to be handled by Vim. I can't just split the top pane in two and do what I want in the top right pane.</p></li>
+</ol>
+
+
+<h2>Downsides to using tmux panes?</h2>
+
+<p>Yes, there is one downside to using tmux's panes which I can't seem to work around, and that is my speed is restricted.</p>
+
+<p>By that I mean: if I move to another pane I have to wait a fraction of a second before I can use my arrow keys (or <code>hjkl</code> keys) as tmux will try to move me back to the other pane again.</p>
+
+<p>That can be frustrating, but I'm learning to live with it.</p>
 
 <h2>Conclusion</h2>
 
-<p>TBA</p>
+<p>That's pretty much all there is to it (at the moment). If things change then I'll be sure to update this post but simplicity is the key.</p>
+
+<p>Let me know your thoughts and how <em>you</em> do things. I'm interested to know how other Vim users work.</p>
 
 </div>
 

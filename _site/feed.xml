@@ -13,18 +13,18 @@
     <atom:link href="http://integralist.co.uk/feed.xml" rel="self" type="application/rss+xml" />
     <link>http://integralist.co.uk</link>
     <description></description>
-    <lastBuildDate>Fri, 20 Sep 2013 15:51:25 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 21 Sep 2013 17:39:49 +0100</lastBuildDate>
     <language>en</language>
     <copyright>Integralist</copyright>
 
     
       <item>
-        <title>VIM Workflow</title>
+        <title>Vim Workflow</title>
         <link>http://integralist.co.uk/VIM-Workflow.html</link>
         <pubDate>Sat, 21 Sep 2013 00:00:00 +0100</pubDate>
         <guid>http://integralist.co.uk/VIM-Workflow.html</guid>
         <description>
-        Since using VIM as my main editor, I've realised that just whimsically opening files and editing them wasn't going to work out in the long run so this is a short post on how I'm currently using VIM in my day to day work flow.
+        Since using Vim as my main editor, I've realised that just whimsically opening files and editing them wasn't going to work out in the long run so this is a short post on how I'm currently using Vim in my day to day work flow.
         </description>
       </item>
     
