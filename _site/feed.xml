@@ -13,7 +13,7 @@
     <atom:link href="http://integralist.co.uk/feed.xml" rel="self" type="application/rss+xml" />
     <link>http://integralist.co.uk</link>
     <description></description>
-    <lastBuildDate>Sat, 21 Sep 2013 17:39:49 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 21 Sep 2013 17:44:00 +0100</lastBuildDate>
     <language>en</language>
     <copyright>Integralist</copyright>
 
@@ -29,12 +29,12 @@
       </item>
     
       <item>
-        <title>A guide to getting started with VIM</title>
+        <title>A guide to getting started with Vim</title>
         <link>http://integralist.co.uk/VIM.html</link>
         <pubDate>Sun, 08 Sep 2013 00:00:00 +0100</pubDate>
         <guid>http://integralist.co.uk/VIM.html</guid>
         <description>
-        I explain how you can get started using VIM as your main editor and development environment, by focusing on installing some important plug-ins that are essential for a good VIM experience
+        I explain how you can get started using Vim as your main editor and development environment, by focusing on installing some important plug-ins that are essential for a good Vim experience
         </description>
       </item>
     

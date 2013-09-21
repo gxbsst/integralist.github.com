@@ -6,7 +6,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="author" content="Mark McDonnell" />
-        <title> A guide to getting started with VIM | Integralist</title>
+        <title> A guide to getting started with Vim | Integralist</title>
         <!--[if lt IE 9]>
         <script src="/Assets/Scripts/html5.js"></script>
         <![endif]-->
@@ -36,7 +36,7 @@
             <a href="#info" class="header__moreinfo">More info about me&hellip;</a>
         </header>
         <section class="articles container">
-            <h1>A guide to getting started with VIM</h1>
+            <h1>A guide to getting started with Vim</h1>
 <div class="article__content">
     <h2>What we'll cover <em>reading time: approx. 26mins</em></h2>
 
@@ -56,8 +56,8 @@
 </li>
 <li>NERDTree</li>
 <li>Ctrl+P</li>
-<li>VIM Basics</li>
-<li>VIM Configuration</li>
+<li>Vim Basics</li>
+<li>Vim Configuration</li>
 <li>Other plugins</li>
 <li>Conclusion</li>
 </ul>
@@ -112,44 +112,44 @@ Typically developers find another editor.</p>
 
 <p>Well, there is an editor that has been around for a <em>very</em> long time and is available everywhere (and in most cases is installed by default) but also has tons of plug-ins and is pretty much the Perl of keyboard short-cuts.</p>
 
-<p>That editor is <a href="http://en.wikipedia.org/wiki/Vi">VI</a> (well, as you'll see, more specifically VIM) and it was originally created back in 1976!</p>
+<p>That editor is <a href="http://en.wikipedia.org/wiki/Vi">VI</a> (well, as you'll see, more specifically Vim) and it was originally created back in 1976!</p>
 
-<p>Since then there has been improvements to the editor which nowadays (~1981 onwards) is more commonly known as VIM (meaning: VI Improved) and you can find more information on VIM at its website <a href="http://www.vim.org/">http://www.vim.org/</a>.</p>
+<p>Since then there has been improvements to the editor which nowadays (~1981 onwards) is more commonly known as Vim (meaning: VI Improved) and you can find more information on Vim at its website <a href="http://www.vim.org/">http://www.vim.org/</a>.</p>
 
 <h2>The focus of this post</h2>
 
-<p>OK, so the problem with VIM is that although it's a great program to use, it unfortunately has a <em>very</em> steep learning curve which puts off new comers.</p>
+<p>OK, so the problem with Vim is that although it's a great program to use, it unfortunately has a <em>very</em> steep learning curve which puts off new comers.</p>
 
-<p>Also, VIM by itself isn't as useful (as a development environment) without a few plug-ins that help give it a bit of jazz. That also trips up new comers to VIM as they assume what they see other developers using is <em>just</em> VIM but it's not. VIM by itself is very nondescript, it's the plug-ins and custom VIM configurations that make all the difference to the look and feel of VIM.</p>
+<p>Also, Vim by itself isn't as useful (as a development environment) without a few plug-ins that help give it a bit of jazz. That also trips up new comers to Vim as they assume what they see other developers using is <em>just</em> Vim but it's not. Vim by itself is very nondescript, it's the plug-ins and custom Vim configurations that make all the difference to the look and feel of Vim.</p>
 
-<p>So, the key to using VIM (for the first time) as a developer tool is:</p>
+<p>So, the key to using Vim (for the first time) as a developer tool is:</p>
 
 <ul>
 <li>Get a nice clean command line shell</li>
 <li>Get ourselves a set of primary plugins installed first</li>
-<li>Then focus on basic VIM commands last (typically this is considered the first step, but I think that's a mistake)</li>
+<li>Then focus on basic Vim commands last (typically this is considered the first step, but I think that's a mistake)</li>
 </ul>
 
 
-<p>I want to get the primary tools set-up first, and to show you those BEFORE we get ourselves bogged down with VIM commands.</p>
+<p>I want to get the primary tools set-up first, and to show you those BEFORE we get ourselves bogged down with Vim commands.</p>
 
 <h2>Step 1: Installation</h2>
 
-<p>I'm not going to cover the installation of VIM because chances are it's already installed! Also, I'm running a Mac and so this tutorial is aimed at that environment (i.e. your mileage may vary otherwise if you're on Windows or a non Unix system).</p>
+<p>I'm not going to cover the installation of Vim because chances are it's already installed! Also, I'm running a Mac and so this tutorial is aimed at that environment (i.e. your mileage may vary otherwise if you're on Windows or a non Unix system).</p>
 
-<h3>Updating your VIM version?</h3>
+<h3>Updating your Vim version?</h3>
 
-<p>If you decide you want to update your version of VIM (which when using a Mac is probably something you'll want to do as the included version is quite old).</p>
+<p>If you decide you want to update your version of Vim (which when using a Mac is probably something you'll want to do as the included version is quite old).</p>
 
-<p>You can do this by installing the latest version of VIM using <a href="http://brew.sh/">Homebrew</a>: <code>brew install vim</code>.</p>
+<p>You can do this by installing the latest version of Vim using <a href="http://brew.sh/">Homebrew</a>: <code>brew install vim</code>.</p>
 
-<p>The problem you'll likely hit is that the Mac will still be using the original version of VIM.</p>
+<p>The problem you'll likely hit is that the Mac will still be using the original version of Vim.</p>
 
-<p>Run <code>which vim</code> to see where the system is looking for VIM and if it's not running from a local user directory then you'll know it's not using the Homebrew install version.</p>
+<p>Run <code>which vim</code> to see where the system is looking for Vim and if it's not running from a local user directory then you'll know it's not using the Homebrew install version.</p>
 
-<p>So go to that directory specified by <code>which vim</code> and then rename the VIM folder (e.g. VimVersionXXXX) and then run <code>which vim</code> again and you should find that your system tries looking elsewhere for VIM and it will find the Homebrew install.</p>
+<p>So go to that directory specified by <code>which vim</code> and then rename the Vim folder (e.g. VimVersionXXXX) and then run <code>which vim</code> again and you should find that your system tries looking elsewhere for Vim and it will find the Homebrew install.</p>
 
-<h3>Things we're going to install to go along with VIM</h3>
+<h3>Things we're going to install to go along with Vim</h3>
 
 <p>But here are the things we're going to install…</p>
 
@@ -166,7 +166,7 @@ Typically developers find another editor.</p>
 
 <h2>Zsh</h2>
 
-<p>To use VIM we'll need to use a terminal shell. So let's get that open now (if you're on a Mac you'll have a Terminal.app you can run).</p>
+<p>To use Vim we'll need to use a terminal shell. So let's get that open now (if you're on a Mac you'll have a Terminal.app you can run).</p>
 
 <p>The default terminal shell for the GNU operating system, Linux and Mac OS X is 'Bash' but we want to use 'Zsh' instead.</p>
 
@@ -182,7 +182,7 @@ Typically developers find another editor.</p>
 
 <p>For Zsh there should be a <code>.zshrc</code> file in your home directory (if there isn't then create one, as we'll need it shortly). You can do this very simply using the command <code>touch .zshrc</code>.</p>
 
-<p>As we'll be using VIM there should also be in the home directory a <code>.vimrc</code> file for configuring VIM. If there isn't then create one (again, we'll be needing it shortly).</p>
+<p>As we'll be using Vim there should also be in the home directory a <code>.vimrc</code> file for configuring Vim. If there isn't then create one (again, we'll be needing it shortly).</p>
 
 <h2>Pure Zsh</h2>
 
@@ -203,7 +203,7 @@ Typically developers find another editor.</p>
 
 <blockquote><p>It lets you switch easily between several programs in one terminal, detach them (they keep running in the background) and reattach them to a different terminal. And do a lot more.</p></blockquote>
 
-<p>OK, so in short tmux makes it easy for you to create new terminal windows with panes and complex layouts (stuff you can do with raw VIM but tmux makes easier).</p>
+<p>OK, so in short tmux makes it easy for you to create new terminal windows with panes and complex layouts (stuff you can do with raw Vim but tmux makes easier).</p>
 
 <p>There are a couple of ways to install <a href="http://tmux.sourceforge.net/">TMUX</a> the easiest is with <a href="http://brew.sh/">Homebrew</a>: <code>brew install tmux</code></p>
 
@@ -304,7 +304,7 @@ Typically developers find another editor.</p>
 
 <p>Within the first tab <code>editor</code> I have a specific layout used called <code>main-vertical</code> (tmux comes with many different pre-built layouts, this is just one of them).</p>
 
-<p>The layout I'm using splits the screen into two columns. In the left column I have <code>vim</code> running and in the right column I have two rows. The top row checks the status of my git repository, and the bottom row opens up a VIM cheat sheet.</p>
+<p>The layout I'm using splits the screen into two columns. In the left column I have <code>vim</code> running and in the right column I have two rows. The top row checks the status of my git repository, and the bottom row opens up a Vim cheat sheet.</p>
 
 <p>In the second tab <code>sandbox</code> I've told tmux I want to connect to our local development sandbox (via ssh).</p>
 
@@ -331,18 +331,18 @@ Typically developers find another editor.</p>
 
 <h2>Vundle</h2>
 
-<p>This is a plug-in manager for VIM.</p>
+<p>This is a plug-in manager for Vim.</p>
 
 <p>To install Vundle run <code>git clone  
 https://github.com/gmarik/  
 vundle.git  
 ~/.vim/bundle/vundle</code></p>
 
-<p>Now you have it installed, you can add plug-ins to your <code>.vimrc</code> configuration file and install them by running a <code>:BundleInstall</code> command from within VIM.</p>
+<p>Now you have it installed, you can add plug-ins to your <code>.vimrc</code> configuration file and install them by running a <code>:BundleInstall</code> command from within Vim.</p>
 
 <h3>Set-up some bundles</h3>
 
-<p>We're jumping ahead a little bit (because at the end of this section you'll see we'll be using VIM to type one command, but it's OK we won't do any more than that until later).</p>
+<p>We're jumping ahead a little bit (because at the end of this section you'll see we'll be using Vim to type one command, but it's OK we won't do any more than that until later).</p>
 
 <p>Let's open our <code>.vimrc</code> file and add some plug-ins we're going to need (code comments start with ")…</p>
 
@@ -370,37 +370,37 @@ vundle.git
 
 <p>If you check the Vundle README on GitHub you'll see there are multiple ways to specify a 'bundle', in our case we're installing two bundles that are available on GitHub so you'll notice that the paths specified are actually the GitHub username/repo-name.</p>
 
-<p>To actually get these two bundles installed (using the Vundle plug-in) means we need to first open VIM so we can run the relevant install command.</p>
+<p>To actually get these two bundles installed (using the Vundle plug-in) means we need to first open Vim so we can run the relevant install command.</p>
 
-<p>So to open VIM literally just run: <code>vim</code> and then to run the install command press ESC (just to make sure you're in the right mode, don't worry we'll cover this later) then type <code>:BundleInstall</code> and press ENTER.</p>
+<p>So to open Vim literally just run: <code>vim</code> and then to run the install command press ESC (just to make sure you're in the right mode, don't worry we'll cover this later) then type <code>:BundleInstall</code> and press ENTER.</p>
 
 <h3>Where can I find bundles?</h3>
 
-<p>Bundles are just pointers to VIM scripts.</p>
+<p>Bundles are just pointers to Vim scripts.</p>
 
 <p>The two bundles we've pointed to are references to their GitHub repositories.</p>
 
-<p>But you can also point to non-github repos, local git repos, or direct to VIM scripts. See the Vundle README for more information.</p>
+<p>But you can also point to non-github repos, local git repos, or direct to Vim scripts. See the Vundle README for more information.</p>
 
 <h2>NERDTree</h2>
 
 <p>NERDTree is a tree explorer plugin for navigating the filesystem. This is the closest thing you're going to get to a standard editor feature.</p>
 
-<p>We'll cover how to use it in the following VIM Basics section. Suffice to say, with the <code>Ctrl+p</code> plug-in we shouldn't need to use the NERDTree very often (but sometimes it can come in handy)</p>
+<p>We'll cover how to use it in the following Vim Basics section. Suffice to say, with the <code>Ctrl+p</code> plug-in we shouldn't need to use the NERDTree very often (but sometimes it can come in handy)</p>
 
 <h2>Ctrl+p</h2>
 
 <p>This is a fuzzy file finder so it makes it easy for you to locate files within your project by just typing a couple of characters of the files name.</p>
 
-<p>Again, we'll cover how to use it in the following VIM Basics section.</p>
+<p>Again, we'll cover how to use it in the following Vim Basics section.</p>
 
-<h2>VIM Basics</h2>
+<h2>Vim Basics</h2>
 
-<p>So here we are! We made it to the part where we can actually use VIM!</p>
+<p>So here we are! We made it to the part where we can actually use Vim!</p>
 
-<p>VIM is all about not using the mouse, just the keyboard.</p>
+<p>Vim is all about not using the mouse, just the keyboard.</p>
 
-<p>One of the first things to know about VIM are that it has 3 modes:</p>
+<p>One of the first things to know about Vim are that it has 3 modes:</p>
 
 <ol>
 <li>NORMAL (you run the majority of your commands from this mode)</li>
@@ -426,11 +426,11 @@ vundle.git
 
 <h3>Updating Ctrl+P's list</h3>
 
-<p>If you have VIM open and you add a new file then the list that Ctrl+P uses (which is cached) will be out of date. To fix this, open Ctrl+P and then press <code>F5</code> to refresh the list of files it can search for.</p>
+<p>If you have Vim open and you add a new file then the list that Ctrl+P uses (which is cached) will be out of date. To fix this, open Ctrl+P and then press <code>F5</code> to refresh the list of files it can search for.</p>
 
 <h3>Using NERDTree to search our file system</h3>
 
-<p>When VIM is open and in NORMAL mode press <code>:</code> followed by <code>NERDTreeToggle</code> this will open NERDTree at the current location. You can then use your arrow keys to move up and down the file system and press <code>ENTER</code> to open folders. Once you find a file you want to open press <code>ENTER</code> once you're cursor is on the item of interest.</p>
+<p>When Vim is open and in NORMAL mode press <code>:</code> followed by <code>NERDTreeToggle</code> this will open NERDTree at the current location. You can then use your arrow keys to move up and down the file system and press <code>ENTER</code> to open folders. Once you find a file you want to open press <code>ENTER</code> once you're cursor is on the item of interest.</p>
 
 <div class="delayed-image-load" data-src="Assets/Images/src/generated/nerdtree-1024.png" data-width="1024"></div>
 
@@ -448,7 +448,7 @@ vundle.git
 <code>k</code> : up<br/>
 <code>j</code> : down</p>
 
-<p>Note: you can use your arrow keys still, but it's considered best practice by the VIM community to get used to using the above keys rather than the arrow keys.</p>
+<p>Note: you can use your arrow keys still, but it's considered best practice by the Vim community to get used to using the above keys rather than the arrow keys.</p>
 
 <h3>Page Movement</h3>
 
@@ -540,9 +540,9 @@ Line 10
 
 <p><code>map &lt;leader&gt;y :CtrlPBuffer&lt;cr&gt;</code></p>
 
-<p>…so it shows us what the current buffer is (this allows us to jump between files within VIM).</p>
+<p>…so it shows us what the current buffer is (this allows us to jump between files within Vim).</p>
 
-<p>Note: in VIM the <code>&lt;leader&gt;</code> key is a backslash <code>\</code></p>
+<p>Note: in Vim the <code>&lt;leader&gt;</code> key is a backslash <code>\</code></p>
 
 <h3>Code Comments</h3>
 
@@ -559,17 +559,17 @@ Line 10
 
 <p>e.g. <code>:setf cucumber</code> (where <code>cucumber</code> is a syntax format installed)</p>
 
-<h3>Run terminal commands within VIM</h3>
+<h3>Run terminal commands within Vim</h3>
 
-<p>Running the prefix command and then typing <code>:!{terminal command}</code> allows you to run terminal commands from within vim (e.g. <code>:!pwd</code> shows us the current working directory).</p>
+<p>Running the prefix command and then typing <code>:!{terminal command}</code> allows you to run terminal commands from within Vim (e.g. <code>:!pwd</code> shows us the current working directory).</p>
 
-<p>Note: doing this takes you out of VIM so you can see the results, but if you just press <code>ENTER</code> you'll be sent back into VIM.</p>
+<p>Note: doing this takes you out of Vim so you can see the results, but if you just press <code>ENTER</code> you'll be sent back into Vim.</p>
 
-<h3>Suspend VIM</h3>
+<h3>Suspend Vim</h3>
 
-<p>Another way to run terminal commands while VIM is running is to actually suspend VIM.</p>
+<p>Another way to run terminal commands while Vim is running is to actually suspend Vim.</p>
 
-<p>If you run the prefix command this will take us back to the terminal to run whatever commands we like and then in the terminal just type <code>fg</code> to bring VIM back to the (f)ore (g)round.</p>
+<p>If you run the prefix command this will take us back to the terminal to run whatever commands we like and then in the terminal just type <code>fg</code> to bring Vim back to the (f)ore (g)round.</p>
 
 <h3>Visual Block Mode</h3>
 
@@ -587,11 +587,11 @@ _List Item 5
 
 <h3>Keep to the basics</h3>
 
-<p>The above commands quite literally do not even scratch the surface of what's available within VIM.</p>
+<p>The above commands quite literally do not even scratch the surface of what's available within Vim.</p>
 
 <p>So the best thing to do is to find a comfortable set of commands from the list above and don't deviate from them until you've got them memorised (it's ok to Google for something you don't know, but try to just focus on the basic commands for now).</p>
 
-<h2>VIM Configuration</h2>
+<h2>Vim Configuration</h2>
 
 <p>Let's now take a quick look at some configuration options we can add to our <code>.vimrc</code> file…</p>
 
@@ -715,9 +715,9 @@ _List Item 5
 </code></pre></div>
 
 
-<p>…hopefully the comments are self explanatory. There is so much you can configure with VIM that you just need to take the time to look at what set-up works for you, as chances are you'll be able to change it.</p>
+<p>…hopefully the comments are self explanatory. There is so much you can configure with Vim that you just need to take the time to look at what set-up works for you, as chances are you'll be able to change it.</p>
 
-<p>You can find loads of VIM configurations on GitHub where you can pinch ideas and settings from.</p>
+<p>You can find loads of Vim configurations on GitHub where you can pinch ideas and settings from.</p>
 
 <h2>Other plugins</h2>
 
@@ -731,9 +731,9 @@ _List Item 5
 
 <h2>Conclusion</h2>
 
-<p>So there you have it. A painfully short introduction to using VIM as your new web development environment. But hopefully enough to get you started.</p>
+<p>So there you have it. A painfully short introduction to using Vim as your new web development environment. But hopefully enough to get you started.</p>
 
-<p>VIM is so powerful that it would probably take a life time to really cover everything. It just takes dedication.</p>
+<p>Vim is so powerful that it would probably take a life time to really cover everything. It just takes dedication.</p>
 
 </div>
 
