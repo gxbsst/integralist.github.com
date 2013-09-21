@@ -24,7 +24,7 @@ But up until this point I had just been whimsically opening files and editing th
 
 First thing first, I've found the best way to work is to keep things simple (oh wow, that 'simple' philosophy just keeps cropping up *everywhere* doesn't it, must be a sign! Maybe keeping things simple is the way we should do things. What a novel idea!)
 
-So to achieve this lets just have two panes open.  
+So to achieve this let's just have two panes open.  
 One to hold our code and one to handle our terminal.
 
 It'll look something like this…
