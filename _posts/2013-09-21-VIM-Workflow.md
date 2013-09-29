@@ -12,6 +12,9 @@ strapline: Since using Vim as my main editor, I've realised that just whimsicall
 - What if there isn't enough space to work in one of the panes?
 - What if you need more than three panes?
 - Why not just use Vim panes?
+- Downsides to using tmux panes?
+- Buffer lists
+- Global find and replace using Ack
 - Conclusion
 
 ## Introduction
@@ -82,6 +85,31 @@ Yes, there is one downside to using tmux's panes which I can't seem to work arou
 By that I mean: if I move to another pane I have to wait a fraction of a second before I can use my arrow keys (or `hjkl` keys) as tmux will try to move me back to the other pane again. 
 
 That can be frustrating, but I'm learning to live with it.
+
+## Buffer lists
+
+In my Vim pane, as I use the CtrlP plugin to open up multiple files, it's easy for me to jump between files really easily using Vim's buffer list (every file opened is a new buffer, and Vim keeps a track of its open buffers).
+
+So if I want to jump back to a recently opened file then I'll just run the command `<leader>y` (the `<leader>` key is a similar concept to the `<prefix>` key in tmux) and by default the `<leader>` key is a backslash `\`. So we'd type `\y` to see our buffer list.
+
+Once we have the buffer list open we can just select the file we want to re-open. This makes it really quick for jumping back and forth between two or more files we use a lot.
+
+## Global find and replace using Ack
+
+I like to use the [Ack plugin](https://github.com/mileszs/ack.vim) for carrying out a global 'find and replace' function on my files.
+
+Ack is the same concept as Grep (e.g. use either a string or a Regular Expression to find a match in a list of files). But Ack has been written to be much faster than Grep**.
+
+**Technically, in the background (configured within my `.vimrc` file), I alias the `Ack` command within Vim so it uses [The Silver Searcher](https://github.com/ggreer/the_silver_searcher) instead, which has the same API as Ack but is blazingly fast (even more so than Ack!).
+
+To use the plugin you simple run `:Ack 'pattern' directory` (note: if you leave off the directory then the plugin will use the current directory).
+
+Note: when you use the plugin Vim will show the results inside of a `Quickfix` pane. Navigating this pane requires a few extra commands…
+
+- `o` = opens the file (and puts focus on that pane)
+- `go` = quick preview of the file instead (so you stay inside of the Quickfix pane)
+- `:copen` = if the Quickfix pane is still open and you're not focused on it, then this command puts your focus back to that pane so you can look at the rest of the results
+- `:ccl` = closes the Quickfix pane
 
 ## Conclusion
 

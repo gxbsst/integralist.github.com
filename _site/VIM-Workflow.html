@@ -47,6 +47,9 @@
 <li>What if there isn't enough space to work in one of the panes?</li>
 <li>What if you need more than three panes?</li>
 <li>Why not just use Vim panes?</li>
+<li>Downsides to using tmux panes?</li>
+<li>Buffer lists</li>
+<li>Global find and replace using Ack</li>
 <li>Conclusion</li>
 </ul>
 
@@ -126,6 +129,34 @@ One to hold our code and one to handle our terminal.</p>
 <p>By that I mean: if I move to another pane I have to wait a fraction of a second before I can use my arrow keys (or <code>hjkl</code> keys) as tmux will try to move me back to the other pane again.</p>
 
 <p>That can be frustrating, but I'm learning to live with it.</p>
+
+<h2>Buffer lists</h2>
+
+<p>In my Vim pane, as I use the CtrlP plugin to open up multiple files, it's easy for me to jump between files really easily using Vim's buffer list (every file opened is a new buffer, and Vim keeps a track of its open buffers).</p>
+
+<p>So if I want to jump back to a recently opened file then I'll just run the command <code>&lt;leader&gt;y</code> (the <code>&lt;leader&gt;</code> key is a similar concept to the <code>&lt;prefix&gt;</code> key in tmux) and by default the <code>&lt;leader&gt;</code> key is a backslash <code>\</code>. So we'd type <code>\y</code> to see our buffer list.</p>
+
+<p>Once we have the buffer list open we can just select the file we want to re-open. This makes it really quick for jumping back and forth between two or more files we use a lot.</p>
+
+<h2>Global find and replace using Ack</h2>
+
+<p>I like to use the <a href="https://github.com/mileszs/ack.vim">Ack plugin</a> for carrying out a global 'find and replace' function on my files.</p>
+
+<p>Ack is the same concept as Grep (e.g. use either a string or a Regular Expression to find a match in a list of files). But Ack has been written to be much faster than Grep**.</p>
+
+<p>**Technically, in the background (configured within my <code>.vimrc</code> file), I alias the <code>Ack</code> command within Vim so it uses <a href="https://github.com/ggreer/the_silver_searcher">The Silver Searcher</a> instead, which has the same API as Ack but is blazingly fast (even more so than Ack!).</p>
+
+<p>To use the plugin you simple run <code>:Ack 'pattern' directory</code> (note: if you leave off the directory then the plugin will use the current directory).</p>
+
+<p>Note: when you use the plugin Vim will show the results inside of a <code>Quickfix</code> pane. Navigating this pane requires a few extra commands…</p>
+
+<ul>
+<li><code>o</code> = opens the file (and puts focus on that pane)</li>
+<li><code>go</code> = quick preview of the file instead (so you stay inside of the Quickfix pane)</li>
+<li><code>:copen</code> = if the Quickfix pane is still open and you're not focused on it, then this command puts your focus back to that pane so you can look at the rest of the results</li>
+<li><code>:ccl</code> = closes the Quickfix pane</li>
+</ul>
+
 
 <h2>Conclusion</h2>
 
