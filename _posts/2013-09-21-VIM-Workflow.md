@@ -88,11 +88,13 @@ That can be frustrating, but I'm learning to live with it.
 
 ## Buffer lists
 
-In my Vim pane, as I use the CtrlP plugin to open up multiple files, it's easy for me to jump between files really easily using Vim's buffer list (every file opened is a new buffer, and Vim keeps a track of its open buffers).
+In my Vim pane, as I use the CtrlP plugin to open up multiple files, I'm able to jump between files really easily using its `:CtrlPBuffer` command, but I make this command quicker to access by configuring Vim to let me access the `:CtrlPBuffer` using the shortcut `<leader>y` (the `<leader>` key is a similar concept to the `<prefix>` key in tmux).
 
-So if I want to jump back to a recently opened file then I'll just run the command `<leader>y` (the `<leader>` key is a similar concept to the `<prefix>` key in tmux) and by default the `<leader>` key is a backslash `\`. So we'd type `\y` to see our buffer list.
+So if I want to jump back to a recently opened file then I'll just run the command `\y` (by default the `<leader>` key is a backslash `\`) and this will show me CtrlP's buffer list.
 
-Once we have the buffer list open we can just select the file we want to re-open. This makes it really quick for jumping back and forth between two or more files we use a lot.
+Once we have the buffer list open we can just select the file we want to re-open. This makes it really quick for jumping back and forth between two or more files we happen to be editing a lot.
+
+You can configure your `.vimrc` file to use this shortcut like so: `map <leader>y :CtrlPBuffer<cr>`
 
 ## Global find and replace using Ack
 
