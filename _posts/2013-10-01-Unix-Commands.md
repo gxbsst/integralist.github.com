@@ -160,7 +160,7 @@ Let's break this command down a little…
 - As part of the same print command we then tell it to print ": " followed by the second from last number.
 - To do that we use two pieces of syntax `$()` and `NF`.
 - `NF` stands for (N)umber of (F)ields.
-- `$()` which wraps around `NF` is our 'process substitution', which means we're not just outputting some data but manipulating it by using logic to give us 1 field back from the last, hence it needs to be wrapped in `$()`
+- The `$()` wrapping around `NF` is our 'process substitution'. This means we're not just outputting some data but manipulating it by using logic to give us 1 field back from the last, hence it needs to be wrapped in `$()`
 
 ## Piping I/O
 
