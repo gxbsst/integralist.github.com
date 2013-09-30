@@ -26,6 +26,9 @@ strapline: I've started to realise the beauty and efficiency that is the Unix Ph
 	- Piping
 	- Another piping example
 - Miscellaneous Commands
+	- tee
+	- dig
+	- ps
 - Conclusion
 
 ## Introduction
