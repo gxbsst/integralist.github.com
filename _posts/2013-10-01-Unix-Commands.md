@@ -242,7 +242,7 @@ The `tee` command you've seen already now (in our above example) but just to rei
 
 ### `dig`
 
-The `dig` command is used for carrying out DNS lookups: `dig integralist.co.uk` returns the DNS records found for me domain name.
+The `dig` command is used for carrying out DNS lookups: `dig integralist.co.uk` returns the DNS records found for my domain name.
 
 ### `ps`
 
