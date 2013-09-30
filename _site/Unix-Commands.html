@@ -192,6 +192,14 @@
 
 <p>…you could print the line number followed by a specific word (in this case the second from last word on each line) using the following awk command: <code>awk '{ print "Line " NR ": " $(NF-1) }' test.txt</code></p>
 
+<p>Which would display the following content on your screen…</p>
+
+<div class="highlight"><pre><code class="text"> Line 1: first
+    Line 2: second
+    Line 3: third
+</code></pre></div>
+
+
 <p>Let's break this command down a little…</p>
 
 <ul>

@@ -143,6 +143,14 @@ So imagine you have the following `test.txt` file…
 
 …you could print the line number followed by a specific word (in this case the second from last word on each line) using the following awk command: `awk '{ print "Line " NR ": " $(NF-1) }' test.txt`
 
+Which would display the following content on your screen… 
+
+{% highlight text %}
+	Line 1: first
+	Line 2: second
+	Line 3: third
+{% endhighlight %}
+
 Let's break this command down a little…
 
 - Awk commands are placed inside of single quotes `awk 'commands go here'`.
