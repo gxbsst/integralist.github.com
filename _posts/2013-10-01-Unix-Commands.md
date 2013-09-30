@@ -123,7 +123,7 @@ The `sed` command stands for (S)tream (Ed)itor and allows you to  read in the co
 
 A basic example of its use would be: `sed s/day/night/ novel.txt`
 
-This replaces the first occurrence of 'day' to 'night'. If we wanted to replace multiple occurrences then you would need to pass a `g` flag (meaning global) to the regular expression.
+This replaces the first occurrence of 'day' to 'night'. If we wanted to replace multiple occurrences then you would need to pass a `g` flag (meaning global) to the regular expression like so: `sed s/day/night/g novel.txt`
 
 ## Awk (Looping Logic)
 
