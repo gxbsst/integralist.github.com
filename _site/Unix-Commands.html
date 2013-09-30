@@ -210,7 +210,7 @@
 <li>As part of the same print command we then tell it to print ": " followed by the second from last number.</li>
 <li>To do that we use two pieces of syntax <code>$()</code> and <code>NF</code>.</li>
 <li><code>NF</code> stands for (N)umber of (F)ields.</li>
-<li><code>$()</code> which wraps around is our process substitution, which means we're not just outputting some data but manipulating it by using logic to give us 1 field back from the last, hence it needs to be wrapped in <code>$()</code></li>
+<li><code>$()</code> which wraps around <code>NF</code> is our 'process substitution', which means we're not just outputting some data but manipulating it by using logic to give us 1 field back from the last, hence it needs to be wrapped in <code>$()</code></li>
 </ul>
 
 
