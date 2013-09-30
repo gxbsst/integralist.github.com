@@ -135,11 +135,11 @@ A basic example of its use would be: `awk '{ print $1 }'` which means "print the
 
 So imagine you have the following `test.txt` file…
 
-```
-This is my first line  
-This is my second line  
-This is my third line
-```
+{% highlight text %}
+	This is my first line  
+	This is my second line  
+	This is my third line
+{% endhighlight %}
 
 …you could print the line number followed by a specific word (in this case the second from last word on each line) using the following awk command: `awk '{ print "Line " NR ": " $(NF-1) }' test.txt`
 
