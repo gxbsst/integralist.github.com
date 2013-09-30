@@ -13,10 +13,20 @@
     <atom:link href="http://integralist.co.uk/feed.xml" rel="self" type="application/rss+xml" />
     <link>http://integralist.co.uk</link>
     <description></description>
-    <lastBuildDate>Sun, 29 Sep 2013 16:38:03 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 30 Sep 2013 13:50:01 +0100</lastBuildDate>
     <language>en</language>
     <copyright>Integralist</copyright>
 
+    
+      <item>
+        <title>Unix Commands</title>
+        <link>http://integralist.co.uk/Unix-Commands.html</link>
+        <pubDate>Tue, 01 Oct 2013 00:00:00 +0100</pubDate>
+        <guid>http://integralist.co.uk/Unix-Commands.html</guid>
+        <description>
+        I've started to realise the beauty and efficiency that is the Unix Philosophy and so this post covers how to take advantage of a few common shell commands that you should find quite useful.
+        </description>
+      </item>
     
       <item>
         <title>Vim Workflow</title>
@@ -105,16 +115,6 @@
         <guid>http://integralist.co.uk/Grunt-Boilerplate.html</guid>
         <description>
         Grunt is a JavaScript task runner. In this article I break down my &lt;a href=&quot;https://github.com/Integralist/Grunt-Boilerplate&quot; target=&quot;_blank&quot;&gt;Grunt Boilerplate&lt;/a&gt; which is a base project set-up using Grunt to take care of some standard tasks such as compiling AMD modules using RequireJS, watching/compiling Sass into CSS, watching and linting JS code as well as running unit tests.
-        </description>
-      </item>
-    
-      <item>
-        <title>Message passing in Object-Oriented Code</title>
-        <link>http://integralist.co.uk/Message-Passing-In-Object-Oriented-Code.html</link>
-        <pubDate>Sun, 31 Mar 2013 00:00:00 +0000</pubDate>
-        <guid>http://integralist.co.uk/Message-Passing-In-Object-Oriented-Code.html</guid>
-        <description>
-        Thoughts about passing messages between objects in true object-oriented design.
         </description>
       </item>
     

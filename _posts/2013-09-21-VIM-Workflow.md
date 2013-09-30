@@ -4,7 +4,7 @@ title: Vim Workflow
 strapline: Since using Vim as my main editor, I've realised that just whimsically opening files and editing them wasn't going to work out in the long run so this is a short post on how I'm currently using Vim in my day to day work flow.
 ---
 
-## What we'll cover *reading time: approx. 5mins*
+## What we'll cover *reading time: approx. 6mins*
 
 - Introduction
 - Starting up

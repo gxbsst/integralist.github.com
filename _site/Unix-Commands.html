@@ -1,0 +1,366 @@
+<!doctype html>
+<!--[if IE 8]><html class="ie8" dir="ltr" lang="en"><![endif]-->
+<!--[if IE 9]><html class="ie9" dir="ltr" lang="en"><![endif]-->
+<!--[if gt IE 9]><!--> <html dir="ltr" lang="en"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="Mark McDonnell" />
+        <title> Unix Commands | Integralist</title>
+        <!--[if lt IE 9]>
+        <script src="/Assets/Scripts/html5.js"></script>
+        <![endif]-->
+        <link rel="stylesheet" href="/Assets/Styles/pygment.css" media="all">
+        <link rel="stylesheet" href="/Assets/Styles/layout.css" media="all">
+        <!--[if (lt IE 9) & (!IEMobile)]><![endif]-->
+        
+        <link rel="alternate" type="application/atom+xml" title="Integralist" href="http://feeds.feedburner.com/Integralist">
+        
+        
+        <script>
+            var _gaq=[['_setAccount','UA-33159515-1'],['_trackPageview']];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script>
+        
+    </head>
+    <body>
+        <header class="header container">
+            <ul class="social-links">
+                <li><a href="http://www.github.com/integralist" target="_blank" class="social-links__github"><span>GitHub</span></a></li>
+                <li><a href="http://www.twitter.com/integralist" target="_blank" class="social-links__twitter"><span>Twitter</span></a></li>
+            </ul>
+            <p class="header__title"><a href="/" class="header__homelink">integralist</a></p>
+            <p class="header__strapline">BBC News Engineer: Object-Oriented Design principles using Node, Ruby, PHP, BEM, AMD, BDD, TDD. <br>Loves Unix (Awk, Sed, Grep... etc) and Regular Expressions</p>
+            <a href="#info" class="header__moreinfo">More info about me&hellip;</a>
+        </header>
+        <section class="articles container">
+            <h1>Unix Commands</h1>
+<div class="article__content">
+    <h2>What we'll cover <em>reading time: approx. mins</em></h2>
+
+<ul>
+<li>Introduction</li>
+<li>Basics
+
+<ul>
+<li>What directory am I currently in?</li>
+<li>How can I see what's in this directory?</li>
+<li>Moving around</li>
+<li>Display content of a file</li>
+<li>Let's copy a file</li>
+<li>Let's move a file</li>
+<li>Let's rename a file</li>
+<li>Let's delete a file</li>
+<li>Let's delete a directory</li>
+</ul>
+</li>
+<li>Grep (Searching for patterns)</li>
+<li>Sed (Find and Replace)</li>
+<li>Awk (Looping Logic)</li>
+<li>Piping I/O
+
+<ul>
+<li>Input and Output</li>
+<li>Redirection</li>
+<li>Piping</li>
+<li>Another piping example</li>
+</ul>
+</li>
+<li>Miscellaneous Commands</li>
+<li>Conclusion</li>
+</ul>
+
+
+<h2>Introduction</h2>
+
+<p>The unix command line has a hundred or so commands, and a small majority of those you can realistically find yourself using on a regular basis. In this post I want to cover some common commands that can actually be quite useful to you.</p>
+
+<p>Shell commands aren't something you can cover in one post. Entire books have been written on the subject. So don't expect anything other than the bare bone basics here, which should hopefully give you enough of an understanding to take your own learning forward.</p>
+
+<p>So let's begin…</p>
+
+<h2>Basics</h2>
+
+<p>OK, so I'll assume you have absolutely no prior command line experience which means we need to start at the basics.</p>
+
+<p>It's safe to say though that entire books have been written on this subject so do NOT expect this small post to even remotely scratch the surface of what's possible using the command line!</p>
+
+<p>So, first things first: open up your shell (if you're on a Mac then this will be your <code>Terminal.app</code> application.</p>
+
+<h3>What directory am I currently in?</h3>
+
+<p><code>pwd</code> - this stands for "Print Working Directory"</p>
+
+<h3>How can I see what's in this directory?</h3>
+
+<p><code>ls</code> - this tells the shell to list out any files or folders in the current working directory.</p>
+
+<p>You can also tell the command a directory path you want it to look inside of: <code>ls ~/Desktop</code> (this will list all files and folders on your desktop).</p>
+
+<p><code>ls -l</code> - the <code>-l</code> flag tells the command to stack the list when it prints its output to the shell.</p>
+
+<p><code>ls -la</code> - this is a combination of the previous flag and the <code>-a</code> flag which means "show all files" (by this I mean, it'll show you hidden files).</p>
+
+<h3>Moving around</h3>
+
+<p>To move around your file system you use the 'change directory' command <code>cd</code>.</p>
+
+<p>So: <code>cd ~/Desktop</code> will put you in the Desktop.</p>
+
+<p>You can also use relative paths such as <code>cd ../</code> which will take you up one level from wherever you happen to be.</p>
+
+<h3>Displaying content of a file</h3>
+
+<p>The <code>cat</code> command is a concatenation command, meaning that if you ran <code>cat original.txt new.txt</code> it would display on your screen the combination of the content from both files specified.</p>
+
+<p>So, with that understanding we can use <code>cat original.txt</code> (i.e. specifying just a single file) to show the contents of that file.</p>
+
+<h3>Let's copy a file</h3>
+
+<p>To copy a file we need the <code>cp</code> command, and we tell it what file to copy and where to copy it to.</p>
+
+<p>So: <code>cp ~/Downloads/test.txt ~/Desktop/test.txt</code> will copy the file <code>test.txt</code> (which is inside our 'Downloads' folder) and put the copy on our Desktop.</p>
+
+<h3>Let's move a file</h3>
+
+<p>To move a file you need the <code>mv</code> command, and we tell it what file to move and where to move it to.</p>
+
+<p>So: <code>mv ~/Downloads/test.txt ~/Desktop/test.txt</code> will move the file <code>test.txt</code> from our 'Downloads' folder onto our 'Desktop'.</p>
+
+<h3>Let's rename a file</h3>
+
+<p>There is no <code>rename</code> command on Unix (although there is in Linux) and so we need to use a trick, the trick being to use the <code>mv</code> command.</p>
+
+<p>So: <code>mv ~/Downloads/test.txt ~/Downloads/new.txt</code> will actually rename the file <code>test.txt</code> to <code>new.txt</code> as we've moved the file into the same directory it was already in but with a different name (effectively acting like we renamed it)</p>
+
+<h3>Let's delete a file</h3>
+
+<p>To delete a file we need the 'remove' command <code>rm</code>.</p>
+
+<p>So: <code>rm ~/Downloads/test.txt</code> will delete our <code>test.txt</code> file.</p>
+
+<h3>Let's delete a directory</h3>
+
+<p>To delete a folder we need the 'remove' command <code>rm</code> again but this time we need to pass in a couple of flags to the command.</p>
+
+<p>The first flag is <code>-f</code> which means 'force' the removal (otherwise if you try to remove a folder then the shell will try and prevent this as it'll assume you've made a mistake, and deleting a whole folder could be a big mistake if you're not careful).</p>
+
+<p>The second flag is <code>-r</code> which means 'recursively'. So you'll recursively delete files within the folder.</p>
+
+<p>So: <code>rm -rf ~/Desktop/some-folder</code> will delete our <code>some-folder</code> folder on the Desktop.</p>
+
+<h2>Grep (Searching for patterns)</h2>
+
+<p>Grep is a command that lets you find a pattern (either a string or a regular expression) inside of a file or list of files.</p>
+
+<p>So: <code>grep 'something' test.txt</code> looks for the word 'something' inside of the file <code>test.txt</code>.</p>
+
+<p>To use grep on a directory of files then we need to use an additional flag: <code>-r</code> which means 'recursive' (similar to the <code>rm</code> command we saw previously).</p>
+
+<p>So: <code>grep -r 'something' ~/Desktop</code> looks for the word 'something' inside of any files on the Desktop.</p>
+
+<h2>Sed (Find and Replace)</h2>
+
+<p>The <code>sed</code> command stands for (S)tream (Ed)itor and allows you to  read in the contents of a file and then write the modified output to another file or pipe it through to another I/O command (we'll cover piping later).</p>
+
+<p>A basic example of its use would be: <code>sed s/day/night/ novel.txt</code></p>
+
+<p>This replaces the first occurrence of 'day' to 'night'. If we wanted to replace multiple occurrences then you would need to pass a <code>g</code> flag (meaning global) to the regular expression.</p>
+
+<h2>Awk (Looping Logic)</h2>
+
+<p>The <code>awk</code> command reads in each line of a file and splits the line into fields (using whitespace - space, tab - as its default delimiter).</p>
+
+<p>You can then execute commands for each line and reference each field.</p>
+
+<p>A basic example of its use would be: <code>awk '{ print $1 }'</code> which means "print the first field found in the current line".</p>
+
+<p>So imagine you have the following <code>test.txt</code> file…</p>
+
+<p><code>
+This is my first line
+This is my second line
+This is my third line
+</code></p>
+
+<p>…you could print the line number followed by a specific word (in this case the second from last word on each line) using the following awk command: <code>awk '{ print "Line " NR ": " $(NF-1) }' test.txt</code></p>
+
+<p>Let's break this command down a little…</p>
+
+<ul>
+<li>Awk commands are placed inside of single quotes <code>awk 'commands go here'</code>.</li>
+<li>Inside the single quotes we need a set of brackets to place our specific code we want to run: <code>awk '{ code to run here }'</code></li>
+<li>We specifically tell awk to <code>print</code> something to stdout (i.e. the terminal screen).</li>
+<li>In this case we tell it to print the text "Line " followed by the current line number <code>NR</code>.</li>
+<li>As part of the same print command we then tell it to print ": " followed by the second from last number.</li>
+<li>To do that we use two pieces of syntax <code>$()</code> and <code>NF</code>.</li>
+<li><code>NF</code> stands for (N)umber of (F)ields.</li>
+<li><code>$()</code> which wraps around is our process substitution, which means we're not just outputting some data but manipulating it by using logic to give us 1 field back from the last, hence it needs to be wrapped in <code>$()</code></li>
+</ul>
+
+
+<h2>Piping I/O</h2>
+
+<p>The previous commands <code>awk</code>, <code>sed</code>, <code>grep</code> are all really useful, but it's when you can combine them that their true power shines.</p>
+
+<h3>Input and Output</h3>
+
+<p>Unix is based on the principle of "input" and "output" (known as "I/O"). In the Shell you have <code>stdin</code> (standard input) and <code>stdout</code> (standard output).</p>
+
+<p>By default, <code>stdin</code> is your keyboard (i.e. whatever you type into the terminal shell) and <code>stdout</code> is the terminal (i.e. your screen).</p>
+
+<h3>Redirection</h3>
+
+<p>Once you understand <code>stdin</code> and <code>stdout</code> you can start to look at redirecting them.</p>
+
+<p>For example when using the <code>sed</code> command you could use redirection to not overwrite your original file and instead direct the output <code>stdout</code> coming from the <code>sed</code> command to another file: <code>sed s/day/night/g original.txt &gt; new.txt</code></p>
+
+<h3>Piping</h3>
+
+<p>Another way to <em>direct</em> input and output is to use pipes <code>|</code> (a vertical bar).</p>
+
+<p>A really simple example would be: look at the <code>sed</code> command we used earlier (<code>sed s/day/night/ novel.txt</code>). Rather than actually execute it and have it make the specified change to our file <code>novel.txt</code> we could instead test the command to make sure it does what we expect it to.</p>
+
+<p>To do that we would use the <code>cat</code> command (which we looked at previously) and pipe its output through to the <code>sed</code> command like so…</p>
+
+<p><code>cat original.txt | sed s/day/night/g</code></p>
+
+<p>So, to clarify how this works: we're redirecting the <code>cat</code> command's <code>stdout</code> through to the <code>sed</code> command's <code>stdin</code>.</p>
+
+<p>In our original <code>sed</code> example we directed the <code>sed</code> command's <code>stdout</code> to an actual file (<code>novel.txt</code>), but in this case it has no <code>stdout</code> specified so it falls back to the default <code>stdout</code> which in this case is the terminal shell itself.</p>
+
+<p>Hence the results of the <code>sed</code> command (the modified content) are displayed on your screen.</p>
+
+<h3>Another piping example</h3>
+
+<p>Here are two real world examples I've used recently…</p>
+
+<ol>
+<li><code>phantomjs 2&gt;&amp;1 network-test.js | tee log.txt</code></li>
+</ol>
+
+
+<p>In this example I'm executing a <a href="http://phantomjs.org/">PhantomJS</a> script <code>network-test.js</code> but I wanted to capture both the results of the script (which just logs out DNS information into the terminal) and any errors that may have occurred into a log text file.</p>
+
+<p>The way it works might be a little confusing as it shows some things you might not have seen before: <code>2&gt;&amp;1</code> and <code>tee</code>.</p>
+
+<p>Those two commands may look confusing but it just comes down to understanding the numbers that are associated with specific processes, so…</p>
+
+<ul>
+<li><code>0</code> = <code>stdin</code></li>
+<li><code>1</code> = <code>stdout</code></li>
+<li><code>2</code> = <code>stderr</code></li>
+</ul>
+
+
+<p>…this means <code>2&gt;&amp;1</code> is saying direct <code>2</code> (any errors) through to <code>1</code> (standard output).</p>
+
+<p>We then pipe the <code>stdout</code> through to the <code>tee</code> command which copies it into a file called <code>log.txt</code>.</p>
+
+<ol>
+<li><code>ls File-* | sed 's/\(File-[^-]*\)-\(.*\)/mv &amp; \1\2/' | sh</code></li>
+</ol>
+
+
+<p>In this example I'm trying to remove a hyphen <code>-</code> from some file names.</p>
+
+<p>The files I have look like <code>File-A-B.gif</code> and I want them to be renamed to <code>File-AB.gif</code>.</p>
+
+<p>So first I list out any files in the current directory that begin <code>File-</code> and then pipe those results through to <code>sed</code>.</p>
+
+<p>Sed then uses Regular Expressions to store a reference to the opening part of the file name (in this case <code>File-A</code>) and then stores the end part of the file name (in this case <code>B.gif</code>).</p>
+
+<p>The second part of the <code>sed</code> command is that instead of doing a 'replace' of what we've found, we actually pass in a <code>mv</code> command (remember from before that we can rename a file by using <code>mv original.txt new.txt</code>). In this case the stored references to the beginning and ending parts of the file's name can be referenced within the replacement section using <code>\1</code> and <code>\2</code> (and the <code>&amp;</code> in regular expressions means, the original string being inspected).</p>
+
+<p>So when we use <code>mv &amp; \1\2</code> we've saying "move the original file and move it to the same directory but using the new name of File-AB.gif (remember <code>\1</code> is "File-A" and <code>\2</code> is "B.gif").</p>
+
+<p>Finally, because the <code>sed</code> command's replacement is an actual command rather than just a string replacement we pipe that replacement content (which is now <code>sed</code>'s <code>stdout</code>) over to the <code>sh</code> bin command to execute and hence actually rename the file(s).</p>
+
+<p>Note: whenever you write a shell script, you would store it (for example) inside a file with the extension of <code>sh</code> and then you'd use the terminal command <code>sh</code> to execute that shell script.</p>
+
+<h2>Miscellaneous Commands</h2>
+
+<h3><code>tee</code></h3>
+
+<p>The <code>tee</code> command you've seen already now (in our above example) but just to reiterate its use, here is how the manual describes it…</p>
+
+<blockquote><p>The tee utility copies standard input to standard output, making a copy in zero or more files.</p></blockquote>
+
+<h3><code>dig</code></h3>
+
+<p>The <code>dig</code> command is used for carrying out DNS lookups: <code>dig integralist.co.uk</code> returns the DNS records found for me domain name.</p>
+
+<h3><code>ps</code></h3>
+
+<p>The <code>ps</code> command stands for (p)rocess (s)tatus</p>
+
+<p>It shows you all running processes on your computer.</p>
+
+<p>You can use piping again to narrow down the results to something in particular you know is causing your computer to slow down and then execute another command to kill that process.</p>
+
+<p>So: <code>ps aux | grep ruby</code></p>
+
+<p>In the above example we also pass <code>aux</code> which basically specifies table of results that should be returned (see: <a href="http://en.wikipedia.org/wiki/Ps_(Unix">http://en.wikipedia.org/wiki/Ps_(Unix)</a>) for more information).</p>
+
+<p>We then pipe that through to <code>grep</code> and tell it we're interested on in processes that have the text <code>ruby</code> somewhere (that way we can narrow down the results printed to the screen).</p>
+
+<p>Finally to kill a particular process you'll need its PID number (which <code>ps aux</code> would have displayed) so locate that PID and then run <code>kill -9 xxxx</code> where <code>xxxx</code> is the PID number you want to stop.</p>
+
+<h2>Conclusion</h2>
+
+<p>This was a pretty fast paced run through of some different unix commands. As time goes on I'll update this post to include other commands and real work use cases that I think would be interesting and useful to those readers new to the command line.</p>
+
+<p>If there were any errors or any thing like that then just let me know by pinging me on <a href="http://twitter.com/integralist">twitter</a>.</p>
+
+</div>
+
+        </section>
+        <section class="info container" id="info">
+            <section class="info__section">
+                <h3 class="info__title">Links</h3>
+                <ul class="info__list">
+                    <li><a href="http://www.github.com/integralist" target="_blank">GitHub</a></li>
+                    <li><a href="http://www.twitter.com/integralist" target="_blank">Twitter</a></li>
+                    <li><a href="http://integralist.co.uk/Resume/" target="_blank">Resume</a></li>
+                    <li><a href="https://speakerdeck.com/integralist/" target="_blank">Speaker Deck</a></li>
+                    <li><a href="http://slid.es/markmcdonnell/" target="_blank">Slid.es</a></li>
+                    <li><a href="http://uk.linkedin.com/pub/mark-mcdonnell/65/5/88" target="_blank">LinkedIn</a></li>
+                </ul>
+            </section>
+            <section class="info__section">
+                <h3 class="info__title">Abilities</h3>
+                <ul class="info__list">
+                    <li>Practical Code Design and Architecture</li>
+                    <li>Test/Behaviour Driven Development</li>
+                    <li>Object-Oriented/Scalable CSS</li>
+                    <li>Semantic/Efficient HTML</li>
+                    <li>Modular JavaScript</li>
+                </ul>
+            </section>
+            <section class="info__section">
+                <h3 class="info__title">Enjoys</h3>
+                <ul class="info__list">
+                    <li>Gracie Jiu-Jitsu</li>
+                    <li>Programming</li>
+                    <li>Integral Theory</li>
+                </ul>
+            </section>
+            <section class="info__section">
+                <h3 class="info__title">Listens</h3>
+                <ul class="info__list">
+                    <li>LTJ Bukem</li>
+                    <li>Clutch</li>
+                    <li>Tool</li>
+                    <li>Meshuggah</li>
+                    <li>Russian Circles</li>
+                    <li>Earthtone9</li>
+                    <li>Will Haven</li>
+                    <li>ISIS</li>
+                </ul>
+            </section>
+        </section>
+        <script src="/Assets/Scripts/Imager.js"></script>
+    </body>
+</html>

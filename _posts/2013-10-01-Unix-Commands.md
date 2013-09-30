@@ -1,0 +1,258 @@
+---
+layout: article
+title: Unix Commands
+strapline: I've started to realise the beauty and efficiency that is the Unix Philosophy and so this post covers how to take advantage of a few common shell commands that you should find quite useful. 
+---
+
+## What we'll cover *reading time: approx. mins*
+
+- Introduction
+- Basics
+	- What directory am I currently in?
+	- How can I see what's in this directory?
+	- Moving around
+	- Display content of a file
+	- Let's copy a file
+	- Let's move a file
+	- Let's rename a file
+	- Let's delete a file
+	- Let's delete a directory
+- Grep (Searching for patterns)
+- Sed (Find and Replace)
+- Awk (Looping Logic)
+- Piping I/O
+	- Input and Output
+	- Redirection
+	- Piping
+	- Another piping example
+- Miscellaneous Commands
+- Conclusion
+
+## Introduction
+
+The unix command line has a hundred or so commands, and a small majority of those you can realistically find yourself using on a regular basis. In this post I want to cover some common commands that can actually be quite useful to you.
+
+Shell commands aren't something you can cover in one post. Entire books have been written on the subject. So don't expect anything other than the bare bone basics here, which should hopefully give you enough of an understanding to take your own learning forward.
+
+So let's begin… 
+
+## Basics
+
+OK, so I'll assume you have absolutely no prior command line experience which means we need to start at the basics.
+
+It's safe to say though that entire books have been written on this subject so do NOT expect this small post to even remotely scratch the surface of what's possible using the command line!
+
+So, first things first: open up your shell (if you're on a Mac then this will be your `Terminal.app` application.
+
+### What directory am I currently in?
+
+`pwd` - this stands for "Print Working Directory"
+
+### How can I see what's in this directory?
+
+`ls` - this tells the shell to list out any files or folders in the current working directory.
+
+You can also tell the command a directory path you want it to look inside of: `ls ~/Desktop` (this will list all files and folders on your desktop).
+
+`ls -l` - the `-l` flag tells the command to stack the list when it prints its output to the shell.
+
+`ls -la` - this is a combination of the previous flag and the `-a` flag which means "show all files" (by this I mean, it'll show you hidden files).
+
+### Moving around
+
+To move around your file system you use the 'change directory' command `cd`.
+
+So: `cd ~/Desktop` will put you in the Desktop.
+
+You can also use relative paths such as `cd ../` which will take you up one level from wherever you happen to be.
+
+### Displaying content of a file
+
+The `cat` command is a concatenation command, meaning that if you ran `cat original.txt new.txt` it would display on your screen the combination of the content from both files specified.
+
+So, with that understanding we can use `cat original.txt` (i.e. specifying just a single file) to show the contents of that file.
+
+### Let's copy a file
+
+To copy a file we need the `cp` command, and we tell it what file to copy and where to copy it to.
+
+So: `cp ~/Downloads/test.txt ~/Desktop/test.txt` will copy the file `test.txt` (which is inside our 'Downloads' folder) and put the copy on our Desktop.
+
+### Let's move a file
+
+To move a file you need the `mv` command, and we tell it what file to move and where to move it to.
+
+So: `mv ~/Downloads/test.txt ~/Desktop/test.txt` will move the file `test.txt` from our 'Downloads' folder onto our 'Desktop'.
+
+### Let's rename a file
+
+There is no `rename` command on Unix (although there is in Linux) and so we need to use a trick, the trick being to use the `mv` command.
+
+So: `mv ~/Downloads/test.txt ~/Downloads/new.txt` will actually rename the file `test.txt` to `new.txt` as we've moved the file into the same directory it was already in but with a different name (effectively acting like we renamed it)
+
+### Let's delete a file
+
+To delete a file we need the 'remove' command `rm`.
+
+So: `rm ~/Downloads/test.txt` will delete our `test.txt` file.
+
+### Let's delete a directory
+
+To delete a folder we need the 'remove' command `rm` again but this time we need to pass in a couple of flags to the command.
+
+The first flag is `-f` which means 'force' the removal (otherwise if you try to remove a folder then the shell will try and prevent this as it'll assume you've made a mistake, and deleting a whole folder could be a big mistake if you're not careful).
+
+The second flag is `-r` which means 'recursively'. So you'll recursively delete files within the folder.
+
+So: `rm -rf ~/Desktop/some-folder` will delete our `some-folder` folder on the Desktop.
+
+## Grep (Searching for patterns)
+
+Grep is a command that lets you find a pattern (either a string or a regular expression) inside of a file or list of files.
+
+So: `grep 'something' test.txt` looks for the word 'something' inside of the file `test.txt`.
+
+To use grep on a directory of files then we need to use an additional flag: `-r` which means 'recursive' (similar to the `rm` command we saw previously).
+
+So: `grep -r 'something' ~/Desktop` looks for the word 'something' inside of any files on the Desktop.
+
+## Sed (Find and Replace)
+
+The `sed` command stands for (S)tream (Ed)itor and allows you to  read in the contents of a file and then write the modified output to another file or pipe it through to another I/O command (we'll cover piping later).
+
+A basic example of its use would be: `sed s/day/night/ novel.txt`
+
+This replaces the first occurrence of 'day' to 'night'. If we wanted to replace multiple occurrences then you would need to pass a `g` flag (meaning global) to the regular expression.
+
+## Awk (Looping Logic)
+
+The `awk` command reads in each line of a file and splits the line into fields (using whitespace - space, tab - as its default delimiter).
+
+You can then execute commands for each line and reference each field.
+
+A basic example of its use would be: `awk '{ print $1 }'` which means "print the first field found in the current line".
+
+So imagine you have the following `test.txt` file…
+
+```
+This is my first line
+This is my second line
+This is my third line
+```
+
+…you could print the line number followed by a specific word (in this case the second from last word on each line) using the following awk command: `awk '{ print "Line " NR ": " $(NF-1) }' test.txt`
+
+Let's break this command down a little…
+
+- Awk commands are placed inside of single quotes `awk 'commands go here'`.
+- Inside the single quotes we need a set of brackets to place our specific code we want to run: `awk '{ code to run here }'`
+- We specifically tell awk to `print` something to stdout (i.e. the terminal screen).
+- In this case we tell it to print the text "Line " followed by the current line number `NR`.
+- As part of the same print command we then tell it to print ": " followed by the second from last number.
+- To do that we use two pieces of syntax `$()` and `NF`.
+- `NF` stands for (N)umber of (F)ields.
+- `$()` which wraps around is our process substitution, which means we're not just outputting some data but manipulating it by using logic to give us 1 field back from the last, hence it needs to be wrapped in `$()`
+
+## Piping I/O
+
+The previous commands `awk`, `sed`, `grep` are all really useful, but it's when you can combine them that their true power shines.
+
+### Input and Output
+
+Unix is based on the principle of "input" and "output" (known as "I/O"). In the Shell you have `stdin` (standard input) and `stdout` (standard output).
+
+By default, `stdin` is your keyboard (i.e. whatever you type into the terminal shell) and `stdout` is the terminal (i.e. your screen).
+
+### Redirection
+
+Once you understand `stdin` and `stdout` you can start to look at redirecting them.
+
+For example when using the `sed` command you could use redirection to not overwrite your original file and instead direct the output `stdout` coming from the `sed` command to another file: `sed s/day/night/g original.txt > new.txt`
+
+### Piping
+
+Another way to *direct* input and output is to use pipes `|` (a vertical bar).
+
+A really simple example would be: look at the `sed` command we used earlier (`sed s/day/night/ novel.txt`). Rather than actually execute it and have it make the specified change to our file `novel.txt` we could instead test the command to make sure it does what we expect it to.
+
+To do that we would use the `cat` command (which we looked at previously) and pipe its output through to the `sed` command like so… 
+
+`cat original.txt | sed s/day/night/g`
+
+So, to clarify how this works: we're redirecting the `cat` command's `stdout` through to the `sed` command's `stdin`. 
+
+In our original `sed` example we directed the `sed` command's `stdout` to an actual file (`novel.txt`), but in this case it has no `stdout` specified so it falls back to the default `stdout` which in this case is the terminal shell itself.
+
+Hence the results of the `sed` command (the modified content) are displayed on your screen.
+
+### Another piping example
+
+Here are two real world examples I've used recently…
+
+1. `phantomjs 2>&1 network-test.js | tee log.txt`
+
+In this example I'm executing a [PhantomJS](http://phantomjs.org/) script `network-test.js` but I wanted to capture both the results of the script (which just logs out DNS information into the terminal) and any errors that may have occurred into a log text file.
+
+The way it works might be a little confusing as it shows some things you might not have seen before: `2>&1` and `tee`.
+
+Those two commands may look confusing but it just comes down to understanding the numbers that are associated with specific processes, so…
+
+- `0` = `stdin`
+- `1` = `stdout`
+- `2` = `stderr`
+
+…this means `2>&1` is saying direct `2` (any errors) through to `1` (standard output).
+
+We then pipe the `stdout` through to the `tee` command which copies it into a file called `log.txt`.
+
+2. `ls File-* | sed 's/\(File-[^-]*\)-\(.*\)/mv & \1\2/' | sh`
+
+In this example I'm trying to remove a hyphen `-` from some file names.
+
+The files I have look like `File-A-B.gif` and I want them to be renamed to `File-AB.gif`.
+
+So first I list out any files in the current directory that begin `File-` and then pipe those results through to `sed`.
+
+Sed then uses Regular Expressions to store a reference to the opening part of the file name (in this case `File-A`) and then stores the end part of the file name (in this case `B.gif`).
+
+The second part of the `sed` command is that instead of doing a 'replace' of what we've found, we actually pass in a `mv` command (remember from before that we can rename a file by using `mv original.txt new.txt`). In this case the stored references to the beginning and ending parts of the file's name can be referenced within the replacement section using `\1` and `\2` (and the `&` in regular expressions means, the original string being inspected).
+
+So when we use `mv & \1\2` we've saying "move the original file and move it to the same directory but using the new name of File-AB.gif (remember `\1` is "File-A" and `\2` is "B.gif").
+
+Finally, because the `sed` command's replacement is an actual command rather than just a string replacement we pipe that replacement content (which is now `sed`'s `stdout`) over to the `sh` bin command to execute and hence actually rename the file(s).
+
+Note: whenever you write a shell script, you would store it (for example) inside a file with the extension of `sh` and then you'd use the terminal command `sh` to execute that shell script.
+
+## Miscellaneous Commands
+
+### `tee`
+
+The `tee` command you've seen already now (in our above example) but just to reiterate its use, here is how the manual describes it… 
+
+> The tee utility copies standard input to standard output, making a copy in zero or more files.
+
+### `dig`
+
+The `dig` command is used for carrying out DNS lookups: `dig integralist.co.uk` returns the DNS records found for me domain name.
+
+### `ps`
+
+The `ps` command stands for (p)rocess (s)tatus
+
+It shows you all running processes on your computer.
+
+You can use piping again to narrow down the results to something in particular you know is causing your computer to slow down and then execute another command to kill that process.
+
+So: `ps aux | grep ruby`
+
+In the above example we also pass `aux` which basically specifies table of results that should be returned (see: [http://en.wikipedia.org/wiki/Ps_(Unix)](http://en.wikipedia.org/wiki/Ps_(Unix)) for more information).
+
+We then pipe that through to `grep` and tell it we're interested on in processes that have the text `ruby` somewhere (that way we can narrow down the results printed to the screen).
+
+Finally to kill a particular process you'll need its PID number (which `ps aux` would have displayed) so locate that PID and then run `kill -9 xxxx` where `xxxx` is the PID number you want to stop.
+
+## Conclusion
+
+This was a pretty fast paced run through of some different unix commands. As time goes on I'll update this post to include other commands and real work use cases that I think would be interesting and useful to those readers new to the command line.
+
+If there were any errors or any thing like that then just let me know by pinging me on [twitter](http://twitter.com/integralist).
