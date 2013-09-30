@@ -256,7 +256,7 @@ So: `ps aux | grep ruby`
 
 In the above example we also pass `aux` which basically specifies table of results that should be returned (see: [http://en.wikipedia.org/wiki/Ps_(Unix)](http://en.wikipedia.org/wiki/Ps_\(Unix\)) for more information).
 
-We then pipe that through to `grep` and tell it we're interested on in processes that have the text `ruby` somewhere (that way we can narrow down the results printed to the screen).
+We then pipe that through to `grep` and tell it we're interested only in processes that have the text `ruby` somewhere (that way we can narrow down the results printed to the screen).
 
 Finally to kill a particular process you'll need its PID number (which `ps aux` would have displayed) so locate that PID and then run `kill -9 xxxx` where `xxxx` is the PID number you want to stop.
 

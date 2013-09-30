@@ -311,7 +311,7 @@
 
 <p>In the above example we also pass <code>aux</code> which basically specifies table of results that should be returned (see: <a href="http://en.wikipedia.org/wiki/Ps_(Unix)">http://en.wikipedia.org/wiki/Ps_(Unix)</a> for more information).</p>
 
-<p>We then pipe that through to <code>grep</code> and tell it we're interested on in processes that have the text <code>ruby</code> somewhere (that way we can narrow down the results printed to the screen).</p>
+<p>We then pipe that through to <code>grep</code> and tell it we're interested only in processes that have the text <code>ruby</code> somewhere (that way we can narrow down the results printed to the screen).</p>
 
 <p>Finally to kill a particular process you'll need its PID number (which <code>ps aux</code> would have displayed) so locate that PID and then run <code>kill -9 xxxx</code> where <code>xxxx</code> is the PID number you want to stop.</p>
 
