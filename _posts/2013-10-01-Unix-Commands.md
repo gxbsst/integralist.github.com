@@ -43,8 +43,6 @@ So let's begin…
 
 OK, so I'll assume you have absolutely no prior command line experience which means we need to start at the basics.
 
-It's safe to say though that entire books have been written on this subject so do NOT expect this small post to even remotely scratch the surface of what's possible using the command line!
-
 So, first things first: open up your shell (if you're on a Mac then this will be your `Terminal.app` application.
 
 ### What directory am I currently in?
