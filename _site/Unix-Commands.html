@@ -250,10 +250,7 @@
 
 <p>Here are two real world examples I've used recently…</p>
 
-<ol>
-<li><code>phantomjs 2&gt;&amp;1 network-test.js | tee log.txt</code></li>
-</ol>
-
+<h3><code>phantomjs 2&gt;&amp;1 network-test.js | tee log.txt</code></h3>
 
 <p>In this example I'm executing a <a href="http://phantomjs.org/">PhantomJS</a> script <code>network-test.js</code> but I wanted to capture both the results of the script (which just logs out DNS information into the terminal) and any errors that may have occurred into a log text file.</p>
 
@@ -272,10 +269,7 @@
 
 <p>We then pipe the <code>stdout</code> through to the <code>tee</code> command which copies it into a file called <code>log.txt</code>.</p>
 
-<ol>
-<li><code>ls File-* | sed 's/\(File-[^-]*\)-\(.*\)/mv &amp; \1\2/' | sh</code></li>
-</ol>
-
+<h3><code>ls File-* | sed 's/\(File-[^-]*\)-\(.*\)/mv &amp; \1\2/' | sh</code></h3>
 
 <p>In this example I'm trying to remove a hyphen <code>-</code> from some file names.</p>
 

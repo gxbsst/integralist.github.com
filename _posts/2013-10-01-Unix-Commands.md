@@ -198,7 +198,7 @@ Hence the results of the `sed` command (the modified content) are displayed on y
 
 Here are two real world examples I've used recently…
 
-1. `phantomjs 2>&1 network-test.js | tee log.txt`
+### `phantomjs 2>&1 network-test.js | tee log.txt`
 
 In this example I'm executing a [PhantomJS](http://phantomjs.org/) script `network-test.js` but I wanted to capture both the results of the script (which just logs out DNS information into the terminal) and any errors that may have occurred into a log text file.
 
@@ -214,7 +214,7 @@ Those two commands may look confusing but it just comes down to understanding th
 
 We then pipe the `stdout` through to the `tee` command which copies it into a file called `log.txt`.
 
-2. `ls File-* | sed 's/\(File-[^-]*\)-\(.*\)/mv & \1\2/' | sh`
+### `ls File-* | sed 's/\(File-[^-]*\)-\(.*\)/mv & \1\2/' | sh`
 
 In this example I'm trying to remove a hyphen `-` from some file names.
 
