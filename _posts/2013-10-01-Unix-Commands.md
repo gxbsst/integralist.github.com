@@ -4,7 +4,7 @@ title: Unix Commands
 strapline: I've started to realise the beauty and efficiency that is the Unix Philosophy and so this post covers how to take advantage of a few common shell commands that you should find quite useful. 
 ---
 
-## What we'll cover *reading time: approx. mins*
+## What we'll cover *reading time: approx. 12mins*
 
 - Introduction
 - Basics
