@@ -14,6 +14,7 @@ strapline: Since using Vim as my main editor, I've realised that just whimsicall
 - Why not just use Vim panes?
 - Downsides to using tmux panes?
 - Buffer lists
+- Mapping NERDTree
 - Global find and replace using Ack
 - Conclusion
 
@@ -95,6 +96,10 @@ So if I want to jump back to a recently opened file then I'll just run the comma
 Once we have the buffer list open we can just select the file we want to re-open. This makes it really quick for jumping back and forth between two or more files we happen to be editing a lot.
 
 You can configure your `.vimrc` file to use this shortcut like so: `map <leader>y :CtrlPBuffer<cr>`
+
+## Mapping NERDTree
+
+I don't use NERDTree very often but when I do it's tedious so I mapped `map <leader>' :NERDTreeToggle` so it's a lot less annoying to open and close it.
 
 ## Global find and replace using Ack
 
