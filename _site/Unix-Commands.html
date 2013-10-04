@@ -65,7 +65,7 @@
 <li>Input and Output</li>
 <li>Redirection</li>
 <li>Piping</li>
-<li>Another piping example</li>
+<li>Piping examples</li>
 </ul>
 </li>
 <li>Miscellaneous Commands
@@ -246,7 +246,17 @@
 
 <p>Hence the results of the <code>sed</code> command (the modified content) are displayed on your screen.</p>
 
-<h3>Another piping example</h3>
+<h3>Piping to Vim</h3>
+
+<p>One thing I discovered recently (via <a href="http://twitter.com/Pand0ra83">Crystal Hirschorn</a>) was that you can't just pipe <code>stdout</code> into Vim unless you had a hyphen/dash <code>-</code> at the end of the command like so: <code>ls | vim -</code></p>
+
+<p>Otherwise Vim will complain that: <code>Input is not from a terminal</code></p>
+
+<p>That's a good one to remember!</p>
+
+<p>Also you can pipe the input into Vim in read-only mode using the <code>-R</code> flag as well: <code>ls | vim -R -</code></p>
+
+<h3>Piping examples</h3>
 
 <p>Here are two real world examples I've used recently…</p>
 

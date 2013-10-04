@@ -24,7 +24,7 @@ strapline: I've started to realise the beauty and efficiency that is the Unix Ph
 	- Input and Output
 	- Redirection
 	- Piping
-	- Another piping example
+	- Piping examples
 - Miscellaneous Commands
 	- tee
 	- dig
@@ -194,7 +194,17 @@ In our original `sed` example we directed the `sed` command's `stdout` to an act
 
 Hence the results of the `sed` command (the modified content) are displayed on your screen.
 
-### Another piping example
+### Piping to Vim
+
+One thing I discovered recently (via [Crystal Hirschorn](http://twitter.com/Pand0ra83)) was that you can't just pipe `stdout` into Vim unless you had a hyphen/dash `-` at the end of the command like so: `ls | vim -`
+
+Otherwise Vim will complain that: `Input is not from a terminal`
+
+That's a good one to remember!
+
+Also you can pipe the input into Vim in read-only mode using the `-R` flag as well: `ls | vim -R -`
+
+### Piping examples
 
 Here are two real world examples I've used recently…
 
