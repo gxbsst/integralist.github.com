@@ -13,7 +13,7 @@
     <atom:link href="http://integralist.co.uk/feed.xml" rel="self" type="application/rss+xml" />
     <link>http://integralist.co.uk</link>
     <description></description>
-    <lastBuildDate>Fri, 04 Oct 2013 15:33:55 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 04 Oct 2013 18:55:13 +0100</lastBuildDate>
     <language>en</language>
     <copyright>Integralist</copyright>
 
@@ -24,7 +24,7 @@
         <pubDate>Tue, 01 Oct 2013 00:00:00 +0100</pubDate>
         <guid>http://integralist.co.uk/Unix-Commands.html</guid>
         <description>
-        I've started to realise the beauty and efficiency that is the Unix Philosophy and so this post covers how to take advantage of a few common shell commands that you should find quite useful.
+        I've started to realise the beauty and efficiency that is the Unix Philosophy and so this post covers how to take advantage of a few common shell commands that you should find quite useful. Covers commands such as Awk, Sed, Grep, Cut, Xargs and more.
         </description>
       </item>
     

@@ -1,10 +1,10 @@
 ---
 layout: article
 title: Unix Commands
-strapline: I've started to realise the beauty and efficiency that is the Unix Philosophy and so this post covers how to take advantage of a few common shell commands that you should find quite useful. 
+strapline: I've started to realise the beauty and efficiency that is the Unix Philosophy and so this post covers how to take advantage of a few common shell commands that you should find quite useful. Covers commands such as Awk, Sed, Grep, Cut, Xargs and more.
 ---
 
-## What we'll cover *reading time: approx. 12mins*
+## What we'll cover *reading time: approx. 15mins*
 
 - Introduction
 - Basics
@@ -29,6 +29,8 @@ strapline: I've started to realise the beauty and efficiency that is the Unix Ph
 	- tee
 	- dig
 	- ps
+	- xargs
+	- cut
 - Conclusion
 
 ## Introduction
@@ -135,20 +137,20 @@ A basic example of its use would be: `awk '{ print $1 }'` which means "print the
 
 So imagine you have the following `test.txt` file…
 
-{% highlight text %}
-	This is my first line
-	This is my second line
-	This is my third line
+{% highlight bash %}
+    This is my first line
+    This is my second line
+    This is my third line
 {% endhighlight %}
 
 …you could print the line number followed by a specific word (in this case the second from last word on each line) using the following awk command: `awk '{ print "Line " NR ": " $(NF-1) }' test.txt`
 
 Which would display the following content on your screen… 
 
-{% highlight text %}
-	Line 1: first
-	Line 2: second
-	Line 3: third
+{% highlight bash %}
+    Line 1: first
+    Line 2: second
+    Line 3: third
 {% endhighlight %}
 
 Let's break this command down a little…
@@ -206,9 +208,11 @@ Also you can pipe the input into Vim in read-only mode using the `-R` flag as we
 
 ### Piping examples
 
-Here are two real world examples I've used recently…
+Here are three real world examples I've used recently…
 
-### `phantomjs 2>&1 network-test.js | tee log.txt`
+{% highlight bash %}
+    phantomjs 2>&1 network-test.js | tee log.txt
+{% endhighlight %}
 
 In this example I'm executing a [PhantomJS](http://phantomjs.org/) script `network-test.js` but I wanted to capture both the results of the script (which just logs out DNS information into the terminal) and any errors that may have occurred into a log text file.
 
@@ -224,7 +228,9 @@ Those two commands may look confusing but it just comes down to understanding th
 
 We then pipe the `stdout` through to the `tee` command which copies it into a file called `log.txt`.
 
-### `ls File-* | sed 's/\(File-[^-]*\)-\(.*\)/mv & \1\2/' | sh`
+{% highlight bash %}
+    ls File-* | sed 's/\(File-[^-]*\)-\(.*\)/mv & \1\2/' | sh
+{% endhighlight %}
 
 In this example I'm trying to remove a hyphen `-` from some file names.
 
@@ -241,6 +247,40 @@ So when we use `mv & \1\2` we've saying "move the original file and move it to t
 Finally, because the `sed` command's replacement is an actual command rather than just a string replacement we pipe that replacement content (which is now `sed`'s `stdout`) over to the `sh` bin command to execute and hence actually rename the file(s).
 
 Note: whenever you write a shell script, you would store it (for example) inside a file with the extension of `sh` and then you'd use the terminal command `sh` to execute that shell script.
+
+{% highlight bash %}
+    tmux ls | cut -d : -f 1 | xargs -I {} tmux kill-session -t {}
+{% endhighlight %}
+
+So in this example I wanted an easy way to destroy all my tmux sessions. 
+
+Typically I would run `tmux ls` to see what sessions I had (it returns something like `0: 1 windows (created Fri Oct  4 18:24:38 2013) [129x33]`, where the opening `0` is the number/name of the session followed by details about the session -> in this case `1 window`, and when it was created, and the size of that window).
+
+Once I had my session number (in this case `0`) I could run the command `tmux kill-session -t 0` but if I had loads of sessions open I would have to run the same command for all of them.
+
+To fix this I tried using the commands Awk and Sed but discovered an issue with 'scope' (which I'm still not 100% sure I understand, but I'll explain what happened any way)… 
+
+I was using `tmux ls | awk '{print $1}' | sed 's/://g' | xargs -I {} tmux kill-session -t {}`. This works, but not when you stick it inside an alias for easy reuse.
+
+The way it works is that it lists out all the tmux sessions and pipes it over to Awk.
+
+Awk then grabs the first field `0:` (remember Awk splits the input line into 'fields' using a space delimiter). We then pipe that over to Sed.
+
+Sed then uses a regular expression to remove the `:` from the `0:` leaving us with just `0`. We then pipe that through to xargs.
+
+xargs runs our kill-session command and passes through the value of `0` into that command using the placeholder `{}`.
+
+We define what the placeholder will be using `-I` so we could of used `-I target` instead if we wanted to like so: `tmux ls | cut -d : -f 1 | xargs -I target tmux kill-session -t target` and it would of achieved the same.
+
+Like I say, this works. But I wanted it inside an alias so I could easily reuse it (I mean, just *try* and memorise that massive chunk of commands!?). The moment it went into an alias the xargs failed to work because instead of getting `0` it got the entire line `0: 1 windows (created Fri Oct  4 18:24:38 2013) [129x33]`. The scope of the argument was being lost some how? A bit annoying really.
+
+My colleague at BBC News ([Simon Thulbourn](http://twitter.com/sthulb) - all round command line wizard, amongst many other technical talents) helped me understand a more efficient and fully functioning version (i.e. it can be safely aliased): `tmux ls | cut -d : -f 1 | xargs -I {} tmux kill-session -t {}`.
+
+So the only difference here is instead of using both Awk and Sed, we're just using Cut. I've not mentioned it before but `cut` works like this: 
+
+Cut splits the input into fields (like Awk does). We then tell it that we want the fields to be split by `:` (that's the `-d :` section). Then finally we use `-f 1` to say we want the first field, which we pipe over to xargs. Otherwise the rest of the command is the same as before.
+
+Nice huh!
 
 ## Miscellaneous Commands
 
@@ -269,6 +309,16 @@ In the above example we also pass `aux` which basically specifies table of resul
 We then pipe that through to `grep` and tell it we're interested only in processes that have the text `ruby` somewhere (that way we can narrow down the results printed to the screen).
 
 Finally to kill a particular process you'll need its PID number (which `ps aux` would have displayed) so locate that PID and then run `kill -9 xxxx` where `xxxx` is the PID number you want to stop.
+
+### `xargs`
+
+I know we've covered Xargs already in my previous examples, but it's worth mentioning that you can also use the `-0` flag which helps with some commands that won't work when passed arguments that have spaces in them (imagine a file name with spaces). Using the `-0` flag resolves that issue.
+
+### `cut`
+
+Again, we've covered Cut above already, but just to note that you can change the field delimiter using `-d` (e.g. `-d ,` would split the line on commas).
+
+Also, `-f` allows a range, not just a single field index. So if you wanted fields 3 to 4 you could do `-f 3,4`
 
 ## Conclusion
 

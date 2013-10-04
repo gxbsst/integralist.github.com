@@ -38,7 +38,7 @@
         <section class="articles container">
             <h1>Unix Commands</h1>
 <div class="article__content">
-    <h2>What we'll cover <em>reading time: approx. 12mins</em></h2>
+    <h2>What we'll cover <em>reading time: approx. 15mins</em></h2>
 
 <ul>
 <li>Introduction</li>
@@ -74,6 +74,8 @@
 <li>tee</li>
 <li>dig</li>
 <li>ps</li>
+<li>xargs</li>
+<li>cut</li>
 </ul>
 </li>
 <li>Conclusion</li>
@@ -184,7 +186,7 @@
 
 <p>So imagine you have the following <code>test.txt</code> file…</p>
 
-<div class="highlight"><pre><code class="text"> This is my first line
+<div class="highlight"><pre><code class="bash">    This is my first line
     This is my second line
     This is my third line
 </code></pre></div>
@@ -194,7 +196,7 @@
 
 <p>Which would display the following content on your screen…</p>
 
-<div class="highlight"><pre><code class="text"> Line 1: first
+<div class="highlight"><pre><code class="bash">    Line 1: first
     Line 2: second
     Line 3: third
 </code></pre></div>
@@ -258,9 +260,11 @@
 
 <h3>Piping examples</h3>
 
-<p>Here are two real world examples I've used recently…</p>
+<p>Here are three real world examples I've used recently…</p>
 
-<h3><code>phantomjs 2&gt;&amp;1 network-test.js | tee log.txt</code></h3>
+<div class="highlight"><pre><code class="bash">    phantomjs 2&gt;&amp;1 network-test.js | tee log.txt
+</code></pre></div>
+
 
 <p>In this example I'm executing a <a href="http://phantomjs.org/">PhantomJS</a> script <code>network-test.js</code> but I wanted to capture both the results of the script (which just logs out DNS information into the terminal) and any errors that may have occurred into a log text file.</p>
 
@@ -279,7 +283,9 @@
 
 <p>We then pipe the <code>stdout</code> through to the <code>tee</code> command which copies it into a file called <code>log.txt</code>.</p>
 
-<h3><code>ls File-* | sed 's/\(File-[^-]*\)-\(.*\)/mv &amp; \1\2/' | sh</code></h3>
+<div class="highlight"><pre><code class="bash">    ls File-* | sed <span class="s1">&#39;s/\(File-[^-]*\)-\(.*\)/mv &amp; \1\2/&#39;</span> | sh
+</code></pre></div>
+
 
 <p>In this example I'm trying to remove a hyphen <code>-</code> from some file names.</p>
 
@@ -296,6 +302,40 @@
 <p>Finally, because the <code>sed</code> command's replacement is an actual command rather than just a string replacement we pipe that replacement content (which is now <code>sed</code>'s <code>stdout</code>) over to the <code>sh</code> bin command to execute and hence actually rename the file(s).</p>
 
 <p>Note: whenever you write a shell script, you would store it (for example) inside a file with the extension of <code>sh</code> and then you'd use the terminal command <code>sh</code> to execute that shell script.</p>
+
+<div class="highlight"><pre><code class="bash">    tmux ls | cut -d : -f 1 | xargs -I <span class="o">{}</span> tmux <span class="nb">kill</span>-session -t <span class="o">{}</span>
+</code></pre></div>
+
+
+<p>So in this example I wanted an easy way to destroy all my tmux sessions.</p>
+
+<p>Typically I would run <code>tmux ls</code> to see what sessions I had (it returns something like <code>0: 1 windows (created Fri Oct  4 18:24:38 2013) [129x33]</code>, where the opening <code>0</code> is the number/name of the session followed by details about the session -> in this case <code>1 window</code>, and when it was created, and the size of that window).</p>
+
+<p>Once I had my session number (in this case <code>0</code>) I could run the command <code>tmux kill-session -t 0</code> but if I had loads of sessions open I would have to run the same command for all of them.</p>
+
+<p>To fix this I tried using the commands Awk and Sed but discovered an issue with 'scope' (which I'm still not 100% sure I understand, but I'll explain what happened any way)…</p>
+
+<p>I was using <code>tmux ls | awk '{print $1}' | sed 's/://g' | xargs -I {} tmux kill-session -t {}</code>. This works, but not when you stick it inside an alias for easy reuse.</p>
+
+<p>The way it works is that it lists out all the tmux sessions and pipes it over to Awk.</p>
+
+<p>Awk then grabs the first field <code>0:</code> (remember Awk splits the input line into 'fields' using a space delimiter). We then pipe that over to Sed.</p>
+
+<p>Sed then uses a regular expression to remove the <code>:</code> from the <code>0:</code> leaving us with just <code>0</code>. We then pipe that through to xargs.</p>
+
+<p>xargs runs our kill-session command and passes through the value of <code>0</code> into that command using the placeholder <code>{}</code>.</p>
+
+<p>We define what the placeholder will be using <code>-I</code> so we could of used <code>-I target</code> instead if we wanted to like so: <code>tmux ls | cut -d : -f 1 | xargs -I target tmux kill-session -t target</code> and it would of achieved the same.</p>
+
+<p>Like I say, this works. But I wanted it inside an alias so I could easily reuse it (I mean, just <em>try</em> and memorise that massive chunk of commands!?). The moment it went into an alias the xargs failed to work because instead of getting <code>0</code> it got the entire line <code>0: 1 windows (created Fri Oct  4 18:24:38 2013) [129x33]</code>. The scope of the argument was being lost some how? A bit annoying really.</p>
+
+<p>My colleague at BBC News (<a href="http://twitter.com/sthulb">Simon Thulbourn</a> - all round command line wizard, amongst many other technical talents) helped me understand a more efficient and fully functioning version (i.e. it can be safely aliased): <code>tmux ls | cut -d : -f 1 | xargs -I {} tmux kill-session -t {}</code>.</p>
+
+<p>So the only difference here is instead of using both Awk and Sed, we're just using Cut. I've not mentioned it before but <code>cut</code> works like this:</p>
+
+<p>Cut splits the input into fields (like Awk does). We then tell it that we want the fields to be split by <code>:</code> (that's the <code>-d :</code> section). Then finally we use <code>-f 1</code> to say we want the first field, which we pipe over to xargs. Otherwise the rest of the command is the same as before.</p>
+
+<p>Nice huh!</p>
 
 <h2>Miscellaneous Commands</h2>
 
@@ -324,6 +364,16 @@
 <p>We then pipe that through to <code>grep</code> and tell it we're interested only in processes that have the text <code>ruby</code> somewhere (that way we can narrow down the results printed to the screen).</p>
 
 <p>Finally to kill a particular process you'll need its PID number (which <code>ps aux</code> would have displayed) so locate that PID and then run <code>kill -9 xxxx</code> where <code>xxxx</code> is the PID number you want to stop.</p>
+
+<h3><code>xargs</code></h3>
+
+<p>I know we've covered Xargs already in my previous examples, but it's worth mentioning that you can also use the <code>-0</code> flag which helps with some commands that won't work when passed arguments that have spaces in them (imagine a file name with spaces). Using the <code>-0</code> flag resolves that issue.</p>
+
+<h3><code>cut</code></h3>
+
+<p>Again, we've covered Cut above already, but just to note that you can change the field delimiter using <code>-d</code> (e.g. <code>-d ,</code> would split the line on commas).</p>
+
+<p>Also, <code>-f</code> allows a range, not just a single field index. So if you wanted fields 3 to 4 you could do <code>-f 3,4</code></p>
 
 <h2>Conclusion</h2>
 
