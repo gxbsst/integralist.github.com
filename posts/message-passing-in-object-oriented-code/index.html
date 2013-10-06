@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="/images/cabin.png" >
+    <link href="/styles/main.css" rel="stylesheet">
+    
+    <title>Message passing in Object-Oriented Code</title>
+    
+    
+    <meta name="description" content="Thoughts about passing messages between objects in true object-oriented design.">
+    
+    <link rel="alternate" type="application/atom+xml" title="Integralist" href="http://feeds.feedburner.com/Integralist">
+  </head>
+  <body>
+    <nav>
+      <h1 class="name">
+          <a href="/">Integralist</a>
+      </h1>
+      <div class="menu icon-menu"></div>
+      <ul class="nav-links">
+        <li class="text-link">
+          <a href="/about.html">about</a>
+        </li>
+        <li class="text-link">
+          <a href="/projects.html">projects</a>
+        </li>
+        <li class="text-link">
+          <a href="/archives.html">archives</a>
+        </li>
+      </ul>
+      <div class="social-media">
+        <a href="https://github.com/integralist" class="icon-github"></a>
+        <a href="https://twitter.com/integralist" class="icon-twitter"></a>
+      </div>
+    </nav>
+    <div class="content">
+
+<div class="post-head group">
+  <a href="/posts/message-passing-in-object-oriented-code/">
+    <h1 class="post-title">Message passing in Object-Oriented Code</h1>
+  </a>
+  <span class="post-date">2013 &#183; 3 &#183; 31</span>
+</div>
+
+<div class="post-body"><h2><a name="what-we-ll-cover-reading-time-approx-4mins-"class="anchor" href="#what-we-ll-cover-reading-time-approx-4mins-"><span class="header-link"></span></a>What we&#39;ll cover <em>reading time: approx. 4mins</em></h2>
+<ul>
+<li>Introduction</li>
+<li>Quick example</li>
+<li>The Proxy Design Pattern</li>
+<li>How Ruby handles method calls</li>
+<li>Implementing <code>method_missing</code></li>
+<li>Conclusion</li>
+</ul>
+<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<p>In my <a href="http://integralist.co.uk/Object-Oriented-Design.html">previous post</a> I quoted the following description of object-oriented design…</p>
+<blockquote>
+<p>Object-Oriented Design is about the messages that get sent between objects and not the objects themselves.</p>
+</blockquote>
+<p>The reason I felt this quote was important for good code design was because it helped focus our attention on improving our object&#39;s interfaces.</p>
+<p>Since then I&#39;ve been reading through <a href="http://designpatternsinruby.com">Design Patterns in Ruby</a> by Russ Olsen, and in the chapter on the Proxy design pattern he reiterates thinking about objects more from the perspective of &#39;messages&#39; and how that can help improve the Proxy pattern implementation.</p>
+<p>His comments really nailed home for me the design benefits of thinking more about &#39;messages&#39; being passed to objects, and it&#39;s that point which I want to elaborate on below.</p>
+<h2><a name="quick-example"class="anchor" href="#quick-example"><span class="header-link"></span></a>Quick example</h2>
+<p>Imagine the following code example: <code>account.deposit(50)</code></p>
+<p>When thinking about a statically typed language, object methods are generally considered to be more &#39;baked&#39; into the objects, in the sense that running the above code example suggests you are &#39;calling&#39; the <code>deposit</code> method found on the <code>account</code> object. </p>
+<p>But in a dynamically typed language (such as Ruby) this doesn&#39;t make a lot of sense because the <code>account</code> object might not actually contain a method called <code>deposit</code> (statically typed languages are compiled and so we can be assured that if we call a method on an object, it will be there - otherwise the program would fail to compile) so talking about &#39;calling&#39; a method on an object is not as accurate as describing it like so: </p>
+<blockquote>
+<p>&quot;we&#39;re sending a deposit message to an account object&quot;</p>
+</blockquote>
+<h2><a name="the-proxy-design-pattern"class="anchor" href="#the-proxy-design-pattern"><span class="header-link"></span></a>The Proxy Design Pattern</h2>
+<p>The Proxy design pattern is where we place an object between the user and the actual object the user wishes to interact with.</p>
+<p>There are a few different types of proxy object:</p>
+<ul>
+<li>Protection proxies</li>
+<li>Remote proxies</li>
+<li>Virtual proxies</li>
+</ul>
+<p>The reason &#39;message passing&#39; came up in the Proxy design pattern (specifically when developing a &#39;virtual proxy&#39; - which is where we create a proxy object to prevent an expensive object instantiation operation from happening until the user &#39;actually&#39; interacts with one of the methods on the real object) was because the author wanted to avoid the situation where we would need to implement a stub method for each method found on the real object. </p>
+<p>This isn&#39;t necessarily an issue for all types of objects. But if you look at built-in objects such as the <code>Array</code> object, that has approximately 118 (maybe more) methods! So for us to implement a proxy for that object we&#39;d theorectically need to implement 118 stub methods, each of which would simply forward on the request to the corresponding method on the real object to handle. That would not only be tedious but an inefficient way to implement our proxy object.</p>
+<h2><a name="how-ruby-handles-method-calls"class="anchor" href="#how-ruby-handles-method-calls"><span class="header-link"></span></a>How Ruby handles method calls</h2>
+<p>In Ruby if you pass a message (e.g. call a method) to an object and that method doesn&#39;t exist, then Ruby will try to find another method on that object: <code>method_missing</code>. </p>
+<p>If <code>method_missing</code> doesn&#39;t exist then Ruby will try to lookup the method on the parent object, and will keep moving up the inheritance chain until it reaches the core <code>Object</code> object (which does implement <code>method_missing</code>) and which simply raises a <code>NoMethodError</code> exeception.</p>
+<h2><a name="implementing-method_missing-"class="anchor" href="#implementing-method_missing-"><span class="header-link"></span></a>Implementing <code>method_missing</code></h2>
+<p>If you implement <code>method_missing</code> on your proxy object then you can pass on the message to the real object more efficiently than stubbing the method.</p>
+<p>So instead of this…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre>    <span class="k">class</span> <span class="nc">AccountProxy</span>
+        <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">real_object</span><span class="p">)</span>
+            <span class="vi">@real_object</span> <span class="o">=</span> <span class="n">real_object</span>
+        <span class="k">end</span>
+
+        <span class="k">def</span> <span class="nf">deposit</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span>
+            <span class="vi">@real_object</span><span class="o">.</span><span class="n">deposit</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span>
+        <span class="k">end</span>
+
+        <span class="err">…</span> <span class="n">ad</span> <span class="n">infinitum</span> <span class="err">…</span> 
+    <span class="k">end</span>
+
+    <span class="n">account</span> <span class="o">=</span> <span class="no">Account</span><span class="o">.</span><span class="n">new</span>
+    <span class="n">proxy</span> <span class="o">=</span> <span class="no">AccountProxy</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">account</span><span class="p">)</span>
+    <span class="n">proxy</span><span class="o">.</span><span class="n">deposit</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</code></pre>
+<p>…we should really take advantage of the dynamic nature of the Ruby language to avoid having to manually write out these methods by hand, like so… </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre>    <span class="k">class</span> <span class="nc">AccountProxy</span>
+        <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">real_account</span><span class="p">)</span>
+            <span class="vi">@subject</span> <span class="o">=</span> <span class="n">real_account</span>
+        <span class="k">end</span>
+        <span class="k">def</span> <span class="nf">method_missing</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+            <span class="vi">@subject</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>You can see from the above example that we&#39;re using the <a href="http://ruby-doc.org/core-2.0/Object.html#method-i-send">send</a> method to pass the message (i.e. the method invoked by the user on the proxy object) directly to the real object.</p>
+<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>As you can see, focusing on passing messages not only helps inform us of better interfaces when designing our application but also makes us more efficient by utilising features unique to dynamically typed languages.</p>
+</div>
+
+<!--Social sharing icons-->
+<div class="social">
+  <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+  <div data-size="medium" data-annotation="bubble" data-width="300" class="g-plusone"></div>
+  <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+</div>
+<!--Disqus comments, Make sure to replace `colinwren` with your account name in the Disqus helper script below-->
+<div id="comments">
+  <div id="disqus_thread"></div>
+</div>
+
+<!--Helper scripts for social share icons-->
+<!--Hacker News-->
+<script type="text/javascript">
+  (function(d, t) {
+    var g = d.createElement(t),
+        s = d.getElementsByTagName(t)[0];
+    g.src = '//hnbutton.appspot.com/static/hn.min.js';
+    s.parentNode.insertBefore(g, s);
+  }(document, 'script'));
+</script>
+
+<!--Twitter-->
+<script type="text/javascript">
+  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+</script>
+
+<!--Google Plus-->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<!--Disqus-->
+<script type="text/javascript">
+  var disqus_shortname = 'colinwren'; // Change this to your Disqus account name
+
+  (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" type="text/javascript"></script>
+    <script src="/scripts/main.js" type="text/javascript"></script>
+    <script>
+        var _gaq=[['_setAccount','UA-33159515-1'],['_trackPageview']];
+        (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g,s)}(document,'script'));
+    </script>
+  </body>
+</html>
+
