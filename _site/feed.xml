@@ -13,7 +13,7 @@
     <atom:link href="http://integralist.co.uk/feed.xml" rel="self" type="application/rss+xml" />
     <link>http://integralist.co.uk</link>
     <description></description>
-    <lastBuildDate>Fri, 04 Oct 2013 19:05:10 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 06 Oct 2013 11:38:21 +0100</lastBuildDate>
     <language>en</language>
     <copyright>Integralist</copyright>
 
@@ -74,7 +74,7 @@
         <pubDate>Sun, 04 Aug 2013 00:00:00 +0100</pubDate>
         <guid>http://integralist.co.uk/Generate-Application-Cache-Manifest-with-PhantomJS.html</guid>
         <description>
-        Quick run down of using PhantomJS to generate an ApplicationCache manifest file (covers different aspects of Phantom's API)
+        Quick run down of using PhantomJS to generate an ApplicationCache manifest file (covers different aspects of Phantom's API). This code has now been open sourced as &quot;&lt;a href=&quot;https://github.com/Integralist/Squirrel&quot;&gt;Squirrel&lt;/a&gt;&quot;
         </description>
       </item>
     

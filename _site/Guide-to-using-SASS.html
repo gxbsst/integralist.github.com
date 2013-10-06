@@ -6,7 +6,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="author" content="Mark McDonnell" />
-        <title> Guide to using SASS | Integralist</title>
+        <title> Guide to using Sass | Integralist</title>
         <!--[if lt IE 9]>
         <script src="/Assets/Scripts/html5.js"></script>
         <![endif]-->
@@ -36,7 +36,7 @@
             <a href="#info" class="header__moreinfo">More info about me&hellip;</a>
         </header>
         <section class="articles container">
-            <h1>Guide to using SASS</h1>
+            <h1>Guide to using Sass</h1>
 <div class="article__content">
     <h2>What we'll cover <em>reading time: approx. 11mins</em></h2>
 
@@ -57,15 +57,15 @@
 
 <h2>Introduction</h2>
 
-<p>I agree that 'pre-processors' such as LESS, SASS, Compass etc are normally a bad idea because generally they are used badly by developers/designers who could do better without them (see: <a href="https://github.com/stubbornella/oocss/wiki">Object-Oriented CSS</a>).</p>
+<p>I agree that 'pre-processors' such as LESS, Sass, Compass etc are normally a bad idea because generally they are used badly by developers/designers who could do better without them (see: <a href="https://github.com/stubbornella/oocss/wiki">Object-Oriented CSS</a>).</p>
 
 <p>That being said, there are some areas where pre-processors can really help out, such as being able to use <code>@import</code> without worrying about the browser loading the stylesheet synchronously and thus making the page slower to load. Or being able to create a variable to hold your client's branding colours for easy re-use.</p>
 
-<p>In this post I've purposely not included details on everything that SASS can do because I don't believe they are useful. I would rather you utilise principles of OOCSS and only use SASS as an addition to that which helps round off those rough edges when developing CSS for large scale applications. Two items I have mentioned which should be avoided (and I'll repeat this later as well) are <code>@extend</code> and <code>@mixin</code>. Both of these causes more problems than they solve and can be worked around with good OOCSS structuring, but I've mentioned them so curious readers don't think I've neglected them out of hand and so I've detailed some of the potential issues with using them (use at your own risk!)</p>
+<p>In this post I've purposely not included details on everything that Sass can do because I don't believe they are useful. I would rather you utilise principles of OOCSS and only use Sass as an addition to that which helps round off those rough edges when developing CSS for large scale applications. Two items I have mentioned which should be avoided (and I'll repeat this later as well) are <code>@extend</code> and <code>@mixin</code>. Both of these causes more problems than they solve and can be worked around with good OOCSS structuring, but I've mentioned them so curious readers don't think I've neglected them out of hand and so I've detailed some of the potential issues with using them (use at your own risk!)</p>
 
 <h2>Installation</h2>
 
-<p>To install SASS you need to have <code>Ruby</code> installed.</p>
+<p>To install Sass you need to have <code>Ruby</code> installed.</p>
 
 <p>For Mac users, you already have it!</p>
 
@@ -77,11 +77,11 @@
 
 <h2>How to run</h2>
 
-<p>Within the command line navigate to your website directory and execute the command <code>sass --watch Assets/Styles/</code> (change <code>Assets/Styles/</code> to whatever path your SASS/CSS files are). As you can see in my example, from the root directory of my website I have my SASS files stored here: <code>Assets/Styles</code>. This command uses the <code>--watch</code> flag which means every time a <code>.scss</code> file is saved a corresponding <code>.css</code> file is compiled automatically for you.</p>
+<p>Within the command line navigate to your website directory and execute the command <code>sass --watch Assets/Styles/</code> (change <code>Assets/Styles/</code> to whatever path your Sass/CSS files are). As you can see in my example, from the root directory of my website I have my Sass files stored here: <code>Assets/Styles</code>. This command uses the <code>--watch</code> flag which means every time a <code>.scss</code> file is saved a corresponding <code>.css</code> file is compiled automatically for you.</p>
 
-<p>One thing to be aware of is that if you aren going to use <code>nested</code> items (which apparently is a big selling point for SASS users but one that I personally think is a terrible feature for performance and efficiency) then you'll be better off starting up SASS using <code>sass --style expanded --watch Assets/Styles/</code> which means when your CSS is compiled the nested output will at least be laid out more logically than their default mess of a display (which is very difficult to try and understand).</p>
+<p>One thing to be aware of is that if you aren going to use <code>nested</code> items (which apparently is a big selling point for Sass users but one that I personally think is a terrible feature for performance and efficiency) then you'll be better off starting up Sass using <code>sass --style expanded --watch Assets/Styles/</code> which means when your CSS is compiled the nested output will at least be laid out more logically than their default mess of a display (which is very difficult to try and understand).</p>
 
-<p>One last point here is that if you execute the above command then you will need to have your <code>.scss</code> files in the same location as where your <code>.css</code> files should be. If on the other hand, like me, you prefer to keep your SASS files separate then amend the original command as follows:</p>
+<p>One last point here is that if you execute the above command then you will need to have your <code>.scss</code> files in the same location as where your <code>.css</code> files should be. If on the other hand, like me, you prefer to keep your Sass files separate then amend the original command as follows:</p>
 
 <p><code>sass --style extended --watch Assets/Styles/Sass/:Assets/Styles/</code></p>
 
@@ -91,13 +91,13 @@
 
 <p>Comments are a standard feature of CSS, but sometimes it would be nice to use a easier syntax for writing them (as seen in other programming languages). Such as: <code>// this is a comment</code> rather than having to write <code>/* a typical CSS comment */</code>.</p>
 
-<p>SASS lets you do this, but it's worth keeping in mind that the reason they provide this is so you can have 'private' comments, and by this they mean that comments like <code>// comment</code> are not included in the compiled CSS file, where as the standard comments style <code>/* comment */</code> are. Not that this should matter because when you push your CSS to the production server it should be minified for performance purposes, but it's worth knowing about.</p>
+<p>Sass lets you do this, but it's worth keeping in mind that the reason they provide this is so you can have 'private' comments, and by this they mean that comments like <code>// comment</code> are not included in the compiled CSS file, where as the standard comments style <code>/* comment */</code> are. Not that this should matter because when you push your CSS to the production server it should be minified for performance purposes, but it's worth knowing about.</p>
 
 <h2>Variables</h2>
 
 <p>Variables are a great way to not have to repeat entering the same value over and over. The most common use case is the client's branding colours. Normally this colour will appear in lots of different areas of the site (links, hover effects etc) and if the colour does need to change slightly then you either do it by hand or you run a 'find and replace' function.</p>
 
-<p>To create a variable in SASS you simply prefix the name of the variable with a dollar sign: <code>$brand_color: #C00;</code> I can now use <code>$brand_color</code> wherever I like. For example…</p>
+<p>To create a variable in Sass you simply prefix the name of the variable with a dollar sign: <code>$brand_color: #C00;</code> I can now use <code>$brand_color</code> wherever I like. For example…</p>
 
 <div class="highlight"><pre><code class="css">  <span class="nc">.header</span> <span class="p">{</span>
         <span class="k">color</span><span class="o">:</span> <span class="err">$</span><span class="n">brand_color</span><span class="p">;</span>
@@ -105,7 +105,7 @@
 </code></pre></div>
 
 
-<p>This makes life a lot easier and although I've seen people claim that OOCSS can work around this, it can, but not easily and so using SASS for this alone is still extremely useful in my mind.</p>
+<p>This makes life a lot easier and although I've seen people claim that OOCSS can work around this, it can, but not easily and so using Sass for this alone is still extremely useful in my mind.</p>
 
 <h2>Calculations</h2>
 
@@ -184,17 +184,17 @@
 
 <h2>Importing</h2>
 
-<p>You can import other SASS files into your main stylesheet using <code>@import "other.scss"</code></p>
+<p>You can import other Sass files into your main stylesheet using <code>@import "other.scss"</code></p>
 
 <p>The biggest note of warning here is that if you import a SCSS file and that file generates a CSS file of its own then you wont be able to use variables that aren't imported or defined in the imported SCSS file. For example…</p>
 
-<p>If you have the main stylesheet <code>structure.scss</code> and within that file you import another SCSS file called <code>colours.scss</code> - if <code>colours.scss</code> generates its own CSS file <code>colours.css</code> then the SASS file <code>colours.scss</code> cannot use any variables that are defined inside <code>structure.scss</code> (or which have been imported separately into <code>structure.scss</code>).</p>
+<p>If you have the main stylesheet <code>structure.scss</code> and within that file you import another SCSS file called <code>colours.scss</code> - if <code>colours.scss</code> generates its own CSS file <code>colours.css</code> then the Sass file <code>colours.scss</code> cannot use any variables that are defined inside <code>structure.scss</code> (or which have been imported separately into <code>structure.scss</code>).</p>
 
 <p>…there is a work-around to this which is to make sure <code>colours.scss</code> doesn't generate a CSS file, and the way you do that is prefix the file name with an underscore <code>_colours.scss</code>. You can also still import it without specifying the underscore: <code>@import "colours.scss";</code></p>
 
 <p>To be honest, it's likely that any stylesheets you have deemed modular enough to be imported you'll want them not to generate their own CSS files (what would be the point if when compiled they are being imported into the main CSS file?)</p>
 
-<p><strong>Beware!</strong> if you're main stylesheet has for example a <code>.brand</code> class and so does your imported stylesheet, when you compile the SASS file into CSS the <code>.brand</code> class will be listed twice.</p>
+<p><strong>Beware!</strong> if you're main stylesheet has for example a <code>.brand</code> class and so does your imported stylesheet, when you compile the Sass file into CSS the <code>.brand</code> class will be listed twice.</p>
 
 <p>For example:</p>
 
@@ -229,11 +229,11 @@
 </code></pre></div>
 
 
-<p>…but that's the trade-off between SASS features and the efficiency of the produced code.</p>
+<p>…but that's the trade-off between Sass features and the efficiency of the produced code.</p>
 
 <p>Note: you can import a normal CSS file (as you would in standard CSS) but it'll be pushed to the top of the compiled CSS file. This is because in standard CSS an imported stylesheet is only allowed to be imported from the top of the file.</p>
 
-<p>Lastly, be aware that you could end up trying to import the same SASS file multiple times, and the way SASS handles that situation is by only including the imported file once BUT in the last place it was referenced (which may or may not cause you specificity issues).</p>
+<p>Lastly, be aware that you could end up trying to import the same Sass file multiple times, and the way Sass handles that situation is by only including the imported file once BUT in the last place it was referenced (which may or may not cause you specificity issues).</p>
 
 <h2>Extend</h2>
 

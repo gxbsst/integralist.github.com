@@ -1,6 +1,6 @@
 ---
 layout: article
-title: Guide to using SASS
+title: Guide to using Sass
 strapline: This is an old post on how to use the CSS pre-processor <a href="http://sass-lang.com/" target="_blank">Sass</a> (note the syntax has changed since).
 ---
 
@@ -20,15 +20,15 @@ strapline: This is an old post on how to use the CSS pre-processor <a href="http
 
 ## Introduction
 
-I agree that 'pre-processors' such as LESS, SASS, Compass etc are normally a bad idea because generally they are used badly by developers/designers who could do better without them (see: [Object-Oriented CSS](https://github.com/stubbornella/oocss/wiki)).
+I agree that 'pre-processors' such as LESS, Sass, Compass etc are normally a bad idea because generally they are used badly by developers/designers who could do better without them (see: [Object-Oriented CSS](https://github.com/stubbornella/oocss/wiki)).
 
 That being said, there are some areas where pre-processors can really help out, such as being able to use `@import` without worrying about the browser loading the stylesheet synchronously and thus making the page slower to load. Or being able to create a variable to hold your client's branding colours for easy re-use.
 
-In this post I've purposely not included details on everything that SASS can do because I don't believe they are useful. I would rather you utilise principles of OOCSS and only use SASS as an addition to that which helps round off those rough edges when developing CSS for large scale applications. Two items I have mentioned which should be avoided (and I'll repeat this later as well) are `@extend` and `@mixin`. Both of these causes more problems than they solve and can be worked around with good OOCSS structuring, but I've mentioned them so curious readers don't think I've neglected them out of hand and so I've detailed some of the potential issues with using them (use at your own risk!)
+In this post I've purposely not included details on everything that Sass can do because I don't believe they are useful. I would rather you utilise principles of OOCSS and only use Sass as an addition to that which helps round off those rough edges when developing CSS for large scale applications. Two items I have mentioned which should be avoided (and I'll repeat this later as well) are `@extend` and `@mixin`. Both of these causes more problems than they solve and can be worked around with good OOCSS structuring, but I've mentioned them so curious readers don't think I've neglected them out of hand and so I've detailed some of the potential issues with using them (use at your own risk!)
 
 ## Installation
 
-To install SASS you need to have `Ruby` installed.
+To install Sass you need to have `Ruby` installed.
 
 For Mac users, you already have it!
 
@@ -40,11 +40,11 @@ From the command line execute `gem install sass` (I needed to use `sudo` along w
 
 ## How to run
 
-Within the command line navigate to your website directory and execute the command `sass --watch Assets/Styles/` (change `Assets/Styles/` to whatever path your SASS/CSS files are). As you can see in my example, from the root directory of my website I have my SASS files stored here: `Assets/Styles`. This command uses the `--watch` flag which means every time a `.scss` file is saved a corresponding `.css` file is compiled automatically for you.
+Within the command line navigate to your website directory and execute the command `sass --watch Assets/Styles/` (change `Assets/Styles/` to whatever path your Sass/CSS files are). As you can see in my example, from the root directory of my website I have my Sass files stored here: `Assets/Styles`. This command uses the `--watch` flag which means every time a `.scss` file is saved a corresponding `.css` file is compiled automatically for you.
 
-One thing to be aware of is that if you aren going to use `nested` items (which apparently is a big selling point for SASS users but one that I personally think is a terrible feature for performance and efficiency) then you'll be better off starting up SASS using `sass --style expanded --watch Assets/Styles/` which means when your CSS is compiled the nested output will at least be laid out more logically than their default mess of a display (which is very difficult to try and understand).
+One thing to be aware of is that if you aren going to use `nested` items (which apparently is a big selling point for Sass users but one that I personally think is a terrible feature for performance and efficiency) then you'll be better off starting up Sass using `sass --style expanded --watch Assets/Styles/` which means when your CSS is compiled the nested output will at least be laid out more logically than their default mess of a display (which is very difficult to try and understand).
 
-One last point here is that if you execute the above command then you will need to have your `.scss` files in the same location as where your `.css` files should be. If on the other hand, like me, you prefer to keep your SASS files separate then amend the original command as follows:
+One last point here is that if you execute the above command then you will need to have your `.scss` files in the same location as where your `.css` files should be. If on the other hand, like me, you prefer to keep your Sass files separate then amend the original command as follows:
 
 `sass --style extended --watch Assets/Styles/Sass/:Assets/Styles/` 
 
@@ -54,13 +54,13 @@ One last point here is that if you execute the above command then you will need 
 
 Comments are a standard feature of CSS, but sometimes it would be nice to use a easier syntax for writing them (as seen in other programming languages). Such as: `// this is a comment` rather than having to write `/* a typical CSS comment */`.
 
-SASS lets you do this, but it's worth keeping in mind that the reason they provide this is so you can have 'private' comments, and by this they mean that comments like `// comment` are not included in the compiled CSS file, where as the standard comments style `/* comment */` are. Not that this should matter because when you push your CSS to the production server it should be minified for performance purposes, but it's worth knowing about.
+Sass lets you do this, but it's worth keeping in mind that the reason they provide this is so you can have 'private' comments, and by this they mean that comments like `// comment` are not included in the compiled CSS file, where as the standard comments style `/* comment */` are. Not that this should matter because when you push your CSS to the production server it should be minified for performance purposes, but it's worth knowing about.
 
 ## Variables
 
 Variables are a great way to not have to repeat entering the same value over and over. The most common use case is the client's branding colours. Normally this colour will appear in lots of different areas of the site (links, hover effects etc) and if the colour does need to change slightly then you either do it by hand or you run a 'find and replace' function.
 
-To create a variable in SASS you simply prefix the name of the variable with a dollar sign: `$brand_color: #C00;` I can now use `$brand_color` wherever I like. For example…
+To create a variable in Sass you simply prefix the name of the variable with a dollar sign: `$brand_color: #C00;` I can now use `$brand_color` wherever I like. For example…
 
 {% highlight css %}
 	.header {
@@ -68,7 +68,7 @@ To create a variable in SASS you simply prefix the name of the variable with a d
 	}
 {% endhighlight %}
 
-This makes life a lot easier and although I've seen people claim that OOCSS can work around this, it can, but not easily and so using SASS for this alone is still extremely useful in my mind.
+This makes life a lot easier and although I've seen people claim that OOCSS can work around this, it can, but not easily and so using Sass for this alone is still extremely useful in my mind.
 
 ## Calculations
 
@@ -147,17 +147,17 @@ These are very useful. A lot of times you have for example 'hover' effects that 
 
 ## Importing
 
-You can import other SASS files into your main stylesheet using `@import "other.scss"`
+You can import other Sass files into your main stylesheet using `@import "other.scss"`
 
 The biggest note of warning here is that if you import a SCSS file and that file generates a CSS file of its own then you wont be able to use variables that aren't imported or defined in the imported SCSS file. For example… 
 
-If you have the main stylesheet `structure.scss` and within that file you import another SCSS file called `colours.scss` - if `colours.scss` generates its own CSS file `colours.css` then the SASS file `colours.scss` cannot use any variables that are defined inside `structure.scss` (or which have been imported separately into `structure.scss`). 
+If you have the main stylesheet `structure.scss` and within that file you import another SCSS file called `colours.scss` - if `colours.scss` generates its own CSS file `colours.css` then the Sass file `colours.scss` cannot use any variables that are defined inside `structure.scss` (or which have been imported separately into `structure.scss`). 
 
 …there is a work-around to this which is to make sure `colours.scss` doesn't generate a CSS file, and the way you do that is prefix the file name with an underscore `_colours.scss`. You can also still import it without specifying the underscore: `@import "colours.scss";`
 
 To be honest, it's likely that any stylesheets you have deemed modular enough to be imported you'll want them not to generate their own CSS files (what would be the point if when compiled they are being imported into the main CSS file?)
 
-**Beware!** if you're main stylesheet has for example a `.brand` class and so does your imported stylesheet, when you compile the SASS file into CSS the `.brand` class will be listed twice.
+**Beware!** if you're main stylesheet has for example a `.brand` class and so does your imported stylesheet, when you compile the Sass file into CSS the `.brand` class will be listed twice.
 
 For example:
 
@@ -192,11 +192,11 @@ For example:
 	// MORE STYLES
 {% endhighlight %}
 
-…but that's the trade-off between SASS features and the efficiency of the produced code.
+…but that's the trade-off between Sass features and the efficiency of the produced code.
 
 Note: you can import a normal CSS file (as you would in standard CSS) but it'll be pushed to the top of the compiled CSS file. This is because in standard CSS an imported stylesheet is only allowed to be imported from the top of the file.
 
-Lastly, be aware that you could end up trying to import the same SASS file multiple times, and the way SASS handles that situation is by only including the imported file once BUT in the last place it was referenced (which may or may not cause you specificity issues).
+Lastly, be aware that you could end up trying to import the same Sass file multiple times, and the way Sass handles that situation is by only including the imported file once BUT in the last place it was referenced (which may or may not cause you specificity issues).
 
 ## Extend
 

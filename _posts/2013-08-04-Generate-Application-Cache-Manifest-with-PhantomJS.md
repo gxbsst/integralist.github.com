@@ -1,7 +1,7 @@
 ---
 layout: article
 title: Generate Application Cache Manifest with PhantomJS
-strapline: Quick run down of using PhantomJS to generate an ApplicationCache manifest file (covers different aspects of Phantom's API)
+strapline: Quick run down of using PhantomJS to generate an ApplicationCache manifest file (covers different aspects of Phantom's API). This code has now been open sourced as "<a href="https://github.com/Integralist/Squirrel">Squirrel</a>"
 ---
 
 ## What we'll cover *reading time: approx. 11mins*

@@ -1,7 +1,7 @@
 ---
 layout: article
-title: Introduction to Ruby (a front-end developers perspective)
-strapline: Written for front-end developers to help get them up and running with the Ruby language.
+title: Introduction to Ruby
+strapline: A look through the syntax and idioms of the Ruby programming language. We'll demonstrate the wonderfully expressive tools provided by Ruby.
 ---
 
 ## What we'll cover *reading time: approx. 27mins*
@@ -29,11 +29,7 @@ strapline: Written for front-end developers to help get them up and running with
 
 ## Introduction
 
-I'm not a Ruby developer. I'm a front-end developer who focuses on JavaScript, Regular Expressions, HTML and CSS (and that means I like to keep up to speed with each of the latest iterations of the languages, currently: ES5/6, HTML5, CSS3/4 etc). 
-
-I've experience with PHP. Writing object-oriented code, creating databases and bespoke Content Managed Systems etc, but I've not touched that sort of stuff for a few years now as the front-end stack is where I've concentrated my attention (it's what I enjoy most).
-
-So with that admission out in the open, this introduction to the Ruby programming language is likely to be full of holes you could drive a truck through (any Ruby enthusiasts reading this are welcome to comment on anything I have incorrect). So why do it? Because with the arrival of JavaScript pre-processors such as CoffeeScript and the new additions to both ES5 (and much more so in ES6), these new additions are pushing the JavaScript language to be more 'functional' and thus similar in syntax to the Ruby programming language. 
+I've not had much experience with the Ruby programming language, but with the arrival of JavaScript pre-processors such as CoffeeScript and the new features being added to ES5 (even more so in ES6), these new additions are pushing the JavaScript language to be more 'functional' and thus similar in syntax to Ruby. 
 
 Looking at CoffeeScript I wasn't convinced. I like the JavaScript syntax, I think it's actually quite a beautiful language (when written correctly). But I decided that the future is just around the corner so why wait to see what all the fuss is about. In my mind, the best way to get involved with the new JavaScript/CoffeeScript style syntax is to investigate some of its inspirations which (seem to) stem from Ruby.
 
