@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="<%= data.baseUrl %>images/cabin.png" >
+    <link href="<%= data.baseUrl %>styles/main.css" rel="stylesheet">
+    <% if (locals.title) { %>
+    <title><%= locals.title %></title>
+    <% } else { %>
+    <title>Integralist -> BBC News Engineer</title>
+    <% } %>
+    <% if (locals.description) { %>
+    <meta name="description" content="<%= locals.description %>">
+    <% locals.description = null;} %>
+    <link rel="alternate" type="application/atom+xml" title="Integralist" href="http://feeds.feedburner.com/Integralist">
+  </head>
+  <body>
+    <nav>
+      <h1 class="name">
+          <a href="<%= data.baseUrl %>">Integralist</a>
+      </h1>
+      <div class="menu icon-menu"></div>
+      <ul class="nav-links">
+        <li class="text-link">
+          <a href="<%= data.baseUrl %>about.html">about</a>
+        </li>
+        <li class="text-link">
+          <a href="<%= data.baseUrl %>projects.html">projects</a>
+        </li>
+        <li class="text-link">
+          <a href="<%= data.baseUrl %>archives.html">archives</a>
+        </li>
+      </ul>
+      <div class="social-media">
+        <a href="https://github.com/integralist" class="icon-github"></a>
+        <a href="https://twitter.com/integralist" class="icon-twitter"></a>
+      </div>
+    </nav>
+    <div class="content">

@@ -1,8 +1,0 @@
-{
-  "name": "Integralist",
-  "private": true,
-  "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-responsive-images": "0.0.3"
-  }
-}

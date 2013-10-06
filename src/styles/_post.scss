@@ -1,0 +1,112 @@
+.post-head {
+  border-bottom: 1px solid $grey;
+  margin: 2em 0;
+  padding-bottom: 5px;
+  position: relative;
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.post-title {
+  float: left;
+  padding-right: 4.9em;
+  margin: 5px 0;
+  font-size: 1.7em;
+}
+
+.post-date {
+  position: absolute;
+  bottom: 10px;
+  right: 0;
+  font-size: 1.3em;
+  color: $lightTextColor;
+}
+
+.post-body {
+  margin-bottom: 1.2em;
+  font-family: $postFont;
+  line-height: 1.65em;
+
+  img {
+    max-width: 100%;
+  }
+
+  .anchor {
+    text-decoration: none;
+    position: absolute;
+    margin-left: -1.7em;
+    padding-left: 1.7em;
+    outline: none;
+
+    &:hover {
+      color: $baseTextColor;
+    }
+  }
+
+  h1, h2, h3,
+  h4, h5, h6 {
+    &:hover .header-link {
+      visibility: visible;
+    }
+  }
+}
+
+.header-link {
+  @extend .icon-link;
+  margin-left: -1.7em;
+  font-size: .65em;
+  visibility: hidden;
+}
+
+.social {
+  padding: .55em 0 1.4em;
+}
+
+// Inline code element
+p code {
+  background: hsl(240, 100%, 96%);
+  border: 1px solid hsl(0, 0%, 90%);
+  padding: 0 0.23em;
+  @include border-radius(3px);
+}
+
+code {
+  margin: 0;
+  padding: 0;
+  font-size: .8em;
+  line-height: 1.5em;
+  font-family: $codeFont;
+}
+
+pre {
+  font-family: $codeFont;
+  overflow: auto;
+  margin-top: 0em;
+  margin-bottom: -0.8em;
+}
+
+.highlight {
+  @include border-radius(3px);
+
+  pre {
+    padding: 15px;
+  }
+}
+
+.comments {
+  margin-top: 25px;
+  font-weight: bold;
+  font-size: 1.2em;
+
+  a {
+    color: $lightTextColor;
+    text-decoration: none;
+  }
+
+  .icon-bubbles {
+    padding: 3px 15px 5px 0;
+    float: left;
+  }
+}

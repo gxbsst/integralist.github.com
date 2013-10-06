@@ -1,0 +1,307 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="/images/cabin.png" >
+    <link href="/styles/main.css" rel="stylesheet">
+    
+    <title>Unix Commands</title>
+    
+    
+    <meta name="description" content="I've started to realise the beauty and efficiency that is the Unix Philosophy and so this post covers how to take advantage of a few common shell commands that you should find quite useful. Covers commands such as Awk, Sed, Grep, Cut, Xargs and more.">
+    
+    <link rel="alternate" type="application/atom+xml" title="Integralist" href="http://feeds.feedburner.com/Integralist">
+  </head>
+  <body>
+    <nav>
+      <h1 class="name">
+          <a href="/">Integralist</a>
+      </h1>
+      <div class="menu icon-menu"></div>
+      <ul class="nav-links">
+        <li class="text-link">
+          <a href="/about.html">about</a>
+        </li>
+        <li class="text-link">
+          <a href="/projects.html">projects</a>
+        </li>
+        <li class="text-link">
+          <a href="/archives.html">archives</a>
+        </li>
+      </ul>
+      <div class="social-media">
+        <a href="https://github.com/integralist" class="icon-github"></a>
+        <a href="https://twitter.com/integralist" class="icon-twitter"></a>
+      </div>
+    </nav>
+    <div class="content">
+
+<div class="post-head group">
+  <a href="/posts/unix-commands/">
+    <h1 class="post-title">Unix Commands</h1>
+  </a>
+  <span class="post-date">2013 &#183; 10 &#183; 1</span>
+</div>
+
+<div class="post-body"><h2><a name="what-we-ll-cover-reading-time-approx-15mins-"class="anchor" href="#what-we-ll-cover-reading-time-approx-15mins-"><span class="header-link"></span></a>What we&#39;ll cover <em>reading time: approx. 15mins</em></h2>
+<ul>
+<li>Introduction</li>
+<li>Basics<ul>
+<li>What directory am I currently in?</li>
+<li>How can I see what&#39;s in this directory?</li>
+<li>Moving around</li>
+<li>Display content of a file</li>
+<li>Let&#39;s copy a file</li>
+<li>Let&#39;s move a file</li>
+<li>Let&#39;s rename a file</li>
+<li>Let&#39;s delete a file</li>
+<li>Let&#39;s delete a directory</li>
+</ul>
+</li>
+<li>Grep (Searching for patterns)</li>
+<li>Sed (Find and Replace)</li>
+<li>Awk (Looping Logic)</li>
+<li>Piping I/O<ul>
+<li>Input and Output</li>
+<li>Redirection</li>
+<li>Piping</li>
+<li>Piping examples</li>
+</ul>
+</li>
+<li>Miscellaneous Commands<ul>
+<li>tee</li>
+<li>dig</li>
+<li>ps</li>
+<li>xargs</li>
+<li>cut</li>
+</ul>
+</li>
+<li>Conclusion</li>
+</ul>
+<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<p>The unix command line has a hundred or so commands, and a small majority of those you can realistically find yourself using on a regular basis. In this post I want to cover some common commands that can actually be quite useful to you.</p>
+<p>Shell commands aren&#39;t something you can cover in one post. Entire books have been written on the subject. So don&#39;t expect anything other than the bare bone basics here, which should hopefully give you enough of an understanding to take your own learning forward.</p>
+<p>So let&#39;s begin… </p>
+<h2><a name="basics"class="anchor" href="#basics"><span class="header-link"></span></a>Basics</h2>
+<p>OK, so I&#39;ll assume you have absolutely no prior command line experience which means we need to start at the basics.</p>
+<p>So, first things first: open up your shell (if you&#39;re on a Mac then this will be your <code>Terminal.app</code> application.</p>
+<h3><a name="what-directory-am-i-currently-in-"class="anchor" href="#what-directory-am-i-currently-in-"><span class="header-link"></span></a>What directory am I currently in?</h3>
+<p><code>pwd</code> - this stands for &quot;Print Working Directory&quot;</p>
+<h3><a name="how-can-i-see-what-s-in-this-directory-"class="anchor" href="#how-can-i-see-what-s-in-this-directory-"><span class="header-link"></span></a>How can I see what&#39;s in this directory?</h3>
+<p><code>ls</code> - this tells the shell to list out any files or folders in the current working directory.</p>
+<p>You can also tell the command a directory path you want it to look inside of: <code>ls ~/Desktop</code> (this will list all files and folders on your desktop).</p>
+<p><code>ls -l</code> - the <code>-l</code> flag tells the command to stack the list when it prints its output to the shell.</p>
+<p><code>ls -la</code> - this is a combination of the previous flag and the <code>-a</code> flag which means &quot;show all files&quot; (by this I mean, it&#39;ll show you hidden files).</p>
+<h3><a name="moving-around"class="anchor" href="#moving-around"><span class="header-link"></span></a>Moving around</h3>
+<p>To move around your file system you use the &#39;change directory&#39; command <code>cd</code>.</p>
+<p>So: <code>cd ~/Desktop</code> will put you in the Desktop.</p>
+<p>You can also use relative paths such as <code>cd ../</code> which will take you up one level from wherever you happen to be.</p>
+<h3><a name="displaying-content-of-a-file"class="anchor" href="#displaying-content-of-a-file"><span class="header-link"></span></a>Displaying content of a file</h3>
+<p>The <code>cat</code> command is a concatenation command, meaning that if you ran <code>cat original.txt new.txt</code> it would display on your screen the combination of the content from both files specified.</p>
+<p>So, with that understanding we can use <code>cat original.txt</code> (i.e. specifying just a single file) to show the contents of that file.</p>
+<h3><a name="let-s-copy-a-file"class="anchor" href="#let-s-copy-a-file"><span class="header-link"></span></a>Let&#39;s copy a file</h3>
+<p>To copy a file we need the <code>cp</code> command, and we tell it what file to copy and where to copy it to.</p>
+<p>So: <code>cp ~/Downloads/test.txt ~/Desktop/test.txt</code> will copy the file <code>test.txt</code> (which is inside our &#39;Downloads&#39; folder) and put the copy on our Desktop.</p>
+<h3><a name="let-s-move-a-file"class="anchor" href="#let-s-move-a-file"><span class="header-link"></span></a>Let&#39;s move a file</h3>
+<p>To move a file you need the <code>mv</code> command, and we tell it what file to move and where to move it to.</p>
+<p>So: <code>mv ~/Downloads/test.txt ~/Desktop/test.txt</code> will move the file <code>test.txt</code> from our &#39;Downloads&#39; folder onto our &#39;Desktop&#39;.</p>
+<h3><a name="let-s-rename-a-file"class="anchor" href="#let-s-rename-a-file"><span class="header-link"></span></a>Let&#39;s rename a file</h3>
+<p>There is no <code>rename</code> command on Unix (although there is in Linux) and so we need to use a trick, the trick being to use the <code>mv</code> command.</p>
+<p>So: <code>mv ~/Downloads/test.txt ~/Downloads/new.txt</code> will actually rename the file <code>test.txt</code> to <code>new.txt</code> as we&#39;ve moved the file into the same directory it was already in but with a different name (effectively acting like we renamed it)</p>
+<h3><a name="let-s-delete-a-file"class="anchor" href="#let-s-delete-a-file"><span class="header-link"></span></a>Let&#39;s delete a file</h3>
+<p>To delete a file we need the &#39;remove&#39; command <code>rm</code>.</p>
+<p>So: <code>rm ~/Downloads/test.txt</code> will delete our <code>test.txt</code> file.</p>
+<h3><a name="let-s-delete-a-directory"class="anchor" href="#let-s-delete-a-directory"><span class="header-link"></span></a>Let&#39;s delete a directory</h3>
+<p>To delete a folder we need the &#39;remove&#39; command <code>rm</code> again but this time we need to pass in a couple of flags to the command.</p>
+<p>The first flag is <code>-f</code> which means &#39;force&#39; the removal (otherwise if you try to remove a folder then the shell will try and prevent this as it&#39;ll assume you&#39;ve made a mistake, and deleting a whole folder could be a big mistake if you&#39;re not careful).</p>
+<p>The second flag is <code>-r</code> which means &#39;recursively&#39;. So you&#39;ll recursively delete files within the folder.</p>
+<p>So: <code>rm -rf ~/Desktop/some-folder</code> will delete our <code>some-folder</code> folder on the Desktop.</p>
+<h2><a name="grep-searching-for-patterns-"class="anchor" href="#grep-searching-for-patterns-"><span class="header-link"></span></a>Grep (Searching for patterns)</h2>
+<p>Grep is a command that lets you find a pattern (either a string or a regular expression) inside of a file or list of files.</p>
+<p>So: <code>grep &#39;something&#39; test.txt</code> looks for the word &#39;something&#39; inside of the file <code>test.txt</code>.</p>
+<p>To use grep on a directory of files then we need to use an additional flag: <code>-r</code> which means &#39;recursive&#39; (similar to the <code>rm</code> command we saw previously).</p>
+<p>So: <code>grep -r &#39;something&#39; ~/Desktop</code> looks for the word &#39;something&#39; inside of any files on the Desktop.</p>
+<h2><a name="sed-find-and-replace-"class="anchor" href="#sed-find-and-replace-"><span class="header-link"></span></a>Sed (Find and Replace)</h2>
+<p>The <code>sed</code> command stands for (S)tream (Ed)itor and allows you to  read in the contents of a file and then write the modified output to another file or pipe it through to another I/O command (we&#39;ll cover piping later).</p>
+<p>A basic example of its use would be: <code>sed s/day/night/ novel.txt</code></p>
+<p>This replaces the first occurrence of &#39;day&#39; to &#39;night&#39;. If we wanted to replace multiple occurrences then you would need to pass a <code>g</code> flag (meaning global) to the regular expression like so: <code>sed s/day/night/g novel.txt</code></p>
+<h2><a name="awk-looping-logic-"class="anchor" href="#awk-looping-logic-"><span class="header-link"></span></a>Awk (Looping Logic)</h2>
+<p>The <code>awk</code> command reads in each line of a file and splits the line into fields (using whitespace - space, tab - as its default delimiter).</p>
+<p>You can then execute commands for each line and reference each field.</p>
+<p>A basic example of its use would be: <code>awk &#39;{ print $1 }&#39;</code> which means &quot;print the first field found in the current line&quot;.</p>
+<p>So imagine you have the following <code>test.txt</code> file…</p>
+<pre><code class="lang-sh"><div class="highlight"><pre>    This is my first line
+    This is my second line
+    This is my third line
+</pre></div>
+</code></pre>
+<p>…you could print the line number followed by a specific word (in this case the second from last word on each line) using the following awk command: <code>awk &#39;{ print &quot;Line &quot; NR &quot;: &quot; $(NF-1) }&#39; test.txt</code></p>
+<p>Which would display the following content on your screen… </p>
+<pre><code class="lang-sh"><div class="highlight"><pre>    Line 1: first
+    Line 2: second
+    Line 3: third
+</pre></div>
+</code></pre>
+<p>Let&#39;s break this command down a little…</p>
+<ul>
+<li>Awk commands are placed inside of single quotes <code>awk &#39;commands go here&#39;</code>.</li>
+<li>Inside the single quotes we need a set of brackets to place our specific code we want to run: <code>awk &#39;{ code to run here }&#39;</code></li>
+<li>We specifically tell awk to <code>print</code> something to stdout (i.e. the terminal screen).</li>
+<li>In this case we tell it to print the text &quot;Line &quot; followed by the current line number <code>NR</code>.</li>
+<li>As part of the same print command we then tell it to print &quot;: &quot; followed by the second from last number.</li>
+<li>To do that we use two pieces of syntax <code>$()</code> and <code>NF</code>.</li>
+<li><code>NF</code> stands for (N)umber of (F)ields.</li>
+<li>The <code>$()</code> wrapping around <code>NF</code> is our &#39;process substitution&#39;. This means we&#39;re not just outputting some data but manipulating it by using logic to give us 1 field back from the last, hence it needs to be wrapped in <code>$()</code></li>
+</ul>
+<h2><a name="piping-i-o"class="anchor" href="#piping-i-o"><span class="header-link"></span></a>Piping I/O</h2>
+<p>The previous commands <code>awk</code>, <code>sed</code>, <code>grep</code> are all really useful, but it&#39;s when you can combine them that their true power shines.</p>
+<h3><a name="input-and-output"class="anchor" href="#input-and-output"><span class="header-link"></span></a>Input and Output</h3>
+<p>Unix is based on the principle of &quot;input&quot; and &quot;output&quot; (known as &quot;I/O&quot;). In the Shell you have <code>stdin</code> (standard input) and <code>stdout</code> (standard output).</p>
+<p>By default, <code>stdin</code> is your keyboard (i.e. whatever you type into the terminal shell) and <code>stdout</code> is the terminal (i.e. your screen).</p>
+<h3><a name="redirection"class="anchor" href="#redirection"><span class="header-link"></span></a>Redirection</h3>
+<p>Once you understand <code>stdin</code> and <code>stdout</code> you can start to look at redirecting them.</p>
+<p>For example when using the <code>sed</code> command you could use redirection to not overwrite your original file and instead direct the output <code>stdout</code> coming from the <code>sed</code> command to another file: <code>sed s/day/night/g original.txt &gt; new.txt</code></p>
+<h3><a name="piping"class="anchor" href="#piping"><span class="header-link"></span></a>Piping</h3>
+<p>Another way to <em>direct</em> input and output is to use pipes <code>|</code> (a vertical bar).</p>
+<p>A really simple example would be: look at the <code>sed</code> command we used earlier (<code>sed s/day/night/ novel.txt</code>). Rather than actually execute it and have it make the specified change to our file <code>novel.txt</code> we could instead test the command to make sure it does what we expect it to.</p>
+<p>To do that we would use the <code>cat</code> command (which we looked at previously) and pipe its output through to the <code>sed</code> command like so… </p>
+<p><code>cat original.txt | sed s/day/night/g</code></p>
+<p>So, to clarify how this works: we&#39;re redirecting the <code>cat</code> command&#39;s <code>stdout</code> through to the <code>sed</code> command&#39;s <code>stdin</code>. </p>
+<p>In our original <code>sed</code> example we directed the <code>sed</code> command&#39;s <code>stdout</code> to an actual file (<code>novel.txt</code>), but in this case it has no <code>stdout</code> specified so it falls back to the default <code>stdout</code> which in this case is the terminal shell itself.</p>
+<p>Hence the results of the <code>sed</code> command (the modified content) are displayed on your screen.</p>
+<h3><a name="piping-to-vim"class="anchor" href="#piping-to-vim"><span class="header-link"></span></a>Piping to Vim</h3>
+<p>One thing I discovered recently (via <a href="http://twitter.com/Pand0ra83">Crystal Hirschorn</a>) was that you can&#39;t just pipe <code>stdout</code> into Vim unless you had a hyphen/dash <code>-</code> at the end of the command like so: <code>ls | vim -</code></p>
+<p>Otherwise Vim will complain that: <code>Input is not from a terminal</code></p>
+<p>That&#39;s a good one to remember!</p>
+<p>Also you can pipe the input into Vim in read-only mode using the <code>-R</code> flag as well: <code>ls | vim -R -</code></p>
+<h3><a name="piping-examples"class="anchor" href="#piping-examples"><span class="header-link"></span></a>Piping examples</h3>
+<p>Here are three real world examples I&#39;ve used recently…</p>
+<pre><code class="lang-sh"><div class="highlight"><pre>    phantomjs 2&gt;<span class="p">&amp;</span>1 network-test.js <span class="p">|</span> tee log.txt
+</pre></div>
+</code></pre>
+<p>In this example I&#39;m executing a <a href="http://phantomjs.org/">PhantomJS</a> script <code>network-test.js</code> but I wanted to capture both the results of the script (which just logs out DNS information into the terminal) and any errors that may have occurred into a log text file.</p>
+<p>The way it works might be a little confusing as it shows some things you might not have seen before: <code>2&gt;&amp;1</code> and <code>tee</code>.</p>
+<p>Those two commands may look confusing but it just comes down to understanding the numbers that are associated with specific processes, so…</p>
+<ul>
+<li><code>0</code> = <code>stdin</code></li>
+<li><code>1</code> = <code>stdout</code></li>
+<li><code>2</code> = <code>stderr</code></li>
+</ul>
+<p>…this means <code>2&gt;&amp;1</code> is saying direct <code>2</code> (any errors) through to <code>1</code> (standard output).</p>
+<p>We then pipe the <code>stdout</code> through to the <code>tee</code> command which copies it into a file called <code>log.txt</code>.</p>
+<pre><code class="lang-sh"><div class="highlight"><pre>    ls File-* <span class="p">|</span> sed <span class="s1">&#39;s/\(File-[^-]*\)-\(.*\)/mv &amp; \1\2/&#39;</span> <span class="p">|</span> sh
+</pre></div>
+</code></pre>
+<p>In this example I&#39;m trying to remove a hyphen <code>-</code> from some file names.</p>
+<p>The files I have look like <code>File-A-B.gif</code> and I want them to be renamed to <code>File-AB.gif</code>.</p>
+<p>So first I list out any files in the current directory that begin <code>File-</code> and then pipe those results through to <code>sed</code>.</p>
+<p>Sed then uses Regular Expressions to store a reference to the opening part of the file name (in this case <code>File-A</code>) and then stores the end part of the file name (in this case <code>B.gif</code>).</p>
+<p>The second part of the <code>sed</code> command is that instead of doing a &#39;replace&#39; of what we&#39;ve found, we actually pass in a <code>mv</code> command (remember from before that we can rename a file by using <code>mv original.txt new.txt</code>). In this case the stored references to the beginning and ending parts of the file&#39;s name can be referenced within the replacement section using <code>\1</code> and <code>\2</code> (and the <code>&amp;</code> in regular expressions means, the original string being inspected).</p>
+<p>So when we use <code>mv &amp; \1\2</code> we&#39;ve saying &quot;move the original file and move it to the same directory but using the new name of File-AB.gif (remember <code>\1</code> is &quot;File-A&quot; and <code>\2</code> is &quot;B.gif&quot;).</p>
+<p>Finally, because the <code>sed</code> command&#39;s replacement is an actual command rather than just a string replacement we pipe that replacement content (which is now <code>sed</code>&#39;s <code>stdout</code>) over to the <code>sh</code> bin command to execute and hence actually rename the file(s).</p>
+<p>Note: whenever you write a shell script, you would store it (for example) inside a file with the extension of <code>sh</code> and then you&#39;d use the terminal command <code>sh</code> to execute that shell script.</p>
+<pre><code class="lang-sh"><div class="highlight"><pre>    tmux ls <span class="p">|</span> cut -d : -f 1 <span class="p">|</span> xargs -I <span class="o">{}</span> tmux <span class="nb">kill</span>-session -t <span class="o">{}</span>
+</pre></div>
+</code></pre>
+<p>So in this example I wanted an easy way to destroy all my tmux sessions. </p>
+<p>Typically I would run <code>tmux ls</code> to see what sessions I had (it returns something like <code>0: 1 windows (created Fri Oct  4 18:24:38 2013) [129x33]</code>, where the opening <code>0</code> is the number/name of the session followed by details about the session -&gt; in this case <code>1 window</code>, and when it was created, and the size of that window).</p>
+<p>Once I had my session number (in this case <code>0</code>) I could run the command <code>tmux kill-session -t 0</code> but if I had loads of sessions open I would have to run the same command for all of them.</p>
+<p>To fix this I tried using the commands Awk and Sed but discovered an issue with &#39;scope&#39; (which I&#39;m still not 100% sure I understand, but I&#39;ll explain what happened any way)… </p>
+<p>I was using <code>tmux ls | awk &#39;{print $1}&#39; | sed &#39;s/://g&#39; | xargs -I {} tmux kill-session -t {}</code>. This works, but not when you stick it inside an alias for easy reuse.</p>
+<p>The way it works is that it lists out all the tmux sessions and pipes it over to Awk.</p>
+<p>Awk then grabs the first field <code>0:</code> (remember Awk splits the input line into &#39;fields&#39; using a space delimiter). We then pipe that over to Sed.</p>
+<p>Sed then uses a regular expression to remove the <code>:</code> from the <code>0:</code> leaving us with just <code>0</code>. We then pipe that through to xargs.</p>
+<p>xargs runs our kill-session command and passes through the value of <code>0</code> into that command using the placeholder <code>{}</code>.</p>
+<p>We define what the placeholder will be using <code>-I</code> so we could of used <code>-I target</code> instead if we wanted to like so: <code>tmux ls | cut -d : -f 1 | xargs -I target tmux kill-session -t target</code> and it would of achieved the same.</p>
+<p>Like I say, this works. But I wanted it inside an alias so I could easily reuse it (I mean, just <em>try</em> and memorise that massive chunk of commands!?). The moment it went into an alias the xargs failed to work because instead of getting <code>0</code> it got the entire line <code>0: 1 windows (created Fri Oct  4 18:24:38 2013) [129x33]</code>. The scope of the argument was being lost some how? A bit annoying really.</p>
+<p>My colleague at BBC News (<a href="http://twitter.com/sthulb">Simon Thulbourn</a> - all round command line wizard, amongst many other technical talents) helped me understand a more efficient and fully functioning version (i.e. it can be safely aliased): <code>tmux ls | cut -d : -f 1 | xargs -I {} tmux kill-session -t {}</code>.</p>
+<p>So the only difference here is instead of using both Awk and Sed, we&#39;re just using Cut. I&#39;ve not mentioned it before but <code>cut</code> works like this: </p>
+<p>Cut splits the input into fields (like Awk does). We then tell it that we want the fields to be split by <code>:</code> (that&#39;s the <code>-d :</code> section). Then finally we use <code>-f 1</code> to say we want the first field, which we pipe over to xargs. Otherwise the rest of the command is the same as before.</p>
+<p>Nice huh!</p>
+<h2><a name="miscellaneous-commands"class="anchor" href="#miscellaneous-commands"><span class="header-link"></span></a>Miscellaneous Commands</h2>
+<h3><a name="-tee-"class="anchor" href="#-tee-"><span class="header-link"></span></a><code>tee</code></h3>
+<p>The <code>tee</code> command you&#39;ve seen already now (in our above example) but just to reiterate its use, here is how the manual describes it… </p>
+<blockquote>
+<p>The tee utility copies standard input to standard output, making a copy in zero or more files.</p>
+</blockquote>
+<h3><a name="-dig-"class="anchor" href="#-dig-"><span class="header-link"></span></a><code>dig</code></h3>
+<p>The <code>dig</code> command is used for carrying out DNS lookups: <code>dig integralist.co.uk</code> returns the DNS records found for my domain name.</p>
+<h3><a name="-ps-"class="anchor" href="#-ps-"><span class="header-link"></span></a><code>ps</code></h3>
+<p>The <code>ps</code> command stands for (p)rocess (s)tatus</p>
+<p>It shows you all running processes on your computer.</p>
+<p>You can use piping again to narrow down the results to something in particular you know is causing your computer to slow down and then execute another command to kill that process.</p>
+<p>So: <code>ps aux | grep ruby</code></p>
+<p>In the above example we also pass <code>aux</code> which basically specifies table of results that should be returned (see: <a href="http://en.wikipedia.org/wiki/Ps_\(Unix\"><a href="http://en.wikipedia.org/wiki/Ps_(Unix">http://en.wikipedia.org/wiki/Ps_(Unix</a>)</a>) for more information).</p>
+<p>We then pipe that through to <code>grep</code> and tell it we&#39;re interested only in processes that have the text <code>ruby</code> somewhere (that way we can narrow down the results printed to the screen).</p>
+<p>Finally to kill a particular process you&#39;ll need its PID number (which <code>ps aux</code> would have displayed) so locate that PID and then run <code>kill -9 xxxx</code> where <code>xxxx</code> is the PID number you want to stop.</p>
+<h3><a name="-xargs-"class="anchor" href="#-xargs-"><span class="header-link"></span></a><code>xargs</code></h3>
+<p>I know we&#39;ve covered Xargs already in my previous examples, but it&#39;s worth mentioning that you can also use the <code>-0</code> flag which helps with some commands that won&#39;t work when passed arguments that have spaces in them (imagine a file name with spaces). Using the <code>-0</code> flag resolves that issue.</p>
+<h3><a name="-cut-"class="anchor" href="#-cut-"><span class="header-link"></span></a><code>cut</code></h3>
+<p>Again, we&#39;ve covered Cut above already, but just to note that you can change the field delimiter using <code>-d</code> (e.g. <code>-d ,</code> would split the line on commas).</p>
+<p>Also, <code>-f</code> allows a range, not just a single field index. So if you wanted fields 3 to 4 you could do <code>-f 3,4</code></p>
+<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>This was a pretty fast paced run through of some different unix commands. As time goes on I&#39;ll update this post to include other commands and real work use cases that I think would be interesting and useful to those readers new to the command line.</p>
+<p>If there were any errors or any thing like that then just let me know by pinging me on <a href="http://twitter.com/integralist">twitter</a>.</p>
+</div>
+
+<!--Social sharing icons-->
+<div class="social">
+  <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+  <div data-size="medium" data-annotation="bubble" data-width="300" class="g-plusone"></div>
+  <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+</div>
+<!--Disqus comments, Make sure to replace `colinwren` with your account name in the Disqus helper script below-->
+<div id="comments">
+  <div id="disqus_thread"></div>
+</div>
+
+<!--Helper scripts for social share icons-->
+<!--Hacker News-->
+<script type="text/javascript">
+  (function(d, t) {
+    var g = d.createElement(t),
+        s = d.getElementsByTagName(t)[0];
+    g.src = '//hnbutton.appspot.com/static/hn.min.js';
+    s.parentNode.insertBefore(g, s);
+  }(document, 'script'));
+</script>
+
+<!--Twitter-->
+<script type="text/javascript">
+  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+</script>
+
+<!--Google Plus-->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<!--Disqus-->
+<script type="text/javascript">
+  var disqus_shortname = 'colinwren'; // Change this to your Disqus account name
+
+  (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" type="text/javascript"></script>
+    <script src="/scripts/main.js" type="text/javascript"></script>
+    <script>
+        var _gaq=[['_setAccount','UA-33159515-1'],['_trackPageview']];
+        (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g,s)}(document,'script'));
+    </script>
+  </body>
+</html>
+
