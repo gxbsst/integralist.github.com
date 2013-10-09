@@ -17,7 +17,7 @@
   <body>
     <nav>
       <h1 class="name">
-          <a href="/">Integralist</a>
+          <a href="/">Integralist</a> <span class="role">BBC News Engineer</span>
       </h1>
       <div class="menu icon-menu"></div>
       <ul class="nav-links">
@@ -86,7 +86,7 @@
 <p>Imagine you don&#39;t know where a file lives (easily done in a cross team environment where other devs are working on code for a feature you&#39;re not). Fuzzy file searching makes life a lot easier.</p>
 <p>Even if you <em>do</em> know where a file lives, fuzzy file searching is still quicker than reaching for your mouse, moving over to the file system and clicking on folders until you find the file and then double click to open it.</p>
 <p>A lot of editors have a feature like this nowadays (Sublime Text is one such popular example).</p>
-<div class="delayed-image-load" data-src="Assets/Images/src/generated/sublime-text-fuzzy-1024.png" data-width="1024"></div>
+<div class="delayed-image-load" data-src="/images/generated/sublime-text-fuzzy-1024.png" data-width="1024"></div>
 
 <p>The problem is that most editors don&#39;t normally have a long shelf life (none that any serious developer would consider using  nowadays -&gt; I&#39;m looking at Dreamweaver here**).</p>
 <p>**yes I&#39;m sure they&#39;ll be some people who still use Dreamweaver and will not like that sentence, but I think it&#39;s safe to say that the developer community has grown up considerably since those early Macromedia days and developers have long since moved away to other more advanced and efficient development environments.</p>
@@ -142,7 +142,7 @@ Typically developers find another editor.</p>
 </blockquote>
 <p>So let&#39;s get it installed. Go to <a href="https://github.com/sindresorhus/pure"><a href="https://github.com/sindresorhus/pure">https://github.com/sindresorhus/pure</a></a> and download the file <code>pure.zsh</code> to your home directory (or wherever you want, just remember where you save it).</p>
 <p>You can import the <code>pure.zsh</code> file by adding the following line into the <code>.zshrc</code> file: <code>. /path/to/pure.zsh</code></p>
-<div class="delayed-image-load" data-src="Assets/Images/src/generated/pure-zsh-1024.png" data-width="1024"></div>
+<div class="delayed-image-load" data-src="/images/generated/pure-zsh-1024.png" data-width="1024"></div>
 
 <h2><a name="tmux"class="anchor" href="#tmux"><span class="header-link"></span></a>TMUX</h2>
 <p>So what is tmux? The authors definition is…</p>
@@ -153,7 +153,7 @@ Typically developers find another editor.</p>
 <p>There are a couple of ways to install <a href="http://tmux.sourceforge.net/">TMUX</a> the easiest is with <a href="http://brew.sh/">Homebrew</a>: <code>brew install tmux</code></p>
 <p>Once you have tmux installed you can start it by simply running the command <code>tmux</code> in your terminal.</p>
 <p>You may wonder if anything has actually happened because tmux doesn&#39;t look any different from what your normal terminal shell looks like, but what you don&#39;t realise is that you now have quite a few new keyboard shortcuts you can use to split your terminal into &#39;panes&#39;, &#39;windows&#39; or &#39;tabs&#39;.</p>
-<div class="delayed-image-load" data-src="Assets/Images/src/generated/tmux-1024.png" data-width="1024"></div>
+<div class="delayed-image-load" data-src="/images/generated/tmux-1024.png" data-width="1024"></div>
 
 <h3><a name="prefix-"class="anchor" href="#prefix-"><span class="header-link"></span></a>Prefix?</h3>
 <p>In tmux whenever you want to run a command you first run a opening command called &#39;the prefix&#39;. The prefix is typically <code>Ctrl+b</code> (i.e. press the <code>Ctrl</code> button and then the <code>b</code> key). </p>
@@ -167,10 +167,10 @@ Typically developers find another editor.</p>
 <p>You can move around your tmux windows using the prefix command and either <code>n</code> (for next) or <code>p</code> (for previous) or specifying a number that correlates with the window number.</p>
 <h3><a name="creating-panes"class="anchor" href="#creating-panes"><span class="header-link"></span></a>Creating panes</h3>
 <p>To create a new horizontal pane run the prefix command and then press <code>Shift+5</code> (the <code>%</code> key).</p>
-<div class="delayed-image-load" data-src="Assets/Images/src/generated/tmux-horizontal-1024.png" data-width="1024"></div>
+<div class="delayed-image-load" data-src="/images/generated/tmux-horizontal-1024.png" data-width="1024"></div>
 
 <p>To create a new vertical pane run the prefix command and then press <code>Shift+&#39;</code> (the <code>&quot;</code> key).</p>
-<div class="delayed-image-load" data-src="Assets/Images/src/generated/tmux-vertical-1024.png" data-width="1024"></div>
+<div class="delayed-image-load" data-src="/images/generated/tmux-vertical-1024.png" data-width="1024"></div>
 
 <h3><a name="full-screen-a-pane"class="anchor" href="#full-screen-a-pane"><span class="header-link"></span></a>Full screen a pane</h3>
 <p>At any time you can turn a pane into a full screen view (and back again) by running the prefix command followed by <code>z</code>. Run that again to toggle back to the pane view.</p>
@@ -212,7 +212,7 @@ Typically developers find another editor.</p>
 <p>The layout I&#39;m using splits the screen into two columns. In the left column I have <code>vim</code> running and in the right column I have two rows. The top row checks the status of my git repository, and the bottom row opens up a Vim cheat sheet.</p>
 <p>In the second tab <code>sandbox</code> I&#39;ve told tmux I want to connect to our local development sandbox (via ssh).</p>
 <p>In the third tab <code>sass</code> I&#39;ve told tmux I want to run a task that watches our Sass development files for any changes (and then compiles the files when a change is detected).</p>
-<div class="delayed-image-load" data-src="Assets/Images/src/generated/tmuxinator-1024.png" data-width="1024"></div>
+<div class="delayed-image-load" data-src="/images/generated/tmuxinator-1024.png" data-width="1024"></div>
 
 <h3><a name="starting-tmuxinator"class="anchor" href="#starting-tmuxinator"><span class="header-link"></span></a>Starting tmuxinator</h3>
 <p>Now we have a template set-up, to use it we just run <code>tmuxinator start project</code> (or in my case <code>tmuxinator start work</code>).</p>
@@ -279,13 +279,13 @@ Bundle <span class="s1">&#39;vim-scripts/The-NERD-tree&#39;</span>
 <p>Get ourselves into NORMAL mode by pressing <code>ESC</code>, followed by <code>:</code>, followed by <code>CtrlP</code> (note: for this particular plug-in, if you&#39;re already in NORMAL mode, you can just press the <code>Ctrl</code> and <code>p</code> keys together to trigger the fuzzy search to open, but to not confuse ourselves let&#39;s keep to the standard <code>:some-command</code> format).</p>
 <p>Once the plug-in is open we can just start typing the name of the file we&#39;re looking for, and you&#39;ll see that it lists all the files it thinks matches what we&#39;re looking for.</p>
 <p>Simply use the arrow keys to select the relevant file you want to open and press ENTER.</p>
-<div class="delayed-image-load" data-src="Assets/Images/src/generated/ctrlp-1024.png" data-width="1024"></div>
+<div class="delayed-image-load" data-src="/images/generated/ctrlp-1024.png" data-width="1024"></div>
 
 <h3><a name="updating-ctrl-p-s-list"class="anchor" href="#updating-ctrl-p-s-list"><span class="header-link"></span></a>Updating Ctrl+P&#39;s list</h3>
 <p>If you have Vim open and you add a new file then the list that Ctrl+P uses (which is cached) will be out of date. To fix this, open Ctrl+P and then press <code>F5</code> to refresh the list of files it can search for.</p>
 <h3><a name="using-nerdtree-to-search-our-file-system"class="anchor" href="#using-nerdtree-to-search-our-file-system"><span class="header-link"></span></a>Using NERDTree to search our file system</h3>
 <p>When Vim is open and in NORMAL mode press <code>:</code> followed by <code>NERDTreeToggle</code> this will open NERDTree at the current location. You can then use your arrow keys to move up and down the file system and press <code>ENTER</code> to open folders. Once you find a file you want to open press <code>ENTER</code> once you&#39;re cursor is on the item of interest.</p>
-<div class="delayed-image-load" data-src="Assets/Images/src/generated/nerdtree-1024.png" data-width="1024"></div>
+<div class="delayed-image-load" data-src="/images/generated/nerdtree-1024.png" data-width="1024"></div>
 
 <h3><a name="more-commands"class="anchor" href="#more-commands"><span class="header-link"></span></a>More Commands</h3>
 <p>It&#39;s worth remembering that most commands follow the format: <code>operator [number] motion</code> (not all the time, but enough of the time - you&#39;ll soon get used to the order you do things).</p>
@@ -569,6 +569,7 @@ autocmd BufWritePre * :%s/<span class="se">\s\+</span><span class="nv">$/</span>
     </div>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" type="text/javascript"></script>
     <script src="/scripts/main.js" type="text/javascript"></script>
+    <script src="/scripts/Imager.js" type="text/javascript"></script>
     <script>
         var _gaq=[['_setAccount','UA-33159515-1'],['_trackPageview']];
         (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
