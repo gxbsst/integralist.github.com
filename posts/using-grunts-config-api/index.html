@@ -45,7 +45,8 @@
   <span class="post-date">2013 &#183; 6 &#183; 21</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover-reading-time-approx-11mins-"class="anchor" href="#what-we-ll-cover-reading-time-approx-11mins-"><span class="header-link"></span></a>What we&#39;ll cover <em>reading time: approx. 11mins</em></h2>
+<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 11mins</em></p>
 <ul>
 <li>What was the problem again?</li>
 <li>How were we solving this originally?</li>
@@ -129,128 +130,128 @@
 <h2><a name="example-code"class="anchor" href="#example-code"><span class="header-link"></span></a>Example code</h2>
 <p>OK, finally we get to see some code! Hopefully by now it should be much clearer as to what it&#39;s doing and why… </p>
 <h3><a name="grunt-customtasks-js"class="anchor" href="#grunt-customtasks-js"><span class="header-link"></span></a>grunt-customtasks.js</h3>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
 
-        <span class="kd">var</span> <span class="nx">util</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./grunt-helpers.js&#39;</span><span class="p">)(</span><span class="nx">grunt</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">util</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./grunt-helpers.js&#39;</span><span class="p">)(</span><span class="nx">grunt</span><span class="p">);</span>
 
-        <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;sass_compile&#39;</span><span class="p">,</span> <span class="s1">&#39;Dynamically generate Sass sub task&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">service</span><span class="p">,</span> <span class="nx">calledFromConfigTask</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">util</span><span class="p">.</span><span class="nx">serviceExists</span><span class="p">(</span><span class="nx">service</span><span class="p">))</span> <span class="p">{</span>
-                <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Sorry, that service does not exist&#39;</span><span class="p">);</span>
-                <span class="k">return</span><span class="p">;</span>
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;sass_compile&#39;</span><span class="p">,</span> <span class="s1">&#39;Dynamically generate Sass sub task&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">service</span><span class="p">,</span> <span class="nx">calledFromConfigTask</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">util</span><span class="p">.</span><span class="nx">serviceExists</span><span class="p">(</span><span class="nx">service</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Sorry, that service does not exist&#39;</span><span class="p">);</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="kd">var</span> <span class="nx">_</span>          <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;lodash&#39;</span><span class="p">),</span>
+            <span class="nx">src</span>        <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;**/*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!**/_*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!locator/*.scss&#39;</span><span class="p">],</span>
+            <span class="nx">debug</span>      <span class="o">=</span> <span class="p">{</span> <span class="nx">debugInfo</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">lineNumbers</span><span class="o">:</span> <span class="kc">true</span> <span class="p">},</span>
+            <span class="nx">style</span>      <span class="o">=</span> <span class="s1">&#39;expanded&#39;</span><span class="p">,</span>
+            <span class="nx">requested</span>  <span class="o">=</span> <span class="nx">service</span><span class="p">,</span>
+            <span class="nx">cwd</span> <span class="o">=</span> <span class="nx">dest</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="nx">service</span>    <span class="o">=</span> <span class="p">{},</span>
+            <span class="nx">config</span><span class="p">;</span>
+
+        <span class="nx">service</span><span class="p">[</span><span class="nx">requested</span><span class="p">]</span> <span class="o">=</span> <span class="p">{};</span>
+
+        <span class="k">switch</span> <span class="p">(</span><span class="nx">requested</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">case</span> <span class="s1">&#39;dist&#39;</span><span class="o">:</span>
+                <span class="nx">style</span> <span class="o">=</span> <span class="s1">&#39;compressed&#39;</span><span class="p">;</span>
+                <span class="nx">debug</span> <span class="o">=</span> <span class="p">{};</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="s1">&#39;dev&#39;</span><span class="o">:</span>
+                <span class="c1">// Want to prevent setting cwd/dest to the service name</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="k">default</span><span class="o">:</span>
+                <span class="nx">src</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!_*.scss&#39;</span><span class="p">];</span>
+                <span class="nx">cwd</span> <span class="o">=</span> <span class="nx">dest</span> <span class="o">=</span> <span class="s1">&#39;services/&#39;</span> <span class="o">+</span> <span class="nx">requested</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">style</span><span class="o">:</span> <span class="nx">style</span><span class="p">,</span>
+                <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;%= dir.static_sass %&gt;partials/helpers/url64.rb&#39;</span><span class="p">]</span>
+            <span class="p">},</span>
+            <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;&lt;%= dir.static_sass %&gt;&#39;</span> <span class="o">+</span> <span class="nx">cwd</span><span class="p">,</span>
+            <span class="nx">src</span><span class="o">:</span> <span class="nx">src</span><span class="p">,</span>
+            <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;&lt;%= dir.static_css %&gt;&#39;</span> <span class="o">+</span> <span class="nx">dest</span><span class="p">,</span>
+            <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span>
+        <span class="p">}</span>
+
+        <span class="nx">_</span><span class="p">.</span><span class="nx">merge</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">options</span><span class="p">,</span> <span class="nx">debug</span><span class="p">);</span>
+        <span class="nx">_</span><span class="p">.</span><span class="nx">merge</span><span class="p">(</span><span class="nx">service</span><span class="p">[</span><span class="nx">requested</span><span class="p">],</span> <span class="nx">config</span><span class="p">);</span>
+
+        <span class="nx">grunt</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;sass&#39;</span><span class="p">,</span> <span class="nx">service</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">calledFromConfigTask</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">grunt</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="s1">&#39;sass:&#39;</span> <span class="o">+</span> <span class="nx">requested</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="s1">&#39;Add dynamically generated Sass sub task into config object but does not run the sub task&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">service</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">grunt</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="s1">&#39;sass_compile:&#39;</span> <span class="o">+</span> <span class="nx">service</span> <span class="o">+</span> <span class="s1">&#39;:watch&#39;</span><span class="p">);</span> <span class="c1">// ensure sub task exists before running the dynamically created watch sub task</span>
+    <span class="p">});</span>
+
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;watch_service&#39;</span><span class="p">,</span> <span class="s1">&#39;Dynamically generate Watch (and Sass) sub tasks and then run the relevant watch task&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">service</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">util</span><span class="p">.</span><span class="nx">serviceExists</span><span class="p">(</span><span class="nx">service</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Sorry, that service does not exist&#39;</span><span class="p">);</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="kd">var</span> <span class="nx">content</span> <span class="o">=</span> <span class="p">{};</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">service</span> <span class="o">===</span> <span class="s1">&#39;all&#39;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">content</span><span class="p">.</span><span class="nx">all</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="nx">files</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;%= jshint.files %&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;%= dir.static_sass %&gt;**/*.scss&#39;</span><span class="p">],</span>
+                <span class="nx">tasks</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;config:dev&#39;</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">]</span>
             <span class="p">}</span>
-
-            <span class="kd">var</span> <span class="nx">_</span>          <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;lodash&#39;</span><span class="p">),</span>
-                <span class="nx">src</span>        <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;**/*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!**/_*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!locator/*.scss&#39;</span><span class="p">],</span>
-                <span class="nx">debug</span>      <span class="o">=</span> <span class="p">{</span> <span class="nx">debugInfo</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">lineNumbers</span><span class="o">:</span> <span class="kc">true</span> <span class="p">},</span>
-                <span class="nx">style</span>      <span class="o">=</span> <span class="s1">&#39;expanded&#39;</span><span class="p">,</span>
-                <span class="nx">requested</span>  <span class="o">=</span> <span class="nx">service</span><span class="p">,</span>
-                <span class="nx">cwd</span> <span class="o">=</span> <span class="nx">dest</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
-                <span class="nx">service</span>    <span class="o">=</span> <span class="p">{},</span>
-                <span class="nx">config</span><span class="p">;</span>
-
-            <span class="nx">service</span><span class="p">[</span><span class="nx">requested</span><span class="p">]</span> <span class="o">=</span> <span class="p">{};</span>
-
-            <span class="k">switch</span> <span class="p">(</span><span class="nx">requested</span><span class="p">)</span> <span class="p">{</span>
-                <span class="k">case</span> <span class="s1">&#39;dist&#39;</span><span class="o">:</span>
-                    <span class="nx">style</span> <span class="o">=</span> <span class="s1">&#39;compressed&#39;</span><span class="p">;</span>
-                    <span class="nx">debug</span> <span class="o">=</span> <span class="p">{};</span>
-                    <span class="k">break</span><span class="p">;</span>
-                <span class="k">case</span> <span class="s1">&#39;dev&#39;</span><span class="o">:</span>
-                    <span class="c1">// Want to prevent setting cwd/dest to the service name</span>
-                    <span class="k">break</span><span class="p">;</span>
-                <span class="k">default</span><span class="o">:</span>
-                    <span class="nx">src</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!_*.scss&#39;</span><span class="p">];</span>
-                    <span class="nx">cwd</span> <span class="o">=</span> <span class="nx">dest</span> <span class="o">=</span> <span class="s1">&#39;services/&#39;</span> <span class="o">+</span> <span class="nx">requested</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">content</span><span class="p">[</span><span class="nx">service</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="nx">files</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;%= dir.static_sass %&gt;partials/**/*.scss&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;&lt;%= dir.static_sass %&gt;services/&#39;</span> <span class="o">+</span> <span class="nx">service</span> <span class="o">+</span> <span class="s1">&#39;/*.scss&#39;</span><span class="p">],</span>
+                <span class="nx">tasks</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;config:&#39;</span> <span class="o">+</span> <span class="nx">service</span><span class="p">,</span> <span class="s1">&#39;sass:&#39;</span> <span class="o">+</span> <span class="nx">service</span><span class="p">]</span>
             <span class="p">}</span>
+        <span class="p">}</span>
 
-            <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                    <span class="nx">style</span><span class="o">:</span> <span class="nx">style</span><span class="p">,</span>
-                    <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;%= dir.static_sass %&gt;partials/helpers/url64.rb&#39;</span><span class="p">]</span>
-                <span class="p">},</span>
-                <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;&lt;%= dir.static_sass %&gt;&#39;</span> <span class="o">+</span> <span class="nx">cwd</span><span class="p">,</span>
-                <span class="nx">src</span><span class="o">:</span> <span class="nx">src</span><span class="p">,</span>
-                <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;&lt;%= dir.static_css %&gt;&#39;</span> <span class="o">+</span> <span class="nx">dest</span><span class="p">,</span>
-                <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span>
-            <span class="p">}</span>
+        <span class="nx">grunt</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;watch&#39;</span><span class="p">,</span> <span class="nx">content</span><span class="p">);</span>
+        <span class="nx">grunt</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="s1">&#39;watch:&#39;</span> <span class="o">+</span> <span class="nx">service</span><span class="p">);</span>
+    <span class="p">});</span>
 
-            <span class="nx">_</span><span class="p">.</span><span class="nx">merge</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">options</span><span class="p">,</span> <span class="nx">debug</span><span class="p">);</span>
-            <span class="nx">_</span><span class="p">.</span><span class="nx">merge</span><span class="p">(</span><span class="nx">service</span><span class="p">[</span><span class="nx">requested</span><span class="p">],</span> <span class="nx">config</span><span class="p">);</span>
-
-            <span class="nx">grunt</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;sass&#39;</span><span class="p">,</span> <span class="nx">service</span><span class="p">);</span>
-
-            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">calledFromConfigTask</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">grunt</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="s1">&#39;sass:&#39;</span> <span class="o">+</span> <span class="nx">requested</span><span class="p">);</span>
-            <span class="p">}</span>
-        <span class="p">});</span>
-
-        <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="s1">&#39;Add dynamically generated Sass sub task into config object but does not run the sub task&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">service</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">grunt</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="s1">&#39;sass_compile:&#39;</span> <span class="o">+</span> <span class="nx">service</span> <span class="o">+</span> <span class="s1">&#39;:watch&#39;</span><span class="p">);</span> <span class="c1">// ensure sub task exists before running the dynamically created watch sub task</span>
-        <span class="p">});</span>
-
-        <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;watch_service&#39;</span><span class="p">,</span> <span class="s1">&#39;Dynamically generate Watch (and Sass) sub tasks and then run the relevant watch task&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">service</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">util</span><span class="p">.</span><span class="nx">serviceExists</span><span class="p">(</span><span class="nx">service</span><span class="p">))</span> <span class="p">{</span>
-                <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Sorry, that service does not exist&#39;</span><span class="p">);</span>
-                <span class="k">return</span><span class="p">;</span>
-            <span class="p">}</span>
-
-            <span class="kd">var</span> <span class="nx">content</span> <span class="o">=</span> <span class="p">{};</span>
-
-            <span class="k">if</span> <span class="p">(</span><span class="nx">service</span> <span class="o">===</span> <span class="s1">&#39;all&#39;</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">content</span><span class="p">.</span><span class="nx">all</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="nx">files</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;%= jshint.files %&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;%= dir.static_sass %&gt;**/*.scss&#39;</span><span class="p">],</span>
-                    <span class="nx">tasks</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;config:dev&#39;</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">]</span>
-                <span class="p">}</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                <span class="nx">content</span><span class="p">[</span><span class="nx">service</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="nx">files</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;%= dir.static_sass %&gt;partials/**/*.scss&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;&lt;%= dir.static_sass %&gt;services/&#39;</span> <span class="o">+</span> <span class="nx">service</span> <span class="o">+</span> <span class="s1">&#39;/*.scss&#39;</span><span class="p">],</span>
-                    <span class="nx">tasks</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;config:&#39;</span> <span class="o">+</span> <span class="nx">service</span><span class="p">,</span> <span class="s1">&#39;sass:&#39;</span> <span class="o">+</span> <span class="nx">service</span><span class="p">]</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-
-            <span class="nx">grunt</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;watch&#39;</span><span class="p">,</span> <span class="nx">content</span><span class="p">);</span>
-            <span class="nx">grunt</span><span class="p">.</span><span class="nx">task</span><span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="s1">&#39;watch:&#39;</span> <span class="o">+</span> <span class="nx">service</span><span class="p">);</span>
-        <span class="p">});</span>
-
-    <span class="p">};</span>
+<span class="p">};</span>
 </pre></div>
 </code></pre>
 <h3><a name="grunt-helpers-js"class="anchor" href="#grunt-helpers-js"><span class="header-link"></span></a>grunt-helpers.js</h3>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">function</span> <span class="nx">removePath</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="nx">element</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">).</span><span class="nx">pop</span><span class="p">();</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">function</span> <span class="nx">removePath</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">element</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">).</span><span class="nx">pop</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="kd">function</span> <span class="nx">removeBlacklistedDirectories</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;journalism&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">false</span>
         <span class="p">}</span>
 
-        <span class="kd">function</span> <span class="nx">removeBlacklistedDirectories</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;journalism&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-                <span class="k">return</span> <span class="kc">false</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="nx">services</span><span class="o">:</span> <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">expand</span><span class="p">(</span><span class="s1">&#39;tabloid/webapp/static/sass/services/*&#39;</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nx">removePath</span><span class="p">).</span><span class="nx">filter</span><span class="p">(</span><span class="nx">removeBlacklistedDirectories</span><span class="p">),</span>
+        <span class="nx">serviceExists</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">service</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">services</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">service</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
             <span class="p">}</span>
 
-            <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
-        <span class="p">}</span>
+            <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="p">},</span>
+        <span class="nx">isBlacklistedTask</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">task</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">tasks</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pkg&#39;</span><span class="p">,</span> <span class="s1">&#39;dir&#39;</span><span class="p">,</span> <span class="s1">&#39;noop&#39;</span><span class="p">,</span> <span class="s1">&#39;config&#39;</span><span class="p">];</span>
 
-        <span class="k">return</span> <span class="p">{</span>
-            <span class="nx">services</span><span class="o">:</span> <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">expand</span><span class="p">(</span><span class="s1">&#39;tabloid/webapp/static/sass/services/*&#39;</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nx">removePath</span><span class="p">).</span><span class="nx">filter</span><span class="p">(</span><span class="nx">removeBlacklistedDirectories</span><span class="p">),</span>
-            <span class="nx">serviceExists</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">service</span><span class="p">)</span> <span class="p">{</span>
-                <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">services</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">service</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
-                <span class="p">}</span>
-
-                <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
-            <span class="p">},</span>
-            <span class="nx">isBlacklistedTask</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">task</span><span class="p">)</span> <span class="p">{</span>
-                <span class="kd">var</span> <span class="nx">tasks</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pkg&#39;</span><span class="p">,</span> <span class="s1">&#39;dir&#39;</span><span class="p">,</span> <span class="s1">&#39;noop&#39;</span><span class="p">,</span> <span class="s1">&#39;config&#39;</span><span class="p">];</span>
-
-                <span class="k">if</span> <span class="p">(</span><span class="nx">tasks</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">task</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="k">return</span> <span class="kc">true</span>
-                <span class="p">}</span>
-
-                <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">tasks</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">task</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="kc">true</span>
             <span class="p">}</span>
+
+            <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
         <span class="p">}</span>
-    <span class="p">};</span>
+    <span class="p">}</span>
+<span class="p">};</span>
 </pre></div>
 </code></pre>
 <h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
@@ -260,46 +261,46 @@
 <p>With this knowledge we then call the task like so: <code>&#39;sass:service:&lt;%= grunt.task.current.args[0] %&gt;&#39;</code>.</p>
 <p>Goes to show it&#39;s always worth your time reading through all of the API documentation for the tools you use to discover these little gems :-)</p>
 <p>So here is a more realistic example...</p>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="nx">sass</span><span class="o">:</span> <span class="p">{</span>
-        <span class="cm">/*</span>
-<span class="cm">            Example usage...</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">sass</span><span class="o">:</span> <span class="p">{</span>
+    <span class="cm">/*</span>
+<span class="cm">        Example usage...</span>
 
-<span class="cm">            grunt sass:service:afrique</span>
-<span class="cm">            grunt sass:service:news</span>
-<span class="cm">         */</span>
-        <span class="nx">service</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;/sass/&#39;</span><span class="p">,</span>
-            <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;services/&lt;%= grunt.task.current.args[0] %&gt;/*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!**_*.scss&#39;</span><span class="p">],</span>
-            <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;/stylesheets/&#39;</span><span class="p">,</span>
-            <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span>
-        <span class="p">},</span>
-        <span class="nx">dist</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;/sass/&#39;</span><span class="p">,</span>
-            <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!**/_*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!locator/*.scss&#39;</span><span class="p">],</span>
-            <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;/stylesheets/&#39;</span><span class="p">,</span>
-            <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span><span class="p">,</span>
-            <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">style</span><span class="o">:</span> <span class="s2">&quot;compressed&quot;</span>
-            <span class="p">}</span>
-        <span class="p">},</span>
-        <span class="nx">dev</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;/sass/&#39;</span><span class="p">,</span>
-            <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!**/_*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!locator/*.scss&#39;</span><span class="p">],</span>
-            <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;/stylesheets/&#39;</span><span class="p">,</span>
-            <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span><span class="p">,</span>
-            <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">debugInfo</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">lineNumbers</span><span class="o">:</span> <span class="kc">true</span>
-            <span class="p">}</span>
-        <span class="p">},</span>
+<span class="cm">        grunt sass:service:afrique</span>
+<span class="cm">        grunt sass:service:news</span>
+<span class="cm">     */</span>
+    <span class="nx">service</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;/sass/&#39;</span><span class="p">,</span>
+        <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;services/&lt;%= grunt.task.current.args[0] %&gt;/*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!**_*.scss&#39;</span><span class="p">],</span>
+        <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;/stylesheets/&#39;</span><span class="p">,</span>
+        <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span>
+    <span class="p">},</span>
+    <span class="nx">dist</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;/sass/&#39;</span><span class="p">,</span>
+        <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!**/_*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!locator/*.scss&#39;</span><span class="p">],</span>
+        <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;/stylesheets/&#39;</span><span class="p">,</span>
+        <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span><span class="p">,</span>
         <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">style</span><span class="o">:</span> <span class="s1">&#39;expanded&#39;</span><span class="p">,</span>
-            <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;/sass/partials/helpers/url64.rb&#39;</span><span class="p">]</span>
+            <span class="nx">style</span><span class="o">:</span> <span class="s2">&quot;compressed&quot;</span>
         <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nx">dev</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;/sass/&#39;</span><span class="p">,</span>
+        <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!**/_*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!locator/*.scss&#39;</span><span class="p">],</span>
+        <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;/stylesheets/&#39;</span><span class="p">,</span>
+        <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span><span class="p">,</span>
+        <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">debugInfo</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">lineNumbers</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">style</span><span class="o">:</span> <span class="s1">&#39;expanded&#39;</span><span class="p">,</span>
+        <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;/sass/partials/helpers/url64.rb&#39;</span><span class="p">]</span>
     <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </code></pre>
 </div>

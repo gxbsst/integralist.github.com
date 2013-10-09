@@ -45,7 +45,8 @@
   <span class="post-date">2012 &#183; 1 &#183; 4</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover-reading-time-approx-11mins-"class="anchor" href="#what-we-ll-cover-reading-time-approx-11mins-"><span class="header-link"></span></a>What we&#39;ll cover <em>reading time: approx. 11mins</em></h2>
+<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 11mins</em></p>
 <ul>
 <li>What is AMD?</li>
 <li>Why does it matter?</li>
@@ -68,21 +69,21 @@
 <h2><a name="how-did-we-get-here-"class="anchor" href="#how-did-we-get-here-"><span class="header-link"></span></a>How did we get here?</h2>
 <p>The way we insert scripts into our pages has evolved over the years:</p>
 <h3><a name="multiple-script-tags"class="anchor" href="#multiple-script-tags"><span class="header-link"></span></a>Multiple <code>&lt;script&gt;</code> tags</h3>
-<pre><code class="lang-html"><div class="highlight"><pre>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;script-1.js&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;script-2.js&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;script-3.js&quot;</span><span class="nt">&gt;</span>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;script-1.js&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;script-2.js&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;script-3.js&quot;</span><span class="nt">&gt;</span>
 </pre></div>
 </code></pre>
 <h3><a name="script-loader-e-g-labjs-yepnope-js-and-many-many-more-"class="anchor" href="#script-loader-e-g-labjs-yepnope-js-and-many-many-more-"><span class="header-link"></span></a>Script Loader (e.g. LABjs / YepNope.js …and many many more)</h3>
-<pre><code class="lang-html"><div class="highlight"><pre>    // This example uses LABjs
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;LAB.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-    <span class="nt">&lt;script&gt;</span>
-        <span class="nx">$LAB</span><span class="p">.</span><span class="nx">script</span><span class="p">(</span><span class="s1">&#39;script-1.js&#39;</span><span class="p">).</span><span class="nx">wait</span><span class="p">().</span><span class="nx">script</span><span class="p">(</span><span class="s1">&#39;script-2.js&#39;</span><span class="p">).</span><span class="nx">script</span><span class="p">(</span><span class="s1">&#39;script-3.js&#39;</span><span class="p">);</span>
-    <span class="nt">&lt;/script&gt;</span>
+<pre><code class="lang-html"><div class="highlight"><pre>// This example uses LABjs
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;LAB.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script&gt;</span>
+    <span class="nx">$LAB</span><span class="p">.</span><span class="nx">script</span><span class="p">(</span><span class="s1">&#39;script-1.js&#39;</span><span class="p">).</span><span class="nx">wait</span><span class="p">().</span><span class="nx">script</span><span class="p">(</span><span class="s1">&#39;script-2.js&#39;</span><span class="p">).</span><span class="nx">script</span><span class="p">(</span><span class="s1">&#39;script-3.js&#39;</span><span class="p">);</span>
+<span class="nt">&lt;/script&gt;</span>
 </pre></div>
 </code></pre>
 <h3><a name="amd-script-loader-e-g-requirejs-curl-and-a-couple-of-others-"class="anchor" href="#amd-script-loader-e-g-requirejs-curl-and-a-couple-of-others-"><span class="header-link"></span></a>AMD Script Loader (e.g. RequireJS / Curl …and a couple of others)</h3>
-<pre><code class="lang-html"><div class="highlight"><pre>    <span class="nt">&lt;script </span><span class="na">data-main=</span><span class="s">&quot;main&quot;</span> <span class="na">src=</span><span class="s">&quot;require.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">data-main=</span><span class="s">&quot;main&quot;</span> <span class="na">src=</span><span class="s">&quot;require.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
 </pre></div>
 </code></pre>
 <p>The ‘multiple scripts’ has served us long and true, but means that the rendering of the page takes three times as long, as each <code>&lt;script&gt;</code> tag must be downloaded, then executed before the browser can move onto the next <code>&lt;script&gt;</code> (this is what is meant by loading scripts ‘synchronously’). Imagine if you are loading a JavaScript framework followed by a whole bucket full of plugins and then some of your own scripts. The page load time would increase quite significantly.</p>
@@ -143,68 +144,68 @@
 </li>
 </ul>
 <p>In my main page I’ll insert the following script tag at the bottom of the page, just above the closing <code>&lt;/body&gt;</code> tag…</p>
-<pre><code class="lang-html"><div class="highlight"><pre>    <span class="nt">&lt;script </span><span class="na">data-main=</span><span class="s">&quot;Assets/Scripts/main&quot;</span> <span class="na">src=</span><span class="s">&quot;Assets/Scripts/Require.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">data-main=</span><span class="s">&quot;Assets/Scripts/main&quot;</span> <span class="na">src=</span><span class="s">&quot;Assets/Scripts/Require.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
 </pre></div>
 </code></pre>
 <p>…you’ll notice that we have specified a custom attribute on the script tag that points to our script folder and a file called ‘main’.</p>
 <p>This does two things, it loads the Assets/Scripts/main.js file but it also tells RequireJS that all your other scripts are located in the Assets/Scripts folder as well.</p>
 <h3><a name="2-set-up-your-main-script"class="anchor" href="#2-set-up-your-main-script"><span class="header-link"></span></a>2. Set-up your ‘main’ script</h3>
 <p>Inside main.js we have the following code…</p>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="c1">// This allows us to specify jQuery as a dependancy in one of our modules</span>
-    <span class="c1">// You&#39;ll notice all paths are relative to Assets/Scripts/</span>
-    <span class="nx">require</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
-        <span class="nx">paths</span> <span class="o">:</span> <span class="p">{</span>
-            <span class="s1">&#39;jquery&#39;</span> <span class="o">:</span> <span class="s1">&#39;Utils/jquery&#39;</span>
-        <span class="p">}</span>
-    <span class="p">});</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="c1">// This allows us to specify jQuery as a dependancy in one of our modules</span>
+<span class="c1">// You&#39;ll notice all paths are relative to Assets/Scripts/</span>
+<span class="nx">require</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
+    <span class="nx">paths</span> <span class="o">:</span> <span class="p">{</span>
+        <span class="s1">&#39;jquery&#39;</span> <span class="o">:</span> <span class="s1">&#39;Utils/jquery&#39;</span>
+    <span class="p">}</span>
+<span class="p">});</span>
 
-    <span class="cm">/*</span>
-<span class="cm">        When we&#39;re defining a module we use the define() method.</span>
-<span class="cm">        We&#39;ll see this used shortly.</span>
-<span class="cm">        But as this is our main &#39;bootstrapping&#39; script we&#39;re using the require() function instead.</span>
+<span class="cm">/*</span>
+<span class="cm">    When we&#39;re defining a module we use the define() method.</span>
+<span class="cm">    We&#39;ll see this used shortly.</span>
+<span class="cm">    But as this is our main &#39;bootstrapping&#39; script we&#39;re using the require() function instead.</span>
 
-<span class="cm">        The require() function is similar to define() in that you pass it an optional array of dependencies, </span>
-<span class="cm">        and a function which will be executed when those dependencies are resolved. </span>
-<span class="cm">        However this code is not stored as a named module, as its purpose is to be run immediately.</span>
-<span class="cm">    */</span>
+<span class="cm">    The require() function is similar to define() in that you pass it an optional array of dependencies, </span>
+<span class="cm">    and a function which will be executed when those dependencies are resolved. </span>
+<span class="cm">    However this code is not stored as a named module, as its purpose is to be run immediately.</span>
+<span class="cm">*/</span>
 
-    <span class="nx">require</span><span class="p">([</span><span class="s2">&quot;App/people&quot;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">iCanCallThisAnythingILike</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// The argument passed through is the returned value from the function definition we defined inside App/people.js</span>
-        <span class="c1">// In this case it was an object literal with two properties: &#39;list&#39; &amp; &#39;scripts&#39;</span>
-        <span class="c1">// If we had specified two dependancies then we&#39;d pass through a second argument which again would be the return&#39;ed value from that module</span>
+<span class="nx">require</span><span class="p">([</span><span class="s2">&quot;App/people&quot;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">iCanCallThisAnythingILike</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// The argument passed through is the returned value from the function definition we defined inside App/people.js</span>
+    <span class="c1">// In this case it was an object literal with two properties: &#39;list&#39; &amp; &#39;scripts&#39;</span>
+    <span class="c1">// If we had specified two dependancies then we&#39;d pass through a second argument which again would be the return&#39;ed value from that module</span>
 
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">iCanCallThisAnythingILike</span><span class="p">.</span><span class="nx">list</span><span class="p">,</span> <span class="nx">iCanCallThisAnythingILike</span><span class="p">.</span><span class="nx">scripts</span><span class="p">);</span>
-    <span class="p">});</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">iCanCallThisAnythingILike</span><span class="p">.</span><span class="nx">list</span><span class="p">,</span> <span class="nx">iCanCallThisAnythingILike</span><span class="p">.</span><span class="nx">scripts</span><span class="p">);</span>
+<span class="p">});</span>
 </pre></div>
 </code></pre>
 <p>So far we have our main script loading in a single dependancy (Assets/Scripts/App/people.js).</p>
 <p>Lets have a look at that dependancy…</p>
 <h3><a name="3-define-your-modules"class="anchor" href="#3-define-your-modules"><span class="header-link"></span></a>3. Define your modules</h3>
 <p>Here is the content of our ‘Assets/Scripts/App/people.js’ file…</p>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="cm">/*</span>
-<span class="cm">     * You see we&#39;ve specified the jQuery library as a dependency without specifying its correct path (we&#39;ve just specified the name &#39;jquery&#39;).</span>
-<span class="cm">     * This is because jQuery&#39;s AMD support is based on it being defined as a &#39;Named Module&#39;.</span>
-<span class="cm">     * So if you look at the script main.js (which is our bootstrapper file) you&#39;ll see we&#39;ve set the require.config() to include the full path to jQuery.</span>
-<span class="cm">     */</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="cm">/*</span>
+<span class="cm"> * You see we&#39;ve specified the jQuery library as a dependency without specifying its correct path (we&#39;ve just specified the name &#39;jquery&#39;).</span>
+<span class="cm"> * This is because jQuery&#39;s AMD support is based on it being defined as a &#39;Named Module&#39;.</span>
+<span class="cm"> * So if you look at the script main.js (which is our bootstrapper file) you&#39;ll see we&#39;ve set the require.config() to include the full path to jQuery.</span>
+<span class="cm"> */</span>
 
-    <span class="nx">define</span><span class="p">([</span><span class="s2">&quot;Models/Person&quot;</span><span class="p">,</span> <span class="s2">&quot;Utils/random&quot;</span><span class="p">,</span> <span class="s2">&quot;jquery&quot;</span><span class="p">],</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">Person</span><span class="p">,</span> <span class="nx">randomUtility</span><span class="p">,</span> <span class="nx">$</span><span class="p">)</span> <span class="p">{</span>
+<span class="nx">define</span><span class="p">([</span><span class="s2">&quot;Models/Person&quot;</span><span class="p">,</span> <span class="s2">&quot;Utils/random&quot;</span><span class="p">,</span> <span class="s2">&quot;jquery&quot;</span><span class="p">],</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">Person</span><span class="p">,</span> <span class="nx">randomUtility</span><span class="p">,</span> <span class="nx">$</span><span class="p">)</span> <span class="p">{</span>
 
-        <span class="c1">// Notice that our dependancy modules(scripts) don&#39;t use the full path /Assets/Scripts/</span>
-        <span class="c1">// This is because in our HTML page (where we loaded the RequireJS library) we had specified the main path already as a data- attribute on the script tag.</span>
-        <span class="c1">// So RequireJS already knows that when we say &#39;Models/Person&#39; we mean &#39;Assets/Scripts/Models/Person.js&#39;</span>
+    <span class="c1">// Notice that our dependancy modules(scripts) don&#39;t use the full path /Assets/Scripts/</span>
+    <span class="c1">// This is because in our HTML page (where we loaded the RequireJS library) we had specified the main path already as a data- attribute on the script tag.</span>
+    <span class="c1">// So RequireJS already knows that when we say &#39;Models/Person&#39; we mean &#39;Assets/Scripts/Models/Person.js&#39;</span>
 
-        <span class="kd">var</span> <span class="nx">people</span> <span class="o">=</span> <span class="p">[],</span>
-            <span class="nx">scriptsOnPage</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">people</span> <span class="o">=</span> <span class="p">[],</span>
+        <span class="nx">scriptsOnPage</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span>
 
-        <span class="nx">people</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="k">new</span> <span class="nx">Person</span><span class="p">(</span><span class="s1">&#39;Jim&#39;</span><span class="p">));</span>
-        <span class="nx">people</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="k">new</span> <span class="nx">Person</span><span class="p">(</span><span class="nx">randomUtility</span><span class="p">.</span><span class="nx">someValue</span><span class="p">));</span>
+    <span class="nx">people</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="k">new</span> <span class="nx">Person</span><span class="p">(</span><span class="s1">&#39;Jim&#39;</span><span class="p">));</span>
+    <span class="nx">people</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="k">new</span> <span class="nx">Person</span><span class="p">(</span><span class="nx">randomUtility</span><span class="p">.</span><span class="nx">someValue</span><span class="p">));</span>
 
-        <span class="k">return</span> <span class="p">{</span> 
-            <span class="nx">list</span><span class="o">:</span> <span class="nx">people</span><span class="p">,</span> 
-            <span class="nx">scripts</span><span class="o">:</span> <span class="nx">scriptsOnPage</span> 
-        <span class="p">};</span>
+    <span class="k">return</span> <span class="p">{</span> 
+        <span class="nx">list</span><span class="o">:</span> <span class="nx">people</span><span class="p">,</span> 
+        <span class="nx">scripts</span><span class="o">:</span> <span class="nx">scriptsOnPage</span> 
+    <span class="p">};</span>
 
-    <span class="p">});</span>
+<span class="p">});</span>
 </pre></div>
 </code></pre>
 <p>Be aware that nothing should be declared outside of a single define() call. </p>
@@ -216,34 +217,34 @@
 <p>To run the build script we’re using NodeJs (as recommended by the author of RequireJS), but you can use Java as well if that’s your preference. Have a look at the RequireJS site to find out about that or if you need more information on installing NodeJs (as that is outside the realms of this post).</p>
 <p>I’ve placed my build script (and the optimisation script) in the my main scripts folder ‘Assets/Scripts’ as I like to keep everything together (I know some people prefer to have this optimisation script completely separate from their project files, so you can place it wherever you feel comfortable).</p>
 <p>My build script looks like this…</p>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="cm">/*</span>
-<span class="cm">     * http://requirejs.org/docs/optimization.html</span>
-<span class="cm">     *</span>
-<span class="cm">     * Use NodeJs to execute the r.js optimisation script on this build script</span>
-<span class="cm">     * node r.js -o app.build.js</span>
-<span class="cm">     *</span>
-<span class="cm">     * See: https://github.com/jrburke/r.js/blob/master/build/example.build.js for an example build script</span>
-<span class="cm">     *</span>
-<span class="cm">     * If you specify just the name (with no includes/excludes) then all modules are combined into the &quot;main&quot; file.</span>
-<span class="cm">     * You can include/exclude specific modules though if needed</span>
-<span class="cm">     *</span>
-<span class="cm">     * You can also set optimize: &quot;none&quot; (or more specific uglifyjs settings) if you need to.</span>
-<span class="cm">     */</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="cm">/*</span>
+<span class="cm"> * http://requirejs.org/docs/optimization.html</span>
+<span class="cm"> *</span>
+<span class="cm"> * Use NodeJs to execute the r.js optimisation script on this build script</span>
+<span class="cm"> * node r.js -o app.build.js</span>
+<span class="cm"> *</span>
+<span class="cm"> * See: https://github.com/jrburke/r.js/blob/master/build/example.build.js for an example build script</span>
+<span class="cm"> *</span>
+<span class="cm"> * If you specify just the name (with no includes/excludes) then all modules are combined into the &quot;main&quot; file.</span>
+<span class="cm"> * You can include/exclude specific modules though if needed</span>
+<span class="cm"> *</span>
+<span class="cm"> * You can also set optimize: &quot;none&quot; (or more specific uglifyjs settings) if you need to.</span>
+<span class="cm"> */</span>
 
-    <span class="p">({</span>
-        <span class="nx">appDir</span><span class="o">:</span> <span class="s2">&quot;../../&quot;</span><span class="p">,</span>
-        <span class="nx">baseUrl</span><span class="o">:</span> <span class="s2">&quot;Assets/Scripts&quot;</span><span class="p">,</span>
-        <span class="nx">dir</span><span class="o">:</span> <span class="s2">&quot;../../project-build&quot;</span><span class="p">,</span>
-        <span class="nx">modules</span><span class="o">:</span> <span class="p">[</span>
-            <span class="p">{</span>
-                <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;main&quot;</span>
-                <span class="cm">/*</span>
-<span class="cm">                    include: [&quot;App/people&quot;],</span>
-<span class="cm">                    exclude: [&quot;Utils/random&quot;]</span>
-<span class="cm">                */</span>
-            <span class="p">}</span>
-        <span class="p">]</span>
-    <span class="p">})</span>
+<span class="p">({</span>
+    <span class="nx">appDir</span><span class="o">:</span> <span class="s2">&quot;../../&quot;</span><span class="p">,</span>
+    <span class="nx">baseUrl</span><span class="o">:</span> <span class="s2">&quot;Assets/Scripts&quot;</span><span class="p">,</span>
+    <span class="nx">dir</span><span class="o">:</span> <span class="s2">&quot;../../project-build&quot;</span><span class="p">,</span>
+    <span class="nx">modules</span><span class="o">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;main&quot;</span>
+            <span class="cm">/*</span>
+<span class="cm">                include: [&quot;App/people&quot;],</span>
+<span class="cm">                exclude: [&quot;Utils/random&quot;]</span>
+<span class="cm">            */</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">})</span>
 </pre></div>
 </code></pre>
 <p>See the code comments above for the command you need to use to execute the build script using the optimisation tool.</p>

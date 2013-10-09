@@ -45,7 +45,8 @@
   <span class="post-date">2012 &#183; 1 &#183; 3</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover-reading-time-approx-26mins-"class="anchor" href="#what-we-ll-cover-reading-time-approx-26mins-"><span class="header-link"></span></a>What we&#39;ll cover <em>reading time: approx. 26mins</em></h2>
+<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 26mins</em></p>
 <ul>
 <li>Introduction</li>
 <li>What is Git/GitHub?</li>
@@ -90,13 +91,13 @@
 <p>There are installers for PC as well as Mac and Linux so take your pick and you can install from the original Git source code but that’s a bit more ‘involved’. The official GitHub website mentions many ways to install Git, but I found the pre-compiled installer the quickest/easiest way - I pretty much ran the installer and it was done in about two seconds flat.</p>
 <p>When Git is installed the first thing we’ll probably want to do is to tell it what our name and email is (this way, when working with a system - such as GitHub - and having multiple users working on your code base you can easily see which users made changes to the code - and tell them off if they added/removed code that broke your application).</p>
 <p>To inform Git what your username and email address is, open the Terminal application on your Mac and enter:</p>
-<pre><code class="lang-sh"><div class="highlight"><pre>    git config --global user.name <span class="s2">&quot;Joe Bloggs&quot;</span>
-    git config --global user.email <span class="s2">&quot;joe@bloggs.com&quot;</span>
+<pre><code class="lang-sh"><div class="highlight"><pre>git config --global user.name <span class="s2">&quot;Joe Bloggs&quot;</span>
+git config --global user.email <span class="s2">&quot;joe@bloggs.com&quot;</span>
 </pre></div>
 </code></pre>
 <p>You can check these settings at any time within the Terminal by typing:</p>
-<pre><code class="lang-sh"><div class="highlight"><pre>    git config user.name
-    git config user.email
+<pre><code class="lang-sh"><div class="highlight"><pre>git config user.name
+git config user.email
 </pre></div>
 </code></pre>
 <p>Next you want to make sure that Git ignores any ‘white space’ changes. Now this needs a little bit extra explanation: Git tracks file <em>content</em> and NOT individual files. So if you add an empty new line to a file (and Git is tracking that file) then Git will inform you that the file has been modified but you don’t really want a single empty line to be flagged up to you (not in web development really as white space is not that important). To have Git ignore whitespace changes you can enter the following into the Terminal:</p>
@@ -109,8 +110,8 @@
 <p>Once you’re inside the project folder you’ll need to create an empty Git ‘repository’, which means Git will create a hidden folder called <code>.git</code> where it will store all files and references it needs to be an effective version-control system for this project folder. To create a new Git repository type the following (make sure you’re definitely in your main project folder):</p>
 <p><code>git init</code></p>
 <p>If you’re Mac is set-up to not show ‘hidden’ folders then it wont look like much has happened (although you will now see a message in the Terminal telling you a new empty repository was created). If you really want to see hidden files and folders on your Mac then type the following into the Terminal…</p>
-<pre><code class="lang-sh"><div class="highlight"><pre>    defaults write com.apple.Finder AppleShowAllFiles YES
-    killall Finder
+<pre><code class="lang-sh"><div class="highlight"><pre>defaults write com.apple.Finder AppleShowAllFiles YES
+killall Finder
 </pre></div>
 </code></pre>
 <p>…the first line tells Finder to allow showing of hidden files, and the second line restarts Finder so you can see the changes take effect. Once you have a new Git repository set-up you need to tell Git what files/folders to start ‘tracking’.</p>
@@ -140,8 +141,8 @@
 <p>Basically, in the Terminal you type…</p>
 <p><code>ssh-keygen -t rsa -C &quot;joe@bloggs.com&quot;</code></p>
 <p>…obviously change the email address from <code>joe@bloggs.com</code> to whatever email address you used to sign-up to GitHub with. Terminal will then tell you…</p>
-<pre><code class="lang-sh"><div class="highlight"><pre>    Generating public/private rsa key pair.
-    Enter file in which to save the key <span class="o">(</span>/Users/tekkub/.ssh/id_rsa<span class="o">)</span>:
+<pre><code class="lang-sh"><div class="highlight"><pre>Generating public/private rsa key pair.
+Enter file in which to save the key <span class="o">(</span>/Users/tekkub/.ssh/id_rsa<span class="o">)</span>:
 </pre></div>
 </code></pre>
 <p>…but your message will be slightly different in that the directory path in the brackets (e.g. <code>(/Users/tekkub/.ssh/id_rsa)</code>) will likely be different on your computer.</p>
@@ -173,17 +174,17 @@
 <p>After it failed the first time I typed the <code>git push origin master</code> command again and this time the Terminal displayed a dialog window asking me to enter my passphrase for accessing my SSH Public Key. I entered my passphrase and then the push started to proceed successfully.</p>
 <p>Now we can start pushing files any time we like to this particular project. I had a file called ‘robots.txt’ in my project.</p>
 <p>Lets say I made an update to the file ‘robots.txt’ - I can push that on it’s own:</p>
-<pre><code class="lang-sh"><div class="highlight"><pre>    git add robots.txt
-    git commit -m <span class="s1">&#39;Add some new robot configurations&#39;</span>
-    git push origin master
+<pre><code class="lang-sh"><div class="highlight"><pre>git add robots.txt
+git commit -m <span class="s1">&#39;Add some new robot configurations&#39;</span>
+git push origin master
 </pre></div>
 </code></pre>
 <h2><a name="removing-editing-files"class="anchor" href="#removing-editing-files"><span class="header-link"></span></a>Removing/Editing files</h2>
 <p>To remove a file (e.g. lets remove the ‘robots.txt’ file) simply type…</p>
 <p><code>git rm robots.txt</code></p>
 <p>…then do the normal commit with message and push.</p>
-<pre><code class="lang-sh"><div class="highlight"><pre>    git commit -m <span class="s1">&#39;Remove the robots.txt file&#39;</span>
-    git push origin master
+<pre><code class="lang-sh"><div class="highlight"><pre>git commit -m <span class="s1">&#39;Remove the robots.txt file&#39;</span>
+git push origin master
 </pre></div>
 </code></pre>
 <p>To edit existing files is the same process as adding files. But beware, as you’ll get an error if the file hasn’t actually been changed!</p>
@@ -244,16 +245,16 @@
 <p><code>.gitignore</code> is a file that you can create to hold rules about what items Git should ignore.</p>
 <p>A good example of using .gitignore is if you wanted a config script - e.g. Settings.php - that held your database username/password ignored so it wasn’t accidentally pushed to a public repository (such as GitHub):</p>
 <p>You can use a <code>#</code> as a comment line and then specify the types of files or specific files to be ignored, such as:</p>
-<pre><code class="lang-ini"><div class="highlight"><pre>    <span class="c1">#Mac OS X files</span>
-    <span class="err">.DS_Store</span>
+<pre><code class="lang-ini"><div class="highlight"><pre><span class="c1">#Mac OS X files</span>
+<span class="err">.DS_Store</span>
 
-    <span class="c1"># VIM leave-behinds</span>
-    <span class="err">*.swp</span>
+<span class="c1"># VIM leave-behinds</span>
+<span class="err">*.swp</span>
 </pre></div>
 </code></pre>
 <p>You can also ignore all files of a certain type except one by using the bang (!) such as:</p>
-<pre><code class="lang-ini"><div class="highlight"><pre>    <span class="err">*.log</span>
-    <span class="err">!errors.log</span>
+<pre><code class="lang-ini"><div class="highlight"><pre><span class="err">*.log</span>
+<span class="err">!errors.log</span>
 </pre></div>
 </code></pre>
 <h2><a name="best-practices-for-commit-messages"class="anchor" href="#best-practices-for-commit-messages"><span class="header-link"></span></a>Best practices for Commit Messages</h2>

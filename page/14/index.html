@@ -43,7 +43,8 @@
   <span class="post-date">2012 &#183; 1 &#183; 1</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover-reading-time-approx-3mins-"class="anchor" href="#what-we-ll-cover-reading-time-approx-3mins-"><span class="header-link"></span></a>What we&#39;ll cover <em>reading time: approx. 3mins</em></h2>
+<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 3mins</em></p>
 <ul>
 <li>Introduction</li>
 <li>My solution</li>
@@ -59,43 +60,43 @@
 <p>My solution: have a single script file that yes is included on every page of your application but acts as nothing more than a ‘bootstrapper’ file which detects the current page and then inserts the JavaScript file(s) into the DOM.</p>
 <h2><a name="example-code"class="anchor" href="#example-code"><span class="header-link"></span></a>Example Code</h2>
 <p>First we need to write a function to insert our script(s):</p>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="kd">function</span> <span class="nx">insertScript</span><span class="p">(</span><span class="nx">script</span><span class="p">,</span> <span class="nx">container</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">elem</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span>
-        <span class="nx">elem</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;text/javascript&#39;</span><span class="p">;</span>
-        <span class="nx">elem</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s1">&#39;Assets/Scripts/&#39;</span> <span class="o">+</span> <span class="nx">script</span> <span class="o">+</span> <span class="s1">&#39;.js&#39;</span><span class="p">;</span>
-        <span class="nx">container</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">elem</span><span class="p">);</span>
-    <span class="p">}</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">insertScript</span><span class="p">(</span><span class="nx">script</span><span class="p">,</span> <span class="nx">container</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">elem</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span>
+    <span class="nx">elem</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;text/javascript&#39;</span><span class="p">;</span>
+    <span class="nx">elem</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s1">&#39;Assets/Scripts/&#39;</span> <span class="o">+</span> <span class="nx">script</span> <span class="o">+</span> <span class="s1">&#39;.js&#39;</span><span class="p">;</span>
+    <span class="nx">container</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">elem</span><span class="p">);</span>
+<span class="p">}</span>
 </pre></div>
 </code></pre>
 <p>Next we need to detect the current page (details are in the code comments):</p>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="c1">// The &#39;pagechange&#39; event is triggered after the changePage() request has finished loading the page into the DOM </span>
-    <span class="c1">// and all page transition animations have completed.</span>
-    <span class="c1">// See: https://gist.github.com/1336327 for some other page events</span>
-    <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;pagechange&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">){</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="c1">// The &#39;pagechange&#39; event is triggered after the changePage() request has finished loading the page into the DOM </span>
+<span class="c1">// and all page transition animations have completed.</span>
+<span class="c1">// See: https://gist.github.com/1336327 for some other page events</span>
+<span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;pagechange&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">){</span>
 
-        <span class="c1">// grab a list of all the divs&#39;s found in the page that have the attribute &quot;role&quot; with a value of &quot;page&quot;</span>
-        <span class="kd">var</span> <span class="nx">pages</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;div[data-role=&quot;page&quot;]&#39;</span><span class="p">),</span>
+    <span class="c1">// grab a list of all the divs&#39;s found in the page that have the attribute &quot;role&quot; with a value of &quot;page&quot;</span>
+    <span class="kd">var</span> <span class="nx">pages</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;div[data-role=&quot;page&quot;]&#39;</span><span class="p">),</span>
 
-            <span class="c1">// the current page is always the last div in the Array, so we store it in a variable</span>
-            <span class="nx">currentPage</span> <span class="o">=</span> <span class="nx">pages</span><span class="p">[</span><span class="nx">pages</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+        <span class="c1">// the current page is always the last div in the Array, so we store it in a variable</span>
+        <span class="nx">currentPage</span> <span class="o">=</span> <span class="nx">pages</span><span class="p">[</span><span class="nx">pages</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
 
-            <span class="c1">// grab the url of the page the  was loaded from (e.g. what page have we just ajax&#39;ed into view)</span>
-            <span class="nx">attr</span> <span class="o">=</span> <span class="nx">currentPage</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;data-url&#39;</span><span class="p">);</span>
+        <span class="c1">// grab the url of the page the  was loaded from (e.g. what page have we just ajax&#39;ed into view)</span>
+        <span class="nx">attr</span> <span class="o">=</span> <span class="nx">currentPage</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;data-url&#39;</span><span class="p">);</span>
 
-        <span class="c1">// basic conditional checks for the url we&#39;re expecting</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">attr</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;home.html&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">// now we know what page we&#39;re on we can insert the required scripts.</span>
-            <span class="c1">// In this case i&#39;m inserting a &#39;script.js&#39; file.</span>
-            <span class="c1">// I do this by passing through the name of the file and the &#39;currentPage&#39; variable</span>
-            <span class="nx">insertScript</span><span class="p">(</span><span class="s1">&#39;search&#39;</span><span class="p">,</span> <span class="nx">currentPage</span><span class="p">);</span>
-        <span class="p">}</span>
+    <span class="c1">// basic conditional checks for the url we&#39;re expecting</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">attr</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;home.html&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// now we know what page we&#39;re on we can insert the required scripts.</span>
+        <span class="c1">// In this case i&#39;m inserting a &#39;script.js&#39; file.</span>
+        <span class="c1">// I do this by passing through the name of the file and the &#39;currentPage&#39; variable</span>
+        <span class="nx">insertScript</span><span class="p">(</span><span class="s1">&#39;search&#39;</span><span class="p">,</span> <span class="nx">currentPage</span><span class="p">);</span>
+    <span class="p">}</span>
 
-        <span class="c1">// rinse and repeat...</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">attr</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;profile.html&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">insertScript</span><span class="p">(</span><span class="s1">&#39;profile&#39;</span><span class="p">,</span> <span class="nx">currentPage</span><span class="p">);</span>
-        <span class="p">}</span>
+    <span class="c1">// rinse and repeat...</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">attr</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;profile.html&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">insertScript</span><span class="p">(</span><span class="s1">&#39;profile&#39;</span><span class="p">,</span> <span class="nx">currentPage</span><span class="p">);</span>
+    <span class="p">}</span>
 
-    <span class="p">});</span>
+<span class="p">});</span>
 </pre></div>
 </code></pre>
 <h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
@@ -117,7 +118,8 @@
   <span class="post-date">2012 &#183; 1 &#183; 1</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover-reading-time-approx-4mins-"class="anchor" href="#what-we-ll-cover-reading-time-approx-4mins-"><span class="header-link"></span></a>What we&#39;ll cover <em>reading time: approx. 4mins</em></h2>
+<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 4mins</em></p>
 <ul>
 <li>Introduction</li>
 <li>The (original) Regex Solution</li>
@@ -132,51 +134,51 @@
 <h2><a name="the-original-regex-solution"class="anchor" href="#the-original-regex-solution"><span class="header-link"></span></a>The (original) Regex Solution</h2>
 <p><code>^http(?:s)?:\/\/(?!(?:www.)?integralist)</code></p>
 <h2><a name="example-code"class="anchor" href="#example-code"><span class="header-link"></span></a>Example Code</h2>
-<pre><code class="lang-js"><div class="highlight"><pre>     <span class="cm">/**</span>
-<span class="cm">      * The Integralist global namespace object.</span>
-<span class="cm">      *</span>
-<span class="cm">      * @class Integralist</span>
-<span class="cm">      * @singleton</span>
-<span class="cm">      * @static</span>
-<span class="cm">      */</span>
-     <span class="kd">function</span> <span class="nx">Integralist</span><span class="p">()</span> <span class="p">{</span>
-        <span class="c1">// Constructor</span>
-     <span class="p">}</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * The Integralist global namespace object.</span>
+<span class="cm"> *</span>
+<span class="cm"> * @class Integralist</span>
+<span class="cm"> * @singleton</span>
+<span class="cm"> * @static</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">Integralist</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Constructor</span>
+<span class="p">}</span>
 
-     <span class="cm">/**</span>
-<span class="cm">      * Augment the Integralist class so it includes a method</span>
-<span class="cm">      * which finds all &lt;a&gt; elements that link to an external website</span>
-<span class="cm">      * and sets them to open in a popup window</span>
-<span class="cm">      */</span>
-     <span class="nx">Integralist</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">external</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span> <span class="c1">// Required to keep scope within the following Closure</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">settings</span> <span class="o">=</span> <span class="s1">&#39;location=yes,resizable=yes,width=&#39;</span> <span class="o">+</span> <span class="nx">screen</span><span class="p">.</span><span class="nx">availWidth</span> <span class="o">+</span> <span class="s1">&#39;,height=&#39;</span> <span class="o">+</span> <span class="nx">screen</span><span class="p">.</span><span class="nx">availHeight</span> <span class="o">+</span> <span class="s1">&#39;,scrollbars=1,left=0,top=0&#39;</span><span class="p">;</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">popup</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">node</span><span class="p">)</span> <span class="p">{</span>
-           <span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">node</span><span class="p">.</span><span class="nx">href</span><span class="p">;</span>
-           <span class="k">return</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-              <span class="nb">window</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="s1">&#39;external&#39;</span> <span class="p">,</span> <span class="nx">that</span><span class="p">.</span><span class="nx">settings</span><span class="p">);</span>
-              <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
-           <span class="p">};</span>
+<span class="cm">/**</span>
+<span class="cm"> * Augment the Integralist class so it includes a method</span>
+<span class="cm"> * which finds all &lt;a&gt; elements that link to an external website</span>
+<span class="cm"> * and sets them to open in a popup window</span>
+<span class="cm"> */</span>
+<span class="nx">Integralist</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">external</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span> <span class="c1">// Required to keep scope within the following Closure</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">settings</span> <span class="o">=</span> <span class="s1">&#39;location=yes,resizable=yes,width=&#39;</span> <span class="o">+</span> <span class="nx">screen</span><span class="p">.</span><span class="nx">availWidth</span> <span class="o">+</span> <span class="s1">&#39;,height=&#39;</span> <span class="o">+</span> <span class="nx">screen</span><span class="p">.</span><span class="nx">availHeight</span> <span class="o">+</span> <span class="s1">&#39;,scrollbars=1,left=0,top=0&#39;</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">popup</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">node</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">node</span><span class="p">.</span><span class="nx">href</span><span class="p">;</span>
+        <span class="k">return</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nb">window</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="s1">&#39;external&#39;</span> <span class="p">,</span> <span class="nx">that</span><span class="p">.</span><span class="nx">settings</span><span class="p">);</span>
+            <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
         <span class="p">};</span>
+    <span class="p">};</span>
 
-        <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span> <span class="c1">// Private variable to store HTMLCollection of all &lt;a&gt; elements</span>
-            <span class="nx">len</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span> <span class="c1">// Store array length in variable</span>
-            <span class="nx">pattern</span> <span class="o">=</span> <span class="sr">/^http(?:s)?:\/\/(?!(?:www.)?integralist)/</span><span class="p">;</span> <span class="c1">// RegExp pattern to match any external URL&#39;s but not the current website</span>
+    <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span> <span class="c1">// Private variable to store HTMLCollection of all &lt;a&gt; elements</span>
+        <span class="nx">len</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span> <span class="c1">// Store array length in variable</span>
+        <span class="nx">pattern</span> <span class="o">=</span> <span class="sr">/^http(?:s)?:\/\/(?!(?:www.)?integralist)/</span><span class="p">;</span> <span class="c1">// RegExp pattern to match any external URL&#39;s but not the current website</span>
 
-        <span class="c1">// Loop through the array checking for any A elements that link to an external URL</span>
-        <span class="k">while</span> <span class="p">(</span><span class="nx">len</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
-           <span class="kd">var</span> <span class="nx">element</span> <span class="o">=</span> <span class="nx">a</span><span class="p">[</span><span class="nx">len</span><span class="p">].</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">);</span>
-           <span class="k">if</span> <span class="p">(</span><span class="nx">pattern</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">element</span><span class="p">))</span> <span class="p">{</span>
-              <span class="nx">a</span><span class="p">[</span><span class="nx">len</span><span class="p">].</span><span class="nx">onclick</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">popup</span><span class="p">(</span><span class="nx">a</span><span class="p">[</span><span class="nx">len</span><span class="p">]);</span>
-           <span class="p">}</span>
+    <span class="c1">// Loop through the array checking for any A elements that link to an external URL</span>
+    <span class="k">while</span> <span class="p">(</span><span class="nx">len</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">element</span> <span class="o">=</span> <span class="nx">a</span><span class="p">[</span><span class="nx">len</span><span class="p">].</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">pattern</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">element</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nx">a</span><span class="p">[</span><span class="nx">len</span><span class="p">].</span><span class="nx">onclick</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">popup</span><span class="p">(</span><span class="nx">a</span><span class="p">[</span><span class="nx">len</span><span class="p">]);</span>
         <span class="p">}</span>
-     <span class="p">};</span>
+    <span class="p">}</span>
+<span class="p">};</span>
 
-     <span class="c1">// Create a singleton of the Integralist Class</span>
-     <span class="kd">var</span> <span class="nx">Integralist</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Integralist</span><span class="p">();</span>
+<span class="c1">// Create a singleton of the Integralist Class</span>
+<span class="kd">var</span> <span class="nx">Integralist</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Integralist</span><span class="p">();</span>
 
-     <span class="c1">// Trigger &#39;external&#39; method</span>
-     <span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="nx">Integralist</span><span class="p">.</span><span class="nx">external</span><span class="p">;</span>
+<span class="c1">// Trigger &#39;external&#39; method</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="nx">Integralist</span><span class="p">.</span><span class="nx">external</span><span class="p">;</span>
 </pre></div>
 </code></pre>
 <h2><a name="update-1"class="anchor" href="#update-1"><span class="header-link"></span></a>Update 1</h2>

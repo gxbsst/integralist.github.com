@@ -45,7 +45,8 @@
   <span class="post-date">2013 &#183; 8 &#183; 7</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover-reading-time-approx-18mins-"class="anchor" href="#what-we-ll-cover-reading-time-approx-18mins-"><span class="header-link"></span></a>What we&#39;ll cover <em>reading time: approx. 18mins</em></h2>
+<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 18mins</em></p>
 <ul>
 <li>Convoluted solutions</li>
 <li>Simplicity</li>
@@ -139,20 +140,20 @@
 <li><code>app.start()</code> goes through the HTML looking for components to load</li>
 </ul>
 <p>As mentioned earlier, we use RequireJS and AMD to wrap the above API calls, for example… </p>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="c1">// the only part of this code that needs to change</span>
-    <span class="c1">// is the list of extensions you want to use</span>
-    <span class="c1">// the rest is standard (read: required to be run)</span>
-    <span class="nx">require</span><span class="p">([</span><span class="s1">&#39;app&#39;</span><span class="p">,</span> <span class="s1">&#39;configuration&#39;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;extension-a&#39;</span><span class="p">,</span> <span class="s1">&#39;extension-b&#39;</span><span class="p">);</span>
-        <span class="nx">app</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
-    <span class="p">});</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="c1">// the only part of this code that needs to change</span>
+<span class="c1">// is the list of extensions you want to use</span>
+<span class="c1">// the rest is standard (read: required to be run)</span>
+<span class="nx">require</span><span class="p">([</span><span class="s1">&#39;app&#39;</span><span class="p">,</span> <span class="s1">&#39;configuration&#39;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;extension-a&#39;</span><span class="p">,</span> <span class="s1">&#39;extension-b&#39;</span><span class="p">);</span>
+    <span class="nx">app</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
+<span class="p">});</span>
 </pre></div>
 </code></pre>
 <p>But now let&#39;s look at each section individually… </p>
 <h3><a name="html-"class="anchor" href="#html-"><span class="header-link"></span></a>HTML…</h3>
-<pre><code class="lang-html"><div class="highlight"><pre>    <span class="nt">&lt;div</span> <span class="na">data-component=</span><span class="s">&quot;hello&quot;</span> <span class="na">id=</span><span class="s">&quot;js-component-hello&quot;</span><span class="nt">&gt;</span>hello<span class="nt">&lt;/div&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">data-component=</span><span class="s">&quot;world&quot;</span> <span class="na">id=</span><span class="s">&quot;js-component-world&quot;</span><span class="nt">&gt;</span>world<span class="nt">&lt;/div&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;libs/require.js&quot;</span> <span class="na">data-main=</span><span class="s">&quot;bootstrap-about&quot;</span> <span class="na">async</span><span class="nt">&gt;&lt;/script&gt;</span>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">data-component=</span><span class="s">&quot;hello&quot;</span> <span class="na">id=</span><span class="s">&quot;js-component-hello&quot;</span><span class="nt">&gt;</span>hello<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">data-component=</span><span class="s">&quot;world&quot;</span> <span class="na">id=</span><span class="s">&quot;js-component-world&quot;</span><span class="nt">&gt;</span>world<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;libs/require.js&quot;</span> <span class="na">data-main=</span><span class="s">&quot;bootstrap-about&quot;</span> <span class="na">async</span><span class="nt">&gt;&lt;/script&gt;</span>
 </pre></div>
 </code></pre>
 <p>As you can see we have a <code>data-component</code> attribute which is used by the JavaScript application when it is booting up (initialised). </p>
@@ -160,147 +161,147 @@
 <p>You don&#39;t really need to include the <code>id</code> attribute if you don&#39;t want to but my build script will try and use it as a reference to the DOM node. You can reference the DOM node any way you see fit, I just personally prefer the speed of native <code>getElementById</code> to grab DOM nodes.</p>
 <p>Originally I had thought about not using an empty <code>div</code> container with a custom <code>data-</code> attribute but just a simple HTML comment <code>&lt;!-- #component hello --&gt;</code> but then I realised that there wasn&#39;t an easy hook into the page without parsing the entire DOM, and also there was no fallback content that could be provided.</p>
 <h3><a name="bootstrap-"class="anchor" href="#bootstrap-"><span class="header-link"></span></a>Bootstrap...</h3>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="nx">require</span><span class="p">([</span><span class="s1">&#39;app&#39;</span><span class="p">,</span> <span class="s1">&#39;configuration&#39;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;mediator&#39;</span><span class="p">,</span> <span class="s1">&#39;extension-a&#39;</span><span class="p">,</span> <span class="s1">&#39;extension-b&#39;</span><span class="p">);</span>
-        <span class="nx">app</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
-    <span class="p">});</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">require</span><span class="p">([</span><span class="s1">&#39;app&#39;</span><span class="p">,</span> <span class="s1">&#39;configuration&#39;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;mediator&#39;</span><span class="p">,</span> <span class="s1">&#39;extension-a&#39;</span><span class="p">,</span> <span class="s1">&#39;extension-b&#39;</span><span class="p">);</span>
+    <span class="nx">app</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
+<span class="p">});</span>
 </pre></div>
 </code></pre>
 <p>I had considered just having a single bootstrap script but the list of extensions used is very likely going to be different per page, hence we have a different bootstrap for each page.</p>
 <p>The bootstrap loads in our JavaScript application along with a configuration object (which is just the RequireJS config)… </p>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="nx">require</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
-        <span class="nx">baseUrl</span><span class="o">:</span> <span class="s1">&#39;./&#39;</span><span class="p">,</span>
-        <span class="nx">paths</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">jquery</span><span class="o">:</span> <span class="s1">&#39;libs/jquery&#39;</span>
-        <span class="p">}</span>
-    <span class="p">});</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">require</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
+    <span class="nx">baseUrl</span><span class="o">:</span> <span class="s1">&#39;./&#39;</span><span class="p">,</span>
+    <span class="nx">paths</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">jquery</span><span class="o">:</span> <span class="s1">&#39;libs/jquery&#39;</span>
+    <span class="p">}</span>
+<span class="p">});</span>
 </pre></div>
 </code></pre>
 <p>Once our application is loaded we tell the app what extensions we want to use and then we tell the application to start.</p>
 <h3><a name="component-"class="anchor" href="#component-"><span class="header-link"></span></a>Component...</h3>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="nx">define</span><span class="p">({</span>
-        <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;an example component&#39;</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">});</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">define</span><span class="p">({</span>
+    <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;an example component&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
 </pre></div>
 </code></pre>
 <p>This is an example component. As mentioned earlier: components need to have a public <code>init</code> method, otherwise they can do whatever you want them to.</p>
 <h3><a name="extension-"class="anchor" href="#extension-"><span class="header-link"></span></a>Extension...</h3>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="c1">// Silly example</span>
-    <span class="nx">define</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">blah</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">blah</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-                <span class="k">return</span> <span class="k">this</span> <span class="o">+</span> <span class="s1">&#39; BLAH!&#39;</span><span class="p">;</span>
-            <span class="p">};</span>
-        <span class="p">}</span>
-    <span class="p">});</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="c1">// Silly example</span>
+<span class="nx">define</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">blah</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">blah</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="k">this</span> <span class="o">+</span> <span class="s1">&#39; BLAH!&#39;</span><span class="p">;</span>
+        <span class="p">};</span>
+    <span class="p">}</span>
+<span class="p">});</span>
 </pre></div>
 </code></pre>
 <p>This is an example extension. Extensions can do whatever you want them to do. </p>
 <p>The only thing worth noting about extensions is that they can&#39;t take advantage of dependency injection (e.g. can&#39;t be passed directly into your components). </p>
 <p>To work around this Stark uses the idea of a single global namespace called <code>app</code> (e.g. <code>window.app = {};</code>) which you can attach any extensions or other data you need to pass around.</p>
 <p>So for example, our Mediator extension uses <code>window.app.mediator = mediator;</code> like so… </p>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="nx">define</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
-        <span class="kd">var</span> <span class="nx">mediator</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
-            <span class="c1">// code</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">define</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+    <span class="kd">var</span> <span class="nx">mediator</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+        <span class="c1">// code</span>
 
-            <span class="k">return</span> <span class="p">{</span>
-                <span class="c1">// public api</span>
-            <span class="p">};</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="c1">// public api</span>
+        <span class="p">};</span>
 
-        <span class="p">}());</span>
+    <span class="p">}());</span>
 
-        <span class="nb">window</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">mediator</span> <span class="o">=</span> <span class="nx">mediator</span><span class="p">;</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">mediator</span> <span class="o">=</span> <span class="nx">mediator</span><span class="p">;</span>
 
-        <span class="k">return</span> <span class="nx">mediator</span><span class="p">;</span>
-    <span class="p">});</span>
+    <span class="k">return</span> <span class="nx">mediator</span><span class="p">;</span>
+<span class="p">});</span>
 </pre></div>
 </code></pre>
 <p><strong>Don&#39;t mistake the phrase: &quot;<em>Don&#39;t pollute the global namespace</em>&quot; with &quot;<em>Don&#39;t ever use the global namespace ever ever ever</em>&quot; - that&#39;s just dogmatic nonsense.</strong></p>
 <h3><a name="css"class="anchor" href="#css"><span class="header-link"></span></a>CSS</h3>
 <p>So our CSS uses Sass to help us keep our code more easily maintainable. Each page should load a page specific style sheet that contains the code relevant for that page.</p>
 <p>So our example page loads <code>project.css</code>, the Sass file looks like this… </p>
-<pre><code class="lang-sass"><div class="highlight"><pre>   <span class="cm">/* =============================================================================</span>
-      <span class="cm">Base Utilities</span>
-      <span class="cm">========================================================================== */</span>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="cm">/* =============================================================================</span>
+  <span class="cm">Base Utilities</span>
+  <span class="cm">========================================================================== */</span>
 
-      <span class="cm">@import &#39;partials/variables&#39;;</span>
-      <span class="cm">@import &#39;partials/utils&#39;;</span>
-      <span class="cm">@import &#39;partials/baseline&#39;;</span>
-      <span class="cm">@import &#39;partials/grid&#39;;</span>
+  <span class="cm">@import &#39;partials/variables&#39;;</span>
+  <span class="cm">@import &#39;partials/utils&#39;;</span>
+  <span class="cm">@import &#39;partials/baseline&#39;;</span>
+  <span class="cm">@import &#39;partials/grid&#39;;</span>
 
-   <span class="cm">/* =============================================================================</span>
-      <span class="cm">Patterns</span>
-      <span class="cm">These are common design patterns abstracted into reusable chunks of code</span>
-      <span class="cm">========================================================================== */</span>
+<span class="cm">/* =============================================================================</span>
+  <span class="cm">Patterns</span>
+  <span class="cm">These are common design patterns abstracted into reusable chunks of code</span>
+  <span class="cm">========================================================================== */</span>
 
-      <span class="cm">@import &#39;patterns/media&#39;;</span>
+  <span class="cm">@import &#39;patterns/media&#39;;</span>
 
-   <span class="cm">/* =============================================================================</span>
-      <span class="cm">Core</span>
-      <span class="cm">This is the experience for either really old devices, or non-js devices</span>
-      <span class="cm">========================================================================== */</span>
+<span class="cm">/* =============================================================================</span>
+  <span class="cm">Core</span>
+  <span class="cm">This is the experience for either really old devices, or non-js devices</span>
+  <span class="cm">========================================================================== */</span>
 
-      <span class="cm">@import &#39;partials/core&#39;;</span>
+  <span class="cm">@import &#39;partials/core&#39;;</span>
 
-   <span class="cm">/* =============================================================================</span>
-      <span class="cm">Groups</span>
-      <span class="cm">Any design enhancements that aren&#39;t a separate component and aren&#39;t part </span>
-      <span class="cm">of the core experience should be placed within one of the following groups.</span>
+<span class="cm">/* =============================================================================</span>
+  <span class="cm">Groups</span>
+  <span class="cm">Any design enhancements that aren&#39;t a separate component and aren&#39;t part </span>
+  <span class="cm">of the core experience should be placed within one of the following groups.</span>
 
-      <span class="cm">Note: we&#39;re using inheritance for our CSS loading strategy which means each</span>
-      <span class="cm">stylesheet inherits styles from the group that came before it</span>
-      <span class="cm">========================================================================== */</span>
+  <span class="cm">Note: we&#39;re using inheritance for our CSS loading strategy which means each</span>
+  <span class="cm">stylesheet inherits styles from the group that came before it</span>
+  <span class="cm">========================================================================== */</span>
 
-      <span class="cm">@import &#39;groups/group1&#39;;</span>
-      <span class="cm">@import &#39;groups/group2&#39;;</span>
-      <span class="cm">@import &#39;groups/group3&#39;;</span>
-      <span class="cm">@import &#39;groups/group4&#39;;</span>
+  <span class="cm">@import &#39;groups/group1&#39;;</span>
+  <span class="cm">@import &#39;groups/group2&#39;;</span>
+  <span class="cm">@import &#39;groups/group3&#39;;</span>
+  <span class="cm">@import &#39;groups/group4&#39;;</span>
 
-   <span class="cm">/* =============================================================================</span>
-      <span class="cm">Components</span>
-      <span class="cm">You only need to import components into the top-level project/project-ie files</span>
-      <span class="cm">Components have been built to be self contained.</span>
-      <span class="cm">This means they encapsulate any logic about viewport dimensions.</span>
-      <span class="cm">This allows them to control their own visual display.</span>
-      <span class="cm">========================================================================== */</span>
+<span class="cm">/* =============================================================================</span>
+  <span class="cm">Components</span>
+  <span class="cm">You only need to import components into the top-level project/project-ie files</span>
+  <span class="cm">Components have been built to be self contained.</span>
+  <span class="cm">This means they encapsulate any logic about viewport dimensions.</span>
+  <span class="cm">This allows them to control their own visual display.</span>
+  <span class="cm">========================================================================== */</span>
 
-      <span class="cm">@import &#39;components/hello&#39;;</span>
-      <span class="cm">@import &#39;components/world&#39;;</span>
-      <span class="cm">@import &#39;components/features-and-analysis&#39;;</span>
-      <span class="cm">@import &#39;components/index&#39;;</span>
+  <span class="cm">@import &#39;components/hello&#39;;</span>
+  <span class="cm">@import &#39;components/world&#39;;</span>
+  <span class="cm">@import &#39;components/features-and-analysis&#39;;</span>
+  <span class="cm">@import &#39;components/index&#39;;</span>
 </pre></div>
 </code></pre>
 <p>I won&#39;t go into detail for each part of this file because the code comments should be self explanatory. But we&#39;ll look at bit more at the &#39;groups&#39; and also the &#39;components&#39;.</p>
 <h4><a name="groups"class="anchor" href="#groups"><span class="header-link"></span></a>Groups</h4>
 <p>We break-down our layouts into &#39;groups&#39;, and each group inherits styles from the group that came before it.</p>
 <p>Here is what our group 1 looks like… </p>
-<pre><code class="lang-sass"><div class="highlight"><pre>    <span class="cm">/* =============================================================================</span>
-       <span class="cm">Group 1</span>
-       <span class="cm">All devices sizes</span>
-       <span class="cm">========================================================================== */</span>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="cm">/* =============================================================================</span>
+   <span class="cm">Group 1</span>
+   <span class="cm">All devices sizes</span>
+   <span class="cm">========================================================================== */</span>
 
-    <span class="nc">.js</span> <span class="err">{</span>
-        <span class="nt">body</span> <span class="err">{</span>
-            <span class="na">background-color</span><span class="o">:</span> <span class="nb">red</span><span class="err">;</span>
-        <span class="err">}</span>
+<span class="nc">.js</span> <span class="err">{</span>
+    <span class="nt">body</span> <span class="err">{</span>
+        <span class="na">background-color</span><span class="o">:</span> <span class="nb">red</span><span class="err">;</span>
     <span class="err">}</span>
+<span class="err">}</span>
 </pre></div>
 </code></pre>
 <p>…so group 1 is applied for all device sizes and we&#39;re saying all device sizes should see a red background colour.</p>
-<pre><code class="lang-sass"><div class="highlight"><pre>    <span class="cm">/* =============================================================================</span>
-       <span class="cm">Group 2</span>
-       <span class="cm">Viewport &gt;= 400px</span>
-       <span class="cm">========================================================================== */</span>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="cm">/* =============================================================================</span>
+   <span class="cm">Group 2</span>
+   <span class="cm">Viewport &gt;= 400px</span>
+   <span class="cm">========================================================================== */</span>
 
-    <span class="nc">.js</span> <span class="err">{</span>
-        <span class="k">@include</span><span class="nd"> respond-min</span><span class="p">(</span><span class="nv">$mq-group2</span><span class="p">)</span> <span class="err">{</span>
-            <span class="nt">body</span> <span class="err">{</span>
-                <span class="na">background-color</span><span class="o">:</span> <span class="nb">yellow</span><span class="err">;</span>
-            <span class="err">}</span>
+<span class="nc">.js</span> <span class="err">{</span>
+    <span class="k">@include</span><span class="nd"> respond-min</span><span class="p">(</span><span class="nv">$mq-group2</span><span class="p">)</span> <span class="err">{</span>
+        <span class="nt">body</span> <span class="err">{</span>
+            <span class="na">background-color</span><span class="o">:</span> <span class="nb">yellow</span><span class="err">;</span>
         <span class="err">}</span>
     <span class="err">}</span>
+<span class="err">}</span>
 </pre></div>
 </code></pre>
 <p>All our other groups constrain their stylings using media queries (which we&#39;ve abstracted into a mixin) and use a variable to store a reference to the relevant break-point size.</p>
@@ -314,100 +315,100 @@
 <li>Use media queries to apply changes to the component</li>
 </ul>
 <p>Here is an example component… </p>
-<pre><code class="lang-sass"><div class="highlight"><pre>    <span class="cm">/* =============================================================================</span>
-       <span class="cm">Component: Features &amp; Analysis</span>
-       <span class="cm">Distinguishes featured content from standard content</span>
-       <span class="cm">========================================================================== */</span>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="cm">/* =============================================================================</span>
+   <span class="cm">Component: Features &amp; Analysis</span>
+   <span class="cm">Distinguishes featured content from standard content</span>
+   <span class="cm">========================================================================== */</span>
 
-    <span class="err">[</span><span class="na">data-component</span><span class="o">=</span><span class="s2">&quot;features-and-analysis&quot;</span><span class="p">]</span> <span class="err">{</span>
-        <span class="na">border</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nb">blue</span><span class="err">;</span>
+<span class="err">[</span><span class="na">data-component</span><span class="o">=</span><span class="s2">&quot;features-and-analysis&quot;</span><span class="p">]</span> <span class="err">{</span>
+    <span class="na">border</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nb">blue</span><span class="err">;</span>
 
-        <span class="k">@include</span><span class="nd"> respond-min</span><span class="p">(</span><span class="nv">$mq-group2</span><span class="p">)</span> <span class="err">{</span>
-            <span class="k">&amp;</span> <span class="err">{</span>
-                <span class="na">border-color</span><span class="o">:</span> <span class="ni">pink</span><span class="err">;</span>
+    <span class="k">@include</span><span class="nd"> respond-min</span><span class="p">(</span><span class="nv">$mq-group2</span><span class="p">)</span> <span class="err">{</span>
+        <span class="k">&amp;</span> <span class="err">{</span>
+            <span class="na">border-color</span><span class="o">:</span> <span class="ni">pink</span><span class="err">;</span>
 
-                <span class="nc">.media</span> <span class="err">{</span>
-                    <span class="na">float</span><span class="o">:</span> <span class="no">left</span><span class="err">;</span>
-                    <span class="na">width</span><span class="o">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="kt">%</span><span class="err">;</span>
-                <span class="err">}</span>
-            <span class="err">}</span>
-        <span class="err">}</span>
-
-        <span class="k">@include</span><span class="nd"> respond-min</span><span class="p">(</span><span class="nv">$mq-group3</span><span class="p">)</span> <span class="err">{</span>
-            <span class="k">&amp;</span> <span class="err">{</span>
-                <span class="na">border-color</span><span class="o">:</span> <span class="nb">yellow</span><span class="err">;</span>
-
-                <span class="nc">.media</span> <span class="err">{</span>
-                    <span class="na">width</span><span class="o">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="kt">%</span><span class="err">;</span>
-                <span class="err">}</span>
-            <span class="err">}</span>
-        <span class="err">}</span>
-
-        <span class="k">@include</span><span class="nd"> respond-min</span><span class="p">(</span><span class="nv">$mq-group4</span><span class="p">)</span> <span class="err">{</span>
-            <span class="k">&amp;</span> <span class="err">{</span>
-                <span class="na">border-color</span><span class="o">:</span> <span class="nb">red</span><span class="err">;</span>
-
-                <span class="nc">.media</span> <span class="err">{</span>
-                    <span class="na">width</span><span class="o">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="kt">%</span><span class="err">;</span>
-                <span class="err">}</span>
+            <span class="nc">.media</span> <span class="err">{</span>
+                <span class="na">float</span><span class="o">:</span> <span class="no">left</span><span class="err">;</span>
+                <span class="na">width</span><span class="o">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="kt">%</span><span class="err">;</span>
             <span class="err">}</span>
         <span class="err">}</span>
     <span class="err">}</span>
+
+    <span class="k">@include</span><span class="nd"> respond-min</span><span class="p">(</span><span class="nv">$mq-group3</span><span class="p">)</span> <span class="err">{</span>
+        <span class="k">&amp;</span> <span class="err">{</span>
+            <span class="na">border-color</span><span class="o">:</span> <span class="nb">yellow</span><span class="err">;</span>
+
+            <span class="nc">.media</span> <span class="err">{</span>
+                <span class="na">width</span><span class="o">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="kt">%</span><span class="err">;</span>
+            <span class="err">}</span>
+        <span class="err">}</span>
+    <span class="err">}</span>
+
+    <span class="k">@include</span><span class="nd"> respond-min</span><span class="p">(</span><span class="nv">$mq-group4</span><span class="p">)</span> <span class="err">{</span>
+        <span class="k">&amp;</span> <span class="err">{</span>
+            <span class="na">border-color</span><span class="o">:</span> <span class="nb">red</span><span class="err">;</span>
+
+            <span class="nc">.media</span> <span class="err">{</span>
+                <span class="na">width</span><span class="o">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="kt">%</span><span class="err">;</span>
+            <span class="err">}</span>
+        <span class="err">}</span>
+    <span class="err">}</span>
+<span class="err">}</span>
 </pre></div>
 </code></pre>
 <h4><a name="internet-explorer"class="anchor" href="#internet-explorer"><span class="header-link"></span></a>Internet Explorer</h4>
 <p>So how do we encapsulate logic (read: bug fixes) for Internet Explorer? We use Sass to help us incorporate these IE specific fixes… </p>
-<pre><code class="lang-sass"><div class="highlight"><pre>    <span class="err">[</span><span class="na">data-component</span><span class="o">=</span><span class="s2">&quot;hello&quot;</span><span class="p">]</span> <span class="err">{</span>
-        <span class="na">border</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nb">blue</span><span class="err">;</span>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="err">[</span><span class="na">data-component</span><span class="o">=</span><span class="s2">&quot;hello&quot;</span><span class="p">]</span> <span class="err">{</span>
+    <span class="na">border</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nb">blue</span><span class="err">;</span>
 
-        <span class="k">@include</span><span class="nd"> respond-min</span><span class="p">(</span><span class="nv">$mq-group2</span><span class="p">)</span> <span class="err">{</span>
-            <span class="k">&amp;</span> <span class="err">{</span>
-                <span class="na">border-color</span><span class="o">:</span> <span class="nb">green</span><span class="err">;</span>
+    <span class="k">@include</span><span class="nd"> respond-min</span><span class="p">(</span><span class="nv">$mq-group2</span><span class="p">)</span> <span class="err">{</span>
+        <span class="k">&amp;</span> <span class="err">{</span>
+            <span class="na">border-color</span><span class="o">:</span> <span class="nb">green</span><span class="err">;</span>
 
-                <span class="k">@include</span><span class="nd"> old-ie</span> <span class="err">{</span>
-                    <span class="na">border-width</span><span class="o">:</span> <span class="mi">2</span><span class="kt">px</span><span class="err">;</span>
-                <span class="err">}</span>
-            <span class="err">}</span>
-        <span class="err">}</span>
-
-        <span class="k">@include</span><span class="nd"> respond-min</span><span class="p">(</span><span class="nv">$mq-group3</span><span class="p">)</span> <span class="err">{</span>
-            <span class="k">&amp;</span> <span class="err">{</span>
-                <span class="na">border-color</span><span class="o">:</span> <span class="nb">yellow</span><span class="err">;</span>
-
-                <span class="k">@include</span><span class="nd"> old-ie</span> <span class="err">{</span>
-                    <span class="na">border-width</span><span class="o">:</span> <span class="mi">3</span><span class="kt">px</span><span class="err">;</span>
-                <span class="err">}</span>
-            <span class="err">}</span>
-        <span class="err">}</span>
-
-        <span class="k">@include</span><span class="nd"> respond-min</span><span class="p">(</span><span class="nv">$mq-group4</span><span class="p">)</span> <span class="err">{</span>
-            <span class="k">&amp;</span> <span class="err">{</span>
-                <span class="na">border-color</span><span class="o">:</span> <span class="nb">red</span><span class="err">;</span>
-
-                <span class="k">@include</span><span class="nd"> old-ie</span> <span class="err">{</span>
-                    <span class="na">border-width</span><span class="o">:</span> <span class="mi">4</span><span class="kt">px</span><span class="err">;</span>
-                <span class="err">}</span>
+            <span class="k">@include</span><span class="nd"> old-ie</span> <span class="err">{</span>
+                <span class="na">border-width</span><span class="o">:</span> <span class="mi">2</span><span class="kt">px</span><span class="err">;</span>
             <span class="err">}</span>
         <span class="err">}</span>
     <span class="err">}</span>
+
+    <span class="k">@include</span><span class="nd"> respond-min</span><span class="p">(</span><span class="nv">$mq-group3</span><span class="p">)</span> <span class="err">{</span>
+        <span class="k">&amp;</span> <span class="err">{</span>
+            <span class="na">border-color</span><span class="o">:</span> <span class="nb">yellow</span><span class="err">;</span>
+
+            <span class="k">@include</span><span class="nd"> old-ie</span> <span class="err">{</span>
+                <span class="na">border-width</span><span class="o">:</span> <span class="mi">3</span><span class="kt">px</span><span class="err">;</span>
+            <span class="err">}</span>
+        <span class="err">}</span>
+    <span class="err">}</span>
+
+    <span class="k">@include</span><span class="nd"> respond-min</span><span class="p">(</span><span class="nv">$mq-group4</span><span class="p">)</span> <span class="err">{</span>
+        <span class="k">&amp;</span> <span class="err">{</span>
+            <span class="na">border-color</span><span class="o">:</span> <span class="nb">red</span><span class="err">;</span>
+
+            <span class="k">@include</span><span class="nd"> old-ie</span> <span class="err">{</span>
+                <span class="na">border-width</span><span class="o">:</span> <span class="mi">4</span><span class="kt">px</span><span class="err">;</span>
+            <span class="err">}</span>
+        <span class="err">}</span>
+    <span class="err">}</span>
+<span class="err">}</span>
 </pre></div>
 </code></pre>
 <p>…in the above example you can see we have a <code>old-ie</code> mixin that applies a different style for Internet Explorer versions &lt;= 8. It&#39;s nested inside and the way the mixin works is when you compile this Sass code, if a variable (<code>$old-ie</code>) is set to <code>true</code> then the mixin will generate the relevant code.</p>
 <p>So in our HTML page we have the following code… </p>
-<pre><code class="lang-html"><div class="highlight"><pre>    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;styles/project.css&quot;</span><span class="nt">&gt;</span>
-    <span class="c">&lt;!--[if lte IE 8]&gt;</span>
-<span class="c">    &lt;link rel=&quot;stylesheet&quot; href=&quot;styles/project-ie.css&quot;&gt;</span>
-<span class="c">    &lt;![endif]--&gt;</span>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;styles/project.css&quot;</span><span class="nt">&gt;</span>
+<span class="c">&lt;!--[if lte IE 8]&gt;</span>
+<span class="c">&lt;link rel=&quot;stylesheet&quot; href=&quot;styles/project-ie.css&quot;&gt;</span>
+<span class="c">&lt;![endif]--&gt;</span>
 </pre></div>
 </code></pre>
 <p>…as you can see we use a Microsoft Conditional Comment to load an additional style sheet just for IE versions less than or equal to 8.</p>
 <p>The contents of the associated Sass file is… </p>
-<pre><code class="lang-sass"><div class="highlight"><pre>    <span class="k">@import</span> <span class="s">&#39;partials/variables&#39;;</span>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="k">@import</span> <span class="s">&#39;partials/variables&#39;;</span>
 
-    <span class="na">$old-ie</span><span class="o">:</span> <span class="n-Pseudo">true</span><span class="err">;</span>
-    <span class="na">$fix-mqs</span><span class="o">:</span> <span class="nv">$mq-group4</span><span class="err">;</span>
+<span class="na">$old-ie</span><span class="o">:</span> <span class="n-Pseudo">true</span><span class="err">;</span>
+<span class="na">$fix-mqs</span><span class="o">:</span> <span class="nv">$mq-group4</span><span class="err">;</span>
 
-    <span class="k">@import</span> <span class="s">&#39;project&#39;;</span>
+<span class="k">@import</span> <span class="s">&#39;project&#39;;</span>
 </pre></div>
 </code></pre>
 <p>…this Sass file will generate a <code>project-ie.css</code> file. It simply sets some variables and then imports our main <code>projects.scss</code> file. But when we import that file, the decision the Sass code makes (e.g. the <code>old-ie</code> mixin) will change as it relies on variables which we&#39;ve overwritten within <code>project-ie.css</code>.</p>

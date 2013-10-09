@@ -43,7 +43,8 @@
   <span class="post-date">2013 &#183; 9 &#183; 8</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover-reading-time-approx-26mins-"class="anchor" href="#what-we-ll-cover-reading-time-approx-26mins-"><span class="header-link"></span></a>What we&#39;ll cover <em>reading time: approx. 26mins</em></h2>
+<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 26mins</em></p>
 <ul>
 <li>Introduction</li>
 <li>Here comes the old man</li>
@@ -184,18 +185,18 @@ Typically developers find another editor.</p>
 <p>Once installed we can create a new instance by running the command <code>tmuxinator new [project]</code>. You can call your project whatever you like (I went with <code>tmuxinator new work</code>).</p>
 <p>Running this command is going to create a dot file <code>.tmux.conf</code> and also a dot folder called <code>.tmuxinator</code> which holds a <code>project.yml</code> (where the name of the file matches the name of the project, so for me it created a <code>work.yml</code> file).</p>
 <p>If you open the yaml file you&#39;ll see it has a basic example set-up ready for you to configure…</p>
-<pre><code class="lang-yaml"><div class="highlight"><pre>    <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">test-project</span>
-    <span class="l-Scalar-Plain">root</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~/Code/news/workspace/</span>
+<pre><code class="lang-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">test-project</span>
+<span class="l-Scalar-Plain">root</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~/Code/news/workspace/</span>
 
-    <span class="l-Scalar-Plain">windows</span><span class="p-Indicator">:</span>
-      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">editor</span><span class="p-Indicator">:</span>
-          <span class="l-Scalar-Plain">layout</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">main-vertical</span>
-          <span class="l-Scalar-Plain">panes</span><span class="p-Indicator">:</span>
-            <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">vim</span>
-            <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">git status</span>
-            <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">cd path/to/my/cheatsheet &amp;&amp; vim cheat-sheet.txt</span>
-      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sandbox</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">vagrant ssh</span>
-      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sass</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">grunt watch:service:news</span>
+<span class="l-Scalar-Plain">windows</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">editor</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">layout</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">main-vertical</span>
+      <span class="l-Scalar-Plain">panes</span><span class="p-Indicator">:</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">vim</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">git status</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">cd path/to/my/cheatsheet &amp;&amp; vim cheat-sheet.txt</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sandbox</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">vagrant ssh</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sass</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">grunt watch:service:news</span>
 </pre></div>
 </code></pre>
 <p>…above is an example of my <code>work.yml</code>.</p>
@@ -230,17 +231,17 @@ vundle.git
 <h3><a name="set-up-some-bundles"class="anchor" href="#set-up-some-bundles"><span class="header-link"></span></a>Set-up some bundles</h3>
 <p>We&#39;re jumping ahead a little bit (because at the end of this section you&#39;ll see we&#39;ll be using Vim to type one command, but it&#39;s OK we won&#39;t do any more than that until later).</p>
 <p>Let&#39;s open our <code>.vimrc</code> file and add some plug-ins we&#39;re going to need (code comments start with &quot;)…</p>
-<pre><code class="lang-sh"><div class="highlight"><pre>        <span class="nb">set </span>rtp+<span class="o">=</span><span class="nv">$HOME</span>/.vim/bundle/vundle
-        call vundle#rc<span class="o">()</span>
-        Bundle <span class="s1">&#39;gmarik/vundle&#39;</span>
-        filetype plugin indent on
+<pre><code class="lang-sh"><div class="highlight"><pre><span class="nb">set </span>rtp+<span class="o">=</span><span class="nv">$HOME</span>/.vim/bundle/vundle
+call vundle#rc<span class="o">()</span>
+Bundle <span class="s1">&#39;gmarik/vundle&#39;</span>
+filetype plugin indent on
 
-        <span class="s2">&quot; ALL OF THE ABOVE IS ALSO REQUIRED</span>
-<span class="s2">        &quot;</span> FOR SUCCESSFUL VUNDLE INSTALL
-        <span class="err">&quot;</span> THE FOLLOWING IS NEW FOR US…
+<span class="s2">&quot; ALL OF THE ABOVE IS ALSO REQUIRED</span>
+<span class="s2">&quot;</span> FOR SUCCESSFUL VUNDLE INSTALL
+<span class="err">&quot;</span> THE FOLLOWING IS NEW FOR US…
 
-        Bundle <span class="s1">&#39;kien/ctrlp.vim&#39;</span>
-        Bundle <span class="s1">&#39;vim-scripts/The-NERD-tree&#39;</span>
+Bundle <span class="s1">&#39;kien/ctrlp.vim&#39;</span>
+Bundle <span class="s1">&#39;vim-scripts/The-NERD-tree&#39;</span>
 </pre></div>
 </code></pre>
 <p>…so you may have noticed we&#39;ve specified two plug-ins:</p>
@@ -384,123 +385,123 @@ vundle.git
 <p>So the best thing to do is to find a comfortable set of commands from the list above and don&#39;t deviate from them until you&#39;ve got them memorised (it&#39;s ok to Google for something you don&#39;t know, but try to just focus on the basic commands for now).</p>
 <h2><a name="vim-configuration"class="anchor" href="#vim-configuration"><span class="header-link"></span></a>Vim Configuration</h2>
 <p>Let&#39;s now take a quick look at some configuration options we can add to our <code>.vimrc</code> file…</p>
-<pre><code class="lang-sh"><div class="highlight"><pre>    <span class="s2">&quot; switch syntax highlighting on, when the terminal has colors</span>
-<span class="s2">    syntax on</span>
+<pre><code class="lang-sh"><div class="highlight"><pre><span class="s2">&quot; switch syntax highlighting on, when the terminal has colors</span>
+<span class="s2">syntax on</span>
 
-<span class="s2">    &quot;</span> use vim, not vi api
-    <span class="nb">set </span>nocompatible
+<span class="s2">&quot;</span> use vim, not vi api
+<span class="nb">set </span>nocompatible
 
-    <span class="s2">&quot; no backup files</span>
-<span class="s2">    set nobackup</span>
+<span class="s2">&quot; no backup files</span>
+<span class="s2">set nobackup</span>
 
-<span class="s2">    &quot;</span> no write backup
-    <span class="nb">set </span>nowritebackup
+<span class="s2">&quot;</span> no write backup
+<span class="nb">set </span>nowritebackup
 
-    <span class="s2">&quot; no swap file</span>
-<span class="s2">    set noswapfile</span>
+<span class="s2">&quot; no swap file</span>
+<span class="s2">set noswapfile</span>
 
-<span class="s2">    &quot;</span> <span class="nb">command history</span>
-<span class="nb">    set history</span><span class="o">=</span>100
+<span class="s2">&quot;</span> <span class="nb">command history</span>
+<span class="nb">set history</span><span class="o">=</span>100
 
-    <span class="s2">&quot; always show cursor</span>
-<span class="s2">    set ruler</span>
+<span class="s2">&quot; always show cursor</span>
+<span class="s2">set ruler</span>
 
-<span class="s2">    &quot;</span> show incomplete commands
-    <span class="nb">set </span>showcmd
+<span class="s2">&quot;</span> show incomplete commands
+<span class="nb">set </span>showcmd
 
-    <span class="s2">&quot; incremental searching</span>
-<span class="s2">    set incsearch</span>
+<span class="s2">&quot; incremental searching</span>
+<span class="s2">set incsearch</span>
 
-<span class="s2">    &quot;</span> highlight search
-    <span class="nb">set </span>hlsearch
+<span class="s2">&quot;</span> highlight search
+<span class="nb">set </span>hlsearch
 
-    <span class="s2">&quot; ignore case in search</span>
-<span class="s2">    set smartcase</span>
+<span class="s2">&quot; ignore case in search</span>
+<span class="s2">set smartcase</span>
 
-<span class="s2">    &quot;</span> clear search buffer
-    :nnoremap § :nohlsearch&lt;cr&gt;
+<span class="s2">&quot;</span> clear search buffer
+:nnoremap § :nohlsearch&lt;cr&gt;
 
-    <span class="s2">&quot; make sure undo history is kept for files in buffer.</span>
-<span class="s2">    set hidden</span>
+<span class="s2">&quot; make sure undo history is kept for files in buffer.</span>
+<span class="s2">set hidden</span>
 
-<span class="s2">    &quot;</span> turn indentation on
-    filetype indent on
+<span class="s2">&quot;</span> turn indentation on
+filetype indent on
 
-    <span class="s2">&quot; enable filetype plugins</span>
-<span class="s2">    filetype plugin on</span>
+<span class="s2">&quot; enable filetype plugins</span>
+<span class="s2">filetype plugin on</span>
 
-<span class="s2">    &quot;</span> disable folding because it is evil
-    <span class="nb">set </span>nofoldenable
+<span class="s2">&quot;</span> disable folding because it is evil
+<span class="nb">set </span>nofoldenable
 
-    <span class="s2">&quot; turn word wrap off</span>
-<span class="s2">    set nowrap</span>
+<span class="s2">&quot; turn word wrap off</span>
+<span class="s2">set nowrap</span>
 
-<span class="s2">    &quot;</span> scroll with more context
-    <span class="nb">set </span><span class="nv">scrolloff</span><span class="o">=</span>10
+<span class="s2">&quot;</span> scroll with more context
+<span class="nb">set </span><span class="nv">scrolloff</span><span class="o">=</span>10
 
-    <span class="s2">&quot; allow backspace to delete end of line, indent and start of line characters</span>
-<span class="s2">    set backspace=indent,eol,start</span>
+<span class="s2">&quot; allow backspace to delete end of line, indent and start of line characters</span>
+<span class="s2">set backspace=indent,eol,start</span>
 
-<span class="s2">    &quot;</span> convert tabs to spaces
-    <span class="nb">set </span>expandtab
+<span class="s2">&quot;</span> convert tabs to spaces
+<span class="nb">set </span>expandtab
 
-    <span class="s2">&quot; set tab size</span>
-<span class="s2">    set tabstop=4</span>
+<span class="s2">&quot; set tab size</span>
+<span class="s2">set tabstop=4</span>
 
-<span class="s2">    &quot;</span> the number of spaces inserted <span class="k">for </span>a tab
-    <span class="nb">set </span><span class="nv">shiftwidth</span><span class="o">=</span>4
+<span class="s2">&quot;</span> the number of spaces inserted <span class="k">for </span>a tab
+<span class="nb">set </span><span class="nv">shiftwidth</span><span class="o">=</span>4
 
-    <span class="s2">&quot; turn on line numbers</span>
-<span class="s2">    set number</span>
+<span class="s2">&quot; turn on line numbers</span>
+<span class="s2">set number</span>
 
-<span class="s2">    &quot;</span> highlight tailing whitespace
-    <span class="nb">set </span>list <span class="nv">listchars</span><span class="o">=</span>tab:<span class="se">\ \ </span>,trail:·
+<span class="s2">&quot;</span> highlight tailing whitespace
+<span class="nb">set </span>list <span class="nv">listchars</span><span class="o">=</span>tab:<span class="se">\ \ </span>,trail:·
 
-    <span class="s2">&quot; get rid of the delay when pressing O (for example)</span>
-<span class="s2">    &quot;</span> http://stackoverflow.com/questions/2158516/vim-delay-before-o-opens-a-new-line
-    <span class="nb">set </span>timeout <span class="nv">timeoutlen</span><span class="o">=</span>1000 <span class="nv">ttimeoutlen</span><span class="o">=</span>100
+<span class="s2">&quot; get rid of the delay when pressing O (for example)</span>
+<span class="s2">&quot;</span> http://stackoverflow.com/questions/2158516/vim-delay-before-o-opens-a-new-line
+<span class="nb">set </span>timeout <span class="nv">timeoutlen</span><span class="o">=</span>1000 <span class="nv">ttimeoutlen</span><span class="o">=</span>100
 
-    <span class="s2">&quot; always show status bar</span>
-<span class="s2">    set laststatus=2</span>
+<span class="s2">&quot; always show status bar</span>
+<span class="s2">set laststatus=2</span>
 
-<span class="s2">    &quot;</span> <span class="nb">set </span>the status line to something useful
-    <span class="nb">set </span><span class="nv">statusline</span><span class="o">=</span>%f<span class="se">\ </span>%<span class="o">=</span>L:%l/%L<span class="se">\ </span>%c<span class="se">\ </span><span class="o">(</span>%p%%<span class="o">)</span>
+<span class="s2">&quot;</span> <span class="nb">set </span>the status line to something useful
+<span class="nb">set </span><span class="nv">statusline</span><span class="o">=</span>%f<span class="se">\ </span>%<span class="o">=</span>L:%l/%L<span class="se">\ </span>%c<span class="se">\ </span><span class="o">(</span>%p%%<span class="o">)</span>
 
-    <span class="s2">&quot; hide the toolbar</span>
-<span class="s2">    set guioptions-=T</span>
+<span class="s2">&quot; hide the toolbar</span>
+<span class="s2">set guioptions-=T</span>
 
-<span class="s2">    &quot;</span> utf encoding
-    <span class="nb">set </span><span class="nv">encoding</span><span class="o">=</span>utf-8
+<span class="s2">&quot;</span> utf encoding
+<span class="nb">set </span><span class="nv">encoding</span><span class="o">=</span>utf-8
 
-    <span class="s2">&quot; autoload files that have changed outside of vim</span>
-<span class="s2">    set autoread</span>
+<span class="s2">&quot; autoload files that have changed outside of vim</span>
+<span class="s2">set autoread</span>
 
-<span class="s2">    &quot;</span> jump to last cursor
-    autocmd BufReadPost *
-      <span class="se">\ </span><span class="k">if </span>line<span class="o">(</span><span class="s2">&quot;&#39;\&quot;&quot;</span><span class="o">)</span> &gt; 0 <span class="o">&amp;&amp;</span> line<span class="o">(</span><span class="s2">&quot;&#39;\&quot;&quot;</span><span class="o">)</span> &lt;<span class="o">=</span> line<span class="o">(</span><span class="s2">&quot;$&quot;</span><span class="o">)</span> <span class="p">|</span>
-      <span class="se">\ </span>  exe <span class="s2">&quot;normal g`\&quot;&quot;</span> <span class="p">|</span>
-      <span class="se">\ </span>endif
+<span class="s2">&quot;</span> jump to last cursor
+autocmd BufReadPost *
+  <span class="se">\ </span><span class="k">if </span>line<span class="o">(</span><span class="s2">&quot;&#39;\&quot;&quot;</span><span class="o">)</span> &gt; 0 <span class="o">&amp;&amp;</span> line<span class="o">(</span><span class="s2">&quot;&#39;\&quot;&quot;</span><span class="o">)</span> &lt;<span class="o">=</span> line<span class="o">(</span><span class="s2">&quot;$&quot;</span><span class="o">)</span> <span class="p">|</span>
+  <span class="se">\ </span>  exe <span class="s2">&quot;normal g`\&quot;&quot;</span> <span class="p">|</span>
+  <span class="se">\ </span>endif
 
-        <span class="s2">&quot; set-up ctrlp to include hidden files in its search</span>
-<span class="s2">    let g:ctrlp_show_hidden=1</span>
+<span class="s2">&quot; set-up ctrlp to include hidden files in its search</span>
+<span class="s2">let g:ctrlp_show_hidden=1</span>
 
-<span class="s2">        &quot;</span> disable ctrlp<span class="s1">&#39;s feature where it tries to intelligently work out the current working directory to search within</span>
-<span class="s1">    let g:ctrlp_working_path_mode=0</span>
+<span class="s2">&quot;</span> disable ctrlp<span class="s1">&#39;s feature where it tries to intelligently work out the current working directory to search within</span>
+<span class="s1">let g:ctrlp_working_path_mode=0</span>
 
-<span class="s1">        &quot; don&#39;</span>t <span class="nb">let </span>ctrlp take over the screen!
-    <span class="nb">let </span>g:ctrlp_max_height<span class="o">=</span>30
+<span class="s1">&quot; don&#39;</span>t <span class="nb">let </span>ctrlp take over the screen!
+<span class="nb">let </span>g:ctrlp_max_height<span class="o">=</span>30
 
-        <span class="s2">&quot; lets make sure we don&#39;t show these files</span>
-<span class="s2">        set wildignore+=*/.git/*,*/.hg/*,*/.svn/*.,*/.DS_Store</span>
+<span class="s2">&quot; lets make sure we don&#39;t show these files</span>
+<span class="s2">set wildignore+=*/.git/*,*/.hg/*,*/.svn/*.,*/.DS_Store</span>
 
-<span class="s2">    &quot;</span> allows us to more easily work with markdown files
-    Bundle <span class="s1">&#39;tpope/vim-markdown&#39;</span>
+<span class="s2">&quot;</span> allows us to more easily work with markdown files
+Bundle <span class="s1">&#39;tpope/vim-markdown&#39;</span>
 
-    <span class="s2">&quot; allows us to comment/uncomment lines and content</span>
-<span class="s2">    Bundle &#39;tpope/vim-commentary.git&#39;</span>
+<span class="s2">&quot; allows us to comment/uncomment lines and content</span>
+<span class="s2">Bundle &#39;tpope/vim-commentary.git&#39;</span>
 
-<span class="s2">    &quot;</span> remove whitespace on save
-    autocmd BufWritePre * :%s/<span class="se">\s\+</span><span class="nv">$/</span>/e
+<span class="s2">&quot;</span> remove whitespace on save
+autocmd BufWritePre * :%s/<span class="se">\s\+</span><span class="nv">$/</span>/e
 </pre></div>
 </code></pre>
 <p>…hopefully the comments are self explanatory. There is so much you can configure with Vim that you just need to take the time to look at what set-up works for you, as chances are you&#39;ll be able to change it.</p>
@@ -530,7 +531,8 @@ vundle.git
   <span class="post-date">2013 &#183; 8 &#183; 14</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover-reading-time-approx-4mins-"class="anchor" href="#what-we-ll-cover-reading-time-approx-4mins-"><span class="header-link"></span></a>What we&#39;ll cover <em>reading time: approx. 4mins</em></h2>
+<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 4mins</em></p>
 <ul>
 <li>Introduction</li>
 <li>What&#39;s the gist?</li>

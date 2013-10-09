@@ -43,7 +43,8 @@
   <span class="post-date">2013 &#183; 6 &#183; 1</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover-reading-time-approx-16mins-"class="anchor" href="#what-we-ll-cover-reading-time-approx-16mins-"><span class="header-link"></span></a>What we&#39;ll cover <em>reading time: approx. 16mins</em></h2>
+<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 16mins</em></p>
 <ul>
 <li>Who is Robert C. Martin?</li>
 <li>What&#39;s it all about?</li>
@@ -215,7 +216,8 @@ So think of this book as a catalog of my own errors, a blotter of my own crimes,
   <span class="post-date">2013 &#183; 5 &#183; 13</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover-reading-time-approx-19mins-"class="anchor" href="#what-we-ll-cover-reading-time-approx-19mins-"><span class="header-link"></span></a>What we&#39;ll cover <em>reading time: approx. 19mins</em></h2>
+<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 19mins</em></p>
 <ul>
 <li>What is Grunt?</li>
 <li>Installation</li>
@@ -263,40 +265,40 @@ So think of this book as a catalog of my own errors, a blotter of my own crimes,
 <p>Before you can start using Grunt you&#39;ll need a <code>package.json</code> file which stores all the base configuration settings.</p>
 <p>To automatically generate this file run: <code>npm init</code>.</p>
 <p>Below is the <code>package.json</code> file for my Grunt Boilerplate project...</p>
-<pre><code class="lang-json"><div class="highlight"><pre>    <span class="p">{</span>
-        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Grunt Boilerplate&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.1.0&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;This is a project set-up using Grunt to take case of some standard tasks such as: compiling AMD based modules using RequireJS, watching/compiling Sass into CSS, watching/linting JS code and some other things such as running unit tests&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;main&quot;</span><span class="p">:</span> <span class="s2">&quot;Gruntfile.js&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;dependencies&quot;</span><span class="p">:</span> <span class="p">{},</span>
-        <span class="nt">&quot;devDependencies&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&quot;grunt&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.4.1&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;grunt-contrib-watch&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.3.1&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;grunt-contrib-jshint&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.4.3&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;grunt-contrib-uglify&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.2.0&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;grunt-contrib-requirejs&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.4.0&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;grunt-contrib-sass&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.3.0&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;grunt-contrib-imagemin&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.1.4&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;grunt-contrib-htmlmin&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.1.3&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;grunt-contrib-jasmine&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.4.2&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;grunt-template-jasmine-istanbul&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.2.1&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;grunt-template-jasmine-requirejs&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.1.1&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;grunt-contrib-connect&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.3.0&quot;</span>
-        <span class="p">},</span>
-        <span class="nt">&quot;scripts&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&quot;test&quot;</span><span class="p">:</span> <span class="s2">&quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</span>
-        <span class="p">},</span>
-        <span class="nt">&quot;repository&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;git&quot;</span><span class="p">,</span>
-            <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;git@github.com:Integralist/Grunt-Boilerplate.git&quot;</span>
-        <span class="p">},</span>
-        <span class="nt">&quot;keywords&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s2">&quot;Grunt&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;JavaScript&quot;</span>
-        <span class="p">],</span>
-        <span class="nt">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Mark McDonnell&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;license&quot;</span><span class="p">:</span> <span class="s2">&quot;MIT&quot;</span>
-    <span class="p">}</span>
+<pre><code class="lang-json"><div class="highlight"><pre><span class="p">{</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Grunt Boilerplate&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.1.0&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;This is a project set-up using Grunt to take case of some standard tasks such as: compiling AMD based modules using RequireJS, watching/compiling Sass into CSS, watching/linting JS code and some other things such as running unit tests&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;main&quot;</span><span class="p">:</span> <span class="s2">&quot;Gruntfile.js&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dependencies&quot;</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="nt">&quot;devDependencies&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;grunt&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.4.1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;grunt-contrib-watch&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.3.1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;grunt-contrib-jshint&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.4.3&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;grunt-contrib-uglify&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.2.0&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;grunt-contrib-requirejs&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.4.0&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;grunt-contrib-sass&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.3.0&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;grunt-contrib-imagemin&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.1.4&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;grunt-contrib-htmlmin&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.1.3&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;grunt-contrib-jasmine&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.4.2&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;grunt-template-jasmine-istanbul&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.2.1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;grunt-template-jasmine-requirejs&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.1.1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;grunt-contrib-connect&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.3.0&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;scripts&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;test&quot;</span><span class="p">:</span> <span class="s2">&quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;repository&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;git&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;git@github.com:Integralist/Grunt-Boilerplate.git&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;keywords&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;Grunt&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;JavaScript&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Mark McDonnell&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;license&quot;</span><span class="p">:</span> <span class="s2">&quot;MIT&quot;</span>
+<span class="p">}</span>
 </pre></div>
 </code></pre>
 <p>…most of it is populated with content I provided when I ran <code>npm init</code> and the rest (such as <code>devDependencies</code>) was automatically generated for me when I started installing Grunt tasks (see next section).</p>
@@ -327,11 +329,11 @@ So think of this book as a catalog of my own errors, a blotter of my own crimes,
 <h2><a name="gruntfile-js"class="anchor" href="#gruntfile-js"><span class="header-link"></span></a>Gruntfile.js</h2>
 <p><code>Gruntfile.js</code> is the main set-up file and contains the settings for each task we have installed.</p>
 <p>Because Grunt is run using Node.js you&#39;ll notice the content of the file is wrapped in a closure and assigned to a module <code>exports</code> property…</p>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">({</span>
-            <span class="c1">// our Grunt task settings</span>
-        <span class="p">});</span>
-    <span class="p">};</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">({</span>
+        <span class="c1">// our Grunt task settings</span>
+    <span class="p">});</span>
+<span class="p">};</span>
 </pre></div>
 </code></pre>
 <p>…within the function we call <code>initConfig</code> on the Grunt object, and we pass through an object literal holding our task settings.</p>
@@ -341,32 +343,32 @@ So think of this book as a catalog of my own errors, a blotter of my own crimes,
 <h2><a name="sass"class="anchor" href="#sass"><span class="header-link"></span></a>Sass</h2>
 <p>The Sass task allows us to compile our Sass files into CSS.</p>
 <p>Here is an example...</p>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="nx">sass</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">dist</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">style</span><span class="o">:</span> <span class="s1">&#39;compressed&#39;</span><span class="p">,</span>
-                <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;./assets/styles/sass/helpers/url64.rb&#39;</span><span class="p">]</span>
-            <span class="p">},</span>
-            <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/styles/sass/&#39;</span><span class="p">,</span>
-            <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;*.scss&#39;</span><span class="p">],</span>
-            <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/styles/&#39;</span><span class="p">,</span>
-            <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">sass</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">dist</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">style</span><span class="o">:</span> <span class="s1">&#39;compressed&#39;</span><span class="p">,</span>
+            <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;./assets/styles/sass/helpers/url64.rb&#39;</span><span class="p">]</span>
         <span class="p">},</span>
-        <span class="nx">dev</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">style</span><span class="o">:</span> <span class="s1">&#39;expanded&#39;</span><span class="p">,</span>
-                <span class="nx">debugInfo</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">lineNumbers</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;./app/styles/sass/helpers/url64.rb&#39;</span><span class="p">]</span>
-            <span class="p">},</span>
-            <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/styles/sass/&#39;</span><span class="p">,</span>
-            <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;*.scss&#39;</span><span class="p">],</span>
-            <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/styles/&#39;</span><span class="p">,</span>
-            <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span>
-        <span class="p">}</span>
+        <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/styles/sass/&#39;</span><span class="p">,</span>
+        <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;*.scss&#39;</span><span class="p">],</span>
+        <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/styles/&#39;</span><span class="p">,</span>
+        <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span>
+    <span class="p">},</span>
+    <span class="nx">dev</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">style</span><span class="o">:</span> <span class="s1">&#39;expanded&#39;</span><span class="p">,</span>
+            <span class="nx">debugInfo</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">lineNumbers</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;./app/styles/sass/helpers/url64.rb&#39;</span><span class="p">]</span>
+        <span class="p">},</span>
+        <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/styles/sass/&#39;</span><span class="p">,</span>
+        <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;*.scss&#39;</span><span class="p">],</span>
+        <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/styles/&#39;</span><span class="p">,</span>
+        <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span>
     <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </code></pre>
 <p>You&#39;ll see in the above example we&#39;ve set-up two sub tasks <code>dist</code> and <code>dev</code>.</p>
@@ -383,64 +385,64 @@ So think of this book as a catalog of my own errors, a blotter of my own crimes,
 <p>I won&#39;t explain the running of specific tasks again from here because effectively it&#39;s exactly the same for all tasks.</p>
 <h2><a name="requirejs"class="anchor" href="#requirejs"><span class="header-link"></span></a>RequireJS</h2>
 <p>This task is effectively the <code>r.js</code> build script that comes with RequireJS so I won&#39;t go into the details of how to write a build script - I&#39;ll instead refer you to the <a href="https://github.com/jrburke/r.js/blob/master/build/example.build.js">r.js documentation</a>, but know that the following has exactly the same settings as you would have used for <code>r.js</code> previously… </p>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="nx">requirejs</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">compile</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">baseUrl</span><span class="o">:</span> <span class="s1">&#39;./app&#39;</span><span class="p">,</span>
-                <span class="nx">mainConfigFile</span><span class="o">:</span> <span class="s1">&#39;./app/main.js&#39;</span><span class="p">,</span>
-                <span class="nx">dir</span><span class="o">:</span> <span class="s1">&#39;./app/release/&#39;</span><span class="p">,</span>
-                <span class="nx">fileExclusionRegExp</span><span class="o">:</span> <span class="sr">/^\.|node_modules|Gruntfile|\.md|package.json/</span><span class="p">,</span>
-                <span class="nx">modules</span><span class="o">:</span> <span class="p">[</span>
-                    <span class="p">{</span>
-                        <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;main&#39;</span>
-                    <span class="p">}</span>
-                <span class="p">]</span>
-            <span class="p">}</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">requirejs</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">compile</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">baseUrl</span><span class="o">:</span> <span class="s1">&#39;./app&#39;</span><span class="p">,</span>
+            <span class="nx">mainConfigFile</span><span class="o">:</span> <span class="s1">&#39;./app/main.js&#39;</span><span class="p">,</span>
+            <span class="nx">dir</span><span class="o">:</span> <span class="s1">&#39;./app/release/&#39;</span><span class="p">,</span>
+            <span class="nx">fileExclusionRegExp</span><span class="o">:</span> <span class="sr">/^\.|node_modules|Gruntfile|\.md|package.json/</span><span class="p">,</span>
+            <span class="nx">modules</span><span class="o">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;main&#39;</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
         <span class="p">}</span>
     <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </code></pre>
 <h2><a name="jshint"class="anchor" href="#jshint"><span class="header-link"></span></a>JSHint</h2>
 <p>JSHint is a task that mimics the <a href="http://www.jshint.com/">web interface</a> in that it lets you specify files to lint (i.e. makes sure the code is written with valid syntax according to a set of rules you want it to abide by)… </p>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="nx">jshint</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">files</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;Gruntfile.js&#39;</span><span class="p">,</span> <span class="s1">&#39;app/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;!app/release/**&#39;</span><span class="p">,</span> <span class="s1">&#39;modules/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;specs/**/*Spec.js&#39;</span><span class="p">],</span>
-        <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">curly</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">eqeqeq</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">immed</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">latedef</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">newcap</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">noarg</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">sub</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">undef</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">boss</span><span class="o">:</span>    <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">eqnull</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">browser</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">jshint</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">files</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;Gruntfile.js&#39;</span><span class="p">,</span> <span class="s1">&#39;app/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;!app/release/**&#39;</span><span class="p">,</span> <span class="s1">&#39;modules/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;specs/**/*Spec.js&#39;</span><span class="p">],</span>
+    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">curly</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">eqeqeq</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">immed</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">latedef</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">newcap</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">noarg</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">sub</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">undef</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">boss</span><span class="o">:</span>    <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">eqnull</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">browser</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
 
-            <span class="nx">globals</span><span class="o">:</span> <span class="p">{</span>
-                <span class="c1">// AMD</span>
-                <span class="nx">module</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">require</span><span class="o">:</span>    <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">requirejs</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">define</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">globals</span><span class="o">:</span> <span class="p">{</span>
+            <span class="c1">// AMD</span>
+            <span class="nx">module</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">require</span><span class="o">:</span>    <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">requirejs</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">define</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
 
-                <span class="c1">// Environments</span>
-                <span class="nx">console</span><span class="o">:</span>    <span class="kc">true</span><span class="p">,</span>
+            <span class="c1">// Environments</span>
+            <span class="nx">console</span><span class="o">:</span>    <span class="kc">true</span><span class="p">,</span>
 
-                <span class="c1">// General Purpose Libraries</span>
-                <span class="nx">$</span><span class="o">:</span>          <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">jQuery</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
+            <span class="c1">// General Purpose Libraries</span>
+            <span class="nx">$</span><span class="o">:</span>          <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">jQuery</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
 
-                <span class="c1">// Testing</span>
-                <span class="nx">sinon</span><span class="o">:</span>      <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">describe</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">it</span><span class="o">:</span>         <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">expect</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">beforeEach</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">afterEach</span><span class="o">:</span>  <span class="kc">true</span>
-            <span class="p">}</span>
+            <span class="c1">// Testing</span>
+            <span class="nx">sinon</span><span class="o">:</span>      <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">describe</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">it</span><span class="o">:</span>         <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">expect</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">beforeEach</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">afterEach</span><span class="o">:</span>  <span class="kc">true</span>
         <span class="p">}</span>
     <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </code></pre>
 <p>…some things to note: we&#39;re using the bang operator <code>!</code> to tell Grunt to ignore specific directories. So you&#39;ll see we said <code>!app/release/</code> which means DON&#39;T lint that particular directory because it will likely cause errors according to the rules set for JSHint (because that directory is our minified version of our JavaScript code that RequireJS compiled for us).</p>
@@ -450,29 +452,29 @@ So think of this book as a catalog of my own errors, a blotter of my own crimes,
 <p>Jasmine is a Behaviour-Driven unit testing framework and assertion library.</p>
 <p>This is probably one the most complicated task we cover because it requires a few other tasks.</p>
 <p>The first first task it relies on is the <code>connect</code> task which fires up a web server using PhantomJS. But realise that this isn&#39;t required if your scripts have no DOM interaction (unlikely if you&#39;re doing web development), but because we&#39;re doing DOM manipulation and we&#39;re testing that interaction we need a DOM to test against, hence the need for the <code>connect</code> web server task… </p>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="nx">connect</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">test</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">port</span><span class="o">:</span> <span class="mi">8000</span>
-        <span class="p">}</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">connect</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">test</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">port</span><span class="o">:</span> <span class="mi">8000</span>
     <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </code></pre>
 <p>…after that we set-up the actual <code>jasmine</code> task… </p>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="nx">jasmine</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;app/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;!app/release/**&#39;</span><span class="p">],</span>
-        <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">host</span><span class="o">:</span> <span class="s1">&#39;http://127.0.0.1:8000/&#39;</span><span class="p">,</span>
-            <span class="nx">specs</span><span class="o">:</span> <span class="s1">&#39;specs/**/*Spec.js&#39;</span><span class="p">,</span>
-            <span class="nx">helpers</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;specs/helpers/*Helper.js&#39;</span><span class="p">,</span> <span class="s1">&#39;specs/helpers/sinon.js&#39;</span><span class="p">],</span>
-            <span class="nx">template</span><span class="o">:</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;grunt-template-jasmine-requirejs&#39;</span><span class="p">),</span>
-            <span class="nx">templateOptions</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">requireConfig</span><span class="o">:</span> <span class="p">{</span>
-                    <span class="nx">baseUrl</span><span class="o">:</span> <span class="s1">&#39;./app/&#39;</span><span class="p">,</span>
-                    <span class="nx">mainConfigFile</span><span class="o">:</span> <span class="s1">&#39;./app/main.js&#39;</span>
-                <span class="p">}</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">jasmine</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;app/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;!app/release/**&#39;</span><span class="p">],</span>
+    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">host</span><span class="o">:</span> <span class="s1">&#39;http://127.0.0.1:8000/&#39;</span><span class="p">,</span>
+        <span class="nx">specs</span><span class="o">:</span> <span class="s1">&#39;specs/**/*Spec.js&#39;</span><span class="p">,</span>
+        <span class="nx">helpers</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;specs/helpers/*Helper.js&#39;</span><span class="p">,</span> <span class="s1">&#39;specs/helpers/sinon.js&#39;</span><span class="p">],</span>
+        <span class="nx">template</span><span class="o">:</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;grunt-template-jasmine-requirejs&#39;</span><span class="p">),</span>
+        <span class="nx">templateOptions</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">requireConfig</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">baseUrl</span><span class="o">:</span> <span class="s1">&#39;./app/&#39;</span><span class="p">,</span>
+                <span class="nx">mainConfigFile</span><span class="o">:</span> <span class="s1">&#39;./app/main.js&#39;</span>
             <span class="p">}</span>
         <span class="p">}</span>
     <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </code></pre>
 <p>…you&#39;ll see we have specified a <code>host</code> option which relates to the <code>connect</code> web server task.</p>
@@ -484,57 +486,57 @@ So think of this book as a catalog of my own errors, a blotter of my own crimes,
 <h2><a name="image-minification"class="anchor" href="#image-minification"><span class="header-link"></span></a>Image Minification</h2>
 <p>The ImageMin task does exactly what you would expect, it searches out any images it finds (png or jpg format) and compresses them so they are smaller in file size.</p>
 <p>As you can see from the below example we&#39;re using the <code>expand: true</code> setting (and subsequent settings) to tell Grunt where to find our images and where to export them to… </p>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="nx">imagemin</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">png</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">optimizationLevel</span><span class="o">:</span> <span class="mi">7</span>
-            <span class="p">},</span>
-            <span class="nx">files</span><span class="o">:</span> <span class="p">[</span>
-                <span class="p">{</span>
-                    <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/images/&#39;</span><span class="p">,</span>
-                    <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*.png&#39;</span><span class="p">],</span>
-                    <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/images/compressed/&#39;</span><span class="p">,</span>
-                    <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.png&#39;</span>
-                <span class="p">}</span>
-            <span class="p">]</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">imagemin</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">png</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">optimizationLevel</span><span class="o">:</span> <span class="mi">7</span>
         <span class="p">},</span>
-        <span class="nx">jpg</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">progressive</span><span class="o">:</span> <span class="kc">true</span>
-            <span class="p">},</span>
-            <span class="nx">files</span><span class="o">:</span> <span class="p">[</span>
-                <span class="p">{</span>
-                    <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/images/&#39;</span><span class="p">,</span>
-                    <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*.jpg&#39;</span><span class="p">],</span>
-                    <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/images/compressed/&#39;</span><span class="p">,</span>
-                    <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.jpg&#39;</span>
-                <span class="p">}</span>
-            <span class="p">]</span>
-        <span class="p">}</span>
+        <span class="nx">files</span><span class="o">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/images/&#39;</span><span class="p">,</span>
+                <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*.png&#39;</span><span class="p">],</span>
+                <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/images/compressed/&#39;</span><span class="p">,</span>
+                <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.png&#39;</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="nx">jpg</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">progressive</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">},</span>
+        <span class="nx">files</span><span class="o">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/images/&#39;</span><span class="p">,</span>
+                <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*.jpg&#39;</span><span class="p">],</span>
+                <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/images/compressed/&#39;</span><span class="p">,</span>
+                <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.jpg&#39;</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
     <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </code></pre>
 <h2><a name="html-minification"class="anchor" href="#html-minification"><span class="header-link"></span></a>HTML Minification</h2>
 <p>The HTMLMin task does exactly what you would expect, it searches out any HTML files it finds and compresses them so they are minified and thus smaller in file size.</p>
 <p>As you can see from the below example we&#39;ve NOT used the <code>expand: true</code> setting but instead this task provided a slightly different api to let us tell Grunt where to find our HTML files and where to export the minified versions to (but effectively we could use <code>expand: true</code> if we wanted)…</p>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="nx">htmlmin</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">dist</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">removeComments</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">collapseWhitespace</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">removeEmptyAttributes</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">removeCommentsFromCDATA</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">removeRedundantAttributes</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">collapseBooleanAttributes</span><span class="o">:</span> <span class="kc">true</span>
-            <span class="p">},</span>
-            <span class="nx">files</span><span class="o">:</span> <span class="p">{</span>
-                <span class="c1">// Destination : Source</span>
-                <span class="s1">&#39;./index-min.html&#39;</span><span class="o">:</span> <span class="s1">&#39;./index.html&#39;</span>
-            <span class="p">}</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">htmlmin</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">dist</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">removeComments</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">collapseWhitespace</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">removeEmptyAttributes</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">removeCommentsFromCDATA</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">removeRedundantAttributes</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">collapseBooleanAttributes</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">},</span>
+        <span class="nx">files</span><span class="o">:</span> <span class="p">{</span>
+            <span class="c1">// Destination : Source</span>
+            <span class="s1">&#39;./index-min.html&#39;</span><span class="o">:</span> <span class="s1">&#39;./index.html&#39;</span>
         <span class="p">}</span>
     <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </code></pre>
 <h2><a name="registering-tasks"class="anchor" href="#registering-tasks"><span class="header-link"></span></a>Registering tasks</h2>
@@ -548,10 +550,10 @@ So think of this book as a catalog of my own errors, a blotter of my own crimes,
 <p>…in this case we&#39;re telling it to execute our JavaScript linting task, then to check our unit tests are still passing and finally to generate debug versions of our CSS.</p>
 <h2><a name="watching-files"class="anchor" href="#watching-files"><span class="header-link"></span></a>Watching files</h2>
 <p>Instead of manually running a Grunt command every time we make a change (e.g. imagine making a change to your Sass file and then having to go to the terminal and running <code>grunt sass:dev</code> to get the Sass to compile to CSS just so you can see the change reflected in your browser), we can instead get Grunt to do the hard work for us and to automatically run a task (or multiple tasks) whenever a specific set of files have been changed/updated… </p>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="nx">watch</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">files</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;%= jshint.files %&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;%= jasmine.options.specs %&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;%= sass.dev.src %&gt;&#39;</span><span class="p">],</span>
-        <span class="nx">tasks</span><span class="o">:</span> <span class="s1">&#39;default&#39;</span>
-    <span class="p">}</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">watch</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">files</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;%= jshint.files %&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;%= jasmine.options.specs %&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;%= sass.dev.src %&gt;&#39;</span><span class="p">],</span>
+    <span class="nx">tasks</span><span class="o">:</span> <span class="s1">&#39;default&#39;</span>
+<span class="p">}</span>
 </pre></div>
 </code></pre>
 <p>…here you can see we&#39;re using the &#39;watch&#39; task along with a specific interpolation syntax to let it know what files to keep an eye on for us.</p>
@@ -559,233 +561,233 @@ So think of this book as a catalog of my own errors, a blotter of my own crimes,
 <p>So as you can see from the above example, we&#39;re telling the watch task to look out for any changes made to our JavaScript and Sass files, and if so run the <code>default</code> registered task.</p>
 <h2><a name="our-full-grunt-file"class="anchor" href="#our-full-grunt-file"><span class="header-link"></span></a>Our full Grunt file</h2>
 <p>You can find the following file on my <a href="https://github.com/Integralist/Grunt-Boilerplate">Grunt Boilerplate repo</a>… </p>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
 
-        <span class="cm">/*</span>
-<span class="cm">            Grunt installation:</span>
-<span class="cm">            -------------------</span>
-<span class="cm">                npm install -g grunt-cli</span>
-<span class="cm">                npm install -g grunt-init</span>
-<span class="cm">                npm init (creates a `package.json` file)</span>
+    <span class="cm">/*</span>
+<span class="cm">        Grunt installation:</span>
+<span class="cm">        -------------------</span>
+<span class="cm">            npm install -g grunt-cli</span>
+<span class="cm">            npm install -g grunt-init</span>
+<span class="cm">            npm init (creates a `package.json` file)</span>
 
-<span class="cm">            Project Dependencies:</span>
-<span class="cm">            ---------------------</span>
-<span class="cm">                npm install grunt --save-dev</span>
-<span class="cm">                npm install grunt-contrib-watch --save-dev</span>
-<span class="cm">                npm install grunt-contrib-jshint --save-dev</span>
-<span class="cm">                npm install grunt-contrib-uglify --save-dev</span>
-<span class="cm">                npm install grunt-contrib-requirejs --save-dev</span>
-<span class="cm">                npm install grunt-contrib-sass --save-dev</span>
-<span class="cm">                npm install grunt-contrib-imagemin --save-dev</span>
-<span class="cm">                npm install grunt-contrib-htmlmin --save-dev</span>
-<span class="cm">                npm install grunt-contrib-connect --save-dev</span>
-<span class="cm">                npm install grunt-contrib-jasmine --save-dev</span>
-<span class="cm">                npm install grunt-template-jasmine-requirejs --save-dev</span>
-<span class="cm">        */</span>
+<span class="cm">        Project Dependencies:</span>
+<span class="cm">        ---------------------</span>
+<span class="cm">            npm install grunt --save-dev</span>
+<span class="cm">            npm install grunt-contrib-watch --save-dev</span>
+<span class="cm">            npm install grunt-contrib-jshint --save-dev</span>
+<span class="cm">            npm install grunt-contrib-uglify --save-dev</span>
+<span class="cm">            npm install grunt-contrib-requirejs --save-dev</span>
+<span class="cm">            npm install grunt-contrib-sass --save-dev</span>
+<span class="cm">            npm install grunt-contrib-imagemin --save-dev</span>
+<span class="cm">            npm install grunt-contrib-htmlmin --save-dev</span>
+<span class="cm">            npm install grunt-contrib-connect --save-dev</span>
+<span class="cm">            npm install grunt-contrib-jasmine --save-dev</span>
+<span class="cm">            npm install grunt-template-jasmine-requirejs --save-dev</span>
+<span class="cm">    */</span>
 
-        <span class="c1">// Project configuration.</span>
-        <span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">({</span>
+    <span class="c1">// Project configuration.</span>
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">({</span>
 
-            <span class="c1">// Store your Package file so you can reference its specific data whenever necessary</span>
-            <span class="nx">pkg</span><span class="o">:</span> <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">readJSON</span><span class="p">(</span><span class="s1">&#39;package.json&#39;</span><span class="p">),</span>
+        <span class="c1">// Store your Package file so you can reference its specific data whenever necessary</span>
+        <span class="nx">pkg</span><span class="o">:</span> <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">readJSON</span><span class="p">(</span><span class="s1">&#39;package.json&#39;</span><span class="p">),</span>
 
-            <span class="c1">// Used to connect to a locally running web server (so Jasmine can test against a DOM)</span>
-            <span class="nx">connect</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">test</span><span class="o">:</span> <span class="p">{</span>
-                    <span class="nx">port</span><span class="o">:</span> <span class="mi">8000</span>
-                <span class="p">}</span>
-            <span class="p">},</span>
-
-            <span class="nx">jasmine</span><span class="o">:</span> <span class="p">{</span>
-                <span class="cm">/*</span>
-<span class="cm">                    Note:</span>
-<span class="cm">                    In case there is a /release/ directory found, we don&#39;t want to run tests on that </span>
-<span class="cm">                    so we use the ! (bang) operator to ignore the specified directory</span>
-<span class="cm">                */</span>
-                <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;app/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;!app/release/**&#39;</span><span class="p">],</span>
-                <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                    <span class="nx">host</span><span class="o">:</span> <span class="s1">&#39;http://127.0.0.1:8000/&#39;</span><span class="p">,</span>
-                    <span class="nx">specs</span><span class="o">:</span> <span class="s1">&#39;specs/**/*Spec.js&#39;</span><span class="p">,</span>
-                    <span class="nx">helpers</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;specs/helpers/*Helper.js&#39;</span><span class="p">,</span> <span class="s1">&#39;specs/helpers/sinon.js&#39;</span><span class="p">],</span>
-                    <span class="nx">template</span><span class="o">:</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;grunt-template-jasmine-requirejs&#39;</span><span class="p">),</span>
-                    <span class="nx">templateOptions</span><span class="o">:</span> <span class="p">{</span>
-                        <span class="nx">requireConfig</span><span class="o">:</span> <span class="p">{</span>
-                            <span class="nx">baseUrl</span><span class="o">:</span> <span class="s1">&#39;./app/&#39;</span><span class="p">,</span>
-                            <span class="nx">mainConfigFile</span><span class="o">:</span> <span class="s1">&#39;./app/main.js&#39;</span>
-                        <span class="p">}</span>
-                    <span class="p">}</span>
-                <span class="p">}</span>
-            <span class="p">},</span>
-
-            <span class="nx">jshint</span><span class="o">:</span> <span class="p">{</span>
-                <span class="cm">/*</span>
-<span class="cm">                    Note:</span>
-<span class="cm">                    In case there is a /release/ directory found, we don&#39;t want to lint that </span>
-<span class="cm">                    so we use the ! (bang) operator to ignore the specified directory</span>
-<span class="cm">                */</span>
-                <span class="nx">files</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;Gruntfile.js&#39;</span><span class="p">,</span> <span class="s1">&#39;app/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;!app/release/**&#39;</span><span class="p">,</span> <span class="s1">&#39;modules/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;specs/**/*Spec.js&#39;</span><span class="p">],</span>
-                <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                    <span class="nx">curly</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">eqeqeq</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">immed</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">latedef</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">newcap</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">noarg</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">sub</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">undef</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">boss</span><span class="o">:</span>    <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">eqnull</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">browser</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-
-                    <span class="nx">globals</span><span class="o">:</span> <span class="p">{</span>
-                        <span class="c1">// AMD</span>
-                        <span class="nx">module</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
-                        <span class="nx">require</span><span class="o">:</span>    <span class="kc">true</span><span class="p">,</span>
-                        <span class="nx">requirejs</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
-                        <span class="nx">define</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
-
-                        <span class="c1">// Environments</span>
-                        <span class="nx">console</span><span class="o">:</span>    <span class="kc">true</span><span class="p">,</span>
-
-                        <span class="c1">// General Purpose Libraries</span>
-                        <span class="nx">$</span><span class="o">:</span>          <span class="kc">true</span><span class="p">,</span>
-                        <span class="nx">jQuery</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
-
-                        <span class="c1">// Testing</span>
-                        <span class="nx">sinon</span><span class="o">:</span>      <span class="kc">true</span><span class="p">,</span>
-                        <span class="nx">describe</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
-                        <span class="nx">it</span><span class="o">:</span>         <span class="kc">true</span><span class="p">,</span>
-                        <span class="nx">expect</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
-                        <span class="nx">beforeEach</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                        <span class="nx">afterEach</span><span class="o">:</span>  <span class="kc">true</span>
-                    <span class="p">}</span>
-                <span class="p">}</span>
-            <span class="p">},</span>
-
-            <span class="nx">requirejs</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">compile</span><span class="o">:</span> <span class="p">{</span>
-                    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                        <span class="nx">baseUrl</span><span class="o">:</span> <span class="s1">&#39;./app&#39;</span><span class="p">,</span>
-                        <span class="nx">mainConfigFile</span><span class="o">:</span> <span class="s1">&#39;./app/main.js&#39;</span><span class="p">,</span>
-                        <span class="nx">dir</span><span class="o">:</span> <span class="s1">&#39;./app/release/&#39;</span><span class="p">,</span>
-                        <span class="nx">fileExclusionRegExp</span><span class="o">:</span> <span class="sr">/^\.|node_modules|Gruntfile|\.md|package.json/</span><span class="p">,</span>
-                        <span class="c1">// optimize: &#39;none&#39;,</span>
-                        <span class="nx">modules</span><span class="o">:</span> <span class="p">[</span>
-                            <span class="p">{</span>
-                                <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;main&#39;</span>
-                                <span class="c1">// include: [&#39;module&#39;],</span>
-                                <span class="c1">// exclude: [&#39;module&#39;]</span>
-                            <span class="p">}</span>
-                        <span class="p">]</span>
-                    <span class="p">}</span>
-                <span class="p">}</span>
-            <span class="p">},</span>
-
-            <span class="nx">sass</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">dist</span><span class="o">:</span> <span class="p">{</span>
-                    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                        <span class="nx">style</span><span class="o">:</span> <span class="s1">&#39;compressed&#39;</span><span class="p">,</span>
-                        <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;./assets/styles/sass/helpers/url64.rb&#39;</span><span class="p">]</span>
-                    <span class="p">},</span>
-                    <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/styles/sass/&#39;</span><span class="p">,</span>
-                    <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;*.scss&#39;</span><span class="p">],</span>
-                    <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/styles/&#39;</span><span class="p">,</span>
-                    <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span>
-                <span class="p">},</span>
-                <span class="nx">dev</span><span class="o">:</span> <span class="p">{</span>
-                    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                        <span class="nx">style</span><span class="o">:</span> <span class="s1">&#39;expanded&#39;</span><span class="p">,</span>
-                        <span class="nx">debugInfo</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                        <span class="nx">lineNumbers</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                        <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;./app/styles/sass/helpers/url64.rb&#39;</span><span class="p">]</span>
-                    <span class="p">},</span>
-                    <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/styles/sass/&#39;</span><span class="p">,</span>
-                    <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;*.scss&#39;</span><span class="p">],</span>
-                    <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/styles/&#39;</span><span class="p">,</span>
-                    <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span>
-                <span class="p">}</span>
-            <span class="p">},</span>
-
-            <span class="c1">// `optimizationLevel` is only applied to PNG files (not JPG)</span>
-            <span class="nx">imagemin</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">png</span><span class="o">:</span> <span class="p">{</span>
-                    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                        <span class="nx">optimizationLevel</span><span class="o">:</span> <span class="mi">7</span>
-                    <span class="p">},</span>
-                    <span class="nx">files</span><span class="o">:</span> <span class="p">[</span>
-                        <span class="p">{</span>
-                            <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                            <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/images/&#39;</span><span class="p">,</span>
-                            <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*.png&#39;</span><span class="p">],</span>
-                            <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/images/compressed/&#39;</span><span class="p">,</span>
-                            <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.png&#39;</span>
-                        <span class="p">}</span>
-                    <span class="p">]</span>
-                <span class="p">},</span>
-                <span class="nx">jpg</span><span class="o">:</span> <span class="p">{</span>
-                    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                        <span class="nx">progressive</span><span class="o">:</span> <span class="kc">true</span>
-                    <span class="p">},</span>
-                    <span class="nx">files</span><span class="o">:</span> <span class="p">[</span>
-                        <span class="p">{</span>
-                            <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                            <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/images/&#39;</span><span class="p">,</span>
-                            <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*.jpg&#39;</span><span class="p">],</span>
-                            <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/images/compressed/&#39;</span><span class="p">,</span>
-                            <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.jpg&#39;</span>
-                        <span class="p">}</span>
-                    <span class="p">]</span>
-                <span class="p">}</span>
-            <span class="p">},</span>
-
-            <span class="nx">htmlmin</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">dist</span><span class="o">:</span> <span class="p">{</span>
-                    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                        <span class="nx">removeComments</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                        <span class="nx">collapseWhitespace</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                        <span class="nx">removeEmptyAttributes</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                        <span class="nx">removeCommentsFromCDATA</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                        <span class="nx">removeRedundantAttributes</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                        <span class="nx">collapseBooleanAttributes</span><span class="o">:</span> <span class="kc">true</span>
-                    <span class="p">},</span>
-                    <span class="nx">files</span><span class="o">:</span> <span class="p">{</span>
-                        <span class="c1">// Destination : Source</span>
-                        <span class="s1">&#39;./index-min.html&#39;</span><span class="o">:</span> <span class="s1">&#39;./index.html&#39;</span>
-                    <span class="p">}</span>
-                <span class="p">}</span>
-            <span class="p">},</span>
-
-            <span class="c1">// Run: `grunt watch` from command line for this section to take effect</span>
-            <span class="nx">watch</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">files</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;%= jshint.files %&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;%= jasmine.options.specs %&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;%= sass.dev.src %&gt;&#39;</span><span class="p">],</span>
-                <span class="nx">tasks</span><span class="o">:</span> <span class="s1">&#39;default&#39;</span>
+        <span class="c1">// Used to connect to a locally running web server (so Jasmine can test against a DOM)</span>
+        <span class="nx">connect</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">test</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">port</span><span class="o">:</span> <span class="mi">8000</span>
             <span class="p">}</span>
+        <span class="p">},</span>
 
-        <span class="p">});</span>
+        <span class="nx">jasmine</span><span class="o">:</span> <span class="p">{</span>
+            <span class="cm">/*</span>
+<span class="cm">                Note:</span>
+<span class="cm">                In case there is a /release/ directory found, we don&#39;t want to run tests on that </span>
+<span class="cm">                so we use the ! (bang) operator to ignore the specified directory</span>
+<span class="cm">            */</span>
+            <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;app/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;!app/release/**&#39;</span><span class="p">],</span>
+            <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">host</span><span class="o">:</span> <span class="s1">&#39;http://127.0.0.1:8000/&#39;</span><span class="p">,</span>
+                <span class="nx">specs</span><span class="o">:</span> <span class="s1">&#39;specs/**/*Spec.js&#39;</span><span class="p">,</span>
+                <span class="nx">helpers</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;specs/helpers/*Helper.js&#39;</span><span class="p">,</span> <span class="s1">&#39;specs/helpers/sinon.js&#39;</span><span class="p">],</span>
+                <span class="nx">template</span><span class="o">:</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;grunt-template-jasmine-requirejs&#39;</span><span class="p">),</span>
+                <span class="nx">templateOptions</span><span class="o">:</span> <span class="p">{</span>
+                    <span class="nx">requireConfig</span><span class="o">:</span> <span class="p">{</span>
+                        <span class="nx">baseUrl</span><span class="o">:</span> <span class="s1">&#39;./app/&#39;</span><span class="p">,</span>
+                        <span class="nx">mainConfigFile</span><span class="o">:</span> <span class="s1">&#39;./app/main.js&#39;</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
 
-        <span class="c1">// Load NPM Tasks</span>
-        <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-watch&#39;</span><span class="p">);</span>
-        <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-jshint&#39;</span><span class="p">);</span>
-        <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-uglify&#39;</span><span class="p">);</span>
-        <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-requirejs&#39;</span><span class="p">);</span>
-        <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-sass&#39;</span><span class="p">);</span>
-        <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-imagemin&#39;</span><span class="p">);</span>
-        <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-htmlmin&#39;</span><span class="p">);</span>
-        <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-connect&#39;</span><span class="p">);</span>
-        <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-jasmine&#39;</span><span class="p">);</span>
+        <span class="nx">jshint</span><span class="o">:</span> <span class="p">{</span>
+            <span class="cm">/*</span>
+<span class="cm">                Note:</span>
+<span class="cm">                In case there is a /release/ directory found, we don&#39;t want to lint that </span>
+<span class="cm">                so we use the ! (bang) operator to ignore the specified directory</span>
+<span class="cm">            */</span>
+            <span class="nx">files</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;Gruntfile.js&#39;</span><span class="p">,</span> <span class="s1">&#39;app/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;!app/release/**&#39;</span><span class="p">,</span> <span class="s1">&#39;modules/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;specs/**/*Spec.js&#39;</span><span class="p">],</span>
+            <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">curly</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">eqeqeq</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">immed</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">latedef</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">newcap</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">noarg</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">sub</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">undef</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">boss</span><span class="o">:</span>    <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">eqnull</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">browser</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
 
-        <span class="c1">// Default Task</span>
-        <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;jshint&#39;</span><span class="p">,</span> <span class="s1">&#39;connect&#39;</span><span class="p">,</span> <span class="s1">&#39;jasmine&#39;</span><span class="p">,</span> <span class="s1">&#39;sass:dev&#39;</span><span class="p">]);</span>
+                <span class="nx">globals</span><span class="o">:</span> <span class="p">{</span>
+                    <span class="c1">// AMD</span>
+                    <span class="nx">module</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
+                    <span class="nx">require</span><span class="o">:</span>    <span class="kc">true</span><span class="p">,</span>
+                    <span class="nx">requirejs</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
+                    <span class="nx">define</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
 
-        <span class="c1">// Unit Testing Task</span>
-        <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;connect&#39;</span><span class="p">,</span> <span class="s1">&#39;jasmine&#39;</span><span class="p">]);</span>
+                    <span class="c1">// Environments</span>
+                    <span class="nx">console</span><span class="o">:</span>    <span class="kc">true</span><span class="p">,</span>
 
-        <span class="c1">// Release Task</span>
-        <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;release&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;jshint&#39;</span><span class="p">,</span> <span class="s1">&#39;jasmine&#39;</span><span class="p">,</span> <span class="s1">&#39;requirejs&#39;</span><span class="p">,</span> <span class="s1">&#39;sass:dist&#39;</span><span class="p">,</span> <span class="s1">&#39;imagemin&#39;</span><span class="p">,</span> <span class="s1">&#39;htmlmin&#39;</span><span class="p">]);</span>
+                    <span class="c1">// General Purpose Libraries</span>
+                    <span class="nx">$</span><span class="o">:</span>          <span class="kc">true</span><span class="p">,</span>
+                    <span class="nx">jQuery</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
 
-    <span class="p">};</span>
+                    <span class="c1">// Testing</span>
+                    <span class="nx">sinon</span><span class="o">:</span>      <span class="kc">true</span><span class="p">,</span>
+                    <span class="nx">describe</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
+                    <span class="nx">it</span><span class="o">:</span>         <span class="kc">true</span><span class="p">,</span>
+                    <span class="nx">expect</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
+                    <span class="nx">beforeEach</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                    <span class="nx">afterEach</span><span class="o">:</span>  <span class="kc">true</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+
+        <span class="nx">requirejs</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">compile</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+                    <span class="nx">baseUrl</span><span class="o">:</span> <span class="s1">&#39;./app&#39;</span><span class="p">,</span>
+                    <span class="nx">mainConfigFile</span><span class="o">:</span> <span class="s1">&#39;./app/main.js&#39;</span><span class="p">,</span>
+                    <span class="nx">dir</span><span class="o">:</span> <span class="s1">&#39;./app/release/&#39;</span><span class="p">,</span>
+                    <span class="nx">fileExclusionRegExp</span><span class="o">:</span> <span class="sr">/^\.|node_modules|Gruntfile|\.md|package.json/</span><span class="p">,</span>
+                    <span class="c1">// optimize: &#39;none&#39;,</span>
+                    <span class="nx">modules</span><span class="o">:</span> <span class="p">[</span>
+                        <span class="p">{</span>
+                            <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;main&#39;</span>
+                            <span class="c1">// include: [&#39;module&#39;],</span>
+                            <span class="c1">// exclude: [&#39;module&#39;]</span>
+                        <span class="p">}</span>
+                    <span class="p">]</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+
+        <span class="nx">sass</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">dist</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+                    <span class="nx">style</span><span class="o">:</span> <span class="s1">&#39;compressed&#39;</span><span class="p">,</span>
+                    <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;./assets/styles/sass/helpers/url64.rb&#39;</span><span class="p">]</span>
+                <span class="p">},</span>
+                <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/styles/sass/&#39;</span><span class="p">,</span>
+                <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;*.scss&#39;</span><span class="p">],</span>
+                <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/styles/&#39;</span><span class="p">,</span>
+                <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span>
+            <span class="p">},</span>
+            <span class="nx">dev</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+                    <span class="nx">style</span><span class="o">:</span> <span class="s1">&#39;expanded&#39;</span><span class="p">,</span>
+                    <span class="nx">debugInfo</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                    <span class="nx">lineNumbers</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                    <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;./app/styles/sass/helpers/url64.rb&#39;</span><span class="p">]</span>
+                <span class="p">},</span>
+                <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/styles/sass/&#39;</span><span class="p">,</span>
+                <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;*.scss&#39;</span><span class="p">],</span>
+                <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/styles/&#39;</span><span class="p">,</span>
+                <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+
+        <span class="c1">// `optimizationLevel` is only applied to PNG files (not JPG)</span>
+        <span class="nx">imagemin</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">png</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+                    <span class="nx">optimizationLevel</span><span class="o">:</span> <span class="mi">7</span>
+                <span class="p">},</span>
+                <span class="nx">files</span><span class="o">:</span> <span class="p">[</span>
+                    <span class="p">{</span>
+                        <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                        <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/images/&#39;</span><span class="p">,</span>
+                        <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*.png&#39;</span><span class="p">],</span>
+                        <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/images/compressed/&#39;</span><span class="p">,</span>
+                        <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.png&#39;</span>
+                    <span class="p">}</span>
+                <span class="p">]</span>
+            <span class="p">},</span>
+            <span class="nx">jpg</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+                    <span class="nx">progressive</span><span class="o">:</span> <span class="kc">true</span>
+                <span class="p">},</span>
+                <span class="nx">files</span><span class="o">:</span> <span class="p">[</span>
+                    <span class="p">{</span>
+                        <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                        <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/images/&#39;</span><span class="p">,</span>
+                        <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*.jpg&#39;</span><span class="p">],</span>
+                        <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/images/compressed/&#39;</span><span class="p">,</span>
+                        <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.jpg&#39;</span>
+                    <span class="p">}</span>
+                <span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+
+        <span class="nx">htmlmin</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">dist</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+                    <span class="nx">removeComments</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                    <span class="nx">collapseWhitespace</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                    <span class="nx">removeEmptyAttributes</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                    <span class="nx">removeCommentsFromCDATA</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                    <span class="nx">removeRedundantAttributes</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                    <span class="nx">collapseBooleanAttributes</span><span class="o">:</span> <span class="kc">true</span>
+                <span class="p">},</span>
+                <span class="nx">files</span><span class="o">:</span> <span class="p">{</span>
+                    <span class="c1">// Destination : Source</span>
+                    <span class="s1">&#39;./index-min.html&#39;</span><span class="o">:</span> <span class="s1">&#39;./index.html&#39;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+
+        <span class="c1">// Run: `grunt watch` from command line for this section to take effect</span>
+        <span class="nx">watch</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">files</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;%= jshint.files %&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;%= jasmine.options.specs %&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;%= sass.dev.src %&gt;&#39;</span><span class="p">],</span>
+            <span class="nx">tasks</span><span class="o">:</span> <span class="s1">&#39;default&#39;</span>
+        <span class="p">}</span>
+
+    <span class="p">});</span>
+
+    <span class="c1">// Load NPM Tasks</span>
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-watch&#39;</span><span class="p">);</span>
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-jshint&#39;</span><span class="p">);</span>
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-uglify&#39;</span><span class="p">);</span>
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-requirejs&#39;</span><span class="p">);</span>
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-sass&#39;</span><span class="p">);</span>
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-imagemin&#39;</span><span class="p">);</span>
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-htmlmin&#39;</span><span class="p">);</span>
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-connect&#39;</span><span class="p">);</span>
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-jasmine&#39;</span><span class="p">);</span>
+
+    <span class="c1">// Default Task</span>
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;jshint&#39;</span><span class="p">,</span> <span class="s1">&#39;connect&#39;</span><span class="p">,</span> <span class="s1">&#39;jasmine&#39;</span><span class="p">,</span> <span class="s1">&#39;sass:dev&#39;</span><span class="p">]);</span>
+
+    <span class="c1">// Unit Testing Task</span>
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;connect&#39;</span><span class="p">,</span> <span class="s1">&#39;jasmine&#39;</span><span class="p">]);</span>
+
+    <span class="c1">// Release Task</span>
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;release&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;jshint&#39;</span><span class="p">,</span> <span class="s1">&#39;jasmine&#39;</span><span class="p">,</span> <span class="s1">&#39;requirejs&#39;</span><span class="p">,</span> <span class="s1">&#39;sass:dist&#39;</span><span class="p">,</span> <span class="s1">&#39;imagemin&#39;</span><span class="p">,</span> <span class="s1">&#39;htmlmin&#39;</span><span class="p">]);</span>
+
+<span class="p">};</span>
 </pre></div>
 </code></pre>
 <h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>

@@ -43,7 +43,8 @@
   <span class="post-date">2012 &#183; 4 &#183; 19</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover-reading-time-approx-11mins-"class="anchor" href="#what-we-ll-cover-reading-time-approx-11mins-"><span class="header-link"></span></a>What we&#39;ll cover <em>reading time: approx. 11mins</em></h2>
+<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 11mins</em></p>
 <ul>
 <li>Introduction</li>
 <li>Installation</li>
@@ -79,17 +80,17 @@
 <h2><a name="variables"class="anchor" href="#variables"><span class="header-link"></span></a>Variables</h2>
 <p>Variables are a great way to not have to repeat entering the same value over and over. The most common use case is the client&#39;s branding colours. Normally this colour will appear in lots of different areas of the site (links, hover effects etc) and if the colour does need to change slightly then you either do it by hand or you run a &#39;find and replace&#39; function.</p>
 <p>To create a variable in Sass you simply prefix the name of the variable with a dollar sign: <code>$brand_color: #C00;</code> I can now use <code>$brand_color</code> wherever I like. For example…</p>
-<pre><code class="lang-sass"><div class="highlight"><pre>    <span class="nc">.header</span> <span class="err">{</span>
-        <span class="na">color</span><span class="o">:</span> <span class="nv">$brand_color</span><span class="err">;</span>
-    <span class="err">}</span>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.header</span> <span class="err">{</span>
+    <span class="na">color</span><span class="o">:</span> <span class="nv">$brand_color</span><span class="err">;</span>
+<span class="err">}</span>
 </pre></div>
 </code></pre>
 <p>This makes life a lot easier and although I&#39;ve seen people claim that OOCSS can work around this, it can, but not easily and so using Sass for this alone is still extremely useful in my mind.</p>
 <h2><a name="calculations"class="anchor" href="#calculations"><span class="header-link"></span></a>Calculations</h2>
 <p>I can&#39;t imagine me ever using this feature, but I&#39;ve included it because it also doesn&#39;t cause any negative effect (unlike <code>@extend</code> and <code>@mixin</code>).</p>
 <p>You can use all standard operators (*, /, +, -) for example:</p>
-<pre><code class="lang-sass"><div class="highlight"><pre>    <span class="nv">$width</span><span class="o">:</span> <span class="mi">10</span><span class="kt">px</span><span class="err">;</span> 
-    <span class="nv">$double_width</span><span class="o">:</span> <span class="nv">$width</span> <span class="o">*</span> <span class="mi">2</span><span class="err">;</span>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nv">$width</span><span class="o">:</span> <span class="mi">10</span><span class="kt">px</span><span class="err">;</span> 
+<span class="nv">$double_width</span><span class="o">:</span> <span class="nv">$width</span> <span class="o">*</span> <span class="mi">2</span><span class="err">;</span>
 </pre></div>
 </code></pre>
 <p>You can do calculations inline (i.e. where the property value is set) and you can also group calculations:</p>
@@ -97,45 +98,45 @@
 <h2><a name="colour-functions"class="anchor" href="#colour-functions"><span class="header-link"></span></a>Colour functions</h2>
 <p>These are very useful. A lot of times you have for example &#39;hover&#39; effects that need a colour that is similar in shade to the main brand colour. Normally you have to open up a colour palette and randomly pick something, whereas the following functions help with that process:</p>
 <p><code>lighten(colour, percentage)</code></p>
-<pre><code class="lang-sass"><div class="highlight"><pre>    <span class="nc">.txt-light</span> <span class="err">{</span>
-        <span class="na">color</span><span class="o">:</span> <span class="nf">lighten</span><span class="p">(</span><span class="nv">$brand_color</span><span class="o">,</span> <span class="mi">30</span><span class="kt">%</span><span class="p">)</span><span class="err">;</span>
-    <span class="err">}</span>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.txt-light</span> <span class="err">{</span>
+    <span class="na">color</span><span class="o">:</span> <span class="nf">lighten</span><span class="p">(</span><span class="nv">$brand_color</span><span class="o">,</span> <span class="mi">30</span><span class="kt">%</span><span class="p">)</span><span class="err">;</span>
+<span class="err">}</span>
 </pre></div>
 </code></pre>
 <p><code>darken(colour, percentage)</code></p>
-<pre><code class="lang-sass"><div class="highlight"><pre>    <span class="nc">.txt-dark</span> <span class="err">{</span>
-        <span class="na">color</span><span class="o">:</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$brand_color</span><span class="o">,</span> <span class="mi">10</span><span class="kt">%</span><span class="p">)</span><span class="err">;</span>
-    <span class="err">}</span>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.txt-dark</span> <span class="err">{</span>
+    <span class="na">color</span><span class="o">:</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$brand_color</span><span class="o">,</span> <span class="mi">10</span><span class="kt">%</span><span class="p">)</span><span class="err">;</span>
+<span class="err">}</span>
 </pre></div>
 </code></pre>
 <p><code>saturate(colour, percentage)</code></p>
-<pre><code class="lang-sass"><div class="highlight"><pre>    <span class="nc">.txt-sat</span> <span class="err">{</span>
-        <span class="na">color</span><span class="o">:</span> <span class="nf">saturate</span><span class="p">(</span><span class="nv">$brand_color</span><span class="o">,</span> <span class="mi">100</span><span class="kt">%</span><span class="p">)</span><span class="err">;</span>
-    <span class="err">}</span>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.txt-sat</span> <span class="err">{</span>
+    <span class="na">color</span><span class="o">:</span> <span class="nf">saturate</span><span class="p">(</span><span class="nv">$brand_color</span><span class="o">,</span> <span class="mi">100</span><span class="kt">%</span><span class="p">)</span><span class="err">;</span>
+<span class="err">}</span>
 </pre></div>
 </code></pre>
 <p><code>desaturate(colour, percentage)</code></p>
-<pre><code class="lang-sass"><div class="highlight"><pre>    <span class="nc">.txt-desat</span> <span class="err">{</span>
-        <span class="na">color</span><span class="o">:</span> <span class="nf">desaturate</span><span class="p">(</span><span class="nv">$brand_color</span><span class="o">,</span> <span class="mi">20</span><span class="kt">%</span><span class="p">)</span><span class="err">;</span>
-    <span class="err">}</span>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.txt-desat</span> <span class="err">{</span>
+    <span class="na">color</span><span class="o">:</span> <span class="nf">desaturate</span><span class="p">(</span><span class="nv">$brand_color</span><span class="o">,</span> <span class="mi">20</span><span class="kt">%</span><span class="p">)</span><span class="err">;</span>
+<span class="err">}</span>
 </pre></div>
 </code></pre>
 <p><code>adjust-hue(colour, degrees)</code></p>
-<pre><code class="lang-sass"><div class="highlight"><pre>    <span class="nc">.txt-hue</span> <span class="err">{</span>
-        <span class="na">color</span><span class="o">:</span> <span class="nf">adjust-hue</span><span class="p">(</span><span class="nv">$brand_color</span><span class="o">,</span> <span class="mi">180</span><span class="p">)</span><span class="err">;</span>
-    <span class="err">}</span>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.txt-hue</span> <span class="err">{</span>
+    <span class="na">color</span><span class="o">:</span> <span class="nf">adjust-hue</span><span class="p">(</span><span class="nv">$brand_color</span><span class="o">,</span> <span class="mi">180</span><span class="p">)</span><span class="err">;</span>
+<span class="err">}</span>
 </pre></div>
 </code></pre>
 <p><code>grayscale(colour)</code></p>
-<pre><code class="lang-sass"><div class="highlight"><pre>    <span class="nc">.txt-greyscale</span> <span class="err">{</span>
-        <span class="na">color</span><span class="o">:</span> <span class="nf">grayscale</span><span class="p">(</span><span class="nv">$brand_color</span><span class="p">)</span><span class="err">;</span>
-    <span class="err">}</span>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.txt-greyscale</span> <span class="err">{</span>
+    <span class="na">color</span><span class="o">:</span> <span class="nf">grayscale</span><span class="p">(</span><span class="nv">$brand_color</span><span class="p">)</span><span class="err">;</span>
+<span class="err">}</span>
 </pre></div>
 </code></pre>
 <p><code>mix(colour, colour)</code></p>
-<pre><code class="lang-sass"><div class="highlight"><pre>    <span class="nc">.txt-mix</span> <span class="err">{</span>
-        <span class="na">color</span><span class="o">:</span> <span class="nf">mix</span><span class="p">(</span><span class="nv">$brand_color</span><span class="o">,</span> <span class="mh">#C00</span><span class="p">)</span><span class="err">;</span>
-    <span class="err">}</span>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.txt-mix</span> <span class="err">{</span>
+    <span class="na">color</span><span class="o">:</span> <span class="nf">mix</span><span class="p">(</span><span class="nv">$brand_color</span><span class="o">,</span> <span class="mh">#C00</span><span class="p">)</span><span class="err">;</span>
+<span class="err">}</span>
 </pre></div>
 </code></pre>
 <h2><a name="importing"class="anchor" href="#importing"><span class="header-link"></span></a>Importing</h2>
@@ -146,30 +147,30 @@
 <p>To be honest, it&#39;s likely that any stylesheets you have deemed modular enough to be imported you&#39;ll want them not to generate their own CSS files (what would be the point if when compiled they are being imported into the main CSS file?)</p>
 <p><strong>Beware!</strong> if you&#39;re main stylesheet has for example a <code>.brand</code> class and so does your imported stylesheet, when you compile the Sass file into CSS the <code>.brand</code> class will be listed twice.</p>
 <p>For example:</p>
-<pre><code class="lang-sass"><div class="highlight"><pre>    <span class="nv">$brand_color</span><span class="o"> =</span> <span class="mh">#0000FF</span><span class="err">;</span>
-    <span class="nc">.brand</span> <span class="err">{</span> 
-        <span class="na">color</span><span class="o">:</span> <span class="nv">$brand_color</span><span class="err">;</span> 
-    <span class="err">}</span>
-    <span class="c1">// MORE STYLES</span>
-    <span class="k">@import</span> <span class="s">&quot;other.scss&quot;;</span>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nv">$brand_color</span><span class="o"> =</span> <span class="mh">#0000FF</span><span class="err">;</span>
+<span class="nc">.brand</span> <span class="err">{</span> 
+    <span class="na">color</span><span class="o">:</span> <span class="nv">$brand_color</span><span class="err">;</span> 
+<span class="err">}</span>
+<span class="c1">// MORE STYLES</span>
+<span class="k">@import</span> <span class="s">&quot;other.scss&quot;;</span>
 </pre></div>
 </code></pre>
 <p>…generates the following CSS…</p>
-<pre><code class="lang-css"><div class="highlight"><pre>    <span class="nc">.brand</span> <span class="p">{</span> 
-        <span class="k">color</span><span class="o">:</span> <span class="nb">blue</span><span class="p">;</span> 
-    <span class="p">}</span>
-    <span class="o">//</span> <span class="nt">MORE</span> <span class="nt">STYLES</span>
-    <span class="nc">.brand</span> <span class="p">{</span> 
-        <span class="k">background-color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span> 
-    <span class="p">}</span>
+<pre><code class="lang-css"><div class="highlight"><pre><span class="nc">.brand</span> <span class="p">{</span> 
+    <span class="k">color</span><span class="o">:</span> <span class="nb">blue</span><span class="p">;</span> 
+<span class="p">}</span>
+<span class="o">//</span> <span class="nt">MORE</span> <span class="nt">STYLES</span>
+<span class="nc">.brand</span> <span class="p">{</span> 
+    <span class="k">background-color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span> 
+<span class="p">}</span>
 </pre></div>
 </code></pre>
 <p>…which obviously isn&#39;t as efficient or clean as…</p>
-<pre><code class="lang-css"><div class="highlight"><pre>    <span class="nc">.brand</span> <span class="p">{</span> 
-        <span class="k">color</span><span class="o">:</span> <span class="nb">blue</span><span class="p">;</span> 
-        <span class="k">background-color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span> 
-    <span class="p">}</span>
-    <span class="o">//</span> <span class="nt">MORE</span> <span class="nt">STYLES</span>
+<pre><code class="lang-css"><div class="highlight"><pre><span class="nc">.brand</span> <span class="p">{</span> 
+    <span class="k">color</span><span class="o">:</span> <span class="nb">blue</span><span class="p">;</span> 
+    <span class="k">background-color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span> 
+<span class="p">}</span>
+<span class="o">//</span> <span class="nt">MORE</span> <span class="nt">STYLES</span>
 </pre></div>
 </code></pre>
 <p>…but that&#39;s the trade-off between Sass features and the efficiency of the produced code.</p>
@@ -179,26 +180,26 @@
 <p>This feature is almost pointless as you really should be developing OOCSS (object-oriented CSS). All this does is repeat properties in the compiled CSS file. </p>
 <p>The reason I&#39;m even mentioning this feature is so you know not to bother with it and instead concentrate on the concepts of OOCSS more.</p>
 <p>Anywhere you have a CSS class you can re-import that inside another rule:</p>
-<pre><code class="lang-sass"><div class="highlight"><pre>    <span class="nc">.myClass</span> <span class="err">{</span>
-        <span class="na">border</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="mh">#969</span><span class="err">;</span>
-        <span class="na">color</span><span class="o">:</span> <span class="nb">red</span><span class="err">;</span>
-    <span class="err">}</span>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.myClass</span> <span class="err">{</span>
+    <span class="na">border</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="mh">#969</span><span class="err">;</span>
+    <span class="na">color</span><span class="o">:</span> <span class="nb">red</span><span class="err">;</span>
+<span class="err">}</span>
 
-    <span class="nt">button</span> <span class="err">{</span>
-        <span class="k">@extend</span> <span class="nc">.myClass</span><span class="o">;</span>
-        <span class="na">background-color</span><span class="o">:</span> <span class="ni">orange</span><span class="err">;</span>
-    <span class="err">}</span>
+<span class="nt">button</span> <span class="err">{</span>
+    <span class="k">@extend</span> <span class="nc">.myClass</span><span class="o">;</span>
+    <span class="na">background-color</span><span class="o">:</span> <span class="ni">orange</span><span class="err">;</span>
+<span class="err">}</span>
 </pre></div>
 </code></pre>
 <p>…which generates the following CSS…</p>
-<pre><code class="lang-css"><div class="highlight"><pre>    <span class="nc">.myClass</span><span class="o">,</span> <span class="nt">button</span> <span class="p">{</span>
-        <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="m">#969</span><span class="p">;</span>
-        <span class="k">color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span>
-    <span class="p">}</span>
+<pre><code class="lang-css"><div class="highlight"><pre><span class="nc">.myClass</span><span class="o">,</span> <span class="nt">button</span> <span class="p">{</span>
+    <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="m">#969</span><span class="p">;</span>
+    <span class="k">color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span>
+<span class="p">}</span>
 
-    <span class="nt">button</span> <span class="p">{</span>
-        <span class="k">background-color</span><span class="o">:</span> <span class="nb">orange</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="nt">button</span> <span class="p">{</span>
+    <span class="k">background-color</span><span class="o">:</span> <span class="nb">orange</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 </code></pre>
 <p>A couple of last words of caution: <code>extend</code> avoids code duplication but it also causes other problems in that the amount of selectors can become an issue. If you @extend the same base class multiple times you may end up with a rule that has thousands of selectors, which isn&#39;t good for performance and can even make the browser crash (limit its use if you must use it).</p>
@@ -207,75 +208,75 @@
 <p>These are functionally similar to <code>extend</code>, but a mixin&#39;s properties are copied into the class rather than referenced (<code>extend</code> is designed to be used as a mechanism for proper inheritance as seen in other classical object-oriented programming languages), but more importantly with mixins you can also change the values when calling the mixin into your class (like they were a function).</p>
 <p>Remember that this can cause code duplication so please do NOT use &#39;Mixins&#39; (OOCSS should be used instead).</p>
 <p>You create a mixing like so:</p>
-<pre><code class="lang-sass"><div class="highlight"><pre>    <span class="k">@mixin</span> <span class="nc">.myMixin</span> <span class="err">{</span> 
-        <span class="na">color</span><span class="o">:</span> <span class="nb">blue</span><span class="err">;</span> 
-    <span class="err">}</span>
-    <span class="nc">.product_title</span> <span class="err">{</span>
-        <span class="k">@include</span> <span class="nc">.myMixin</span><span class="o">;</span>
-    <span class="err">}</span>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="k">@mixin</span> <span class="nc">.myMixin</span> <span class="err">{</span> 
+    <span class="na">color</span><span class="o">:</span> <span class="nb">blue</span><span class="err">;</span> 
+<span class="err">}</span>
+<span class="nc">.product_title</span> <span class="err">{</span>
+    <span class="k">@include</span> <span class="nc">.myMixin</span><span class="o">;</span>
+<span class="err">}</span>
 </pre></div>
 </code></pre>
 <p>…and you can change the values like so…</p>
-<pre><code class="lang-sass"><div class="highlight"><pre>    <span class="k">@mixin</span> <span class="nc">.myMixin</span><span class="o">(</span><span class="err">$</span><span class="nt">set_colour</span><span class="o">)</span> <span class="err">{</span> 
-        <span class="na">color</span><span class="o">:</span> <span class="nv">$set_colour</span><span class="err">;</span> 
-    <span class="err">}</span>
-    <span class="nc">.product_title</span> <span class="err">{</span>
-        <span class="k">@include</span> <span class="nc">.myMixin</span><span class="o">(</span><span class="nn">#FF0000</span><span class="o">);</span>
-    <span class="err">}</span>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="k">@mixin</span> <span class="nc">.myMixin</span><span class="o">(</span><span class="err">$</span><span class="nt">set_colour</span><span class="o">)</span> <span class="err">{</span> 
+    <span class="na">color</span><span class="o">:</span> <span class="nv">$set_colour</span><span class="err">;</span> 
+<span class="err">}</span>
+<span class="nc">.product_title</span> <span class="err">{</span>
+    <span class="k">@include</span> <span class="nc">.myMixin</span><span class="o">(</span><span class="nn">#FF0000</span><span class="o">);</span>
+<span class="err">}</span>
 </pre></div>
 </code></pre>
 <p>…you can also define a default value if none is provided…</p>
-<pre><code class="lang-sass"><div class="highlight"><pre>    <span class="k">@mixin</span> <span class="nc">.myMixin</span><span class="o">(</span><span class="err">$</span><span class="nt">set_colour</span><span class="nd">:</span> <span class="nn">#0000FF</span><span class="o">)</span> <span class="err">{</span> 
-        <span class="na">color</span><span class="o">:</span> <span class="nv">$set_colour</span><span class="err">;</span>
-    <span class="err">}</span>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="k">@mixin</span> <span class="nc">.myMixin</span><span class="o">(</span><span class="err">$</span><span class="nt">set_colour</span><span class="nd">:</span> <span class="nn">#0000FF</span><span class="o">)</span> <span class="err">{</span> 
+    <span class="na">color</span><span class="o">:</span> <span class="nv">$set_colour</span><span class="err">;</span>
+<span class="err">}</span>
 </pre></div>
 </code></pre>
 <p>…you can use mixin&#39;s for things like CSS3 properties…</p>
-<pre><code class="lang-sass"><div class="highlight"><pre>    <span class="k">@mixin</span><span class="nf"> rounded_borders</span><span class="p">(</span><span class="nv">$color</span><span class="o">,</span> <span class="nv">$width</span><span class="o">:</span> <span class="mi">5</span><span class="kt">px</span><span class="o">,</span> <span class="nv">$rounding</span><span class="o">:</span> <span class="mi">5</span><span class="kt">px</span><span class="p">)</span> <span class="err">{</span> 
-        <span class="na">-moz-border-radius</span><span class="o">:</span> <span class="nv">$rounding</span> <span class="nv">$rounding</span><span class="err">;</span> 
-        <span class="na">-webkit-border-radius</span><span class="o">:</span> <span class="nv">$rounding</span> <span class="nv">$rounding</span><span class="err">;</span> 
-        <span class="na">-khtml-border-radius</span><span class="o">:</span> <span class="nv">$rounding</span> <span class="nv">$rounding</span><span class="err">;</span> 
-        <span class="na">-o-border-radius</span><span class="o">:</span> <span class="nv">$rounding</span> <span class="nv">$rounding</span><span class="err">;</span>
-             <span class="na">border-radius</span><span class="o">:</span> <span class="nv">$rounding</span> <span class="nv">$rounding</span><span class="err">;</span>
-             <span class="na">border</span><span class="o">:</span> <span class="nv">$width</span> <span class="no">solid</span> <span class="nv">$color</span><span class="err">;</span>
-    <span class="err">}</span>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="k">@mixin</span><span class="nf"> rounded_borders</span><span class="p">(</span><span class="nv">$color</span><span class="o">,</span> <span class="nv">$width</span><span class="o">:</span> <span class="mi">5</span><span class="kt">px</span><span class="o">,</span> <span class="nv">$rounding</span><span class="o">:</span> <span class="mi">5</span><span class="kt">px</span><span class="p">)</span> <span class="err">{</span> 
+    <span class="na">-moz-border-radius</span><span class="o">:</span> <span class="nv">$rounding</span> <span class="nv">$rounding</span><span class="err">;</span> 
+    <span class="na">-webkit-border-radius</span><span class="o">:</span> <span class="nv">$rounding</span> <span class="nv">$rounding</span><span class="err">;</span> 
+    <span class="na">-khtml-border-radius</span><span class="o">:</span> <span class="nv">$rounding</span> <span class="nv">$rounding</span><span class="err">;</span> 
+    <span class="na">-o-border-radius</span><span class="o">:</span> <span class="nv">$rounding</span> <span class="nv">$rounding</span><span class="err">;</span>
+         <span class="na">border-radius</span><span class="o">:</span> <span class="nv">$rounding</span> <span class="nv">$rounding</span><span class="err">;</span>
+         <span class="na">border</span><span class="o">:</span> <span class="nv">$width</span> <span class="no">solid</span> <span class="nv">$color</span><span class="err">;</span>
+<span class="err">}</span>
 
-    <span class="k">@mixin</span><span class="nf"> opacity</span><span class="p">(</span><span class="nv">$opacity</span><span class="p">)</span> <span class="err">{</span>
-        <span class="na">filter</span><span class="o">:</span> <span class="nf">alpha</span><span class="p">(</span><span class="no">opacity</span><span class="o">=</span><span class="si">#{</span><span class="nv">$opacity</span><span class="si">}</span><span class="p">)</span><span class="err">;</span> <span class="c1">// IE 5-9+ </span>
-        <span class="na">opacity</span><span class="o">:</span> <span class="nv">$opacity</span> <span class="o">*</span> <span class="mi">0</span><span class="mf">.01</span><span class="err">;</span> 
-    <span class="err">}</span>
+<span class="k">@mixin</span><span class="nf"> opacity</span><span class="p">(</span><span class="nv">$opacity</span><span class="p">)</span> <span class="err">{</span>
+    <span class="na">filter</span><span class="o">:</span> <span class="nf">alpha</span><span class="p">(</span><span class="no">opacity</span><span class="o">=</span><span class="si">#{</span><span class="nv">$opacity</span><span class="si">}</span><span class="p">)</span><span class="err">;</span> <span class="c1">// IE 5-9+ </span>
+    <span class="na">opacity</span><span class="o">:</span> <span class="nv">$opacity</span> <span class="o">*</span> <span class="mi">0</span><span class="mf">.01</span><span class="err">;</span> 
+<span class="err">}</span>
 </pre></div>
 </code></pre>
 <p>…and use the opacity like so…</p>
-<pre><code class="lang-sass"><div class="highlight"><pre>    <span class="nc">.h1</span> <span class="err">{</span> 
-        <span class="c1">// Use the IE numbering style (instead of the W3C&#39;s 0-1 numbering style)</span>
-        <span class="k">@include</span><span class="nd"> opacity</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span><span class="err">;</span>
-    <span class="err">}</span>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.h1</span> <span class="err">{</span> 
+    <span class="c1">// Use the IE numbering style (instead of the W3C&#39;s 0-1 numbering style)</span>
+    <span class="k">@include</span><span class="nd"> opacity</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span><span class="err">;</span>
+<span class="err">}</span>
 </pre></div>
 </code></pre>
 <p>…or you could use the reverse…</p>
-<pre><code class="lang-sass"><div class="highlight"><pre>    <span class="k">@mixin</span><span class="nf"> opacity</span><span class="p">(</span><span class="nv">$opacity</span><span class="p">)</span> <span class="err">{</span>
-        <span class="na">filter</span><span class="o">:</span> <span class="nf">alpha</span><span class="p">(</span><span class="no">opacity</span><span class="o">=</span><span class="si">#{</span><span class="nv">$opacity</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="p">)</span><span class="err">;</span> <span class="c1">// IE 5-9+ </span>
-        <span class="na">opacity</span><span class="o">:</span> <span class="nv">$opacity</span><span class="err">;</span> 
-    <span class="err">}</span>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="k">@mixin</span><span class="nf"> opacity</span><span class="p">(</span><span class="nv">$opacity</span><span class="p">)</span> <span class="err">{</span>
+    <span class="na">filter</span><span class="o">:</span> <span class="nf">alpha</span><span class="p">(</span><span class="no">opacity</span><span class="o">=</span><span class="si">#{</span><span class="nv">$opacity</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="p">)</span><span class="err">;</span> <span class="c1">// IE 5-9+ </span>
+    <span class="na">opacity</span><span class="o">:</span> <span class="nv">$opacity</span><span class="err">;</span> 
+<span class="err">}</span>
 </pre></div>
 </code></pre>
 <h2><a name="interpolation"class="anchor" href="#interpolation"><span class="header-link"></span></a>Interpolation</h2>
 <p>One area where mixins can&#39;t help you is when there is some specific CSS3 syntax such as <code>background-image</code> (with gradients). This is because not only the value changes but the syntax itself is different for each browser. </p>
 <p>One way to work around this issue is to use <code>interpolation</code>. The way it works is that you wrap a variable name with <code>#{}</code> e.g. <code>#{$my_variable}</code> and that will dynamically insert the value at that place in your CSS. Might sound a bit confusing so best to demonstrate this with an example, and the best example I can think of is again the <code>background-image</code> property with multiple different vendor prefixes… </p>
-<pre><code class="lang-sass"><div class="highlight"><pre>    <span class="c1">// Variable</span>
-    <span class="nv">$prefixes</span><span class="o">:-</span><span class="n">webkit</span><span class="o">,-</span><span class="n">moz</span><span class="o">,-</span><span class="n">ms</span><span class="o">,-</span><span class="n">o</span><span class="err">;</span>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="c1">// Variable</span>
+<span class="nv">$prefixes</span><span class="o">:-</span><span class="n">webkit</span><span class="o">,-</span><span class="n">moz</span><span class="o">,-</span><span class="n">ms</span><span class="o">,-</span><span class="n">o</span><span class="err">;</span>
 
-    <span class="c1">// Loop over each item in the $prefixes variable</span>
-    <span class="c1">// using interpolation to insert the relevant value dynamically</span>
-    <span class="k">@each</span> <span class="err">$</span><span class="nt">prefix</span> <span class="nt">in</span> <span class="err">$</span><span class="nt">prefixes</span> <span class="err">{</span>
-        <span class="na">background-image</span><span class="o">:</span> <span class="si">#{</span><span class="nv">$prefix</span><span class="si">}</span><span class="nf">-linear-gradient</span><span class="p">(</span><span class="nf">rgba</span><span class="p">(</span><span class="mi">255</span><span class="o">,</span><span class="mi">255</span><span class="o">,</span><span class="mi">255</span><span class="o">,</span><span class="mi">0</span><span class="p">)</span><span class="o">,</span> <span class="nf">rgba</span><span class="p">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="mf">.1</span><span class="p">))</span><span class="err">;</span>
-    <span class="err">}</span>
+<span class="c1">// Loop over each item in the $prefixes variable</span>
+<span class="c1">// using interpolation to insert the relevant value dynamically</span>
+<span class="k">@each</span> <span class="err">$</span><span class="nt">prefix</span> <span class="nt">in</span> <span class="err">$</span><span class="nt">prefixes</span> <span class="err">{</span>
+    <span class="na">background-image</span><span class="o">:</span> <span class="si">#{</span><span class="nv">$prefix</span><span class="si">}</span><span class="nf">-linear-gradient</span><span class="p">(</span><span class="nf">rgba</span><span class="p">(</span><span class="mi">255</span><span class="o">,</span><span class="mi">255</span><span class="o">,</span><span class="mi">255</span><span class="o">,</span><span class="mi">0</span><span class="p">)</span><span class="o">,</span> <span class="nf">rgba</span><span class="p">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="mf">.1</span><span class="p">))</span><span class="err">;</span>
+<span class="err">}</span>
 
-    <span class="c1">// The following example might be better placed inside a mixin or extend</span>
-    <span class="k">@each</span> <span class="err">$</span><span class="nt">prefix</span> <span class="nt">in</span> <span class="err">$</span><span class="nt">prefixes</span> <span class="err">{</span>
-        <span class="na">#{$prefix}-border-radius</span><span class="o">:</span> <span class="mi">10</span><span class="kt">px</span><span class="err">;</span>
-    <span class="err">}</span>
+<span class="c1">// The following example might be better placed inside a mixin or extend</span>
+<span class="k">@each</span> <span class="err">$</span><span class="nt">prefix</span> <span class="nt">in</span> <span class="err">$</span><span class="nt">prefixes</span> <span class="err">{</span>
+    <span class="na">#{$prefix}-border-radius</span><span class="o">:</span> <span class="mi">10</span><span class="kt">px</span><span class="err">;</span>
+<span class="err">}</span>
 </pre></div>
 </code></pre>
 <p>…most of the time mixins will help you work around CSS3 vendor prefixes but in the above instance <code>interpolation</code> is the way forward.</p>
@@ -295,7 +296,8 @@
   <span class="post-date">2012 &#183; 3 &#183; 4</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover-reading-time-approx-6mins-"class="anchor" href="#what-we-ll-cover-reading-time-approx-6mins-"><span class="header-link"></span></a>What we&#39;ll cover <em>reading time: approx. 6mins</em></h2>
+<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 6mins</em></p>
 <ul>
 <li>Introduction</li>
 <li>Prerequisite</li>
@@ -323,19 +325,19 @@
 <p><a href="https://github.com/stubbornella/csslint"><a href="https://github.com/stubbornella/csslint">https://github.com/stubbornella/csslint</a></a></p>
 <p><strong>Installation</strong>:<br><code>npm install -g csslint</code></p>
 <p><strong>Example usage:</strong></p>
-<pre><code class="lang-sh"><div class="highlight"><pre>    csslint <span class="o">[</span>options<span class="o">]</span> <span class="o">[</span>file<span class="p">|</span>dir<span class="o">]</span>*
-    csslint file1.css file2.css  
-    csslint ./  
-    csslint --errors<span class="o">=</span>box-model,ids test.css // <span class="o">=</span>&gt; decide what should be errors  
-    csslint --warnings<span class="o">=</span>box-model,ids test.css // <span class="o">=</span>&gt; decide what should be warnings
+<pre><code class="lang-sh"><div class="highlight"><pre>csslint <span class="o">[</span>options<span class="o">]</span> <span class="o">[</span>file<span class="p">|</span>dir<span class="o">]</span>*
+csslint file1.css file2.css  
+csslint ./  
+csslint --errors<span class="o">=</span>box-model,ids test.css // <span class="o">=</span>&gt; decide what should be errors  
+csslint --warnings<span class="o">=</span>box-model,ids test.css // <span class="o">=</span>&gt; decide what should be warnings
 </pre></div>
 </code></pre>
 <p><strong>Configuration:</strong><br>You can view the options by running <code>csslint --help</code><br>All &#39;rules&#39; can be viewed using: <code>csslint --list-rules</code><br>The rules have #ID&#39;s that you can specify as errors|warnings</p>
 <p><strong>Generic usage:</strong><br><code>csslint --errors=import,compatible-vendor-prefixes,display-property-grouping,overqualified-elements,fallback-colors,duplicate-properties,empty-rules,gradients,universal-selector,vendor-prefix,zero-units --warnings=important,known-properties,font-sizes,outline-none,shorthand,unqualified-attributes</code></p>
 <p><strong>Prettier Syntax:</strong><br>It&#39;s recommended to create a shell script to wrap the CSS Lint functionality so you can use the same syntax as the Node.js CLI. </p>
 <p>For Linux/Mac, create a file named <code>csslint</code> and add the following to the file:  </p>
-<pre><code class="lang-sh"><div class="highlight"><pre>    <span class="c">#!/bin/bash</span>
-    java -jar js.jar csslint-rhino.js <span class="nv">$@</span>
+<pre><code class="lang-sh"><div class="highlight"><pre><span class="c">#!/bin/bash</span>
+java -jar js.jar csslint-rhino.js <span class="nv">$@</span>
 </pre></div>
 </code></pre>
 <p>After creating the file, you need to ensure it can be executed, so go to the command line and type:<br><code>chmod +x csslint</code></p>
@@ -344,97 +346,97 @@
 <p><a href="https://github.com/jshint/node-jshint"><a href="https://github.com/jshint/node-jshint">https://github.com/jshint/node-jshint</a></a></p>
 <p><strong>Installation:</strong><br>npm install jshint</p>
 <p><strong>Example usage:</strong>  </p>
-<pre><code class="lang-sh"><div class="highlight"><pre>    jshint path path2 <span class="o">[</span>options<span class="o">]</span> // <span class="o">=</span>&gt; run against specific scripts
-    jshint *.js // <span class="o">=</span>&gt; run against all scripts
-    jshint main.js --show-non-errors // <span class="o">=</span>&gt; show non-errors <span class="o">(</span>e.g. Implied globals etc<span class="o">)</span>
-    jshint main.js --config ./Lint/config.json // <span class="o">=</span>&gt; use specific configuration options
-    jshint main.js --show-non-errors --config ./Lint/config.json // <span class="o">=</span>&gt; example of showing non-errors against specific configuration settings
+<pre><code class="lang-sh"><div class="highlight"><pre>jshint path path2 <span class="o">[</span>options<span class="o">]</span> // <span class="o">=</span>&gt; run against specific scripts
+jshint *.js // <span class="o">=</span>&gt; run against all scripts
+jshint main.js --show-non-errors // <span class="o">=</span>&gt; show non-errors <span class="o">(</span>e.g. Implied globals etc<span class="o">)</span>
+jshint main.js --config ./Lint/config.json // <span class="o">=</span>&gt; use specific configuration options
+jshint main.js --show-non-errors --config ./Lint/config.json // <span class="o">=</span>&gt; example of showing non-errors against specific configuration settings
 </pre></div>
 </code></pre>
 <p>If you get no errors then that means the script ran fine</p>
 <p><strong>Generic usage:</strong><br><code>jshint **/*.js --config ./Lint/config.json</code></p>
 <p><strong>Configuration:</strong><br>Your <code>config.json</code> file could look like the following…</p>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="p">{</span>
-        <span class="c1">// Settings</span>
-        <span class="s2">&quot;passfail&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Stop on first error.</span>
-        <span class="s2">&quot;maxerr&quot;</span>        <span class="o">:</span> <span class="mi">200</span><span class="p">,</span>    <span class="c1">// Maximum error before stopping.</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="p">{</span>
+    <span class="c1">// Settings</span>
+    <span class="s2">&quot;passfail&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Stop on first error.</span>
+    <span class="s2">&quot;maxerr&quot;</span>        <span class="o">:</span> <span class="mi">200</span><span class="p">,</span>    <span class="c1">// Maximum error before stopping.</span>
 
 
-        <span class="c1">// Predefined globals whom JSHint will ignore.</span>
-        <span class="s2">&quot;browser&quot;</span>       <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Standard browser globals e.g. `window`, `document`.</span>
+    <span class="c1">// Predefined globals whom JSHint will ignore.</span>
+    <span class="s2">&quot;browser&quot;</span>       <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Standard browser globals e.g. `window`, `document`.</span>
 
-        <span class="s2">&quot;node&quot;</span>          <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
-        <span class="s2">&quot;rhino&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
-        <span class="s2">&quot;couch&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
-        <span class="s2">&quot;wsh&quot;</span>           <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>   <span class="c1">// Windows Scripting Host.</span>
+    <span class="s2">&quot;node&quot;</span>          <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">&quot;rhino&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">&quot;couch&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">&quot;wsh&quot;</span>           <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>   <span class="c1">// Windows Scripting Host.</span>
 
-        <span class="s2">&quot;jquery&quot;</span>        <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-        <span class="s2">&quot;prototypejs&quot;</span>   <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
-        <span class="s2">&quot;mootools&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
-        <span class="s2">&quot;dojo&quot;</span>          <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">&quot;jquery&quot;</span>        <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="s2">&quot;prototypejs&quot;</span>   <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">&quot;mootools&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">&quot;dojo&quot;</span>          <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
 
-        <span class="s2">&quot;predef&quot;</span>        <span class="o">:</span> <span class="p">[</span>  <span class="c1">// Custom globals.</span>
-            <span class="c1">// this is because we use require() from RequireJS library</span>
-            <span class="s2">&quot;require&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;define&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;predef&quot;</span>        <span class="o">:</span> <span class="p">[</span>  <span class="c1">// Custom globals.</span>
+        <span class="c1">// this is because we use require() from RequireJS library</span>
+        <span class="s2">&quot;require&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;define&quot;</span><span class="p">,</span>
 
-            <span class="c1">// this is because we use Jasmine BDD for unit-testing</span>
-            <span class="s2">&quot;jasmine&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;describe&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;beforeEach&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;afterEach&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;it&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;expect&quot;</span>
-        <span class="p">],</span>
-
-
-        <span class="c1">// Development.</span>
-        <span class="s2">&quot;debug&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow debugger statements e.g. browser breakpoints.</span>
-        <span class="s2">&quot;devel&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow developments statements e.g. `console.log();`.</span>
+        <span class="c1">// this is because we use Jasmine BDD for unit-testing</span>
+        <span class="s2">&quot;jasmine&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;describe&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;beforeEach&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;afterEach&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;it&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;expect&quot;</span>
+    <span class="p">],</span>
 
 
-        <span class="c1">// ECMAScript 5.</span>
-        <span class="s2">&quot;es5&quot;</span>           <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Allow ECMAScript 5 syntax.</span>
-        <span class="s2">&quot;strict&quot;</span>        <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Require `use strict` pragma  in every file.</span>
-        <span class="s2">&quot;globalstrict&quot;</span>  <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow global &quot;use strict&quot; (also enables &#39;strict&#39;).</span>
+    <span class="c1">// Development.</span>
+    <span class="s2">&quot;debug&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow debugger statements e.g. browser breakpoints.</span>
+    <span class="s2">&quot;devel&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow developments statements e.g. `console.log();`.</span>
 
 
-        <span class="c1">// The Good Parts.</span>
-        <span class="s2">&quot;asi&quot;</span>           <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate Automatic Semicolon Insertion (no semicolons).</span>
-        <span class="s2">&quot;laxbreak&quot;</span>      <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Tolerate unsafe line breaks e.g. `return [\n] x` without semicolons.</span>
-        <span class="s2">&quot;bitwise&quot;</span>       <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit bitwise operators (&amp;, |, ^, etc.).</span>
-        <span class="s2">&quot;boss&quot;</span>          <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Tolerate assignments inside if, for &amp; while. Usually conditions &amp; loops are for comparison, not assignments.</span>
-        <span class="s2">&quot;curly&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require {} for every new block or scope.</span>
-        <span class="s2">&quot;eqeqeq&quot;</span>        <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require triple equals i.e. `===`.</span>
-        <span class="s2">&quot;eqnull&quot;</span>        <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate use of `== null`.</span>
-        <span class="s2">&quot;evil&quot;</span>          <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate use of `eval`.</span>
-        <span class="s2">&quot;expr&quot;</span>          <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate `ExpressionStatement` as Programs.</span>
-        <span class="s2">&quot;forin&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate `for in` loops without `hasOwnPrototype`.</span>
-        <span class="s2">&quot;immed&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require immediate invocations to be wrapped in parens e.g. `( function(){}() );`</span>
-        <span class="s2">&quot;latedef&quot;</span>       <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohipit variable use before definition.</span>
-        <span class="s2">&quot;loopfunc&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow functions to be defined within loops.</span>
-        <span class="s2">&quot;noarg&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit use of `arguments.caller` and `arguments.callee`.</span>
-        <span class="s2">&quot;regexp&quot;</span>        <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Prohibit `.` and `[^...]` in regular expressions.</span>
-        <span class="s2">&quot;regexdash&quot;</span>     <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate unescaped last dash i.e. `[-...]`.</span>
-        <span class="s2">&quot;scripturl&quot;</span>     <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Tolerate script-targeted URLs.</span>
-        <span class="s2">&quot;shadow&quot;</span>        <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Allows re-define variables later in code e.g. `var x=1; x=2;`.</span>
-        <span class="s2">&quot;supernew&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate `new function () { ... };` and `new Object;`.</span>
-        <span class="s2">&quot;undef&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require all non-global variables be declared before they are used.</span>
+    <span class="c1">// ECMAScript 5.</span>
+    <span class="s2">&quot;es5&quot;</span>           <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Allow ECMAScript 5 syntax.</span>
+    <span class="s2">&quot;strict&quot;</span>        <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Require `use strict` pragma  in every file.</span>
+    <span class="s2">&quot;globalstrict&quot;</span>  <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow global &quot;use strict&quot; (also enables &#39;strict&#39;).</span>
 
 
-        <span class="c1">// Personal styling preferences.</span>
-        <span class="s2">&quot;newcap&quot;</span>        <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require capitalization of all constructor functions e.g. `new F()`.</span>
-        <span class="s2">&quot;noempty&quot;</span>       <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit use of empty blocks.</span>
-        <span class="s2">&quot;nonew&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit use of constructors for side-effects.</span>
-        <span class="s2">&quot;nomen&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit use of initial or trailing underbars in names.</span>
-        <span class="s2">&quot;onevar&quot;</span>        <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow only one `var` statement per function.</span>
-        <span class="s2">&quot;plusplus&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Prohibit use of `++` &amp; `--`.</span>
-        <span class="s2">&quot;sub&quot;</span>           <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate all forms of subscript notation besides dot notation e.g. `dict[&#39;key&#39;]` instead of `dict.key`.</span>
-        <span class="s2">&quot;trailing&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Prohibit trailing whitespaces.</span>
-        <span class="s2">&quot;white&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Check against strict whitespace and indentation rules.</span>
-        <span class="s2">&quot;indent&quot;</span>        <span class="o">:</span> <span class="mi">4</span><span class="p">,</span>      <span class="c1">// Specify indentation spacing</span>
-        <span class="s2">&quot;smarttabs&quot;</span>        <span class="o">:</span> <span class="kc">true</span>      <span class="c1">// Suppress warnings about mixed tabs and spaces</span>
-    <span class="p">}</span>
+    <span class="c1">// The Good Parts.</span>
+    <span class="s2">&quot;asi&quot;</span>           <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate Automatic Semicolon Insertion (no semicolons).</span>
+    <span class="s2">&quot;laxbreak&quot;</span>      <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Tolerate unsafe line breaks e.g. `return [\n] x` without semicolons.</span>
+    <span class="s2">&quot;bitwise&quot;</span>       <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit bitwise operators (&amp;, |, ^, etc.).</span>
+    <span class="s2">&quot;boss&quot;</span>          <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Tolerate assignments inside if, for &amp; while. Usually conditions &amp; loops are for comparison, not assignments.</span>
+    <span class="s2">&quot;curly&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require {} for every new block or scope.</span>
+    <span class="s2">&quot;eqeqeq&quot;</span>        <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require triple equals i.e. `===`.</span>
+    <span class="s2">&quot;eqnull&quot;</span>        <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate use of `== null`.</span>
+    <span class="s2">&quot;evil&quot;</span>          <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate use of `eval`.</span>
+    <span class="s2">&quot;expr&quot;</span>          <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate `ExpressionStatement` as Programs.</span>
+    <span class="s2">&quot;forin&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate `for in` loops without `hasOwnPrototype`.</span>
+    <span class="s2">&quot;immed&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require immediate invocations to be wrapped in parens e.g. `( function(){}() );`</span>
+    <span class="s2">&quot;latedef&quot;</span>       <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohipit variable use before definition.</span>
+    <span class="s2">&quot;loopfunc&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow functions to be defined within loops.</span>
+    <span class="s2">&quot;noarg&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit use of `arguments.caller` and `arguments.callee`.</span>
+    <span class="s2">&quot;regexp&quot;</span>        <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Prohibit `.` and `[^...]` in regular expressions.</span>
+    <span class="s2">&quot;regexdash&quot;</span>     <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate unescaped last dash i.e. `[-...]`.</span>
+    <span class="s2">&quot;scripturl&quot;</span>     <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Tolerate script-targeted URLs.</span>
+    <span class="s2">&quot;shadow&quot;</span>        <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Allows re-define variables later in code e.g. `var x=1; x=2;`.</span>
+    <span class="s2">&quot;supernew&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate `new function () { ... };` and `new Object;`.</span>
+    <span class="s2">&quot;undef&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require all non-global variables be declared before they are used.</span>
+
+
+    <span class="c1">// Personal styling preferences.</span>
+    <span class="s2">&quot;newcap&quot;</span>        <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require capitalization of all constructor functions e.g. `new F()`.</span>
+    <span class="s2">&quot;noempty&quot;</span>       <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit use of empty blocks.</span>
+    <span class="s2">&quot;nonew&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit use of constructors for side-effects.</span>
+    <span class="s2">&quot;nomen&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit use of initial or trailing underbars in names.</span>
+    <span class="s2">&quot;onevar&quot;</span>        <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow only one `var` statement per function.</span>
+    <span class="s2">&quot;plusplus&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Prohibit use of `++` &amp; `--`.</span>
+    <span class="s2">&quot;sub&quot;</span>           <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate all forms of subscript notation besides dot notation e.g. `dict[&#39;key&#39;]` instead of `dict.key`.</span>
+    <span class="s2">&quot;trailing&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Prohibit trailing whitespaces.</span>
+    <span class="s2">&quot;white&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Check against strict whitespace and indentation rules.</span>
+    <span class="s2">&quot;indent&quot;</span>        <span class="o">:</span> <span class="mi">4</span><span class="p">,</span>      <span class="c1">// Specify indentation spacing</span>
+    <span class="s2">&quot;smarttabs&quot;</span>        <span class="o">:</span> <span class="kc">true</span>      <span class="c1">// Suppress warnings about mixed tabs and spaces</span>
+<span class="p">}</span>
 </pre></div>
 </code></pre>
 <h2><a name="requirejs-r-js"class="anchor" href="#requirejs-r-js"><span class="header-link"></span></a>RequireJS/r.js</h2>
@@ -442,43 +444,43 @@
 <p><a href="https://github.com/jrburke/r.js"><a href="https://github.com/jrburke/r.js">https://github.com/jrburke/r.js</a></a></p>
 <p><strong>Generic usage:</strong><br><code>node r.js -o app.build.js</code></p>
 <p><strong>Configuration:</strong><br>You create a &#39;build&#39; script file (see below for an example) and then you use NodeJs to execute the <code>r.js</code> optimization script and pass through your build script as an argument</p>
-<pre><code class="lang-js"><div class="highlight"><pre>    <span class="cm">/*</span>
-<span class="cm">     * http://requirejs.org/docs/optimization.html</span>
-<span class="cm">     *</span>
-<span class="cm">     * See: https://github.com/jrburke/r.js/blob/master/build/example.build.js for an example build script</span>
-<span class="cm">     *</span>
-<span class="cm">     * If you specify just the name (with no includes/excludes) then all modules are combined into the &quot;main&quot; file.</span>
-<span class="cm">     * You can include/exclude specific modules though if needed (this helps with &#39;lazy loading&#39; scripts)</span>
-<span class="cm">     *</span>
-<span class="cm">     * You can also set optimize: &quot;none&quot; (or more specific uglifyjs settings) if you need to.</span>
-<span class="cm">     *</span>
-<span class="cm">     * Node: if you set relative paths then do them relative to the baseUrl</span>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="cm">/*</span>
+<span class="cm"> * http://requirejs.org/docs/optimization.html</span>
+<span class="cm"> *</span>
+<span class="cm"> * See: https://github.com/jrburke/r.js/blob/master/build/example.build.js for an example build script</span>
+<span class="cm"> *</span>
+<span class="cm"> * If you specify just the name (with no includes/excludes) then all modules are combined into the &quot;main&quot; file.</span>
+<span class="cm"> * You can include/exclude specific modules though if needed (this helps with &#39;lazy loading&#39; scripts)</span>
+<span class="cm"> *</span>
+<span class="cm"> * You can also set optimize: &quot;none&quot; (or more specific uglifyjs settings) if you need to.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Node: if you set relative paths then do them relative to the baseUrl</span>
+<span class="cm"> */</span>
+<span class="p">({</span>    
+    <span class="nx">appDir</span><span class="o">:</span> <span class="s1">&#39;../../../&#39;</span><span class="p">,</span>
+    <span class="nx">baseUrl</span><span class="o">:</span> <span class="s1">&#39;Assets/Scripts&#39;</span><span class="p">,</span>
+    <span class="nx">dir</span><span class="o">:</span> <span class="s1">&#39;../../../project-build&#39;</span><span class="p">,</span>
+    <span class="cm">/*</span>
+<span class="cm">     * The below &#39;paths&#39; object is useful for when using plugins/named module paths.</span>
+<span class="cm">     * If you use plugins or named modules in your code then don&#39;t forget to specify the same paths again in your build script.</span>
+<span class="cm">     * Otherwise your build script wont be able to find your plugins/named modules and will generate an error when building.</span>
 <span class="cm">     */</span>
-    <span class="p">({</span>    
-        <span class="nx">appDir</span><span class="o">:</span> <span class="s1">&#39;../../../&#39;</span><span class="p">,</span>
-        <span class="nx">baseUrl</span><span class="o">:</span> <span class="s1">&#39;Assets/Scripts&#39;</span><span class="p">,</span>
-        <span class="nx">dir</span><span class="o">:</span> <span class="s1">&#39;../../../project-build&#39;</span><span class="p">,</span>
-        <span class="cm">/*</span>
-<span class="cm">         * The below &#39;paths&#39; object is useful for when using plugins/named module paths.</span>
-<span class="cm">         * If you use plugins or named modules in your code then don&#39;t forget to specify the same paths again in your build script.</span>
-<span class="cm">         * Otherwise your build script wont be able to find your plugins/named modules and will generate an error when building.</span>
-<span class="cm">         */</span>
-        <span class="nx">paths</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">async</span><span class="o">:</span> <span class="s1">&#39;Plugins/async&#39;</span><span class="p">,</span>
-            <span class="nx">jquery</span><span class="o">:</span> <span class="s1">&#39;Utils/jquery&#39;</span><span class="p">,</span>
-            <span class="nx">tpl</span><span class="o">:</span> <span class="s1">&#39;Plugins/tpl&#39;</span>
-        <span class="p">},</span>
-        <span class="nx">optimize</span><span class="o">:</span> <span class="s1">&#39;none&#39;</span><span class="p">,</span>
-        <span class="nx">modules</span><span class="o">:</span> <span class="p">[</span>
-            <span class="p">{</span>
-                <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;main&#39;</span>
-                <span class="cm">/*</span>
-<span class="cm">                include: [&#39;module&#39;],</span>
-<span class="cm">                exclude: [&#39;module&#39;]</span>
-<span class="cm">                */</span>
-            <span class="p">}</span>
-        <span class="p">]</span>
-    <span class="p">})</span>
+    <span class="nx">paths</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">async</span><span class="o">:</span> <span class="s1">&#39;Plugins/async&#39;</span><span class="p">,</span>
+        <span class="nx">jquery</span><span class="o">:</span> <span class="s1">&#39;Utils/jquery&#39;</span><span class="p">,</span>
+        <span class="nx">tpl</span><span class="o">:</span> <span class="s1">&#39;Plugins/tpl&#39;</span>
+    <span class="p">},</span>
+    <span class="nx">optimize</span><span class="o">:</span> <span class="s1">&#39;none&#39;</span><span class="p">,</span>
+    <span class="nx">modules</span><span class="o">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;main&#39;</span>
+            <span class="cm">/*</span>
+<span class="cm">            include: [&#39;module&#39;],</span>
+<span class="cm">            exclude: [&#39;module&#39;]</span>
+<span class="cm">            */</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">})</span>
 </pre></div>
 </code></pre>
 <h2><a name="gh-markdown-cli"class="anchor" href="#gh-markdown-cli"><span class="header-link"></span></a>gh-markdown-cli</h2>

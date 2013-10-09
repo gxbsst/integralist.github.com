@@ -47,7 +47,8 @@
 
 <div class="post-body"><p>I thought I would get down in a blog post the different <a href="http://git-scm.com">Git</a> commands and tips that I find really useful, because every now and then it seems I need to refer back to these notes (which up until this point have been in a txt file in my Dropbox) if I&#39;ve not used a particular command in a while. </p>
 <p>Hopefully you&#39;ll find them useful too.</p>
-<h2><a name="what-we-ll-cover-reading-time-approx-13mins-"class="anchor" href="#what-we-ll-cover-reading-time-approx-13mins-"><span class="header-link"></span></a>What we&#39;ll cover <em>reading time: approx. 13mins</em></h2>
+<h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 13mins</em></p>
 <ol>
 <li><a href="#1">Show where Git is installed</a></li>
 <li><a href="#2">Show the Git version installed</a></li>
@@ -87,9 +88,9 @@
 <p><code>git version</code></p>
 <p><div id="3"></div></p>
 <h2><a name="update-your-global-user-details"class="anchor" href="#update-your-global-user-details"><span class="header-link"></span></a>Update your global user details</h2>
-<pre><code class="lang-sh"><div class="highlight"><pre>    git config --global user.name <span class="s2">&quot;Your Name&quot;</span>
-    git config --global user.email <span class="s2">&quot;Your Email&quot;</span>
-    git config --global apply.whitespace nowarn <span class="c"># ignore white space changes!</span>
+<pre><code class="lang-sh"><div class="highlight"><pre>git config --global user.name <span class="s2">&quot;Your Name&quot;</span>
+git config --global user.email <span class="s2">&quot;Your Email&quot;</span>
+git config --global apply.whitespace nowarn <span class="c"># ignore white space changes!</span>
 </pre></div>
 </code></pre>
 <p><div id="4"></div></p>
@@ -97,53 +98,53 @@
 <p>First create the global ignore file…</p>
 <p><code>touch ~/.gitignore_global</code></p>
 <p>Then add the following content to it (<em>this is a standard ignore file but I&#39;ve added some Sass CSS pre-processor files to it</em>)…</p>
-<pre><code class="lang-sh"><div class="highlight"><pre>    <span class="c"># Compiled source #</span>
-    <span class="c">###################</span>
-    *.com
-    *.class
-    *.dll
-    *.exe
-    *.o
-    *.so
-    *.sass-cache
-    *.scssc
+<pre><code class="lang-sh"><div class="highlight"><pre><span class="c"># Compiled source #</span>
+<span class="c">###################</span>
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.sass-cache
+*.scssc
 
-    <span class="c"># Packages #</span>
-    <span class="c">############</span>
-    <span class="c"># it&#39;s better to unpack these files and commit the raw source</span>
-    <span class="c"># git has its own built in compression methods</span>
-    *.7z
-    *.dmg
-    *.gz
-    *.iso
-    *.jar
-    *.rar
-    *.tar
-    *.zip
+<span class="c"># Packages #</span>
+<span class="c">############</span>
+<span class="c"># it&#39;s better to unpack these files and commit the raw source</span>
+<span class="c"># git has its own built in compression methods</span>
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
 
-    <span class="c"># Logs and databases #</span>
-    <span class="c">######################</span>
-    *.log
-    *.sql
-    *.sqlite
+<span class="c"># Logs and databases #</span>
+<span class="c">######################</span>
+*.log
+*.sql
+*.sqlite
 
-    <span class="c"># OS generated files #</span>
-    <span class="c">######################</span>
-    .DS_Store
-    .DS_Store?
-    ._*
-    .Spotlight-V100
-    .Trashes
-    Icon?
-    ehthumbs.db
-    Thumbs.db
+<span class="c"># OS generated files #</span>
+<span class="c">######################</span>
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
 </pre></div>
 </code></pre>
 <p>You can let Git know about your global ignore file by editing your global <code>.gitconfig</code> file…</p>
 <p><code>nano ~/.gitconfig</code></p>
 <p>…then adding the following to it… </p>
-<pre><code class="lang-sh"><div class="highlight"><pre>    <span class="o">[</span>core<span class="o">]</span>
-        <span class="nv">excludesfile</span> <span class="o">=</span> /Users/&lt;home-directory&gt;/.gitignore_global
+<pre><code class="lang-sh"><div class="highlight"><pre><span class="o">[</span>core<span class="o">]</span>
+    <span class="nv">excludesfile</span> <span class="o">=</span> /Users/&lt;home-directory&gt;/.gitignore_global
 </pre></div>
 </code></pre>
 <p>…or once the <code>.gitignore_global</code> file is created you can just tell git by using this short-hand command…</p>
@@ -159,9 +160,9 @@
 <p><code>git commit</code></p>
 <p>…what this does is open up the default editor for commit messages (which for most is Vim). Now Vim is a bizarre editor with all sorts of odd shortcuts for adding text. I&#39;ve only used Vim to write commit messages (nothing else) so I have a very focused set of commands to write my commands…</p>
 <p>Press <code>i</code> which puts Vim into &#39;insert&#39; mode (meaning you can actually write)</p>
-<pre><code class="lang-sh"><div class="highlight"><pre>    This is my short description <span class="k">for </span>this commit
-    - Here is a <span class="nb">break </span>down of my changes
-    - Another note about a particular change
+<pre><code class="lang-sh"><div class="highlight"><pre>This is my short description <span class="k">for </span>this commit
+- Here is a <span class="nb">break </span>down of my changes
+- Another note about a particular change
 </pre></div>
 </code></pre>
 <p>After I&#39;ve written my commit I just need to save the commit and exit Vim…</p>
@@ -179,17 +180,17 @@
 <h2><a name="improving-git-log-with-git-lg-"class="anchor" href="#improving-git-log-with-git-lg-"><span class="header-link"></span></a>Improving <code>git log</code> with <code>git lg</code></h2>
 <p>To get a better looking <code>git log</code> we need to write an alias called <code>git lg</code> that is just made up of standard Git commands/flags but when put together (along with specific colour settings) means we can have a short git command that provides us lots of useful information.</p>
 <p>What we need to do is open the <code>~/.gitconfig</code> file and then add the following content… </p>
-<pre><code class="lang-sh"><div class="highlight"><pre>    <span class="o">[</span><span class="nb">alias</span><span class="o">]</span>
-        <span class="nv">lg</span> <span class="o">=</span> log --color --graph --pretty<span class="o">=</span>format:<span class="s1">&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#39;</span> --abbrev-commit --date<span class="o">=</span>relative
+<pre><code class="lang-sh"><div class="highlight"><pre><span class="o">[</span><span class="nb">alias</span><span class="o">]</span>
+    <span class="nv">lg</span> <span class="o">=</span> log --color --graph --pretty<span class="o">=</span>format:<span class="s1">&#39;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#39;</span> --abbrev-commit --date<span class="o">=</span>relative
 </pre></div>
 </code></pre>
 <p><div id="10"></div></p>
 <h2><a name="shorter-git-status-"class="anchor" href="#shorter-git-status-"><span class="header-link"></span></a>Shorter <code>git status</code></h2>
 <p>As per the above tip, we can create two extra alias&#39; which give us a shorter command to type (I don&#39;t know about you but when typing really fast I seem to always misspell the word &#39;status&#39;) and doesn&#39;t show us all the unnecessary crap that someone new to Git needs to see.</p>
 <p>What we need to do is open the <code>~/.gitconfig</code> file and then add the following content… </p>
-<pre><code class="lang-sh"><div class="highlight"><pre>    <span class="o">[</span><span class="nb">alias</span><span class="o">]</span> 
-        <span class="nv">st</span> <span class="o">=</span> status
-        <span class="nv">sts</span> <span class="o">=</span> status -sb
+<pre><code class="lang-sh"><div class="highlight"><pre><span class="o">[</span><span class="nb">alias</span><span class="o">]</span> 
+    <span class="nv">st</span> <span class="o">=</span> status
+    <span class="nv">sts</span> <span class="o">=</span> status -sb
 </pre></div>
 </code></pre>
 <p>…you don&#39;t need to specify <code>[alias]</code> if it&#39;s already in the file (see previous tip).</p>
@@ -230,8 +231,8 @@
 <h2><a name="unstaging-files"class="anchor" href="#unstaging-files"><span class="header-link"></span></a>Unstaging files</h2>
 <p>To unstage files we&#39;ve added to the staging area we need to run the command <code>reset HEAD</code> but that&#39;s a bit ugly and awkward to remember. What would be easier is if we could just say <code>git unstage</code>, so let&#39;s create an alias to help make that easier!</p>
 <p>Open up the file <code>~/.gitconfig</code> and then add the following content… </p>
-<pre><code class="lang-sh"><div class="highlight"><pre>    <span class="o">[</span><span class="nb">alias</span><span class="o">]</span>
-        <span class="nv">unstage</span> <span class="o">=</span> reset HEAD
+<pre><code class="lang-sh"><div class="highlight"><pre><span class="o">[</span><span class="nb">alias</span><span class="o">]</span>
+    <span class="nv">unstage</span> <span class="o">=</span> reset HEAD
 </pre></div>
 </code></pre>
 <p>Note: you don&#39;t need to specify <code>[alias]</code> if it&#39;s already in the <code>~/.gitconfig</code> file.</p>

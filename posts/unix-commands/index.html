@@ -45,7 +45,8 @@
   <span class="post-date">2013 &#183; 10 &#183; 1</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover-reading-time-approx-15mins-"class="anchor" href="#what-we-ll-cover-reading-time-approx-15mins-"><span class="header-link"></span></a>What we&#39;ll cover <em>reading time: approx. 15mins</em></h2>
+<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 15mins</em></p>
 <ul>
 <li>Introduction</li>
 <li>Basics<ul>
@@ -53,11 +54,11 @@
 <li>How can I see what&#39;s in this directory?</li>
 <li>Moving around</li>
 <li>Display content of a file</li>
-<li>Let&#39;s copy a file</li>
-<li>Let&#39;s move a file</li>
-<li>Let&#39;s rename a file</li>
-<li>Let&#39;s delete a file</li>
-<li>Let&#39;s delete a directory</li>
+<li>Copy a file</li>
+<li>Move a file</li>
+<li>Rename a file</li>
+<li>Delete a file</li>
+<li>Delete a directory</li>
 </ul>
 </li>
 <li>Grep (Searching for patterns)</li>
@@ -132,16 +133,16 @@
 <p>You can then execute commands for each line and reference each field.</p>
 <p>A basic example of its use would be: <code>awk &#39;{ print $1 }&#39;</code> which means &quot;print the first field found in the current line&quot;.</p>
 <p>So imagine you have the following <code>test.txt</code> file…</p>
-<pre><code class="lang-sh"><div class="highlight"><pre>    This is my first line
-    This is my second line
-    This is my third line
+<pre><code class="lang-sh"><div class="highlight"><pre>This is my first line
+This is my second line
+This is my third line
 </pre></div>
 </code></pre>
 <p>…you could print the line number followed by a specific word (in this case the second from last word on each line) using the following awk command: <code>awk &#39;{ print &quot;Line &quot; NR &quot;: &quot; $(NF-1) }&#39; test.txt</code></p>
 <p>Which would display the following content on your screen… </p>
-<pre><code class="lang-sh"><div class="highlight"><pre>    Line 1: first
-    Line 2: second
-    Line 3: third
+<pre><code class="lang-sh"><div class="highlight"><pre>Line 1: first
+Line 2: second
+Line 3: third
 </pre></div>
 </code></pre>
 <p>Let&#39;s break this command down a little…</p>
@@ -178,7 +179,7 @@
 <p>Also you can pipe the input into Vim in read-only mode using the <code>-R</code> flag as well: <code>ls | vim -R -</code></p>
 <h3><a name="piping-examples"class="anchor" href="#piping-examples"><span class="header-link"></span></a>Piping examples</h3>
 <p>Here are three real world examples I&#39;ve used recently…</p>
-<pre><code class="lang-sh"><div class="highlight"><pre>    phantomjs 2&gt;<span class="p">&amp;</span>1 network-test.js <span class="p">|</span> tee log.txt
+<pre><code class="lang-sh"><div class="highlight"><pre>phantomjs 2&gt;<span class="p">&amp;</span>1 network-test.js <span class="p">|</span> tee log.txt
 </pre></div>
 </code></pre>
 <p>In this example I&#39;m executing a <a href="http://phantomjs.org/">PhantomJS</a> script <code>network-test.js</code> but I wanted to capture both the results of the script (which just logs out DNS information into the terminal) and any errors that may have occurred into a log text file.</p>
@@ -191,7 +192,7 @@
 </ul>
 <p>…this means <code>2&gt;&amp;1</code> is saying direct <code>2</code> (any errors) through to <code>1</code> (standard output).</p>
 <p>We then pipe the <code>stdout</code> through to the <code>tee</code> command which copies it into a file called <code>log.txt</code>.</p>
-<pre><code class="lang-sh"><div class="highlight"><pre>    ls File-* <span class="p">|</span> sed <span class="s1">&#39;s/\(File-[^-]*\)-\(.*\)/mv &amp; \1\2/&#39;</span> <span class="p">|</span> sh
+<pre><code class="lang-sh"><div class="highlight"><pre>ls File-* <span class="p">|</span> sed <span class="s1">&#39;s/\(File-[^-]*\)-\(.*\)/mv &amp; \1\2/&#39;</span> <span class="p">|</span> sh
 </pre></div>
 </code></pre>
 <p>In this example I&#39;m trying to remove a hyphen <code>-</code> from some file names.</p>
@@ -202,7 +203,7 @@
 <p>So when we use <code>mv &amp; \1\2</code> we&#39;re saying &quot;move the original file and move it to the same directory but using the new name of File-AB.gif (remember <code>\1</code> is &quot;File-A&quot; and <code>\2</code> is &quot;B.gif&quot;).</p>
 <p>Finally, because the <code>sed</code> command&#39;s replacement is an actual command rather than just a string replacement we pipe that replacement content (which is now <code>sed</code>&#39;s <code>stdout</code>) over to the <code>sh</code> bin command to execute and hence actually rename the file(s).</p>
 <p>Note: whenever you write a shell script, you would store it (for example) inside a file with the extension of <code>sh</code> and then you&#39;d use the terminal command <code>sh</code> to execute that shell script.</p>
-<pre><code class="lang-sh"><div class="highlight"><pre>    tmux ls <span class="p">|</span> cut -d : -f 1 <span class="p">|</span> xargs -I <span class="o">{}</span> tmux <span class="nb">kill</span>-session -t <span class="o">{}</span>
+<pre><code class="lang-sh"><div class="highlight"><pre>tmux ls <span class="p">|</span> cut -d : -f 1 <span class="p">|</span> xargs -I <span class="o">{}</span> tmux <span class="nb">kill</span>-session -t <span class="o">{}</span>
 </pre></div>
 </code></pre>
 <p>So in this example I wanted an easy way to destroy all my tmux sessions. </p>
