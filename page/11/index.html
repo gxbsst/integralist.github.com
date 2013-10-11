@@ -37,6 +37,1006 @@
 
 
   <div class="post-head group">
+  <a href="/posts/thoughts-on-current-web-development-practices/">
+    <h1 class="post-title">Thoughts on current web development practices</h1>
+  </a>
+  <span class="post-date">2012 &#183; 4 &#183; 20</span>
+</div>
+
+<div class="post-body"><p>Be warned, this is a &#39;long one&#39;, so go grab a cup of coffee… </p>
+<h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 53mins</em></p>
+<ul>
+<li>Introduction</li>
+<li>HTML: the foundation<ul>
+<li>Example HTML</li>
+<li>Semantic Elements</li>
+<li>Brief Example of Media Queries</li>
+<li>Better practice Media Queries</li>
+<li>Mobile First Approach</li>
+</ul>
+</li>
+<li>CSS: the styling<ul>
+<li>OOCSS &amp; Sass</li>
+<li>Modular Structure</li>
+<li>Sass Example</li>
+<li>Avoiding pre-processor pitfalls</li>
+<li>How I write OOCSS</li>
+<li>Selectors</li>
+<li>Sprites</li>
+<li>Responsive Design</li>
+<li>Mobile Design: users on the move</li>
+<li>Mobile First </li>
+<li>Tools</li>
+<li>Linting via the Command Line</li>
+</ul>
+</li>
+<li>JavaScript: the behaviour<ul>
+<li>AMD</li>
+<li>Linting</li>
+<li>Code Structure</li>
+<li>Pure Functions</li>
+</ul>
+</li>
+<li>Style Guides: keeping things consistent</li>
+<li>Testing: making sure stuff works</li>
+<li>Performance: running fast</li>
+<li>Version Control: keeping track of things</li>
+<li>Automation: making life easier</li>
+<li>Conclusion</li>
+</ul>
+<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<p>I wanted to get down in writing my process for building websites using the <em>current</em> techology available to us (July 2012). It seemed like a good idea to share how I approach web development and to discuss the tools I use to help make my life easier. I&#39;ve had a (un)fortunate history of being able to work on a few large scale applications that have turned out fine but have become a nightmare to maintain or scale - what this means is: I know what techniques just don&#39;t work <em>for me</em> and I&#39;d like to share some insights as to what techniques and tools I think <strong>do</strong> work for getting your project off to the best start possible.</p>
+<p>The beauty (or curse, depending on your perspective) of the web is that by the time you read this there may be better ways (again) of doing things. It wasn&#39;t long ago that some of the principles I&#39;ll be discussing today changed from how I used to do things (really they have only been progressively refactored to be more efficient, but some of the stuff I&#39;ll be talking about here have still only come onto my radar in the last year or so).</p>
+<p>Ideally where you want to constantly be - doesn&#39;t matter how good you are (or think you are) - is at a stage where you&#39;re eager to improve your skill set. If you are passionate about what you do then this urge to learn should come easily.</p>
+<p>For those of you who are on twitter/Google+ all day long and/or are at the cutting edge of all things web development (and even some of you who aren&#39;t) will probably yawn over a lot of what I&#39;m going to be talking about (for example, talking about HTML and laying out a page can seem like a pretty bland subject I know).</p>
+<p>This also isn&#39;t a &#39;beginners guide&#39; or &#39;introduction to&#39; style article, I wont be discussing how to write code in the languages that are mentioned, but if you do know everything there is to know about a particular section I&#39;ve gone into then well, that&#39;s all good for you :-)</p>
+<p>Now, some of the techniques and tools I&#39;ll be talking about just wont fit right for you and that&#39;s OK! You need to keep trying different things to see if they work <em>for you</em>. Just because everyone is using &quot;Hot Sauce XYZ&quot; software doesn&#39;t mean <em>you</em> have to. Just because &quot;Hot Sauce XYZ&quot; is the talk of the community and is heralded as a modern marvel doesn&#39;t mean <em>you</em> feel the same way about it. Just because I found &quot;Hot Sauce XYZ&quot; to be a life/time saver and I think it&#39;s the future of the web… doesn&#39;t mean <em>you</em> will agree or feel the same. That&#39;s OK! </p>
+<p>Take what you need and move on. Shall we begin?</p>
+<h2><a name="html-the-foundation-"class="anchor" href="#html-the-foundation-"><span class="header-link"></span></a>HTML: <em>the foundation</em></h2>
+<blockquote>
+<p>&quot;Hamburgers! The cornerstone to any nutritious breakfast&quot;</p>
+</blockquote>
+<p>Well, the beginning of any web site (web page/app whatever you happening to be working on) is HTML.</p>
+<p>Things have a come a loooong way since the good &#39;ole days of web development. Our HTML mark-up has become streamlined and easier to remember. Hell, I can now remember how to write my <code>doctype</code> without using a template file or Googling for the answer.</p>
+<h3><a name="example-html"class="anchor" href="#example-html"><span class="header-link"></span></a>Example HTML</h3>
+<p>Below is an example of a web page HTML structure…</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="cp">&lt;!doctype html&gt;</span>
+<span class="c">&lt;!--[if IE 8]&gt;&lt;html class=&quot;ie8&quot; dir=&quot;ltr&quot; lang=&quot;en&quot;&gt;&lt;![endif]--&gt;</span>
+<span class="c">&lt;!--[if IE 9]&gt;&lt;html class=&quot;ie9&quot; dir=&quot;ltr&quot; lang=&quot;en&quot;&gt;&lt;![endif]--&gt;</span>
+<span class="c">&lt;!--[if gt IE 9]&gt;&lt;!--&gt;</span> <span class="nt">&lt;html</span> <span class="na">dir=</span><span class="s">&quot;ltr&quot;</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span> <span class="c">&lt;!--&lt;![endif]--&gt;</span>
+
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content=</span><span class="s">&quot;width=device-width, initial-scale=1&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;author&quot;</span> <span class="na">content=</span><span class="s">&quot;Mark McDonnell&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;title&gt;</span>My thoughts on current web development practices<span class="nt">&lt;/title&gt;</span>
+        <span class="c">&lt;!--[if lt IE 9]&gt;</span>
+<span class="c">        &lt;script src=&quot;/Assets/Scripts/Utils/Elements/html5.js&quot;&gt;&lt;/script&gt;</span>
+<span class="c">        &lt;![endif]--&gt;</span>
+        <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;author&quot;</span> <span class="na">href=</span><span class="s">&quot;/humans.txt&quot;</span> <span class="na">type=</span><span class="s">&quot;text/plain&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;Assets/Styles/mobile.css&quot;</span>  <span class="na">media=</span><span class="s">&quot;only screen and (min-width: 320px)&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;Assets/Styles/tablet.css&quot;</span>  <span class="na">media=</span><span class="s">&quot;only screen and (min-width: 600px) and (max-width: 959px)&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;Assets/Styles/desktop.css&quot;</span> <span class="na">media=</span><span class="s">&quot;only screen and (min-width: 960px)&quot;</span><span class="nt">&gt;</span>
+        <span class="c">&lt;!--[if (lt IE 9) &amp; (!IEMobile)]&gt;</span>
+<span class="c">        &lt;link rel=&quot;stylesheet&quot; href=&quot;/Assets/Styles/desktop.css&quot;&gt;</span>
+<span class="c">        &lt;![endif]--&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        Content
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</code></pre>
+<p>This breaks down into the following basic structure…</p>
+<ul>
+<li>Document Type</li>
+<li>Head</li>
+<li>Body</li>
+</ul>
+<p>...we&#39;ll now discuss this a little more in depth, so we&#39;ll dip in and out of subjects (such as mobile and media queries etc) but effectively we&#39;re just taking a top level look around at what our HTML is doing and why.</p>
+<p>The <code>doctype</code> lets the browser know how to render our content. We&#39;ve all seen/written the hideously long doctypes, but this has been simplified in HTML5 to just <code>&lt;!doctype html&gt;</code> which makes it a lot easier to write (and to remember!).</p>
+<p>We have some <code>meta</code> tags for…</p>
+<ul>
+<li>ensuring the browser renders the content with UTF-8 encoding:<br><code>&lt;meta charset=&quot;utf-8&quot;&gt;</code></li>
+<li>set&#39;s the appropriate scale of the viewport on a mobile device:<br><code>&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;</code></li>
+<li>confirms who the author of the page is/was:<br><code>&lt;meta name=&quot;author&quot; content=&quot;Mark McDonnell&quot; /&gt;</code></li>
+</ul>
+<p>We then have a Microsoft &#39;conditional comment&#39; which says if the browser is less than Internet Explorer version 9 then load a JavaScript file that helps those browsers understand the rendering of HTML5 tags. This can be omitted if you aren&#39;t going to use the newer HTML5 tags (such as: <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;aside&gt;</code> etc).</p>
+<p>Next we have a line of code which lets the host know there is a <code>humans.txt</code> file available. The point of this file is to inform the user who built the site (similar to how a <code>robot.txt</code> file informs a Search Engine robot what can/can&#39;t be indexed). There are no strict rules on how the content of this file should be laid out, but I generally use:</p>
+<pre><code><div class="highlight"><pre><span class="cm">/* the humans responsible &amp; colophon */</span>
+<span class="cm">/* humanstxt.org */</span>
+
+<span class="cm">/* TEAM */</span>
+<span class="nx">Company</span> <span class="nx">Name</span><span class="o">:</span> <span class="nx">Developer</span> <span class="nx">A</span><span class="p">,</span> <span class="nx">Developer</span> <span class="nx">B</span><span class="p">,</span> <span class="nx">Developer</span> <span class="nx">C</span>
+<span class="nx">Site</span><span class="o">:</span> <span class="nx">http</span><span class="o">:</span><span class="c1">//www.domain.tld/</span>
+<span class="nx">Twitter</span><span class="o">:</span> <span class="nx">http</span><span class="o">:</span><span class="c1">//twitter.com/username</span>
+<span class="nx">Location</span><span class="o">:</span> <span class="nx">Address</span>
+</pre></div>
+</code></pre>
+<h3><a name="brief-example-of-media-queries"class="anchor" href="#brief-example-of-media-queries"><span class="header-link"></span></a>Brief Example of Media Queries</h3>
+<p>After this we link to some CSS files. These stylesheets apply styles based on certain &#39;conditions&#39; (known as &#39;Media Queries&#39;) such as the width of the user&#39;s device. </p>
+<p>So for example, if the user&#39;s device is 960px wide then we make the assumption that they must be on a desktop computer (or potentially a large tablet device) and thus load styles specific to the device so the website can look its best on that device. </p>
+<p>Yes this &#39;assumption&#39; about the users device screen can be problematic as it relies on the assumption that devices are of a known width - and obviously if history has taught us anything - these assumptions will fail at some point in the future. </p>
+<h3><a name="better-practice-media-queries"class="anchor" href="#better-practice-media-queries"><span class="header-link"></span></a>Better practice Media Queries</h3>
+<p>While we&#39;re here I wanted to suggest a better practice for writing Media Queries which is to not have stylesheets load based on the dimensions of current devices, but instead to set-up &#39;break points&#39; for where your site starts to naturally break down. </p>
+<p>So for example, rather than trying to target an iPhone (which you know has a dimension of xyz), instead look at your site and think &quot;hmm, my site looks a bit crap when smaller than x width - I&#39;ll set a break point for that dimension&quot;. </p>
+<p>This is still a bit &#39;hit and miss&#39;, as you might decide your site doesn&#39;t look good at x pixels wide but that means certain devices either jump up/down a stylesheet when you didn&#39;t expect them to. But as long as you&#39;re using an &#39;adaptive&#39; approach to loading your CSS then that can ultimately only be a good thing for your users compared to loading the desktop variation of your site&#39;s design on a smaller screen mobile device.</p>
+<h3><a name="mobile-first-approach"class="anchor" href="#mobile-first-approach"><span class="header-link"></span></a>Mobile First Approach</h3>
+<p>The stylesheets in this example are using a &#39;mobile first&#39; approach, and by this I mean we&#39;re building a site from the mobile design upwards. If we didn&#39;t do this then we would end up loading lots of CSS onto the mobile device that was actually only needed for the desktop computer (this is because the desktop version of the site would have a more complicated design compared to the design for the mobile version of the site). I&#39;ll go into this in more detail later but it&#39;s important to note here because after the stylesheet links you&#39;ll see another &#39;conditional comment&#39; <code>&lt;!--[if (lt IE 9) &amp; (!IEMobile)]&gt;</code> which is there because Internet Explorer browsers less than version 9 do not understand CSS Media Queries and so if we take a mobile first approach then IE &lt; 9 wont have any stylesheet to load (as it wont know &#39;how&#39; to load them). So this conditional comment is a &#39;fallback&#39; for those browsers. So if a user is on an older crappy Windows based phone then they&#39;ll at the very least get the desktop version of the site loaded (which is still likely to be a better experience than having no styling on the content at all).</p>
+<h3><a name="semantic-elements"class="anchor" href="#semantic-elements"><span class="header-link"></span></a>Semantic Elements</h3>
+<p>After that, we have the <code>&lt;body&gt;</code> element which will contain the content of your page.</p>
+<p>It&#39;s important that you use only elements that semantically match the content. There are easy examples and there are slightly more awkward examples. An easy example is a top level navigation menu, I think most of us are aware by now that the most semantically correct element to use here is an un-ordered list <code>&lt;ul&gt;</code>…</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;ul&gt;</span>
+    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>Home<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>About<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>Services<span class="nt">&lt;/a&gt;</span>
+        <span class="nt">&lt;ul&gt;</span>
+            <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>Service A<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>Service B<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>Service C<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="nt">&lt;/ul&gt;</span>
+    <span class="nt">&lt;/li&gt;</span>
+    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>Contact<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+</code></pre>
+<p>A slightly more awkward example though: imagine we have one of those large &#39;web 2.0&#39; (how old does that sound already!) footer areas where the designer has a massive list of helpful links and contact information. The structure of that might be something like this…</p>
+<table>
+<thead>
+<tr>
+<th>Services</th>
+<th>Social</th>
+<th>Contacts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Service A</td>
+<td>Facebook</td>
+<td>00000 000000</td>
+</tr>
+<tr>
+<td>Service B</td>
+<td>Twitter</td>
+<td>11111 111111</td>
+</tr>
+<tr>
+<td>Service C</td>
+<td>Google+</td>
+<td>22222 222222</td>
+</tr>
+</tbody>
+</table>
+<p>…you <em>could</em> use a <code>&lt;dl&gt;</code> element, but is this strictly the correct element to use? An example of what that would look like is…</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;dl&gt;</span>
+    <span class="nt">&lt;dt&gt;</span>Services<span class="nt">&lt;/dt&gt;</span>
+        <span class="nt">&lt;dd&gt;</span>Service A<span class="nt">&lt;dd&gt;</span>
+        <span class="nt">&lt;dd&gt;</span>Service B<span class="nt">&lt;dd&gt;</span>
+        <span class="nt">&lt;dd&gt;</span>Service C<span class="nt">&lt;dd&gt;</span>
+
+    <span class="nt">&lt;dt&gt;</span>Social<span class="nt">&lt;/dt&gt;</span>
+        <span class="nt">&lt;dd&gt;</span>Facebook<span class="nt">&lt;dd&gt;</span>
+        <span class="nt">&lt;dd&gt;</span>Twitter<span class="nt">&lt;dd&gt;</span>
+        <span class="nt">&lt;dd&gt;</span>Google+<span class="nt">&lt;dd&gt;</span>
+
+    <span class="nt">&lt;dt&gt;</span>Contacts<span class="nt">&lt;/dt&gt;</span>
+        <span class="nt">&lt;dd&gt;</span>00000 000000<span class="nt">&lt;dd&gt;</span>
+        <span class="nt">&lt;dd&gt;</span>11111 111111<span class="nt">&lt;dd&gt;</span>
+        <span class="nt">&lt;dd&gt;</span>22222 222222<span class="nt">&lt;dd&gt;</span>
+<span class="nt">&lt;/dl&gt;</span>
+</pre></div>
+</code></pre>
+<p>…if we look at the specification for this element it says… </p>
+<blockquote>
+<p>The dl element represents an association list consisting of zero or more name-value groups (a description list). Each group must consist of one or more names (dt elements) followed by one or more values (dd elements). Within a single dl element, there should not be more than one dt element for each name.</p>
+</blockquote>
+<p>…so this looks to be the right element to use as it is an &quot;association list&quot; (i.e. we&#39;ve associated a list of items with the relevant title) but maybe instead we should have used a <code>&lt;table&gt;</code> element because we are kind of dealing with tabular data. There are defined headers with <em>associated</em> rows of content (similar to the association made with a <code>&lt;dl&gt;</code>). An example of what this would look like is…</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;table&gt;</span>
+    <span class="nt">&lt;thead&gt;</span>
+        <span class="nt">&lt;tr&gt;</span>
+            <span class="nt">&lt;th</span> <span class="na">scope=</span><span class="s">&quot;col&quot;</span><span class="nt">&gt;</span>Services<span class="nt">&lt;/th&gt;</span>
+            <span class="nt">&lt;th</span> <span class="na">scope=</span><span class="s">&quot;col&quot;</span><span class="nt">&gt;</span>Social<span class="nt">&lt;/th&gt;</span>
+            <span class="nt">&lt;th</span> <span class="na">scope=</span><span class="s">&quot;col&quot;</span><span class="nt">&gt;</span>Contacts<span class="nt">&lt;/th&gt;</span>
+        <span class="nt">&lt;/tr&gt;</span>
+    <span class="nt">&lt;/thead&gt;</span>
+    <span class="nt">&lt;tbody&gt;</span>
+        <span class="nt">&lt;tr&gt;</span>
+            <span class="nt">&lt;td&gt;</span>Service A<span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;td&gt;</span>Facebook<span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;td&gt;</span>00000 000000<span class="nt">&lt;/td&gt;</span>
+        <span class="nt">&lt;/tr&gt;</span>
+        <span class="nt">&lt;tr&gt;</span>
+            <span class="nt">&lt;td&gt;</span>Service B<span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;td&gt;</span>Twitter<span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;td&gt;</span>11111 111111<span class="nt">&lt;/td&gt;</span>
+        <span class="nt">&lt;/tr&gt;</span>
+        <span class="nt">&lt;tr&gt;</span>
+            <span class="nt">&lt;td&gt;</span>Service C<span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;td&gt;</span>Google+<span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;td&gt;</span>22222 222222<span class="nt">&lt;/td&gt;</span>
+        <span class="nt">&lt;/tr&gt;</span>
+    <span class="nt">&lt;/tbody&gt;</span>
+<span class="nt">&lt;/table&gt;</span>
+</pre></div>
+</code></pre>
+<p>…this is a bit of an anal analysis of &#39;semantic&#39; usage, but the fact is this sort of thing happens all the time. We look at something in a design and try to think of the most semantic element to use and although <code>&lt;dl&gt;</code> seems like the right choice, is it really? I guess it depends on how you interpret the specification. I know I&#39;ve used the <code>&lt;dl&gt;</code> elements many times but I sometimes wonder if I shouldn&#39;t have just gone with the <code>&lt;table&gt;</code> element instead (on a side note: I&#39;d love to hear people&#39;s feedback on this)</p>
+<h3><a name="automation"class="anchor" href="#automation"><span class="header-link"></span></a>Automation</h3>
+<p>I&#39;ve not discussed it here but one thing we&#39;ll come back to later in this article is the idea of &#39;automation&#39; - so that your &#39;generic&#39; HTML never need to be typed out by hand again. You should either have a re-usable template project/file or use a generator system that handles it for you.</p>
+<h2><a name="css-the-styling-"class="anchor" href="#css-the-styling-"><span class="header-link"></span></a>CSS: <em>the styling</em></h2>
+<h3><a name="oocss-sass"class="anchor" href="#oocss-sass"><span class="header-link"></span></a>OOCSS &amp; Sass</h3>
+<p>CSS is the one area of web development that has been changing pretty much constantly for me these past couple of years. </p>
+<p>I&#39;ve been trying to settle on a technique or style that would mean the maintenance of my projects are made easier &amp; simpler, and I now believe I&#39;ve found (at least so far) one such method that appears to work both in favour of maintainability and scalability: &#39;OOCSS&#39; (Object-Oriented CSS).</p>
+<p>The principles vary depending on the author (e.g. <a href="https://github.com/stubbornella/oocss/">stubbornella</a>, <a href="http://smacss.com/">SMACSS</a>, <a href="http://csswizardry.com/2012/04/the-single-responsibility-principle-applied-to-css/">the single responsibility principle</a> and many more), and my way of utilising OOCSS is a bit of an amalgamation of the existing styles available today. Also, I utilise the CSS pre-processor <a href="http://sass-lang.com/">Sass</a> which originally I wasn&#39;t too keen on (I saw it in a similar light to tools like jQuery where it wasn&#39;t necessary, and caused more problems than it solved) but I&#39;m now more sold on it&#39;s benefits, and because of my skeptical mindset I know what issues can occur when using a pre-processor and how to avoid those issues.</p>
+<h3><a name="modular-structure"class="anchor" href="#modular-structure"><span class="header-link"></span></a>Modular Structure</h3>
+<p>Here follows is my current CSS/Sass structure…</p>
+<ul>
+<li>/<code>Assets</code>/<ul>
+<li>/<code>Styles</code>/<ul>
+<li>/<code>Lint</code>/<ul>
+<li>csslint.txt (<em>this contains my generic terminal command for executing CSS linting</em>)</li>
+</ul>
+</li>
+<li>/<code>Sass</code>/<ul>
+<li>/<code>Base</code>/<ul>
+<li><code>_additions.scss</code></li>
+<li><code>_normalize.scss</code></li>
+<li><code>_placeholder.scss</code></li>
+<li><code>_theme.scss</code></li>
+</ul>
+</li>
+<li>/<code>Configurations</code>/<ul>
+<li><code>_variables.scss</code></li>
+</ul>
+</li>
+<li>/<code>Functions</code>/<ul>
+<li><code>_calcems.scss</code></li>
+<li><code>_calcpercentage.scss</code></li>
+<li><code>_fontsize.scss</code></li>
+</ul>
+</li>
+<li>/<code>Layouts</code>/<ul>
+<li><code>_container.scss</code></li>
+<li><code>_grid.scss</code></li>
+<li><code>_matrix.scss</code></li>
+</ul>
+</li>
+<li>/<code>Modules</code>/<ul>
+<li>/<code>Components</code>/<br><code>_button.scss</code><br><code>_media.scss</code></li>
+<li>/<code>Extensions</code>/<br><em>this contains _{n}.scss files that hold re-usable classes</em></li>
+<li>/<code>Helpers</code>/<br><code>_clearfix.scss</code><br><code>_hidetxt.scss</code><br><code>_horizontal.scss</code><br><code>_push.scss</code></li>
+<li>/<code>Mixins</code>/<br><code>_border.scss</code><br><code>_boxsizing.scss</code><br><code>_radius.scss</code><br><code>_shadow.scss</code><br><code>_transform.scss</code><br><code>_transition.scss</code></li>
+<li><em>this contains .scss files specific to this project</em></li>
+</ul>
+</li>
+<li>/<code>Plugins</code>/<ul>
+<li><code>_slimbox.scss</code></li>
+</ul>
+</li>
+<li>/<code>Queries</code>/<ul>
+<li><code>_320-home.scss</code></li>
+<li><code>_600-home.scss</code></li>
+<li><code>_960-home.scss</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>home.scss</code></li>
+<li><code>sub_page.scss</code></li>
+<li><code>another_page_type.scss</code></li>
+</ul>
+</li>
+<li><code>home.css</code></li>
+<li><code>sub_page.css</code></li>
+<li><code>another_page_type.css</code></li>
+</ul>
+</li>
+</ul>
+<p>…now this may look like a <strong>lot</strong> of style sheets, but the beauty of using a pre-processor such as Sass is that it allows you to have a very modular code base and yet for deployment/production (e.g. the pushing of your code to the &#39;live&#39; server) you can <em>build</em> your separate code modules into a single (compressed/minified) stylesheet.</p>
+<h3><a name="sass-example"class="anchor" href="#sass-example"><span class="header-link"></span></a>Sass Example</h3>
+<p>So where you see the <code>.css</code> files inside of the /<code>Styles</code>/ directory - this is actually a single file that has been built up from selected Sass files.</p>
+<p>For example, the home.scss file (which is what generates the home.css file) could contain the following content (note: that this content changes depending on the requirements of your project)…</p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="c1">// Configurations/Settings</span>
+<span class="k">@import</span> <span class="s">&quot;Configurations/variables&quot;;</span>
+
+<span class="c1">// Functions</span>
+<span class="k">@import</span> <span class="s">&quot;Functions/calcems&quot;;</span>
+<span class="k">@import</span> <span class="s">&quot;Functions/calcpercentage&quot;;</span>
+<span class="k">@import</span> <span class="s">&quot;Functions/fontsize&quot;;</span>
+
+<span class="c1">// Base</span>
+<span class="k">@import</span> <span class="s">&quot;Base/normalize&quot;;</span>
+<span class="k">@import</span> <span class="s">&quot;Base/additions&quot;;</span>
+<span class="k">@import</span> <span class="s">&quot;Base/theme&quot;;</span>
+
+<span class="c1">// Layouts</span>
+<span class="k">@import</span> <span class="s">&quot;Layouts/grid&quot;;</span>
+<span class="k">@import</span> <span class="s">&quot;Layouts/container&quot;;</span>
+
+<span class="c1">// Modules</span>
+
+    <span class="c1">// Mixins</span>
+    <span class="c1">@import &quot;Modules/Mixins/radius&quot;;</span>
+    <span class="c1">@import &quot;Modules/Mixins/transition&quot;;</span>
+
+    <span class="c1">// Components</span>
+    <span class="c1">@import &quot;Modules/Components/media&quot;;</span>
+
+    <span class="c1">// Helpers</span>
+    <span class="c1">@import &quot;Modules/Helpers/clearfix&quot;;</span>
+    <span class="c1">@import &quot;Modules/Helpers/hidetxt&quot;;</span>
+    <span class="c1">@import &quot;Modules/Helpers/horizontal&quot;;</span>
+
+<span class="c1">// Generic Styles for Modules that appear across the site (e.g. header/navigation/footer)</span>
+<span class="k">@import</span> <span class="s">&quot;Modules/header&quot;;</span>
+<span class="k">@import</span> <span class="s">&quot;Modules/navigation&quot;;</span>
+<span class="k">@import</span> <span class="s">&quot;Modules/footer&quot;;</span>
+
+<span class="c1">// Page Specific Styles</span>
+<span class="k">@import</span> <span class="s">&quot;Modules/Queries/960-home&quot;;</span>
+</pre></div>
+</code></pre>
+<p>…so let&#39;s go over a couple of points about this Sass file.</p>
+<ol>
+<li>I&#39;m using Sass to import components/layouts/modules that are relevant for the home page.</li>
+<li>Something I won&#39;t go into detail on here - but I use a fair amount and find very useful are - Sass &#39;functions&#39; (<a href="https://github.com/Integralist/Passage/tree/master/public/Assets/Styles/Sass/Functions">take a look at some custom functions</a>)</li>
+<li>This style sheet is constructed of modules required for the home page stylesheet - so you can see I&#39;m importing not only modules that are part of my &#39;templated&#39; project but also modules that I&#39;ve created specifically for this project (e.g. the header, navigation, footer modules).</li>
+<li>In this project I was also using a &#39;Mobile First&#39; approach and so you can see in this file I&#39;m also importing a module which specifically handles the styles for the desktop experience.</li>
+</ol>
+<p>Initially it seems like a bit of work is involved, but once you get used to structuring your stylesheets with the relevant modules the job becomes a lot easier to manage in the long run - no more do you need to sift through hundreds/thousands lines of CSS code looking for a particular rule; because your code is modular you now know where to look to find it and can access it a lot quicker, along with the ability to more easily re-use code (as long as you&#39;ve taken an OOCSS approach that is!) </p>
+<p>There are many benefits to having a modular code base, but the most important thing to remember is: don&#39;t start thinking that because you&#39;re using Sass that it will some how magically make you write better code, it wont - that is still <em>your</em> responsibility. </p>
+<h3><a name="avoiding-pre-processor-pitfalls"class="anchor" href="#avoiding-pre-processor-pitfalls"><span class="header-link"></span></a>Avoiding pre-processor pitfalls</h3>
+<p>Now before we get into OOCSS let&#39;s first quickly demonstrate some issues with using pre-processors.</p>
+<p>Here is a typical usage of Sass:</p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.nav</span><span class="err">{</span>
+    <span class="nt">li</span><span class="err">{</span>
+        <span class="nt">a</span><span class="err">{}</span>
+    <span class="err">}</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p>Which when the pre-processor executes equates to...</p>
+<pre><code class="lang-css"><div class="highlight"><pre><span class="nc">.nav</span> <span class="p">{}</span>
+<span class="nc">.nav</span> <span class="nt">li</span> <span class="p">{}</span>
+<span class="nc">.nav</span> <span class="nt">li</span> <span class="nt">a</span> <span class="p">{}</span>
+</pre></div>
+</code></pre>
+<p>But this might not have been the result you intended, instead you actually wanted…</p>
+<pre><code class="lang-css"><div class="highlight"><pre><span class="nc">.nav</span> <span class="p">{}</span>
+<span class="nc">.nav</span> <span class="nt">li</span> <span class="p">{}</span>
+<span class="nc">.nav</span> <span class="nt">a</span> <span class="p">{}</span>
+</pre></div>
+</code></pre>
+<p>…which would have better performance and be more &#39;specific&#39; to your DOM structure.</p>
+<p>To do that you just need to tweak the Sass code slightly…</p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.nav</span><span class="err">{</span>
+    <span class="nt">li</span><span class="err">{</span>
+
+    <span class="err">}</span>
+    <span class="nt">a</span> <span class="err">{</span>
+
+    <span class="err">}</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p>So just be careful with Sass and double check its output to ensure it is producing the selectors/rules you actually want. </p>
+<p>One tip for using nested selectors is to use the ampersand <code>&amp;</code> character to reference the whole selector, so for example…</p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nt">a</span> <span class="err">{</span>
+    <span class="na">text-decoration</span><span class="o">:</span> <span class="no">none</span><span class="err">;</span>
+
+    <span class="c1">// this will be compiled to </span>
+    <span class="c1">// a:hover, a:focus</span>
+    <span class="k">&amp;</span><span class="nd">:hover</span><span class="o">,</span>
+    <span class="k">&amp;</span><span class="nd">:focus</span> <span class="err">{</span>
+        <span class="na">color</span><span class="o">:</span> <span class="nv">$brand-color</span><span class="err">;</span>
+    <span class="err">}</span>
+<span class="err">}</span>
+
+<span class="nc">.rate-options</span> <span class="err">{</span>
+    <span class="na">counter-reset</span><span class="o">:</span> <span class="n">rateoption</span><span class="err">;</span>
+    <span class="na">list-style</span><span class="o">:</span> <span class="no">none</span><span class="err">;</span>
+    <span class="na">margin-top</span><span class="o">:</span> <span class="mi">2</span><span class="kt">em</span><span class="err">;</span>
+
+    <span class="nt">li</span> <span class="err">{</span>
+        <span class="na">margin-right</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.5</span><span class="kt">em</span><span class="err">;</span>
+
+        <span class="c1">// this will be compiled to </span>
+        <span class="c1">// .rate-options li:before</span>
+        <span class="k">&amp;</span><span class="nd">:before</span> <span class="err">{</span>
+            <span class="na">color</span><span class="o">:</span> <span class="nv">$action-color</span><span class="err">;</span>
+            <span class="na">content</span><span class="o">:</span> <span class="nf">counters</span><span class="p">(</span><span class="n">rateoption</span><span class="o">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="s2">&quot; &quot;</span><span class="err">;</span>
+            <span class="na">counter-increment</span><span class="o">:</span> <span class="n">rateoption</span><span class="err">;</span>
+        <span class="err">}</span>
+    <span class="err">}</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p>Other issues with pre-processors can come from Mixins, which although very useful, are also a waste of time/space if good OOCSS is already in place. Remember that the content of a Mixin is copied into every rule you specify it to be used. </p>
+<p>The <code>@extend</code> statement is slightly better in the sense that you can write a class <code>.funky-border</code> which contains a single declaration: <code>border: 10px dashed blue;</code> and then for every element that uses that same styling you can simply do…</p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.my-box</span> <span class="err">{</span>
+    <span class="k">@extend</span> <span class="nc">.funky-border</span><span class="o">;</span>
+    <span class="na">color</span><span class="o">:</span> <span class="nb">red</span><span class="err">;</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p>…what this ends up compiling to is something like this…</p>
+<pre><code class="lang-css"><div class="highlight"><pre><span class="nc">.funky-border</span><span class="o">,</span>
+<span class="nc">.my-box</span> <span class="p">{</span>
+    <span class="k">border</span><span class="o">:</span> <span class="m">10px</span> <span class="k">dashed</span> <span class="nb">blue</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.my-box</span> <span class="p">{</span>
+    <span class="k">color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>…again, looks great but you need to be careful because in Internet Explorer there is a limit to the amount of selectors you can specify for a single rule! So if you were using <code>@extend</code> everywhere you might hit an issue (unlikely you&#39;ll reach that limit, but on a application big enough and with bad architecture in place that could still happen).</p>
+<p>There is another more complicated example given within the &#39;performance&#39; section of this article which discusses more structural concerns, but we&#39;ll come to that soon enough.</p>
+<h3><a name="how-i-write-oocss"class="anchor" href="#how-i-write-oocss"><span class="header-link"></span></a>How I write OOCSS</h3>
+<p>This is where things get interesting because OOCSS is still (although around for a few years now) a moving target and something that isn&#39;t a straight forward &quot;<em>this is how it&#39;s done</em>&quot; process.</p>
+<p>I have the following terminology I use when discussing OOCSS…</p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&#39;base&#39;</td>
+<td>normalisation of styles across browsers + base styles specific to current project</td>
+</tr>
+<tr>
+<td>&#39;layout&#39;</td>
+<td>structure of site (think of grid systems: they do nothing but give you a structure to place content inside)</td>
+</tr>
+<tr>
+<td>&#39;module&#39;</td>
+<td>this is a complicated one because it means different things in different contexts (see below for more details)</td>
+</tr>
+<tr>
+<td>&#39;extension&#39;</td>
+<td>this is a class that can be applied to multiple modules/elements</td>
+</tr>
+<tr>
+<td>&#39;state&#39;</td>
+<td>can be applied to both layouts and modules to affect how they look</td>
+</tr>
+</tbody>
+</table>
+<h4><a name="base"class="anchor" href="#base"><span class="header-link"></span></a>Base</h4>
+<p>My &#39;Base&#39; styles cover two areas: </p>
+<ol>
+<li>Normalisation of browser quirks/formatting (handled by <a href="http://twitter.com/necolas">@necolas</a>&#39; <a href="http://necolas.github.com/normalize.css/">Normalize.css</a>)</li>
+<li>Base level rules which are specific to the current project</li>
+</ol>
+<p>So for example I have the following extra stylesheets in my <code>/Base/</code> folder: <code>_theme.scss</code> and <code>_placeholder.scss</code>.</p>
+<p>My <code>_theme.scss</code> stylesheet is for base styles for the current project, so it might include a font-face used in the site&#39;s design, or setting all <code>&lt;h1&gt;</code>&#39;s to have a standard brand colour (things of that nature).</p>
+<p>My <code>_placeholder.scss</code> is used in conjunction with my the <code>/Scripts/Utils/Polyfills/placeholder.js</code> script which makes it possible for an input to be one colour (to signify a &#39;hint&#39;) but change to a different colour when the user focus&#39; on the input (this is only used for browsers that don&#39;t natively support the <code>placeholder</code> attribute. Because placeholders appear quite heavily in a lot of the designs created (by the agency I work for), it became apparent that I should store these styles into their own stylesheet rather than repeating them for every project.</p>
+<p>Eagle eye readers will probably notice that in my folder struture above I also had an <code>_additions.scss</code> stylesheet which consists of some extra base rules that <code>Normalize.css</code> doesn&#39;t cover. You&#39;ll see later in the section about &#39;automation&#39; that I&#39;ve now started using Git/GitHub to manage 3rd party code dependancies and so really I could add my &#39;additions&#39; into the one Normalize.css file and then if Normalise.css ever had an update I could pull in those changes from GitHub and merge them into my version of Normalise, that way I wouldn&#39;t override my version completely but just integrate the latest updates. But for the time being, because Sass concatenates all stylesheets into one, it doesn&#39;t really matter that this <code>_additions.scss</code> is a separate file.</p>
+<h4><a name="layout"class="anchor" href="#layout"><span class="header-link"></span></a>Layout</h4>
+<p>These are the easiest component in the CSS stack so far. Layouts hold content. They don&#39;t try to style content in any way, they literally just contain a module or content of some kind.</p>
+<p>Layouts can be manually created or they can be created using a grid system (see: <a href="http://960.gs/">960 CSS Grid System</a>). I use a fork of Twitter&#39;s Bootstrap Grid that was originally written in <a href="http://lesscss.org/">Less</a> but some kind soul had ported over to Sass (I modified it slightly to not include &#39;gutters&#39; - as most of my grid layouts don&#39;t require gutters).</p>
+<p>I&#39;m still a bit skeptical of using &#39;grids&#39; because of the extra overhead as far as HTML is concerned but they can be pretty useful when used sparingly and in the right situations. <a href="http://csswizardry.com/">Harry Roberts</a> once told me to think of grids as &#39;shelves&#39; which you place items upon, and that&#39;s pretty much an accurate portrayal of the role grids take - nothing more complicated than that really.</p>
+<h4><a name="modules-"class="anchor" href="#modules-"><span class="header-link"></span></a>Modules?</h4>
+<p>The word &#39;module&#39; in my CSS means different things, mainly because it refers to something as being &#39;modular&#39;.</p>
+<p>The key to having a more modular code base is: &#39;abstraction&#39; - taking a common design pattern and abstracting it into a self contained re-usable component.</p>
+<p>Two prolific &#39;abstractors&#39; are Nicole Sullivan (see: the <a href="http://www.stubbornella.org/content/2010/06/25/the-media-object-saves-hundreds-of-lines-of-code/">&#39;media object&#39;</a>) and Harry Roberts (see: the <a href="http://csswizardry.com/2011/10/the-island-object/">&#39;island object&#39;</a> and <a href="http://csswizardry.com/2011/09/the-nav-abstraction/">&#39;nav abstraction&#39;</a>).</p>
+<p>All of the following items are &#39;modular&#39; in that sense (e.g. when it comes down to it, they are just <em>categorised</em> abstractions):</p>
+<ul>
+<li>Components (e.g. &#39;the media object&#39;)</li>
+<li>Extensions (these are project specific CSS classes that i use with Sass&#39; <code>@extend</code> feature)</li>
+<li>Helpers (these are project agnostic, meaning they can be used in any probject - e.g. &#39;the nav abstraction&#39;)</li>
+<li>Mixins (these are specific to Sass in that they save you typing out the same content over and over - these can be avoided in most cases!)</li>
+</ul>
+<p>Example Mixin:</p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="k">@mixin</span><span class="nf"> transition</span> <span class="p">(</span><span class="nv">$transition</span><span class="o">:</span> <span class="n">all</span> <span class="mi">0</span><span class="mf">.2</span><span class="kt">s</span> <span class="n">linear</span><span class="p">)</span> <span class="err">{</span>
+    <span class="na">-webkit-transition</span><span class="o">:</span> <span class="nv">$transition</span><span class="err">;</span>
+       <span class="na">-moz-transition</span><span class="o">:</span> <span class="nv">$transition</span><span class="err">;</span>
+        <span class="na">-ms-transition</span><span class="o">:</span> <span class="nv">$transition</span><span class="err">;</span>
+         <span class="na">-o-transition</span><span class="o">:</span> <span class="nv">$transition</span><span class="err">;</span>
+            <span class="na">transition</span><span class="o">:</span> <span class="nv">$transition</span><span class="err">;</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<h4><a name="extensions"class="anchor" href="#extensions"><span class="header-link"></span></a>Extensions</h4>
+<p>Extensions are effectively re-usable classes which you can incorporate into any existing rule. An example of this could be having a class that lets you set a box shadow…</p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.shadow</span> <span class="err">{</span>
+    <span class="k">@include</span><span class="nd"> shadow</span><span class="p">(</span><span class="mi">0</span> <span class="mi">3</span><span class="kt">px</span> <span class="mi">6</span><span class="kt">px</span> <span class="mh">#666</span><span class="p">)</span><span class="err">;</span>
+    <span class="na">border</span><span class="o">:</span> <span class="mi">3</span><span class="kt">px</span> <span class="no">solid</span> <span class="mh">#fff</span><span class="err">;</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p>…which would be used like so… </p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.profile-photo</span> <span class="err">{</span>
+    <span class="k">@extend</span> <span class="nc">.shadow</span><span class="o">;</span>
+    <span class="c1">// other styles</span>
+<span class="err">}</span>
+
+<span class="nc">.company-logo</span> <span class="err">{</span>
+    <span class="k">@extend</span> <span class="nc">.shadow</span><span class="o">;</span>
+    <span class="c1">// other styles</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p>…you could argue that this type of class should be incorporated into a &#39;module&#39; - and most of the time that is correct - but this isn&#39;t <em>always</em> appropriate.</p>
+<h4><a name="state"class="anchor" href="#state"><span class="header-link"></span></a>State</h4>
+<p>State classes are pretty self-explanatory in that they affect the state of an object/element, and the syntax is <code>.is-xxxx</code>.</p>
+<p>For example, if you have an element that had both a hidden state and a visible state (and JavaScript was used to switch states) then the visible state would be the default (because if the user had no JavaScript support then you don&#39;t want the content to be hidden by default) and you could trigger the alternative state by applying a class like <code>.is-hidden</code>.</p>
+<p>I used to have a separate <code>State.scss</code> file but I found that was a nightmare to maintain because I&#39;d have a module in one file and a specific &#39;state&#39; for that module in another file, and then on top of that I used to have my Internet Explorer fixes in separate <code>IE8.css</code> and <code>IE7.css</code> files and so if there were any tweaks needed to a module for IE then I&#39;d have those in separate files as well, it was a total nightmare.</p>
+<p>So now I find the best way to manage modules is to keep the module, and the state for that module, and any IE tweaks for that module ALL within the module file.</p>
+<p>The way I keep the IE code within the same file is I stopped having them as separate files like so…</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="c">&lt;!--[if IE 8]&gt;</span>
+<span class="c">&lt;link rel=&quot;stylesheet&quot; href=&quot;/Assets/Styles/IE8.css&quot;&gt;</span>
+<span class="c">&lt;![endif]--&gt;</span>
+
+<span class="c">&lt;!--[if IE 7]&gt;</span>
+<span class="c">&lt;link rel=&quot;stylesheet&quot; href=&quot;/Assets/Styles/IE7.css&quot;&gt;</span>
+<span class="c">&lt;![endif]--&gt;</span>
+</pre></div>
+</code></pre>
+<p>…and instead went with the <a href="http://paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/">Paul Irish solution</a>…</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="c">&lt;!--[if IE 8]&gt;&lt;html class=&quot;ie8&quot; dir=&quot;ltr&quot; lang=&quot;en&quot;&gt;&lt;![endif]--&gt;</span>
+<span class="c">&lt;!--[if IE 9]&gt;&lt;html class=&quot;ie9&quot; dir=&quot;ltr&quot; lang=&quot;en&quot;&gt;&lt;![endif]--&gt;</span>
+<span class="c">&lt;!--[if gt IE 9]&gt;&lt;!--&gt;</span> <span class="nt">&lt;html</span> <span class="na">dir=</span><span class="s">&quot;ltr&quot;</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span> <span class="c">&lt;!--&lt;![endif]--&gt;</span>
+</pre></div>
+</code></pre>
+<p>…yes doing it this way <em>can</em> mean the overall file size of your CSS is larger for browsers that aren&#39;t affected by the IE specific code, but to be honest since dropping support for IE7 the amount of IE fixes needed has literally dropped off the radar!</p>
+<h3><a name="selectors"class="anchor" href="#selectors"><span class="header-link"></span></a>Selectors</h3>
+<p>Selectors are a tricky subject in CSS. The key principle is to be as &#39;specific&#39; as possible.</p>
+<p>Where you may have <code>ul.menu</code> just use <code>.menu</code>. This is because if you had another element which isn&#39;t a <code>ul</code> but which needed similar stylings to your <code>.menu</code> class you can now reuse that class, where as before you would of had to of either written another class with similar code, or added another element selector to the rule like so…</p>
+<pre><code class="lang-css"><div class="highlight"><pre><span class="nt">ul</span><span class="nc">.menu</span><span class="o">,</span>
+<span class="nt">ol</span><span class="nc">.menu</span> <span class="p">{</span>
+    <span class="o">//</span> <span class="n">styles</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>…both of which are bad situations, so just be specific (where possible/reasonable).</p>
+<p>For a more indepth analysis of how best to write your selectors then I recommend you read <a href="http://csswizardry.com/2012/07/shoot-to-kill-css-selector-intent/">&#39;Shoot to Kill&#39;</a> by Harry Roberts. In that article he gives us a good way to question our selectors…</p>
+<blockquote>
+<p>Ask yourself: am I selecting this because it’s a ul inside of .header or because it is my site’s main nav?</p>
+</blockquote>
+<p>Using this type of questioning we know when it&#39;s OK to not be too specific (e.g. <code>.header &gt; ul</code>) and when we <em>must</em> be specific to avoid changes in the future causing us problems.</p>
+<h3><a name="sprites"class="anchor" href="#sprites"><span class="header-link"></span></a>Sprites</h3>
+<p>The idea behind sprites is pretty straight forward. Take all the little icons or miscellaneous imagery and stick them in one single image file, like so…</p>
+<p><img src="http://f.cl.ly/items/1Z3M010W210t25130P2h/apple.jpg" alt=""></p>
+<p>…now you have helped towards your performance goal of &#39;<a href="http://developer.yahoo.com/performance/rules.html#num_http">reducing HTTP requests</a>&#39; because instead of having (using the above image as an example) 20 different images, meaning 20 separate HTTP requests, you now have just one HTTP request.</p>
+<p>You could argue the overall size of the image sprite can become very large and some pages might not use all the icons/images within the sprite, but by that point the sprite would have been loaded and cached by the browser and so that argument becomes redundant.</p>
+<h4><a name="image-source-files"class="anchor" href="#image-source-files"><span class="header-link"></span></a>Image Source Files</h4>
+<p>One other important thing to do (and there was no where else appropriate for me to mention this) is to have a <code>/Source/</code> folder inside your <code>/Images/</code> folder to hold all the source files (same as if you had a <code>/Flash/</code> folder for your animations then you should have a sub folder inside that called <code>/Source/</code> to hold all the <code>.fla</code> files). </p>
+<p>This may seem over kill and I can hear people crying out already about using up loads of server space on these types of files that aren&#39;t used by the website in any way, but hear me out! </p>
+<p>In modern web development there isn&#39;t usually a whole lot of these types of files (and by these files I mean <code>.fla</code> or the source <code>.png</code> for an image sprite) - items that are likely to need changing in the future and I don&#39;t mean keep hi-res photos or the original Illustrator/Photoshop design files. </p>
+<p>The biggest benefit I&#39;ve found is when going back to a website after (let&#39;s say) two years! You had all the source files on a backup server somewhere and now you have to go find it. Maybe it&#39;s in the loft, or locked in a fireproof safe at your work office, either way it&#39;s a pain in the ass to get to and try and locate these files when you could just connect to the web server and find them there alongside your website files!</p>
+<h3><a name="responsive-design"class="anchor" href="#responsive-design"><span class="header-link"></span></a>Responsive Design</h3>
+<p>The principle solution to making your site design responsive is to not set widths on anything. Depending on the design of your site the layouts will need a width set - for example a two column layout needs to have a width set on each column (you can&#39;t avoid that), but any modules you have shouldn&#39;t have a width set on them.</p>
+<p>Anything you do set a width on needs to be in percentages.</p>
+<p>Here is an example of how you can handle this using the two column layout example above…</p>
+<ul>
+<li>add two <code>&lt;div&gt;</code>&#39;s that will be your columns</li>
+<li>add a width to both columns in pixels</li>
+<li>float the columns so they sit next to each other</li>
+<li>now convert the pixels into percentages using the following algorithm <code>target / context = result</code>.</li>
+</ul>
+<p>So for example, if you set the width of the left <code>div</code>&#39;s to be 150px and the <code>div</code>&#39;s containing element happened to be a <code>&lt;div&gt;</code> with a width of 960px, then I would calculate the width of my left column like so: </p>
+<p><code>150 / 960 = .15625</code>. </p>
+<p>But with percentages you wouldn&#39;t just set the width to <code>.15625%</code> you need to move the decimal place over by two places so it becomes <code>15.625%</code>. </p>
+<p><code>target / context = result</code> is <em>THE</em> algorithm for responsive design!</p>
+<h4><a name="responsive-images"class="anchor" href="#responsive-images"><span class="header-link"></span></a>Responsive Images</h4>
+<p>To help your images scale appropriately along with your responsive design you can set the <code>max-width</code> property to be 100% which means the image will never be larger than its container but can happily resize/scale downwards on smaller screens…</p>
+<pre><code class="lang-css"><div class="highlight"><pre><span class="nt">img</span> <span class="p">{</span>
+    <span class="k">max-width</span><span class="o">:</span> <span class="m">100</span><span class="o">%</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<h4><a name="what-about-containing-elements-with-unknown-widths-"class="anchor" href="#what-about-containing-elements-with-unknown-widths-"><span class="header-link"></span></a>What about containing elements with unknown widths?</h4>
+<p>Normally what you see in web design is the main website content is wrapped in an element such as a <code>&lt;div&gt;</code> with a set <code>max-width</code> of 960px (so it fits onto a range of devices without requiring a horizontal scrollbar to appear). We use <code>max-width</code> instead of <code>width</code> for the same reason we use it for our responsive images, so it never gets larger than it should but can happily resize downwards depending on the size of the device viewing it.</p>
+<p>But how do we convert 960px into a responsive unit? We know the algorithm for responsive design is <code>target / context = result</code> but we have no container in this instance (unless we count the <code>&lt;body&gt;</code> tag)? But then what&#39;s the width of the <code>&lt;body&gt;</code> tag? We don&#39;t know because it&#39;ll be different on every device!</p>
+<p>Well there is one way to get 960px into a responsive unit and that is to take into account that the default font size on nearly all browsers is 16px. If you set <code>font-size: 100%</code> onto the <code>&lt;body&gt;</code> element then this equates to a font size of 16px.</p>
+<p>This allows us to calculate the 960px <code>max-width</code> as 60em! </p>
+<p>By doing: <code>960 / 16 = 60</code> (again it&#39;s that <code>target / context = result</code> algorithm!)</p>
+<p>We can now set our wrapper element like so…</p>
+<pre><code class="lang-css"><div class="highlight"><pre><span class="nc">.container</span> <span class="p">{</span>
+    <span class="k">max-width</span><span class="o">:</span> <span class="m">60em</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<h3><a name="mobile-design-users-on-the-move-"class="anchor" href="#mobile-design-users-on-the-move-"><span class="header-link"></span></a>Mobile Design: <em>users on the move</em></h3>
+<p>Because I make sure my sites are built using a responsive approach, it isn&#39;t a whole lot of extra work to tweak the styles/design to look more appropriate for devices with smaller screen dimensions. </p>
+<p>The tool for that job are &#39;Media Queries&#39;…</p>
+<pre><code class="lang-css"><div class="highlight"><pre><span class="k">@media</span> <span class="nt">only</span> <span class="nt">screen</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">min-width</span><span class="o">:</span> <span class="nt">320px</span><span class="o">)</span> <span class="p">{</span>
+    <span class="o">//</span> <span class="nt">Mobile</span> <span class="nt">styles</span>
+<span class="p">}</span>
+
+<span class="k">@media</span> <span class="nt">only</span> <span class="nt">screen</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">min-width</span><span class="o">:</span> <span class="nt">600px</span><span class="o">)</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">max-width</span><span class="o">:</span> <span class="nt">959px</span><span class="o">)</span> <span class="p">{</span>
+    <span class="o">//</span> <span class="nt">Tablet</span> <span class="nt">styles</span>
+<span class="p">}</span>
+
+<span class="k">@media</span> <span class="nt">only</span> <span class="nt">screen</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">min-width</span><span class="o">:</span> <span class="nt">960px</span><span class="o">)</span> <span class="p">{</span>
+    <span class="o">//</span> <span class="nt">Desktop</span> <span class="nt">styles</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>…yes I know these examples are <em>conveniently</em> matching the dimensions of an iPhone and iPad - which is a bad thing! What you ideally want to do is target good &#39;break-points&#39; in your design and not screen dimensions because let&#39;s face it: we know better by now that these assumptions will fail us in the future.</p>
+<p>When you have your media queries in place you can amend your designs so they are easier to view on those smaller screen dimensions.</p>
+<h3><a name="mobile-first"class="anchor" href="#mobile-first"><span class="header-link"></span></a>Mobile First</h3>
+<p>Building sites that <em>look</em> good on mobile devices is one thing, but the performance of those sites will be worse than those built to take a &#39;mobile first&#39; approach.</p>
+<p>The &#39;mobile first&#39; approach is effectively building the site to work for mobiles first and foremost, and to work your way up to the desktop version.</p>
+<p>The beauty of this approach is that the DOM structure is clean and uncluttered meaning the browser has less to render and if there is any JavaScript interaction then a smaller DOM means your JavaScript can sift through the DOM more easily. Also, you don&#39;t end up downloading unnecessary assets on a smaller/less powerful device (e.g. if you built your site for desktop and then added Media Queries to make it <em>look</em> good on mobile devices then you&#39;re still loading desktop related stylesheets onto a mobile device which doesn&#39;t need them).</p>
+<p>The &#39;mobile first&#39; approach can be very strange and uncomfortable, but I guess that - like anything - if you do it enough then the benefits will shine through and you&#39;ll wonder how you did things any other way.</p>
+<h3><a name="tools"class="anchor" href="#tools"><span class="header-link"></span></a>Tools</h3>
+<p>There is only really one CSS tool I use and that is a <a href="http://www.colorzilla.com/gradient-editor/">CSS gradient generator</a> from ColorZilla. The reason I use it is because it generates a gradient based on an image! So I can take our designers files and then export a slice of any gradient used, upload it and get CSS generated for me that perfectly matches the gradient the designers have used.</p>
+<h3><a name="linting-via-the-command-line"class="anchor" href="#linting-via-the-command-line"><span class="header-link"></span></a>Linting via the Command Line</h3>
+<p>Linting your code is very important. Linting helps highlight problems and potential bugs in your code.</p>
+<p>There is an online tool called <a href="http://csslint.net/">CSS Lint</a> that lets you paste your stylesheet code into a field and have it return results on its quality (based on specific &#39;rules&#39; that you would like it to abide by).</p>
+<p>I use CSS Lint as my linting tool of choice for CSS. The only problem is that it&#39;s a pain to have to copy/paste my code every time I want to lint it. So instead, I use the <a href="https://github.com/stubbornella/csslint/wiki/Command-line-interface">command line interface</a> version of the online tool as it&#39;s the easiest/quickest way to lint my code (and again, this is where using tools that make your job easier comes into play - why copy/paste the code from EACH of my CSS files into an external website when I can run a single command in my terminal which lints all of the files for me).</p>
+<p>To install the command line version of CSS Lint you&#39;ll need <a href="http://nodejs.org/">NodeJs</a> installed.</p>
+<p>To install simply run this line via your command line: <code>npm install -g csslint</code>.</p>
+<p>This means you can now use your command line to navigate to your CSS folder and lint it.</p>
+<p>There are different options/ways to use the command line interface of CSS Lint, and they are as follows…</p>
+<pre><code class="lang-sh"><div class="highlight"><pre>csslint <span class="o">[</span>options<span class="o">]</span> <span class="o">[</span>file<span class="p">|</span>dir<span class="o">]</span>*
+csslint file1.css file2.css
+csslint ./
+csslint --errors<span class="o">=</span>box-model,ids test.css // <span class="o">=</span>&gt; decide what should be errors
+csslint --warnings<span class="o">=</span>box-model,ids test.css // <span class="o">=</span>&gt; decide what should be warnings
+</pre></div>
+</code></pre>
+<p>Below is my general usage command (which I keep in a txt file inside my <code>/Styles/Lint</code> folder for quicker copy/pasting into the command line interface): </p>
+<pre><code class="lang-sh"><div class="highlight"><pre>csslint --errors<span class="o">=</span>import,compatible-vendor-prefixes,display-property-grouping,overqualified-elements,fallback-colors,duplicate-properties,empty-rules,gradients,universal-selector,vendor-prefix,zero-units --warnings<span class="o">=</span>important,known-properties,font-sizes,outline-none,shorthand,unqualified-attributes ./
+</pre></div>
+</code></pre>
+<p>When I run that command I see any bugs/issues with my CSS code that doesn&#39;t appear to abide by the &#39;rules&#39; specified via the command line options.</p>
+<h2><a name="javascript-the-behaviour-"class="anchor" href="#javascript-the-behaviour-"><span class="header-link"></span></a>JavaScript: <em>the behaviour</em></h2>
+<p>Wow, have we really managed to get through the CSS section!?</p>
+<p>OK, JavaScript, here we go…</p>
+<h3><a name="amd"class="anchor" href="#amd"><span class="header-link"></span></a>AMD</h3>
+<p>I guess the best place to start is with a good foundation and that is: AMD</p>
+<blockquote>
+<p>The Asynchronous Module Definition (AMD) API specifies a mechanism for defining modules such that the module and its dependencies can be asynchronously loaded. This is particularly well suited for the browser environment where synchronous loading of modules incurs performance, usability, debugging, and cross-domain access problems.</p>
+</blockquote>
+<p>…what this effectively means is rather than having one monolithic script file (while you&#39;re developing) you instead load a &#39;bootstrapper&#39; file which then loads in the relevant modules that make up the functionality of the page and each module has its own set of dependancies which are also loaded by the module.</p>
+<p>This gives you a modular code base that is easily re-usable because each &#39;module&#39; (and its specified dependancies) should be completely transferable between projects. I have <a href="https://github.com/Integralist/Passage/tree/master/public/Assets/Scripts/Utils">a whole load of modules</a> that I use across lots of different projects and I&#39;m adding to them all the time.</p>
+<p>Because modules aren&#39;t natively supported in browsers yet (they&#39;re in discussion for ES6) then AMD is the next best thing. To use AMD you need a module loader and that&#39;s where <a href="http://requirejs.org/">RequireJS</a> comes in - there are other AMD loaders available but I prefer to use RequireJS. I won&#39;t go into the details of how to use RequireJS as <a href="https://github.com/Integralist/Blog-Posts/blob/master/Beginners-guide-to-AMD-and-RequireJS.md">I&#39;ve already written about it in the past</a> but suffice to say it makes it very easy to work on a large scale project and to deploy your JavaScript as a single minified file.</p>
+<p>That&#39;s right, using modules is great but you still need to consider performance (all those HTTP requests aren&#39;t good for you) so RequireJS provides a handy build tool that lets you use NodeJs (or Java) to concatenate and minify all your modules into a single file. I&#39;ve said it before and I&#39;ll say it again: I appreciate that some people think that the overall file size could be worse than loading multiple files but when I consider low connectivity devices the idea of loading one single file just feels better to me. </p>
+<p>The great thing to remember about modules is the maintainability of the project and the re-usable code you get from it.</p>
+<h3><a name="linting"class="anchor" href="#linting"><span class="header-link"></span></a>Linting</h3>
+<p>Similar to my CSS work flow (see above), I use the command line to lint my JavaScript code - which helps me find silly errors in my code before I go off to production.</p>
+<p>There is an online tool called <a href="http://www.jshint.com/">JS Hint</a> that lets you paste your JavaScript code into a field and have it return results on its quality (based on specific &#39;rules&#39; that you would like it to abide by).</p>
+<p>I use JS Hint as my linting tool of choice for JavaScript. The only problem is that it&#39;s a pain to have to copy/paste my code every time I want to lint it. So instead, I use the <a href="https://github.com/jshint/node-jshint">command line interface</a> version of the online tool as it&#39;s the easiest/quickest way to lint my code (and again, this is where using tools that make your job easier comes into play - why copy/paste the code from EACH of my JavaScript files into an external website when I can run a single command in my terminal which lints all of the files for me).</p>
+<p>To install the command line version of Js Hint you&#39;ll need <a href="http://nodejs.org/">NodeJs</a> installed.</p>
+<p>To install simply run this line via your command line: <code>npm install jshint</code>.</p>
+<p>This means you can now use your command line to navigate to your JavaScript folder and lint it.</p>
+<p>There are different options/ways to use the command line interface of JS Hint, and they are as follows…</p>
+<pre><code class="lang-sh"><div class="highlight"><pre>jshint path path2 <span class="o">[</span>options<span class="o">]</span> // <span class="o">=</span>&gt; run against specific scripts
+jshint *.js // <span class="o">=</span>&gt; run against all scripts
+jshint main.js --show-non-errors // <span class="o">=</span>&gt; show non-errors <span class="o">(</span>e.g. Implied globals etc<span class="o">)</span>
+jshint main.js --config ./Lint/config.json // <span class="o">=</span>&gt; use specific configuration options
+jshint main.js --show-non-errors --config ./Lint/config.json // <span class="o">=</span>&gt; example of showing non-errors against specific configuration settings
+</pre></div>
+</code></pre>
+<p>Below is my general usage command (which I keep in a txt file inside my <code>/Scripts/Lint</code> folder for quicker copy/pasting into the command line interface): </p>
+<pre><code class="lang-sh"><div class="highlight"><pre>jshint **/*.js --config ./Lint/config.json
+</pre></div>
+</code></pre>
+<p>...this relies on a specific <code>config.json</code> file which is easier than manually typing all the options. It looks like this:</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="p">{</span>
+    <span class="c1">// Settings</span>
+    <span class="s2">&quot;passfail&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Stop on first error.</span>
+    <span class="s2">&quot;maxerr&quot;</span>        <span class="o">:</span> <span class="mi">200</span><span class="p">,</span>    <span class="c1">// Maximum error before stopping.</span>
+
+
+    <span class="c1">// Predefined globals whom JSHint will ignore.</span>
+    <span class="s2">&quot;browser&quot;</span>       <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Standard browser globals e.g. `window`, `document`.</span>
+
+    <span class="s2">&quot;node&quot;</span>          <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">&quot;rhino&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">&quot;couch&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">&quot;wsh&quot;</span>           <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>   <span class="c1">// Windows Scripting Host.</span>
+
+    <span class="s2">&quot;jquery&quot;</span>        <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="s2">&quot;prototypejs&quot;</span>   <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">&quot;mootools&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">&quot;dojo&quot;</span>          <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+
+    <span class="s2">&quot;predef&quot;</span>        <span class="o">:</span> <span class="p">[</span>  <span class="c1">// Custom globals.</span>
+        <span class="c1">// this is because we use require() from RequireJS library</span>
+        <span class="s2">&quot;require&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;define&quot;</span><span class="p">,</span>
+
+        <span class="c1">// this is because we use Jasmine BDD for unit-testing</span>
+        <span class="s2">&quot;jasmine&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;describe&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;beforeEach&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;afterEach&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;it&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;expect&quot;</span>
+    <span class="p">],</span>
+
+
+    <span class="c1">// Development.</span>
+    <span class="s2">&quot;debug&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow debugger statements e.g. browser breakpoints.</span>
+    <span class="s2">&quot;devel&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow developments statements e.g. `console.log();`.</span>
+
+
+    <span class="c1">// ECMAScript 5.</span>
+    <span class="s2">&quot;es5&quot;</span>           <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Allow ECMAScript 5 syntax.</span>
+    <span class="s2">&quot;strict&quot;</span>        <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Require `use strict` pragma  in every file.</span>
+    <span class="s2">&quot;globalstrict&quot;</span>  <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow global &quot;use strict&quot; (also enables &#39;strict&#39;).</span>
+
+
+    <span class="c1">// The Good Parts.</span>
+    <span class="s2">&quot;asi&quot;</span>           <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate Automatic Semicolon Insertion (no semicolons).</span>
+    <span class="s2">&quot;laxbreak&quot;</span>      <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Tolerate unsafe line breaks e.g. `return [\n] x` without semicolons.</span>
+    <span class="s2">&quot;bitwise&quot;</span>       <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit bitwise operators (&amp;, |, ^, etc.).</span>
+    <span class="s2">&quot;boss&quot;</span>          <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Tolerate assignments inside if, for &amp; while. Usually conditions &amp; loops are for comparison, not assignments.</span>
+    <span class="s2">&quot;curly&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require {} for every new block or scope.</span>
+    <span class="s2">&quot;eqeqeq&quot;</span>        <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require triple equals i.e. `===`.</span>
+    <span class="s2">&quot;eqnull&quot;</span>        <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate use of `== null`.</span>
+    <span class="s2">&quot;evil&quot;</span>          <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate use of `eval`.</span>
+    <span class="s2">&quot;expr&quot;</span>          <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate `ExpressionStatement` as Programs.</span>
+    <span class="s2">&quot;forin&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate `for in` loops without `hasOwnPrototype`.</span>
+    <span class="s2">&quot;immed&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require immediate invocations to be wrapped in parens e.g. `( function(){}() );`</span>
+    <span class="s2">&quot;latedef&quot;</span>       <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohipit variable use before definition.</span>
+    <span class="s2">&quot;loopfunc&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow functions to be defined within loops.</span>
+    <span class="s2">&quot;noarg&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit use of `arguments.caller` and `arguments.callee`.</span>
+    <span class="s2">&quot;regexp&quot;</span>        <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Prohibit `.` and `[^...]` in regular expressions.</span>
+    <span class="s2">&quot;regexdash&quot;</span>     <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate unescaped last dash i.e. `[-...]`.</span>
+    <span class="s2">&quot;scripturl&quot;</span>     <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Tolerate script-targeted URLs.</span>
+    <span class="s2">&quot;shadow&quot;</span>        <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Allows re-define variables later in code e.g. `var x=1; x=2;`.</span>
+    <span class="s2">&quot;supernew&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate `new function () { ... };` and `new Object;`.</span>
+    <span class="s2">&quot;undef&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require all non-global variables be declared before they are used.</span>
+
+
+    <span class="c1">// Personal styling preferences.</span>
+    <span class="s2">&quot;newcap&quot;</span>        <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require capitalization of all constructor functions e.g. `new F()`.</span>
+    <span class="s2">&quot;noempty&quot;</span>       <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit use of empty blocks.</span>
+    <span class="s2">&quot;nonew&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit use of constructors for side-effects.</span>
+    <span class="s2">&quot;nomen&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit use of initial or trailing underbars in names.</span>
+    <span class="s2">&quot;onevar&quot;</span>        <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow only one `var` statement per function.</span>
+    <span class="s2">&quot;plusplus&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Prohibit use of `++` &amp; `--`.</span>
+    <span class="s2">&quot;sub&quot;</span>           <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate all forms of subscript notation besides dot notation e.g. `dict[&#39;key&#39;]` instead of `dict.key`.</span>
+    <span class="s2">&quot;trailing&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Prohibit trailing whitespaces.</span>
+    <span class="s2">&quot;white&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Check against strict whitespace and indentation rules.</span>
+    <span class="s2">&quot;indent&quot;</span>        <span class="o">:</span> <span class="mi">4</span><span class="p">,</span>      <span class="c1">// Specify indentation spacing</span>
+    <span class="s2">&quot;smarttabs&quot;</span>        <span class="o">:</span> <span class="kc">true</span>      <span class="c1">// Suppress warnings about mixed tabs and spaces</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>When I run that command I see any bugs/issues with my JavaScript code that doesn&#39;t appear to abide by the &#39;rules&#39; specified via the command line options. If I see nothing then that means there were no errors and I&#39;m good to go.</p>
+<h3><a name="code-structure"class="anchor" href="#code-structure"><span class="header-link"></span></a>Code Structure</h3>
+<p>One thing I find very useful to do for all my JavaScript files is to include a code structure comment at the top like so...</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="cm">/*</span>
+<span class="cm"> * Code Structure:</span>
+<span class="cm"> * - Variables</span>
+<span class="cm"> * - Functions</span>
+<span class="cm"> *   - fn_name_1</span>
+<span class="cm"> *   - fn_name_2</span>
+<span class="cm"> *   - fn_name_3</span>
+<span class="cm"> *   - fn_name_4</span>
+<span class="cm"> *   - fn_name_5</span>
+<span class="cm"> *   - fn_name_6</span>
+<span class="cm"> *   - fn_name_7</span>
+<span class="cm"> *   - fn_name_8</span>
+<span class="cm"> *   - fn_name_9</span>
+<span class="cm"> * - Initialisation</span>
+<span class="cm"> */</span>
+</pre></div>
+</code></pre>
+<p>...this makes understanding where specific code is in the file a lot easier (at a glance). As you can see this code structure follows my <a href="https://github.com/Integralist/Style-Guides/blob/master/JavaScript%20Style%20Guide.md">JavaScript Style Guide</a> which goes into more detail about the specifics of my JavaScript code structure.</p>
+<h3><a name="pure-functions"class="anchor" href="#pure-functions"><span class="header-link"></span></a>Pure Functions</h3>
+<p>Something else I&#39;ve started to do more recently - and this was something I used to avoid in the past as I was &#39;scare mongered&#39; into believing it was a performance concern - is the idea of making more use of functions in a &#39;pure&#39; style, and by this I mean writing functions that do one thing and one thing only without causing side effects.</p>
+<p>Writing functions that only do one thing - rather than 5 or more different things - make it much easier to write unit-tests for but also makes it a hell of a lot easier to just debug in general.</p>
+<p>On top of that it just <em>feels</em> cleaner. A bit <em>Zen</em> like and how they say if you clear your desk then you&#39;ve cleared your mind. I find more relaxed knowing each of my functions do one thing and one thing only, I know they aren&#39;t becoming overly complex and bloated and I can more easily refactor them without worrying about side effects on my code.</p>
+<h2><a name="style-guides-keeping-things-consistent-"class="anchor" href="#style-guides-keeping-things-consistent-"><span class="header-link"></span></a>Style Guides: <em>keeping things consistent</em></h2>
+<p>I strongly recommend the use of a Style Guides for a team of developers. Mainly because it means there is a consistency in the code style, and that alone can make a great difference in the ease of maintaining a large code base.</p>
+<p>I&#39;ve written a few Style Guides already so I wont go into specifics here:</p>
+<p><a href="https://github.com/Integralist/Style-Guides/blob/master/JavaScript%20Style%20Guide.md">JavaScript Style Guide</a></p>
+<p><a href="https://github.com/Integralist/Style-Guides/blob/master/HTML%20Style%20Guide.md">HTML Style Guide</a></p>
+<p><a href="https://github.com/Integralist/Style-Guides/blob/master/CSS%20Style%20Guide.md">CSS Style Guide</a></p>
+<h2><a name="testing-making-sure-stuff-works-"class="anchor" href="#testing-making-sure-stuff-works-"><span class="header-link"></span></a>Testing: <em>making sure stuff works</em></h2>
+<p>Well, we all know we should test our code and I admit I just don&#39;t do this enough.</p>
+<p>But just to be clear: when I say &#39;test our code&#39; I don&#39;t mean &#39;unit testing&#39; because, although that helps, that doesn&#39;t eliminate all bugs. I also don&#39;t like the idea of writing tests <em>after</em> the code is written - I feel like the tests we write will miss something important (almost like a subconscious design to not break the code we&#39;ve spent a long time writing, so we don&#39;t write the most robust tests we probably could). </p>
+<p>I much prefer the TDD (Test-Driven Development) process where you:</p>
+<ol>
+<li>write tests before you write any code (that way you get to design the perfect API with no compromise). </li>
+<li>then start writing code to make the failing tests pass</li>
+<li>then once the tests are passing you go back and refactor the code (note: <em>refactor</em> does not mean <em>redesign</em>)</li>
+</ol>
+<p>This process will ensure you have a rock solid code base. I should do it more than I do but my excuse so far as always been that the time up-front it takes to do this process is something I&#39;ve not been able to properly justify at work considering the types of deadlines we have to deal with.</p>
+<p><strong>That being said…</strong> It is our responsibility as developers (we know better than any one else) that if something is to be done properly then it needs to be done right - so we need to be dictating to our managers (or whoever&#39;s making the decisions about time scales) what the real life time scale should be. We&#39;re the experts in this field, so why should any one else tell us how long we have to get to complete a job? And if we&#39;re the one&#39;s giving the estimates/quotes (based on how long something will take to build) then why aren&#39;t we adding in extra time for writing tests the TDD way?</p>
+<p>So although I <em>currently</em> don&#39;t don&#39;t do this, on my next job the Test-Driven Development process will be taking a much more prominent place in my developer work flow. It has to, for my sanity.</p>
+<p>I highly recommend you use the TDD specific <a href="http://busterjs.org/">BusterJs</a>, which is without a doubt the best testing toolkit available today. I love it. It can be run from the browser or via the command line and makes it very easy to do mocking and stubbing, writing deferred and async tests, nested tests as well as something really useful which is to tell BusterJs to NOT run specific tests based on the results of your own feature detection (e.g. testing a specific feature that is known to crash IE6 is a bit pointless). OH, and it also works with AMD!</p>
+<p>I&#39;ve also written an article about <a href="https://github.com/Integralist/Blog-Posts/blob/master/Beginners-guide-on-how-to-test-your-code-%28using-Jasmine-BDD%29.md">using the Behaviour-Driven Development testing framework Jasmine</a> - it goes into detail about testing your code and the differences between TDD/BDD and &#39;unit testing&#39;.</p>
+<h2><a name="performance-running-fast-"class="anchor" href="#performance-running-fast-"><span class="header-link"></span></a>Performance: <em>running fast</em></h2>
+<p>Performance has had a mention in quite a few areas of this post already so it seems silly not to dedicate a section to it.</p>
+<p>I - like many of you - abide by the (now) standard rules of <a href="http://developer.yahoo.com/yslow/">YSlow</a> and <a href="https://developers.google.com/speed/pagespeed/">Google Pagespeed</a> - so things like:</p>
+<ul>
+<li>Minifying JavaScript/CSS</li>
+<li>Reducing HTTP Requests</li>
+<li>GZIP all components</li>
+<li>Stylesheets at the top of the page</li>
+<li>JavaScript at the bottom of the page</li>
+<li>Optimise your images (using CSS Sprites or a tool like <a href="http://imageoptim.com/">ImageOptim</a>)</li>
+</ul>
+<p>...and the list goes on and on. </p>
+<p>If you&#39;re not already doing it then make sure you take the time to read through them - as they are all straight forward items that don&#39;t take much effort but REALLY make a difference as far as your website/app&#39;s performance is concerned.</p>
+<p>To make your life a little easier you can even use the YSlow and Pagespeed Firebug plugin extensions which make it much easier for checking a site&#39;s compliance with these rules.</p>
+<p>But there are other aspects of your site that aren&#39;t simple to resolve - JavaScript performance for one is a massive topic and one that I could never do justice to here, so I will instead simply recommend you read <a href="http://shop.oreilly.com/product/9780596802806.do">High Performance JavaScript </a> by Nicholas C. Zakas which is an excellent compilation of information about fine tuning your JavaScript.</p>
+<p>Below is an example of a minor performance dilemma I had recently while writing CSS with the Sass pre-processor. Although this example would likely be an extremely neglible performance hit I still found it interesting (afterwards) how potentially easily it is to make mistakes when using a pre-processor. So here is some Sass driven CSS code… </p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.dashboard-box</span> <span class="err">{</span>
+    <span class="k">@include</span><span class="nd"> box-sizing</span><span class="p">(</span><span class="no">border</span><span class="o">-</span><span class="n">box</span><span class="p">)</span><span class="err">;</span>
+    <span class="k">@include</span><span class="nd"> shadow</span><span class="p">(</span><span class="mi">1</span><span class="kt">px</span> <span class="mi">1</span><span class="kt">px</span> <span class="mi">3</span><span class="kt">px</span> <span class="nf">rgba</span><span class="p">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mf">.2</span><span class="p">))</span><span class="err">;</span>
+    <span class="k">@extend</span> <span class="nc">.box-gradient-bg</span><span class="o">;</span>
+
+    <span class="na">border</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$grey</span><span class="err">;</span>
+    <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.5</span><span class="kt">em</span><span class="err">;</span>
+
+    <span class="k">&amp;</span><span class="o">,</span>
+    <span class="o">&gt;</span> <span class="nt">div</span> <span class="err">{</span>
+       <span class="k">@include</span><span class="nd"> radius</span><span class="p">(</span><span class="mf">.5</span><span class="kt">em</span><span class="p">)</span><span class="err">;</span>
+    <span class="err">}</span>
+
+    <span class="o">&gt;</span> <span class="nt">div</span> <span class="err">{</span>
+        <span class="na">border</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$white</span><span class="err">;</span>
+        <span class="na">padding</span><span class="o">:</span> <span class="mi">0</span><span class="mf">.2</span><span class="kt">em</span><span class="err">;</span>
+    <span class="err">}</span>
+
+    <span class="nc">.title</span> <span class="err">{</span>
+        <span class="k">@include</span><span class="nd"> radius</span><span class="p">(</span><span class="mf">.3</span><span class="kt">em</span><span class="p">)</span><span class="err">;</span>
+        <span class="k">@extend</span> <span class="nc">.header-gradient-bg</span><span class="o">;</span>
+        <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.166666667</span><span class="kt">em</span><span class="err">;</span>
+        <span class="na">margin</span><span class="o">:</span> <span class="mi">0</span><span class="err">;</span>
+    <span class="err">}</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p>…which generates the following CSS…</p>
+<pre><code class="lang-css"><div class="highlight"><pre><span class="nc">.dashboard-box</span> <span class="p">{</span>
+  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">box</span><span class="o">-</span><span class="n">sizing</span><span class="o">:</span> <span class="k">border</span><span class="o">-</span><span class="n">box</span><span class="p">;</span>
+  <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">box</span><span class="o">-</span><span class="n">sizing</span><span class="o">:</span> <span class="k">border</span><span class="o">-</span><span class="n">box</span><span class="p">;</span>
+  <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="n">box</span><span class="o">-</span><span class="n">sizing</span><span class="o">:</span> <span class="k">border</span><span class="o">-</span><span class="n">box</span><span class="p">;</span>
+  <span class="n">box</span><span class="o">-</span><span class="n">sizing</span><span class="o">:</span> <span class="k">border</span><span class="o">-</span><span class="n">box</span><span class="p">;</span>
+  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="o">:</span> <span class="m">1px</span> <span class="m">1px</span> <span class="m">3px</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">.</span><span class="m">2</span><span class="p">);</span>
+  <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="o">:</span> <span class="m">1px</span> <span class="m">1px</span> <span class="m">3px</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">.</span><span class="m">2</span><span class="p">);</span>
+  <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="o">:</span> <span class="m">1px</span> <span class="m">1px</span> <span class="m">3px</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">.</span><span class="m">2</span><span class="p">);</span>
+  <span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="o">:</span> <span class="m">1px</span> <span class="m">1px</span> <span class="m">3px</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">.</span><span class="m">2</span><span class="p">);</span>
+  <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="m">#999999</span><span class="p">;</span>
+  <span class="k">margin-bottom</span><span class="o">:</span> <span class="m">1.5em</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.dashboard-box</span><span class="o">,</span>
+<span class="nc">.dashboard-box</span> <span class="o">&gt;</span> <span class="nt">div</span> <span class="p">{</span>
+  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
+  <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
+  <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
+  <span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.dashboard-box</span> <span class="o">&gt;</span> <span class="nt">div</span> <span class="p">{</span>
+  <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="nb">white</span><span class="p">;</span>
+  <span class="k">padding</span><span class="o">:</span> <span class="m">0.2em</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.dashboard-box</span> <span class="nc">.title</span> <span class="p">{</span>
+  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.3em</span><span class="p">;</span>
+  <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.3em</span><span class="p">;</span>
+  <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.3em</span><span class="p">;</span>
+  <span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.3em</span><span class="p">;</span>
+  <span class="k">font-size</span><span class="o">:</span> <span class="m">1.166666667em</span><span class="p">;</span>
+  <span class="k">margin</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>…but at first I wasn&#39;t sure if having duplicated selectors (i.e. <code>.dashboard-box</code> and <code>.dashboard-box &gt; div</code>) was very efficient, so I went back and changed my Sass code. This time I put <code>@include radius(.5em);</code> both at the top of the main declaration block as well as inside the <code>&gt; div</code> declaration...</p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.dashboard-box</span> <span class="err">{</span>
+    <span class="k">@include</span><span class="nd"> radius</span><span class="p">(</span><span class="mf">.5</span><span class="kt">em</span><span class="p">)</span><span class="err">;</span>
+    <span class="k">@include</span><span class="nd"> box-sizing</span><span class="p">(</span><span class="no">border</span><span class="o">-</span><span class="n">box</span><span class="p">)</span><span class="err">;</span>
+    <span class="k">@include</span><span class="nd"> shadow</span><span class="p">(</span><span class="mi">1</span><span class="kt">px</span> <span class="mi">1</span><span class="kt">px</span> <span class="mi">3</span><span class="kt">px</span> <span class="nf">rgba</span><span class="p">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mf">.2</span><span class="p">))</span><span class="err">;</span>
+    <span class="k">@extend</span> <span class="nc">.box-gradient-bg</span><span class="o">;</span>
+
+    <span class="na">border</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$grey</span><span class="err">;</span>
+    <span class="na">margin-bottom</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.5</span><span class="kt">em</span><span class="err">;</span>
+
+    <span class="o">&gt;</span> <span class="nt">div</span> <span class="err">{</span>
+        <span class="k">@include</span><span class="nd"> radius</span><span class="p">(</span><span class="mf">.5</span><span class="kt">em</span><span class="p">)</span><span class="err">;</span>
+        <span class="na">border</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$white</span><span class="err">;</span>
+        <span class="na">padding</span><span class="o">:</span> <span class="mi">0</span><span class="mf">.2</span><span class="kt">em</span><span class="err">;</span>
+    <span class="err">}</span>
+
+    <span class="nc">.title</span> <span class="err">{</span>
+        <span class="k">@include</span><span class="nd"> radius</span><span class="p">(</span><span class="mf">.3</span><span class="kt">em</span><span class="p">)</span><span class="err">;</span>
+        <span class="k">@extend</span> <span class="nc">.header-gradient-bg</span><span class="o">;</span>
+        <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.166666667</span><span class="kt">em</span><span class="err">;</span>
+        <span class="na">margin</span><span class="o">:</span> <span class="mi">0</span><span class="err">;</span>
+    <span class="err">}</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p>...which resulted in the following CSS… </p>
+<pre><code class="lang-css"><div class="highlight"><pre><span class="nc">.dashboard-box</span> <span class="p">{</span>
+  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
+  <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
+  <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
+  <span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
+  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">box</span><span class="o">-</span><span class="n">sizing</span><span class="o">:</span> <span class="k">border</span><span class="o">-</span><span class="n">box</span><span class="p">;</span>
+  <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">box</span><span class="o">-</span><span class="n">sizing</span><span class="o">:</span> <span class="k">border</span><span class="o">-</span><span class="n">box</span><span class="p">;</span>
+  <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="n">box</span><span class="o">-</span><span class="n">sizing</span><span class="o">:</span> <span class="k">border</span><span class="o">-</span><span class="n">box</span><span class="p">;</span>
+  <span class="n">box</span><span class="o">-</span><span class="n">sizing</span><span class="o">:</span> <span class="k">border</span><span class="o">-</span><span class="n">box</span><span class="p">;</span>
+  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="o">:</span> <span class="m">1px</span> <span class="m">1px</span> <span class="m">3px</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">.</span><span class="m">2</span><span class="p">);</span>
+  <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="o">:</span> <span class="m">1px</span> <span class="m">1px</span> <span class="m">3px</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">.</span><span class="m">2</span><span class="p">);</span>
+  <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="o">:</span> <span class="m">1px</span> <span class="m">1px</span> <span class="m">3px</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">.</span><span class="m">2</span><span class="p">);</span>
+  <span class="n">box</span><span class="o">-</span><span class="n">shadow</span><span class="o">:</span> <span class="m">1px</span> <span class="m">1px</span> <span class="m">3px</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">.</span><span class="m">2</span><span class="p">);</span>
+  <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="m">#999999</span><span class="p">;</span>
+  <span class="k">margin-bottom</span><span class="o">:</span> <span class="m">1.5em</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.dashboard-box</span> <span class="o">&gt;</span> <span class="nt">div</span> <span class="p">{</span>
+  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
+  <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
+  <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
+  <span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.5em</span><span class="p">;</span>
+  <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="nb">white</span><span class="p">;</span>
+  <span class="k">padding</span><span class="o">:</span> <span class="m">0.2em</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.dashboard-box</span> <span class="nc">.title</span> <span class="p">{</span>
+  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.3em</span><span class="p">;</span>
+  <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.3em</span><span class="p">;</span>
+  <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.3em</span><span class="p">;</span>
+  <span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">0.3em</span><span class="p">;</span>
+  <span class="k">font-size</span><span class="o">:</span> <span class="m">1.166666667em</span><span class="p">;</span>
+  <span class="k">margin</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>Now, what has this given us? OK so yes this means I don&#39;t have the <code>.dashboard-box</code> or <code>.dashboard-box &gt; div</code> selectors duplicated (which is good), BUT now I&#39;ve got two different problems:</p>
+<ul>
+<li>the <code>border-radius</code> code is duplicated (so overall file size is now bigger than what it was previously)</li>
+<li>code maintainence takes a hit</li>
+</ul>
+<p>...all at the cost of two selector lookups?</p>
+<p>I don&#39;t know which performs better. I could imagine the larger file size GZIP&#39;ing better, but in my Sass code I now have two places I need to update the border radius value (if it ever needed to change), and that&#39;s not efficient with regards to my own time maintaining this code. I know that doesn&#39;t seem like much in this example, but imagine you had this sort of stuff happening all over the place, then it would soon start adding up to be a right pain in the ass.</p>
+<p>So in the end I went back to the original solution I had which meant the selector was duplicated but it had the two pros of: overall file size was down and developer maintenance was easier.</p>
+<p>In this example neither option was really wrong, but it goes to show that you not only need to be careful when using a pre-processor but also you need to be thinking about how performance and maintenance tie together when writing your code.</p>
+<h2><a name="version-control-keeping-track-of-things"class="anchor" href="#version-control-keeping-track-of-things"><span class="header-link"></span></a>Version Control: keeping track of things</h2>
+<p>Using version control software is a no-brainer really. Depending on whether you use the comand line interface or a visual app is a personal choice and I prefer to use the command line as it&#39;s just more efficient.</p>
+<p>There are many different version control systems, but the one I learnt to use was <a href="http://git-scm.com/">Git</a> (which as of 2012 has had a beautiful site redesign).</p>
+<p>The good thing about using Git is that it makes it extremely easy to create &#39;branches&#39; for different areas of development. If the client asks for a new feature to be added then we&#39;ll create a new branch for that feature and then merge back into our master branch when ready to deploy the code.</p>
+<p>One of the tenets of version control which I really like and I make sure to follow is: </p>
+<blockquote>
+<p>the &#39;master&#39; is always deployable</p>
+</blockquote>
+<p>…so not matter what you&#39;re working: on your &#39;master&#39; branch should always be clean.</p>
+<p>I also recommend using <a href="https://github.com/integralist">GitHub</a> for storing your code - there are both public and private accounts so you can keep business critical code safe. One nice feature of GitHub is the ease at which you can create promotional pages for your open-source projects (see: <a href="http://integralist.co.uk/Passage/"><a href="http://integralist.co.uk/Passage/">http://integralist.co.uk/Passage/</a></a> for an example using a pre-designed/built responsive template)</p>
+<p>You can also have GitHub host simple website pages for you - <a href="http://www.integralist.co.uk/">my site</a> for example is hosted by GitHub and so I can push my site changes live straight from the command line without needing an FTP program (which is amazing in it&#39;s simplicity and ease) - a nice side effect from having my site hosted on GitHub is that all my GitHub pages are also mapped to my domain - so for example <a href="http://integralist.github.com/Passage"><a href="http://integralist.github.com/Passage">http://integralist.github.com/Passage</a></a> actually redirects to <a href="http://integralist.co.uk/Passage/"><a href="http://integralist.co.uk/Passage/">http://integralist.co.uk/Passage/</a></a>.</p>
+<h2><a name="automation-making-life-easier-"class="anchor" href="#automation-making-life-easier-"><span class="header-link"></span></a>Automation: <em>making life easier</em></h2>
+<p>There are many ways to automate your work flow, doing so makes you more efficient and productive and in general can just save you hassle.</p>
+<p>I&#39;ve already discussed some of the command line tools I use that make my life easier (e.g. jshint, csslint, the RequireJS build script).</p>
+<p>But there are other things you can do so as using a content generator like <a href="http://yeoman.io/">Yeoman</a> which I&#39;ll be honest I don&#39;t use but some of the things it does for you are quite nice, such as:</p>
+<ul>
+<li>Generates project based on criteria you specify</li>
+<li>Automatically lints your scripts</li>
+<li>Built in preview server</li>
+<li>Image optimizer</li>
+<li>AppCache manifest generation</li>
+<li>Build process</li>
+<li>Package management</li>
+<li>Unit Testing</li>
+</ul>
+<p>…all of which sounds great but I really <em>hate</em> the HTML it generates for you. I know that sounds like a minor issue but if that can&#39;t be changed (and apparently it can - so that&#39;s something I&#39;m going to look into) then that&#39;s going to annoy me every single time I use it because it means I&#39;ll end up wasting time on a tool that&#39;s supposed to make things easier <em>for me</em>. </p>
+<p>So (in the mean time) I instead have two template projects on GitHub (one for work based PHP projects and one for personal Ruby based projects) that I can clone for each new project and which covers the general set-up each of my sites have.</p>
+<p>I already have CSS and JavaScript linting on the command line which works for me and the process of optising images using the ImageOptim app works fine (drag and drop images folder and have it take care of the rest) - but I am currently looking into installing both <a href="http://optipng.sourceforge.net/">OptiPNG</a> and <a href="http://jpegclub.org/jpegtran/">JPEGTran</a> so I can move away from the ImageOptim app and use the command line instead.</p>
+<p>I use the command line to handle my dependancies by pulling in GitHub hosted repositories as sub modules and then any time there is an update I can just run <code>git pull</code> on the relevant sub modules to get the latest versions - not quite as automatic as something like Google&#39;s Yeoman but it works for me.</p>
+<p>My CSS and JavaScript files are concatenated and minified with a combination of Sass and the RequireJS build script and so the only thing left to do is start programming.</p>
+<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>I felt this (damn)long post deserved a &#39;conclusion&#39; but I&#39;ve suddenly realised that I&#39;m not actually very good at writing them, but here we go:</p>
+<p>There is a lot of new cool tech available at the moment - along with the current batch of good/useful development best practices - which has made programming really fun and refreshing for me once again (every few years you get bored of the environment you&#39;re in and then something happens to inject new life into the industry - and that is what has happened over the past year for me). </p>
+<p>If you haven&#39;t already, then it&#39;s time to just get stuck in and start taking advantage of what&#39;s out there and help take your skills to the next level.</p>
+</div>
+
+  <div class="comments">
+    <a href="/posts/thoughts-on-current-web-development-practices/#comments">
+      <span class="icon-bubbles"></span>
+      Comments
+    </a>
+  </div>
+
+  <div class="post-head group">
   <a href="/posts/guide-to-using-sass/">
     <h1 class="post-title">Guide to using Sass</h1>
   </a>
@@ -289,215 +1289,6 @@
     </a>
   </div>
 
-  <div class="post-head group">
-  <a href="/posts/node-js-as-a-tool/">
-    <h1 class="post-title">Node.js as a tool</h1>
-  </a>
-  <span class="post-date">2012 &#183; 3 &#183; 4</span>
-</div>
-
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
-<p><em>reading time: approx. 6mins</em></p>
-<ul>
-<li>Introduction</li>
-<li>Prerequisite</li>
-<li>CSSLint</li>
-<li>JsHint</li>
-<li>RequireJS/r.js</li>
-<li>gh-markdown-cli</li>
-</ul>
-<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
-<p>NodeJs is best known for running server-side JavaScript, but it can also be used for other processes that run on your local machine: See: <a href="http://blog.millermedeiros.com/node-js-as-a-build-script/">Node.js as a build script</a> (by <a href="https://github.com/millermedeiros/">@millermedeiros</a>) for lots of examples of this.</p>
-<p>With the help of <a href="http://mxcl.github.com/homebrew/">Homebrew</a> (yes I know I&#39;m only catering for Mac users here - what a scum bag I am - but the principles are the same I&#39;m just using <code>Homebrew</code> to get these packages installed) we can get our prerequisite installed.</p>
-<h2><a name="prerequisite"class="anchor" href="#prerequisite"><span class="header-link"></span></a>Prerequisite</h2>
-<p>I have to assume you&#39;ve already got Homebrewm, Node and NPM installed? If not then open up your terminal/command line tool of choice and follow these steps:</p>
-<ol>
-<li><p>Install Homebrew by executing this command:<br> <code>/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.github.com/gist/323731)&quot;</code></p>
-</li>
-<li><p>Install Node by executing this command:<br> <code>brew install node</code></p>
-</li>
-<li><p>Install NPM by executing this command:<br> <code>curl http://npmjs.org/install.sh | sh</code></p>
-</li>
-</ol>
-<p>After that you should be able to execute <code>brew --version</code>, <code>node --version</code> and <code>npm --version</code> and get version numbers back to show that they&#39;ve installed.</p>
-<h2><a name="csslint"class="anchor" href="#csslint"><span class="header-link"></span></a>CSSLint</h2>
-<p>&quot;<em>Automated linting of Cascading Stylesheets</em>&quot;</p>
-<p><a href="https://github.com/stubbornella/csslint"><a href="https://github.com/stubbornella/csslint">https://github.com/stubbornella/csslint</a></a></p>
-<p><strong>Installation</strong>:<br><code>npm install -g csslint</code></p>
-<p><strong>Example usage:</strong></p>
-<pre><code class="lang-sh"><div class="highlight"><pre>csslint <span class="o">[</span>options<span class="o">]</span> <span class="o">[</span>file<span class="p">|</span>dir<span class="o">]</span>*
-csslint file1.css file2.css  
-csslint ./  
-csslint --errors<span class="o">=</span>box-model,ids test.css // <span class="o">=</span>&gt; decide what should be errors  
-csslint --warnings<span class="o">=</span>box-model,ids test.css // <span class="o">=</span>&gt; decide what should be warnings
-</pre></div>
-</code></pre>
-<p><strong>Configuration:</strong><br>You can view the options by running <code>csslint --help</code><br>All &#39;rules&#39; can be viewed using: <code>csslint --list-rules</code><br>The rules have #ID&#39;s that you can specify as errors|warnings</p>
-<p><strong>Generic usage:</strong><br><code>csslint --errors=import,compatible-vendor-prefixes,display-property-grouping,overqualified-elements,fallback-colors,duplicate-properties,empty-rules,gradients,universal-selector,vendor-prefix,zero-units --warnings=important,known-properties,font-sizes,outline-none,shorthand,unqualified-attributes</code></p>
-<p><strong>Prettier Syntax:</strong><br>It&#39;s recommended to create a shell script to wrap the CSS Lint functionality so you can use the same syntax as the Node.js CLI. </p>
-<p>For Linux/Mac, create a file named <code>csslint</code> and add the following to the file:  </p>
-<pre><code class="lang-sh"><div class="highlight"><pre><span class="c">#!/bin/bash</span>
-java -jar js.jar csslint-rhino.js <span class="nv">$@</span>
-</pre></div>
-</code></pre>
-<p>After creating the file, you need to ensure it can be executed, so go to the command line and type:<br><code>chmod +x csslint</code></p>
-<h2><a name="jshint"class="anchor" href="#jshint"><span class="header-link"></span></a>JsHint</h2>
-<p>&quot;<em>CLI and NPM package for JSHint</em>&quot;</p>
-<p><a href="https://github.com/jshint/node-jshint"><a href="https://github.com/jshint/node-jshint">https://github.com/jshint/node-jshint</a></a></p>
-<p><strong>Installation:</strong><br>npm install jshint</p>
-<p><strong>Example usage:</strong>  </p>
-<pre><code class="lang-sh"><div class="highlight"><pre>jshint path path2 <span class="o">[</span>options<span class="o">]</span> // <span class="o">=</span>&gt; run against specific scripts
-jshint *.js // <span class="o">=</span>&gt; run against all scripts
-jshint main.js --show-non-errors // <span class="o">=</span>&gt; show non-errors <span class="o">(</span>e.g. Implied globals etc<span class="o">)</span>
-jshint main.js --config ./Lint/config.json // <span class="o">=</span>&gt; use specific configuration options
-jshint main.js --show-non-errors --config ./Lint/config.json // <span class="o">=</span>&gt; example of showing non-errors against specific configuration settings
-</pre></div>
-</code></pre>
-<p>If you get no errors then that means the script ran fine</p>
-<p><strong>Generic usage:</strong><br><code>jshint **/*.js --config ./Lint/config.json</code></p>
-<p><strong>Configuration:</strong><br>Your <code>config.json</code> file could look like the following…</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="p">{</span>
-    <span class="c1">// Settings</span>
-    <span class="s2">&quot;passfail&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Stop on first error.</span>
-    <span class="s2">&quot;maxerr&quot;</span>        <span class="o">:</span> <span class="mi">200</span><span class="p">,</span>    <span class="c1">// Maximum error before stopping.</span>
-
-
-    <span class="c1">// Predefined globals whom JSHint will ignore.</span>
-    <span class="s2">&quot;browser&quot;</span>       <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Standard browser globals e.g. `window`, `document`.</span>
-
-    <span class="s2">&quot;node&quot;</span>          <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="s2">&quot;rhino&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="s2">&quot;couch&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="s2">&quot;wsh&quot;</span>           <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>   <span class="c1">// Windows Scripting Host.</span>
-
-    <span class="s2">&quot;jquery&quot;</span>        <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-    <span class="s2">&quot;prototypejs&quot;</span>   <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="s2">&quot;mootools&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="s2">&quot;dojo&quot;</span>          <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
-
-    <span class="s2">&quot;predef&quot;</span>        <span class="o">:</span> <span class="p">[</span>  <span class="c1">// Custom globals.</span>
-        <span class="c1">// this is because we use require() from RequireJS library</span>
-        <span class="s2">&quot;require&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;define&quot;</span><span class="p">,</span>
-
-        <span class="c1">// this is because we use Jasmine BDD for unit-testing</span>
-        <span class="s2">&quot;jasmine&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;describe&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;beforeEach&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;afterEach&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;it&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;expect&quot;</span>
-    <span class="p">],</span>
-
-
-    <span class="c1">// Development.</span>
-    <span class="s2">&quot;debug&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow debugger statements e.g. browser breakpoints.</span>
-    <span class="s2">&quot;devel&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow developments statements e.g. `console.log();`.</span>
-
-
-    <span class="c1">// ECMAScript 5.</span>
-    <span class="s2">&quot;es5&quot;</span>           <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Allow ECMAScript 5 syntax.</span>
-    <span class="s2">&quot;strict&quot;</span>        <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Require `use strict` pragma  in every file.</span>
-    <span class="s2">&quot;globalstrict&quot;</span>  <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow global &quot;use strict&quot; (also enables &#39;strict&#39;).</span>
-
-
-    <span class="c1">// The Good Parts.</span>
-    <span class="s2">&quot;asi&quot;</span>           <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate Automatic Semicolon Insertion (no semicolons).</span>
-    <span class="s2">&quot;laxbreak&quot;</span>      <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Tolerate unsafe line breaks e.g. `return [\n] x` without semicolons.</span>
-    <span class="s2">&quot;bitwise&quot;</span>       <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit bitwise operators (&amp;, |, ^, etc.).</span>
-    <span class="s2">&quot;boss&quot;</span>          <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Tolerate assignments inside if, for &amp; while. Usually conditions &amp; loops are for comparison, not assignments.</span>
-    <span class="s2">&quot;curly&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require {} for every new block or scope.</span>
-    <span class="s2">&quot;eqeqeq&quot;</span>        <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require triple equals i.e. `===`.</span>
-    <span class="s2">&quot;eqnull&quot;</span>        <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate use of `== null`.</span>
-    <span class="s2">&quot;evil&quot;</span>          <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate use of `eval`.</span>
-    <span class="s2">&quot;expr&quot;</span>          <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate `ExpressionStatement` as Programs.</span>
-    <span class="s2">&quot;forin&quot;</span>         <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate `for in` loops without `hasOwnPrototype`.</span>
-    <span class="s2">&quot;immed&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require immediate invocations to be wrapped in parens e.g. `( function(){}() );`</span>
-    <span class="s2">&quot;latedef&quot;</span>       <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohipit variable use before definition.</span>
-    <span class="s2">&quot;loopfunc&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow functions to be defined within loops.</span>
-    <span class="s2">&quot;noarg&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit use of `arguments.caller` and `arguments.callee`.</span>
-    <span class="s2">&quot;regexp&quot;</span>        <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Prohibit `.` and `[^...]` in regular expressions.</span>
-    <span class="s2">&quot;regexdash&quot;</span>     <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate unescaped last dash i.e. `[-...]`.</span>
-    <span class="s2">&quot;scripturl&quot;</span>     <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Tolerate script-targeted URLs.</span>
-    <span class="s2">&quot;shadow&quot;</span>        <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Allows re-define variables later in code e.g. `var x=1; x=2;`.</span>
-    <span class="s2">&quot;supernew&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate `new function () { ... };` and `new Object;`.</span>
-    <span class="s2">&quot;undef&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require all non-global variables be declared before they are used.</span>
-
-
-    <span class="c1">// Personal styling preferences.</span>
-    <span class="s2">&quot;newcap&quot;</span>        <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Require capitalization of all constructor functions e.g. `new F()`.</span>
-    <span class="s2">&quot;noempty&quot;</span>       <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit use of empty blocks.</span>
-    <span class="s2">&quot;nonew&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit use of constructors for side-effects.</span>
-    <span class="s2">&quot;nomen&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Prohibit use of initial or trailing underbars in names.</span>
-    <span class="s2">&quot;onevar&quot;</span>        <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Allow only one `var` statement per function.</span>
-    <span class="s2">&quot;plusplus&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Prohibit use of `++` &amp; `--`.</span>
-    <span class="s2">&quot;sub&quot;</span>           <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Tolerate all forms of subscript notation besides dot notation e.g. `dict[&#39;key&#39;]` instead of `dict.key`.</span>
-    <span class="s2">&quot;trailing&quot;</span>      <span class="o">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// Prohibit trailing whitespaces.</span>
-    <span class="s2">&quot;white&quot;</span>         <span class="o">:</span> <span class="kc">true</span><span class="p">,</span>   <span class="c1">// Check against strict whitespace and indentation rules.</span>
-    <span class="s2">&quot;indent&quot;</span>        <span class="o">:</span> <span class="mi">4</span><span class="p">,</span>      <span class="c1">// Specify indentation spacing</span>
-    <span class="s2">&quot;smarttabs&quot;</span>        <span class="o">:</span> <span class="kc">true</span>      <span class="c1">// Suppress warnings about mixed tabs and spaces</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h2><a name="requirejs-r-js"class="anchor" href="#requirejs-r-js"><span class="header-link"></span></a>RequireJS/r.js</h2>
-<p>&quot;<em>Runs RequireJS in Node and used to run the RequireJS optimizer</em>&quot;</p>
-<p><a href="https://github.com/jrburke/r.js"><a href="https://github.com/jrburke/r.js">https://github.com/jrburke/r.js</a></a></p>
-<p><strong>Generic usage:</strong><br><code>node r.js -o app.build.js</code></p>
-<p><strong>Configuration:</strong><br>You create a &#39;build&#39; script file (see below for an example) and then you use NodeJs to execute the <code>r.js</code> optimization script and pass through your build script as an argument</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="cm">/*</span>
-<span class="cm"> * http://requirejs.org/docs/optimization.html</span>
-<span class="cm"> *</span>
-<span class="cm"> * See: https://github.com/jrburke/r.js/blob/master/build/example.build.js for an example build script</span>
-<span class="cm"> *</span>
-<span class="cm"> * If you specify just the name (with no includes/excludes) then all modules are combined into the &quot;main&quot; file.</span>
-<span class="cm"> * You can include/exclude specific modules though if needed (this helps with &#39;lazy loading&#39; scripts)</span>
-<span class="cm"> *</span>
-<span class="cm"> * You can also set optimize: &quot;none&quot; (or more specific uglifyjs settings) if you need to.</span>
-<span class="cm"> *</span>
-<span class="cm"> * Node: if you set relative paths then do them relative to the baseUrl</span>
-<span class="cm"> */</span>
-<span class="p">({</span>    
-    <span class="nx">appDir</span><span class="o">:</span> <span class="s1">&#39;../../../&#39;</span><span class="p">,</span>
-    <span class="nx">baseUrl</span><span class="o">:</span> <span class="s1">&#39;Assets/Scripts&#39;</span><span class="p">,</span>
-    <span class="nx">dir</span><span class="o">:</span> <span class="s1">&#39;../../../project-build&#39;</span><span class="p">,</span>
-    <span class="cm">/*</span>
-<span class="cm">     * The below &#39;paths&#39; object is useful for when using plugins/named module paths.</span>
-<span class="cm">     * If you use plugins or named modules in your code then don&#39;t forget to specify the same paths again in your build script.</span>
-<span class="cm">     * Otherwise your build script wont be able to find your plugins/named modules and will generate an error when building.</span>
-<span class="cm">     */</span>
-    <span class="nx">paths</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">async</span><span class="o">:</span> <span class="s1">&#39;Plugins/async&#39;</span><span class="p">,</span>
-        <span class="nx">jquery</span><span class="o">:</span> <span class="s1">&#39;Utils/jquery&#39;</span><span class="p">,</span>
-        <span class="nx">tpl</span><span class="o">:</span> <span class="s1">&#39;Plugins/tpl&#39;</span>
-    <span class="p">},</span>
-    <span class="nx">optimize</span><span class="o">:</span> <span class="s1">&#39;none&#39;</span><span class="p">,</span>
-    <span class="nx">modules</span><span class="o">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;main&#39;</span>
-            <span class="cm">/*</span>
-<span class="cm">            include: [&#39;module&#39;],</span>
-<span class="cm">            exclude: [&#39;module&#39;]</span>
-<span class="cm">            */</span>
-        <span class="p">}</span>
-    <span class="p">]</span>
-<span class="p">})</span>
-</pre></div>
-</code></pre>
-<h2><a name="gh-markdown-cli"class="anchor" href="#gh-markdown-cli"><span class="header-link"></span></a>gh-markdown-cli</h2>
-<p>&quot;<em>Node.js command-line tool to batch convert Markdown files into HTML</em>&quot;</p>
-<p><a href="https://github.com/millermedeiros/gh-markdown-cli"><a href="https://github.com/millermedeiros/gh-markdown-cli">https://github.com/millermedeiros/gh-markdown-cli</a></a></p>
-<p><strong>Installation:</strong><br><code>sudo npm install gh-markdown-cli -g</code></p>
-<p><strong>Example usage (cd into directory where your md files are):</strong><br><code>mdown -o &quot;./&quot; --include &quot;*.md&quot; --header &quot;header.html&quot; --footer &quot;footer.html&quot;</code></p>
-<p>Once installed, use the terminal to locate your .md files and then run the above command (you don&#39;t have to use the --header and --footer flags as these are optional)</p>
-</div>
-
-  <div class="comments">
-    <a href="/posts/node-js-as-a-tool/#comments">
-      <span class="icon-bubbles"></span>
-      Comments
-    </a>
-  </div>
-
 
 <div class="pagination group">
   
@@ -542,6 +1333,9 @@ jshint main.js --show-non-errors --config ./Lint/config.json // <span class="o">
     
     
       <a href="/page/12/" class="older"> &#8592; Older</a>
+    
+  
+    
     
   
     
