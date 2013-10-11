@@ -44,7 +44,7 @@
 </div>
 
 <div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
-<p><em>reading time: approx. 13mins</em></p>
+<p><em>reading time: approx. 14mins</em></p>
 <ul>
 <li>Introduction</li>
 <li>SQLite</li>
@@ -65,16 +65,16 @@
 <p>We&#39;ll look at installing and setting up SQLite and incorporating the ActiveRecord pattern using the open-source library of the same name (which is included as part of the <a href="http://rubyonrails.org/">Ruby on Rails Framework</a>).</p>
 <h2><a name="sqlite"class="anchor" href="#sqlite"><span class="header-link"></span></a>SQLite</h2>
 <p>Typically if you&#39;re developing an application in Ruby using the <a href="http://rubyonrails.org/">Ruby on Rails framework</a> then you&#39;ll use SQLite in development and then switch over to another database for production (maybe <a href="http://www.mysql.com/">MySQL</a> or <a href="http://www.postgresql.org/">PostgreSQL</a>). </p>
-<p>What most people don&#39;t realise is that if you have a low traffic website then SQLite is fine to use. But just be aware that it won&#39;t scale very well. </p>
-<p>The author of SQLite had this to say on the subject… </p>
+<p>What most people don&#39;t realise is that if you have a low traffic website then SQLite is fine to use. </p>
+<p>The only thing to be aware of when using SQLite in production is that it inherently isn&#39;t designed to scale. To help clarify, the author of SQLite had this to say on the subject… </p>
 <blockquote>
 <p>SQLite usually will work great as the database engine for low to medium traffic websites. The amount of web traffic that SQLite can handle depends, of course, on how heavily the website uses its database. Generally speaking, any site that gets fewer than 100K hits/day should work fine with SQLite. The 100K hits/day figure is a conservative estimate, not a hard upper bound. SQLite has been demonstrated to work with 10 times that amount of traffic.</p>
 <p>SQLite will normally work fine as the database backend to a website. But if your website is so busy that you are thinking of splitting the database component off onto a separate machine, then you should definitely consider using an enterprise-class client/server database engine instead of SQLite.</p>
 </blockquote>
 <h2><a name="activerecord"class="anchor" href="#activerecord"><span class="header-link"></span></a>ActiveRecord</h2>
-<p>Most Ruby developers will know of <a href="http://guides.rubyonrails.org/active_record_querying.html">ActiveRecord</a> but may not realise that it&#39;s actually an architectural pattern that was originally coined by <a href="http://martinfowler.com/">Martin Fowler</a> (a legend in the field of software engineering and data modeling).</p>
+<p>So most Ruby developers will know of <a href="http://guides.rubyonrails.org/active_record_querying.html">ActiveRecord</a> but may not realise that it&#39;s actually an architectural pattern and the term was originally coined by <a href="http://martinfowler.com/">Martin Fowler</a> (a legend in the field of software engineering and data modeling).</p>
 <p>The pattern describes how to provide an Interface that lets the user interact with a relational database in a more user friendly fashion rather than constructing their own SQL queries.</p>
-<p>We&#39;ll be using Ruby on Rails implementation of the pattern which they&#39;ve extracted into an individual library so it&#39;s not reliant on the Ruby on Rails framework.</p>
+<p>We&#39;ll be using Ruby on Rails&#39; implementation of the pattern which they&#39;ve extracted into an external library/module (so it&#39;s not specifically reliant on the Ruby on Rails framework if you&#39;re using something more lightweight like Sinatra).</p>
 <h2><a name="installation"class="anchor" href="#installation"><span class="header-link"></span></a>Installation</h2>
 <p>There are a couple of things we need to do:</p>
 <ol>
@@ -205,56 +205,53 @@
 </code></pre>
 <p>…OK, so there are a couple of things worth noting here:</p>
 <p>When we inherit from <code>ActiveRecord::Base</code> our class is mapped to a table of the same name. So for example our class <code>Album</code> is mapped to the <code>albums</code> table.</p>
-<p>Also, as we&#39;re inheriting from ActiveRecord&#39;s Base class, we don&#39;t need to specify attributes within our class as they are inferred from the Schema we defined early and to the table which the class is mapped to.</p>
+<p>Also, as we&#39;re inheriting from the ActiveRecord Base class, we don&#39;t need to specify attributes (for example, inside our Tracks class) such as <code>:title</code> or <code>:track_number</code> within our class, as they will be indirectly inferred from the Schema we defined earlier and will come from that table which the class is mapped to.</p>
 <h3><a name="association"class="anchor" href="#association"><span class="header-link"></span></a>Association</h3>
 <p>You&#39;ll notice within the <code>Album</code> class we call a <code>has_many</code> method (provided through the inheritance chain via <code>ActiveRecord::Base</code>) which sets up the association between &#39;albums&#39; and &#39;tracks&#39;.</p>
-<p>Similarly, within the <code>Track</code> class we call <code>belongs_to</code> and tell it that our tracks belong to the &#39;albums&#39; table. We should only do this when the class/table holds the foreign key for the table we&#39;re stating the it belongs to. In this case our &#39;Track&#39; class holds the foreign key that points to the &#39;albums&#39; table.</p>
+<p>Similarly, within the <code>Track</code> class we call <code>belongs_to</code> and tell it that our tracks belong to the &#39;albums&#39; table. We should only do this when the class/table holds the foreign key for the table we&#39;re saying it belongs to. In this case our &#39;Track&#39; class holds the foreign key that points to the &#39;albums&#39; table.</p>
 <h3><a name="record-creation"class="anchor" href="#record-creation"><span class="header-link"></span></a>Record Creation</h3>
 <p>Finally we actually create some records to insert into each table.</p>
-<p>We call a <code>create</code> method which is equivalent to… </p>
+<p>We call a <code>create</code> method like so…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">album</span> <span class="o">=</span> <span class="no">Album</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="p">)</span>
+</pre></div>
+</code></pre>
+<p>…which is equivalent to… </p>
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">album</span> <span class="o">=</span> <span class="no">Album</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="p">);</span>
 <span class="n">album</span><span class="o">.</span><span class="n">save</span>
 </pre></div>
 </code></pre>
-<p>…you&#39;ll notice that when we create a new <code>Album</code> instance we can access and create new <code>Tracks</code> (via the <code>album</code> instance: <code>album.tracks.create(...)</code>) because we&#39;ve made an association within the top level classes between Albums and Tracks.</p>
-<p>In the example code I&#39;m trying to be a bit smart by not repeating the same chunk of code. So instead of doing… </p>
+<p>…so it saves us a little extra typing (which is nice).</p>
+<p>You&#39;ll also notice that when we create a new <code>Album</code> instance we can access and create new <code>Tracks</code> as well (via the <code>album</code> instance: <code>album.tracks.create(…)</code>). This is because we&#39;ve made an association within the top level classes between Albums and Tracks.</p>
+<p>In my example I&#39;m trying to be a bit smarter by not repeating the same chunk of code over and over. So rather than doing… </p>
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">album</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:track_number</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span>
 <span class="n">album</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:track_number</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s1">&#39;b&#39;</span><span class="p">)</span>
 <span class="n">album</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:track_number</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">,</span> <span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span>
 <span class="c1">#…rinse repeat…</span>
 </pre></div>
 </code></pre>
-<p>…instead I create the track listing as an <code>Array</code> and then loop the Array creating new records. The only condition I have is because track listings on albums always start at <code>1</code> I need to have a dummy value in the Array for the zero-index which I have to then ignore (<code>album.tracks.create(…) unless index === 0</code>)</p>
+<p>…instead, I create the track listing as an <code>Array</code> and then loop the Array creating new records. </p>
+<p>The only additional logic I need is to avoid including the <code>[0]</code> item in the Array which I do using <code>album.tracks.create(…) unless index === 0</code>. </p>
+<p>The reason I avoid it is simply because track listings on albums always start at <code>1</code> where as our Array is zero-indexed.</p>
 <h2><a name="querying"class="anchor" href="#querying"><span class="header-link"></span></a>Querying</h2>
-<p>Now in my example code you&#39;ll find me wrapping certain chunks in <code>begin/rescue</code> as my example isn&#39;t made to work when accessed multiple times (it&#39;s just a silly example to demonstrate how to connect, populate and query data using ActiveRecords). So don&#39;t worry about those aspects and focus on the APIs I&#39;m using. Specifically…</p>
-<ul>
-<li><p><code>find</code>
-This allows you to find a record by ID: <code>Album.find(1)</code> would return the first album in the table. <code>Album.find(1).tracks.length</code> would then tell you the number of tracks that particular album held.</p>
-</li>
-<li><p><code>find_by</code>
-This is actually a very intelligent method. It is based on conventions again, so <code>find_by_title</code> maps to a standard <code>find_by</code> method but passes through <code>title</code> as the attribute we&#39;re interested in searching within: <code>Album.find_by_title(&#39;La-te-ra-lus&#39;)</code></p>
-</li>
-<li><p><code>all</code>
-This is an alias for <code>find(:all)</code>. So <code>Album.all</code> would return all records found within the &#39;Album` table.</p>
-</li>
-<li><p><code>where</code>
-This is a conditional that maps to SQL&#39;s <code>where</code> clause. So <code>Track.where(title: &#39;Traid&#39;)</code> would return the record(s) within the Track database whose <code>title</code> attribute contained the value <code>Triad</code>. You can do more complicated filters such as: <code>Table.where(user_name: user_name, password: password).first</code> which safely sanitises your input and checks two different attributes and then returns the first record found (in case there are multiples).</p>
-</li>
-<li><p><code>first</code>
-We&#39;ve seen this used already and works in a similar way to how Ruby&#39;s <code>first</code> property works (it returns the first item found).</p>
-</li>
-<li><p><code>last</code>
-Same as <code>first</code> but returns the last item found.</p>
-</li>
-<li><p><code>delete</code>
-Once you&#39;ve found a record(s) then you can delete it using this method. So <code>Album.first.delete</code> would find the first record in the <code>Album</code> table and then delete that record.</p>
-</li>
-<li><p><code>save</code>
-You can modify records by first locating them and simply assigning a new value to them, but you would then use the <code>save</code> method to store that update back to the database: <code>track = Track.where(title: &#39;yolo&#39;).first.title = &#39;Blah&#39;; track.save</code></p>
-</li>
-</ul>
+<p>Now in my example code you&#39;ll find me wrapping certain chunks in <code>begin/rescue</code> as my example isn&#39;t made to work when accessed multiple times (<em>it&#39;s just a silly example to demonstrate how to connect, populate and query data using ActiveRecords</em>). So don&#39;t worry about those aspects and instead just focus on the APIs I&#39;m using. Specifically…</p>
+<h3><a name="-find-"class="anchor" href="#-find-"><span class="header-link"></span></a><code>find</code></h3>
+<p>This allows you to find a record by ID. So <code>Album.find(1)</code> would return the first album in the table. <code>Album.find(1).tracks.length</code> would then tell you the number of tracks that particular album held.</p>
+<h3><a name="-find_by-"class="anchor" href="#-find_by-"><span class="header-link"></span></a><code>find_by</code></h3>
+<p>This is actually a very intelligent method. It is based on conventions again, so <code>find_by_title</code> maps to a standard <code>find_by</code> method but passes through <code>title</code> as the attribute we&#39;re interested in searching within: <code>Album.find_by_title(&#39;La-te-ra-lus&#39;)</code></p>
+<h3><a name="-all-"class="anchor" href="#-all-"><span class="header-link"></span></a><code>all</code></h3>
+<p>This is an alias for <code>find(:all)</code>. So <code>Album.all</code> would return all records found within the &#39;Album` table.</p>
+<h3><a name="-where-"class="anchor" href="#-where-"><span class="header-link"></span></a><code>where</code></h3>
+<p>This is a conditional that maps to SQL&#39;s <code>where</code> clause. So <code>Track.where(title: &#39;Triad&#39;)</code> would return the record(s) within the Track database whose <code>title</code> attribute contained the value <code>Triad</code>. You can do more complicated filters such as: <code>Table.where(user_name: user_name, password: password).first</code> which safely sanitises your input and checks two different attributes and then returns the first record found (in case there are multiples).</p>
+<h3><a name="-first-"class="anchor" href="#-first-"><span class="header-link"></span></a><code>first</code></h3>
+<p>We&#39;ve seen this used already and works in a similar way to how Ruby&#39;s <code>first</code> property works (it returns the first item found).</p>
+<h3><a name="-last-"class="anchor" href="#-last-"><span class="header-link"></span></a><code>last</code></h3>
+<p>Same as <code>first</code> but returns the last item found.</p>
+<h3><a name="-delete-"class="anchor" href="#-delete-"><span class="header-link"></span></a><code>delete</code></h3>
+<p>Once you&#39;ve found a record then you can delete it using this method. So <code>Album.first.delete</code> would find the first record in the <code>Album</code> table and then delete that record.</p>
+<h3><a name="-save-"class="anchor" href="#-save-"><span class="header-link"></span></a><code>save</code></h3>
+<p>You can modify records by first locating them and simply assigning a new value to them, but you would then use the <code>save</code> method to store that update back to the database: <code>track = Track.where(title: &#39;yolo&#39;).first.title = &#39;Blah&#39;; track.save</code></p>
 <h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
-<p>So we&#39;ve not delved too deeply (as there is far too much to cover in one post and hopefully this has been a good starting point for you).</p>
+<p>So we&#39;ve not delved too deeply (as there is far too much to cover in one post) but hopefully this has been a good starting point for you.</p>
 <p>The complete code I was using looks like this… </p>
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;active_record&#39;</span>
 
