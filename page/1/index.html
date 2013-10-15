@@ -99,9 +99,20 @@
 </li>
 </ol>
 <h2><a name="downsides-to-using-tmux-panes-"class="anchor" href="#downsides-to-using-tmux-panes-"><span class="header-link"></span></a>Downsides to using tmux panes?</h2>
-<p>Yes, there is one downside to using tmux&#39;s panes which I can&#39;t seem to work around, and that is my speed is restricted.</p>
-<p>By that I mean: if I move to another pane I have to wait a fraction of a second before I can use my arrow keys (or <code>hjkl</code> keys) as tmux will try to move me back to the other pane again. </p>
-<p>That can be frustrating, but I&#39;m learning to live with it.</p>
+<p><del>Yes, there is one downside to using tmux&#39;s panes which I can&#39;t seem to work around, and that is my speed is restricted.</del></p>
+<p><del>By that I mean: if I move to another pane I have to wait a fraction of a second before I can use my arrow keys (or <code>hjkl</code> keys) as tmux will try to move me back to the other pane again.</del></p>
+<p><del>That can be frustrating, but I&#39;m learning to live with it.</del></p>
+<p><strong>UPDATE:</strong> there is a solution!</p>
+<blockquote>
+<p>The reason this happens is because the default bindings for the arrow keys are setup with <code>bind-key -r</code>, specifying that they may be repeated.</p>
+</blockquote>
+<p>So to resolve the issue you re-bind the keys without <code>-r</code>:</p>
+<pre><code><div class="highlight"><pre><span class="nx">bind</span><span class="o">-</span><span class="nx">key</span> <span class="nx">Up</span>    <span class="nx">select</span><span class="o">-</span><span class="nx">pane</span> <span class="o">-</span><span class="nx">U</span>
+<span class="nx">bind</span><span class="o">-</span><span class="nx">key</span> <span class="nx">Down</span>  <span class="nx">select</span><span class="o">-</span><span class="nx">pane</span> <span class="o">-</span><span class="nx">D</span>
+<span class="nx">bind</span><span class="o">-</span><span class="nx">key</span> <span class="nx">Left</span>  <span class="nx">select</span><span class="o">-</span><span class="nx">pane</span> <span class="o">-</span><span class="nx">L</span>
+<span class="nx">bind</span><span class="o">-</span><span class="nx">key</span> <span class="nx">Right</span> <span class="nx">select</span><span class="o">-</span><span class="nx">pane</span> <span class="o">-</span><span class="nx">R</span>
+</pre></div>
+</code></pre>
 <h2><a name="buffer-lists"class="anchor" href="#buffer-lists"><span class="header-link"></span></a>Buffer lists</h2>
 <p>In my Vim pane, as I use the CtrlP plugin to open up multiple files, I&#39;m able to jump between files really easily using its <code>:CtrlPBuffer</code> command, but I make this command quicker to access by configuring Vim to let me access the <code>:CtrlPBuffer</code> using the shortcut <code>&lt;leader&gt;y</code> (the <code>&lt;leader&gt;</code> key is a similar concept to the <code>&lt;prefix&gt;</code> key in tmux).</p>
 <p>So if I want to jump back to a recently opened file then I&#39;ll just run the command <code>\y</code> (by default the <code>&lt;leader&gt;</code> key is a backslash <code>\</code>) and this will show me CtrlP&#39;s buffer list.</p>
