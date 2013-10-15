@@ -447,7 +447,10 @@ Bundle <span class="s1">&#39;vim-scripts/The-NERD-tree&#39;</span>
 <p><code>50,100s/search/replace/gc</code></p>
 <p>…what this means is we limit the search range from line 50 up to line 100, we then look for the phrase <code>search</code> and we replace it with the phrase <code>replace</code>. We then use the <code>g</code> global flag which means don&#39;t stop after finding the first match. The <code>c</code> flag means don&#39;t just replace the instance, check with us first by asking us if we definitely want to carry out the replace.</p>
 <p>You don&#39;t have to use the range numbers, you can just use: <code>:%s/search/replace/gc</code> (but notice, now we don&#39;t have the range we need to include a <code>%</code> at the start).</p>
-<p>You can also use regular expressions which is awesome.</p>
+<p>You can also use regular expressions which is awesome. But be aware that they don&#39;t quite match the standard regex syntax (you have to escape capture groups and word boundaries are no longer <code>\b</code> they are <code>\&lt;</code> and <code>\&gt;</code> +<a href="http://vimregex.com/">many other differences</a>). BUT you can work around this by specifying a <code>\v</code> flag before the regex.</p>
+<p>So for example, if you had the string <code>foo.add(&#39;bar&#39;)</code> then you could find it with something like…</p>
+<p><code>:%s/\v(\.add\(&#39;.*&#39;\))/\1/gc</code></p>
+<p>…notice we&#39;re not having to escape the outer parenthesis which are capturing the entire match (you&#39;ll also notice this find and replace search doesn&#39;t actually do anything because we capture the entire match and then replace it with itself <code>\1</code>, but it gives you an example of how to use the &#39;Very Magic&#39; mode).</p>
 <p>Note: You can also do a site wide search and replace using the <code>Ack</code> plug-in (e.g. add <code>Bundle &#39;mileszs/ack.vim&#39;</code> to our <code>.vimrc</code> file and run the <code>:BundleInstall</code> again). Checkout the Ack repo on GitHub to see how it works.</p>
 <h3><a name="viewing-different-buffers"class="anchor" href="#viewing-different-buffers"><span class="header-link"></span></a>Viewing different buffers</h3>
 <p>Our <code>.vimrc</code> maps <code>\y</code>…</p>
