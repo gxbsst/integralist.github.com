@@ -385,6 +385,8 @@ Bundle <span class="s1">&#39;vim-scripts/The-NERD-tree&#39;</span>
 </pre></div>
 </code></pre>
 <p>…if you wanted to remove the opening <code>_</code> underscore then you could enter Visual Block mode, select the underscores by using the direction keys (make sure you&#39;re on the first or last underscore when you enter Visual Block mode) and then after all are selected just press <code>d</code> to delete them.</p>
+<p>Note: you might find you have an issue with editing multiple lines using insert mode. To use insert mode inside of Visual Block mode is to use <code>Shift+i</code> to jump into insert mode (just typing <code>i</code> doesn&#39;t work as that would throw you into the standard INSERT mode, so it&#39;ll remove you from Visual Mode).</p>
+<p>Also you can press <code>c</code> to change multiple lines, but remember that your change only appears to have been made to one line until you escape Visual Mode, then Vim will kick in and apply the change to all other selected lines.</p>
 <h3><a name="keep-to-the-basics"class="anchor" href="#keep-to-the-basics"><span class="header-link"></span></a>Keep to the basics</h3>
 <p>The above commands quite literally do not even scratch the surface of what&#39;s available within Vim.</p>
 <p>So the best thing to do is to find a comfortable set of commands from the list above and don&#39;t deviate from them until you&#39;ve got them memorised (it&#39;s ok to Google for something you don&#39;t know, but try to just focus on the basic commands for now).</p>
