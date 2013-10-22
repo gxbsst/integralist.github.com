@@ -37,6 +37,210 @@
 
 
   <div class="post-head group">
+  <a href="/posts/beginners-guide-on-how-to-test-your-code/">
+    <h1 class="post-title">Beginners guide on how to test your code</h1>
+  </a>
+  <span class="post-date">2012 &#183; 1 &#183; 2</span>
+</div>
+
+<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 11mins</em></p>
+<ul>
+<li>Introduction</li>
+<li>Start how you mean to go on</li>
+<li>The ‘write test first’ process</li>
+<li>Other aspects of TDD/BDD</li>
+<li>What do these test &#39;types&#39; mean?</li>
+<li>Using Jasmine</li>
+<li>An example</li>
+<li>Review of example</li>
+<li>Conclusion</li>
+</ul>
+<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<p>Any programmer worth a damn will tell you that you need to test your code.</p>
+<p>There are different types of tests that inspect the different areas of your application:</p>
+<ul>
+<li>Unit Tests</li>
+<li>Integration Tests</li>
+<li>Acceptance Tests</li>
+<li>Regression Tests</li>
+</ul>
+<p>Although there are multiple areas of an application that need to be tested, the principle for each is that you write a test for a piece of your applications code and see if it passes.</p>
+<p>Within a test you write a number of ‘assertions’ (which means you’re expecting certain values to be returned at that point in a certain format or type) and if the code fails to produce the relevant value the assertion will fail and thus the test itself will fail.</p>
+<p>There are different methodologies for testing your code, the two most famous are Test-Driven Development (TDD) and Behaviour-Driven Development (BDD). Both are very similar and differ in &#39;direction&#39; more than anything.</p>
+<p>Fundamentally TDD is about the developer and their perspective on testing a piece of code, where BDD is more about using language that management and stake holders can understand (so your tests are still written in code but uses more &#39;domain specific language&#39; - e.g. instead of <code>assertEqual(x, y)</code> you would write <code>expect(x).toEqual(y)</code>).</p>
+<h2><a name="start-how-you-mean-to-go-on"class="anchor" href="#start-how-you-mean-to-go-on"><span class="header-link"></span></a>Start how you mean to go on</h2>
+<p>Something else you normally hear from the TDD crowd is that you <em>should</em> write your tests first! That’s probably going to sound a bit alien to you because how can you write tests for code that doesn’t yet exist? Why would anyone do that?</p>
+<p>Well, the reasoning behind it is quite logical when you think about it. Normally you’ll just start writing some code with no idea of how it should work, you just start hacking away and as you progress you go back and refactor sections and make it cleaner/more efficient and hopefully at the end you don’t need to change your code in any meaningful way to appease your users who may be using your code (e.g. if you’re building the next big JavaScript framework then your API is what your users will be relying on and if you discover there is a bug in your code and it means you have to go back and change the API because of it then that causes big concerns for your users).</p>
+<p>So the idea of writing tests first is that you’re thinking about your API from the beginning. You’ll think about what the perfect API is for your code to produce and you’ll ensure you write code that fits that API (you won’t realise halfway through coding “ah crap, this doesn’t work as well as I had hoped it would, I’m going to have to change this”).</p>
+<p>Although we’re not worrying about “writing tests first” in this article, I mention it so you are at least aware of the process.</p>
+<h2><a name="the-write-test-first-process"class="anchor" href="#the-write-test-first-process"><span class="header-link"></span></a>The ‘write test first’ process</h2>
+<p>For those interested it goes a little like this:</p>
+<ul>
+<li>Write a unit-test</li>
+<li>Run the test (it will obviously fail because there is no code for it to run against!)</li>
+<li>Write the smallest amount of code for the unit-test to pass (we’re talking quick and dirty code here)</li>
+<li>Run the test again and watch it pass</li>
+<li>Once the test passes, go back and refactor your code so it’s how it should be (i.e. clean/efficient)</li>
+<li>Run the test again and watch it pass</li>
+</ul>
+<h2><a name="other-aspects-of-tdd-bdd"class="anchor" href="#other-aspects-of-tdd-bdd"><span class="header-link"></span></a>Other aspects of TDD/BDD</h2>
+<p>Here are a few other aspects of testing worth mentioning before we get stuck into some examples: methods such as ‘setUp’ and ‘tearDown’ (which run before and after each test) are useful (for example…) because it means you can prepare each test to run from a fresh set-up.  This probably doesn’t make a lot of sense at the moment so I’ll demonstrate this later in our example code below, but trust me, when you’re testing your code it’s useful before each test (or after each test) to reset your environment.</p>
+<p>There are also more complicated aspects such as mocks, stubs and spies which are useful when you start getting deep into testing application code where ‘state’ becomes relevant (e.g. using some of these features makes testing code in the deepest parts of your application a lot easier).</p>
+<p>So with all this in mind, I would highly recommend you go and read a book titled ‘Test-Driven JavaScript Development’ by Christian Johansen (<a href="http://twitter.com/cjno">@cjno</a>) which covers all these topics in great detail.</p>
+<h2><a name="what-do-these-test-types-mean-"class="anchor" href="#what-do-these-test-types-mean-"><span class="header-link"></span></a>What do these test &#39;types&#39; mean?</h2>
+<h3><a name="unit-tests"class="anchor" href="#unit-tests"><span class="header-link"></span></a>Unit Tests</h3>
+<p>These are very atomic (i.e. small) tests that test a specific chunk of code.</p>
+<h3><a name="integration-tests"class="anchor" href="#integration-tests"><span class="header-link"></span></a>Integration Tests</h3>
+<p>These are tests that ensure all the separate parts of your application code work when interacting with each other.</p>
+<h3><a name="acceptance-tests"class="anchor" href="#acceptance-tests"><span class="header-link"></span></a>Acceptance Tests</h3>
+<p>These are tests that prove to management or your stake holders that the application is providing all the functionality they require (typically acceptance tests are written using BDD which uses domain specific language that makes it easy for management to write tests for the developer to implement).</p>
+<h3><a name="regression-tests"class="anchor" href="#regression-tests"><span class="header-link"></span></a>Regression Tests</h3>
+<p>This is the process of running your unit tests again after fixing any integration tests to make sure your fixes haven&#39;t caused your unit tests to break.</p>
+<h2><a name="using-jasmine"class="anchor" href="#using-jasmine"><span class="header-link"></span></a>Using Jasmine</h2>
+<p>For the purpose of this article we&#39;re going to focus on unit testing but we&#39;re going to use a BDD library called Jasmine to help run our tests. You can download it from here: <a href="http://pivotal.github.com/jasmine/"><a href="http://pivotal.github.com/jasmine/">http://pivotal.github.com/jasmine/</a></a></p>
+<p>The set-up is as follows:</p>
+<ul>
+<li>Create an HTML page</li>
+<li>In this page insert the provided css file ‘jasmine.css’ + the two provided js files ‘jasmine.js’, ‘jasmine-html.js’</li>
+<li>Then include your own JavaScript code ‘my-cool-library.js’</li>
+<li>Then include your own ‘my-tests.js’</li>
+<li>After that have an inline script which executes the Jasmine test runner…<pre><code class="lang-html"><div class="highlight"><pre>jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
+jasmine.getEnv().execute();
+</pre></div>
+</code></pre>
+</li>
+</ul>
+<p>Within your own ‘my-tests.js’ file is where you’ll write your unit-tests.</p>
+<p>Different unit-testing libraries have different API’s. Jasmine’s API is as follows…</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;test suite name&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="c1">// assertions for your code to try and pass</span>
+    <span class="c1">// if any assertions fail then this entire suite fails</span>
+<span class="p">});</span>
+</pre></div>
+</code></pre>
+<h2><a name="an-example"class="anchor" href="#an-example"><span class="header-link"></span></a>An example</h2>
+<p>So now imagine your ‘my-cool-library.js’ consisted of an object whose API let the user add/remove or check for CSS classes on an element. Lets say the API was as follows…</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">header</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;my-header&#39;</span><span class="p">);</span>
+<span class="nx">css</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">header</span><span class="p">,</span> <span class="s1">&#39;newclass&#39;</span><span class="p">)</span> <span class="c1">// --&gt; adds the class &#39;newclass&#39; to the specified element &#39;header&#39;</span>
+<span class="nx">css</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="nx">header</span><span class="p">,</span> <span class="s1">&#39;newclass&#39;</span><span class="p">)</span> <span class="c1">// --&gt; returns a boolean value (true/false) depending on whether the class &#39;newclass&#39; is found</span>
+<span class="nx">css</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="nx">header</span><span class="p">,</span> <span class="s1">&#39;newclass&#39;</span><span class="p">)</span> <span class="c1">// --&gt; removes the class &#39;newclass&#39; from the specified element &#39;header&#39;</span>
+<span class="nx">css</span><span class="p">.</span><span class="nx">classes</span><span class="p">(</span><span class="nx">header</span><span class="p">)</span> <span class="c1">// --&gt; returns an Array of classes found on this element</span>
+</pre></div>
+</code></pre>
+<p>Your test suite for this code could look something like (don’t worry, we’ll discuss after)…</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="c1">// Test Suite</span>
+<span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;CSS tests&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="nx">header</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;my-header&#39;</span><span class="p">);</span>
+
+    <span class="nx">beforeEach</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// Reset the className before each spec is run</span>
+        <span class="nx">header</span><span class="p">.</span><span class="nx">className</span> <span class="o">=</span> <span class="s1">&#39;myclassa myclassb&#39;</span><span class="p">;</span>
+    <span class="p">});</span>
+
+    <span class="c1">// Spec</span>
+    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should return an Array of class names&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">expect</span><span class="p">(</span><span class="nx">css</span><span class="p">.</span><span class="nx">classes</span><span class="p">(</span><span class="nx">header</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">([</span><span class="s1">&#39;myclassa&#39;</span><span class="p">,</span> <span class="s1">&#39;myclassb&#39;</span><span class="p">]);</span>
+        <span class="nx">expect</span><span class="p">(</span><span class="nx">css</span><span class="p">.</span><span class="nx">classes</span><span class="p">(</span><span class="nx">header</span><span class="p">).</span><span class="nx">length</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="c1">// Spec</span>
+    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should add class to element&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">css</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">header</span><span class="p">,</span> <span class="s1">&#39;newclass&#39;</span><span class="p">);</span>
+        <span class="nx">expect</span><span class="p">(</span><span class="nx">header</span><span class="p">.</span><span class="nx">className</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;myclassa myclassb newclass&#39;</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="c1">// Spec</span>
+    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should return a boolean for whether the class is on the given element&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">expect</span><span class="p">(</span><span class="nx">css</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="nx">header</span><span class="p">,</span> <span class="s1">&#39;myclassa&#39;</span><span class="p">)).</span><span class="nx">toBeTruthy</span><span class="p">();</span>
+        <span class="nx">expect</span><span class="p">(</span><span class="nx">css</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="nx">header</span><span class="p">,</span> <span class="s1">&#39;newclass&#39;</span><span class="p">)).</span><span class="nx">toBeFalsy</span><span class="p">();</span> <span class="c1">// although in the previous spec we added &#39;newclass&#39; to the element, in this spec this assertion should return false because the beforeEach method above has reset the class list back to &#39;myclassa myclassb&#39;</span>
+    <span class="p">});</span>
+
+    <span class="c1">// Spec</span>
+    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should remove class from element&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">css</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="nx">header</span><span class="p">,</span> <span class="s1">&#39;myclassb&#39;</span><span class="p">);</span>
+        <span class="nx">expect</span><span class="p">(</span><span class="nx">header</span><span class="p">.</span><span class="nx">className</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;myclassa&#39;</span><span class="p">);</span>
+    <span class="p">});</span>
+
+<span class="p">});</span>
+</pre></div>
+</code></pre>
+<p>…so a few things you’ll notice:</p>
+<ul>
+<li>We’ve grouped all our tests related to the CSS part of our code using Jasmine’s <pre><code><div class="highlight"><pre>  <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;test suite name&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span> <span class="cm">/* tests */</span> <span class="p">});</span>
+</pre></div>
+</code></pre>
+</li>
+<li>We’re using a setUp method (which Jasmine calls <code>beforeEach</code>) to run some code to reset the class names before each test run (so we start from a clean slate for each test) - there is also a corresponding tearDown method which Jasmine calls <code>afterEach</code> (see documentation)</li>
+<li>Each test is represented by <code>it(&#39;expectation of this test&#39;, function(){ /* assertions */ });</code></li>
+<li>The assertions are handled by Jasmine’s <code>expect(expressions).matcher</code></li>
+</ul>
+<p>The assertions method <code>expect</code> takes an expression (e.g. some code to execute) and then the result of that code is passed to the <em>matcher</em>. Our tests consisted of a few matchers such as:</p>
+<ul>
+<li><code>toEqual()</code></li>
+<li><code>toBe()</code></li>
+<li><code>toBeTruthy()</code></li>
+<li><code>toBeFalsey()</code></li>
+</ul>
+<p>Jasmine has a few more matchers which you can read more about in the documentation: <a href="https://github.com/pivotal/jasmine/wiki/Matchers"><a href="https://github.com/pivotal/jasmine/wiki/Matchers">https://github.com/pivotal/jasmine/wiki/Matchers</a></a></p>
+<p>You can even create your own matchers…</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="c1">// Add our two new matchers. One to check if an object is an Array and the other to check if the result is a Number</span>
+<span class="c1">// You create these within the beforeEach method which is executed before each test is run</span>
+<span class="nx">beforeEach</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">addMatchers</span><span class="p">({</span>
+        <span class="nx">toBeArray</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">expected</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">toString</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">actual</span><span class="p">);</span> <span class="o">===</span> <span class="s1">&#39;[object Array]&#39;</span> <span class="o">?</span> <span class="kc">true</span> <span class="o">:</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">addMatchers</span><span class="p">({</span>
+        <span class="nx">toBeNumber</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">expected</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="sr">/\d+/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">actual</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
+</code></pre>
+<h2><a name="review-of-example"class="anchor" href="#review-of-example"><span class="header-link"></span></a>Review of example</h2>
+<p>We’ll look at one of the example tests and explain what’s happening so you get an idea of how Jasmine works, then from there you should be at least good to go in getting up and running and playing around with it yourself.</p>
+<p>I’ve set-up an example of the code found in this post on Github: <a href="https://github.com/Integralist/Unit-testing-with-Jasmine-BDD"><a href="https://github.com/Integralist/Unit-testing-with-Jasmine-BDD">https://github.com/Integralist/Unit-testing-with-Jasmine-BDD</a></a> (which should also help you getting started)</p>
+<p>So lets look at one of the tests…</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should add class to element&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">css</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">header</span><span class="p">,</span> <span class="s1">&#39;newclass&#39;</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">header</span><span class="p">.</span><span class="nx">className</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;myclassa myclassb newclass&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+</code></pre>
+<p>…as you can see the test starts by describing what is expected of it. In this case it should add a class to the specified element.</p>
+<p>Within the execution of the test itself we can see that we’re executing the <code>css.add()</code> method and telling it to add the class <code>newclass</code> to the element <code>header</code> (which as you can see in the full code above was an element with an id of <code>my-header</code> stored in the variable <code>header</code>).</p>
+<p>After that code has executed we’re expecting the header element’s className value to be <code>myclassa myclassb newclass</code>.</p>
+<p>If we were to run the test-runner.html file we should see all tests pass (this is demonstrated by the green bar and the message of <code>4 specs, 0 failure</code>).</p>
+<p>To see the test suite fail then just amend one of the tests slightly to cause it to fail. For example in the above example we looked at change it to: <code>toBe(‘x myclassa myclassb newclass’)</code> and this will cause the test to fail because obviously the list of class names on the header element is not going to include the class name ‘x’ at the start.</p>
+<p>Now when you run the test-runner.html file (remembering that now one of the tests will fail) you’ll see that instead of a nice clean green bar to highlight success you see a red bar and a drill down into the issue. If you do as I suggested above to cause the test to fail you’ll notice now Jasmine highlights exactly what the problem is to you…</p>
+<p><a href="http://cl.ly/1z3b1g3U1z0e2r2U2c2H">See screenshot image</a></p>
+<pre><code class="lang-sh"><div class="highlight"><pre>4 specs, 1 failure in 0.014s
+&gt; CSS tests <span class="o">(</span>this is the name of the <span class="nb">test </span>suite that failed - as you could have multiple suites running this helps narrow it down<span class="o">)</span>
+&gt;&gt; should add class to element <span class="o">(</span>this tells you the exact <span class="nb">test </span>that fails<span class="o">)</span>
+&gt;&gt;&gt; Expected <span class="s1">&#39;myclassa myclassb newclass&#39;</span> to be <span class="s1">&#39;x myclassa myclassb newclass&#39;</span>. <span class="o">(</span>this tells you what the result actually was followed by what the <span class="nb">test </span>was expecting - so you can see where the result went wrong<span class="o">)</span>
+&gt;&gt;&gt;&gt; <span class="o">(</span>after this you get a stack trace of what was executed so you can see specifics of where the error occurred<span class="o">)</span>
+</pre></div>
+</code></pre>
+<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>Hopefully this has given you a taster for how easy it is to get started writing unit-tests for your code (even if you don’t take the “write tests first” approach).</p>
+<p>There are many good unit-testing libraries available today and they each have their pros/cons as far as the API is concerned and the features they offer.</p>
+<p>I personally prefer Jasmine because I love the simplicity of the terminology and API and the flexibility I have to include my own matchers.</p>
+<p>There are also libraries that focus on the more on specific parts of the testing process such as ‘mocks’, ‘stubs’ and ‘spies’ (see Sinon.js <a href="http://sinonjs.org/"><a href="http://sinonjs.org/">http://sinonjs.org/</a></a>).</p>
+</div>
+
+  <div class="comments">
+    <a href="/posts/beginners-guide-on-how-to-test-your-code/#comments">
+      <span class="icon-bubbles"></span>
+      Comments
+    </a>
+  </div>
+
+  <div class="post-head group">
   <a href="/posts/javascript-inheritance/">
     <h1 class="post-title">JavaScript Inheritance</h1>
   </a>
@@ -112,81 +316,6 @@
 
   <div class="comments">
     <a href="/posts/javascript-inheritance/#comments">
-      <span class="icon-bubbles"></span>
-      Comments
-    </a>
-  </div>
-
-  <div class="post-head group">
-  <a href="/posts/jquery-mobile-loading-script-files/">
-    <h1 class="post-title">jQuery Mobile - loading script files</h1>
-  </a>
-  <span class="post-date">2012 &#183; 1 &#183; 1</span>
-</div>
-
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
-<p><em>reading time: approx. 3mins</em></p>
-<ul>
-<li>Introduction</li>
-<li>My solution</li>
-<li>Example code</li>
-<li>Conclusion</li>
-</ul>
-<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
-<p>I’m working on a jQuery Mobile web application and I need to load specific JavaScript files for each page.</p>
-<p>This is a common thing to do and if you check the jQuery Mobile forum you’ll see lots of people are suffering from the same issue that occurs when trying to achieve this, which is that when loading a page using ajax, jQuery is stripping out the <code>&lt;script&gt;</code> tags - I assume for security reasons to help protect the user, but then if they were doing that then they should be providing the user with a way to disable that feature as in my case I know the scripts I’m loading are safe.</p>
-<h2><a name="my-solution"class="anchor" href="#my-solution"><span class="header-link"></span></a>My solution</h2>
-<p>So far on the jQuery Mobile Forums I’ve only really seen the same ‘solution’ proposed over and over which is to have all your JavaScript in a single script file that you include on every page of your application. In my opinion: that stinks!</p>
-<p>I potentially will have LOTS of JavaScript code (in total) to load by the time my application is finished and the only solution proposed so far has been “hey, just load it all together on every page”.</p>
-<p>My solution: have a single script file that yes is included on every page of your application but acts as nothing more than a ‘bootstrapper’ file which detects the current page and then inserts the JavaScript file(s) into the DOM.</p>
-<h2><a name="example-code"class="anchor" href="#example-code"><span class="header-link"></span></a>Example Code</h2>
-<p>First we need to write a function to insert our script(s):</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">insertScript</span><span class="p">(</span><span class="nx">script</span><span class="p">,</span> <span class="nx">container</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">elem</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span>
-    <span class="nx">elem</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;text/javascript&#39;</span><span class="p">;</span>
-    <span class="nx">elem</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s1">&#39;Assets/Scripts/&#39;</span> <span class="o">+</span> <span class="nx">script</span> <span class="o">+</span> <span class="s1">&#39;.js&#39;</span><span class="p">;</span>
-    <span class="nx">container</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">elem</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>Next we need to detect the current page (details are in the code comments):</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="c1">// The &#39;pagechange&#39; event is triggered after the changePage() request has finished loading the page into the DOM </span>
-<span class="c1">// and all page transition animations have completed.</span>
-<span class="c1">// See: https://gist.github.com/1336327 for some other page events</span>
-<span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;pagechange&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">){</span>
-
-    <span class="c1">// grab a list of all the divs&#39;s found in the page that have the attribute &quot;role&quot; with a value of &quot;page&quot;</span>
-    <span class="kd">var</span> <span class="nx">pages</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;div[data-role=&quot;page&quot;]&#39;</span><span class="p">),</span>
-
-        <span class="c1">// the current page is always the last div in the Array, so we store it in a variable</span>
-        <span class="nx">currentPage</span> <span class="o">=</span> <span class="nx">pages</span><span class="p">[</span><span class="nx">pages</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-
-        <span class="c1">// grab the url of the page the  was loaded from (e.g. what page have we just ajax&#39;ed into view)</span>
-        <span class="nx">attr</span> <span class="o">=</span> <span class="nx">currentPage</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;data-url&#39;</span><span class="p">);</span>
-
-    <span class="c1">// basic conditional checks for the url we&#39;re expecting</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">attr</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;home.html&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// now we know what page we&#39;re on we can insert the required scripts.</span>
-        <span class="c1">// In this case i&#39;m inserting a &#39;script.js&#39; file.</span>
-        <span class="c1">// I do this by passing through the name of the file and the &#39;currentPage&#39; variable</span>
-        <span class="nx">insertScript</span><span class="p">(</span><span class="s1">&#39;search&#39;</span><span class="p">,</span> <span class="nx">currentPage</span><span class="p">);</span>
-    <span class="p">}</span>
-
-    <span class="c1">// rinse and repeat...</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">attr</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;profile.html&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">insertScript</span><span class="p">(</span><span class="s1">&#39;profile&#39;</span><span class="p">,</span> <span class="nx">currentPage</span><span class="p">);</span>
-    <span class="p">}</span>
-
-<span class="p">});</span>
-</pre></div>
-</code></pre>
-<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
-<p>That’s all there is to it.</p>
-<p>Let me know your thoughts or if you’ve found any better ways to work around this issue.</p>
-</div>
-
-  <div class="comments">
-    <a href="/posts/jquery-mobile-loading-script-files/#comments">
       <span class="icon-bubbles"></span>
       Comments
     </a>

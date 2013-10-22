@@ -37,6 +37,81 @@
 
 
   <div class="post-head group">
+  <a href="/posts/jquery-mobile-loading-script-files/">
+    <h1 class="post-title">jQuery Mobile - loading script files</h1>
+  </a>
+  <span class="post-date">2012 &#183; 1 &#183; 1</span>
+</div>
+
+<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 3mins</em></p>
+<ul>
+<li>Introduction</li>
+<li>My solution</li>
+<li>Example code</li>
+<li>Conclusion</li>
+</ul>
+<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<p>I’m working on a jQuery Mobile web application and I need to load specific JavaScript files for each page.</p>
+<p>This is a common thing to do and if you check the jQuery Mobile forum you’ll see lots of people are suffering from the same issue that occurs when trying to achieve this, which is that when loading a page using ajax, jQuery is stripping out the <code>&lt;script&gt;</code> tags - I assume for security reasons to help protect the user, but then if they were doing that then they should be providing the user with a way to disable that feature as in my case I know the scripts I’m loading are safe.</p>
+<h2><a name="my-solution"class="anchor" href="#my-solution"><span class="header-link"></span></a>My solution</h2>
+<p>So far on the jQuery Mobile Forums I’ve only really seen the same ‘solution’ proposed over and over which is to have all your JavaScript in a single script file that you include on every page of your application. In my opinion: that stinks!</p>
+<p>I potentially will have LOTS of JavaScript code (in total) to load by the time my application is finished and the only solution proposed so far has been “hey, just load it all together on every page”.</p>
+<p>My solution: have a single script file that yes is included on every page of your application but acts as nothing more than a ‘bootstrapper’ file which detects the current page and then inserts the JavaScript file(s) into the DOM.</p>
+<h2><a name="example-code"class="anchor" href="#example-code"><span class="header-link"></span></a>Example Code</h2>
+<p>First we need to write a function to insert our script(s):</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">insertScript</span><span class="p">(</span><span class="nx">script</span><span class="p">,</span> <span class="nx">container</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">elem</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span>
+    <span class="nx">elem</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;text/javascript&#39;</span><span class="p">;</span>
+    <span class="nx">elem</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s1">&#39;Assets/Scripts/&#39;</span> <span class="o">+</span> <span class="nx">script</span> <span class="o">+</span> <span class="s1">&#39;.js&#39;</span><span class="p">;</span>
+    <span class="nx">container</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">elem</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>Next we need to detect the current page (details are in the code comments):</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="c1">// The &#39;pagechange&#39; event is triggered after the changePage() request has finished loading the page into the DOM </span>
+<span class="c1">// and all page transition animations have completed.</span>
+<span class="c1">// See: https://gist.github.com/1336327 for some other page events</span>
+<span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;pagechange&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">){</span>
+
+    <span class="c1">// grab a list of all the divs&#39;s found in the page that have the attribute &quot;role&quot; with a value of &quot;page&quot;</span>
+    <span class="kd">var</span> <span class="nx">pages</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;div[data-role=&quot;page&quot;]&#39;</span><span class="p">),</span>
+
+        <span class="c1">// the current page is always the last div in the Array, so we store it in a variable</span>
+        <span class="nx">currentPage</span> <span class="o">=</span> <span class="nx">pages</span><span class="p">[</span><span class="nx">pages</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+
+        <span class="c1">// grab the url of the page the  was loaded from (e.g. what page have we just ajax&#39;ed into view)</span>
+        <span class="nx">attr</span> <span class="o">=</span> <span class="nx">currentPage</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;data-url&#39;</span><span class="p">);</span>
+
+    <span class="c1">// basic conditional checks for the url we&#39;re expecting</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">attr</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;home.html&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// now we know what page we&#39;re on we can insert the required scripts.</span>
+        <span class="c1">// In this case i&#39;m inserting a &#39;script.js&#39; file.</span>
+        <span class="c1">// I do this by passing through the name of the file and the &#39;currentPage&#39; variable</span>
+        <span class="nx">insertScript</span><span class="p">(</span><span class="s1">&#39;search&#39;</span><span class="p">,</span> <span class="nx">currentPage</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// rinse and repeat...</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">attr</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;profile.html&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">insertScript</span><span class="p">(</span><span class="s1">&#39;profile&#39;</span><span class="p">,</span> <span class="nx">currentPage</span><span class="p">);</span>
+    <span class="p">}</span>
+
+<span class="p">});</span>
+</pre></div>
+</code></pre>
+<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>That’s all there is to it.</p>
+<p>Let me know your thoughts or if you’ve found any better ways to work around this issue.</p>
+</div>
+
+  <div class="comments">
+    <a href="/posts/jquery-mobile-loading-script-files/#comments">
+      <span class="icon-bubbles"></span>
+      Comments
+    </a>
+  </div>
+
+  <div class="post-head group">
   <a href="/posts/regex-popup-window/">
     <h1 class="post-title">Regex Popup Window</h1>
   </a>
