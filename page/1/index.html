@@ -241,6 +241,11 @@ Line 3: third
 <h3><a name="-cut-"class="anchor" href="#-cut-"><span class="header-link"></span></a><code>cut</code></h3>
 <p>Again, we&#39;ve covered Cut above already, but just to note that you can change the field delimiter using <code>-d</code> (e.g. <code>-d ,</code> would split the line on commas).</p>
 <p>Also, <code>-f</code> allows a range, not just a single field index. So if you wanted fields 3 to 4 you could do <code>-f 3,4</code></p>
+<p>Another feature of <code>cut</code> is the <code>-c</code> flag which cuts based on &#39;character position&#39; rather than &#39;fields&#39; like <code>-f</code> does. </p>
+<p>One way you could use the <code>-c</code> flag is to remove whitespace at the start and end of a line like so… </p>
+<p><code>echo &quot; xyz &quot; | cut -c 2- | rev | cut -c 2- | rev</code></p>
+<p>…notice our text &quot;xyz&quot; has one character of white space at the start and end. So we specifically tell <code>cut</code> to start at character 2 <code>x</code> and cut until the end of the line <code>2-</code> and then we use the <code>rev</code> command which reverses the content so it becomes &quot; zyx&quot; and then we again cut from the 2nd character (this time <code>z</code>) and cut until the end of the line and finally we reverse the line one more time so we&#39;re back to where we were initially but with the white space removed.</p>
+<p>There are probably more elegant ways to achieve this but it gives you an indication of how you might want to use a command in unique ways.</p>
 <h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
 <p>This was a pretty fast paced run through of some different unix commands. As time goes on I&#39;ll update this post to include other commands and real work use cases that I think would be interesting and useful to those readers new to the command line.</p>
 <p>If there were any errors or any thing like that then just let me know by pinging me on <a href="http://twitter.com/integralist">twitter</a>.</p>

@@ -84,14 +84,14 @@
 <p>The controller is the boss. He sits at the top and delegates responsibilities to either the view or the model.</p>
 <h2><a name="mixed-definitions"class="anchor" href="#mixed-definitions"><span class="header-link"></span></a>Mixed definitions</h2>
 <p>There seems to be a dispute in the dev community regarding how the responsibilities should be divided.</p>
-<p>Some feel a &#39;fat controller&#39; principle is best (where by the  the controller tells the model not only <em>when</em> but <em>where</em> and <em>how</em> it should get its data).</p>
+<p>Some feel a &#39;fat controller&#39; principle is best (where by the controller tells the model not only <em>when</em> but <em>where</em> and <em>how</em> it should get its data).</p>
 <p>My understanding of the pattern is that it was designed so that the Controller stays &#39;skinny&#39;. It may be the boss, but like most good bosses it doesn&#39;t try and stay in control. It knows the best team member for the job at hand and delegates accordingly.</p>
 <p>This is also good code design because the Controller doesn&#39;t have too much <em>context</em> (i.e. it doesn&#39;t know everything, which means it&#39;ll be easier to maintain and scale).</p>
 <h3><a name="god-controller"class="anchor" href="#god-controller"><span class="header-link"></span></a>God Controller</h3>
 <p>There are a few ways we can implement an MVC pattern, one is known as the &#39;God Controller&#39;. </p>
 <p>This is where a single Controller exists and it oversees everything no matter what was requested by the client. </p>
 <p>For example, the single Controller would be passed the request from the client (usually handled by a custom routing application, and most frameworks will provide their own).</p>
-<p>The Controller would determine what type of request was made (if the request was for a &#39;contact&#39; page then it&#39;ll make a request for the Contact model, or if a the request was for the &#39;about&#39; page then it&#39;ll make a request for the About model).</p>
+<p>The Controller would determine what type of request was made (if the request was for a &#39;contact&#39; page then it&#39;ll make a request for the Contact model, or if the request was for the &#39;about&#39; page then it&#39;ll make a request for the About model).</p>
 <p>Once it knows the type of request it&#39;ll proceed to get the relevant model data and assign it to some View variables and render the required View.</p>
 <h3><a name="problems"class="anchor" href="#problems"><span class="header-link"></span></a>Problems</h3>
 <p>Now there are two problems with this implementation:</p>
