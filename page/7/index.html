@@ -223,6 +223,9 @@ Thumbs.db
 <p>You can also specify an exact stash to pop:</p>
 <p><code>git stash pop stash@{2}</code></p>
 <p>If you stash some work, leave it there for a while, and continue on the branch from which you stashed the work, you may have a problem reapplying the work. If the apply tries to modify a file that you’ve since modified, you’ll get a merge conflict and will have to try to resolve it. If you want an easier way to test the stashed changes again, you can run <code>git stash &lt;branch&gt;</code> which creates a new branch for you, checks out the commit you were on when you stashed your work, reapplies your work there, and then drops the stash if it applies successfully.</p>
+<p>If you need to stash only specific files then first <code>git add</code> the files you don&#39;t want to stash, then run:</p>
+<p><code>git stash --keep-index</code></p>
+<p>...finally you can then <code>git reset</code> the files you originally added (if you don&#39;t plan on committing them yet).</p>
 <p><div id="14"></div></p>
 <h2><a name="revert-all-changes-back-to-last-commit"class="anchor" href="#revert-all-changes-back-to-last-commit"><span class="header-link"></span></a>Revert all changes back to last commit</h2>
 <p><code>git reset --hard</code></p>
