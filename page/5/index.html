@@ -37,6 +37,252 @@
 
 
   <div class="post-head group">
+  <a href="/posts/dynamically-generated-grunt-tasks/">
+    <h1 class="post-title">Dynamically Generated Grunt Tasks</h1>
+  </a>
+  <span class="post-date">2013 &#183; 6 &#183; 17</span>
+</div>
+
+<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 10mins</em></p>
+<ul>
+<li>Background</li>
+<li>What are we trying to do?</li>
+<li>So what&#39;s the problem?</li>
+<li>So what are we going to do?</li>
+<li>How are we going to do it?</li>
+<li>Example code</li>
+<li>Conclusion</li>
+</ul>
+<h2><a name="background"class="anchor" href="#background"><span class="header-link"></span></a>Background</h2>
+<p>I work on the BBC News responsive website. You may have seen <a href="http://twitter.com/jcleveley">@jcleveley</a> and <a href="http://twitter.com/tmaslen">@tmaslen</a> speak at a few different conferences about how we went about putting the responsive codebase together and how we handle issues like responsive images (in a recent issue of .net magazine both were interviewed to share their thoughts on responsive, device testing and other such matters).</p>
+<p>I&#39;m in the process of integrating <a href="http://gruntjs.com/">Grunt.js</a> into our work flow. If you&#39;re not sure what Grunt is all about then check out a <a href="http://integralist.co.uk/Grunt-Boilerplate.html">previous post of mine</a> where I explain what it is and how it works and how you might want to use it (including a link to my Grunt Boilerplate project on GitHub).</p>
+<p>It&#39;s because of this that we ran into a concern about keeping Grunt maintainable/scalable…</p>
+<h2><a name="what-are-we-trying-to-do-"class="anchor" href="#what-are-we-trying-to-do-"><span class="header-link"></span></a>What are we trying to do?</h2>
+<p>At BBC News we have our core product and we have 27 different language services.</p>
+<p>We&#39;re in the process of moving all 27 languages over to our responsive code base. We&#39;ve only moved over 8 so far and already we&#39;ve noticed an issue with how we set-up Grunt to handle compilation of our <a href="http://sass-lang.com/">Sass</a> files into CSS.</p>
+<p>Given we have quite a few Sass files within the responsive code base (and more are being added every time we move a language service over to responsive), the time to compile is exponentially growing.</p>
+<p>The issue is actually a slightly deeper one in it&#39;s a fundamental problem with Sass. We divide up our languages into separate sub folders so it&#39;s easier to maintain, like so...</p>
+<ul>
+<li>/partials/<ul>
+<li>/mixins/</li>
+<li>etc</li>
+</ul>
+</li>
+<li>/services/<ul>
+<li>/afrique/</li>
+<li>/arabic/</li>
+<li>/hausa/</li>
+<li>etc</li>
+</ul>
+</li>
+</ul>
+<p>...but Sass has issues with how it &#39;watches&#39; folders and so this structure doesn&#39;t work very well with it. </p>
+<p>By that I mean, if we watch a single language folder (let&#39;s say &#39;arabic&#39;), Sass can detect changes to the files inside the arabic folder, but it can&#39;t detect changes to any <code>@import</code>&#39;ed files that may sit outside of that folder (such as any /partials/ that may have been imported).</p>
+<p>To work-around this issue we set-up Grunt to watch specific directories for changes and to run a specific Sass sub task so only the files relevant are compiled but also allows us to properly watch a single language and still detect changes to partial files being imported. </p>
+<p>For example, if one of the World Service teams are working on the Arabic site then they&#39;ll run <code>grunt watch:arabic</code> and any time those specific Sass files change then we execute the Sass sub task <code>grunt sass:arabic</code>.</p>
+<p>This all works fine.</p>
+<h2><a name="so-what-s-the-problem-"class="anchor" href="#so-what-s-the-problem-"><span class="header-link"></span></a>So what&#39;s the problem?</h2>
+<p>The problem we have is that adding a new language to the Grunt file is a manual process. If we have 27 languages this is a lot of duplicated code that needs to be created (and manually) every time a new language is being moved over to the responsive code base.</p>
+<p>That goes against the principle of DRY (Don&#39;t Repeat Yourself).</p>
+<h2><a name="so-what-are-we-going-to-do-"class="anchor" href="#so-what-are-we-going-to-do-"><span class="header-link"></span></a>So what are we going to do?</h2>
+<p>We&#39;re going to automate the process!</p>
+<h2><a name="how-are-we-going-to-do-it-"class="anchor" href="#how-are-we-going-to-do-it-"><span class="header-link"></span></a>How are we going to do it?</h2>
+<p>We&#39;re going to take advantage of the fact that we have access to Node.js (as Grunt utilises it and its package manager NPM).</p>
+<p>So we&#39;re going to use Node with a little bit of Grunt to rewrite the Grunt file itself. We&#39;ll dynamically generate and insert sub tasks for both the Watch and Sass Grunt tasks (that&#39;s a bit of a mouthful).</p>
+<p>I&#39;m not going to comment the following code too much because a lot of it should be self explanatory. I will be providing notes below on what the code is doing so you can understand the flow of what the scripts do and why I&#39;m doing certain things (but the code itself you should be able to read without any problems)…</p>
+<h2><a name="example-code"class="anchor" href="#example-code"><span class="header-link"></span></a>Example code</h2>
+<p>The code ranges over three files…</p>
+<ol>
+<li>Gruntfile.js</li>
+<li>grunt-customtasks.js</li>
+<li>grunt-dynamic.js</li>
+</ol>
+<h3><a name="gruntfile-js"class="anchor" href="#gruntfile-js"><span class="header-link"></span></a>Gruntfile.js</h3>
+<p>So the first file is obviously our main Grunt application file. </p>
+<p>Inside that file we have the following code (note: this is a <em>really</em> stripped back version just so it&#39;s a little bit more readable)…</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">({</span>
+
+        <span class="nx">dir</span><span class="o">:</span> <span class="p">{</span>
+            <span class="kr">static</span><span class="o">:</span> <span class="s1">&#39;./tabloid/webapp/static/&#39;</span><span class="p">,</span>
+            <span class="nx">static_sass</span><span class="o">:</span> <span class="s1">&#39;&lt;%= dir.static %&gt;&#39;</span> <span class="o">+</span> <span class="s1">&#39;sass/&#39;</span><span class="p">,</span>
+            <span class="nx">static_css</span><span class="o">:</span> <span class="s1">&#39;&lt;%= dir.static %&gt;&#39;</span> <span class="o">+</span> <span class="s1">&#39;stylesheets/&#39;</span><span class="p">,</span>
+        <span class="p">},</span>
+
+        <span class="nx">sass</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">dist</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+                    <span class="nx">style</span><span class="o">:</span> <span class="s1">&#39;compressed&#39;</span><span class="p">,</span>
+                    <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;%= dir.static_sass %&gt;partials/helpers/url64.rb&#39;</span><span class="p">]</span>
+                <span class="p">},</span>
+                <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;&lt;%= dir.static_sass %&gt;&#39;</span><span class="p">,</span>
+                <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!**/_*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!locator/*.scss&#39;</span><span class="p">],</span>
+                <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;&lt;%= dir.static_css %&gt;&#39;</span><span class="p">,</span>
+                <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span>
+            <span class="p">},</span>
+            <span class="nx">dev</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+                    <span class="nx">style</span><span class="o">:</span> <span class="s1">&#39;expanded&#39;</span><span class="p">,</span>
+                    <span class="nx">debugInfo</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                    <span class="nx">lineNumbers</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                    <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;%= dir.static_sass %&gt;partials/helpers/url64.rb&#39;</span><span class="p">]</span>
+                <span class="p">},</span>
+                <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;&lt;%= dir.static_sass %&gt;&#39;</span><span class="p">,</span>
+                <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!**/_*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!locator/*.scss&#39;</span><span class="p">],</span>
+                <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;&lt;%= dir.static_css %&gt;&#39;</span><span class="p">,</span>
+                <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span>
+            <span class="p">}</span>
+            <span class="c1">// Dynamic Sass Content</span>
+            <span class="c1">// Dynamic Sass Content Ended</span>
+        <span class="p">},</span>
+
+        <span class="nx">watch</span><span class="o">:</span> <span class="p">{</span>
+            <span class="c1">// Dynamic Watch Content</span>
+            <span class="c1">// Dynamic Watch Content Ended</span>
+        <span class="p">}</span>
+
+    <span class="p">});</span>
+
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-watch&#39;</span><span class="p">);</span>
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-sass&#39;</span><span class="p">);</span>
+
+    <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./grunt-dynamic.js&#39;</span><span class="p">)(</span><span class="nx">grunt</span><span class="p">);</span>
+    <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./grunt-customtasks.js&#39;</span><span class="p">)(</span><span class="nx">grunt</span><span class="p">);</span>
+
+<span class="p">};</span>
+</pre></div>
+</code></pre>
+<p>…as you can see we have loaded the relevant Sass and Watch Grunt tasks and we&#39;ve set-up some default configurations for them.</p>
+<p>You&#39;ll also see that we&#39;re loading in the two other scripts I mentioned previously at the bottom of the Gruntfile. These files <code>export</code> a function, which means when the scripts are loaded we can store off their return value (in this case the return value is a function which we can execute whenever we want to). In this case I&#39;m executing the returned functions the very moment the scripts are loaded.</p>
+<p>The final part of this Gruntfile to pay attention to is the use of some code comments for the Sass task <code>// Dynamic Sass Content</code> and <code>// Dynamic Sass Content Ended</code> (there is also the same for the &#39;Watch&#39; task).</p>
+<p>I use these code comments as a hook. Because we&#39;re opening up the Gruntfile and editing it dynamically we need an easy way to find the content we want to replace. Using code comments gives us that easy hook. Otherwise we&#39;d need some pretty hairy code/syntax parsing to figure out where we need to insert new dynamically generated content.</p>
+<h3><a name="grunt-customtasks-js"class="anchor" href="#grunt-customtasks-js"><span class="header-link"></span></a>grunt-customtasks.js</h3>
+<p>OK, this isn&#39;t strictly speaking a file that has anything to do with the problem/solution that we&#39;re working on. The reason I&#39;ve included it here is because you&#39;ll see that I&#39;ve written two custom Grunt tasks which I&#39;ve gone ahead and made the assumption that A.) this would be of interest to those of you reading this and B.) one of the custom tasks was quite useful in helping me quickly test my code was working... </p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;noop&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;noop run&#39;</span><span class="p">);</span> <span class="p">});</span>
+
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;concat_specjs&#39;</span><span class="p">,</span> <span class="s1">&#39;Concatenate all JS test/spec files into a single file&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="kd">var</span> <span class="nx">specs</span> <span class="o">=</span> <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">expand</span><span class="p">(</span><span class="s1">&#39;tabloid/webapp/static/js/jasmine/spec/*.js&#39;</span><span class="p">),</span>
+            <span class="nx">contents</span><span class="p">;</span>
+
+        <span class="nx">specs</span> <span class="o">=</span> <span class="nx">specs</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">file_path</span><span class="p">){</span>
+            <span class="k">return</span> <span class="s2">&quot;&#39;&quot;</span> <span class="o">+</span> <span class="nx">file_path</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;tabloid/webapp/static/js/&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">].</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;.js&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">;</span>
+        <span class="p">});</span>
+
+        <span class="nx">contents</span> <span class="o">=</span> <span class="s2">&quot;define([\n&quot;</span> <span class="o">+</span> <span class="nx">specs</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;,\n&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;], \nfunction(){ return &#39;&#39;; });&quot;</span><span class="p">;</span>
+
+        <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;tabloid/webapp/static/js/jasmine-runner.js&#39;</span><span class="p">,</span> <span class="nx">contents</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">};</span>
+</pre></div>
+</code></pre>
+<p>The custom task &#39;concat_specjs&#39; is a good look at how you can use Grunt/Node.js to search for files within specific directories and manipulate them by opening them up and writing content into them using the Grunt API. Nothing actually really complicated about it to be honest, the code speaks for itself.</p>
+<p>The reason I created a &#39;noop&#39; (which stands for &#39;no-op&#39;, no-operation) task is because I wanted to test how my code was running without actually running any tasks that would take longer than a nano second to run. Hence I created a custom task that basically does nothing and is there only to see how my dynamic content generation would be affected by running a Grunt task.</p>
+<p>The only other thing worth mentioning is the <code>module.exports = function(grunt){};</code> that wraps around our code. Effectively this file when loaded is a standalone module. This module could just execute some code and end there. But this module needs to have access to Grunt and to do that we make sure the module exports some data (in this case it exports itself as a function) which can be stored off when the module is loaded and utilised however necessary.</p>
+<p>So in this case I&#39;m exporting my code as function which takes in a single argument called <code>grunt</code> -&gt; which is the actual Grunt passed down into it from our main Gruntfile.js when we included the line <code>require(&#39;./grunt-customtasks.js&#39;)(grunt);</code>.</p>
+<h3><a name="grunt-dynamic-js"class="anchor" href="#grunt-dynamic-js"><span class="header-link"></span></a>grunt-dynamic.js</h3>
+<p>This is where the actual work comes in… finally!</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">file</span> <span class="o">=</span> <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">read</span><span class="p">(</span><span class="s1">&#39;Gruntfile.js&#39;</span><span class="p">),</span>
+        <span class="nx">services</span> <span class="o">=</span> <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">expand</span><span class="p">(</span><span class="s1">&#39;tabloid/webapp/static/sass/services/*&#39;</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nx">removePath</span><span class="p">).</span><span class="nx">filter</span><span class="p">(</span><span class="nx">removeBlacklistedDirectories</span><span class="p">),</span>
+        <span class="nx">watch_subtasks</span> <span class="o">=</span> <span class="nx">generateWatchSubTasks</span><span class="p">(),</span> 
+        <span class="nx">sass_subtasks</span> <span class="o">=</span> <span class="nx">generateSassSubTasks</span><span class="p">();</span>
+
+    <span class="kd">function</span> <span class="nx">removePath</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">element</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">).</span><span class="nx">pop</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="kd">function</span> <span class="nx">removeBlacklistedDirectories</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;journalism&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">false</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kd">function</span> <span class="nx">generateWatchSubTasks</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">generatedContent</span> <span class="o">=</span> <span class="s1">&#39;// Dynamic Watch Content\n            &#39;</span><span class="p">;</span>
+
+        <span class="nx">services</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">service</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">generatedContent</span> <span class="o">+=</span> <span class="s2">&quot;,\n            &quot;</span> <span class="o">+</span> <span class="nx">service</span> <span class="o">+</span> <span class="s2">&quot;: {\n\</span>
+<span class="s2">                files: [&#39;&lt;%= dir.static_sass %&gt;/partials/**/*.scss&#39;,\n\</span>
+<span class="s2">                        &#39;&lt;%= dir.static_sass %&gt;services/&quot;</span> <span class="o">+</span> <span class="nx">service</span> <span class="o">+</span> <span class="s2">&quot;/*.scss&#39;],\n\</span>
+<span class="s2">                tasks: [&#39;sass:&quot;</span> <span class="o">+</span> <span class="nx">service</span> <span class="o">+</span> <span class="s2">&quot;&#39;]\n            }&quot;</span><span class="p">;</span>
+        <span class="p">});</span>
+
+        <span class="k">return</span> <span class="nx">generatedContent</span> <span class="o">+=</span> <span class="s1">&#39;\n            // Dynamic Watch Content Ended&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kd">function</span> <span class="nx">generateSassSubTasks</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">generatedContent</span> <span class="o">=</span> <span class="s1">&#39;// Dynamic Sass Content\n            &#39;</span><span class="p">;</span>
+
+        <span class="nx">services</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">service</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">generatedContent</span> <span class="o">+=</span> <span class="s2">&quot;,\n            &quot;</span> <span class="o">+</span> <span class="nx">service</span> <span class="o">+</span> <span class="s2">&quot;: {\n\</span>
+<span class="s2">                options: {\n\</span>
+<span class="s2">                    style: &#39;expanded&#39;,\n\</span>
+<span class="s2">                    debugInfo: true,\n\</span>
+<span class="s2">                    lineNumbers: true,\n\</span>
+<span class="s2">                    require: [&#39;&lt;%= dir.static_sass %&gt;partials/helpers/url64.rb&#39;]\n\</span>
+<span class="s2">                },\n\</span>
+<span class="s2">                expand: true,\n\</span>
+<span class="s2">                cwd: &#39;&lt;%= dir.static_sass %&gt;/services/&quot;</span> <span class="o">+</span> <span class="nx">service</span> <span class="o">+</span> <span class="s2">&quot;&#39;,\n\</span>
+<span class="s2">                src: [&#39;*.scss&#39;, &#39;!_*.scss&#39;],\n\</span>
+<span class="s2">                dest: &#39;&lt;%= dir.static_css %&gt;/services/&quot;</span> <span class="o">+</span> <span class="nx">service</span> <span class="o">+</span> <span class="s2">&quot;&#39;,\n\</span>
+<span class="s2">                ext: &#39;.css&#39;\n\</span>
+<span class="s2">            }&quot;</span><span class="p">;</span>
+        <span class="p">});</span>
+
+        <span class="k">return</span> <span class="nx">generatedContent</span> <span class="o">+=</span> <span class="s1">&#39;\n            // Dynamic Sass Content Ended&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cm">/*</span>
+<span class="cm">        Following regex searches our Gruntfile.js for either &quot;// Dynamic Sass Content&quot; or &quot;// Dynamic Watch Content&quot;.</span>
+<span class="cm">        It then continues to find the associated ending code comment.</span>
+<span class="cm">     */</span>
+    <span class="nx">file</span> <span class="o">=</span> <span class="nx">file</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/(\/\/ Dynamic (Sass|Watch) Content)(?:\r|\n(?:.|\r|\n)+?\1 Ended)?/gmi</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">match</span><span class="p">,</span> <span class="nx">cg1</span><span class="p">,</span> <span class="nx">cg2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">cg2</span> <span class="o">===</span> <span class="s1">&#39;Sass&#39;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">returnValue</span> <span class="o">=</span> <span class="nx">sass_subtasks</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">cg2</span> <span class="o">===</span> <span class="s1">&#39;Watch&#39;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">returnValue</span> <span class="o">=</span> <span class="nx">watch_subtasks</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="nx">returnValue</span><span class="p">;</span>
+    <span class="p">});</span>
+
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;Gruntfile.js&#39;</span><span class="p">,</span> <span class="nx">file</span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+</code></pre>
+<p>So again, you can see we&#39;re using a mixture of Grunt API&#39;s and Node.js to accomplish what we need. In this case we&#39;re doing the following…</p>
+<ul>
+<li>Storing the contents of our Gruntfile.js</li>
+<li>Creating an Array of language services (e.g. <code>[&#39;afrique&#39;, &#39;arabic&#39;, &#39;hausa&#39;, …]</code>) by using <code>grunt.file.expand</code> and then using some Array methods such as <code>map</code> and <code>filter</code> to clean up the data (we use <code>map</code> to strip the directory path and we use <code>filter</code> to remove any blacklisted folders -&gt; by that we mean folders we don&#39;t want to include).</li>
+<li>We have two functions for generating the String data that makes up our sub tasks for Sass and Watch (effectively, just loops through the Array of languages and creates a String of JavaScript code that we&#39;ll then inject into our Gruntfile).</li>
+<li>Use a regular expression with the String <code>replace</code> method to find the code comment hooks we have in our Gruntfile.</li>
+<li>Once the hooks are found, we check which hook it is (Sass or Watch) and then inject the relevant String of JavaScript code we dynamically created earlier (this was done inside our <code>generateWatchSubTasks</code> and <code>generateSassSubTasks</code> functions and uses the <code>grunt.file.write</code> API).</li>
+</ul>
+<p>This code is run before any other tasks are executed. So every time I run <code>grunt noop</code> the above code gets run and the dynamically generated sub tasks are injected into the Gruntfile.</p>
+<p>This actually runs super quick and so hasn&#39;t (currently) raised any performance problems (e.g. we&#39;ve not had any &quot;hmm, whenever I execute a task it takes ages for it to actually run?&quot; comments). </p>
+<p>If we wanted to we could maybe cache this so it didn&#39;t happen every single time a task is run but it&#39;s so quick at the moment it&#39;s just not worth worrying about.</p>
+<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>That&#39;s it! I hope this was a useful look at how to write some custom Grunt tasks and also how to take advantage of the Grunt API and Node.js to doing something a little bit more specialised with Grunt.</p>
+<p>Hopefully this post was better than the same old Grunt posts that only just tell you how to use the pre-built tasks to do mundane things like minify your JavaScript or other tediously boring stuff.</p>
+</div>
+
+  <div class="comments">
+    <a href="/posts/dynamically-generated-grunt-tasks/#comments">
+      <span class="icon-bubbles"></span>
+      Comments
+    </a>
+  </div>
+
+  <div class="post-head group">
   <a href="/posts/the-clean-coder-how-to-be-a-professional/">
     <h1 class="post-title">The Clean Coder - How to be a Professional</h1>
   </a>
@@ -209,599 +455,6 @@ So think of this book as a catalog of my own errors, a blotter of my own crimes,
     </a>
   </div>
 
-  <div class="post-head group">
-  <a href="/posts/grunt-boilerplate/">
-    <h1 class="post-title">Grunt Boilerplate</h1>
-  </a>
-  <span class="post-date">2013 &#183; 5 &#183; 13</span>
-</div>
-
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
-<p><em>reading time: approx. 19mins</em></p>
-<ul>
-<li>What is Grunt?</li>
-<li>Installation</li>
-<li>Package.json</li>
-<li>Dependencies</li>
-<li>Gruntfile.js</li>
-<li>Sass</li>
-<li>RequireJS</li>
-<li>JSHint</li>
-<li>Jasmine BDD</li>
-<li>Image Minification</li>
-<li>HTML Minification</li>
-<li>Registering tasks</li>
-<li>Watching files</li>
-<li>Our full Grunt file</li>
-<li>Conclusion</li>
-</ul>
-<h2><a name="what-is-grunt-"class="anchor" href="#what-is-grunt-"><span class="header-link"></span></a>What is Grunt?</h2>
-<p><a href="http://gruntjs.com/">Grunt</a> is a JavaScript based task runner. What this means is that it will help you spend less time manually running tasks that can be automated.</p>
-<p>Grunt comes with many pre-built tasks available and that can automate the majority of a developer&#39;s typical work flow. You also have the facility to write your own custom tasks if you have a specific requirement that isn&#39;t already catered for.</p>
-<p>There are approximately 700+ tasks built for Grunt (as of May 2013) and the list is growing. Some of the most popular tasks I&#39;ll be covering in this article…</p>
-<ul>
-<li>Sass (CSS pre-processor)</li>
-<li>RequireJS (AMD/script loader)</li>
-<li>JSHint (JavaScript code quality)</li>
-<li>Jasmine BDD (Behaviour-Driven Unit Testing framework)</li>
-<li>ImageMin (Image minification)</li>
-<li>HTMLMin (HTML minification)</li>
-</ul>
-<p>…but there are many more for tasks such as: compiling CoffeeScript to JavaScript, concatenating files, connecting to a web server, copying files and folders, precompiling handlebar templates, live reload within a web browser, compiling code documentation - just to name a few. </p>
-<p>See the <a href="http://gruntjs.com/plugins">Grunt Plugins</a> page for a more comprehensive list (but also check GitHub).</p>
-<h2><a name="installation"class="anchor" href="#installation"><span class="header-link"></span></a>Installation</h2>
-<p>Grunt uses <a href="http://nodejs.org/">Node.js</a> and Node&#39;s package manager system (NPM) to handle the installation of Grunt tasks.</p>
-<p>Essentially (as of Grunt 0.4) there are three items you need to install to get up and running with Grunt…</p>
-<ol>
-<li>Node.js</li>
-<li>NPM</li>
-<li>Grunt CLI (command line interface)</li>
-</ol>
-<p>The easiest way to install these are using <a href="http://mxcl.github.io/homebrew/">Homebrew</a> which is an excellent package manager for OS X (if you use Windows, my apologies but you&#39;re on your own).</p>
-<p>Your mileage may vary, but if you have homebrew installed you can run the following commands via your terminal to install Node.js and NPM: <code>brew install node</code>.</p>
-<p>The next step is to install Grunt CLI which you can do using: <code>npm install -g grunt-cli</code> (the <code>-g</code> means to install it globally on your OS so that you can use the <code>grunt</code> command where ever you are on your system).</p>
-<p>Now you&#39;ll also want to run: <code>npm install -g grunt-init</code> and once that&#39;s done you&#39;ve effectively installed the basic requirements for Grunt.</p>
-<h2><a name="package-json"class="anchor" href="#package-json"><span class="header-link"></span></a>Package.json</h2>
-<p>Before you can start using Grunt you&#39;ll need a <code>package.json</code> file which stores all the base configuration settings.</p>
-<p>To automatically generate this file run: <code>npm init</code>.</p>
-<p>Below is the <code>package.json</code> file for my Grunt Boilerplate project...</p>
-<pre><code class="lang-json"><div class="highlight"><pre><span class="p">{</span>
-    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Grunt Boilerplate&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.1.0&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;This is a project set-up using Grunt to take case of some standard tasks such as: compiling AMD based modules using RequireJS, watching/compiling Sass into CSS, watching/linting JS code and some other things such as running unit tests&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;main&quot;</span><span class="p">:</span> <span class="s2">&quot;Gruntfile.js&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;dependencies&quot;</span><span class="p">:</span> <span class="p">{},</span>
-    <span class="nt">&quot;devDependencies&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;grunt&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.4.1&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;grunt-contrib-watch&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.3.1&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;grunt-contrib-jshint&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.4.3&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;grunt-contrib-uglify&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.2.0&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;grunt-contrib-requirejs&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.4.0&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;grunt-contrib-sass&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.3.0&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;grunt-contrib-imagemin&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.1.4&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;grunt-contrib-htmlmin&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.1.3&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;grunt-contrib-jasmine&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.4.2&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;grunt-template-jasmine-istanbul&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.2.1&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;grunt-template-jasmine-requirejs&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.1.1&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;grunt-contrib-connect&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.3.0&quot;</span>
-    <span class="p">},</span>
-    <span class="nt">&quot;scripts&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;test&quot;</span><span class="p">:</span> <span class="s2">&quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</span>
-    <span class="p">},</span>
-    <span class="nt">&quot;repository&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;git&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;git@github.com:Integralist/Grunt-Boilerplate.git&quot;</span>
-    <span class="p">},</span>
-    <span class="nt">&quot;keywords&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&quot;Grunt&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;JavaScript&quot;</span>
-    <span class="p">],</span>
-    <span class="nt">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Mark McDonnell&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;license&quot;</span><span class="p">:</span> <span class="s2">&quot;MIT&quot;</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>…most of it is populated with content I provided when I ran <code>npm init</code> and the rest (such as <code>devDependencies</code>) was automatically generated for me when I started installing Grunt tasks (see next section).</p>
-<h2><a name="dependencies"class="anchor" href="#dependencies"><span class="header-link"></span></a>Dependencies</h2>
-<p>Typically we don&#39;t want dependencies we install to be installed globally (remember we installed Grunt globally using the <code>-g</code> flag). </p>
-<p>The reason being, the dependencies you install for Project X might be different from your next project. </p>
-<p>For example, you might install a Grunt task with a version number of 1.0 and by the time you start your next project that task might have been updated to version 2.0 and part of the major version update was a complete change in their API. So if you globally updated the task, your last project would break as it&#39;s using the old API. </p>
-<p>But you still want to use the latest and greatest version of that task. So instead of installing your dependencies globally, install them locally (e.g. install them into the specific project you&#39;re currently working on) which means there will no chance of conflicts between projects.</p>
-<p>Below are the tasks I install locally as part of my Grunt Boilerplate project…</p>
-<ul>
-<li><code>npm install grunt --save-dev</code></li>
-<li><code>npm install grunt-contrib-watch --save-dev</code></li>
-<li><code>npm install grunt-contrib-jshint --save-dev</code></li>
-<li><code>npm install grunt-contrib-uglify --save-dev</code></li>
-<li><code>npm install grunt-contrib-requirejs --save-dev</code></li>
-<li><code>npm install grunt-contrib-sass --save-dev</code></li>
-<li><code>npm install grunt-contrib-imagemin --save-dev</code></li>
-<li><code>npm install grunt-contrib-htmlmin --save-dev</code></li>
-<li><code>npm install grunt-contrib-connect --save-dev</code></li>
-<li><code>npm install grunt-contrib-jasmine --save-dev</code></li>
-<li><code>npm install grunt-template-jasmine-requirejs --save-dev</code></li>
-</ul>
-<p>…a couple of things to note here are: the first item you see me install is Grunt itself (which is separated from the Grunt CLI). As we&#39;ve already discussed, it means we can install different versions of Grunt if we want (depending on the project requirements).</p>
-<p>The other thing is the use of the <code>--save-dev</code> flag which means our <code>package.json</code> file gets automatically updated to include the dependency we&#39;ve just installed.</p>
-<p>Because these dependencies are installed locally, you&#39;ll notice a new <code>node_modules</code> folder has appeared within your project. This folder holds all of the above dependencies/tasks we&#39;ve just installed.</p>
-<p>I suggest you create a <code>.gitignore</code> file (you are using <a href="http://git-scm.com/">Git</a> for your version control system, right?) that ignores this folder (you don&#39;t want to end up pushing these modules into your repo for other users to pull down, best to let them install these themselves as per my instructions above).</p>
-<p>OK, now that we have all the dependencies/tasks installed, lets look at the remaining piece of the puzzle, the <code>Gruntfile.js</code>.</p>
-<h2><a name="gruntfile-js"class="anchor" href="#gruntfile-js"><span class="header-link"></span></a>Gruntfile.js</h2>
-<p><code>Gruntfile.js</code> is the main set-up file and contains the settings for each task we have installed.</p>
-<p>Because Grunt is run using Node.js you&#39;ll notice the content of the file is wrapped in a closure and assigned to a module <code>exports</code> property…</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">({</span>
-        <span class="c1">// our Grunt task settings</span>
-    <span class="p">});</span>
-<span class="p">};</span>
-</pre></div>
-</code></pre>
-<p>…within the function we call <code>initConfig</code> on the Grunt object, and we pass through an object literal holding our task settings.</p>
-<p>One of the first properties we set is <code>pkg: grunt.file.readJSON(&#39;package.json&#39;)</code> which means that from within the other properties of our object we can access settings specified within our <code>package.json</code> configuration file.</p>
-<p>For example, if we wanted to access the name of our package (which if you remember was set <code>&quot;name&quot;:&quot;Grunt Boilerplate&quot;</code>) then we could access it from within our object using <code>&lt;%= pkg.name %&gt;</code>.</p>
-<p>From here, this is where we now start to explore the different tasks we previously installed (for full details of each task&#39;s own settings please go to their corresponding website/github repo).</p>
-<h2><a name="sass"class="anchor" href="#sass"><span class="header-link"></span></a>Sass</h2>
-<p>The Sass task allows us to compile our Sass files into CSS.</p>
-<p>Here is an example...</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">sass</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">dist</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">style</span><span class="o">:</span> <span class="s1">&#39;compressed&#39;</span><span class="p">,</span>
-            <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;./assets/styles/sass/helpers/url64.rb&#39;</span><span class="p">]</span>
-        <span class="p">},</span>
-        <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-        <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/styles/sass/&#39;</span><span class="p">,</span>
-        <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;*.scss&#39;</span><span class="p">],</span>
-        <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/styles/&#39;</span><span class="p">,</span>
-        <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span>
-    <span class="p">},</span>
-    <span class="nx">dev</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">style</span><span class="o">:</span> <span class="s1">&#39;expanded&#39;</span><span class="p">,</span>
-            <span class="nx">debugInfo</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">lineNumbers</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;./app/styles/sass/helpers/url64.rb&#39;</span><span class="p">]</span>
-        <span class="p">},</span>
-        <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-        <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/styles/sass/&#39;</span><span class="p">,</span>
-        <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;*.scss&#39;</span><span class="p">],</span>
-        <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/styles/&#39;</span><span class="p">,</span>
-        <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>You&#39;ll see in the above example we&#39;ve set-up two sub tasks <code>dist</code> and <code>dev</code>.</p>
-<p>The reason I&#39;ve created two sub tasks is because while I&#39;m developing my application I want my Sass files to compile in to expanded CSS (including debugging information), but when I finish my project I want to compile my Sass files in to compressed/minified CSS instead.</p>
-<p>You&#39;ll see for each sub task I specify a <code>options</code> object which tells the compiler how I want the Sass to be compiled and where to find any additional Sass helper scripts.</p>
-<p>You&#39;ll find in my <a href="https://github.com/Integralist/Grunt-Boilerplate">Grunt Boilerplate</a> (used in the above example) that I include a Sass helper script <code>require: [&#39;./app/styles/sass/helpers/url64.rb&#39;]</code> which allows you to use a special Sass function to convert a background image into a Base64 encoded string which is better performing than making an additional HTTP request for an image to be used - it also works around the IE8 issue where an Base64 encoded string can&#39;t be greater than 32kb of data.</p>
-<p>Finally, we are using a Grunt specific pattern that allows us to better target and export multiple files: <code>expand: true</code>. Effectively that setting allows the other properties to follow it to be activated (if we didn&#39;t have <code>expand: true</code> set then the properties following it wouldn&#39;t work).</p>
-<p>Let&#39;s look at the other properties a little bit closer, as you&#39;ll see them used in other tasks in a similar way so it&#39;s important for you to understand how they work…</p>
-<p><code>cwd: &#39;./app/styles/sass/&#39;</code> - here I&#39;m setting the &#39;current working directory&#39; (this is where I want Grunt to find my Sass files).</p>
-<p><code>src: [&#39;*.scss&#39;]</code> - here I&#39;m telling Grunt that I want it to look for any <code>scss</code> files within my &#39;current working directory&#39;.</p>
-<p><code>dest: &#39;./app/styles/&#39;</code> - here I&#39;m telling Grunt that I want it to export the files to this directory.</p>
-<p><code>ext: &#39;.css&#39;</code> - and that I want each exported file to have an extension of <code>css</code>.</p>
-<p>To run this specific task we could open our terminal and execute: <code>grunt sass</code> (which would execute both sub tasks), or we could run a specific sub task like so: <code>grunt sass:dev</code>.</p>
-<p>I won&#39;t explain the running of specific tasks again from here because effectively it&#39;s exactly the same for all tasks.</p>
-<h2><a name="requirejs"class="anchor" href="#requirejs"><span class="header-link"></span></a>RequireJS</h2>
-<p>This task is effectively the <code>r.js</code> build script that comes with RequireJS so I won&#39;t go into the details of how to write a build script - I&#39;ll instead refer you to the <a href="https://github.com/jrburke/r.js/blob/master/build/example.build.js">r.js documentation</a>, but know that the following has exactly the same settings as you would have used for <code>r.js</code> previously… </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">requirejs</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">compile</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">baseUrl</span><span class="o">:</span> <span class="s1">&#39;./app&#39;</span><span class="p">,</span>
-            <span class="nx">mainConfigFile</span><span class="o">:</span> <span class="s1">&#39;./app/main.js&#39;</span><span class="p">,</span>
-            <span class="nx">dir</span><span class="o">:</span> <span class="s1">&#39;./app/release/&#39;</span><span class="p">,</span>
-            <span class="nx">fileExclusionRegExp</span><span class="o">:</span> <span class="sr">/^\.|node_modules|Gruntfile|\.md|package.json/</span><span class="p">,</span>
-            <span class="nx">modules</span><span class="o">:</span> <span class="p">[</span>
-                <span class="p">{</span>
-                    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;main&#39;</span>
-                <span class="p">}</span>
-            <span class="p">]</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h2><a name="jshint"class="anchor" href="#jshint"><span class="header-link"></span></a>JSHint</h2>
-<p>JSHint is a task that mimics the <a href="http://www.jshint.com/">web interface</a> in that it lets you specify files to lint (i.e. makes sure the code is written with valid syntax according to a set of rules you want it to abide by)… </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">jshint</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">files</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;Gruntfile.js&#39;</span><span class="p">,</span> <span class="s1">&#39;app/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;!app/release/**&#39;</span><span class="p">,</span> <span class="s1">&#39;modules/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;specs/**/*Spec.js&#39;</span><span class="p">],</span>
-    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">curly</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
-        <span class="nx">eqeqeq</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
-        <span class="nx">immed</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
-        <span class="nx">latedef</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-        <span class="nx">newcap</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
-        <span class="nx">noarg</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
-        <span class="nx">sub</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
-        <span class="nx">undef</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
-        <span class="nx">boss</span><span class="o">:</span>    <span class="kc">true</span><span class="p">,</span>
-        <span class="nx">eqnull</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
-        <span class="nx">browser</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-
-        <span class="nx">globals</span><span class="o">:</span> <span class="p">{</span>
-            <span class="c1">// AMD</span>
-            <span class="nx">module</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">require</span><span class="o">:</span>    <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">requirejs</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">define</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
-
-            <span class="c1">// Environments</span>
-            <span class="nx">console</span><span class="o">:</span>    <span class="kc">true</span><span class="p">,</span>
-
-            <span class="c1">// General Purpose Libraries</span>
-            <span class="nx">$</span><span class="o">:</span>          <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">jQuery</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
-
-            <span class="c1">// Testing</span>
-            <span class="nx">sinon</span><span class="o">:</span>      <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">describe</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">it</span><span class="o">:</span>         <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">expect</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">beforeEach</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">afterEach</span><span class="o">:</span>  <span class="kc">true</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>…some things to note: we&#39;re using the bang operator <code>!</code> to tell Grunt to ignore specific directories. So you&#39;ll see we said <code>!app/release/</code> which means DON&#39;T lint that particular directory because it will likely cause errors according to the rules set for JSHint (because that directory is our minified version of our JavaScript code that RequireJS compiled for us).</p>
-<p>Also, you&#39;ll see we&#39;ve told JSHint about certain variables that we expect to be present (i.e. to be globally available). We need to do this because JSHint inspects our JavaScript files in isolation so although when we run our application all the scripts are loaded together, at the time of linting JSHint isn&#39;t aware of these different globals and so if we didn&#39;t tell it about them it would just error.</p>
-<p>Finally, for the full list of rules that JSHint abides by see the <a href="http://www.jshint.com/docs/#enforcing_options">JSHint site</a>.</p>
-<h2><a name="jasmine-bdd"class="anchor" href="#jasmine-bdd"><span class="header-link"></span></a>Jasmine BDD</h2>
-<p>Jasmine is a Behaviour-Driven unit testing framework and assertion library.</p>
-<p>This is probably one the most complicated task we cover because it requires a few other tasks.</p>
-<p>The first first task it relies on is the <code>connect</code> task which fires up a web server using PhantomJS. But realise that this isn&#39;t required if your scripts have no DOM interaction (unlikely if you&#39;re doing web development), but because we&#39;re doing DOM manipulation and we&#39;re testing that interaction we need a DOM to test against, hence the need for the <code>connect</code> web server task… </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">connect</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">test</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">port</span><span class="o">:</span> <span class="mi">8000</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>…after that we set-up the actual <code>jasmine</code> task… </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">jasmine</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;app/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;!app/release/**&#39;</span><span class="p">],</span>
-    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">host</span><span class="o">:</span> <span class="s1">&#39;http://127.0.0.1:8000/&#39;</span><span class="p">,</span>
-        <span class="nx">specs</span><span class="o">:</span> <span class="s1">&#39;specs/**/*Spec.js&#39;</span><span class="p">,</span>
-        <span class="nx">helpers</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;specs/helpers/*Helper.js&#39;</span><span class="p">,</span> <span class="s1">&#39;specs/helpers/sinon.js&#39;</span><span class="p">],</span>
-        <span class="nx">template</span><span class="o">:</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;grunt-template-jasmine-requirejs&#39;</span><span class="p">),</span>
-        <span class="nx">templateOptions</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">requireConfig</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">baseUrl</span><span class="o">:</span> <span class="s1">&#39;./app/&#39;</span><span class="p">,</span>
-                <span class="nx">mainConfigFile</span><span class="o">:</span> <span class="s1">&#39;./app/main.js&#39;</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>…you&#39;ll see we have specified a <code>host</code> option which relates to the <code>connect</code> web server task.</p>
-<p>We also <code>specs</code> option where we tell Grunt where to find out BDD spec/test files.</p>
-<p>We have a <code>helpers</code> option where we can load additional scripts required for us to utilise for testing (this is where I load an additional script called <a href="http://sinonjs.org/">Sinon.js</a> which handles Spies, Mocks and Stubs within our unit tests).</p>
-<p>Next comes the other complicated part of this task: we need a &#39;template&#39; sub task which is specifically built for Jasmine <code>grunt-template-jasmine-requirejs</code>. We need this additional task because we&#39;re using AMD for making our JavaScript code modular, but AMD introduces race condition issues when it comes to running our async based scripts against a dynamic spec runner such as our Grunt Jasmine task.</p>
-<p>You&#39;ll see that we just need to tell <code>grunt-template-jasmine-requirejs</code> where our base JS directory is and which file is the main AMD file to bootstrap our application. In the background the task generates a <code>_SpecRunner.html</code> file which basically requires in every single AMD modules and then starts running our tests within a callback once all the modules are loaded. It&#39;s not the greatest solution but it works.</p>
-<p>If the tests pass then the <code>_SpecRunner.html</code> is removed so you never notice it, but if there are any failing tests then the file is left in your root directory so you can inspect the file and run it manually via a real web browser and try and debug any failing tests.</p>
-<h2><a name="image-minification"class="anchor" href="#image-minification"><span class="header-link"></span></a>Image Minification</h2>
-<p>The ImageMin task does exactly what you would expect, it searches out any images it finds (png or jpg format) and compresses them so they are smaller in file size.</p>
-<p>As you can see from the below example we&#39;re using the <code>expand: true</code> setting (and subsequent settings) to tell Grunt where to find our images and where to export them to… </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">imagemin</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">png</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">optimizationLevel</span><span class="o">:</span> <span class="mi">7</span>
-        <span class="p">},</span>
-        <span class="nx">files</span><span class="o">:</span> <span class="p">[</span>
-            <span class="p">{</span>
-                <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/images/&#39;</span><span class="p">,</span>
-                <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*.png&#39;</span><span class="p">],</span>
-                <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/images/compressed/&#39;</span><span class="p">,</span>
-                <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.png&#39;</span>
-            <span class="p">}</span>
-        <span class="p">]</span>
-    <span class="p">},</span>
-    <span class="nx">jpg</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">progressive</span><span class="o">:</span> <span class="kc">true</span>
-        <span class="p">},</span>
-        <span class="nx">files</span><span class="o">:</span> <span class="p">[</span>
-            <span class="p">{</span>
-                <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/images/&#39;</span><span class="p">,</span>
-                <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*.jpg&#39;</span><span class="p">],</span>
-                <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/images/compressed/&#39;</span><span class="p">,</span>
-                <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.jpg&#39;</span>
-            <span class="p">}</span>
-        <span class="p">]</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h2><a name="html-minification"class="anchor" href="#html-minification"><span class="header-link"></span></a>HTML Minification</h2>
-<p>The HTMLMin task does exactly what you would expect, it searches out any HTML files it finds and compresses them so they are minified and thus smaller in file size.</p>
-<p>As you can see from the below example we&#39;ve NOT used the <code>expand: true</code> setting but instead this task provided a slightly different api to let us tell Grunt where to find our HTML files and where to export the minified versions to (but effectively we could use <code>expand: true</code> if we wanted)…</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">htmlmin</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">dist</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">removeComments</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">collapseWhitespace</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">removeEmptyAttributes</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">removeCommentsFromCDATA</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">removeRedundantAttributes</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-            <span class="nx">collapseBooleanAttributes</span><span class="o">:</span> <span class="kc">true</span>
-        <span class="p">},</span>
-        <span class="nx">files</span><span class="o">:</span> <span class="p">{</span>
-            <span class="c1">// Destination : Source</span>
-            <span class="s1">&#39;./index-min.html&#39;</span><span class="o">:</span> <span class="s1">&#39;./index.html&#39;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h2><a name="registering-tasks"class="anchor" href="#registering-tasks"><span class="header-link"></span></a>Registering tasks</h2>
-<p>So far we&#39;ve looked at running specific Grunt tasks like so: <code>grunt sass:dev</code> and <code>grunt jshint</code> but you can also set-up a custom task which does nothing but run other tasks.</p>
-<p>For example, you could create a task which when run would execute a specific set of tasks… </p>
-<p><code>grunt.registerTask(&#39;release&#39;, [&#39;jshint&#39;, &#39;jasmine&#39;, &#39;requirejs&#39;, &#39;sass:dist&#39;, &#39;imagemin&#39;, &#39;htmlmin&#39;]);</code></p>
-<p>…in the above example we&#39;ve created a &#39;release&#39; task which when run will get our files ready to be pushed to our production environment. I would typically run this task when I was finished building my application.</p>
-<p>As you can see it lints my JavaScript files, and then makes sure my JavaScript tests are passing. It then runs my RequireJS build script and then my <code>dist</code> Sass sub task (the one specifically for our production server, so it minifies all the compiled CSS), it then finally minifies any images it finds and minifies our HTML files.</p>
-<p>When you execute the command <code>grunt</code> by itself then it will  look for a registered task called <code>default</code>… </p>
-<p><code>grunt.registerTask(&#39;default&#39;, [&#39;jshint&#39;, &#39;connect&#39;, &#39;jasmine&#39;, &#39;sass:dev&#39;]);</code></p>
-<p>…in this case we&#39;re telling it to execute our JavaScript linting task, then to check our unit tests are still passing and finally to generate debug versions of our CSS.</p>
-<h2><a name="watching-files"class="anchor" href="#watching-files"><span class="header-link"></span></a>Watching files</h2>
-<p>Instead of manually running a Grunt command every time we make a change (e.g. imagine making a change to your Sass file and then having to go to the terminal and running <code>grunt sass:dev</code> to get the Sass to compile to CSS just so you can see the change reflected in your browser), we can instead get Grunt to do the hard work for us and to automatically run a task (or multiple tasks) whenever a specific set of files have been changed/updated… </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">watch</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">files</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;%= jshint.files %&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;%= jasmine.options.specs %&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;%= sass.dev.src %&gt;&#39;</span><span class="p">],</span>
-    <span class="nx">tasks</span><span class="o">:</span> <span class="s1">&#39;default&#39;</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>…here you can see we&#39;re using the &#39;watch&#39; task along with a specific interpolation syntax to let it know what files to keep an eye on for us.</p>
-<p>The syntax is: <code>&lt;%= jshint.files %&gt;</code> and in this instance it means &quot;look at the <code>jshint</code> property and return the value set on its sub property <code>files</code>&quot;. </p>
-<p>So as you can see from the above example, we&#39;re telling the watch task to look out for any changes made to our JavaScript and Sass files, and if so run the <code>default</code> registered task.</p>
-<h2><a name="our-full-grunt-file"class="anchor" href="#our-full-grunt-file"><span class="header-link"></span></a>Our full Grunt file</h2>
-<p>You can find the following file on my <a href="https://github.com/Integralist/Grunt-Boilerplate">Grunt Boilerplate repo</a>… </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
-
-    <span class="cm">/*</span>
-<span class="cm">        Grunt installation:</span>
-<span class="cm">        -------------------</span>
-<span class="cm">            npm install -g grunt-cli</span>
-<span class="cm">            npm install -g grunt-init</span>
-<span class="cm">            npm init (creates a `package.json` file)</span>
-
-<span class="cm">        Project Dependencies:</span>
-<span class="cm">        ---------------------</span>
-<span class="cm">            npm install grunt --save-dev</span>
-<span class="cm">            npm install grunt-contrib-watch --save-dev</span>
-<span class="cm">            npm install grunt-contrib-jshint --save-dev</span>
-<span class="cm">            npm install grunt-contrib-uglify --save-dev</span>
-<span class="cm">            npm install grunt-contrib-requirejs --save-dev</span>
-<span class="cm">            npm install grunt-contrib-sass --save-dev</span>
-<span class="cm">            npm install grunt-contrib-imagemin --save-dev</span>
-<span class="cm">            npm install grunt-contrib-htmlmin --save-dev</span>
-<span class="cm">            npm install grunt-contrib-connect --save-dev</span>
-<span class="cm">            npm install grunt-contrib-jasmine --save-dev</span>
-<span class="cm">            npm install grunt-template-jasmine-requirejs --save-dev</span>
-<span class="cm">    */</span>
-
-    <span class="c1">// Project configuration.</span>
-    <span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">({</span>
-
-        <span class="c1">// Store your Package file so you can reference its specific data whenever necessary</span>
-        <span class="nx">pkg</span><span class="o">:</span> <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">readJSON</span><span class="p">(</span><span class="s1">&#39;package.json&#39;</span><span class="p">),</span>
-
-        <span class="c1">// Used to connect to a locally running web server (so Jasmine can test against a DOM)</span>
-        <span class="nx">connect</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">test</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">port</span><span class="o">:</span> <span class="mi">8000</span>
-            <span class="p">}</span>
-        <span class="p">},</span>
-
-        <span class="nx">jasmine</span><span class="o">:</span> <span class="p">{</span>
-            <span class="cm">/*</span>
-<span class="cm">                Note:</span>
-<span class="cm">                In case there is a /release/ directory found, we don&#39;t want to run tests on that </span>
-<span class="cm">                so we use the ! (bang) operator to ignore the specified directory</span>
-<span class="cm">            */</span>
-            <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;app/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;!app/release/**&#39;</span><span class="p">],</span>
-            <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">host</span><span class="o">:</span> <span class="s1">&#39;http://127.0.0.1:8000/&#39;</span><span class="p">,</span>
-                <span class="nx">specs</span><span class="o">:</span> <span class="s1">&#39;specs/**/*Spec.js&#39;</span><span class="p">,</span>
-                <span class="nx">helpers</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;specs/helpers/*Helper.js&#39;</span><span class="p">,</span> <span class="s1">&#39;specs/helpers/sinon.js&#39;</span><span class="p">],</span>
-                <span class="nx">template</span><span class="o">:</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;grunt-template-jasmine-requirejs&#39;</span><span class="p">),</span>
-                <span class="nx">templateOptions</span><span class="o">:</span> <span class="p">{</span>
-                    <span class="nx">requireConfig</span><span class="o">:</span> <span class="p">{</span>
-                        <span class="nx">baseUrl</span><span class="o">:</span> <span class="s1">&#39;./app/&#39;</span><span class="p">,</span>
-                        <span class="nx">mainConfigFile</span><span class="o">:</span> <span class="s1">&#39;./app/main.js&#39;</span>
-                    <span class="p">}</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-        <span class="p">},</span>
-
-        <span class="nx">jshint</span><span class="o">:</span> <span class="p">{</span>
-            <span class="cm">/*</span>
-<span class="cm">                Note:</span>
-<span class="cm">                In case there is a /release/ directory found, we don&#39;t want to lint that </span>
-<span class="cm">                so we use the ! (bang) operator to ignore the specified directory</span>
-<span class="cm">            */</span>
-            <span class="nx">files</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;Gruntfile.js&#39;</span><span class="p">,</span> <span class="s1">&#39;app/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;!app/release/**&#39;</span><span class="p">,</span> <span class="s1">&#39;modules/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;specs/**/*Spec.js&#39;</span><span class="p">],</span>
-            <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">curly</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">eqeqeq</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">immed</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">latedef</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">newcap</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">noarg</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">sub</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">undef</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">boss</span><span class="o">:</span>    <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">eqnull</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">browser</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-
-                <span class="nx">globals</span><span class="o">:</span> <span class="p">{</span>
-                    <span class="c1">// AMD</span>
-                    <span class="nx">module</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">require</span><span class="o">:</span>    <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">requirejs</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">define</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
-
-                    <span class="c1">// Environments</span>
-                    <span class="nx">console</span><span class="o">:</span>    <span class="kc">true</span><span class="p">,</span>
-
-                    <span class="c1">// General Purpose Libraries</span>
-                    <span class="nx">$</span><span class="o">:</span>          <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">jQuery</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
-
-                    <span class="c1">// Testing</span>
-                    <span class="nx">sinon</span><span class="o">:</span>      <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">describe</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">it</span><span class="o">:</span>         <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">expect</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">beforeEach</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">afterEach</span><span class="o">:</span>  <span class="kc">true</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-        <span class="p">},</span>
-
-        <span class="nx">requirejs</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">compile</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                    <span class="nx">baseUrl</span><span class="o">:</span> <span class="s1">&#39;./app&#39;</span><span class="p">,</span>
-                    <span class="nx">mainConfigFile</span><span class="o">:</span> <span class="s1">&#39;./app/main.js&#39;</span><span class="p">,</span>
-                    <span class="nx">dir</span><span class="o">:</span> <span class="s1">&#39;./app/release/&#39;</span><span class="p">,</span>
-                    <span class="nx">fileExclusionRegExp</span><span class="o">:</span> <span class="sr">/^\.|node_modules|Gruntfile|\.md|package.json/</span><span class="p">,</span>
-                    <span class="c1">// optimize: &#39;none&#39;,</span>
-                    <span class="nx">modules</span><span class="o">:</span> <span class="p">[</span>
-                        <span class="p">{</span>
-                            <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;main&#39;</span>
-                            <span class="c1">// include: [&#39;module&#39;],</span>
-                            <span class="c1">// exclude: [&#39;module&#39;]</span>
-                        <span class="p">}</span>
-                    <span class="p">]</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-        <span class="p">},</span>
-
-        <span class="nx">sass</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">dist</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                    <span class="nx">style</span><span class="o">:</span> <span class="s1">&#39;compressed&#39;</span><span class="p">,</span>
-                    <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;./assets/styles/sass/helpers/url64.rb&#39;</span><span class="p">]</span>
-                <span class="p">},</span>
-                <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/styles/sass/&#39;</span><span class="p">,</span>
-                <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;*.scss&#39;</span><span class="p">],</span>
-                <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/styles/&#39;</span><span class="p">,</span>
-                <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span>
-            <span class="p">},</span>
-            <span class="nx">dev</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                    <span class="nx">style</span><span class="o">:</span> <span class="s1">&#39;expanded&#39;</span><span class="p">,</span>
-                    <span class="nx">debugInfo</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">lineNumbers</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;./app/styles/sass/helpers/url64.rb&#39;</span><span class="p">]</span>
-                <span class="p">},</span>
-                <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/styles/sass/&#39;</span><span class="p">,</span>
-                <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;*.scss&#39;</span><span class="p">],</span>
-                <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/styles/&#39;</span><span class="p">,</span>
-                <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span>
-            <span class="p">}</span>
-        <span class="p">},</span>
-
-        <span class="c1">// `optimizationLevel` is only applied to PNG files (not JPG)</span>
-        <span class="nx">imagemin</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">png</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                    <span class="nx">optimizationLevel</span><span class="o">:</span> <span class="mi">7</span>
-                <span class="p">},</span>
-                <span class="nx">files</span><span class="o">:</span> <span class="p">[</span>
-                    <span class="p">{</span>
-                        <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                        <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/images/&#39;</span><span class="p">,</span>
-                        <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*.png&#39;</span><span class="p">],</span>
-                        <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/images/compressed/&#39;</span><span class="p">,</span>
-                        <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.png&#39;</span>
-                    <span class="p">}</span>
-                <span class="p">]</span>
-            <span class="p">},</span>
-            <span class="nx">jpg</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                    <span class="nx">progressive</span><span class="o">:</span> <span class="kc">true</span>
-                <span class="p">},</span>
-                <span class="nx">files</span><span class="o">:</span> <span class="p">[</span>
-                    <span class="p">{</span>
-                        <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                        <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/images/&#39;</span><span class="p">,</span>
-                        <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*.jpg&#39;</span><span class="p">],</span>
-                        <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/images/compressed/&#39;</span><span class="p">,</span>
-                        <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.jpg&#39;</span>
-                    <span class="p">}</span>
-                <span class="p">]</span>
-            <span class="p">}</span>
-        <span class="p">},</span>
-
-        <span class="nx">htmlmin</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">dist</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                    <span class="nx">removeComments</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">collapseWhitespace</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">removeEmptyAttributes</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">removeCommentsFromCDATA</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">removeRedundantAttributes</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">collapseBooleanAttributes</span><span class="o">:</span> <span class="kc">true</span>
-                <span class="p">},</span>
-                <span class="nx">files</span><span class="o">:</span> <span class="p">{</span>
-                    <span class="c1">// Destination : Source</span>
-                    <span class="s1">&#39;./index-min.html&#39;</span><span class="o">:</span> <span class="s1">&#39;./index.html&#39;</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-        <span class="p">},</span>
-
-        <span class="c1">// Run: `grunt watch` from command line for this section to take effect</span>
-        <span class="nx">watch</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">files</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;%= jshint.files %&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;%= jasmine.options.specs %&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;%= sass.dev.src %&gt;&#39;</span><span class="p">],</span>
-            <span class="nx">tasks</span><span class="o">:</span> <span class="s1">&#39;default&#39;</span>
-        <span class="p">}</span>
-
-    <span class="p">});</span>
-
-    <span class="c1">// Load NPM Tasks</span>
-    <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-watch&#39;</span><span class="p">);</span>
-    <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-jshint&#39;</span><span class="p">);</span>
-    <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-uglify&#39;</span><span class="p">);</span>
-    <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-requirejs&#39;</span><span class="p">);</span>
-    <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-sass&#39;</span><span class="p">);</span>
-    <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-imagemin&#39;</span><span class="p">);</span>
-    <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-htmlmin&#39;</span><span class="p">);</span>
-    <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-connect&#39;</span><span class="p">);</span>
-    <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-jasmine&#39;</span><span class="p">);</span>
-
-    <span class="c1">// Default Task</span>
-    <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;jshint&#39;</span><span class="p">,</span> <span class="s1">&#39;connect&#39;</span><span class="p">,</span> <span class="s1">&#39;jasmine&#39;</span><span class="p">,</span> <span class="s1">&#39;sass:dev&#39;</span><span class="p">]);</span>
-
-    <span class="c1">// Unit Testing Task</span>
-    <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;connect&#39;</span><span class="p">,</span> <span class="s1">&#39;jasmine&#39;</span><span class="p">]);</span>
-
-    <span class="c1">// Release Task</span>
-    <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;release&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;jshint&#39;</span><span class="p">,</span> <span class="s1">&#39;jasmine&#39;</span><span class="p">,</span> <span class="s1">&#39;requirejs&#39;</span><span class="p">,</span> <span class="s1">&#39;sass:dist&#39;</span><span class="p">,</span> <span class="s1">&#39;imagemin&#39;</span><span class="p">,</span> <span class="s1">&#39;htmlmin&#39;</span><span class="p">]);</span>
-
-<span class="p">};</span>
-</pre></div>
-</code></pre>
-<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
-<p>Hopefully this guide gives you a good starting point to begin using Grunt to automate more of your work flow. It&#39;s an extremely powerful tool and we haven&#39;t even begun to scratch the surface as there is the custom task features built-in that let you write your own tasks that interact with the file system and do pretty much anything you want. Well worth investigating further.</p>
-<p>Note: my <a href="https://github.com/Integralist/Grunt-Boilerplate">Grunt Boilerplate</a> project is constantly being updated so watch the repo to keep up to speed.</p>
-</div>
-
-  <div class="comments">
-    <a href="/posts/grunt-boilerplate/#comments">
-      <span class="icon-bubbles"></span>
-      Comments
-    </a>
-  </div>
-
 
 <div class="pagination group">
   
@@ -828,6 +481,9 @@ So think of this book as a catalog of my own errors, a blotter of my own crimes,
     
     
       <a href="/page/6/" class="older"> &#8592; Older</a>
+    
+  
+    
     
   
     

@@ -37,6 +37,315 @@
 
 
   <div class="post-head group">
+  <a href="/posts/generate-application-cache-manifest-with-phantomjs/">
+    <h1 class="post-title">Generate Application Cache Manifest with PhantomJS</h1>
+  </a>
+  <span class="post-date">2013 &#183; 8 &#183; 4</span>
+</div>
+
+<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 11mins</em></p>
+<ul>
+<li>What is PhantomJS?</li>
+<li>Why use PhantomJS?</li>
+<li>How can we use it?</li>
+<li>Basic introduction</li>
+<li>Let&#39;s break down Squirrel</li>
+<li>Other PhantomJS features</li>
+<li>Conclusion</li>
+</ul>
+<h2><a name="what-is-phantomjs-"class="anchor" href="#what-is-phantomjs-"><span class="header-link"></span></a>What is PhantomJS?</h2>
+<p>To quote the source…</p>
+<blockquote>
+<p>PhantomJS is a headless WebKit scriptable with a JavaScript API. It has fast and native support for various web standards: DOM handling, CSS selector, JSON, Canvas, and SVG.</p>
+</blockquote>
+<h2><a name="why-use-phantomjs-"class="anchor" href="#why-use-phantomjs-"><span class="header-link"></span></a>Why use PhantomJS?</h2>
+<p>So why do you care? Well, having a headless WebKit allows you to do all sorts of things. You can automate anything within a browser environment, and that&#39;s very cool!</p>
+<p>So for example, I work for BBC News on the responsive code base and some of the very talented guys here have recently released an open-source project called <a href="https://github.com/BBC-News/wraith">Wraith</a> which is a front-end regression testing tool that lets you grab screen shot images of web pages at different dimensions (it&#39;s great for making sure your recent CSS commits or changes hasn&#39;t broken your site, it doesn&#39;t replace acceptance tests, unit tests or manual testing but it helps improve confidence). </p>
+<p>In case you&#39;re wondering, the definition of &#39;wraith&#39; is…</p>
+<blockquote>
+<p>a ghost or ghostlike image of someone</p>
+</blockquote>
+<p>…see what we did there, Phantom… ghost… wraith… yeah?</p>
+<p>But there are other spin-offs such as <a href="http://casperjs.org/">CasperJS</a> and <a href="https://github.com/jonleighton/poltergeist#poltergeist---a-phantomjs-driver-for-capybara">Poltergeist</a> both of which are named on a variation of the phantom theme but focus specifically on user/acceptance testing a user interface by allowing developers to interact with a web page programmatically.</p>
+<h2><a name="how-can-we-use-it-"class="anchor" href="#how-can-we-use-it-"><span class="header-link"></span></a>How can we use it?</h2>
+<p>We&#39;ll be using PhantomJS to help us interrogate a web page of the user&#39;s choice. It will check the network requests, store them and then generate a Application Cache manifest file based on the content of the web page.</p>
+<p>So I wrote a small script that allows you to do this which I called <a href="https://github.com/integralist/squirrel">Squirrel</a> because you&#39;re storing away small pieces of information… like… nuts? Yeah I think you see where I&#39;m coming from.</p>
+<p>This is very much a work in progress but the principles are there and it also demonstrates some different parts of PhantomJS that you might be interested in.</p>
+<p>I won&#39;t go into the details of what the Application Cache does (or should do), I&#39;ll <a href="http://www.html5rocks.com/en/tutorials/appcache/beginner/">leave that to another</a>.</p>
+<h2><a name="basic-introduction"class="anchor" href="#basic-introduction"><span class="header-link"></span></a>Basic introduction</h2>
+<p>Here&#39;s a super quick introduction on how to use PhantomJS… </p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">page</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;webpage&#39;</span><span class="p">).</span><span class="nx">create</span><span class="p">(),</span>
+    <span class="nx">url</span> <span class="o">=</span> <span class="s1">&#39;http://www.phantomjs.org/&#39;</span><span class="p">;</span>
+
+<span class="nx">page</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Page is loaded!</span>
+    <span class="nx">phantom</span><span class="p">.</span><span class="nx">exit</span><span class="p">();</span>
+<span class="p">});</span>
+</pre></div>
+</code></pre>
+<p>…here we load the PhantomJS <code>webpage</code> module, and call the <code>create()</code> method which instantiates a new web page.</p>
+<p>We then call the <code>open()</code> method on this web page object and pass in the URL of the web page we want to open.</p>
+<p>We then execute the <code>exit()</code> method on Phantom itself which tells the script that we&#39;re finished doing what we&#39;re doing.</p>
+<p>That&#39;s it. Super simple run down of how to use PhantomJS.</p>
+<h2><a name="let-s-break-down-squirrel"class="anchor" href="#let-s-break-down-squirrel"><span class="header-link"></span></a>Let&#39;s break down Squirrel</h2>
+<p>OK, so let&#39;s review our Squirrel repo (specifically the <code>appcache.js</code> file).</p>
+<p>The process of our script is as follows…</p>
+<ol>
+<li>Set-up variables and load specific modules</li>
+<li>Set-up event listeners for resources requested, received and any errors detected.</li>
+<li>In the <code>onResourceReceived</code> we check the <code>contentType</code> of the resource and if it falls into any of the categories we&#39;re interested in (image, style sheet, javascript) then we store it.</li>
+<li>Check the URL provided by the user is in the required format.</li>
+<li>If the URL is our example <code>bbc.co.uk/news</code> then set an additional cookie (required to load the Responsive version of BBC News site)</li>
+<li>Open the URL specified by the user (the clean-up version).</li>
+<li>Get a list of all anchors/links found in the web page.</li>
+<li>Make sure we have a unique list of each resource type.</li>
+<li>Call a function <code>populateManifest()</code> that will begin the process of populating our manifest file.</li>
+<li>Exit our PhantomJS script.</li>
+</ol>
+<h3><a name="set-up"class="anchor" href="#set-up"><span class="header-link"></span></a>Set-up</h3>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">_</span>          <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;lodash&#39;</span><span class="p">),</span>
+    <span class="nx">system</span>     <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;system&#39;</span><span class="p">),</span>
+    <span class="nx">fs</span>         <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">),</span>
+    <span class="nx">page</span>       <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;webpage&#39;</span><span class="p">).</span><span class="nx">create</span><span class="p">(),</span>
+    <span class="nx">args</span>       <span class="o">=</span> <span class="nx">system</span><span class="p">.</span><span class="nx">args</span><span class="p">,</span>
+    <span class="nx">path</span>       <span class="o">=</span> <span class="s1">&#39;./appcache.manifest&#39;</span><span class="p">,</span>
+    <span class="nx">manifest</span>   <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">read</span><span class="p">(</span><span class="nx">path</span><span class="p">),</span>
+    <span class="nx">css</span>        <span class="o">=</span> <span class="p">[],</span>
+    <span class="nx">jpgs</span>       <span class="o">=</span> <span class="p">[],</span>
+    <span class="nx">pngs</span>       <span class="o">=</span> <span class="p">[],</span>
+    <span class="nx">gifs</span>       <span class="o">=</span> <span class="p">[],</span>
+    <span class="nx">images</span>     <span class="o">=</span> <span class="p">[],</span>
+    <span class="nx">javascript</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nx">links</span><span class="p">,</span> <span class="nx">url</span><span class="p">;</span>
+</pre></div>
+</code></pre>
+<p>…OK so this looks a bit ugly but this long list of variables is basically us loading the Lo-Dash utility library, the Node file system, the PhantomJS web page module and then grabbing any arguments passed via the command line and reading the content of our manifest file.</p>
+<p>You might be wondering about the long list of empty Arrays, well we have to set each variable to an empty Array because Arrays are a reference type object which means if we did <code>var css = jpgs = pngs = gifs = images = javascript = [];</code> then although we&#39;d end up with shorter code (a one liner) it means that we&#39;re not getting a unique Array for each variable but sharing a single Array instance (which isn&#39;t what we want).</p>
+<h3><a name="functions"class="anchor" href="#functions"><span class="header-link"></span></a>Functions</h3>
+<p>We have a whole group of functions that carry out different things for us, so we&#39;ll just quickly scan over them…</p>
+<ul>
+<li><p><code>getLinks</code> uses the PhantomJS&#39; <code>evaluate</code> method on the web page object (which lets you parse the open web page using JavaScript, meaning you run JavaScript code within the context of the open web page).</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">getLinks</span><span class="p">(){</span>
+  <span class="kd">var</span> <span class="nx">results</span> <span class="o">=</span> <span class="nx">page</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+      <span class="k">return</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)).</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">return</span> <span class="nx">item</span><span class="p">.</span><span class="nx">href</span><span class="p">;</span>
+      <span class="p">});</span>
+  <span class="p">});</span>
+
+  <span class="k">return</span> <span class="nx">results</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+</li>
+<li><p><code>populateManifest</code> is called next but this just delegates calls to the following other functions.</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">populateManifest</span><span class="p">(){</span>
+  <span class="nx">writeVersion</span><span class="p">();</span>
+
+  <span class="nx">writeListContentFor</span><span class="p">(</span><span class="s1">&#39;Images&#39;</span><span class="p">,</span> <span class="nx">images</span><span class="p">);</span>
+  <span class="nx">writeListContentFor</span><span class="p">(</span><span class="s1">&#39;Internal HTML documents&#39;</span><span class="p">,</span> <span class="nx">links</span><span class="p">);</span>
+  <span class="nx">writeListContentFor</span><span class="p">(</span><span class="s1">&#39;Style Sheets&#39;</span><span class="p">,</span> <span class="nx">css</span><span class="p">);</span>
+  <span class="nx">writeListContentFor</span><span class="p">(</span><span class="s1">&#39;JavaScript&#39;</span><span class="p">,</span> <span class="nx">javascript</span><span class="p">);</span>
+
+  <span class="nx">writeManifest</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+</li>
+<li><code>writeVersion</code> replaces the current time stamp within our manifest file (we&#39;re doing this in memory, not saving the change back to the manifest file yet).<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">writeVersion</span><span class="p">(){</span>
+  <span class="nx">manifest</span> <span class="o">=</span> <span class="nx">manifest</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/# Timestamp: \d+/i</span><span class="p">,</span> <span class="s1">&#39;# Timestamp: &#39;</span> <span class="o">+</span> <span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">()).</span><span class="nx">getTime</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+</li>
+<li><code>writeListContentFor</code> is called multiple times and is just an abstraction for a common pattern of code which looks through the manifest file content for &#39;hooks&#39; and then replace the content found with the updated content that we&#39;ve parsed from the page as it was loading (e.g. the event listener we set-up for <code>onResourceReceived</code> which checked the <code>contentType</code> of the resource being loaded).<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">writeListContentFor</span> <span class="p">(</span><span class="nx">str</span><span class="p">,</span> <span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">manifest</span> <span class="o">=</span> <span class="nx">manifest</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="s1">&#39;(# &#39;</span> <span class="o">+</span> <span class="nx">str</span> <span class="o">+</span> <span class="s1">&#39;)\\n[\\s\\S]+?\\n\\n&#39;</span><span class="p">,</span> <span class="s1">&#39;igm&#39;</span><span class="p">),</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">match</span><span class="p">,</span> <span class="nx">cg</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">cg</span> <span class="o">+</span> <span class="s1">&#39;\n&#39;</span> <span class="o">+</span> <span class="nx">type</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;\n\n&#39;</span><span class="p">;</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+</li>
+<li><code>writeManifest</code> opens up our original manifest file using Node&#39;s file system module and writes over the content with the new content string we&#39;ve constructed in the <code>manifest</code> variable.<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">writeManifest</span><span class="p">(){</span>
+  <span class="nx">fs</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">path</span><span class="p">,</span> <span class="nx">manifest</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+</li>
+<li><code>urlProvided</code> just checks to make sure an argument was provided by the user on the command line.<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">urlProvided</span><span class="p">(){</span>
+  <span class="k">return</span> <span class="nx">args</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="sr">/(?:www\.)?[a-z-z1-9]+\./i</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+</li>
+<li><code>cleanUrl</code> takes in a URL and formats it so it doesn&#39;t break PhantomJS<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">cleanUrl</span> <span class="p">(</span><span class="nx">providedUrl</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// If no http or https found at the start of the url...</span>
+  <span class="k">if</span> <span class="p">(</span><span class="sr">/^(?!https?:\/\/)[\w\d]/i</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">providedUrl</span><span class="p">))</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="s1">&#39;http://&#39;</span> <span class="o">+</span> <span class="nx">providedUrl</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+</li>
+<li><code>bbcNews</code> checks to see if the URL is for the BBC News site (if it is then later on we&#39;ll do something specific for that scenario). It&#39;s not essential for the script to work, just something specific I wanted to demonstrate.<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">bbcNews</span><span class="p">(){</span>
+  <span class="k">if</span> <span class="p">(</span><span class="sr">/bbc.co.uk\/news/i</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">url</span><span class="p">))</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+</li>
+</ul>
+<h3><a name="checking-resources-that-are-loaded"class="anchor" href="#checking-resources-that-are-loaded"><span class="header-link"></span></a>Checking resources that are loaded</h3>
+<p>The following is our event handler that checks the content type of the resource being loaded and stores it in the relevant Array.</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">page</span><span class="p">.</span><span class="nx">onResourceReceived</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Some requests can have `contentType = null` which causes errors if we don&#39;t check for truthy value</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">contentType</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">contentType</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;text/css&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">css</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1">// application/javascript &amp; application/x-javascript</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">contentType</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;javascript&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">javascript</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">contentType</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;image/png&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;data:image&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">pngs</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">contentType</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;image/jpeg&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;data:image&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">jpgs</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">contentType</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;image/gif&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;data:image&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">gifs</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</code></pre>
+<p>To be honest we don&#39;t need to separate the content types out into jpg, gif and png. We could just have an images Array that holds them all - it would be cleaner and more efficient code, something like...</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">page</span><span class="p">.</span><span class="nx">onResourceReceived</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">contentType</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">contentType</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;text/css&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">css</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">contentType</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;javascript&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">javascript</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="sr">/image\/(?:png|jpeg|gif)/i</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">contentType</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;data:image&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">images</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</code></pre>
+<h3><a name="checking-for-errors"class="anchor" href="#checking-for-errors"><span class="header-link"></span></a>Checking for errors</h3>
+<p>This should be self explanatory, but basically it checks for any errors that happen while the page is loading and displays them for the user… </p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">page</span><span class="p">.</span><span class="nx">onError</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">msg</span><span class="p">,</span> <span class="nx">trace</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">msg</span><span class="p">);</span>
+
+    <span class="nx">trace</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;  &#39;</span><span class="p">,</span> <span class="nx">item</span><span class="p">.</span><span class="nx">file</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="nx">item</span><span class="p">.</span><span class="nx">line</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<h3><a name="ensure-url-is-provided"class="anchor" href="#ensure-url-is-provided"><span class="header-link"></span></a>Ensure URL is provided</h3>
+<p>Following conditional makes sure that a URL was provided by the user from the command line and if not it displays appropriate feedback to the user to let them know what they should be doing… </p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nx">urlProvided</span><span class="p">())</span> <span class="p">{</span>
+    <span class="nx">url</span> <span class="o">=</span> <span class="nx">cleanUrl</span><span class="p">(</span><span class="nx">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Sorry a valid URL should have been provided&#39;</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Example usage: phantomjs appcache.js bbc.co.uk/news&#39;</span><span class="p">);</span>
+    <span class="nx">phantom</span><span class="p">.</span><span class="nx">exit</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<h3><a name="setting-custom-headers"class="anchor" href="#setting-custom-headers"><span class="header-link"></span></a>Setting custom headers</h3>
+<p>The following code isn&#39;t needed for our Squirrel repo to do its job, I just stuck it in to demonstrate how you could use an interesting feature of PhantomJS which is to set cookies.</p>
+<p>Here we check if the URL being requested is BBC News and if so I want the user to load up the responsive code base version of the site, and to do that we need to set a cookie for the page to know to load that version of the page… </p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nx">bbcNews</span><span class="p">())</span> <span class="p">{</span>
+    <span class="c1">// We want to serve up the responsive code base...</span>
+    <span class="nx">phantom</span><span class="p">.</span><span class="nx">addCookie</span><span class="p">({</span>
+        <span class="s1">&#39;name&#39;</span>  <span class="o">:</span> <span class="s1">&#39;ckps_d&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;value&#39;</span> <span class="o">:</span> <span class="s1">&#39;m&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;domain&#39;</span><span class="o">:</span> <span class="s1">&#39;.bbc.co.uk&#39;</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<h3><a name="the-main-star-of-the-show"class="anchor" href="#the-main-star-of-the-show"><span class="header-link"></span></a>The main star of the show</h3>
+<p>Here is the fundamental piece of the puzzle, the call to open the web page specified by the user and which once the page has loaded then parses the page for the information we&#39;re interested in…  </p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">page</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">links</span> <span class="o">=</span> <span class="nx">getLinks</span><span class="p">();</span>
+
+    <span class="nx">links</span>      <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">unique</span><span class="p">(</span><span class="nx">links</span><span class="p">);</span>
+    <span class="nx">images</span>     <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">unique</span><span class="p">(</span><span class="nx">pngs</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">jpgs</span><span class="p">).</span><span class="nx">concat</span><span class="p">(</span><span class="nx">gifs</span><span class="p">));</span>
+    <span class="nx">css</span>        <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">unique</span><span class="p">(</span><span class="nx">css</span><span class="p">);</span>
+    <span class="nx">javascript</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">unique</span><span class="p">(</span><span class="nx">javascript</span><span class="p">);</span>
+
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;links: &#39;</span><span class="p">,</span> <span class="nx">links</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;images: &#39;</span><span class="p">,</span> <span class="nx">images</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;css: &#39;</span><span class="p">,</span> <span class="nx">css</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;javascript: &#39;</span><span class="p">,</span> <span class="nx">javascript</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+
+    <span class="nx">populateManifest</span><span class="p">();</span>
+
+    <span class="nx">phantom</span><span class="p">.</span><span class="nx">exit</span><span class="p">();</span>
+<span class="p">});</span>
+</pre></div>
+</code></pre>
+<p>…PhantomJS passes us a status string as an argument to the callback function and which tells us if the page loaded successfully or not.</p>
+<p>After we&#39;ve called our main <code>populateManifest()</code> method we then tell PhantomJS to stop (<code>phantom.exit()</code>).</p>
+<h2><a name="example-usage"class="anchor" href="#example-usage"><span class="header-link"></span></a>Example usage</h2>
+<p>So how do we use this script? Well, once you&#39;ve cloned down the repo and followed the installation instructions you simply jump inside our cloned directory and run something like:</p>
+<p><code>phantomjs appcache.js bbc.co.uk/news</code></p>
+<h2><a name="other-phantomjs-features"class="anchor" href="#other-phantomjs-features"><span class="header-link"></span></a>Other PhantomJS features</h2>
+<p>Here follows are a quick run down of some other features available to you when using PhantomJS, just check the <a href="https://github.com/ariya/phantomjs/wiki/API-Reference">PhantomJS API</a> for full details.</p>
+<ul>
+<li>Custom Headers</li>
+<li>Remote Debugging</li>
+<li>View Port Sizing</li>
+</ul>
+<h3><a name="custom-headers"class="anchor" href="#custom-headers"><span class="header-link"></span></a>Custom Headers</h3>
+<p>For BBC News I wrote a similar script, but because I was interrogating a local development URL which uses test data I had to set some additional headers to get the page to load live data…</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">page</span><span class="p">.</span><span class="nx">customHeaders</span> <span class="o">=</span> <span class="p">{</span> 
+    <span class="s1">&#39;X-Candy-Override&#39;</span><span class="o">:</span> <span class="s1">&#39;https://api.live.bbc.co.uk&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;X-Compiled-Js&#39;</span>   <span class="o">:</span> <span class="s1">&#39;true&#39;</span>
+<span class="p">};</span>
+</pre></div>
+</code></pre>
+<h3><a name="remote-debugging"class="anchor" href="#remote-debugging"><span class="header-link"></span></a>Remote Debugging</h3>
+<p>You can remote debug your code by executing your code with a debug flag <code>phantomjs --remote-debugger-port=9000 appcache.js [url]</code>, you can then open up Chrome or Safari and access the debugger via <code>http://127.0.0.1:9000/</code></p>
+<h3><a name="view-port-size"class="anchor" href="#view-port-size"><span class="header-link"></span></a>View Port Size</h3>
+<p>You can change the dimensions of the page being loaded using the <code>viewportSize</code> property (this is used in the <a href="http://github.com/BBC-News/wraith/">Wraith</a> open-source project released by BBC News)… </p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">page</span><span class="p">.</span><span class="nx">viewportSize</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">width</span><span class="o">:</span> <span class="mi">320</span><span class="p">,</span> <span class="nx">height</span><span class="o">:</span> <span class="mi">480</span> <span class="p">};</span>
+</pre></div>
+</code></pre>
+<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>Hopefully this introduction to PhantomJS was useful. The Squirrel repo is still a work in progress so feel free to open up an issue (or better yet a pull request) on GitHub if you find any problems.</p>
+<p>I&#39;ll likely follow up this article at some point in the future with one about using CasperJS so keep your eyes peeled for that.</p>
+<p>Any other feedback then catch me on <a href="http://twitter.com/integralist">twitter</a>.</p>
+</div>
+
+  <div class="comments">
+    <a href="/posts/generate-application-cache-manifest-with-phantomjs/#comments">
+      <span class="icon-bubbles"></span>
+      Comments
+    </a>
+  </div>
+
+  <div class="post-head group">
   <a href="/posts/using-grunts-config-api/">
     <h1 class="post-title">Using Grunts Config API</h1>
   </a>
@@ -310,252 +619,6 @@
     </a>
   </div>
 
-  <div class="post-head group">
-  <a href="/posts/dynamically-generated-grunt-tasks/">
-    <h1 class="post-title">Dynamically Generated Grunt Tasks</h1>
-  </a>
-  <span class="post-date">2013 &#183; 6 &#183; 17</span>
-</div>
-
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
-<p><em>reading time: approx. 10mins</em></p>
-<ul>
-<li>Background</li>
-<li>What are we trying to do?</li>
-<li>So what&#39;s the problem?</li>
-<li>So what are we going to do?</li>
-<li>How are we going to do it?</li>
-<li>Example code</li>
-<li>Conclusion</li>
-</ul>
-<h2><a name="background"class="anchor" href="#background"><span class="header-link"></span></a>Background</h2>
-<p>I work on the BBC News responsive website. You may have seen <a href="http://twitter.com/jcleveley">@jcleveley</a> and <a href="http://twitter.com/tmaslen">@tmaslen</a> speak at a few different conferences about how we went about putting the responsive codebase together and how we handle issues like responsive images (in a recent issue of .net magazine both were interviewed to share their thoughts on responsive, device testing and other such matters).</p>
-<p>I&#39;m in the process of integrating <a href="http://gruntjs.com/">Grunt.js</a> into our work flow. If you&#39;re not sure what Grunt is all about then check out a <a href="http://integralist.co.uk/Grunt-Boilerplate.html">previous post of mine</a> where I explain what it is and how it works and how you might want to use it (including a link to my Grunt Boilerplate project on GitHub).</p>
-<p>It&#39;s because of this that we ran into a concern about keeping Grunt maintainable/scalable…</p>
-<h2><a name="what-are-we-trying-to-do-"class="anchor" href="#what-are-we-trying-to-do-"><span class="header-link"></span></a>What are we trying to do?</h2>
-<p>At BBC News we have our core product and we have 27 different language services.</p>
-<p>We&#39;re in the process of moving all 27 languages over to our responsive code base. We&#39;ve only moved over 8 so far and already we&#39;ve noticed an issue with how we set-up Grunt to handle compilation of our <a href="http://sass-lang.com/">Sass</a> files into CSS.</p>
-<p>Given we have quite a few Sass files within the responsive code base (and more are being added every time we move a language service over to responsive), the time to compile is exponentially growing.</p>
-<p>The issue is actually a slightly deeper one in it&#39;s a fundamental problem with Sass. We divide up our languages into separate sub folders so it&#39;s easier to maintain, like so...</p>
-<ul>
-<li>/partials/<ul>
-<li>/mixins/</li>
-<li>etc</li>
-</ul>
-</li>
-<li>/services/<ul>
-<li>/afrique/</li>
-<li>/arabic/</li>
-<li>/hausa/</li>
-<li>etc</li>
-</ul>
-</li>
-</ul>
-<p>...but Sass has issues with how it &#39;watches&#39; folders and so this structure doesn&#39;t work very well with it. </p>
-<p>By that I mean, if we watch a single language folder (let&#39;s say &#39;arabic&#39;), Sass can detect changes to the files inside the arabic folder, but it can&#39;t detect changes to any <code>@import</code>&#39;ed files that may sit outside of that folder (such as any /partials/ that may have been imported).</p>
-<p>To work-around this issue we set-up Grunt to watch specific directories for changes and to run a specific Sass sub task so only the files relevant are compiled but also allows us to properly watch a single language and still detect changes to partial files being imported. </p>
-<p>For example, if one of the World Service teams are working on the Arabic site then they&#39;ll run <code>grunt watch:arabic</code> and any time those specific Sass files change then we execute the Sass sub task <code>grunt sass:arabic</code>.</p>
-<p>This all works fine.</p>
-<h2><a name="so-what-s-the-problem-"class="anchor" href="#so-what-s-the-problem-"><span class="header-link"></span></a>So what&#39;s the problem?</h2>
-<p>The problem we have is that adding a new language to the Grunt file is a manual process. If we have 27 languages this is a lot of duplicated code that needs to be created (and manually) every time a new language is being moved over to the responsive code base.</p>
-<p>That goes against the principle of DRY (Don&#39;t Repeat Yourself).</p>
-<h2><a name="so-what-are-we-going-to-do-"class="anchor" href="#so-what-are-we-going-to-do-"><span class="header-link"></span></a>So what are we going to do?</h2>
-<p>We&#39;re going to automate the process!</p>
-<h2><a name="how-are-we-going-to-do-it-"class="anchor" href="#how-are-we-going-to-do-it-"><span class="header-link"></span></a>How are we going to do it?</h2>
-<p>We&#39;re going to take advantage of the fact that we have access to Node.js (as Grunt utilises it and its package manager NPM).</p>
-<p>So we&#39;re going to use Node with a little bit of Grunt to rewrite the Grunt file itself. We&#39;ll dynamically generate and insert sub tasks for both the Watch and Sass Grunt tasks (that&#39;s a bit of a mouthful).</p>
-<p>I&#39;m not going to comment the following code too much because a lot of it should be self explanatory. I will be providing notes below on what the code is doing so you can understand the flow of what the scripts do and why I&#39;m doing certain things (but the code itself you should be able to read without any problems)…</p>
-<h2><a name="example-code"class="anchor" href="#example-code"><span class="header-link"></span></a>Example code</h2>
-<p>The code ranges over three files…</p>
-<ol>
-<li>Gruntfile.js</li>
-<li>grunt-customtasks.js</li>
-<li>grunt-dynamic.js</li>
-</ol>
-<h3><a name="gruntfile-js"class="anchor" href="#gruntfile-js"><span class="header-link"></span></a>Gruntfile.js</h3>
-<p>So the first file is obviously our main Grunt application file. </p>
-<p>Inside that file we have the following code (note: this is a <em>really</em> stripped back version just so it&#39;s a little bit more readable)…</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
-
-    <span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">({</span>
-
-        <span class="nx">dir</span><span class="o">:</span> <span class="p">{</span>
-            <span class="kr">static</span><span class="o">:</span> <span class="s1">&#39;./tabloid/webapp/static/&#39;</span><span class="p">,</span>
-            <span class="nx">static_sass</span><span class="o">:</span> <span class="s1">&#39;&lt;%= dir.static %&gt;&#39;</span> <span class="o">+</span> <span class="s1">&#39;sass/&#39;</span><span class="p">,</span>
-            <span class="nx">static_css</span><span class="o">:</span> <span class="s1">&#39;&lt;%= dir.static %&gt;&#39;</span> <span class="o">+</span> <span class="s1">&#39;stylesheets/&#39;</span><span class="p">,</span>
-        <span class="p">},</span>
-
-        <span class="nx">sass</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">dist</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                    <span class="nx">style</span><span class="o">:</span> <span class="s1">&#39;compressed&#39;</span><span class="p">,</span>
-                    <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;%= dir.static_sass %&gt;partials/helpers/url64.rb&#39;</span><span class="p">]</span>
-                <span class="p">},</span>
-                <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;&lt;%= dir.static_sass %&gt;&#39;</span><span class="p">,</span>
-                <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!**/_*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!locator/*.scss&#39;</span><span class="p">],</span>
-                <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;&lt;%= dir.static_css %&gt;&#39;</span><span class="p">,</span>
-                <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span>
-            <span class="p">},</span>
-            <span class="nx">dev</span><span class="o">:</span> <span class="p">{</span>
-                <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
-                    <span class="nx">style</span><span class="o">:</span> <span class="s1">&#39;expanded&#39;</span><span class="p">,</span>
-                    <span class="nx">debugInfo</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">lineNumbers</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                    <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;%= dir.static_sass %&gt;partials/helpers/url64.rb&#39;</span><span class="p">]</span>
-                <span class="p">},</span>
-                <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-                <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;&lt;%= dir.static_sass %&gt;&#39;</span><span class="p">,</span>
-                <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!**/_*.scss&#39;</span><span class="p">,</span> <span class="s1">&#39;!locator/*.scss&#39;</span><span class="p">],</span>
-                <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;&lt;%= dir.static_css %&gt;&#39;</span><span class="p">,</span>
-                <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span>
-            <span class="p">}</span>
-            <span class="c1">// Dynamic Sass Content</span>
-            <span class="c1">// Dynamic Sass Content Ended</span>
-        <span class="p">},</span>
-
-        <span class="nx">watch</span><span class="o">:</span> <span class="p">{</span>
-            <span class="c1">// Dynamic Watch Content</span>
-            <span class="c1">// Dynamic Watch Content Ended</span>
-        <span class="p">}</span>
-
-    <span class="p">});</span>
-
-    <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-watch&#39;</span><span class="p">);</span>
-    <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-contrib-sass&#39;</span><span class="p">);</span>
-
-    <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./grunt-dynamic.js&#39;</span><span class="p">)(</span><span class="nx">grunt</span><span class="p">);</span>
-    <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./grunt-customtasks.js&#39;</span><span class="p">)(</span><span class="nx">grunt</span><span class="p">);</span>
-
-<span class="p">};</span>
-</pre></div>
-</code></pre>
-<p>…as you can see we have loaded the relevant Sass and Watch Grunt tasks and we&#39;ve set-up some default configurations for them.</p>
-<p>You&#39;ll also see that we&#39;re loading in the two other scripts I mentioned previously at the bottom of the Gruntfile. These files <code>export</code> a function, which means when the scripts are loaded we can store off their return value (in this case the return value is a function which we can execute whenever we want to). In this case I&#39;m executing the returned functions the very moment the scripts are loaded.</p>
-<p>The final part of this Gruntfile to pay attention to is the use of some code comments for the Sass task <code>// Dynamic Sass Content</code> and <code>// Dynamic Sass Content Ended</code> (there is also the same for the &#39;Watch&#39; task).</p>
-<p>I use these code comments as a hook. Because we&#39;re opening up the Gruntfile and editing it dynamically we need an easy way to find the content we want to replace. Using code comments gives us that easy hook. Otherwise we&#39;d need some pretty hairy code/syntax parsing to figure out where we need to insert new dynamically generated content.</p>
-<h3><a name="grunt-customtasks-js"class="anchor" href="#grunt-customtasks-js"><span class="header-link"></span></a>grunt-customtasks.js</h3>
-<p>OK, this isn&#39;t strictly speaking a file that has anything to do with the problem/solution that we&#39;re working on. The reason I&#39;ve included it here is because you&#39;ll see that I&#39;ve written two custom Grunt tasks which I&#39;ve gone ahead and made the assumption that A.) this would be of interest to those of you reading this and B.) one of the custom tasks was quite useful in helping me quickly test my code was working... </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;noop&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;noop run&#39;</span><span class="p">);</span> <span class="p">});</span>
-
-    <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;concat_specjs&#39;</span><span class="p">,</span> <span class="s1">&#39;Concatenate all JS test/spec files into a single file&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
-        <span class="kd">var</span> <span class="nx">specs</span> <span class="o">=</span> <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">expand</span><span class="p">(</span><span class="s1">&#39;tabloid/webapp/static/js/jasmine/spec/*.js&#39;</span><span class="p">),</span>
-            <span class="nx">contents</span><span class="p">;</span>
-
-        <span class="nx">specs</span> <span class="o">=</span> <span class="nx">specs</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">file_path</span><span class="p">){</span>
-            <span class="k">return</span> <span class="s2">&quot;&#39;&quot;</span> <span class="o">+</span> <span class="nx">file_path</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;tabloid/webapp/static/js/&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">].</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;.js&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">;</span>
-        <span class="p">});</span>
-
-        <span class="nx">contents</span> <span class="o">=</span> <span class="s2">&quot;define([\n&quot;</span> <span class="o">+</span> <span class="nx">specs</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;,\n&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;], \nfunction(){ return &#39;&#39;; });&quot;</span><span class="p">;</span>
-
-        <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;tabloid/webapp/static/js/jasmine-runner.js&#39;</span><span class="p">,</span> <span class="nx">contents</span><span class="p">);</span>
-    <span class="p">});</span>
-<span class="p">};</span>
-</pre></div>
-</code></pre>
-<p>The custom task &#39;concat_specjs&#39; is a good look at how you can use Grunt/Node.js to search for files within specific directories and manipulate them by opening them up and writing content into them using the Grunt API. Nothing actually really complicated about it to be honest, the code speaks for itself.</p>
-<p>The reason I created a &#39;noop&#39; (which stands for &#39;no-op&#39;, no-operation) task is because I wanted to test how my code was running without actually running any tasks that would take longer than a nano second to run. Hence I created a custom task that basically does nothing and is there only to see how my dynamic content generation would be affected by running a Grunt task.</p>
-<p>The only other thing worth mentioning is the <code>module.exports = function(grunt){};</code> that wraps around our code. Effectively this file when loaded is a standalone module. This module could just execute some code and end there. But this module needs to have access to Grunt and to do that we make sure the module exports some data (in this case it exports itself as a function) which can be stored off when the module is loaded and utilised however necessary.</p>
-<p>So in this case I&#39;m exporting my code as function which takes in a single argument called <code>grunt</code> -&gt; which is the actual Grunt passed down into it from our main Gruntfile.js when we included the line <code>require(&#39;./grunt-customtasks.js&#39;)(grunt);</code>.</p>
-<h3><a name="grunt-dynamic-js"class="anchor" href="#grunt-dynamic-js"><span class="header-link"></span></a>grunt-dynamic.js</h3>
-<p>This is where the actual work comes in… finally!</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">file</span> <span class="o">=</span> <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">read</span><span class="p">(</span><span class="s1">&#39;Gruntfile.js&#39;</span><span class="p">),</span>
-        <span class="nx">services</span> <span class="o">=</span> <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">expand</span><span class="p">(</span><span class="s1">&#39;tabloid/webapp/static/sass/services/*&#39;</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nx">removePath</span><span class="p">).</span><span class="nx">filter</span><span class="p">(</span><span class="nx">removeBlacklistedDirectories</span><span class="p">),</span>
-        <span class="nx">watch_subtasks</span> <span class="o">=</span> <span class="nx">generateWatchSubTasks</span><span class="p">(),</span> 
-        <span class="nx">sass_subtasks</span> <span class="o">=</span> <span class="nx">generateSassSubTasks</span><span class="p">();</span>
-
-    <span class="kd">function</span> <span class="nx">removePath</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="nx">element</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">).</span><span class="nx">pop</span><span class="p">();</span>
-    <span class="p">}</span>
-
-    <span class="kd">function</span> <span class="nx">removeBlacklistedDirectories</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;journalism&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="kc">false</span>
-        <span class="p">}</span>
-
-        <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="kd">function</span> <span class="nx">generateWatchSubTasks</span><span class="p">()</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">generatedContent</span> <span class="o">=</span> <span class="s1">&#39;// Dynamic Watch Content\n            &#39;</span><span class="p">;</span>
-
-        <span class="nx">services</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">service</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">generatedContent</span> <span class="o">+=</span> <span class="s2">&quot;,\n            &quot;</span> <span class="o">+</span> <span class="nx">service</span> <span class="o">+</span> <span class="s2">&quot;: {\n\</span>
-<span class="s2">                files: [&#39;&lt;%= dir.static_sass %&gt;/partials/**/*.scss&#39;,\n\</span>
-<span class="s2">                        &#39;&lt;%= dir.static_sass %&gt;services/&quot;</span> <span class="o">+</span> <span class="nx">service</span> <span class="o">+</span> <span class="s2">&quot;/*.scss&#39;],\n\</span>
-<span class="s2">                tasks: [&#39;sass:&quot;</span> <span class="o">+</span> <span class="nx">service</span> <span class="o">+</span> <span class="s2">&quot;&#39;]\n            }&quot;</span><span class="p">;</span>
-        <span class="p">});</span>
-
-        <span class="k">return</span> <span class="nx">generatedContent</span> <span class="o">+=</span> <span class="s1">&#39;\n            // Dynamic Watch Content Ended&#39;</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="kd">function</span> <span class="nx">generateSassSubTasks</span><span class="p">()</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">generatedContent</span> <span class="o">=</span> <span class="s1">&#39;// Dynamic Sass Content\n            &#39;</span><span class="p">;</span>
-
-        <span class="nx">services</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">service</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">generatedContent</span> <span class="o">+=</span> <span class="s2">&quot;,\n            &quot;</span> <span class="o">+</span> <span class="nx">service</span> <span class="o">+</span> <span class="s2">&quot;: {\n\</span>
-<span class="s2">                options: {\n\</span>
-<span class="s2">                    style: &#39;expanded&#39;,\n\</span>
-<span class="s2">                    debugInfo: true,\n\</span>
-<span class="s2">                    lineNumbers: true,\n\</span>
-<span class="s2">                    require: [&#39;&lt;%= dir.static_sass %&gt;partials/helpers/url64.rb&#39;]\n\</span>
-<span class="s2">                },\n\</span>
-<span class="s2">                expand: true,\n\</span>
-<span class="s2">                cwd: &#39;&lt;%= dir.static_sass %&gt;/services/&quot;</span> <span class="o">+</span> <span class="nx">service</span> <span class="o">+</span> <span class="s2">&quot;&#39;,\n\</span>
-<span class="s2">                src: [&#39;*.scss&#39;, &#39;!_*.scss&#39;],\n\</span>
-<span class="s2">                dest: &#39;&lt;%= dir.static_css %&gt;/services/&quot;</span> <span class="o">+</span> <span class="nx">service</span> <span class="o">+</span> <span class="s2">&quot;&#39;,\n\</span>
-<span class="s2">                ext: &#39;.css&#39;\n\</span>
-<span class="s2">            }&quot;</span><span class="p">;</span>
-        <span class="p">});</span>
-
-        <span class="k">return</span> <span class="nx">generatedContent</span> <span class="o">+=</span> <span class="s1">&#39;\n            // Dynamic Sass Content Ended&#39;</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="cm">/*</span>
-<span class="cm">        Following regex searches our Gruntfile.js for either &quot;// Dynamic Sass Content&quot; or &quot;// Dynamic Watch Content&quot;.</span>
-<span class="cm">        It then continues to find the associated ending code comment.</span>
-<span class="cm">     */</span>
-    <span class="nx">file</span> <span class="o">=</span> <span class="nx">file</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/(\/\/ Dynamic (Sass|Watch) Content)(?:\r|\n(?:.|\r|\n)+?\1 Ended)?/gmi</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">match</span><span class="p">,</span> <span class="nx">cg1</span><span class="p">,</span> <span class="nx">cg2</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">cg2</span> <span class="o">===</span> <span class="s1">&#39;Sass&#39;</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">returnValue</span> <span class="o">=</span> <span class="nx">sass_subtasks</span><span class="p">;</span>
-        <span class="p">}</span>
-
-        <span class="k">if</span> <span class="p">(</span><span class="nx">cg2</span> <span class="o">===</span> <span class="s1">&#39;Watch&#39;</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">returnValue</span> <span class="o">=</span> <span class="nx">watch_subtasks</span><span class="p">;</span>
-        <span class="p">}</span>
-
-        <span class="k">return</span> <span class="nx">returnValue</span><span class="p">;</span>
-    <span class="p">});</span>
-
-    <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;Gruntfile.js&#39;</span><span class="p">,</span> <span class="nx">file</span><span class="p">);</span>
-<span class="p">};</span>
-</pre></div>
-</code></pre>
-<p>So again, you can see we&#39;re using a mixture of Grunt API&#39;s and Node.js to accomplish what we need. In this case we&#39;re doing the following…</p>
-<ul>
-<li>Storing the contents of our Gruntfile.js</li>
-<li>Creating an Array of language services (e.g. <code>[&#39;afrique&#39;, &#39;arabic&#39;, &#39;hausa&#39;, …]</code>) by using <code>grunt.file.expand</code> and then using some Array methods such as <code>map</code> and <code>filter</code> to clean up the data (we use <code>map</code> to strip the directory path and we use <code>filter</code> to remove any blacklisted folders -&gt; by that we mean folders we don&#39;t want to include).</li>
-<li>We have two functions for generating the String data that makes up our sub tasks for Sass and Watch (effectively, just loops through the Array of languages and creates a String of JavaScript code that we&#39;ll then inject into our Gruntfile).</li>
-<li>Use a regular expression with the String <code>replace</code> method to find the code comment hooks we have in our Gruntfile.</li>
-<li>Once the hooks are found, we check which hook it is (Sass or Watch) and then inject the relevant String of JavaScript code we dynamically created earlier (this was done inside our <code>generateWatchSubTasks</code> and <code>generateSassSubTasks</code> functions and uses the <code>grunt.file.write</code> API).</li>
-</ul>
-<p>This code is run before any other tasks are executed. So every time I run <code>grunt noop</code> the above code gets run and the dynamically generated sub tasks are injected into the Gruntfile.</p>
-<p>This actually runs super quick and so hasn&#39;t (currently) raised any performance problems (e.g. we&#39;ve not had any &quot;hmm, whenever I execute a task it takes ages for it to actually run?&quot; comments). </p>
-<p>If we wanted to we could maybe cache this so it didn&#39;t happen every single time a task is run but it&#39;s so quick at the moment it&#39;s just not worth worrying about.</p>
-<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
-<p>That&#39;s it! I hope this was a useful look at how to write some custom Grunt tasks and also how to take advantage of the Grunt API and Node.js to doing something a little bit more specialised with Grunt.</p>
-<p>Hopefully this post was better than the same old Grunt posts that only just tell you how to use the pre-built tasks to do mundane things like minify your JavaScript or other tediously boring stuff.</p>
-</div>
-
-  <div class="comments">
-    <a href="/posts/dynamically-generated-grunt-tasks/#comments">
-      <span class="icon-bubbles"></span>
-      Comments
-    </a>
-  </div>
-
 
 <div class="pagination group">
   
@@ -579,6 +642,9 @@
     
     
       <a href="/page/5/" class="older"> &#8592; Older</a>
+    
+  
+    
     
   
     

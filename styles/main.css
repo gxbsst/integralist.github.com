@@ -808,7 +808,8 @@ body {
 }
 /* line 64, ../../src/styles/_base.scss */
 .content a:hover {
-  color: #578cdb;
+  color: crimson;
+  text-decoration: none;
 }
 @media (max-width: 1250px) {
   /* line 54, ../../src/styles/_base.scss */
@@ -824,11 +825,11 @@ body {
   }
 }
 
-/* line 79, ../../src/styles/_base.scss */
+/* line 80, ../../src/styles/_base.scss */
 .pagination {
   width: 100%;
 }
-/* line 82, ../../src/styles/_base.scss */
+/* line 83, ../../src/styles/_base.scss */
 .pagination a {
   font-size: 1.5em;
   font-weight: bold;
@@ -836,17 +837,17 @@ body {
   text-decoration: none;
 }
 
-/* line 90, ../../src/styles/_base.scss */
+/* line 91, ../../src/styles/_base.scss */
 .older {
   float: left;
 }
 
-/* line 94, ../../src/styles/_base.scss */
+/* line 95, ../../src/styles/_base.scss */
 .newer {
   float: right;
 }
 
-/* line 98, ../../src/styles/_base.scss */
+/* line 99, ../../src/styles/_base.scss */
 .cabin {
   position: fixed;
   right: .55em;
@@ -855,19 +856,19 @@ body {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
   opacity: 0.3;
 }
-/* line 105, ../../src/styles/_base.scss */
+/* line 106, ../../src/styles/_base.scss */
 .cabin:hover {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=60);
   opacity: 0.6;
 }
 @media (max-width: 1250px) {
-  /* line 98, ../../src/styles/_base.scss */
+  /* line 99, ../../src/styles/_base.scss */
   .cabin {
     display: none;
   }
 }
 
-/* line 114, ../../src/styles/_base.scss */
+/* line 115, ../../src/styles/_base.scss */
 blockquote {
   color: crimson;
   font-style: italic;

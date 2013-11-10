@@ -1,5 +1,255 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Integralist: BBC News Engineer]]></title><description><![CDATA[I aim to implement Object-Oriented Design principles in which ever language I happen to be using (Node, Ruby, PHP, JavaScript, CSS/BEM)]]></description><link>http://www.integralist.co.uk/</link><generator>RSS for Node</generator><lastBuildDate>Fri, 08 Nov 2013 10:52:44 GMT</lastBuildDate><atom:link href="http://www.integralist.co.uk/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Mark McDonnell]]></author><pubDate>Fri, 08 Nov 2013 10:52:44 GMT</pubDate><copyright><![CDATA[2013 Mark McDonnell]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[mark.mcdx@gmail.com]]></managingEditor><webMaster><![CDATA[mark.mcdx@gmail.com]]></webMaster><ttl>60</ttl><item><title><![CDATA[MVCP: Model, View, Controller, Presenter]]></title><description><![CDATA[<h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Integralist: BBC News Engineer]]></title><description><![CDATA[I aim to implement Object-Oriented Design principles in which ever language I happen to be using (Node, Ruby, PHP, JavaScript, CSS/BEM)]]></description><link>http://www.integralist.co.uk/</link><generator>RSS for Node</generator><lastBuildDate>Sun, 10 Nov 2013 18:27:14 GMT</lastBuildDate><atom:link href="http://www.integralist.co.uk/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Mark McDonnell]]></author><pubDate>Sun, 10 Nov 2013 18:27:14 GMT</pubDate><copyright><![CDATA[2013 Mark McDonnell]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[mark.mcdx@gmail.com]]></managingEditor><webMaster><![CDATA[mark.mcdx@gmail.com]]></webMaster><ttl>60</ttl><item><title><![CDATA[Refactoring Techniques]]></title><description><![CDATA[<h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 17mins</em></p>
+<ul>
+<li>Introduction</li>
+<li>Languages</li>
+<li>Why refactor?</li>
+<li>When should refactor?</li>
+<li>Tests</li>
+<li>Refactoring Techniques<ul>
+<li><a href="#rename-method">Rename Method</a></li>
+<li><a href="#introduce-explaining-variable">Introduce Explaining Variable</a></li>
+<li><a href="#inline-temp">Inline Temp</a></li>
+<li><a href="#split-temp-variable">Split Temp Variable</a></li>
+<li><a href="#replace-temp-with-query">Replace Temp With Query</a></li>
+<li><a href="#replace-temp-with-chain">Replace Temp With Chain</a></li>
+<li><a href="#extract-method">Extract Method</a></li>
+<li><a href="#inline-method">Inline Method</a></li>
+<li><a href="#move-method">Move Method</a></li>
+<li><a href="#replace-method-with-method-object">Replace Method With Method Object</a></li>
+<li><a href="#replace-loop-with-collection-closure-method">Replace Loop With Collection Closure Method</a></li>
+<li><a href="#pull-up-method">Pull Up Method</a></li>
+<li><a href="#form-template-method">Form Template Method</a></li>
+<li><a href="#extract-surrounding-method">Extract Surrounding Method</a></li>
+<li><a href="#self-encapsulate-field">Self Encapsulate Field</a></li>
+<li><a href="#introduce-named-parameter">Introduce Named Parameter</a></li>
+</ul>
+</li>
+<li>Conclusion</li>
+</ul>
+<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<p>Let&#39;s begin by considering: &quot;What is Refactoring?&quot;</p>
+<p>The definition of refactoring is:</p>
+<blockquote>
+<p>a disciplined technique for restructuring an existing body of code, altering its internal structure without changing its external behaviour</p>
+</blockquote>
+<p>Refactoring is a term originated from the <a href="http://en.wikipedia.org/wiki/Smalltalk">Smalltalk</a> community of developers back in the mid-late nineties. </p>
+<p>Two of the most prolific programmers of recent times, <a href="http://martinfowler.com/">Martin Fowler</a> and <a href="http://en.wikipedia.org/wiki/Kent_Beck">Kent Beck</a> literally wrote the book on the subject of refactoring called &quot;<a href="http://www.amazon.com/gp/product/0201485672">Refactoring: Improving the Design of Existing Code</a>&quot; (well, written by Martin with contributions from Kent).</p>
+<p>In 2009 both Martin and Kent helped with a rewrite of the book that focused more on the Ruby language than the original book&#39;s target language of Java. This follow-up book was called &quot;<a href="http://www.amazon.com/Refactoring-Ruby-Edition-Jay-Fields/dp/0321603508">Refactoring: The Ruby Edition</a>&quot; and it&#39;s that book which is the primary driving force of this post.</p>
+<p>Since reading the Ruby edition I wanted to have a short summarised version of some of the more commonly used refactoring techniques (mainly for my own reference). By that I mean the techniques described in the book that I find interesting and use a lot in my day to day programming life.</p>
+<h2><a name="languages"class="anchor" href="#languages"><span class="header-link"></span></a>Languages</h2>
+<p>These refactoring techniques aren&#39;t specific to the Ruby language. I also use them when working with JavaScript and PHP with no problem. The idioms and syntax differences between languages become redundant when you focus on the pattern of the solutions.</p>
+<h2><a name="why-refactor-"class="anchor" href="#why-refactor-"><span class="header-link"></span></a>Why refactor?</h2>
+<p>The purpose of refactoring is to improve the quality, clarity and maintainability of your code. Simple really.</p>
+<p>But also, refactoring can be a great lesson in understanding an unfamiliar code base.</p>
+<p>Think about it, if you inherit a poorly designed code base that you&#39;ve not seen before and you now need to either fix a bug or add a new feature, then implementing the code necessary would be a lot easier once you had refactored it to be in a more stable, maintainable and ultimately &#39;understandable&#39; state. </p>
+<p>Otherwise you would be forced to retro fit your new code on top of a poorly designed foundation and that would be the start of a very unhappy relationship.</p>
+<h2><a name="when-should-you-refactor-"class="anchor" href="#when-should-you-refactor-"><span class="header-link"></span></a>When should you refactor?</h2>
+<p>You&#39;ll usually find the time you start refactoring the most is when you are fixing bugs or adding new features.</p>
+<p>For example, you typically first need to understand the code that has already been written (regardless of whether it was you who wrote it originally or someone else). </p>
+<p>The process of refactoring helps you better understand the code, in preparation for modifying it.</p>
+<p>But don&#39;t fall into the trap of thinking that refactoring is something you set aside time for or only consider at the start/end of a project. It&#39;s not. Refactoring should be done in small chunks throughout the entire life cycle of the project.</p>
+<p>As the great <a href="http://www.cleancoder.com/">Uncle Bob</a> once said:</p>
+<blockquote>
+<p>leave a module in a better state than you found it</p>
+</blockquote>
+<p>...what this suggests is that refactoring is essential to your daily coding process.</p>
+<h3><a name="tests"class="anchor" href="#tests"><span class="header-link"></span></a>Tests</h3>
+<p>Before we get started, it&#39;s important to mention that you should have tests in place when you&#39;re refactoring. </p>
+<p>You <em>can</em> refactor without tests, but realise that without tests to back you up then you can have no confidence in the refactoring you are implementing.</p>
+<p>Refactoring can result in substantial changes to the code and architecture but can still leave the top layer API the same. So while you&#39;re refactoring remember the old adage...</p>
+<blockquote>
+<p>program to an interface, not an implementation</p>
+</blockquote>
+<p>We want to avoid changing a public API where ever possible (as that&#39;s one of the tenets of refactoring).</p>
+<p>If you don&#39;t have tests then I recommend you write some (now)... don&#39;t worry, I&#39;ll wait.</p>
+<p>Remember, the process of writing tests (even for an application you don&#39;t know) will help solidify your understanding and expectations of the code you&#39;re about to work on.</p>
+<p>Code should be tested regularly while refactoring to ensure you don&#39;t break anything. Keep the &#39;red, green, refactor&#39; feedback loop tight. Tests help confirm if your refactoring has worked or not. Without them you&#39;re effectively flying blind.</p>
+<p>So although I won&#39;t explicitly mention it below when discussing the different refactoring techniques, it is implied that on every change to your code you should really be running the relevant tests to ensure no breaking tests arise.</p>
+<h2><a name="refactoring-techniques"class="anchor" href="#refactoring-techniques"><span class="header-link"></span></a>Refactoring Techniques</h2>
+<p>There are many documented refactoring techniques and I do not attempt to cover them all, as this post would end up becoming a book in itself. So I&#39;ve picked what I feel are the most common and useful refactoring techniques and I try my best to explain them in a short and concise way.</p>
+<p>I&#39;ve put these techniques in order of how you might approach refactoring a piece of code, in a linear, top to bottom order. This is a personal preference and doesn&#39;t necessarily represent the best way to refactor.</p>
+<p>Final note, some of these techniques I provide a basic code example, but to be honest some of them are so simple they do not need any example. The Extract Method is one such technique that although it really useful and important, providing a code example would be a waste of time and space.</p>
+<p>So without further ado, let&#39;s begin...</p>
+<h3><a name="rename-method"class="anchor" href="#rename-method"><span class="header-link"></span></a>Rename Method</h3>
+<p>The single most effective and simple refactoring you can implement is to rename a property/attribute, method or object.</p>
+<p>Renaming identifiers can reduce the need for code comments and nearly always helps to promote greater clarity.</p>
+<p>You&#39;ll find that renaming things is a fundamental part of other refactoring techniques to aid understanding of the code.</p>
+<p>This technique relies on giving items a descriptive name to ensure the developer knows at a glance exactly what it does. The following technique Introduce Explaining Variable is effectively the same.</p>
+<h3><a name="introduce-explaining-variable"class="anchor" href="#introduce-explaining-variable"><span class="header-link"></span></a>Introduce Explaining Variable</h3>
+<p>So here is a technique specifically based around the premise of renaming. </p>
+<p>If you have a complicated expression (for example, you&#39;ll typically have a long winded set of conditions within an <code>if</code> statement) then place that complex expression into a temp variable and give it a descriptive identifier. </p>
+<p>Note: this is the only technique that finds temps (i.e. local variables) acceptable. This is because temps are deemed to be less reusable than methods (due to their very nature being &#39;local&#39;) and so introducing temps is something that shouldn&#39;t be considered lightly. Maybe consider using the Extract Method technique instead before using this particular technique. </p>
+<p>Also, don&#39;t worry about performance until you know you have a performance issue to worry about. Developers will always suggest that calling methods is slower than running code inline, but good programming is about readability and maintainability, and extracted methods are not only easier to understand but are much more reusable by other methods. </p>
+<p>So if you are considering using the Introduce Explaining Variable technique, first decide whether the temp would be more useful if it was available to other methods (that way you could use Extract Method instead and avoid defining a temp altogether).</p>
+<h3><a name="inline-temp"class="anchor" href="#inline-temp"><span class="header-link"></span></a>Inline Temp</h3>
+<p>Temp variables are a bit of a code smell as they make methods longer and can make the Extract Method more awkward (as you&#39;d have to pass through more data to the extracted method).</p>
+<p>Inline Temp effectively removes the temp variable altogether by just using the value assigned to it (I&#39;d only suggest doing this if the temp is only used once or if the resulting value has come from a method invocation).</p>
+<p>Note: a temp by itself doesn&#39;t do any harm, and in some instances can actually make the code clearer (especially if using a result from a method invocation and the method identifier doesn&#39;t indicate the intent as well as it should).</p>
+<p>But most likely you&#39;ll end up using this technique to aid the Extract Method technique as less temp vars means less requirement to pass through additional parameters to the extracted method.</p>
+<h3><a name="split-temp-variable"class="anchor" href="#split-temp-variable"><span class="header-link"></span></a>Split Temp Variable</h3>
+<p>This technique aims to resolve the concern of violating the SRP (Single Responsibility Principle), although slightly tamer in the sense that SRP is aimed more at Classes/Objects and methods, not typically variable assignments.</p>
+<p>But regardless if a temporary variable is assigned to more than once and it is not a loop variable or a collecting/accumulator variable then it is a temp considered to have too many responsibilities.</p>
+<p><strong>For example</strong>: (this is a daft example, but what the heck)</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">temp</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">height</span> <span class="o">+</span> <span class="n">width</span><span class="p">)</span>
+<span class="n">temp</span> <span class="o">=</span> <span class="n">height</span> <span class="o">*</span> <span class="n">width</span>
+</pre></div>
+</code></pre>
+<p><strong>Becomes</strong>:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">perimeter</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">height</span> <span class="o">+</span> <span class="n">width</span><span class="p">)</span>
+<span class="n">area</span> <span class="o">=</span> <span class="n">height</span> <span class="o">*</span> <span class="n">width</span>
+</pre></div>
+</code></pre>
+<p>As you can see, the temp variable was handling more responsibility than it should be and so by creating two appropriately distinct temps we ensure greater code clarity.</p>
+<h3><a name="replace-temp-with-query"class="anchor" href="#replace-temp-with-query"><span class="header-link"></span></a>Replace Temp With Query</h3>
+<p>This technique has a very similar intent to Inline Temp in that one of its primary focuses is to aid the Extract Method.</p>
+<p>The subtle but important difference between this technique and Inline Temp is that the complex expression assigned to the temp needs to be first moved to a method (where as the Inline Temp technique is different in that the temp may already be using a method invocation).</p>
+<p>This technique can help to shorten a long method by not having to define lots of temp variables just to hold values.</p>
+<p>If the extracted query method is given an identifier that aptly describes its purpose then the code still can be considered clear and descriptive. </p>
+<p>Also, it is considered bad form to define a variable which changes once it has been set (hence moving to a method better indicates an unstable value). </p>
+<p>Note: this technique can sometimes be made easier to implement once you&#39;ve used Split Temp Variable. </p>
+<p>Remember this technique (as with other techniques) is an incremental step towards removing non-essential temps, so consider using Inline Temp afterwards, thus removing the need for the temp altogether.</p>
+<h3><a name="replace-temp-with-chain"class="anchor" href="#replace-temp-with-chain"><span class="header-link"></span></a>Replace Temp With Chain</h3>
+<p>This is yet another technique designed to rid your code of temp variables. </p>
+<p>If you have a temp variable holding the result of calling an object&#39;s method, and follow the assignment by using that temp to carry out more method calls, then you should consider chaining method calls instead.</p>
+<p>The implementation is quite simple, you just have to ensure the methods called return <code>self</code> (or <code>this</code> if using a language like JavaScript).</p>
+<p>By allowing methods to chain we again have the opportunity to remove an unnecessary temps.</p>
+<p><strong>For example</strong>:</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+
+    <span class="nx">createCourse</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;create course&#39;</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="nx">addStudent</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;add student&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">temp</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">createCourse</span><span class="p">();</span>
+    <span class="nx">temp</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">addStudent</span><span class="p">();</span>
+    <span class="nx">temp</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">addStudent</span><span class="p">();</span>
+    <span class="nx">temp</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">addStudent</span><span class="p">();</span>
+</pre></div>
+</code></pre>
+<p><strong>Becomes</strong>:</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+
+    <span class="nx">createCourse</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;create course&#39;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+    <span class="p">},</span>
+
+    <span class="nx">addStudent</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;add student&#39;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+    <span class="p">}</span>
+
+<span class="p">};</span>
+
+<span class="nx">obj</span><span class="p">.</span><span class="nx">createCourse</span><span class="p">()</span>
+   <span class="p">.</span><span class="nx">addStudent</span><span class="p">()</span>
+   <span class="p">.</span><span class="nx">addStudent</span><span class="p">()</span>
+   <span class="p">.</span><span class="nx">addStudent</span><span class="p">();</span>
+</pre></div>
+</code></pre>
+<h3><a name="extract-method"class="anchor" href="#extract-method"><span class="header-link"></span></a>Extract Method</h3>
+<p>Here it is! In my opinion &#39;<em>The</em>&#39; most used and important refactoring technique.</p>
+<p>The implementation behind this technique is very simple. It consists of breaking up long methods by shifting overly complex chunks of code into new methods which have very descriptive identifiers. </p>
+<p>But be careful with handling local variables as you&#39;ll need to pass them through to the extracted method and that can be difficult if there are lots of temps in use. Sometimes to facility the Extract Method you&#39;ll need to first incorporate other techniques such as Replace temp With Query and Inline Temp.</p>
+<h3><a name="inline-method"class="anchor" href="#inline-method"><span class="header-link"></span></a>Inline Method</h3>
+<p>Sometimes you want the opposite of the Extract Method technique. Imagine a method exists whose content is already simple and clear, and whose identifier adds no extra benefit. In this instance we&#39;re just making an extra call for no real benefit.</p>
+<p>So to fix this problem we&#39;ll convert the method invocation into an inlined piece of code (unless of course the method is used in multiple places, in that case leave it where it is as having it in a separate method keeps our code DRY).</p>
+<h3><a name="move-method"class="anchor" href="#move-method"><span class="header-link"></span></a>Move Method</h3>
+<p>In a previous post about <a href="http://www.integralist.co.uk/posts/object-oriented-design-ood/#class-analysis">Object-Oriented Design</a> I explained that you should query your classes/objects to ensure the methods they define are actually where they should be.</p>
+<p>The Move Method technique ensures this decoupling by simply moving the identified misplaced method onto the correct one.</p>
+<p>Once the method has been moved you should clean up the previously passed parameters by seeing what can be moved over to the other object or whether additional data needs to be passed over now via the method invocation. </p>
+<p>From the original class/object keep the original method in place while you test and change it so it now delegates to the method on the new object. Then slowly refactor by replacing delegating calls throughout your code base with direct calls to the method via its new host. </p>
+<p>Finally, remove the old method altogether and the tests should tell you if you missed a replacement somewhere.</p>
+<h3><a name="replace-method-with-method-object"class="anchor" href="#replace-method-with-method-object"><span class="header-link"></span></a>Replace Method With Method Object</h3>
+<p>You may run into a problem where you have a long method you want to use Extract Method on, but the number of temporary local variables are too great to allow you to utilise the Extract Method technique (because passing around that many variables would be just as messy as the long method itself).</p>
+<p>To resolve this issue you could look at different types of smaller refactors (such as Inline Temp) but in some cases it would actually be better to first move the contents of the long method into an entirely new object.</p>
+<p>So the first thing to do is create a new class named after the long method and add the temp local vars as properties/attributes of the class/object.</p>
+<p>Now when you try to implement Extract Method you don&#39;t have to pass around the temp vars because they are now available throughout the class/object. </p>
+<p>Then from within the original class/object you can delegate any calls to the original method on to the object (you&#39;ll still pass on the original arguments to the method within the new object but from there on the method extraction becomes easier).</p>
+<h3><a name="replace-loop-with-collection-closure-method"class="anchor" href="#replace-loop-with-collection-closure-method"><span class="header-link"></span></a>Replace Loop With Collection Closure Method</h3>
+<p>If you write a loop that parses a collection and interacts with the individual elements within the collection then move that interaction out into a separate closure based method (meaning you replace the loop with an Enumerable method). </p>
+<p>This refactoring may not be as clear or impressive as other refactoring techniques but the motivation behind it is that you hide the ugly details of the loop behind a nicer iteration method, allowing the developer looking at the code to focus on the business logic instead.</p>
+<p><strong>For example</strong>:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">managers</span> <span class="o">=</span> <span class="o">[]</span>
+<span class="n">employees</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+    <span class="n">managers</span> <span class="o">&lt;&lt;</span> <span class="n">e</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">manager?</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p><strong>Becomes</strong>:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">managers</span> <span class="o">=</span> <span class="n">employees</span><span class="o">.</span><span class="n">select</span> <span class="p">{</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span> <span class="n">e</span><span class="o">.</span><span class="n">manager?</span> <span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>Ruby has a few of these types of enumerable methods but other languages such as PHP and JavaScript aren&#39;t so lucky. </p>
+<p>JavaScript You have a couple of accumulators: <code>Array#reduce</code> and <code>Array#reduceRight</code> but they don&#39;t work the same as Ruby based methods such as <code>Enumerable#inject</code>, <code>Enumerable#select</code> or <code>Enumerable#collect</code>. </p>
+<p>Although in JavaScript you can implement a similar effect with clever use of closures.</p>
+<h3><a name="pull-up-method"class="anchor" href="#pull-up-method"><span class="header-link"></span></a>Pull Up Method</h3>
+<p>When you have duplicated code across two separate classes then the best refactoring technique to implement is to pull that duplicate code up into a super class so we DRY (Don&#39;t Repeat Yourself) out the code and allow it to be used in multiple places without duplication (meaning changes in future only have to happen in one place).</p>
+<h3><a name="form-template-method"class="anchor" href="#form-template-method"><span class="header-link"></span></a>Form Template Method</h3>
+<p>This is one of the quintessential refactoring techniques. It involves shifting duplicate code from within multiple methods into a super class. Then create sub classes with identical interfaces but the actual implementation can be unique to the sub class.</p>
+<p>This could be implemented using standard Interfaces (as found in PHP), so you would just define empty methods the Interface should enforce but don&#39;t implement any logic or content within them.</p>
+<p>But if you find yourself using the Pull Up Method technique (which also reduces any duplication in pre-existing code) then you&#39;ll need an Abstract class instead, as you would have pulled up an actual implementation into the super class. </p>
+<p>But even with an Abstract class, other methods defined can still just be an empty definition so sub classes can override them.</p>
+<p>Ruby and JavaScript don&#39;t support Interfaces so you would need to implement this using Duck Typing (although in JavaScript you can implement a form of Interface - to see how read <a href="http://www.apress.com/9781590599082">Pro JavaScript Design Patterns</a>)</p>
+<p>Note: this technique might be a bit confusing in the sense that it seems to be very similar to the Pull Up Method. The difference is subtle but for this technique to be effective (such as implementation of interfaces and abstract classes - or similar concepts) means it must use other techniques (such as Pull Up Method).</p>
+<ul>
+<li>Use Pull Up Method to place duplicate code into the super class</li>
+<li>Use Rename Method to ensure sub classes have identical signatures to match to the super class interface</li>
+</ul>
+<h3><a name="extract-surrounding-method"class="anchor" href="#extract-surrounding-method"><span class="header-link"></span></a>Extract Surrounding Method</h3>
+<p>This is actually a common pattern in Ruby known as the &#39;wrap around&#39; method. </p>
+<p>If you find you have different methods which contain almost identical code but with a slight variant in the middle, then pull up the duplicated code into a single method and pass a code block to the newly created method which it yields to in order to execute the unique behaviour...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">do_something</span>
+    <span class="nb">puts</span> <span class="mi">1</span>
+    <span class="k">yield</span>
+    <span class="nb">puts</span> <span class="mi">3</span>
+<span class="k">end</span>
+
+<span class="n">do_something</span> <span class="p">{</span> <span class="nb">puts</span> <span class="mi">2</span> <span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>In JavaScript the ability to pass a code block isn&#39;t possible but it can be replicated by passing a callback function...</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">doSomething</span> <span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+        <span class="nx">callback</span><span class="p">();</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">doSomething</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+</code></pre>
+<p>...although in the latest versions of Node (as of November 2013) Generators are implemented and would allow you to <code>yield</code>.</p>
+<p>Note: this technique is similar to the Form Template Method but is different in that you can use it without forcing an inheritance model on your code.</p>
+<h3><a name="self-encapsulate-field"class="anchor" href="#self-encapsulate-field"><span class="header-link"></span></a>Self Encapsulate Field</h3>
+<p>When inheriting properties from a parent class/object then it can be more flexible if the parent class only allows access to the properties from within a getter/setter.</p>
+<p>The motivation for this technique is that a sub class can override and modify the behaviour of the getter/setter without affecting the parent class&#39; implementation. Which is similar to how the Decorator design pattern works (e.g. modifying the behaviour without affecting the original).</p>
+<p>This technique should only be used once you find the coupling between objects is becoming a problem. Otherwise direct access to properties and instance variables should be acceptable initially.</p>
+<h3><a name="introduce-named-parameter"class="anchor" href="#introduce-named-parameter"><span class="header-link"></span></a>Introduce Named Parameter</h3>
+<p>When method arguments are unclear then convert them into named parameters so they become clearer (and easier to remember). </p>
+<p>Although Ruby supports named parameters, neither PHP or JavaScript do, so for PHP you can pass an associated Array and with JavaScript you can pass an Object/Hash.</p>
+<p>Note: ECMAScript 6.0 (the latest JavaScript specification - which is still being worked on as of Nov 2013) implements named parameters.</p>
+<p><strong>For example</strong>:</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">turnOnTheTV</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</code></pre>
+<p><strong>Becomes</strong>:</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">turnOnTheTV</span><span class="p">({</span> <span class="nx">channel</span><span class="o">:</span> <span class="mi">101</span><span class="p">,</span> <span class="nx">volume</span><span class="o">:</span> <span class="mi">10</span> <span class="p">});</span>
+</pre></div>
+</code></pre>
+<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>OK, so there are still many different refactoring techniques that I&#39;ve not included. But hopefully you&#39;ve found this quick reference useful so far.</p>
+<p>Most of these techniques I do automatically now (as I&#39;ve committed them to muscle memory). But sometimes when I&#39;m carrying out a refactoring I get confused on the best technique I should use and so I&#39;ll refer to this reference to help me find an appropriate solution.</p>
+]]></description><link>http://www.integralist.co.uk/posts/refactoring-techniques/</link><guid isPermaLink="true">http://www.integralist.co.uk/posts/refactoring-techniques/</guid><dc:creator><![CDATA[Mark McDonnell]]></dc:creator><pubDate>Sun, 10 Nov 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[MVCP: Model, View, Controller, Presenter]]></title><description><![CDATA[<h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 8mins</em></p>
 <ul>
 <li>Introduction<ul>
@@ -796,7 +1046,35 @@ Line 3: third
 </li>
 <li>NERDTree</li>
 <li>Ctrl+P</li>
+<li>Vim<ul>
 <li>Vim Basics</li>
+<li>Using Ctrl+p to do fuzzy file searching</li>
+<li>Updating Ctrl+P&#39;s list</li>
+<li>Using NERDTree to search our file system</li>
+<li>Command Structure</li>
+<li>More Commands</li>
+<li>Cursor Movement</li>
+<li>Page Movement</li>
+<li>Motions</li>
+<li>Operators</li>
+<li>Deleting</li>
+<li>Deleting a tag</li>
+<li>Search within a file</li>
+<li>Search and Replace</li>
+<li>Viewing different buffers</li>
+<li>Change list</li>
+<li>Code Comments</li>
+<li>Syntax Formatting</li>
+<li>Auto Indenting</li>
+<li>Run terminal commands within Vim</li>
+<li>Suspend Vim</li>
+<li>Visual Block Mode</li>
+<li>Vim Windows</li>
+<li>Repeating Yourself</li>
+<li>Making life easier</li>
+<li>Keep to the basics</li>
+</ul>
+</li>
 <li>Vim Configuration</li>
 <li>Other plugins</li>
 <li>Conclusion</li>
@@ -999,8 +1277,9 @@ Bundle <span class="s1">&#39;vim-scripts/The-NERD-tree&#39;</span>
 <h2><a name="ctrl-p"class="anchor" href="#ctrl-p"><span class="header-link"></span></a>Ctrl+p</h2>
 <p>This is a fuzzy file finder so it makes it easy for you to locate files within your project by just typing a couple of characters of the files name.</p>
 <p>Again, we&#39;ll cover how to use it in the following Vim Basics section.</p>
-<h2><a name="vim-basics"class="anchor" href="#vim-basics"><span class="header-link"></span></a>Vim Basics</h2>
-<p>So here we are! We made it to the part where we can actually use Vim!</p>
+<h2><a name="vim"class="anchor" href="#vim"><span class="header-link"></span></a>Vim</h2>
+<p>So here we are! We made it to the part where we can actually use Vim! So let&#39;s get stuck in...</p>
+<h3><a name="vim-basics"class="anchor" href="#vim-basics"><span class="header-link"></span></a>Vim Basics</h3>
 <p>Vim is all about not using the mouse, just the keyboard.</p>
 <p>One of the first things to know about Vim are that it has 3 modes:</p>
 <ol>
@@ -1022,7 +1301,7 @@ Bundle <span class="s1">&#39;vim-scripts/The-NERD-tree&#39;</span>
 <p>When Vim is open and in NORMAL mode press <code>:</code> followed by <code>NERDTreeToggle</code> this will open NERDTree at the current location. You can then use your arrow keys to move up and down the file system and press <code>ENTER</code> to open folders. Once you find a file you want to open press <code>ENTER</code> once you&#39;re cursor is on the item of interest.</p>
 <div class="delayed-image-load" data-src="/images/generated/nerdtree-1024.png" data-width="1024"></div>
 
-<h3><a name="more-commands"class="anchor" href="#more-commands"><span class="header-link"></span></a>More Commands</h3>
+<h3><a name="command-structure"class="anchor" href="#command-structure"><span class="header-link"></span></a>Command Structure</h3>
 <p>It&#39;s worth remembering that most commands follow the format: <code>operator [number] motion</code> (not all the time, but enough of the time - you&#39;ll soon get used to the order you do things).</p>
 <p>What follows is a super short list of commands and what they do.</p>
 <h3><a name="cursor-movement"class="anchor" href="#cursor-movement"><span class="header-link"></span></a>Cursor Movement</h3>
@@ -1053,6 +1332,7 @@ Bundle <span class="s1">&#39;vim-scripts/The-NERD-tree&#39;</span>
 <li><code>c</code>    : change (the change command deletes the selection and then puts user into INSERT mode so e.g. <code>cw</code> deletes the current word ready to have a new word entered)</li>
 <li><code>i</code>    : inside of (e.g. <code>yi&quot;</code> this will (y)ank all content (i)nside of the next set of quotation marks)</li>
 <li><code>a</code> : same as <code>i</code> but content comes after the cursor rather than before</li>
+<li><code>b</code> : moves backwards through words</li>
 <li><code>o</code> : moves cursor to the next line and jumps into insert mode</li>
 <li><code>f</code>    : forward (e.g. <code>f,</code> moves to first comma. if you then press <code>;</code> you&#39;ll move to the next instance of the specified character. You can also move a set number of characters, so <code>2f,</code> will move the cursor to the second instance of a comma)</li>
 <li><code>x</code>    : cut after cursor (e.g. place cursor where you want to cut a character and press <code>x</code> to cut it, ready for pasting elsewhere)</li>
@@ -1103,6 +1383,12 @@ Bundle <span class="s1">&#39;vim-scripts/The-NERD-tree&#39;</span>
 <p><code>map &lt;leader&gt;y :CtrlPBuffer&lt;cr&gt;</code></p>
 <p>…so it shows us what the current buffer is (this allows us to jump between files within Vim).</p>
 <p>Note: in Vim the <code>&lt;leader&gt;</code> key is a backslash <code>\</code></p>
+<h3><a name="change-list"class="anchor" href="#change-list"><span class="header-link"></span></a>Change list</h3>
+<p>Vim remembers all points where an edit was made when within INSERT mode and stores them in a &#39;change list&#39;.</p>
+<p>To view the change list run the command <code>:changes</code>. This will display a list of edits you made along with the number of its place in the list.</p>
+<p>To access a specific change position run <code>:changes n</code> (where <code>n</code> is the number of the change position you&#39;re interested in). Moving to a previous change position doesn&#39;t undo the changes but instead just moves the cursor to that position. The reason why this is a good feature to have in Vim is because it allows you to jump around your file a lot more quickly and easily and can help to speed up your editing.</p>
+<p>To sequentially move back and forth between the change list points use the commands:</p>
+<p><code>g;</code> - prev<br><code>g,</code> - next</p>
 <h3><a name="code-comments"class="anchor" href="#code-comments"><span class="header-link"></span></a>Code Comments</h3>
 <p>The following commands use the <code>vim-commentary.git</code> plugin…</p>
 <p><code>gcc</code> = comment out a line (or <code>\\\</code>)<br><code>gcu</code> = uncomment the commented line (you can do <code>gcc</code> as a toggle)</p>
@@ -1144,6 +1430,16 @@ Bundle <span class="s1">&#39;vim-scripts/The-NERD-tree&#39;</span>
 <p>To maximise the height of the window then use <code>Ctrl-w</code> then <code>_</code>.</p>
 <p>To maximise the width of the window then use <code>Ctrl-w</code> then <code>|</code>.</p>
 <p>Finally, to close all windows use <code>:only</code> (which closes all the windows except the current one, where by you can just run <code>:q</code>)</p>
+<h3><a name="repeating-yourself"class="anchor" href="#repeating-yourself"><span class="header-link"></span></a>Repeating Yourself</h3>
+<p>Vim is designed to help you be as efficient as possible whilst editing so here is a little tip...</p>
+<p>If you need to repeat an edit you just made within INSERT mode then use the <code>.</code> command. </p>
+<p>For example, imagine you have the text &quot;this is text&quot; and you wanted to have the first letter of each word capitalised. </p>
+<p>You could first move to the start of the line <code>0</code> and then use the &#39;toggle casing&#39; command <code>~</code> and then run the command <code>w.</code> twice which means you would: (<code>w</code>) move the cursor to the next word and then (<code>.</code>) repeat the last edit.</p>
+<h3><a name="making-life-easier"class="anchor" href="#making-life-easier"><span class="header-link"></span></a>Making life easier</h3>
+<p>Now imagine you have the word &quot;THIS&quot; and you wanted to only have the first letter of each word capitalised. </p>
+<p>Rather than manually rewrite each word, move your cursor to the start of the line and run <code>lve~</code>. </p>
+<p>That will (<code>l</code>) move the cursor to the right, (<code>v</code>) select (<code>e</code>) to the end of the word and then (<code>~</code>) switch that selection&#39;s casing (so in this instance it&#39;ll change to lowercase).</p>
+<p>Whenever you need to make repetitive changes try and think of how you can best utilise Vim to your advantage.</p>
 <h3><a name="keep-to-the-basics"class="anchor" href="#keep-to-the-basics"><span class="header-link"></span></a>Keep to the basics</h3>
 <p>The above commands quite literally do not even scratch the surface of what&#39;s available within Vim.</p>
 <p>So the best thing to do is to find a comfortable set of commands from the list above and don&#39;t deviate from them until you&#39;ve got them memorised (it&#39;s ok to Google for something you don&#39;t know, but try to just focus on the basic commands for now).</p>

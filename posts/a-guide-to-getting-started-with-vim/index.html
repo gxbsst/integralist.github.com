@@ -61,7 +61,35 @@
 </li>
 <li>NERDTree</li>
 <li>Ctrl+P</li>
+<li>Vim<ul>
 <li>Vim Basics</li>
+<li>Using Ctrl+p to do fuzzy file searching</li>
+<li>Updating Ctrl+P&#39;s list</li>
+<li>Using NERDTree to search our file system</li>
+<li>Command Structure</li>
+<li>More Commands</li>
+<li>Cursor Movement</li>
+<li>Page Movement</li>
+<li>Motions</li>
+<li>Operators</li>
+<li>Deleting</li>
+<li>Deleting a tag</li>
+<li>Search within a file</li>
+<li>Search and Replace</li>
+<li>Viewing different buffers</li>
+<li>Change list</li>
+<li>Code Comments</li>
+<li>Syntax Formatting</li>
+<li>Auto Indenting</li>
+<li>Run terminal commands within Vim</li>
+<li>Suspend Vim</li>
+<li>Visual Block Mode</li>
+<li>Vim Windows</li>
+<li>Repeating Yourself</li>
+<li>Making life easier</li>
+<li>Keep to the basics</li>
+</ul>
+</li>
 <li>Vim Configuration</li>
 <li>Other plugins</li>
 <li>Conclusion</li>
@@ -264,8 +292,9 @@ Bundle <span class="s1">&#39;vim-scripts/The-NERD-tree&#39;</span>
 <h2><a name="ctrl-p"class="anchor" href="#ctrl-p"><span class="header-link"></span></a>Ctrl+p</h2>
 <p>This is a fuzzy file finder so it makes it easy for you to locate files within your project by just typing a couple of characters of the files name.</p>
 <p>Again, we&#39;ll cover how to use it in the following Vim Basics section.</p>
-<h2><a name="vim-basics"class="anchor" href="#vim-basics"><span class="header-link"></span></a>Vim Basics</h2>
-<p>So here we are! We made it to the part where we can actually use Vim!</p>
+<h2><a name="vim"class="anchor" href="#vim"><span class="header-link"></span></a>Vim</h2>
+<p>So here we are! We made it to the part where we can actually use Vim! So let&#39;s get stuck in...</p>
+<h3><a name="vim-basics"class="anchor" href="#vim-basics"><span class="header-link"></span></a>Vim Basics</h3>
 <p>Vim is all about not using the mouse, just the keyboard.</p>
 <p>One of the first things to know about Vim are that it has 3 modes:</p>
 <ol>
@@ -287,7 +316,7 @@ Bundle <span class="s1">&#39;vim-scripts/The-NERD-tree&#39;</span>
 <p>When Vim is open and in NORMAL mode press <code>:</code> followed by <code>NERDTreeToggle</code> this will open NERDTree at the current location. You can then use your arrow keys to move up and down the file system and press <code>ENTER</code> to open folders. Once you find a file you want to open press <code>ENTER</code> once you&#39;re cursor is on the item of interest.</p>
 <div class="delayed-image-load" data-src="/images/generated/nerdtree-1024.png" data-width="1024"></div>
 
-<h3><a name="more-commands"class="anchor" href="#more-commands"><span class="header-link"></span></a>More Commands</h3>
+<h3><a name="command-structure"class="anchor" href="#command-structure"><span class="header-link"></span></a>Command Structure</h3>
 <p>It&#39;s worth remembering that most commands follow the format: <code>operator [number] motion</code> (not all the time, but enough of the time - you&#39;ll soon get used to the order you do things).</p>
 <p>What follows is a super short list of commands and what they do.</p>
 <h3><a name="cursor-movement"class="anchor" href="#cursor-movement"><span class="header-link"></span></a>Cursor Movement</h3>
@@ -318,6 +347,7 @@ Bundle <span class="s1">&#39;vim-scripts/The-NERD-tree&#39;</span>
 <li><code>c</code>    : change (the change command deletes the selection and then puts user into INSERT mode so e.g. <code>cw</code> deletes the current word ready to have a new word entered)</li>
 <li><code>i</code>    : inside of (e.g. <code>yi&quot;</code> this will (y)ank all content (i)nside of the next set of quotation marks)</li>
 <li><code>a</code> : same as <code>i</code> but content comes after the cursor rather than before</li>
+<li><code>b</code> : moves backwards through words</li>
 <li><code>o</code> : moves cursor to the next line and jumps into insert mode</li>
 <li><code>f</code>    : forward (e.g. <code>f,</code> moves to first comma. if you then press <code>;</code> you&#39;ll move to the next instance of the specified character. You can also move a set number of characters, so <code>2f,</code> will move the cursor to the second instance of a comma)</li>
 <li><code>x</code>    : cut after cursor (e.g. place cursor where you want to cut a character and press <code>x</code> to cut it, ready for pasting elsewhere)</li>
@@ -368,6 +398,12 @@ Bundle <span class="s1">&#39;vim-scripts/The-NERD-tree&#39;</span>
 <p><code>map &lt;leader&gt;y :CtrlPBuffer&lt;cr&gt;</code></p>
 <p>…so it shows us what the current buffer is (this allows us to jump between files within Vim).</p>
 <p>Note: in Vim the <code>&lt;leader&gt;</code> key is a backslash <code>\</code></p>
+<h3><a name="change-list"class="anchor" href="#change-list"><span class="header-link"></span></a>Change list</h3>
+<p>Vim remembers all points where an edit was made when within INSERT mode and stores them in a &#39;change list&#39;.</p>
+<p>To view the change list run the command <code>:changes</code>. This will display a list of edits you made along with the number of its place in the list.</p>
+<p>To access a specific change position run <code>:changes n</code> (where <code>n</code> is the number of the change position you&#39;re interested in). Moving to a previous change position doesn&#39;t undo the changes but instead just moves the cursor to that position. The reason why this is a good feature to have in Vim is because it allows you to jump around your file a lot more quickly and easily and can help to speed up your editing.</p>
+<p>To sequentially move back and forth between the change list points use the commands:</p>
+<p><code>g;</code> - prev<br><code>g,</code> - next</p>
 <h3><a name="code-comments"class="anchor" href="#code-comments"><span class="header-link"></span></a>Code Comments</h3>
 <p>The following commands use the <code>vim-commentary.git</code> plugin…</p>
 <p><code>gcc</code> = comment out a line (or <code>\\\</code>)<br><code>gcu</code> = uncomment the commented line (you can do <code>gcc</code> as a toggle)</p>
@@ -409,6 +445,16 @@ Bundle <span class="s1">&#39;vim-scripts/The-NERD-tree&#39;</span>
 <p>To maximise the height of the window then use <code>Ctrl-w</code> then <code>_</code>.</p>
 <p>To maximise the width of the window then use <code>Ctrl-w</code> then <code>|</code>.</p>
 <p>Finally, to close all windows use <code>:only</code> (which closes all the windows except the current one, where by you can just run <code>:q</code>)</p>
+<h3><a name="repeating-yourself"class="anchor" href="#repeating-yourself"><span class="header-link"></span></a>Repeating Yourself</h3>
+<p>Vim is designed to help you be as efficient as possible whilst editing so here is a little tip...</p>
+<p>If you need to repeat an edit you just made within INSERT mode then use the <code>.</code> command. </p>
+<p>For example, imagine you have the text &quot;this is text&quot; and you wanted to have the first letter of each word capitalised. </p>
+<p>You could first move to the start of the line <code>0</code> and then use the &#39;toggle casing&#39; command <code>~</code> and then run the command <code>w.</code> twice which means you would: (<code>w</code>) move the cursor to the next word and then (<code>.</code>) repeat the last edit.</p>
+<h3><a name="making-life-easier"class="anchor" href="#making-life-easier"><span class="header-link"></span></a>Making life easier</h3>
+<p>Now imagine you have the word &quot;THIS&quot; and you wanted to only have the first letter of each word capitalised. </p>
+<p>Rather than manually rewrite each word, move your cursor to the start of the line and run <code>lve~</code>. </p>
+<p>That will (<code>l</code>) move the cursor to the right, (<code>v</code>) select (<code>e</code>) to the end of the word and then (<code>~</code>) switch that selection&#39;s casing (so in this instance it&#39;ll change to lowercase).</p>
+<p>Whenever you need to make repetitive changes try and think of how you can best utilise Vim to your advantage.</p>
 <h3><a name="keep-to-the-basics"class="anchor" href="#keep-to-the-basics"><span class="header-link"></span></a>Keep to the basics</h3>
 <p>The above commands quite literally do not even scratch the surface of what&#39;s available within Vim.</p>
 <p>So the best thing to do is to find a comfortable set of commands from the list above and don&#39;t deviate from them until you&#39;ve got them memorised (it&#39;s ok to Google for something you don&#39;t know, but try to just focus on the basic commands for now).</p>

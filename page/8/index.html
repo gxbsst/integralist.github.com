@@ -37,6 +37,156 @@
 
 
   <div class="post-head group">
+  <a href="/posts/maintainable-css-with-bem/">
+    <h1 class="post-title">Maintainable CSS with BEM</h1>
+  </a>
+  <span class="post-date">2012 &#183; 12 &#183; 9</span>
+</div>
+
+<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 7mins</em></p>
+<ul>
+<li>Introduction</li>
+<li>BEM: Block, Element, Modifier</li>
+<li>Example</li>
+<li>Why BEM over the others?</li>
+<li>Conclusion</li>
+</ul>
+<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<p>This is a super quick post to introduce you to a method of writing more maintainable CSS by using what&#39;s called &quot;<a href="http://bem.info">BEM</a>&quot;.</p>
+<p>Update: <a href="http://twitter.com/necolas">@necolas</a> made a comment worth noting, that I&#39;m using a modified version of the BEM naming conventions (BEM is a total framework that goes beyond just naming of classes and writing maintainable CSS). So I thought it best to make note of that here so as to not cause any confusion.</p>
+<h2><a name="bem-block-element-modifier"class="anchor" href="#bem-block-element-modifier"><span class="header-link"></span></a>BEM: Block, Element, Modifier</h2>
+<p>BEM stands for &quot;Block, Element, Modifier&quot; and is a simple but effective way to group together different components/widgets (as shown by the following visual aid).</p>
+<div class="delayed-image-load" data-src="/images/generated/BEM-1024.png" data-width="1024"></div>
+
+<p>Within each defined &#39;Block&#39; you can have multiple &#39;elements&#39; that make up the object, and for each element (depending on where it appears within the block) you might need to &#39;modify&#39; the state of the element.</p>
+<p>The principles are similar to other methods of structuring CSS (<a href="https://github.com/stubbornella/oocss/wiki">OOCSS</a>/<a href="http://smacss.com">SMACSS</a>) but they are greatly simplified in comparison without giving up any of the architectural benefits.</p>
+<p>The best way to understand BEM is to see an example of how it&#39;s used (see next section). But if you want the full details of its history and some more detailed/visual break down of the concepts then please see the <a href="http://bem.info">BEM</a> website.</p>
+<h2><a name="example"class="anchor" href="#example"><span class="header-link"></span></a>Example</h2>
+<p>Below we have a money calculator widget. You enter an amount of money (e.g. £2.12p) and when you press on &#39;calculate&#39; it&#39;ll return to you a list of coins required to make up the amount specified.</p>
+<p>The HTML is very simple...</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;section&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>Sterling Calculator<span class="nt">&lt;/h1&gt;</span>
+    <span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;process.php&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;p&gt;</span>Please enter an amount: (e.g. 92p, <span class="ni">&amp;pound;</span>2.12)<span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;p&gt;</span>
+            <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;amount&quot;</span><span class="nt">&gt;</span> 
+            <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">value=</span><span class="s">&quot;Calculate&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;/form&gt;</span>
+<span class="nt">&lt;/section&gt;</span>
+</pre></div>
+</code></pre>
+<p>So lets add in our classes for styling this widget and lets go on to break down what we&#39;ve added and why...</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;section</span> <span class="na">class=</span><span class="s">&quot;widget&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;h1</span> <span class="na">class=</span><span class="s">&quot;widget__header&quot;</span><span class="nt">&gt;</span>Sterling Calculator<span class="nt">&lt;/h1&gt;</span>
+    <span class="nt">&lt;form</span> <span class="na">class=</span><span class="s">&quot;widget__form&quot;</span> <span class="na">action=</span><span class="s">&quot;process.php&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;p&gt;</span>Please enter an amount: (e.g. 92p, <span class="ni">&amp;pound;</span>2.12)<span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;p&gt;</span>
+            <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;amount&quot;</span> <span class="na">class=</span><span class="s">&quot;widget__input widget__input--amount&quot;</span><span class="nt">&gt;</span> 
+            <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">value=</span><span class="s">&quot;Calculate&quot;</span> <span class="na">class=</span><span class="s">&quot;widget__input widget__input--submit&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;/form&gt;</span>
+<span class="nt">&lt;/section&gt;</span>
+</pre></div>
+</code></pre>
+<p>First thing to notice is that we&#39;ve determined the top level <code>&lt;section&gt;</code> element to be our &#39;block&#39;. This is the top level containing element. We&#39;ve added a class of <code>widget</code> and this will be our namespace for this object/widget (whatever you prefer to call it).</p>
+<p>From here on all elements that we added classes to within this &#39;block&#39; will be namespaced to the top level name of <code>widget</code>.</p>
+<p>I wanted to style the <code>&lt;form&gt;</code> element so I added the class <code>widget__form</code>. The double underscores allow us to easily recognise a class as being part of the <code>widget</code> block. We see this used on the <code>&lt;input&gt;</code> elements as well: <code>widget__input</code>.</p>
+<p>Here is a list of the elements styled…</p>
+<ul>
+<li><code>widget</code></li>
+<li><code>widget__header</code></li>
+<li><code>widget__form</code></li>
+<li><code>widget__input</code></li>
+</ul>
+<p>Notice that there are two other classes used: <code>widget__input--amount</code> and <code>widget__input--submit</code>. These are our &#39;modifiers&#39;. They modify the state of our elements.</p>
+<p>Let&#39;s look at where these have been used. I&#39;ve applied the same class of <code>widget__input</code> on both <code>&lt;input&gt;</code> elements (because they both have the same base structure/styling). But both elements do have slight differences in their appearance, hence the use of a &#39;modifier&#39; to apply the additional unique styles. </p>
+<p>Modifiers are written with two hyphens(dashes) like so: <code>block__element--modifier</code>.</p>
+<p>This means that our CSS code for this widget ends up looking like this…</p>
+<pre><code class="lang-css"><div class="highlight"><pre><span class="nc">.widget</span> <span class="p">{</span>
+    <span class="k">background-color</span><span class="o">:</span> <span class="m">#FC3</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.widget__header</span> <span class="p">{</span>
+    <span class="k">color</span><span class="o">:</span> <span class="m">#930</span><span class="p">;</span>
+    <span class="k">font-size</span><span class="o">:</span> <span class="m">3em</span><span class="p">;</span>
+    <span class="k">margin-bottom</span><span class="o">:</span> <span class="m">0.3em</span><span class="p">;</span>
+    <span class="k">text-shadow</span><span class="o">:</span> <span class="m">#FFF</span> <span class="m">1px</span> <span class="m">1px</span> <span class="m">2px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.widget__input</span> <span class="p">{</span>
+    <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">5px</span><span class="p">;</span>
+       <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">5px</span><span class="p">;</span>
+         <span class="o">-</span><span class="n">o</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">5px</span><span class="p">;</span>
+            <span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">5px</span><span class="p">;</span>
+
+    <span class="k">font-size</span><span class="o">:</span> <span class="m">0.9em</span><span class="p">;</span>
+    <span class="k">line-height</span><span class="o">:</span> <span class="m">1</span><span class="o">.</span><span class="m">3</span><span class="p">;</span>
+    <span class="k">padding</span><span class="o">:</span> <span class="m">0.4em</span> <span class="m">0.7em</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.widget__input--amount</span> <span class="p">{</span>
+    <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="m">#930</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.widget__input--submit</span> <span class="p">{</span>
+    <span class="k">background-color</span><span class="o">:</span> <span class="m">#EEE</span><span class="p">;</span>
+    <span class="k">border</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<h2><a name="why-bem-over-the-others-"class="anchor" href="#why-bem-over-the-others-"><span class="header-link"></span></a>Why BEM over the others?</h2>
+<p>I&#39;ve tried a lot of different ways of writing CSS over the years. It went something like this…</p>
+<ul>
+<li>No structure, everything in one file loaded on every page of a site.</li>
+<li>Separate files to try and keep page specific content together, but still no real structure.</li>
+<li>Standard <a href="https://github.com/stubbornella/oocss/wiki">OOCSS (Object-Oriented CSS)</a></li>
+<li><a href="http://smacss.com">SMACSS (Scalable and Modular Architecture for CSS)</a></li>
+</ul>
+<p>…and now BEM.</p>
+<p><strong>The reason I choose BEM over other methodologies comes down to this: it&#39;s less confusing than the other methods (i.e. SMACSS) but still provides us the good architecture we want (i.e. OOCSS) and with a recognisable terminology.</strong></p>
+<p>For me OOCSS isn&#39;t strict enough. It let&#39;s developers go wild with how they name their objects. But I&#39;ve seen that get really messy on larger projects, or projects with more than one developer and because of the lack of strictness in naming conventions developers become confused on what classes are supposed to be doing.</p>
+<p>With regards to SMACSS: it&#39;s almost too strict in the sense that I think it&#39;s <em>over structured</em>. When I first started using it I thought this was the solution I had been searching for but all that ended up happening was that I had so many fragmented areas of CSS that I didn&#39;t know where to go first. It was too over whelming.</p>
+<p>This might not be the case for some people, but for me these are all instances of the old adage: &quot;<em>don&#39;t make me think</em>&quot;. If I have to think too hard about how something works, or where I need to find the code for something then (in my opinion) that methodology has failed.</p>
+<p>BEM succeeds because it provides a good object oriented structure with a familiar terminology and is simple enough to not get in your way.</p>
+<p>But like with any tool, it can be misused. In the end it comes down to the overall skill and understanding of the developer.</p>
+<h3><a name="simplicity"class="anchor" href="#simplicity"><span class="header-link"></span></a>Simplicity</h3>
+<p>As I said before, the reason I find BEM a better option is the simplicity. </p>
+<p>Even down to the terminology used is simplified compared to other methodologies. For example, depending on who you talk to about structured CSS you may hear the words: </p>
+<ul>
+<li>objects</li>
+<li>modules</li>
+<li>widgets</li>
+<li>components</li>
+</ul>
+<p>…notice the terminology is different but what they refer to are effectively the same thing. No wonder it can become confusing to some people.</p>
+<p>BEM is different in that its terminology is based around the environment it works for: HTML and CSS. We all know when working in CSS what a &#39;block&#39; is, it&#39;s the fundamental building block (no pun intended) of how elements on the page are rendered, but that term can also be understood when used like so… </p>
+<blockquote>
+<p>I saw this block of code the other day, it was hideous.</p>
+</blockquote>
+<p>…you know within the context of that sentence the person speaking is referring to a chunk of code, a grouping of code.</p>
+<p>The word &#39;Block&#39; is simple but a very focused term, and more importantly it is a very familiar term. </p>
+<p>We also know when working in CSS that ultimately we&#39;re targeting &#39;elements&#39;. No other word better fits the description, because that is exactly what we&#39;re doing.</p>
+<p>And lastly, the word &#39;modifier&#39; again is a simple but fully understood and familiar term used by developers… </p>
+<blockquote>
+<p>I want to modify this element, how should I do that?</p>
+</blockquote>
+<h3><a name="but-still-structured"class="anchor" href="#but-still-structured"><span class="header-link"></span></a>But still structured</h3>
+<p>But with this simplified terminology/structure it gives us all the tools we need to write maintainable and easily understandable code. BEM easily scales with the size of a project.</p>
+<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>I know I&#39;ve said it before about SMACSS (&quot;<em>wow, I think this is it!</em>&quot;) but even when I first started using SMACSS I still had niggling feelings about &quot;<em>hmm, it&#39;s a little complicated getting this all in place, but it seems to work well</em>&quot;. With BEM I&#39;ve not had any of those concerns. The only initial concern I had was with the look of it. I didn&#39;t like the double underscores or the double dashes. But now I actually like them!</p>
+<p>If you want to see more good usage of BEM then I&#39;ll refer you to a small CSS abstraction library called <a href="https://github.com/csswizardry/inuit.css">inuit.css</a> by <a href="http://csswizardry.com/">Harry Roberts</a> as well as <a href="https://github.com/Integralist/integralist.github.com">my own website&#39;s source code</a></p>
+</div>
+
+  <div class="comments">
+    <a href="/posts/maintainable-css-with-bem/#comments">
+      <span class="icon-bubbles"></span>
+      Comments
+    </a>
+  </div>
+
+  <div class="post-head group">
   <a href="/posts/backbone-validation/">
     <h1 class="post-title">Backbone Validation</h1>
   </a>
@@ -585,602 +735,6 @@
     </a>
   </div>
 
-  <div class="post-head group">
-  <a href="/posts/javascript-101/">
-    <h1 class="post-title">JavaScript 101</h1>
-  </a>
-  <span class="post-date">2012 &#183; 11 &#183; 24</span>
-</div>
-
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
-<p><em>reading time: approx. 23mins</em></p>
-<ul>
-<li>Introduction</li>
-<li>What is JavaScript</li>
-<li>Terminology</li>
-<li>Global Object</li>
-<li>Variables</li>
-<li>Types</li>
-<li>Objects</li>
-<li>Arrays</li>
-<li>Conditional Statements</li>
-<li>Coercion</li>
-<li>Functions</li>
-<li>Code Reuse (inheritance)</li>
-<li>Conclusion</li>
-</ul>
-<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
-<p>I&#39;ve written this <em>very</em> brief guide to JavaScript just as an aid for people new to the language and who need a basic starting point to see what the syntax looks like and to get a feeling for some of its features.</p>
-<p>This article&#39;s main purpose is to give readers new to the language a glimpse of the JavaScript environment and to hopefully spur them onto further reading/learning. </p>
-<h2><a name="what-is-javascript"class="anchor" href="#what-is-javascript"><span class="header-link"></span></a>What is JavaScript</h2>
-<p>JavaScript is a <em>scripting language</em> - this means it is not <em>compiled</em> (like traditional software languages like C or C++) but is executed &#39;line by line&#39; via its host environment at run time (the host environment can be: Web Browser, Server, Command Line, Desktop).</p>
-<h2><a name="terminology"class="anchor" href="#terminology"><span class="header-link"></span></a>Terminology</h2>
-<table>
-<thead>
-<tr>
-<th>Term</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>expression</td>
-<td>An expression is a command that the JavaScript engine can <em>evaluate</em> to produce a value</td>
-</tr>
-<tr>
-<td>statement</td>
-<td>A statement is a command that can be executed (statements are terminated with a semicolon)</td>
-</tr>
-<tr>
-<td>identifier</td>
-<td>A name (e.g. variable name, function name, labels for loops).</td>
-</tr>
-<tr>
-<td>function declaration</td>
-<td><code>function myFunction(){ /* code */ }</code></td>
-</tr>
-<tr>
-<td>function expression</td>
-<td><code>var myFunction = function(){ /* code */ };</code></td>
-</tr>
-<tr>
-<td>primitive</td>
-<td><code>undefined</code>, <code>null</code>, <code>boolean</code>, <code>string</code> and <code>number</code></td>
-</tr>
-<tr>
-<td>operator</td>
-<td><code>+</code>, <code>-</code>, <code>!</code>, <code>++</code>, <code>===</code>, <code>&amp;&amp;</code>, <code>typeof</code></td>
-</tr>
-</tbody>
-</table>
-<h3><a name="expressions"class="anchor" href="#expressions"><span class="header-link"></span></a>Expressions</h3>
-<p>An example of an &#39;expression&#39; would be <code>1+1</code>. </p>
-<p>Looks straight forward enough, and it should be. As mentioned above, an expression is simply <em>something</em> that can be interpreted as a value. So <code>1+1</code> (when evaluated by the JavaScript engine) results in an number with a value of two. </p>
-<p>Now the expression <code>1+1</code> is pretty useless in a JavaScript program because we&#39;re not doing anything with it. For us to more effectively use this expression we ideally want to store it somewhere so we can reference it later and that&#39;s where &#39;variables&#39; come in (see later on this article).</p>
-<h3><a name="statements"class="anchor" href="#statements"><span class="header-link"></span></a>Statements</h3>
-<p>Examples of JavaScript &#39;statements&#39;: </p>
-<ul>
-<li><code>if (condition) { /* code */ }</code></li>
-<li><code>while (condition) { /* code */ }</code></li>
-<li><code>return</code>, <code>break</code>, <code>throw</code> are single command statements</li>
-</ul>
-<h2><a name="global-object"class="anchor" href="#global-object"><span class="header-link"></span></a>Global Object</h2>
-<p>When the JavaScript interpreter starts up it creates a Global object and any properties/methods added to the Global object are available to the entire JavaScript program.</p>
-<p>The global object is a regular object (as per the Object section seen later in this article).</p>
-<p>The global object is different depending on the context. In a web browser environment the global object is said to be the <code>window</code> object. But this isn&#39;t completely accurate. The global object happens to have a <code>window</code> property which is set back to the global object itself! A little confusing I know :-) If you open a browser console (e.g. Firefox&#39;s Firebug JavaScript Console, or Safari/Google Chrome&#39;s Console Tool) and enter the command <code>window</code> you&#39;ll see all the properties/methods available on that object - things like <code>window.location</code> will be one option that is listed (this references the location bar API of the web browser).</p>
-<p>One quote you&#39;ll hear a lot in JavaScript is:</p>
-<blockquote>
-<p>Don&#39;t pollute the global environment</p>
-</blockquote>
-<p>…and what this means is try to avoid creating global properties and methods. The less &#39;globals&#39; you create then the less likely your code will conflict with another piece of code written by someone else that may be included in the same page.</p>
-<p>To avoid declaring global properties/methods there are certain &#39;patterns&#39; that have been designed to work around this issue, such as the IIFE pattern…</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="cm">/*</span>
-<span class="cm"> * this pattern is referred to as an IIFE (immediately invoked function expression)</span>
-<span class="cm"> * the function is immediately executed and all code within it is scoped to the function</span>
-<span class="cm"> * when executed we pass through &#39;this&#39; which refers to the global object</span>
-<span class="cm"> * we accept &#39;this&#39; into the function as an argument called &#39;global&#39;</span>
-<span class="cm"> */</span>
-<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">global</span><span class="p">)</span> <span class="p">{</span>
-
-    <span class="c1">// private data (private as in: it can&#39;t be accessed from other code outside this function)</span>
-    <span class="c1">// note: don&#39;t EVER name your functions like this!</span>
-    <span class="kd">function</span> <span class="nx">will_be_made_public_but_cant_be_accessed_directly</span><span class="p">(){</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Private&#39;</span><span class="p">);</span>
-    <span class="p">}</span>
-
-    <span class="k">return</span> <span class="p">{</span>
-        <span class="c1">// public API (private code we&#39;ve chosen to make public)</span>
-        <span class="nx">do_something</span><span class="o">:</span> <span class="nx">will_be_made_public_but_cant_be_accessed_directly</span>
-    <span class="p">};</span>
-
-<span class="p">}(</span><span class="k">this</span><span class="p">));</span>
-
-<span class="nx">app</span><span class="p">.</span><span class="nx">will_be_made_public_but_cant_be_accessed_directly</span><span class="p">()</span> <span class="c1">// TypeError: Object #&lt;Object&gt; has no method &#39;will_be_made_public_but_cant_be_accessed_directly&#39;</span>
-
-<span class="nx">app</span><span class="p">.</span><span class="nx">do_something</span><span class="p">();</span> <span class="c1">// =&gt; &#39;Private&#39;</span>
-</pre></div>
-</code></pre>
-<p>Another pattern is to use AMD (Asynchronous Module Definition) which is a module based pattern (see: <a href="https://github.com/Integralist/Blog-Posts/blob/master/Beginners-guide-to-AMD-and-RequireJS.md">Beginners guide to AMD and RequireJS</a>)</p>
-<h2><a name="variables"class="anchor" href="#variables"><span class="header-link"></span></a>Variables</h2>
-<p>Variables hold values/data. </p>
-<p>You declare a variable like so: <code>var my_var = 123;</code> - in this example we&#39;ve declared a variable and assigned the value <code>123</code> to it.</p>
-<p>You must always declare a variable. An undeclared variable looks like this: <code>my_var = 123;</code> - notice the lack of the <code>var</code> keyword. </p>
-<p>Undeclared variables are a bad practice because they cause confusion as to whether the variable should be &#39;global&#39; or not.</p>
-<p>Here is a break down of the different variable scenarios:</p>
-<ul>
-<li>Variable is declared within a function:<br>variable becomes scoped to that function (i.e. it isn&#39;t accessible outside of that function). </li>
-<li>Variable is declared at the top level of the script file (e.g. not inside of a function):<br>variable becomes a global variable (i.e. is available any where within the JavaScript program).</li>
-<li>Variable is undeclared (e.g. doesn&#39;t matter where in the program the undeclared variable was created):<br>variable becomes a global variable (i.e. is available any where within the JavaScript program).</li>
-</ul>
-<p>As you can see, missing a <code>var</code> declaration will mean the JavaScript engine will make that undeclared variable a &#39;global&#39; variable (e.g. it is assigned to the Global object).</p>
-<p>To see why this is a problem first imagine you have a web page you&#39;re working on and in which you have included a 3rd party JavaScript file (i.e. a script written by another developer). Now imagine the content of that 3rd party script is as follows:</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="c1">// 3rd party script written by another developer...</span>
-<span class="kd">var</span> <span class="nx">my_name</span> <span class="o">=</span> <span class="s1">&#39;Mark&#39;</span><span class="p">;</span>
-</pre></div>
-</code></pre>
-<p>…in this instance, the 3rd party script hasn&#39;t wrapped the line <code>var my_name = &#39;Mark&#39;;</code> inside of an IIFE (see above pattern) so the variable <code>my_name</code> will be created as global property (e.g. it is available any where within the JavaScript program as well as explicitly via <code>window.my_name</code>).</p>
-<p>Now you don&#39;t want to overwrite the variable <code>my_name</code> because the 3rd party script that defined it is relying on it being a String with a value of <code>Mark</code> - if you change the value then it could cause the 3rd party code to break.</p>
-<p>So now imagine you&#39;re going to add your own code to the page. You write the following…</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">do_something</span><span class="p">(){</span>
-    <span class="nx">my_name</span> <span class="o">=</span> <span class="s1">&#39;Bob&#39;</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>…this may cause unintended side effects on the 3rd party code. Why? Because you coincidentally defined a variable by the same name of <code>my_name</code> and although you likely intended it to be scoped to the function <code>do_something</code> you&#39;ve accidentally forgotten the <code>var</code> keyword and so your variable is undeclared, so your variable has been assigned to the Global object, thus overwriting the <code>my_name</code> variable that is already available on the Global object (set by the 3rd party code).</p>
-<p>To fix this you would simply make sure you properly declared your variable like so…</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">do_something</span><span class="p">(){</span>
-    <span class="kd">var</span> <span class="nx">my_name</span> <span class="o">=</span> <span class="s1">&#39;Bob&#39;</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>So now, even though the variable name is the same, the variable is &#39;scoped&#39; to the <code>do_something</code> function.</p>
-<p>In today&#39;s world you&#39;ll be very hard pushed to find a library that sets anything more than one global variable - but it&#39;s an issue to be aware of in case you inherit a code base from a less educated developer.</p>
-<p>Global properties aren&#39;t completely avoidable. A library will generally set one global which will act as a &#39;namespace&#39; for their entire app. For example, jQuery sets two globals <code>jQuery</code> and <code>$</code> and all their methods are available through those two globals so unless you&#39;re trying to use <code>jQuery</code> or <code>$</code> as your own namespace then you shouldn&#39;t notice any conflicts. </p>
-<p>Most companies name their global namespace after their company: <code>var mycompany_app = /* code */;</code></p>
-<h2><a name="types"class="anchor" href="#types"><span class="header-link"></span></a>Types</h2>
-<p>JavaScript types are split into two groups: <code>primitive</code> types and <code>reference</code> types. </p>
-<p><code>Numbers</code>, <code>Booleans</code>, <code>Strings</code>, <code>Null</code> and <code>Undefined</code> types are primitive. </p>
-<p><code>Objects</code>, <code>Arrays</code>, and <code>Functions</code> are reference types. </p>
-<p>It&#39;s important to know the different types because at some point in your JavaScript code you&#39;ll want to pass around values and objects and you might notice some issues with doing so. For example, you&#39;ll notice that JavaScript passes <code>Objects</code>/<code>Arrays</code>/<code>Functions</code> by reference, and passes primitives such as <code>Booleans</code>/<code>Strings</code>/<code>Numbers</code>/<code>Null</code>/<code>Undefined</code> by value.</p>
-<p>What this means is if you have an Array and want to copy it so you can make changes to the copy (e.g. you want to leave the original as it is) then you might think to do something like this…</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">my_arr</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">];</span>
-<span class="kd">var</span> <span class="nx">new_arr</span> <span class="o">=</span> <span class="nx">my_arr</span><span class="p">;</span>
-
-<span class="nx">new_arr</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;d&#39;</span><span class="p">);</span>
-</pre></div>
-</code></pre>
-<p>…you might think that <code>new_arr</code> will be <code>[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;]</code> and <code>my_arr</code> would still be equal to <code>[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]</code> but you&#39;d be wrong because Arrays are passed by &#39;reference&#39; and so your change: <code>new_arr.push(&#39;d&#39;);</code> is effectively doing this: <code>my_arr.push(&#39;d&#39;);</code>, hence <code>my_arr</code> now has the value of <code>[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;]</code> and so does <code>new_arr</code> because it really is just referencing (i.e. pointing to) <code>my_arr</code>.</p>
-<p>So be careful.</p>
-<h2><a name="objects"class="anchor" href="#objects"><span class="header-link"></span></a>Objects</h2>
-<p>To create a new <code>Object</code> use the syntax: <code>{}</code></p>
-<p>For example:</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Mark&#39;</span><span class="p">,</span>
-    <span class="nx">location</span><span class="o">:</span> <span class="s1">&#39;London, England&#39;</span>
-<span class="p">};</span>
-</pre></div>
-</code></pre>
-<p>A variable added to an Object is known as a &#39;property&#39;.<br>A function added to an Object is known as a &#39;method&#39;  </p>
-<p>…this naming convention originates from traditional Object-Oriented languages.</p>
-<p>So for example:</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="cm">/* Property */</span>
-        <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Mark&#39;</span><span class="p">,</span>
-    <span class="cm">/* Property */</span>
-        <span class="nx">location</span><span class="o">:</span> <span class="s1">&#39;London, England&#39;</span><span class="p">,</span>
-    <span class="cm">/* Method */</span>
-        <span class="nx">get_details</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
-            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39; is from &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">location</span><span class="p">;</span> <span class="c1">// =&gt; &quot;Mark is from London, England&quot;</span>
-        <span class="p">}</span>
-<span class="p">};</span>
-</pre></div>
-</code></pre>
-<h3><a name="-nearly-everything-in-javascript-is-an-object"class="anchor" href="#-nearly-everything-in-javascript-is-an-object"><span class="header-link"></span></a>(Nearly)Everything in JavaScript is an Object</h3>
-<p>One thing to be clear on is that nearly everything in JavaScript is an object (e.g. Functions, Arrays, Numbers, Strings etc). They all inherit their properties/attributes from the top level Object, and this is made possible in JavaScript via what&#39;s called the &#39;prototype chain&#39;. </p>
-<p>We won&#39;t go into the &#39;prototype&#39; too deeply now but the following section will touch on how it works briefly.</p>
-<h3><a name="prototype"class="anchor" href="#prototype"><span class="header-link"></span></a>Prototype</h3>
-<p>Every Object you create in JavaScript has a hidden object tied to it. This hidden object is called the &#39;prototype&#39; for that object, and what this means is that your object you&#39;ve created will inherit properties from the prototype.</p>
-<p>All &#39;objects&#39; that you create (e.g. <code>var obj = {};</code>) have the same prototype object they point to/reference - which is the top level <code>Object</code> in JavaScript. We call this <code>Object.prototype</code>, and this top level <code>Object</code> itself has no prototype (it&#39;s the only object that has no prototype because nothing precedes it).</p>
-<p>All built-in Constructors (e.g. <code>Array.prototype</code>, <code>Date.prototype</code>) inherit from the <code>Object.prototype</code> and this linked set of objects is known as the &#39;prototype chain&#39; and is how &#39;inheritance&#39; works (see below for a short mention of inheritance and other forms of code reuse).</p>
-<h3><a name="accessing-properties-methods"class="anchor" href="#accessing-properties-methods"><span class="header-link"></span></a>Accessing properties/methods</h3>
-<p>To access properties/methods you can use either the dot notation or the bracket notation. The difference is in whether the property/method name is known at the type of execution or not.</p>
-<p>Using the previous example code, if your program was written by you then to access the &#39;name&#39; property you would simply use: <code>obj.name</code> - but if your application accepted input from the user (where by you asked them what property/method they wanted to access) you obviously don&#39;t know before hand what the user is going to choose. In this instance you would use the bracket notation: </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">user_input</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;my_form_input&#39;</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">obj</span><span class="p">[</span><span class="nx">user_input</span><span class="p">]);</span>
-</pre></div>
-</code></pre>
-<p>The other time you&#39;ll need to use bracket notation is if you want to access a property that has special characters:</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span> 
-    <span class="s1">&#39;my property&#39;</span><span class="o">:</span> <span class="mi">123</span> <span class="c1">// YOU SHOULD NEVER NEED TO CREATE A PROPERTY NAME LIKE THIS</span>
-<span class="p">};</span>
-
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">obj</span><span class="p">[</span><span class="s1">&#39;my property&#39;</span><span class="p">]);</span>
-</pre></div>
-</code></pre>
-<p>So the majority of the time you&#39;ll just use the dot notation, but depending on the dynamic aspect of your program you may need to use bracket notation every once in a while.</p>
-<h3><a name="class-attribute"class="anchor" href="#class-attribute"><span class="header-link"></span></a>Class Attribute</h3>
-<p>Every object has a <em>class</em> attribute which provides information about the object&#39;s type. </p>
-<p>Sounds pretty useful, but unfortunately neither of the current specifications (ES3 or ES5) allow you to access this attribute!?</p>
-<p>But there is a trick to accessing an object&#39;s <em>class</em> attribute and that is to call the <code>toString()</code> method on the top level <code>Object.prototype</code> but using it on the relevant object you want to get the class of. The following example demonstrates the most common use case of accessing the <em>class</em> attribute: trying to work out if an object is actually an <code>Array</code>…</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">];</span>
-
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">arr</span><span class="p">);</span> <span class="c1">// =&gt; &quot;object&quot; - well that&#39;s not right, it should return the type as &#39;Array&#39;! (note: this is a known JavaScript bug)</span>
-
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">toString</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">arr</span><span class="p">));</span> <span class="c1">// =&gt; &quot;[object Array]&quot; - that&#39;s more like it</span>
-</pre></div>
-</code></pre>
-<p>…what we&#39;ve done here is used a method available to all <code>Function</code>&#39;s called <code>.call()</code>. What this method does is let you call another function (i.e. borrow a function) but use the calling context as the <code>this</code> value.</p>
-<p>That previous sentence probably didn&#39;t make a lot of sense because we&#39;ve not covered <code>this</code> or anything to do with contexts/execution environments etc - but try and stick with it for a moment and understand that what we&#39;ve done is called the <code>Object.prototype</code>&#39;s <code>toString</code> method but we&#39;ve called it as if it was our Array that had executed <code>toString</code>.</p>
-<p>The way this trick works actually requires a deep level understanding of how JavaScript handles its conversion of data types: something I definitely wont go into here).</p>
-<h2><a name="arrays"class="anchor" href="#arrays"><span class="header-link"></span></a>Arrays</h2>
-<p>Arrays are like a simplified Object.</p>
-<p>An Object is effectively a mapping of names (identifiers) to values… </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">name</span><span class="o">:</span> <span class="nx">value</span><span class="p">,</span>
-    <span class="nx">name</span><span class="o">:</span> <span class="nx">value</span><span class="p">,</span>
-    <span class="nx">name</span><span class="o">:</span> <span class="nx">value</span>
-<span class="p">};</span>
-</pre></div>
-</code></pre>
-<p>…an Array is the same with the exception that the &#39;name&#39; identifiers are automatically incremented numerical values. So an Array like this…</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">];</span>
-</pre></div>
-</code></pre>
-<p>…would effectively be similar to the following object…</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="mi">0</span><span class="o">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span>
-    <span class="mi">1</span><span class="o">:</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span>
-    <span class="mi">2</span><span class="o">:</span> <span class="s1">&#39;c&#39;</span>
-<span class="p">};</span>
-</pre></div>
-</code></pre>
-<p>Note: the above object with numerical keys requires you to use the bracket notation to access the identifiers (e.g. <code>obj[0]</code>) as <code>obj.0</code> would result in a <code>SyntaxError: Unexpected number</code>.</p>
-<h3><a name="methods"class="anchor" href="#methods"><span class="header-link"></span></a>Methods</h3>
-<p>Arrays come with many methods (functions) that let you manipulate and filter the data contained within the Array.</p>
-<p>Some methods change the data in the Array (<em>mutators</em>).</p>
-<p>Some methods return a new Array with the data changed (<em>accessors</em> - not the best/most descriptive name really,  as it suggests these methods just &#39;access&#39; data when that&#39;s not always the case).</p>
-<p>Some methods loop through the data (<em>iterators</em>).</p>
-<p>Below are some examples of each…</p>
-<table>
-<thead>
-<tr>
-<th>Mutators</th>
-<th>Accessors</th>
-<th>Iterators</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/pop">pop</a></td>
-<td><a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/concat">concat</a></td>
-<td><a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/filter">filter</a></td>
-</tr>
-<tr>
-<td><a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/push">push</a></td>
-<td><a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/join">join</a></td>
-<td><a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/forEach">forEach</a></td>
-</tr>
-<tr>
-<td><a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/reverse">reverse</a></td>
-<td><a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/slice">slice</a></td>
-<td><a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/every">every</a></td>
-</tr>
-<tr>
-<td><a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/shift">shift</a></td>
-<td><a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/indexOf">indexOf</a></td>
-<td><a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/map">map</a></td>
-</tr>
-<tr>
-<td><a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/sort">sort</a></td>
-<td><a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/lastIndexOf">lastIndexOf</a></td>
-<td><a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/some">some</a></td>
-</tr>
-<tr>
-<td><a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/splice">splice</a></td>
-<td></td>
-<td><a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/Reduce">reduce</a></td>
-</tr>
-<tr>
-<td><a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/unshift">unshift</a></td>
-<td></td>
-<td><a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/ReduceRight">reduceRight</a></td>
-</tr>
-</tbody>
-</table>
-<h2><a name="conditional-statements"class="anchor" href="#conditional-statements"><span class="header-link"></span></a>Conditional Statements</h2>
-<p>Conditional statements are &#39;control logic&#39;. This means that depending on the result of a specified condition the corresponding branch of logic will be executed.</p>
-<p>There are a few different conditional statements such as:</p>
-<ul>
-<li><code>if</code></li>
-<li><code>switch</code></li>
-<li><code>ternary</code></li>
-</ul>
-<p>The simplest way to understand them is to see the syntax.</p>
-<h3><a name="if-statement"class="anchor" href="#if-statement"><span class="header-link"></span></a>If Statement</h3>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nx">condition</span><span class="p">)</span> <span class="p">{</span>
-
-    <span class="c1">// if &#39;condition&#39; evaluated to true then run this code</span>
-
-<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">other_condition</span><span class="p">)</span> <span class="p">{</span>
-
-    <span class="c1">// if &#39;other_condition&#39; evaluated to true then run this code</span>
-
-<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-
-    <span class="c1">// other wise we&#39;ll run this code as a fallback</span>
-
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>So a basic example would be something like this…</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">can_drink</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">age</span> <span class="o">=</span> <span class="mi">18</span><span class="p">;</span>
-
-<span class="k">if</span> <span class="p">(</span><span class="nx">age</span> <span class="o">&gt;=</span> <span class="mi">18</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">can_drink</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h3><a name="switch-statement"class="anchor" href="#switch-statement"><span class="header-link"></span></a>Switch Statement</h3>
-<p>If you have lots of checks against the same variable/condition then you&#39;re better off using a <code>switch</code> statement… </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="k">switch</span> <span class="p">(</span><span class="nx">condition</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="nx">x</span><span class="o">:</span>
-        <span class="c1">// Execute this code block</span>
-        <span class="k">break</span><span class="p">;</span>
-    <span class="k">case</span> <span class="nx">y</span><span class="o">:</span>
-        <span class="c1">// Execute this code block</span>
-        <span class="k">break</span><span class="p">;</span>
-    <span class="k">case</span> <span class="nx">z</span><span class="o">:</span>
-        <span class="c1">// Execute this code block</span>
-        <span class="k">break</span><span class="p">;</span>
-    <span class="k">default</span><span class="o">:</span>
-        <span class="c1">// Execute this code block</span>
-        <span class="k">break</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>An example of using this statement would be… </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">car</span> <span class="o">=</span> <span class="s1">&#39;Porsche&#39;</span><span class="p">;</span>
-
-<span class="k">switch</span> <span class="p">(</span><span class="nx">car</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="s1">&#39;Ford&#39;</span><span class="o">:</span>
-        <span class="c1">// Execute this code block if car is &#39;Ford&#39;</span>
-        <span class="k">break</span><span class="p">;</span>
-    <span class="k">case</span> <span class="s1">&#39;Porsche&#39;</span><span class="o">:</span>
-        <span class="c1">// Execute this code block if car is &#39;Porsche&#39;</span>
-        <span class="k">break</span><span class="p">;</span>
-    <span class="k">case</span> <span class="s1">&#39;BMW&#39;</span><span class="o">:</span>
-        <span class="c1">// Execute this code block if car is &#39;BMW&#39;</span>
-        <span class="k">break</span><span class="p">;</span>
-    <span class="k">default</span><span class="o">:</span>
-        <span class="c1">// Execute this code block if car is none of the above</span>
-        <span class="k">break</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h3><a name="ternary-statement"class="anchor" href="#ternary-statement"><span class="header-link"></span></a>Ternary Statement</h3>
-<p>For very short <code>if</code> statements you can also use a shortened syntax (a conditional operator sometimes referred to as a &#39;ternary&#39; operator because of its three operands). The syntax is like so…</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">condition</span> <span class="o">?</span> <span class="kc">true</span> <span class="o">:</span> <span class="kc">false</span>
-</pre></div>
-</code></pre>
-<p>…and can be used like so…</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">age</span> <span class="o">=</span> <span class="mi">18</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">can_drink</span> <span class="o">=</span> <span class="p">(</span><span class="nx">age</span> <span class="o">&gt;=</span> <span class="mi">18</span><span class="p">)</span> <span class="o">?</span> <span class="kc">true</span> <span class="o">:</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// can_drink will equal a Boolean value of true</span>
-
-<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="s1">&#39;abc&#39;</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span> <span class="o">===</span> <span class="s1">&#39;abc&#39;</span><span class="p">)</span> <span class="o">?</span> <span class="s1">&#39;def&#39;</span> <span class="o">:</span> <span class="s1">&#39;xyz&#39;</span><span class="p">;</span> <span class="c1">// y will equal a String value of &#39;def&#39;</span>
-</pre></div>
-</code></pre>
-<h2><a name="coercion"class="anchor" href="#coercion"><span class="header-link"></span></a>Coercion</h2>
-<p>One of the areas of most confusion in JavaScript is its ability to coerce data &#39;types&#39;.</p>
-<p>The best thing to do is to just try and take advantage of JavaScript&#39;s ability to coerce objects into different types and use it to your advantage to make your code more succinct.</p>
-<p>For example, with an <code>if</code> conditional statement JavaScript will try to coerce the expression into either <code>true</code> or <code>false</code> like so… </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">element</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;js-element&#39;</span><span class="p">);</span>
-
-<span class="k">if</span> <span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// if the DOM element is available then this conditional</span>
-    <span class="c1">// will coerce `element` into a Boolean value of true </span>
-    <span class="c1">// and hence the condition will pass.</span>
-
-    <span class="c1">// If the DOM element doesn&#39;t exist then the resulting value will be null</span>
-    <span class="c1">// and null is converted into a Boolean value of false </span>
-    <span class="c1">// and hence the condition will not pass</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>In the above example JavaScript automatically converts the condition into a Boolean, but you can manually coerce a value into a Boolean by using the double negation operator <code>!!</code> like so...</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">age</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">year</span><span class="o">:</span> <span class="mi">1980</span> <span class="p">};</span>
-
-<span class="o">!!</span><span class="nx">obj</span><span class="p">.</span><span class="nx">age</span> <span class="c1">// =&gt; false (because zero coerces to false)</span>
-<span class="o">!!</span><span class="nx">obj</span><span class="p">.</span><span class="nx">year</span> <span class="c1">// =&gt; true (any number greater than zero coerces to true)</span>
-</pre></div>
-</code></pre>
-<p>You can also use a single negation operator <code>!</code> to return the opposite Boolean value of an object (this is useful for saying &#39;if NOT x&#39;)…</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-
-<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">bool</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// this statement is executed if &#39;bool&#39; is NOT true (i.e. if it&#39;s false)</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h3><a name="some-quick-notes-"class="anchor" href="#some-quick-notes-"><span class="header-link"></span></a>Some quick notes:</h3>
-<p>All Objects/Arrays coerce to true (even an empty Array).</p>
-<p>An empty String wil coerce to false.</p>
-<p>There is a lot to learn about JavaScript&#39;s coercion process, so for full details please see the following article: <a href="http://webreflection.blogspot.co.uk/2010/10/javascript-coercion-demystified.html"><a href="http://webreflection.blogspot.co.uk/2010/10/javascript-coercion-demystified.html">http://webreflection.blogspot.co.uk/2010/10/javascript-coercion-demystified.html</a></a></p>
-<h2><a name="functions"class="anchor" href="#functions"><span class="header-link"></span></a>Functions</h2>
-<p>Functions make it easier to create re-useable code. They are simply blocks of JavaScript code that can be called/executed multiple times.</p>
-<p>An example of the function syntax is as follows…</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">identifier</span> <span class="p">(</span><span class="nx">parameters</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// statements</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>…which could be used like so…</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">add</span> <span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">));</span> <span class="c1">// =&gt; 2</span>
-</pre></div>
-</code></pre>
-<h3><a name="parameters"class="anchor" href="#parameters"><span class="header-link"></span></a>Parameters</h3>
-<p>Functions accept any number of &#39;parameters&#39; (also known as &#39;arguments&#39;).</p>
-<p>Within a function you can access all arguments via a special <code>arguments</code> property…</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">test</span> <span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">,</span> <span class="nx">c</span><span class="p">)</span> <span class="p">{</span> 
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arguments</span><span class="p">);</span> 
-<span class="p">}</span>
-
-<span class="nx">test</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="c1">// =&gt; [1, 2, 3]</span>
-</pre></div>
-</code></pre>
-<p>…you&#39;ll notice in the above example it looks like the <code>arguments</code> property is an Array but it&#39;s not. It&#39;s an &#39;array-like&#39; object. So you can access the keys values much like an Array but you don&#39;t have access to the Array methods.</p>
-<h3><a name="return-values"class="anchor" href="#return-values"><span class="header-link"></span></a>Return values</h3>
-<p>If a function doesn&#39;t explicitly return a value (if you look at our <code>add</code> function example above you&#39;ll see we explicitly returned <code>a + b</code>) then the function will have a return value of <code>undefined</code>. Hence when you run certain code snippets in a browsers web console you&#39;ll normally see <code>undefined</code> appear directly underneath the code you&#39;ve just written.</p>
-<h3><a name="borrowing-methods"class="anchor" href="#borrowing-methods"><span class="header-link"></span></a>Borrowing methods</h3>
-<p>Objects have two core methods made available to them: <code>call</code> and <code>apply</code>.</p>
-<p>These two methods are the same (i.e. they do the same thing - which is to call a function <em>indirectly</em> while specifying a value for <code>this</code>) but with one small difference: <code>call</code> requires you pass through any arguments for the function as a comma separated list while <code>apply</code> requires you pass through any arguments for the function as an Array of values.</p>
-<p>The purpose of these methods is to allow you to <em>borrow</em> a function/method from another object. The following code demonstrates its usage and how powerful it can be… </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">obj1</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Bob&#39;</span>
-<span class="p">};</span>
-
-<span class="kd">var</span> <span class="nx">obj2</span> <span class="o">=</span> <span class="p">{</span> 
-    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Mark&#39;</span><span class="p">,</span> 
-    <span class="nx">speak</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span> 
-        <span class="k">return</span> <span class="s1">&#39;My name is &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
-    <span class="p">}</span> 
-<span class="p">}</span>
-
-<span class="nx">obj2</span><span class="p">.</span><span class="nx">speak</span><span class="p">();</span> <span class="c1">// =&gt; &#39;My name is Mark&#39;</span>
-
-<span class="c1">// obj1 doesn&#39;t have a speak method and we don&#39;t want to add extra code to that object when </span>
-<span class="c1">// obj2 already has the same method already defined. We want to be able to just borrow obj2&#39;s &#39;speak&#39; method!</span>
-
-<span class="nx">obj2</span><span class="p">.</span><span class="nx">speak</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">obj1</span><span class="p">);</span> <span class="c1">// =&gt; &#39;My name is Bob&#39;</span>
-</pre></div>
-</code></pre>
-<p>…you can see how by using the <code>call</code> method we can make better use of existing functions and so we become more productive as well as have smaller and more efficient code.</p>
-<h2><a name="code-reuse-inheritance-"class="anchor" href="#code-reuse-inheritance-"><span class="header-link"></span></a>Code Reuse (inheritance)</h2>
-<p>The final subject I want to briefly cover is &#39;code reuse&#39;. In most object-oriented programming languages the main principle of code reuse is done via <em>inheritance</em> (this is where you have a base object that all other objects inherit properties/methods from - much like how JavaScript already works! i.e. all objects inherit properties/methods from the top level <code>Object.prototype</code>).</p>
-<p>The way you implement inheritance is by taking advantage of the <code>prototype</code> chain in JavaScript.</p>
-<p>There are multiple ways to use the prototype chain, one populate way is to try and emulate the &#39;Classical Inheritance&#39; style syntax (i.e. most programming languages have a <code>Class</code> keyword that makes creating objects based off a blueprint Class very easy but JavaScript doesn&#39;t have the concept of Class&#39;es - not yet any way). </p>
-<p>An example of how to emulate Class style syntax in JavaScript (currently) is by using functions as &#39;Constructors&#39; like so… </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">Person</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">settings</span><span class="p">)</span> <span class="p">{</span>
-   <span class="c1">// Instance properties (any new instances of the Person class will have these properties)</span>
-   <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">settings</span><span class="p">.</span><span class="nx">name</span> <span class="o">||</span> <span class="s1">&#39;no name given&#39;</span><span class="p">;</span>
-   <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">settings</span><span class="p">.</span><span class="nx">age</span> <span class="o">||</span> <span class="s1">&#39;no age given&#39;</span><span class="p">;</span>
-
-   <span class="c1">// Instance method (any new instances of the Person class will have this method)</span>
-   <span class="k">this</span><span class="p">.</span><span class="nx">getName</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
-   <span class="p">};</span>
-<span class="p">};</span>
-
-<span class="c1">// Create a new instance of the Person Class</span>
-<span class="kd">var</span> <span class="nx">bob</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">({</span> <span class="nx">name</span><span class="o">:</span><span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="nx">age</span><span class="o">:</span><span class="mi">7</span> <span class="p">});</span>
-
-<span class="c1">// Add a method to this instance of the Person Class only (no other instances created will have this method)</span>
-<span class="nx">bob</span><span class="p">.</span><span class="nx">getAge</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-   <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">age</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="c1">// Test the bob instance has access to both methods</span>
-<span class="nx">bob</span><span class="p">.</span><span class="nx">getName</span><span class="p">();</span>
-<span class="nx">bob</span><span class="p">.</span><span class="nx">getAge</span><span class="p">();</span>
-
-<span class="c1">// Create another instance of the Person Class</span>
-<span class="kd">var</span> <span class="nx">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">({</span> <span class="nx">name</span><span class="o">:</span><span class="s1">&#39;Mark&#39;</span> <span class="p">});</span>
-
-<span class="c1">// Notice the user has access to a &#39;getName&#39; method but not a &#39;getAge&#39; method</span>
-<span class="nx">user</span><span class="p">.</span><span class="nx">getName</span><span class="p">();</span>
-
-<span class="c1">// I know this will error so I&#39;m wrapping it in a try statement</span>
-<span class="k">try</span> <span class="p">{</span>
-   <span class="nx">user</span><span class="p">.</span><span class="nx">getAge</span><span class="p">();</span>
-<span class="p">}</span> <span class="k">catch</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
-   <span class="nx">alert</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="c1">// Uncaught TypeError: Object [object Object] has no method &#39;getAge&#39;</span>
-<span class="p">}</span>
-
-<span class="c1">// Add a method to the Person Class&#39; prototype chain (all instances of the Person Class will now get this method - even those already defined)</span>
-<span class="nx">Person</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">getNameAndAge</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-   <span class="k">return</span> <span class="s1">&#39;Hi, my name is &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;, and I\&#39;m &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">+</span> <span class="s1">&#39; years old.&#39;</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="c1">// Test this new method is accessible to all instances of the Person Class</span>
-<span class="nx">bob</span><span class="p">.</span><span class="nx">getNameAndAge</span><span class="p">();</span>
-<span class="nx">user</span><span class="p">.</span><span class="nx">getNameAndAge</span><span class="p">();</span>
-</pre></div>
-</code></pre>
-<h3><a name="composition"class="anchor" href="#composition"><span class="header-link"></span></a>Composition</h3>
-<p>There is another code reuse pattern you can use instead of &#39;inheritance&#39; called &#39;composition&#39;. The way it works is instead of inheriting methods/properties from a blueprint/base object you instead borrow the methods using <code>call</code> or <code>apply</code> (as we&#39;ve seen previously). </p>
-<p>An example of this is as follows…</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">person</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="nx">names</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;James&#39;</span><span class="p">,</span> <span class="s1">&#39;Neil&#39;</span><span class="p">,</span> <span class="s1">&#39;Russ&#39;</span><span class="p">,</span> <span class="s1">&#39;Stuart&#39;</span><span class="p">]</span>
-    <span class="p">};</span>
-
-<span class="kd">var</span> <span class="nx">people</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">names</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;Ash&#39;</span><span class="p">,</span> <span class="s1">&#39;Brad&#39;</span><span class="p">,</span> <span class="s1">&#39;Mark&#39;</span><span class="p">,</span> <span class="s1">&#39;Mike&#39;</span><span class="p">],</span>
-    <span class="nx">speak</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">which</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="s1">&#39;Hi, my name is &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">names</span><span class="p">[</span><span class="nx">which</span><span class="p">];</span>
-    <span class="p">}</span>
-<span class="p">};</span>
-
-<span class="c1">// Composition not Inheritance</span>
-<span class="nx">people</span><span class="p">.</span><span class="nx">speak</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">person</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// =&gt; &#39;Hi, my name is Neil&#39;</span>
-</pre></div>
-</code></pre>
-<h3><a name="mixins"class="anchor" href="#mixins"><span class="header-link"></span></a>Mixins</h3>
-<p>Another code reuse pattern is called a &#39;mixin&#39; - which instead of using &#39;inheritance&#39; we simply copy over the functions/properties we want to use.</p>
-<p>The following example demonstrates how this works… </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">extend</span><span class="p">(</span><span class="nx">destination</span><span class="p">,</span> <span class="nx">source</span><span class="p">,</span> <span class="nx">overwrite</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">overwrite</span> <span class="o">=</span> <span class="nx">overwrite</span> <span class="o">||</span> <span class="kc">false</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">source</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">source</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span> <span class="p">{</span>
-            <span class="c1">// If we&#39;re not allowed to overwrite an existing property… </span>
-            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">overwrite</span><span class="p">)</span> <span class="p">{</span>
-                <span class="c1">// …then we check to see if the property is undefined… </span>
-                <span class="k">if</span> <span class="p">(</span><span class="nx">destination</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="c1">// …if it is then we know we can copy the property to the destination object</span>
-                    <span class="nx">destination</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">source</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
-                <span class="p">}</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                <span class="nx">destination</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">source</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="nx">destination</span><span class="p">;</span> 
-<span class="p">}</span>
-
-<span class="kd">var</span> <span class="nx">person</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="nx">names</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;James&#39;</span><span class="p">,</span> <span class="s1">&#39;Neil&#39;</span><span class="p">,</span> <span class="s1">&#39;Russ&#39;</span><span class="p">,</span> <span class="s1">&#39;Stuart&#39;</span><span class="p">]</span>
-    <span class="p">};</span>
-
-<span class="kd">var</span> <span class="nx">people</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">names</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;Ash&#39;</span><span class="p">,</span> <span class="s1">&#39;Brad&#39;</span><span class="p">,</span> <span class="s1">&#39;Mark&#39;</span><span class="p">,</span> <span class="s1">&#39;Mike&#39;</span><span class="p">],</span>
-    <span class="nx">speak</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">which</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="s1">&#39;Hi, my name is &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">names</span><span class="p">[</span><span class="nx">which</span><span class="p">];</span>
-    <span class="p">}</span>
-<span class="p">};</span>
-
-<span class="nx">extend</span><span class="p">(</span><span class="nx">person</span><span class="p">,</span> <span class="nx">people</span><span class="p">);</span> <span class="c1">// copy properties from `people` to `person`</span>
-
-<span class="c1">// `person` now has a `speak` method it didn&#39;t have originally </span>
-<span class="nx">person</span><span class="p">.</span><span class="nx">speak</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="c1">// =&gt; &#39;Hi, my name is Neil&#39;</span>
-</pre></div>
-</code></pre>
-<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
-<p>OK, this has been a super brief/quick run through of different JavaScript concepts and language features.</p>
-<p>This isn&#39;t supposed to be even remotely an exhaustive discussion - have you seen the size of &#39;JavaScript: The Definitive Guide&#39; !?</p>
-<p>Hopefully this has at least been enough to get you started and interested in learning more. If there are any issues or errors then please get in contact and let me know.</p>
-</div>
-
-  <div class="comments">
-    <a href="/posts/javascript-101/#comments">
-      <span class="icon-bubbles"></span>
-      Comments
-    </a>
-  </div>
-
 
 <div class="pagination group">
   
@@ -1216,6 +770,9 @@
     
     
       <a href="/page/9/" class="older"> &#8592; Older</a>
+    
+  
+    
     
   
     
