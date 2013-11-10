@@ -43,7 +43,7 @@
   <span class="post-date">2013 &#183; 2 &#183; 12</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 22mins</em></p>
 <ul>
 <li>Quick Summary</li>
@@ -58,7 +58,7 @@
 <li>Further good rules of development from Sandi Metz</li>
 <li>Summary</li>
 </ul>
-<h2><a name="quick-summary"class="anchor" href="#quick-summary"><span class="header-link"></span></a>Quick Summary</h2>
+<h2><a name="quick-summary" class="anchor" href="#quick-summary"><span class="header-link"></span></a>Quick Summary</h2>
 <p>Here is a short summary for those of you who prefer to see a quick bullet-point list of items covered... </p>
 <ul>
 <li>Decouple your code (<em>we discuss this in more detail below</em>)</li>
@@ -91,17 +91,17 @@
 </ul>
 </li>
 </ul>
-<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
 <p>All of the following information has been distilled from Sandi Metz&#39; <a href="http://www.poodr.info/">Practical Object-Oriented Design in Ruby</a>, and although the code in this post is based on the Ruby language, don&#39;t worry - the concepts are applicable for any object-oriented language.</p>
 <p>I would highly recommend you read <a href="http://www.poodr.info/">Practical Object-Oriented Design in Ruby</a> as the author goes into far more code detail and background information (as well as covering other subjects such as test-driven development and the process of writing efficient unit tests) which will help you understand the concepts better than I could in this single post. But hopefully the following distilled version should be a sufficient starting point for your journey into writing more flexible and maintainable code.</p>
-<h2><a name="objects"class="anchor" href="#objects"><span class="header-link"></span></a>Objects</h2>
+<h2><a name="objects" class="anchor" href="#objects"><span class="header-link"></span></a>Objects</h2>
 <p>The best description I have ever read regarding good Object-Oriented design goes like this... </p>
 <blockquote>
 <p>Object-Oriented Design is about the messages that get sent between objects and not the objects themselves.</p>
 </blockquote>
 <p>This single line quote perfectly captures the intention behind good Object-Oriented design. </p>
 <p>It seems our focus on objects has been wrong. We should be thinking primarily about the messages we want to send. This way we build up classes based on good clean interfaces and so our subsequent objects are clearer and more direct in their message handling.</p>
-<h2><a name="class-analysis"class="anchor" href="#class-analysis"><span class="header-link"></span></a>Class Analysis</h2>
+<h2><a name="class-analysis" class="anchor" href="#class-analysis"><span class="header-link"></span></a>Class Analysis</h2>
 <p>We want our classes to be as decoupled as possible. The benefit of this is to allow changes to occur over time with little to no side-effects. If your classes have too many dependencies, which are likely too tightly coupled to the class, then any design/code changes in the future could potentially have a negative knock-on effect on the rest of your code.</p>
 <p>To ensure a class only contains the behaviour it needs try describing your class in one sentence. If you find you have to use the word &quot;and&quot; within your description then the class appears to have more than one responsibility (this is a bad thing - your classes should be small and focused on a single responsibility). If you find you have used the word &quot;or&quot; to describe your class then you not only have more than one responsibility but the responsibilities aren&#39;t even related. That again would be an indication of a code smell.</p>
 <p>Another way to analyse your classes is to ask each method within the class a question, and to see if any of the answers sound out of place.</p>
@@ -152,10 +152,10 @@
 <span class="k">end</span>
 </pre></div>
 </code></pre>
-<h2><a name="dependencies"class="anchor" href="#dependencies"><span class="header-link"></span></a>Dependencies</h2>
+<h2><a name="dependencies" class="anchor" href="#dependencies"><span class="header-link"></span></a>Dependencies</h2>
 <p>Dependencies can be many things, for example: external class references or arguments passed to methods.</p>
 <p>Below are some rules to help you spot a dependency and how to better manage them... </p>
-<h3><a name="direct-references"class="anchor" href="#direct-references"><span class="header-link"></span></a>Direct References</h3>
+<h3><a name="direct-references" class="anchor" href="#direct-references"><span class="header-link"></span></a>Direct References</h3>
 <p>Avoid &#39;direct references&#39;. These are things like drilling down into a complex array structure to grab some data to work with. You may know the data structure now, but that&#39;s not to say it won&#39;t change in the future. But also, linking to a complicated data structure is confusing to other users because it obscures what the data really is and what it is meant to represent. </p>
 <p>So in the following example we are directly accessing <code>item[0]</code> and <code>item[1]</code> from a multi-dimensional array... </p>
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="c1">#BAD</span>
@@ -210,13 +210,13 @@
 <span class="n">obj</span><span class="o">.</span><span class="n">do_something</span>
 </pre></div>
 </code></pre>
-<h3><a name="single-responsibility-principle"class="anchor" href="#single-responsibility-principle"><span class="header-link"></span></a>Single Responsibility Principle</h3>
+<h3><a name="single-responsibility-principle" class="anchor" href="#single-responsibility-principle"><span class="header-link"></span></a>Single Responsibility Principle</h3>
 <p>You should refactor your methods so they do one thing (also known as the &#39;Single Responsibility Principle&#39;). One reason to do this is so that your methods become easier to test, and also their new found simplicity can provide a greater clarity that can highlight whether other methods within the class should even be there.</p>
 <p>So for example, you may have a complex algorithm contained within a single method of your class and because of its complexity you may miss the fact that some of the algorithm should actually have been handled by a separate class altogether.</p>
 <p>Following the Single Responsibility Principle will result in smaller (and greater number of) small sized methods. This result will encourage greater code reuse from yourself (as well as other users of your code) and will also make your methods easier to test and to move around into different classes.</p>
-<h3><a name="remove-comments"class="anchor" href="#remove-comments"><span class="header-link"></span></a>Remove comments</h3>
+<h3><a name="remove-comments" class="anchor" href="#remove-comments"><span class="header-link"></span></a>Remove comments</h3>
 <p>If a piece of code needs a comment then chances are you need to extract that code into a separate method. The name of the method should serve the same purpose as the comment once did. This isn&#39;t always the case, but as part of your analysis you should reconsider any comments to ensure they are helpful or just noise.</p>
-<h3><a name="do-not-tightly-couple-your-code"class="anchor" href="#do-not-tightly-couple-your-code"><span class="header-link"></span></a>Do not tightly couple your code</h3>
+<h3><a name="do-not-tightly-couple-your-code" class="anchor" href="#do-not-tightly-couple-your-code"><span class="header-link"></span></a>Do not tightly couple your code</h3>
 <p>The best way to decouple your code is to manage your dependencies. </p>
 <p>For example, if you look at a class that utilises another class for some additional functionality, that secondary class has become the dependency. Also, if you use that dependency in multiple places and the class was to change in some way then consider how many places your class potentially could break or need to be updated? </p>
 <p>Now, a class referencing the name of another class isn&#39;t necessarily a major issue in itself (as the change of a class name can easily be rectified using a modern IDE find &amp; replace feature), the bigger problem is from the lack of code reuse. Your method is tightly coupled to a specific class. </p>
@@ -229,11 +229,11 @@
 <li>even down to things like the order of the arguments could be considered a dependency.  </li>
 </ul>
 <p>Every dependency results in more brittle, tightly coupled code.</p>
-<h3><a name="facades"class="anchor" href="#facades"><span class="header-link"></span></a>Facades</h3>
+<h3><a name="facades" class="anchor" href="#facades"><span class="header-link"></span></a>Facades</h3>
 <p>Do not let external dependencies permeate your code. </p>
 <p>One way to prevent this is to wrap any dependencies in a method so you can implement a facade over the original interface allowing it to match your own API.</p>
 <p>For example, if your dependency had a method which required arguments to be sent in a specific order then you could wrap the call to the method in a facade which allowed the user of your class to pass in the arguments in another format. Your facade could then normalise the data before passing it over to the dependency&#39;s method.</p>
-<h3><a name="dependency-directions"class="anchor" href="#dependency-directions"><span class="header-link"></span></a>Dependency Directions</h3>
+<h3><a name="dependency-directions" class="anchor" href="#dependency-directions"><span class="header-link"></span></a>Dependency Directions</h3>
 <p>Make sure you spend time considering the direction of your dependencies.</p>
 <p>When considering the direction of your dependencies (e.g. does class A rely more on class B, or vice versa) remember to think about the following 3 points...</p>
 <ol>
@@ -244,7 +244,7 @@
 <li><p>A class with many dependants could result in widespread consequences.</p>
 </li>
 </ol>
-<h3><a name="summary-of-dependencies-"class="anchor" href="#summary-of-dependencies-"><span class="header-link"></span></a>Summary of dependencies...</h3>
+<h3><a name="summary-of-dependencies" class="anchor" href="#summary-of-dependencies"><span class="header-link"></span></a>Summary of dependencies...</h3>
 <ul>
 <li><p>Dependency management is core to creating future-proof applications. </p>
 </li>
@@ -261,7 +261,7 @@
 <blockquote>
 <p>&quot;Depend on things that change less often than you do&quot;</p>
 </blockquote>
-<h2><a name="flexible-interfaces"class="anchor" href="#flexible-interfaces"><span class="header-link"></span></a>Flexible Interfaces</h2>
+<h2><a name="flexible-interfaces" class="anchor" href="#flexible-interfaces"><span class="header-link"></span></a>Flexible Interfaces</h2>
 <p>Object-Oriented applications are made up of objects(classes) but are defined by the messages that pass between these objects. </p>
 <p>Our code must handle...</p>
 <ul>
@@ -273,14 +273,14 @@
 <p>Creating a flexible interface is essential to good Object-Oriented design. </p>
 <p>Each object should reveal as little about itself, and know as little about other objects as possible. </p>
 <p>There are two parts to our interfaces: a Public Interface and a Private Interface... </p>
-<h3><a name="public-interface-"class="anchor" href="#public-interface-"><span class="header-link"></span></a>Public interface:</h3>
+<h3><a name="public-interface" class="anchor" href="#public-interface"><span class="header-link"></span></a>Public interface:</h3>
 <ul>
 <li>Should reveal the primary responsibility </li>
 <li>Is expected to be invoked by others</li>
 <li>Will be unlikely to change (so safe for other objects to depend on)</li>
 <li>Testable</li>
 </ul>
-<h3><a name="private-interface"class="anchor" href="#private-interface"><span class="header-link"></span></a>Private interface</h3>
+<h3><a name="private-interface" class="anchor" href="#private-interface"><span class="header-link"></span></a>Private interface</h3>
 <ul>
 <li>Should handle implementation details</li>
 <li>Not be accessible by other objects</li>
@@ -292,24 +292,24 @@
 <p>It&#39;s important to understand that you don&#39;t send messages because you have objects. You have objects because you send messages. If you keep that in mind then you can ensure your objects only handle responsibilities relevant to them.</p>
 <p>Avoid asking the question &quot;What should this class do?&quot; and make sure your interfaces are designed in such a way that they ask for what they want and don&#39;t try to tell another object what to do. </p>
 <p>For example, If you have a Mechanic class and you want the class to prepare a bike for you then don&#39;t call the Mechanic&#39;s individual methods: &quot;clean_bike&quot;, &quot;pump_tyres&quot;, &quot;check_brakes&quot; directly. Instead you know the message you want to send (in this case you want to have a bike prepared for you) so create an interface that supports that message requirement. Do this by creating a method on the Mechanic class called &quot;prepare_bike&quot; and send your message to that method. This way if the Mechanic class changes its implementation then the object that calls the &quot;prepare_bike&quot; method doesn&#39;t have to change as well. </p>
-<h3><a name="reducing-context"class="anchor" href="#reducing-context"><span class="header-link"></span></a>Reducing Context</h3>
+<h3><a name="reducing-context" class="anchor" href="#reducing-context"><span class="header-link"></span></a>Reducing Context</h3>
 <p>The things an object knows about other objects make up its &#39;context&#39;. </p>
 <p>An object may have a single responsibility but it expects a context. For example the object expects an object to respond to a specific method call. </p>
 <p>For an object to become more reusable and more easily testable it must reduce its contexts. If there is a context then to reuse the object you need to bring along the context every time (this makes code reuse and testing harder). </p>
 <p>Dependency injection reduces the context. For example if you had an object which called a generic method and passed &#39;self&#39; as an argument then the receiving object could handle the request (and because the first object was injected as a dependency) then the second object could call the first object when it&#39;s finished with the request. </p>
-<h3><a name="summary-of-interfaces"class="anchor" href="#summary-of-interfaces"><span class="header-link"></span></a>Summary of Interfaces</h3>
+<h3><a name="summary-of-interfaces" class="anchor" href="#summary-of-interfaces"><span class="header-link"></span></a>Summary of Interfaces</h3>
 <p>Your interface defines your application and determines its future. </p>
 <p>Object-Oriented applications are defined by messages that pass between objects. This is handled via public interfaces. Ask for what you want and don&#39;t include any &#39;hows&#39; as part of the request which would be telling the receiving object how to behave rather than it handling the how itself. </p>
-<h2><a name="duck-typing"class="anchor" href="#duck-typing"><span class="header-link"></span></a>Duck Typing</h2>
+<h2><a name="duck-typing" class="anchor" href="#duck-typing"><span class="header-link"></span></a>Duck Typing</h2>
 <p>Duck Typing is the process of making code more flexible and less tightly coupled by taking into consideration that if an object &quot;sounds like a duck, and quacks like a duck&quot; then it stands to reason the object must indeed be (or act like) a duck.</p>
 <p>The principle idea behind Duck Typing is to trust your objects (e.g. do not worry about the class of an object, only that the object implement the expected interface - and trust that it does). Sounds scary/dangerous but it will help you to avoid writing code that tightly couples to your dependencies. </p>
 <p>Cleaning up a long and ugly switch/case statement which checks the class of an object to determine what action to take is one area where Duck Typing can help. The problem with this example is that the switch statement technique is fragile and likely to break when new class types need to be added. </p>
 <p>Instead, for each object create a generically named method (same name for each object) which handles the appropriate internal/specific details relevant for that object. This way you can just call the method (and even pass the calling object as a reference <code>self</code> in case the receiving object needs further information to carry out its work) and thus make your code more reusable by not tightly coupling a specific method to multiple object calls. </p>
 <p>Also, any where you see the use of <code>is_a?</code> or <code>responds_to?</code> then that is an indication of a potential code smell because the principle issue identical to the switch statement. </p>
-<h2><a name="inheritance"class="anchor" href="#inheritance"><span class="header-link"></span></a>Inheritance</h2>
-<h3><a name="abstract-your-base-class"class="anchor" href="#abstract-your-base-class"><span class="header-link"></span></a>Abstract your base class</h3>
+<h2><a name="inheritance" class="anchor" href="#inheritance"><span class="header-link"></span></a>Inheritance</h2>
+<h3><a name="abstract-your-base-class" class="anchor" href="#abstract-your-base-class"><span class="header-link"></span></a>Abstract your base class</h3>
 <p>When inheriting from another class it is essential that the parent class is as abstract as possible. For example, it only holds enough code that is relevant for all its sub classes. A sub class should never inherit redundant data or methods. If it does then your parent class isn&#39;t abstract enough. </p>
-<h3><a name="default-values"class="anchor" href="#default-values"><span class="header-link"></span></a>Default values</h3>
+<h3><a name="default-values" class="anchor" href="#default-values"><span class="header-link"></span></a>Default values</h3>
 <p>Be careful when using default values. If your base class has a common property which is different for each sub class, but is required within each sub class (hence sticking it in the base class) then you won&#39;t want to give it a value inside the base class. Your base class should take in the value via the constructor and if the value isn&#39;t provided you should set the default using a method like so...</p>
 <p><code>xxx = args[:xxx] || default_xxx_value</code></p>
 <p>In this example <code>default_xxx_value</code> should be a method the sub class implements which provides the specific value. The reason we have written it like this is so that the sub class has better control over setting the default value. </p>
@@ -320,7 +320,7 @@
 </pre></div>
 </code></pre>
 <p>Note: the above custom error message raised will display automatically the name of the method (<code>default_xxx_value</code>) at the end of the message when it is displayed to the user (hence we don&#39;t need to manually include it). </p>
-<h3><a name="super"class="anchor" href="#super"><span class="header-link"></span></a>Super</h3>
+<h3><a name="super" class="anchor" href="#super"><span class="header-link"></span></a>Super</h3>
 <p>Beware calls to <code>super</code> via a sub class, as this is a code smell. </p>
 <p>Why? Because it declares that the sub class knows the implementation of the base class. It says &quot;I know what you do, I know what to send to you and I know what returned value to expect&quot;. The sub class has more context than it should do and we&#39;ve created a dependency. </p>
 <p>In this example the sub class knows too much about the base class and so it is tightly coupled to it. If a new developer joins the project and creates a sub class, but doesn&#39;t call <code>super</code> at the appropriate time, then they would likely have a silent failure (or at least one that could be difficult to debug).</p>
@@ -334,16 +334,16 @@
 </pre></div>
 </code></pre>
 <p>...the sub class can then implement its own <code>local_spares</code> method which returns a hash. So when a user creates a new instance of the sub class and calls the <code>spares</code> method, the base class handles the functionality. The sub class can insert its own specialised data without knowing how the base class works (other than the interface design dictates the sub class should implement a method called <code>local_spares</code>). </p>
-<h3><a name="modules"class="anchor" href="#modules"><span class="header-link"></span></a>Modules</h3>
+<h3><a name="modules" class="anchor" href="#modules"><span class="header-link"></span></a>Modules</h3>
 <p>Not all objects are specialised versions of another object and so they shouldn&#39;t always inherit functionality via the inheritance pattern. </p>
 <p>Objects have a tendency to play a role, and some objects play a similar role to other objects.</p>
 <p>Instead of the inheritance pattern we can use modules as &#39;mixins&#39; which will let these objects (those with similar roles) share behaviour. </p>
 <p>Modules are placed inside the same lookup path as methods acquired through inheritance, so the principles for developing modules should follow those of writing classes: use the Template Method Pattern (e.g. have stub methods which the sub classes overwrite). </p>
 <p>For example, any object which includes the module needs to provide their own specialisation of a hook method implemented in the module. This means an object which includes the module doesn&#39;t have to create a dependency by calling <code>super</code>, thus avoiding needing to know anything about the included module (other than its implied interface contract) and ultimately reducing its context (i.e. what it knows - a dumb object is a reusable object). </p>
-<h3><a name="composition"class="anchor" href="#composition"><span class="header-link"></span></a>Composition</h3>
+<h3><a name="composition" class="anchor" href="#composition"><span class="header-link"></span></a>Composition</h3>
 <p>The composition pattern is effectively the same as using modules (where you copy in functionality rather than inheriting it - thus creating a &#39;<em>has-a</em>&#39; relationship rather than a &#39;<em>is-a</em>&#39; relationship). </p>
 <p>But composition from a design perspective is more about the resulting &#39;whole&#39;, than the subsequent parts that make up the whole. </p>
-<h2><a name="inheritance-vs-composition"class="anchor" href="#inheritance-vs-composition"><span class="header-link"></span></a>Inheritance vs Composition</h2>
+<h2><a name="inheritance-vs-composition" class="anchor" href="#inheritance-vs-composition"><span class="header-link"></span></a>Inheritance vs Composition</h2>
 <p>Inheritance is the more appropriate solution if your design dictates that the objects have a well defined concrete class of functionality and that most of that base functionality is the same for all other objects. With inheritance you would write only small amounts of new code to extend the base functionality so the extending objects become more specialised.</p>
 <blockquote>
 <p>Inheritance is specialisation<br><em>Bertrand Meyer, Touch of Class</em></p>
@@ -352,7 +352,7 @@
 <blockquote>
 <p>Use composition when the behaviour is more than the sum of it&#39;s parts<br><em>Grady Booch, Object-Oriented Analysis and Design</em></p>
 </blockquote>
-<h2><a name="further-good-rules-of-development-from-sandi-metz"class="anchor" href="#further-good-rules-of-development-from-sandi-metz"><span class="header-link"></span></a>Further good rules of development from Sandi Metz</h2>
+<h2><a name="further-good-rules-of-development-from-sandi-metz" class="anchor" href="#further-good-rules-of-development-from-sandi-metz"><span class="header-link"></span></a>Further good rules of development from Sandi Metz</h2>
 <ol>
 <li>Your class can be no longer than a hundred lines of code.</li>
 <li>Your methods can be no longer than five lines of code</li>
@@ -361,7 +361,7 @@
 <li>Your view can only know about one instance variable.</li>
 <li>Rules are meant to be broken if by breaking them you produce better code. [ ...where &quot;better code&quot; is validated by explaining why you want to break the rule to someone else. ]</li>
 </ol>
-<h2><a name="summary"class="anchor" href="#summary"><span class="header-link"></span></a>Summary</h2>
+<h2><a name="summary" class="anchor" href="#summary"><span class="header-link"></span></a>Summary</h2>
 <p>So just to quickly recap on some of the important points covered... </p>
 <ul>
 <li>Decouple your code</li>
@@ -412,7 +412,7 @@
 
 <div class="post-body"><p>I thought I would get down in a blog post the different <a href="http://git-scm.com">Git</a> commands and tips that I find really useful, because every now and then it seems I need to refer back to these notes (which up until this point have been in a txt file in my Dropbox) if I&#39;ve not used a particular command in a while. </p>
 <p>Hopefully you&#39;ll find them useful too.</p>
-<h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 13mins</em></p>
 <ol>
 <li><a href="#1">Show where Git is installed</a></li>
@@ -446,20 +446,20 @@
 <li><a href="#29">Modifying your Git history with <code>rebase</code></a></li>
 </ol>
 <p><div id="1"></div></p>
-<h2><a name="show-where-git-is-installed"class="anchor" href="#show-where-git-is-installed"><span class="header-link"></span></a>Show where Git is installed</h2>
+<h2><a name="show-where-git-is-installed" class="anchor" href="#show-where-git-is-installed"><span class="header-link"></span></a>Show where Git is installed</h2>
 <p><code>which git</code></p>
 <p><div id="2"></div></p>
-<h2><a name="show-the-git-version-installed"class="anchor" href="#show-the-git-version-installed"><span class="header-link"></span></a>Show the Git version installed</h2>
+<h2><a name="show-the-git-version-installed" class="anchor" href="#show-the-git-version-installed"><span class="header-link"></span></a>Show the Git version installed</h2>
 <p><code>git version</code></p>
 <p><div id="3"></div></p>
-<h2><a name="update-your-global-user-details"class="anchor" href="#update-your-global-user-details"><span class="header-link"></span></a>Update your global user details</h2>
+<h2><a name="update-your-global-user-details" class="anchor" href="#update-your-global-user-details"><span class="header-link"></span></a>Update your global user details</h2>
 <pre><code class="lang-sh"><div class="highlight"><pre>git config --global user.name <span class="s2">&quot;Your Name&quot;</span>
 git config --global user.email <span class="s2">&quot;Your Email&quot;</span>
 git config --global apply.whitespace nowarn <span class="c"># ignore white space changes!</span>
 </pre></div>
 </code></pre>
 <p><div id="4"></div></p>
-<h2><a name="set-up-a-global-ignore-file"class="anchor" href="#set-up-a-global-ignore-file"><span class="header-link"></span></a>Set-up a global ignore file</h2>
+<h2><a name="set-up-a-global-ignore-file" class="anchor" href="#set-up-a-global-ignore-file"><span class="header-link"></span></a>Set-up a global ignore file</h2>
 <p>First create the global ignore file…</p>
 <p><code>touch ~/.gitignore_global</code></p>
 <p>Then add the following content to it (<em>this is a standard ignore file but I&#39;ve added some Sass CSS pre-processor files to it</em>)…</p>
@@ -515,10 +515,10 @@ Thumbs.db
 <p>…or once the <code>.gitignore_global</code> file is created you can just tell git by using this short-hand command…</p>
 <p><code>git config --global core.excludesfile ~/.gitignore_global</code></p>
 <p><div id="5"></div></p>
-<h2><a name="adding-all-files-inc-those-marked-as-deleted-"class="anchor" href="#adding-all-files-inc-those-marked-as-deleted-"><span class="header-link"></span></a>Adding all files (inc. those marked as deleted)</h2>
+<h2><a name="adding-all-files-inc-those-marked-as-deleted" class="anchor" href="#adding-all-files-inc-those-marked-as-deleted"><span class="header-link"></span></a>Adding all files (inc. those marked as deleted)</h2>
 <p><code>git add -A</code></p>
 <p><div id="6"></div></p>
-<h2><a name="writing-a-long-commit"class="anchor" href="#writing-a-long-commit"><span class="header-link"></span></a>Writing a long commit</h2>
+<h2><a name="writing-a-long-commit" class="anchor" href="#writing-a-long-commit"><span class="header-link"></span></a>Writing a long commit</h2>
 <p>A short git commit message would look like this…</p>
 <p><code>git commit -m &quot;My short commit message&quot;</code></p>
 <p>…but you should really be writing longer more descriptive commit messages which you do like so:</p>
@@ -536,13 +536,13 @@ Thumbs.db
 <li>Press <code>:wq</code> (the colon means you can execute more commands, w = write, q = quit)</li>
 </ul>
 <p><div id="7"></div></p>
-<h2><a name="viewing-file-changes-while-writing-your-commit"class="anchor" href="#viewing-file-changes-while-writing-your-commit"><span class="header-link"></span></a>Viewing file changes while writing your commit</h2>
+<h2><a name="viewing-file-changes-while-writing-your-commit" class="anchor" href="#viewing-file-changes-while-writing-your-commit"><span class="header-link"></span></a>Viewing file changes while writing your commit</h2>
 <p><code>git commit -v</code></p>
 <p><div id="8"></div></p>
-<h2><a name="viewing-what-files-have-been-committed"class="anchor" href="#viewing-what-files-have-been-committed"><span class="header-link"></span></a>Viewing what files have been committed</h2>
+<h2><a name="viewing-what-files-have-been-committed" class="anchor" href="#viewing-what-files-have-been-committed"><span class="header-link"></span></a>Viewing what files have been committed</h2>
 <p><code>git ls-files</code></p>
 <p><div id="9"></div></p>
-<h2><a name="improving-git-log-with-git-lg-"class="anchor" href="#improving-git-log-with-git-lg-"><span class="header-link"></span></a>Improving <code>git log</code> with <code>git lg</code></h2>
+<h2><a name="improving-git-log-with-git-lg" class="anchor" href="#improving-git-log-with-git-lg"><span class="header-link"></span></a>Improving <code>git log</code> with <code>git lg</code></h2>
 <p>To get a better looking <code>git log</code> we need to write an alias called <code>git lg</code> that is just made up of standard Git commands/flags but when put together (along with specific colour settings) means we can have a short git command that provides us lots of useful information.</p>
 <p>What we need to do is open the <code>~/.gitconfig</code> file and then add the following content… </p>
 <pre><code class="lang-sh"><div class="highlight"><pre><span class="o">[</span><span class="nb">alias</span><span class="o">]</span>
@@ -550,7 +550,7 @@ Thumbs.db
 </pre></div>
 </code></pre>
 <p><div id="10"></div></p>
-<h2><a name="shorter-git-status-"class="anchor" href="#shorter-git-status-"><span class="header-link"></span></a>Shorter <code>git status</code></h2>
+<h2><a name="shorter-git-status" class="anchor" href="#shorter-git-status"><span class="header-link"></span></a>Shorter <code>git status</code></h2>
 <p>As per the above tip, we can create two extra alias&#39; which give us a shorter command to type (I don&#39;t know about you but when typing really fast I seem to always misspell the word &#39;status&#39;) and doesn&#39;t show us all the unnecessary crap that someone new to Git needs to see.</p>
 <p>What we need to do is open the <code>~/.gitconfig</code> file and then add the following content… </p>
 <pre><code class="lang-sh"><div class="highlight"><pre><span class="o">[</span><span class="nb">alias</span><span class="o">]</span> 
@@ -561,14 +561,14 @@ Thumbs.db
 <p>…you don&#39;t need to specify <code>[alias]</code> if it&#39;s already in the file (see previous tip).</p>
 <p>Now typing <code>git st</code> will be the same as <code>git status</code>, and typing <code>git sts</code> will be the same as <code>git status -sb</code>.</p>
 <p><div id="11"></div></p>
-<h2><a name="finding-a-commit-that-includes-a-specific-phrase"class="anchor" href="#finding-a-commit-that-includes-a-specific-phrase"><span class="header-link"></span></a>Finding a commit that includes a specific phrase</h2>
+<h2><a name="finding-a-commit-that-includes-a-specific-phrase" class="anchor" href="#finding-a-commit-that-includes-a-specific-phrase"><span class="header-link"></span></a>Finding a commit that includes a specific phrase</h2>
 <p><code>git log --grep=&lt;your-phrase-here&gt;</code></p>
 <p>For example, <code>git log --grep=CSS</code> will display all commits that contain the word &#39;CSS&#39; in the message.</p>
 <p><div id="12"></div></p>
-<h2><a name="only-merging-the-files-you-want"class="anchor" href="#only-merging-the-files-you-want"><span class="header-link"></span></a>Only merging the files you want</h2>
+<h2><a name="only-merging-the-files-you-want" class="anchor" href="#only-merging-the-files-you-want"><span class="header-link"></span></a>Only merging the files you want</h2>
 <p><code>git checkout &lt;branch-name&gt; &lt;file1&gt; &lt;file2&gt; &lt;file3&gt;</code></p>
 <p><div id="13"></div></p>
-<h2><a name="stashing-changes-you-re-not-ready-to-commit"class="anchor" href="#stashing-changes-you-re-not-ready-to-commit"><span class="header-link"></span></a>Stashing changes you&#39;re not ready to commit</h2>
+<h2><a name="stashing-changes-youre-not-ready-to-commit" class="anchor" href="#stashing-changes-youre-not-ready-to-commit"><span class="header-link"></span></a>Stashing changes you&#39;re not ready to commit</h2>
 <p>If you make changes to your branch and then want to quickly change branches without first having to commit your current &#39;dirty state&#39; then run:</p>
 <p><code>git stash</code></p>
 <p>To apply a stashed state (git assumes the most recent stashed state if none specified) use: </p>
@@ -594,11 +594,11 @@ Thumbs.db
 <p><code>git stash --keep-index</code></p>
 <p>...finally you can then <code>git reset</code> the files you originally added (if you don&#39;t plan on committing them yet).</p>
 <p><div id="14"></div></p>
-<h2><a name="revert-all-changes-back-to-last-commit"class="anchor" href="#revert-all-changes-back-to-last-commit"><span class="header-link"></span></a>Revert all changes back to last commit</h2>
+<h2><a name="revert-all-changes-back-to-last-commit" class="anchor" href="#revert-all-changes-back-to-last-commit"><span class="header-link"></span></a>Revert all changes back to last commit</h2>
 <p><code>git reset --hard</code></p>
 <p>Note: you can do a &#39;soft&#39; reset <code>git reset --soft &lt;hash&gt;</code>. The difference between <code>--hard</code> and <code>--soft</code> is with <code>--hard</code> the specified commit hash&#39;s files are moved into the working directory and the staging area (as if there were no changes since that specified commit). But using <code>--soft</code> will leave whatever changes you&#39;ve made in your working directory/staging area but will restore the specified commit you&#39;ve selected.</p>
 <p><div id="15"></div></p>
-<h2><a name="unstaging-files"class="anchor" href="#unstaging-files"><span class="header-link"></span></a>Unstaging files</h2>
+<h2><a name="unstaging-files" class="anchor" href="#unstaging-files"><span class="header-link"></span></a>Unstaging files</h2>
 <p>To unstage files we&#39;ve added to the staging area we need to run the command <code>reset HEAD</code> but that&#39;s a bit ugly and awkward to remember. What would be easier is if we could just say <code>git unstage</code>, so let&#39;s create an alias to help make that easier!</p>
 <p>Open up the file <code>~/.gitconfig</code> and then add the following content… </p>
 <pre><code class="lang-sh"><div class="highlight"><pre><span class="o">[</span><span class="nb">alias</span><span class="o">]</span>
@@ -611,23 +611,23 @@ Thumbs.db
 <p>If you&#39;ve staged files before any commits have been set (e.g. right at the start of your project) then you&#39;ll find the above wont work because technically there are no commits to revert back to. So instead you&#39;ll need to remove the files like so…</p>
 <p><code>git rm --cached &lt;file&gt;</code></p>
 <p><div id="16"></div></p>
-<h2><a name="untrack-a-file-without-deleting-it"class="anchor" href="#untrack-a-file-without-deleting-it"><span class="header-link"></span></a>Untrack a file without deleting it</h2>
+<h2><a name="untrack-a-file-without-deleting-it" class="anchor" href="#untrack-a-file-without-deleting-it"><span class="header-link"></span></a>Untrack a file without deleting it</h2>
 <p>If you want to have Git stop tracking a file it&#39;s already tracking then you would think to run:</p>
 <p><code>git rm &lt;file&gt;</code></p>
 <p>…but the problem with that command is that Git will also delete the file altogether!? Something we usually don&#39;t want to have happen.</p>
 <p>The work around to that issue is to use the <code>--cached</code> flag:</p>
 <p><code>git rm --cached &lt;file&gt;</code></p>
 <p><div id="17"></div></p>
-<h2><a name="amend-your-last-commit"class="anchor" href="#amend-your-last-commit"><span class="header-link"></span></a>Amend your last commit</h2>
+<h2><a name="amend-your-last-commit" class="anchor" href="#amend-your-last-commit"><span class="header-link"></span></a>Amend your last commit</h2>
 <p>If you make a commit and then realise that you want to amend the commit message then don&#39;t make any changes to the files and just run…</p>
 <p><code>git commit --amend</code></p>
 <p>…which will open up the default editor for handling commits (usually Vim) and will let you amend the commit message.</p>
 <p>If on the other hand you decide that after you&#39;ve written a commit that you want to amend the commit by adding some more files to it then just add the files as normal and run the same command as above and when Vim opens to let you edit the commit message you&#39;ll see the extra files you added as part of that commit.</p>
 <p><div id="18"></div></p>
-<h2><a name="show-the-files-within-a-commit"class="anchor" href="#show-the-files-within-a-commit"><span class="header-link"></span></a>Show the files within a commit</h2>
+<h2><a name="show-the-files-within-a-commit" class="anchor" href="#show-the-files-within-a-commit"><span class="header-link"></span></a>Show the files within a commit</h2>
 <p><code>git show &lt;hash&gt; --name-only</code></p>
 <p><div id="19"></div></p>
-<h2><a name="see-differences-between-files"class="anchor" href="#see-differences-between-files"><span class="header-link"></span></a>See differences between files</h2>
+<h2><a name="see-differences-between-files" class="anchor" href="#see-differences-between-files"><span class="header-link"></span></a>See differences between files</h2>
 <p>To see the difference between the current working directory and the last commit:  </p>
 <p><code>git diff</code></p>
 <p>If your files have been added to the staging area already then you can use the <code>--cached</code> flag:  </p>
@@ -639,36 +639,36 @@ Thumbs.db
 <p>To see the difference between branches:</p>
 <p><code>git diff &lt;branch-1&gt;..&lt;branch-2&gt;</code></p>
 <p><div id="20"></div></p>
-<h2><a name="see-changes-between-two-commits"class="anchor" href="#see-changes-between-two-commits"><span class="header-link"></span></a>See changes between two commits</h2>
+<h2><a name="see-changes-between-two-commits" class="anchor" href="#see-changes-between-two-commits"><span class="header-link"></span></a>See changes between two commits</h2>
 <p><code>git diff &lt;more-recent-hash&gt; &lt;older-hash&gt;</code></p>
 <p><div id="21"></div></p>
-<h2><a name="creating-a-branch-and-moving-to-it-at-the-same-time"class="anchor" href="#creating-a-branch-and-moving-to-it-at-the-same-time"><span class="header-link"></span></a>Creating a branch and moving to it at the same time</h2>
+<h2><a name="creating-a-branch-and-moving-to-it-at-the-same-time" class="anchor" href="#creating-a-branch-and-moving-to-it-at-the-same-time"><span class="header-link"></span></a>Creating a branch and moving to it at the same time</h2>
 <p><code>git checkout -b &lt;branch-name&gt;</code></p>
 <p><div id="22"></div></p>
-<h2><a name="deleting-a-branch"class="anchor" href="#deleting-a-branch"><span class="header-link"></span></a>Deleting a branch</h2>
+<h2><a name="deleting-a-branch" class="anchor" href="#deleting-a-branch"><span class="header-link"></span></a>Deleting a branch</h2>
 <p><code>git branch -D &lt;branch-name&gt;</code></p>
 <p><div id="23"></div></p>
-<h2><a name="viewing-all-branches-of-a-remote"class="anchor" href="#viewing-all-branches-of-a-remote"><span class="header-link"></span></a>Viewing all branches of a remote</h2>
+<h2><a name="viewing-all-branches-of-a-remote" class="anchor" href="#viewing-all-branches-of-a-remote"><span class="header-link"></span></a>Viewing all branches of a remote</h2>
 <p><code>git branch -a</code></p>
 <p><div id="24"></div></p>
-<h2><a name="checkout-a-remote-branch"class="anchor" href="#checkout-a-remote-branch"><span class="header-link"></span></a>Checkout a remote branch</h2>
+<h2><a name="checkout-a-remote-branch" class="anchor" href="#checkout-a-remote-branch"><span class="header-link"></span></a>Checkout a remote branch</h2>
 <p>What normally happens is this: you clone down a repository from GitHub and this repo will have multiple branches, but if you run <code>git branch</code> locally all you see is the <code>master</code> branch.</p>
 <p>If you run <code>git branch -a</code> you can see all the branches for that remote repository but you just can&#39;t access them or check them out?</p>
 <p>So if you want to access the other branches within that repo then run the following command:</p>
 <p><code>git checkout -b &lt;new-local-branch-name&gt; origin/&lt;remote-branch-name&gt;</code></p>
 <p>…this will create a new branch named whatever you called it and contains the content of the remote branch you specified.</p>
 <p><div id="25"></div></p>
-<h2><a name="remove-a-remote"class="anchor" href="#remove-a-remote"><span class="header-link"></span></a>Remove a remote</h2>
+<h2><a name="remove-a-remote" class="anchor" href="#remove-a-remote"><span class="header-link"></span></a>Remove a remote</h2>
 <p><code>git remove rm &lt;remote&gt;</code></p>
 <p><div id="26"></div></p>
-<h2><a name="revert-a-specific-file-back-to-an-earlier-version"class="anchor" href="#revert-a-specific-file-back-to-an-earlier-version"><span class="header-link"></span></a>Revert a specific file back to an earlier version</h2>
+<h2><a name="revert-a-specific-file-back-to-an-earlier-version" class="anchor" href="#revert-a-specific-file-back-to-an-earlier-version"><span class="header-link"></span></a>Revert a specific file back to an earlier version</h2>
 <p><code>git checkout &lt;hash|tag|HEAD&gt; &lt;file-name&gt;</code></p>
 <p>Note if you&#39;ve staged your file and then started making changes to the file which you no longer want applied you can use: <code>git checkout -- &lt;file-name&gt;</code> to revert to the version of the file in the staging area.</p>
 <p><div id="27"></div></p>
-<h2><a name="viewing-all-commits-for-a-file-and-who-made-those-changes"class="anchor" href="#viewing-all-commits-for-a-file-and-who-made-those-changes"><span class="header-link"></span></a>Viewing all commits for a file and who made those changes</h2>
+<h2><a name="viewing-all-commits-for-a-file-and-who-made-those-changes" class="anchor" href="#viewing-all-commits-for-a-file-and-who-made-those-changes"><span class="header-link"></span></a>Viewing all commits for a file and who made those changes</h2>
 <p><code>git blame &lt;file&gt;</code></p>
 <p><div id="28"></div></p>
-<h2><a name="commiting-only-parts-of-a-file-rather-than-the-whole-file"class="anchor" href="#commiting-only-parts-of-a-file-rather-than-the-whole-file"><span class="header-link"></span></a>Commiting only parts of a file rather than the whole file</h2>
+<h2><a name="commiting-only-parts-of-a-file-rather-than-the-whole-file" class="anchor" href="#commiting-only-parts-of-a-file-rather-than-the-whole-file"><span class="header-link"></span></a>Commiting only parts of a file rather than the whole file</h2>
 <p>If you have a file with lots of changes made, you might not want to have all the changes logged under one single commit.</p>
 <p>To split the single file into multiple commits you need to use Git&#39;s <code>patch</code> mode… </p>
 <p><code>git add &lt;file&gt; -p</code></p>
@@ -682,7 +682,7 @@ Thumbs.db
 <p>Sometimes you can&#39;t split a hunk into more hunks automatically, you have to do it manually. To do so you press <code>e</code> to edit and then use Vim to manually make changes.</p>
 <p>So if you have a line removed that you want to keep as part of the commit then you&#39;ll remove the <code>-</code> so there is just a space instead, and if you have a line added that you want to not have included as part of the commit then you remove the entire line. BUT the most important part it also updating the line numbers at the top of the file so that the number of lines in the file match what you are looking to commit (otherwise the commit will fail). To make the edit to the hunk final (pre-commit) press <code>esc</code> then <code>:wq</code> and then you&#39;ll be able to commit the selected changes.</p>
 <p><div id="29"></div></p>
-<h2><a name="modifying-your-git-history-with-rebase-"class="anchor" href="#modifying-your-git-history-with-rebase-"><span class="header-link"></span></a>Modifying your Git history with <code>rebase</code></h2>
+<h2><a name="modifying-your-git-history-with-rebase" class="anchor" href="#modifying-your-git-history-with-rebase"><span class="header-link"></span></a>Modifying your Git history with <code>rebase</code></h2>
 <p>To change multiple commits you must use the interactive mode of the <code>rebase</code> command and you must tell Git how many commits back you want to go (because it&#39;ll start from there and keep moving through the commits until it reaches the <code>HEAD</code>).</p>
 <p>REMEMBER: when using <code>rebase</code> every commit in the range specified is changed whether you change the message or not. So don&#39;t use <code>rebase</code> on commits that have already been pushed to a remote server as other users might have those commits pulled down and your changing of the commits will cause havoc for those users in the near future.</p>
 <p>To amend the last 3 commits we use: <code>git rebase -i HEAD~3</code> and follow the instructions.</p>

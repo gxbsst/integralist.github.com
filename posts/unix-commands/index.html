@@ -45,7 +45,7 @@
   <span class="post-date">2013 &#183; 10 &#183; 1</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 15mins</em></p>
 <ul>
 <li>Introduction</li>
@@ -81,54 +81,54 @@
 </li>
 <li>Conclusion</li>
 </ul>
-<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
 <p>The unix command line has a hundred or so commands, and a small majority of those you can realistically find yourself using on a regular basis. In this post I want to cover some common commands that can actually be quite useful to you.</p>
 <p>Shell commands aren&#39;t something you can cover in one post. Entire books have been written on the subject. So don&#39;t expect anything other than the bare bone basics here, which should hopefully give you enough of an understanding to take your own learning forward.</p>
 <p>So let&#39;s begin… </p>
-<h2><a name="basics"class="anchor" href="#basics"><span class="header-link"></span></a>Basics</h2>
+<h2><a name="basics" class="anchor" href="#basics"><span class="header-link"></span></a>Basics</h2>
 <p>OK, so I&#39;ll assume you have absolutely no prior command line experience which means we need to start at the basics.</p>
 <p>So, first things first: open up your shell (if you&#39;re on a Mac then this will be your <code>Terminal.app</code> application.</p>
-<h3><a name="what-directory-am-i-currently-in-"class="anchor" href="#what-directory-am-i-currently-in-"><span class="header-link"></span></a>What directory am I currently in?</h3>
+<h3><a name="what-directory-am-i-currently-in" class="anchor" href="#what-directory-am-i-currently-in"><span class="header-link"></span></a>What directory am I currently in?</h3>
 <p><code>pwd</code> - this stands for &quot;Print Working Directory&quot;</p>
-<h3><a name="how-can-i-see-what-s-in-this-directory-"class="anchor" href="#how-can-i-see-what-s-in-this-directory-"><span class="header-link"></span></a>How can I see what&#39;s in this directory?</h3>
+<h3><a name="how-can-i-see-whats-in-this-directory" class="anchor" href="#how-can-i-see-whats-in-this-directory"><span class="header-link"></span></a>How can I see what&#39;s in this directory?</h3>
 <p><code>ls</code> - this tells the shell to list out any files or folders in the current working directory.</p>
 <p>You can also tell the command a directory path you want it to look inside of: <code>ls ~/Desktop</code> (this will list all files and folders on your desktop).</p>
 <p><code>ls -l</code> - the <code>-l</code> flag tells the command to stack the list when it prints its output to the shell.</p>
 <p><code>ls -la</code> - this is a combination of the previous flag and the <code>-a</code> flag which means &quot;show all files&quot; (by this I mean, it&#39;ll show you hidden files).</p>
-<h3><a name="moving-around"class="anchor" href="#moving-around"><span class="header-link"></span></a>Moving around</h3>
+<h3><a name="moving-around" class="anchor" href="#moving-around"><span class="header-link"></span></a>Moving around</h3>
 <p>To move around your file system you use the &#39;change directory&#39; command <code>cd</code>.</p>
 <p>So: <code>cd ~/Desktop</code> will put you in the Desktop.</p>
 <p>You can also use relative paths such as <code>cd ../</code> which will take you up one level from wherever you happen to be.</p>
-<h3><a name="displaying-content-of-a-file"class="anchor" href="#displaying-content-of-a-file"><span class="header-link"></span></a>Displaying content of a file</h3>
+<h3><a name="displaying-content-of-a-file" class="anchor" href="#displaying-content-of-a-file"><span class="header-link"></span></a>Displaying content of a file</h3>
 <p>The <code>cat</code> command is a concatenation command, meaning that if you ran <code>cat original.txt new.txt</code> it would display on your screen the combination of the content from both files specified.</p>
 <p>So, with that understanding we can use <code>cat original.txt</code> (i.e. specifying just a single file) to show the contents of that file.</p>
-<h3><a name="let-s-copy-a-file"class="anchor" href="#let-s-copy-a-file"><span class="header-link"></span></a>Let&#39;s copy a file</h3>
+<h3><a name="lets-copy-a-file" class="anchor" href="#lets-copy-a-file"><span class="header-link"></span></a>Let&#39;s copy a file</h3>
 <p>To copy a file we need the <code>cp</code> command, and we tell it what file to copy and where to copy it to.</p>
 <p>So: <code>cp ~/Downloads/test.txt ~/Desktop/test.txt</code> will copy the file <code>test.txt</code> (which is inside our &#39;Downloads&#39; folder) and put the copy on our Desktop.</p>
-<h3><a name="let-s-move-a-file"class="anchor" href="#let-s-move-a-file"><span class="header-link"></span></a>Let&#39;s move a file</h3>
+<h3><a name="lets-move-a-file" class="anchor" href="#lets-move-a-file"><span class="header-link"></span></a>Let&#39;s move a file</h3>
 <p>To move a file you need the <code>mv</code> command, and we tell it what file to move and where to move it to.</p>
 <p>So: <code>mv ~/Downloads/test.txt ~/Desktop/test.txt</code> will move the file <code>test.txt</code> from our &#39;Downloads&#39; folder onto our &#39;Desktop&#39;.</p>
-<h3><a name="let-s-rename-a-file"class="anchor" href="#let-s-rename-a-file"><span class="header-link"></span></a>Let&#39;s rename a file</h3>
+<h3><a name="lets-rename-a-file" class="anchor" href="#lets-rename-a-file"><span class="header-link"></span></a>Let&#39;s rename a file</h3>
 <p>There is no <code>rename</code> command on Unix (although there is in Linux) and so we need to use a trick, the trick being to use the <code>mv</code> command.</p>
 <p>So: <code>mv ~/Downloads/test.txt ~/Downloads/new.txt</code> will actually rename the file <code>test.txt</code> to <code>new.txt</code> as we&#39;ve moved the file into the same directory it was already in but with a different name (effectively acting like we renamed it)</p>
-<h3><a name="let-s-delete-a-file"class="anchor" href="#let-s-delete-a-file"><span class="header-link"></span></a>Let&#39;s delete a file</h3>
+<h3><a name="lets-delete-a-file" class="anchor" href="#lets-delete-a-file"><span class="header-link"></span></a>Let&#39;s delete a file</h3>
 <p>To delete a file we need the &#39;remove&#39; command <code>rm</code>.</p>
 <p>So: <code>rm ~/Downloads/test.txt</code> will delete our <code>test.txt</code> file.</p>
-<h3><a name="let-s-delete-a-directory"class="anchor" href="#let-s-delete-a-directory"><span class="header-link"></span></a>Let&#39;s delete a directory</h3>
+<h3><a name="lets-delete-a-directory" class="anchor" href="#lets-delete-a-directory"><span class="header-link"></span></a>Let&#39;s delete a directory</h3>
 <p>To delete a folder we need the &#39;remove&#39; command <code>rm</code> again but this time we need to pass in a couple of flags to the command.</p>
 <p>The first flag is <code>-f</code> which means &#39;force&#39; the removal (otherwise if you try to remove a folder then the shell will try and prevent this as it&#39;ll assume you&#39;ve made a mistake, and deleting a whole folder could be a big mistake if you&#39;re not careful).</p>
 <p>The second flag is <code>-r</code> which means &#39;recursively&#39;. So you&#39;ll recursively delete files within the folder.</p>
 <p>So: <code>rm -rf ~/Desktop/some-folder</code> will delete our <code>some-folder</code> folder on the Desktop.</p>
-<h2><a name="grep-searching-for-patterns-"class="anchor" href="#grep-searching-for-patterns-"><span class="header-link"></span></a>Grep (Searching for patterns)</h2>
+<h2><a name="grep-searching-for-patterns" class="anchor" href="#grep-searching-for-patterns"><span class="header-link"></span></a>Grep (Searching for patterns)</h2>
 <p>Grep is a command that lets you find a pattern (either a string or a regular expression) inside of a file or list of files.</p>
 <p>So: <code>grep &#39;something&#39; test.txt</code> looks for the word &#39;something&#39; inside of the file <code>test.txt</code>.</p>
 <p>To use grep on a directory of files then we need to use an additional flag: <code>-r</code> which means &#39;recursive&#39; (similar to the <code>rm</code> command we saw previously).</p>
 <p>So: <code>grep -r &#39;something&#39; ~/Desktop</code> looks for the word &#39;something&#39; inside of any files on the Desktop.</p>
-<h2><a name="sed-find-and-replace-"class="anchor" href="#sed-find-and-replace-"><span class="header-link"></span></a>Sed (Find and Replace)</h2>
+<h2><a name="sed-find-and-replace" class="anchor" href="#sed-find-and-replace"><span class="header-link"></span></a>Sed (Find and Replace)</h2>
 <p>The <code>sed</code> command stands for (S)tream (Ed)itor and allows you to  read in the contents of a file and then write the modified output to another file or pipe it through to another I/O command (we&#39;ll cover piping later).</p>
 <p>A basic example of its use would be: <code>sed s/day/night/ novel.txt</code></p>
 <p>This replaces the first occurrence of &#39;day&#39; to &#39;night&#39;. If we wanted to replace multiple occurrences then you would need to pass a <code>g</code> flag (meaning global) to the regular expression like so: <code>sed s/day/night/g novel.txt</code></p>
-<h2><a name="awk-looping-logic-"class="anchor" href="#awk-looping-logic-"><span class="header-link"></span></a>Awk (Looping Logic)</h2>
+<h2><a name="awk-looping-logic" class="anchor" href="#awk-looping-logic"><span class="header-link"></span></a>Awk (Looping Logic)</h2>
 <p>The <code>awk</code> command reads in each line of a file and splits the line into fields (using whitespace - space, tab - as its default delimiter).</p>
 <p>You can then execute commands for each line and reference each field.</p>
 <p>A basic example of its use would be: <code>awk &#39;{ print $1 }&#39;</code> which means &quot;print the first field found in the current line&quot;.</p>
@@ -156,15 +156,15 @@ Line 3: third
 <li><code>NF</code> stands for (N)umber of (F)ields.</li>
 <li>The <code>$()</code> wrapping around <code>NF</code> is our &#39;process substitution&#39;. This means we&#39;re not just outputting some data but manipulating it by using logic to give us 1 field back from the last, hence it needs to be wrapped in <code>$()</code></li>
 </ul>
-<h2><a name="piping-i-o"class="anchor" href="#piping-i-o"><span class="header-link"></span></a>Piping I/O</h2>
+<h2><a name="piping-io" class="anchor" href="#piping-io"><span class="header-link"></span></a>Piping I/O</h2>
 <p>The previous commands <code>awk</code>, <code>sed</code>, <code>grep</code> are all really useful, but it&#39;s when you can combine them that their true power shines.</p>
-<h3><a name="input-and-output"class="anchor" href="#input-and-output"><span class="header-link"></span></a>Input and Output</h3>
+<h3><a name="input-and-output" class="anchor" href="#input-and-output"><span class="header-link"></span></a>Input and Output</h3>
 <p>Unix is based on the principle of &quot;input&quot; and &quot;output&quot; (known as &quot;I/O&quot;). In the Shell you have <code>stdin</code> (standard input) and <code>stdout</code> (standard output).</p>
 <p>By default, <code>stdin</code> is your keyboard (i.e. whatever you type into the terminal shell) and <code>stdout</code> is the terminal (i.e. your screen).</p>
-<h3><a name="redirection"class="anchor" href="#redirection"><span class="header-link"></span></a>Redirection</h3>
+<h3><a name="redirection" class="anchor" href="#redirection"><span class="header-link"></span></a>Redirection</h3>
 <p>Once you understand <code>stdin</code> and <code>stdout</code> you can start to look at redirecting them.</p>
 <p>For example when using the <code>sed</code> command you could use redirection to not overwrite your original file and instead direct the output <code>stdout</code> coming from the <code>sed</code> command to another file: <code>sed s/day/night/g original.txt &gt; new.txt</code></p>
-<h3><a name="piping"class="anchor" href="#piping"><span class="header-link"></span></a>Piping</h3>
+<h3><a name="piping" class="anchor" href="#piping"><span class="header-link"></span></a>Piping</h3>
 <p>Another way to <em>direct</em> input and output is to use pipes <code>|</code> (a vertical bar).</p>
 <p>A really simple example would be: look at the <code>sed</code> command we used earlier (<code>sed s/day/night/ novel.txt</code>). Rather than actually execute it and have it make the specified change to our file <code>novel.txt</code> we could instead test the command to make sure it does what we expect it to.</p>
 <p>To do that we would use the <code>cat</code> command (which we looked at previously) and pipe its output through to the <code>sed</code> command like so… </p>
@@ -172,12 +172,12 @@ Line 3: third
 <p>So, to clarify how this works: we&#39;re redirecting the <code>cat</code> command&#39;s <code>stdout</code> through to the <code>sed</code> command&#39;s <code>stdin</code>. </p>
 <p>In our original <code>sed</code> example we directed the <code>sed</code> command&#39;s <code>stdout</code> to an actual file (<code>novel.txt</code>), but in this case it has no <code>stdout</code> specified so it falls back to the default <code>stdout</code> which in this case is the terminal shell itself.</p>
 <p>Hence the results of the <code>sed</code> command (the modified content) are displayed on your screen.</p>
-<h3><a name="piping-to-vim"class="anchor" href="#piping-to-vim"><span class="header-link"></span></a>Piping to Vim</h3>
+<h3><a name="piping-to-vim" class="anchor" href="#piping-to-vim"><span class="header-link"></span></a>Piping to Vim</h3>
 <p>One thing I discovered recently (via <a href="http://twitter.com/Pand0ra83">Crystal Hirschorn</a>) was that you can&#39;t just pipe <code>stdout</code> into Vim unless you add a hyphen/dash <code>-</code> to the end of the command like so: <code>ls | vim -</code></p>
 <p>Otherwise Vim will complain that: <code>Input is not from a terminal</code></p>
 <p>That&#39;s a good one to remember!</p>
 <p>Also you can pipe the input into Vim in read-only mode using the <code>-R</code> flag as well: <code>ls | vim -R -</code></p>
-<h3><a name="piping-examples"class="anchor" href="#piping-examples"><span class="header-link"></span></a>Piping examples</h3>
+<h3><a name="piping-examples" class="anchor" href="#piping-examples"><span class="header-link"></span></a>Piping examples</h3>
 <p>Here are three real world examples I&#39;ve used recently…</p>
 <pre><code class="lang-sh"><div class="highlight"><pre>phantomjs 2&gt;<span class="p">&amp;</span>1 network-test.js <span class="p">|</span> tee log.txt
 </pre></div>
@@ -221,15 +221,15 @@ Line 3: third
 <p>So the only difference here is instead of using both Awk and Sed, we&#39;re just using Cut. I&#39;ve not mentioned it before but <code>cut</code> works like this: </p>
 <p>Cut splits the input into fields (like Awk does). We then tell it that we want the fields to be split by <code>:</code> (that&#39;s the <code>-d :</code> section). Then finally we use <code>-f 1</code> to say we want the first field, which we pipe over to xargs. Otherwise the rest of the command is the same as before.</p>
 <p>Nice huh!</p>
-<h2><a name="miscellaneous-commands"class="anchor" href="#miscellaneous-commands"><span class="header-link"></span></a>Miscellaneous Commands</h2>
-<h3><a name="-tee-"class="anchor" href="#-tee-"><span class="header-link"></span></a><code>tee</code></h3>
+<h2><a name="miscellaneous-commands" class="anchor" href="#miscellaneous-commands"><span class="header-link"></span></a>Miscellaneous Commands</h2>
+<h3><a name="tee" class="anchor" href="#tee"><span class="header-link"></span></a><code>tee</code></h3>
 <p>The <code>tee</code> command you&#39;ve seen already now (in our above example) but just to reiterate its use, here is how the manual describes it… </p>
 <blockquote>
 <p>The tee utility copies standard input to standard output, making a copy in zero or more files.</p>
 </blockquote>
-<h3><a name="-dig-"class="anchor" href="#-dig-"><span class="header-link"></span></a><code>dig</code></h3>
+<h3><a name="dig" class="anchor" href="#dig"><span class="header-link"></span></a><code>dig</code></h3>
 <p>The <code>dig</code> command is used for carrying out DNS lookups: <code>dig integralist.co.uk</code> returns the DNS records found for my domain name.</p>
-<h3><a name="-ps-"class="anchor" href="#-ps-"><span class="header-link"></span></a><code>ps</code></h3>
+<h3><a name="ps" class="anchor" href="#ps"><span class="header-link"></span></a><code>ps</code></h3>
 <p>The <code>ps</code> command stands for (p)rocess (s)tatus</p>
 <p>It shows you all running processes on your computer.</p>
 <p>You can use piping again to narrow down the results to something in particular you know is causing your computer to slow down and then execute another command to kill that process.</p>
@@ -237,10 +237,10 @@ Line 3: third
 <p>In the above example we also pass <code>aux</code> which basically specifies table of results that should be returned (see: <a href="http://en.wikipedia.org/wiki/Ps_\(Unix\"><a href="http://en.wikipedia.org/wiki/Ps_(Unix">http://en.wikipedia.org/wiki/Ps_(Unix</a>)</a>) for more information).</p>
 <p>We then pipe that through to <code>grep</code> and tell it we&#39;re interested only in processes that have the text <code>ruby</code> somewhere (that way we can narrow down the results printed to the screen).</p>
 <p>Finally to kill a particular process you&#39;ll need its PID number (which <code>ps aux</code> would have displayed) so locate that PID and then run <code>kill -9 xxxx</code> where <code>xxxx</code> is the PID number you want to stop.</p>
-<h3><a name="-xargs-"class="anchor" href="#-xargs-"><span class="header-link"></span></a><code>xargs</code></h3>
+<h3><a name="xargs" class="anchor" href="#xargs"><span class="header-link"></span></a><code>xargs</code></h3>
 <p>I know we&#39;ve covered Xargs already in my previous examples, but it&#39;s worth mentioning that you can also use the <code>-0</code> flag which helps with some commands that won&#39;t work when passed arguments that have spaces in them (imagine a file name with spaces). Using the <code>-0</code> flag resolves that issue.</p>
 <p>Also, if the command you want to run only excepts a single argument (for example <code>echo 123</code>) then you can omit the <code>-I {}</code> placeholder definition. </p>
-<h3><a name="-cut-"class="anchor" href="#-cut-"><span class="header-link"></span></a><code>cut</code></h3>
+<h3><a name="cut" class="anchor" href="#cut"><span class="header-link"></span></a><code>cut</code></h3>
 <p>Again, we&#39;ve covered Cut above already, but just to note that you can change the field delimiter using <code>-d</code> (e.g. <code>-d ,</code> would split the line on commas).</p>
 <p>Also, <code>-f</code> allows a range, not just a single field index. So if you wanted fields 3 to 4 you could do <code>-f 3,4</code></p>
 <p>Another feature of <code>cut</code> is the <code>-c</code> flag which cuts based on &#39;character position&#39; rather than &#39;fields&#39; like <code>-f</code> does. </p>
@@ -248,7 +248,7 @@ Line 3: third
 <p><code>echo &quot; xyz &quot; | cut -c 2- | rev | cut -c 2- | rev</code></p>
 <p>…notice our text &quot;xyz&quot; has one character of white space at the start and end. So we specifically tell <code>cut</code> to start at character 2 <code>x</code> and cut until the end of the line <code>2-</code> and then we use the <code>rev</code> command which reverses the content so it becomes &quot; zyx&quot; and then we again cut from the 2nd character (this time <code>z</code>) and cut until the end of the line and finally we reverse the line one more time so we&#39;re back to where we were initially but with the white space removed.</p>
 <p>There are probably more elegant ways to achieve this but it gives you an indication of how you might want to use a command in unique ways.</p>
-<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
 <p>This was a pretty fast paced run through of some different unix commands. As time goes on I&#39;ll update this post to include other commands and real work use cases that I think would be interesting and useful to those readers new to the command line.</p>
 <p>If there were any errors or any thing like that then just let me know by pinging me on <a href="http://twitter.com/integralist">twitter</a>.</p>
 </div>

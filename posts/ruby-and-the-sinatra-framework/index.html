@@ -45,7 +45,7 @@
   <span class="post-date">2012 &#183; 7 &#183; 22</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 23mins</em></p>
 <ul>
 <li>Introduction<ul>
@@ -69,21 +69,21 @@
 </li>
 <li>Conclusions</li>
 </ul>
-<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
 <p>In my opinion there&#39;s isn&#39;t enough good information on the web about how to get started building a <a href="http://www.ruby-lang.org/" title="The Ruby Programming Language">Ruby</a> based website (unless you want to use the ever popular <a href="http://rubyonrails.org/" title="Ruby on Rails">Ruby on Rails</a> framework). </p>
 <p>But even then, it&#39;s not as straight forward as you&#39;d think (not for someone new to the language or server-side coding in general).</p>
-<h3><a name="dsl-vs-gpl"class="anchor" href="#dsl-vs-gpl"><span class="header-link"></span></a>DSL vs GPL</h3>
+<h3><a name="dsl-vs-gpl" class="anchor" href="#dsl-vs-gpl"><span class="header-link"></span></a>DSL vs GPL</h3>
 <p>Before we go any further, it&#39;s worth clarifying the difference between a Domain Specific Language (DSL) and a General Purpose Language (GPL). Languages like JavaScript and PHP are DSL&#39;s** because they were designed to be run within a specific &#39;domain&#39; (and by domain we really mean &#39;environment&#39;) such as the web. But languages like Python and Ruby are GPL&#39;s because they can run within many different domains (e.g. Ruby can run on the web, desktop, command line etc).</p>
 <p>If we look at a DSL language such as <a href="http://www.php.net/" title="PHP Hypertext Preprocessor">PHP</a>**: it is very easy to build a site using PHP because you can just input some procedural code, upload the file onto a server that supports PHP (and what server doesn&#39;t nowadays) and that&#39;s all there is to it (!now I&#39;m obviously not suggesting this is good practice - I&#39;m just illustrating the point that if you wanted to <strong>just get started</strong> with PHP then that is all there is to it).</p>
 <p>With a GPL such as Ruby it isn&#39;t so straight forward (it&#39;s like the old adage &quot;the question is easy when you know the answer&quot;: Ruby can be easy to use and get set-up when you know what you&#39;re doing, but the fundamentals - in my opinion - are difficult to grasp without a helping hand).</p>
 <p><em>**PHP (and JavaScript) were designed to be DSL&#39;s but have since evolved more into GPL&#39;s as they can be run on the desktop as well as the web (and many other environments they weren&#39;t originally designed for).</em></p>
 <p>My issue with Ruby is that there is no &quot;just get started&quot; guide for those who want to build a site with it but not have to deal with design patterns such as MVC (maybe not straight away at least). I wouldn&#39;t be surprised if developers new to Ruby felt obliged to use Ruby on Rails because it seems to be the only Ruby related framework out there that gets any real spotlight - and I understand why, because it truly is an all encompassing framework - but I wanted a Ruby site without the bloat of a framework like <a href="http://rubyonrails.org/" title="Ruby on Rails">Ruby on Rails</a>. I didn&#39;t want all the confusing MVC structure and features that I&#39;d never use. Hence why I&#39;m writing this now.</p>
-<h2><a name="github-repository"class="anchor" href="#github-repository"><span class="header-link"></span></a>GitHub Repository</h2>
+<h2><a name="github-repository" class="anchor" href="#github-repository"><span class="header-link"></span></a>GitHub Repository</h2>
 <p>You can find an example repository with all code discussed in this article here: <a href="https://github.com/Integralist/passage"><a href="https://github.com/Integralist/passage">https://github.com/Integralist/passage</a></a></p>
-<h2><a name="sinatra"class="anchor" href="#sinatra"><span class="header-link"></span></a>Sinatra</h2>
+<h2><a name="sinatra" class="anchor" href="#sinatra"><span class="header-link"></span></a>Sinatra</h2>
 <p>So, let me begin by introducing you to <a href="http://www.sinatrarb.com/" title="Put this in your pipe and smoke it">Sinatra</a>. Sinatra is a micro web framework for Ruby that although small (much smaller than a framework such as Ruby on Rails) is still surprising complex and powerful (I&#39;d highly recommend reading O&#39;Reilly&#39;s book &quot;<a href="http://shop.oreilly.com/product/0636920019664.do" title="Ruby for the Web">Sinatra: Up and Running</a>&quot;).</p>
 <p>Sinatra does require you to do a lot of work off your own back, but at the same time it doesn&#39;t enforce a particular style on you. It&#39;s also very easy to get a site up and running with Sinatra and that is hopefully what I&#39;ll demonstrate here today.</p>
-<h2><a name="hosting"class="anchor" href="#hosting"><span class="header-link"></span></a>Hosting</h2>
+<h2><a name="hosting" class="anchor" href="#hosting"><span class="header-link"></span></a>Hosting</h2>
 <p>Now running a site locally on your computer is one thing, but you want to be able to share it with the community and let others use it! Ruby hosting is something I&#39;m still looking into but I have found two popular options for those who aren&#39;t willing to put their money where their mouth is just yet (e.g. developers who are just experimenting with Ruby to see if it&#39;ll work for them). These are:</p>
 <ul>
 <li><a href="http://www.heroku.com/" title="Cloud Application Platform">Heroku</a></li>
@@ -93,8 +93,8 @@
 <p>Heroku is one of the most well known and talked about Ruby web hosts and offers both free and paid for options.</p>
 <p>This means we can use either one to host our application for free and so allow us to test their services, and if you discover your latest web creation is doing well and getting lots of traffic then these platforms can scale to meet your needs.</p>
 <p>For today we&#39;ll be using the first option Heroku, but we&#39;ll come back to the hosting aspect at the end of this article when we&#39;re ready to actually upload our test application.</p>
-<h2><a name="example"class="anchor" href="#example"><span class="header-link"></span></a>Example</h2>
-<h3><a name="requirements"class="anchor" href="#requirements"><span class="header-link"></span></a>Requirements</h3>
+<h2><a name="example" class="anchor" href="#example"><span class="header-link"></span></a>Example</h2>
+<h3><a name="requirements" class="anchor" href="#requirements"><span class="header-link"></span></a>Requirements</h3>
 <p>OK, for us to build our application we&#39;re going to need to install the following software...</p>
 <ul>
 <li>Ruby (Programming Language - see my <a href="https://github.com/Integralist/Blog-Posts/blob/master/Introduction-to-Ruby.md" title="Introduction to Ruby (a front-end developers perspective)">introduction to the Ruby language</a> for more information on how to do this)</li>
@@ -137,7 +137,7 @@ tilt <span class="o">(</span>1.3.3<span class="o">)</span>
 treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 </pre></div>
 </code></pre>
-<h3><a name="set-up"class="anchor" href="#set-up"><span class="header-link"></span></a>Set-up</h3>
+<h3><a name="set-up" class="anchor" href="#set-up"><span class="header-link"></span></a>Set-up</h3>
 <p>Now we have our software set-up, lets open our programming tool of choice and start writing some code.</p>
 <p>First thing we want to do is to create a file that will be our application. So lets go ahead and do that and call it <code>app.rb</code> and lets add the following content to it…</p>
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="c1">#!/usr/bin/env ruby</span>
@@ -169,12 +169,12 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 </li>
 </ul>
 <p><em>**There are two ways to build Sinatra applications: one is the &quot;Classic&quot; way (which we&#39;ll be doing as it&#39;s much easier to understand) and the other is the &quot;Modular&quot; way which doesn&#39;t use the DSL syntax and taps straight into the base Sinatra Class.</em></p>
-<h3><a name="shotgun"class="anchor" href="#shotgun"><span class="header-link"></span></a>Shotgun</h3>
+<h3><a name="shotgun" class="anchor" href="#shotgun"><span class="header-link"></span></a>Shotgun</h3>
 <p>One quick note about running your Ruby application: we used <code>ruby app.rb</code> but for development purposes we want to use our <code>shotgun</code> utility instead. </p>
 <p>What <code>shotgun</code> does is it restarts the web server for every HTTP request it receives. This is only useful for local development, you wouldn&#39;t do this on a live server as that would just be wasting resources. The reason we use <code>shotgun</code> is because otherwise if we&#39;re running our application using <code>ruby app.rb</code> and decide to make a tweak to our code then we wouldn&#39;t be able to see the change until we restarted the web server! So we&#39;d have to first stop Sinatra (<code>Ctrl+C</code>) and then start it back up again (<code>ruby app.rb</code>) and that&#39;s a lot of hassle when you&#39;re making changes every few seconds and checking them in your web browser. So <code>shotgun</code> helps workaround this issue (while we&#39;re in development). Just run: <code>shotgun app.rb</code> and it&#39;ll take care of the rest**.</p>
 <p><em>**One thing I&#39;ve noticed using <code>shotgun</code> is that it can affect other resources. For example, I was caching resources and for some reason when running <code>shotgun</code> I noticed the resources weren&#39;t being cached - but if I shut it down and run <code>ruby app.rb</code> instead then the resources would show as cached? Apparently it has something to do with the internals of how <code>shotgun</code> works and is something to be aware of if you notice something not working then just try running your Ruby application without <code>shotgun</code>.</em></p>
 <p>So at this point you&#39;ve got some Ruby code and you&#39;re able to view it in a web browser. Now lets look further at Sinatra&#39;s DSL syntax...</p>
-<h3><a name="loading-pages"class="anchor" href="#loading-pages"><span class="header-link"></span></a>Loading pages</h3>
+<h3><a name="loading-pages" class="anchor" href="#loading-pages"><span class="header-link"></span></a>Loading pages</h3>
 <p>If you wanted to add a new page called &quot;Projects&quot; that you accessed via <code>http://localhost:4567/projects</code> then all you would need to do is add the following code…</p>
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">get</span> <span class="s1">&#39;/projects&#39;</span> <span class="k">do</span>
     <span class="c1"># page content</span>
@@ -210,7 +210,7 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 </pre></div>
 </code></pre>
 <p>…this would display on the page the result of adding <code>a</code> and <code>b</code> together. So if I went to the URL <code>http://localhost:4567/add/2/2</code> then this would display <code>4</code> as that would be the result of <code>2 + 2</code> (which was the two parameters I specified within the URL).</p>
-<h3><a name="loading-templates"class="anchor" href="#loading-templates"><span class="header-link"></span></a>Loading templates</h3>
+<h3><a name="loading-templates" class="anchor" href="#loading-templates"><span class="header-link"></span></a>Loading templates</h3>
 <p>Now at the moment we&#39;re using the fact that with Ruby, the last expression inside a function is what gets returned from that function. These calls to <code>get</code> and <code>post</code> are actually function calls hidden behind an abstraction. So in my original example we were displaying &quot;Hello World!&quot; to the page because that was the last expression inside the <code>get</code> call.</p>
 <p>But we ideally want to be displaying HTML to the user! To do this we&#39;ll use &#39;templates&#39;.</p>
 <p>Note that templates can be inlined inside your Ruby code, but personally I prefer them to be external because I think that&#39;s a lot cleaner and abides by the &#39;separate of concerns&#39; rule (which I like to keep to whenever possible).</p>
@@ -304,7 +304,7 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 </pre></div>
 </code></pre>
 <p>…notice I picked up the field from the URL and stored it in a class instance variable and used that variable within my template.</p>
-<h3><a name="static-resources"class="anchor" href="#static-resources"><span class="header-link"></span></a>Static resources</h3>
+<h3><a name="static-resources" class="anchor" href="#static-resources"><span class="header-link"></span></a>Static resources</h3>
 <p>OK, the next thing to be aware of is that Sinatra serves up ALL static resources from a folder called <code>public</code> (again you can change this but I&#39;m happy using it - as the name is perfectly logical already).</p>
 <p>What this means is that if you have a file path like: <code>/path/to/file</code> then for that to work you need to have the folders/files within the root <code>public</code> folder otherwise Sinatra can&#39;t locate them. It DOESN&#39;T mean you have to change all your paths to <code>/public/path/to/file</code>. You keep the path the same as it is already but you just move the files/folders inside of a root folder called <code>public</code>.</p>
 <p>So for example in all my projects I have my JavaScript files in the following directory…</p>
@@ -313,7 +313,7 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 <p><code>Assets/Styles/</code></p>
 <p>…all I need to do is create an <code>Assets</code> folder within the <code>public</code> folder. Within that I then have the <code>Assets</code> folder, and inside of that is my <code>Scripts</code> and <code>Styles</code> folders which hold the relevant files.</p>
 <p>If this sounds a bit confusing then have a look at the GitHub repo linked at the top of this article to see what I&#39;m talking about.</p>
-<h3><a name="handling-errors"class="anchor" href="#handling-errors"><span class="header-link"></span></a>Handling errors</h3>
+<h3><a name="handling-errors" class="anchor" href="#handling-errors"><span class="header-link"></span></a>Handling errors</h3>
 <p>If the user tries to access a page that doesn&#39;t exist then you can direct them to your own <code>404 error</code> page by using the following route…</p>
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">not_found</span> <span class="k">do</span>
     <span class="n">erb</span> <span class="ss">:notfound</span>
@@ -342,7 +342,7 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 <pre><code class="lang-erb"><div class="highlight"><pre><span class="x">&lt;p&gt;Sorry there was the following error: &lt;strong class=&quot;error&quot;&gt;</span><span class="cp">&lt;%=</span> <span class="n">env</span><span class="o">[</span><span class="s2">&quot;sinatra.error&quot;</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x">&lt;/strong&gt;&lt;/p&gt;</span>
 </pre></div>
 </code></pre>
-<h3><a name="performance"class="anchor" href="#performance"><span class="header-link"></span></a>Performance</h3>
+<h3><a name="performance" class="anchor" href="#performance"><span class="header-link"></span></a>Performance</h3>
 <p>The performance of your application is very important, and specifically for a web application you want to make sure that all resources are sent to the user as quickly as possible.</p>
 <p>Here are some things you can do to help improve the performance of your web application...</p>
 <ol>
@@ -350,20 +350,20 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 <li>Use the <code>Thin</code> Web Server</li>
 <li>GZIP all content</li>
 </ol>
-<h3><a name="cache-static-resources"class="anchor" href="#cache-static-resources"><span class="header-link"></span></a>Cache static resources</h3>
+<h3><a name="cache-static-resources" class="anchor" href="#cache-static-resources"><span class="header-link"></span></a>Cache static resources</h3>
 <p>We set the cache control for static resources to approximately 1 month</p>
 <p><code>set :static_cache_control, [:public, :max_age =&gt; 2678400]</code></p>
-<h3><a name="use-the-thin-web-server"class="anchor" href="#use-the-thin-web-server"><span class="header-link"></span></a>Use the <code>Thin</code> Web Server</h3>
+<h3><a name="use-the-thin-web-server" class="anchor" href="#use-the-thin-web-server"><span class="header-link"></span></a>Use the <code>Thin</code> Web Server</h3>
 <p>You can also tell Sinatra to use the <code>Thin</code> server rather than the default <code>WEBrick</code> server if it&#39;s available (<code>Thin</code> is a supremely better performing web server so do please use it!)</p>
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="c1"># We specify which server we want to use (Thin is tried first and then failing that WEBrick)</span>
 <span class="n">set</span> <span class="ss">:server</span><span class="p">,</span> <span class="sx">%w[thin webrick]</span>
 </pre></div>
 </code></pre>
-<h3><a name="gzip-all-content"class="anchor" href="#gzip-all-content"><span class="header-link"></span></a>GZIP all content</h3>
+<h3><a name="gzip-all-content" class="anchor" href="#gzip-all-content"><span class="header-link"></span></a>GZIP all content</h3>
 <p>We can also have the web server automatically GZIP all our static resources (which can reduce the file size of a resource by up to 70%!) such as HTML content, JavaScript files, CSS files by using one line of Ruby code…</p>
 <p><code>use Rack::Deflater</code></p>
 <p>…this uses the &#39;Rack&#39; middleware application (Rack is what sits behind Sinatra and is the actual HTTP web server interface), but Sinatra hides all of that behind the DSL syntax of <code>get</code> and <code>post</code> calls (nice huh).</p>
-<h3><a name="hosting-our-application"class="anchor" href="#hosting-our-application"><span class="header-link"></span></a>Hosting our application</h3>
+<h3><a name="hosting-our-application" class="anchor" href="#hosting-our-application"><span class="header-link"></span></a>Hosting our application</h3>
 <p>Right. Let&#39;s get our application uploaded shall we.</p>
 <p>This is going to be short and quick…</p>
 <ol>
@@ -401,7 +401,7 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 </li>
 </ol>
 <p>Hopefully if you followed along, and had no errors, then you should see your new app online and hosted by heroku!</p>
-<h2><a name="conclusions"class="anchor" href="#conclusions"><span class="header-link"></span></a>Conclusions</h2>
+<h2><a name="conclusions" class="anchor" href="#conclusions"><span class="header-link"></span></a>Conclusions</h2>
 <p>Well, there you have it. Building a website using Sinatra and Ruby, and actually getting it hosted online.</p>
 <p>It has been a bit of a whirlwind pace we&#39;ve set here, going through lots of different concepts such as performance tricks and handling errors, through to loading template files etc. But hopefully it wasn&#39;t too fast paced, and you managed to utilise this information to get you up and running. </p>
 <p>I&#39;m actually writing this at record pace at home, late at night - feeling very tired, so if this article doesn&#39;t read right, or you think it needs improving then please get in contact and let me know what you think would help improve it (and thus help other people better understand the concepts)</p>

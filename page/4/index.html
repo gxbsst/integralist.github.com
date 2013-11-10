@@ -43,7 +43,7 @@
   <span class="post-date">2013 &#183; 8 &#183; 4</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 11mins</em></p>
 <ul>
 <li>What is PhantomJS?</li>
@@ -54,12 +54,12 @@
 <li>Other PhantomJS features</li>
 <li>Conclusion</li>
 </ul>
-<h2><a name="what-is-phantomjs-"class="anchor" href="#what-is-phantomjs-"><span class="header-link"></span></a>What is PhantomJS?</h2>
+<h2><a name="what-is-phantomjs" class="anchor" href="#what-is-phantomjs"><span class="header-link"></span></a>What is PhantomJS?</h2>
 <p>To quote the source…</p>
 <blockquote>
 <p>PhantomJS is a headless WebKit scriptable with a JavaScript API. It has fast and native support for various web standards: DOM handling, CSS selector, JSON, Canvas, and SVG.</p>
 </blockquote>
-<h2><a name="why-use-phantomjs-"class="anchor" href="#why-use-phantomjs-"><span class="header-link"></span></a>Why use PhantomJS?</h2>
+<h2><a name="why-use-phantomjs" class="anchor" href="#why-use-phantomjs"><span class="header-link"></span></a>Why use PhantomJS?</h2>
 <p>So why do you care? Well, having a headless WebKit allows you to do all sorts of things. You can automate anything within a browser environment, and that&#39;s very cool!</p>
 <p>So for example, I work for BBC News on the responsive code base and some of the very talented guys here have recently released an open-source project called <a href="https://github.com/BBC-News/wraith">Wraith</a> which is a front-end regression testing tool that lets you grab screen shot images of web pages at different dimensions (it&#39;s great for making sure your recent CSS commits or changes hasn&#39;t broken your site, it doesn&#39;t replace acceptance tests, unit tests or manual testing but it helps improve confidence). </p>
 <p>In case you&#39;re wondering, the definition of &#39;wraith&#39; is…</p>
@@ -68,12 +68,12 @@
 </blockquote>
 <p>…see what we did there, Phantom… ghost… wraith… yeah?</p>
 <p>But there are other spin-offs such as <a href="http://casperjs.org/">CasperJS</a> and <a href="https://github.com/jonleighton/poltergeist#poltergeist---a-phantomjs-driver-for-capybara">Poltergeist</a> both of which are named on a variation of the phantom theme but focus specifically on user/acceptance testing a user interface by allowing developers to interact with a web page programmatically.</p>
-<h2><a name="how-can-we-use-it-"class="anchor" href="#how-can-we-use-it-"><span class="header-link"></span></a>How can we use it?</h2>
+<h2><a name="how-can-we-use-it" class="anchor" href="#how-can-we-use-it"><span class="header-link"></span></a>How can we use it?</h2>
 <p>We&#39;ll be using PhantomJS to help us interrogate a web page of the user&#39;s choice. It will check the network requests, store them and then generate a Application Cache manifest file based on the content of the web page.</p>
 <p>So I wrote a small script that allows you to do this which I called <a href="https://github.com/integralist/squirrel">Squirrel</a> because you&#39;re storing away small pieces of information… like… nuts? Yeah I think you see where I&#39;m coming from.</p>
 <p>This is very much a work in progress but the principles are there and it also demonstrates some different parts of PhantomJS that you might be interested in.</p>
 <p>I won&#39;t go into the details of what the Application Cache does (or should do), I&#39;ll <a href="http://www.html5rocks.com/en/tutorials/appcache/beginner/">leave that to another</a>.</p>
-<h2><a name="basic-introduction"class="anchor" href="#basic-introduction"><span class="header-link"></span></a>Basic introduction</h2>
+<h2><a name="basic-introduction" class="anchor" href="#basic-introduction"><span class="header-link"></span></a>Basic introduction</h2>
 <p>Here&#39;s a super quick introduction on how to use PhantomJS… </p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">page</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;webpage&#39;</span><span class="p">).</span><span class="nx">create</span><span class="p">(),</span>
     <span class="nx">url</span> <span class="o">=</span> <span class="s1">&#39;http://www.phantomjs.org/&#39;</span><span class="p">;</span>
@@ -88,7 +88,7 @@
 <p>We then call the <code>open()</code> method on this web page object and pass in the URL of the web page we want to open.</p>
 <p>We then execute the <code>exit()</code> method on Phantom itself which tells the script that we&#39;re finished doing what we&#39;re doing.</p>
 <p>That&#39;s it. Super simple run down of how to use PhantomJS.</p>
-<h2><a name="let-s-break-down-squirrel"class="anchor" href="#let-s-break-down-squirrel"><span class="header-link"></span></a>Let&#39;s break down Squirrel</h2>
+<h2><a name="lets-break-down-squirrel" class="anchor" href="#lets-break-down-squirrel"><span class="header-link"></span></a>Let&#39;s break down Squirrel</h2>
 <p>OK, so let&#39;s review our Squirrel repo (specifically the <code>appcache.js</code> file).</p>
 <p>The process of our script is as follows…</p>
 <ol>
@@ -103,7 +103,7 @@
 <li>Call a function <code>populateManifest()</code> that will begin the process of populating our manifest file.</li>
 <li>Exit our PhantomJS script.</li>
 </ol>
-<h3><a name="set-up"class="anchor" href="#set-up"><span class="header-link"></span></a>Set-up</h3>
+<h3><a name="set-up" class="anchor" href="#set-up"><span class="header-link"></span></a>Set-up</h3>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">_</span>          <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;lodash&#39;</span><span class="p">),</span>
     <span class="nx">system</span>     <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;system&#39;</span><span class="p">),</span>
     <span class="nx">fs</span>         <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">),</span>
@@ -122,7 +122,7 @@
 </code></pre>
 <p>…OK so this looks a bit ugly but this long list of variables is basically us loading the Lo-Dash utility library, the Node file system, the PhantomJS web page module and then grabbing any arguments passed via the command line and reading the content of our manifest file.</p>
 <p>You might be wondering about the long list of empty Arrays, well we have to set each variable to an empty Array because Arrays are a reference type object which means if we did <code>var css = jpgs = pngs = gifs = images = javascript = [];</code> then although we&#39;d end up with shorter code (a one liner) it means that we&#39;re not getting a unique Array for each variable but sharing a single Array instance (which isn&#39;t what we want).</p>
-<h3><a name="functions"class="anchor" href="#functions"><span class="header-link"></span></a>Functions</h3>
+<h3><a name="functions" class="anchor" href="#functions"><span class="header-link"></span></a>Functions</h3>
 <p>We have a whole group of functions that carry out different things for us, so we&#39;ll just quickly scan over them…</p>
 <ul>
 <li><p><code>getLinks</code> uses the PhantomJS&#39; <code>evaluate</code> method on the web page object (which lets you parse the open web page using JavaScript, meaning you run JavaScript code within the context of the open web page).</p>
@@ -196,7 +196,7 @@
 </code></pre>
 </li>
 </ul>
-<h3><a name="checking-resources-that-are-loaded"class="anchor" href="#checking-resources-that-are-loaded"><span class="header-link"></span></a>Checking resources that are loaded</h3>
+<h3><a name="checking-resources-that-are-loaded" class="anchor" href="#checking-resources-that-are-loaded"><span class="header-link"></span></a>Checking resources that are loaded</h3>
 <p>The following is our event handler that checks the content type of the resource being loaded and stores it in the relevant Array.</p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="nx">page</span><span class="p">.</span><span class="nx">onResourceReceived</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">// Some requests can have `contentType = null` which causes errors if we don&#39;t check for truthy value</span>
@@ -249,7 +249,7 @@
 <span class="p">};</span>
 </pre></div>
 </code></pre>
-<h3><a name="checking-for-errors"class="anchor" href="#checking-for-errors"><span class="header-link"></span></a>Checking for errors</h3>
+<h3><a name="checking-for-errors" class="anchor" href="#checking-for-errors"><span class="header-link"></span></a>Checking for errors</h3>
 <p>This should be self explanatory, but basically it checks for any errors that happen while the page is loading and displays them for the user… </p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="nx">page</span><span class="p">.</span><span class="nx">onError</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">msg</span><span class="p">,</span> <span class="nx">trace</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">msg</span><span class="p">);</span>
@@ -260,7 +260,7 @@
 <span class="p">}</span>
 </pre></div>
 </code></pre>
-<h3><a name="ensure-url-is-provided"class="anchor" href="#ensure-url-is-provided"><span class="header-link"></span></a>Ensure URL is provided</h3>
+<h3><a name="ensure-url-is-provided" class="anchor" href="#ensure-url-is-provided"><span class="header-link"></span></a>Ensure URL is provided</h3>
 <p>Following conditional makes sure that a URL was provided by the user from the command line and if not it displays appropriate feedback to the user to let them know what they should be doing… </p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nx">urlProvided</span><span class="p">())</span> <span class="p">{</span>
     <span class="nx">url</span> <span class="o">=</span> <span class="nx">cleanUrl</span><span class="p">(</span><span class="nx">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
@@ -271,7 +271,7 @@
 <span class="p">}</span>
 </pre></div>
 </code></pre>
-<h3><a name="setting-custom-headers"class="anchor" href="#setting-custom-headers"><span class="header-link"></span></a>Setting custom headers</h3>
+<h3><a name="setting-custom-headers" class="anchor" href="#setting-custom-headers"><span class="header-link"></span></a>Setting custom headers</h3>
 <p>The following code isn&#39;t needed for our Squirrel repo to do its job, I just stuck it in to demonstrate how you could use an interesting feature of PhantomJS which is to set cookies.</p>
 <p>Here we check if the URL being requested is BBC News and if so I want the user to load up the responsive code base version of the site, and to do that we need to set a cookie for the page to know to load that version of the page… </p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nx">bbcNews</span><span class="p">())</span> <span class="p">{</span>
@@ -284,7 +284,7 @@
 <span class="p">}</span>
 </pre></div>
 </code></pre>
-<h3><a name="the-main-star-of-the-show"class="anchor" href="#the-main-star-of-the-show"><span class="header-link"></span></a>The main star of the show</h3>
+<h3><a name="the-main-star-of-the-show" class="anchor" href="#the-main-star-of-the-show"><span class="header-link"></span></a>The main star of the show</h3>
 <p>Here is the fundamental piece of the puzzle, the call to open the web page specified by the user and which once the page has loaded then parses the page for the information we&#39;re interested in…  </p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="nx">page</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">links</span> <span class="o">=</span> <span class="nx">getLinks</span><span class="p">();</span>
@@ -307,17 +307,17 @@
 </code></pre>
 <p>…PhantomJS passes us a status string as an argument to the callback function and which tells us if the page loaded successfully or not.</p>
 <p>After we&#39;ve called our main <code>populateManifest()</code> method we then tell PhantomJS to stop (<code>phantom.exit()</code>).</p>
-<h2><a name="example-usage"class="anchor" href="#example-usage"><span class="header-link"></span></a>Example usage</h2>
+<h2><a name="example-usage" class="anchor" href="#example-usage"><span class="header-link"></span></a>Example usage</h2>
 <p>So how do we use this script? Well, once you&#39;ve cloned down the repo and followed the installation instructions you simply jump inside our cloned directory and run something like:</p>
 <p><code>phantomjs appcache.js bbc.co.uk/news</code></p>
-<h2><a name="other-phantomjs-features"class="anchor" href="#other-phantomjs-features"><span class="header-link"></span></a>Other PhantomJS features</h2>
+<h2><a name="other-phantomjs-features" class="anchor" href="#other-phantomjs-features"><span class="header-link"></span></a>Other PhantomJS features</h2>
 <p>Here follows are a quick run down of some other features available to you when using PhantomJS, just check the <a href="https://github.com/ariya/phantomjs/wiki/API-Reference">PhantomJS API</a> for full details.</p>
 <ul>
 <li>Custom Headers</li>
 <li>Remote Debugging</li>
 <li>View Port Sizing</li>
 </ul>
-<h3><a name="custom-headers"class="anchor" href="#custom-headers"><span class="header-link"></span></a>Custom Headers</h3>
+<h3><a name="custom-headers" class="anchor" href="#custom-headers"><span class="header-link"></span></a>Custom Headers</h3>
 <p>For BBC News I wrote a similar script, but because I was interrogating a local development URL which uses test data I had to set some additional headers to get the page to load live data…</p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="nx">page</span><span class="p">.</span><span class="nx">customHeaders</span> <span class="o">=</span> <span class="p">{</span> 
     <span class="s1">&#39;X-Candy-Override&#39;</span><span class="o">:</span> <span class="s1">&#39;https://api.live.bbc.co.uk&#39;</span><span class="p">,</span>
@@ -325,14 +325,14 @@
 <span class="p">};</span>
 </pre></div>
 </code></pre>
-<h3><a name="remote-debugging"class="anchor" href="#remote-debugging"><span class="header-link"></span></a>Remote Debugging</h3>
+<h3><a name="remote-debugging" class="anchor" href="#remote-debugging"><span class="header-link"></span></a>Remote Debugging</h3>
 <p>You can remote debug your code by executing your code with a debug flag <code>phantomjs --remote-debugger-port=9000 appcache.js [url]</code>, you can then open up Chrome or Safari and access the debugger via <code>http://127.0.0.1:9000/</code></p>
-<h3><a name="view-port-size"class="anchor" href="#view-port-size"><span class="header-link"></span></a>View Port Size</h3>
+<h3><a name="view-port-size" class="anchor" href="#view-port-size"><span class="header-link"></span></a>View Port Size</h3>
 <p>You can change the dimensions of the page being loaded using the <code>viewportSize</code> property (this is used in the <a href="http://github.com/BBC-News/wraith/">Wraith</a> open-source project released by BBC News)… </p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="nx">page</span><span class="p">.</span><span class="nx">viewportSize</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">width</span><span class="o">:</span> <span class="mi">320</span><span class="p">,</span> <span class="nx">height</span><span class="o">:</span> <span class="mi">480</span> <span class="p">};</span>
 </pre></div>
 </code></pre>
-<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
 <p>Hopefully this introduction to PhantomJS was useful. The Squirrel repo is still a work in progress so feel free to open up an issue (or better yet a pull request) on GitHub if you find any problems.</p>
 <p>I&#39;ll likely follow up this article at some point in the future with one about using CasperJS so keep your eyes peeled for that.</p>
 <p>Any other feedback then catch me on <a href="http://twitter.com/integralist">twitter</a>.</p>
@@ -352,7 +352,7 @@
   <span class="post-date">2013 &#183; 6 &#183; 21</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 11mins</em></p>
 <ul>
 <li>What was the problem again?</li>
@@ -365,17 +365,17 @@
 <li>Conclusion</li>
 <li>Update</li>
 </ul>
-<h2><a name="what-was-the-problem-again-"class="anchor" href="#what-was-the-problem-again-"><span class="header-link"></span></a>What was the problem again?</h2>
+<h2><a name="what-was-the-problem-again" class="anchor" href="#what-was-the-problem-again"><span class="header-link"></span></a>What was the problem again?</h2>
 <p>If you <a href="Dynamically-Generated-Grunt-Tasks.html">look at my previous post</a> you&#39;ll see the Sass architecture/structure we&#39;re currently using on the BBC News responsive website means that Sass is unable to watch changes in files outside of the specific language folders we&#39;ve asked Sass to watch (e.g. we tell Sass to watch the Arabic Sass files for changes, which it does that fine, but the Arabic files themselves import Sass files from a &#39;partials&#39; directory outside of the language directory and those files Sass cannot detect changes for).</p>
-<h2><a name="how-were-we-solving-this-originally-"class="anchor" href="#how-were-we-solving-this-originally-"><span class="header-link"></span></a>How were we solving this originally?</h2>
+<h2><a name="how-were-we-solving-this-originally" class="anchor" href="#how-were-we-solving-this-originally"><span class="header-link"></span></a>How were we solving this originally?</h2>
 <p>We use Grunt to handle our front-end tooling tasks (such as running Sass, linting CSS/JS, running JS unit-tests, running our AMD build script and a host of other things) and so we initially were just hard coding in the relevant <code>watch</code> and <code>sass</code> Grunt task commands to work around the issue.</p>
 <p>Next (as per my previous Grunt post) we then tried dynamically updating the Grunt file by inserting hooks into the file which at runtime we would use to insert our dynamically generated stack of sub tasks. Although this works fine and didn&#39;t cause us any problems, it just felt… wrong?</p>
-<h2><a name="so-what-now-"class="anchor" href="#so-what-now-"><span class="header-link"></span></a>So what now?</h2>
+<h2><a name="so-what-now" class="anchor" href="#so-what-now"><span class="header-link"></span></a>So what now?</h2>
 <p>Since publishing that Grunt post, the creator of Grunt (<a href="https://twitter.com/cowboy">Ben Alman</a>) suggested there was a better way using the Grunt API itself.</p>
-<h2><a name="how-are-we-solving-this-now-then-"class="anchor" href="#how-are-we-solving-this-now-then-"><span class="header-link"></span></a>How are we solving this now then?</h2>
+<h2><a name="how-are-we-solving-this-now-then" class="anchor" href="#how-are-we-solving-this-now-then"><span class="header-link"></span></a>How are we solving this now then?</h2>
 <p>Exactly as Ben suggested, by using the Grunt API. Specifically: <code>grunt.config.set</code> (there are other Grunt API&#39;s involved but this one is the fundamental solution).</p>
-<h2><a name="let-s-review-the-solution"class="anchor" href="#let-s-review-the-solution"><span class="header-link"></span></a>Let&#39;s review the solution</h2>
-<h3><a name="we-have-three-files-"class="anchor" href="#we-have-three-files-"><span class="header-link"></span></a>We have three files…</h3>
+<h2><a name="lets-review-the-solution" class="anchor" href="#lets-review-the-solution"><span class="header-link"></span></a>Let&#39;s review the solution</h2>
+<h3><a name="we-have-three-files" class="anchor" href="#we-have-three-files"><span class="header-link"></span></a>We have three files…</h3>
 <ul>
 <li>Gruntfile.js</li>
 <li>grunt-customtasks.js</li>
@@ -384,7 +384,7 @@
 <p>The first file you should all know (if you don&#39;t then have a read back over my original <a href="Grunt-Boilerplate.html">Grunt Boilerplate</a> post).</p>
 <p>The second file is a generic file we&#39;re using to store our custom Grunt tasks (and ultimately is what does most of the work for this particular problem).</p>
 <p>The third file is again another generic file but this time we use it to store any additional utility helper methods.</p>
-<h3><a name="here-s-how-they-re-used-"class="anchor" href="#here-s-how-they-re-used-"><span class="header-link"></span></a>Here&#39;s how they&#39;re used…</h3>
+<h3><a name="heres-how-theyre-used" class="anchor" href="#heres-how-theyre-used"><span class="header-link"></span></a>Here&#39;s how they&#39;re used…</h3>
 <p>Our Gruntfile.js pulls in the grunt-customtasks.js file like so: <code>require(&#39;./grunt-customtasks.js&#39;)(grunt);</code>. You&#39;ll notice that the module we&#39;re pulling in is actually a function which we execute immediately and pass it a reference to Grunt (which means our custom tasks module can access Grunt and use its API).</p>
 <p>The grunt-customtasks.js module itself pulls in the grunt-helpers.js file like so: <code>var util = require(&#39;./grunt-helpers.js&#39;)(grunt);</code>. Again you&#39;ll notice that the module we&#39;re pulling in is actually a function, we execute it and pass in a reference to Grunt, but this module (although a function) once executed then returns an object which we assign to the variable <code>util</code>. The returned object has some useful methods we can use to implement our solution.</p>
 <p>Looking again at grunt-customtasks.js we have the following custom Grunt tasks… </p>
@@ -395,24 +395,24 @@
 </ul>
 <p>…now normally when using a pre-built Grunt task such as a the Sass task, the user would execute something like <code>sass:my_sub_task</code>, but our users won&#39;t ever directly interact with the Sass task. This is because there are no Sass sub tasks in our Grunt file to use! Instead they&#39;ll use our facade <code>sass_compile</code> which at run time will dynamically generate the Sass sub task they have requested.</p>
 <p>Same for the pre-built Watch task. The user will use our <code>watch_service</code> custom task which is a facade that dynamically generates the requested watch task at run time.</p>
-<h3><a name="sass_compile"class="anchor" href="#sass_compile"><span class="header-link"></span></a>sass_compile</h3>
+<h3><a name="sass-compile" class="anchor" href="#sass-compile"><span class="header-link"></span></a>sass_compile</h3>
 <p>This task dynamically generates our Sass sub tasks (e.g. <code>sass:arabic</code>). It uses the Grunt Config API to dynamically set this up (we&#39;ll look at this in more detail later on).</p>
 <p>In this task we have to carry out some checks on the sub task that we are going to create. The reason being: we want to let the user know whether they&#39;ve requested a service that doesn&#39;t exist. </p>
 <p>If the user executes <code>sass:something_that_does_not_exist</code> we don&#39;t want to just create that Sass sub task because ultimately it&#39;ll not do anything and that would be very confusing to the user who expects it to work (or maybe they entered a typo and haven&#39;t realised) - so we need to give the user feedback to let them know the command they entered isn&#39;t recognised.</p>
 <p>So we use our own utility/helper method <code>util.serviceExists</code> to check whether the requested service actually exists or not. If it does then we go ahead and dynamically generate the sub task, otherwise we display a message to the user to let them know the service doesn&#39;t exist.</p>
 <p>We also have slightly different settings for the sub task depending on what service was requested. If the user enters a language as the service <code>sass_compile:arabic</code> then we&#39;ll use development settings such as enabling <code>debugInfo</code> and turning on <code>lineNumbers</code> and making sure the code is <code>expanded</code> and not <code>compressed</code>, but if they enter <code>sass_compile:dist</code> we&#39;ll make sure the compiled code is ready for distribution.</p>
-<h3><a name="watch_service"class="anchor" href="#watch_service"><span class="header-link"></span></a>watch_service</h3>
+<h3><a name="watch-service" class="anchor" href="#watch-service"><span class="header-link"></span></a>watch_service</h3>
 <p>This custom task is much like <code>sass_compile</code> in that it first checks that the service being requested is valid and if so will continue to dynamically generate a watch sub task.</p>
 <p>But there is additional work required in this task. Let&#39;s just take a moment to remember the purpose of the <code>watch</code> task which is to tell Grunt to execute another Grunt task (pre-built or custom) when the files being watched are changed. </p>
 <p>We hit a problem when first implementing this solution which was that when the Watch sub task was generated we had set it to execute a Sass sub task matching the service requested. </p>
 <p>So for example if the user ran <code>watch_service:arabic</code> we would tell Grunt that when those files changed then it should execute the Sass sub task <code>sass:arabic</code>. But that Sass sub task didn&#39;t exist at that point because the user hadn&#39;t previously run <code>sass_compile:arabic</code> (remember, our Sass task inside our Gruntfile.js is empty).</p>
 <p>To work around this we told the Watch sub task to execute two tasks when the watched files changed. The first task to execute was <code>config</code> and that would be passed the service name that was passed to the <code>watch_service</code> task. For example, <code>config:arabic</code> and <em>then</em> after that we would execute <code>sass:arabic</code> (or whatever service was requested).</p>
 <p>Let&#39;s have a look now at the <code>config</code> task to see what that does… </p>
-<h3><a name="config"class="anchor" href="#config"><span class="header-link"></span></a>config</h3>
+<h3><a name="config" class="anchor" href="#config"><span class="header-link"></span></a>config</h3>
 <p>So as explained above, we needed to call this task before calling the Sass sub task (because at that point the sub task that needed to be executed didn&#39;t exist).</p>
 <p>In this custom task all we do is literally call our <code>sass_compile</code> custom task, pass through the requested service but also pass through an additional parameter which lets the <code>sass_compile</code> task know that it should just create the Sass sub task and not execute it.</p>
 <p>To explain, if the user runs <code>sass_compile:arabic</code> that task will not only dynamically generate a Sass sub task (e.g. <code>sass:arabic</code>), but once created will actually execute that task  now it exists. But if the user has run the <code>watch_service</code> task, we call this <code>config</code> task which delegates onto <code>sass_compile</code>, but we don&#39;t want the Sass sub task we&#39;ve just generated to be executed because the files being watched haven&#39;t necessarily been changed! So we wrote <code>sass_compile</code> in a way that said &quot;if this particular parameter is passed through, then just create the Sass sub task but don&#39;t execute it&quot;.</p>
-<h2><a name="the-grunt-api"class="anchor" href="#the-grunt-api"><span class="header-link"></span></a>The Grunt API</h2>
+<h2><a name="the-grunt-api" class="anchor" href="#the-grunt-api"><span class="header-link"></span></a>The Grunt API</h2>
 <p>Before we get to see our finished code let&#39;s first take a look at the Grunt API we&#39;re using to implement this solution (sorry, I know there has been a lot of talk up until this point, but we&#39;re almost done explaining how everything has been put together, I promise!)</p>
 <p>So the API&#39;s we&#39;re using are… </p>
 <ul>
@@ -421,22 +421,22 @@
 <li><code>grunt.task.run</code></li>
 <li><code>grunt.file.expand</code></li>
 </ul>
-<h3><a name="grunt-config-get"class="anchor" href="#grunt-config-get"><span class="header-link"></span></a>grunt.config.get</h3>
+<h3><a name="grunt-config-get" class="anchor" href="#grunt-config-get"><span class="header-link"></span></a>grunt.config.get</h3>
 <p>If you call <code>grunt.config.get()</code> then you&#39;ll get a copy of the entire <code>grunt.initConfig</code> object back. If you pass in a property like <code>grunt.config.get(&#39;sass&#39;)</code> you get the value of that specific property.</p>
-<h3><a name="grunt-config-set"class="anchor" href="#grunt-config-set"><span class="header-link"></span></a>grunt.config.set</h3>
+<h3><a name="grunt-config-set" class="anchor" href="#grunt-config-set"><span class="header-link"></span></a>grunt.config.set</h3>
 <p>If you call <code>grunt.config.set(property, value)</code> then you&#39;ll set that property and its corresponding value on the <code>grunt.initConfig</code> object.</p>
 <p>Be aware you can only set a single value onto a property, so if you wanted to create multiple sub tasks for a property (such as creating multiple sub tasks for the Sass task) then you would have to first construct an object containing the sub tasks and then assign that whole object as the property value.</p>
-<h3><a name="grunt-task-run"class="anchor" href="#grunt-task-run"><span class="header-link"></span></a>grunt.task.run</h3>
+<h3><a name="grunt-task-run" class="anchor" href="#grunt-task-run"><span class="header-link"></span></a>grunt.task.run</h3>
 <p>This method simply lets you run any task (custom, pre-built, sub task) from within your code.</p>
 <p>So if I had a variable called <code>service</code> and it had a value of &#39;arabic&#39; then running <code>grunt.task.run(&#39;watch:&#39; + service)</code> would run <code>watch:arabic</code>.</p>
 <p>We use this API method inside our <code>watch_service</code>, <code>config</code> and <code>sass_compile</code> custom tasks.</p>
-<h3><a name="grunt-file-expand"class="anchor" href="#grunt-file-expand"><span class="header-link"></span></a>grunt.file.expand</h3>
+<h3><a name="grunt-file-expand" class="anchor" href="#grunt-file-expand"><span class="header-link"></span></a>grunt.file.expand</h3>
 <p>This API method is used indirectly via our <code>util</code> helper object. We have a method called <code>serviceExists</code> which takes in a service and checks whether it exists or not. That method checks a <code>service</code> property on our <code>util</code> object which is an Array holding the services we have available.</p>
 <p>The way that <code>service</code> Array is populated is via the <code>grunt.file.expand</code> API call. We pass the method a file glob and it returns an Array of all directories/files that match the glob provided. </p>
 <p>So for example, <code>grunt.file.expand(&#39;sass/services/*&#39;)</code> returns an Array of all folders within our Sass/Services directory. As you&#39;ll see in the example code below we actually filter out some folders that we know aren&#39;t valid.</p>
-<h2><a name="example-code"class="anchor" href="#example-code"><span class="header-link"></span></a>Example code</h2>
+<h2><a name="example-code" class="anchor" href="#example-code"><span class="header-link"></span></a>Example code</h2>
 <p>OK, finally we get to see some code! Hopefully by now it should be much clearer as to what it&#39;s doing and why… </p>
-<h3><a name="grunt-customtasks-js"class="anchor" href="#grunt-customtasks-js"><span class="header-link"></span></a>grunt-customtasks.js</h3>
+<h3><a name="grunt-customtasks-js" class="anchor" href="#grunt-customtasks-js"><span class="header-link"></span></a>grunt-customtasks.js</h3>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="kd">var</span> <span class="nx">util</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./grunt-helpers.js&#39;</span><span class="p">)(</span><span class="nx">grunt</span><span class="p">);</span>
@@ -525,7 +525,7 @@
 <span class="p">};</span>
 </pre></div>
 </code></pre>
-<h3><a name="grunt-helpers-js"class="anchor" href="#grunt-helpers-js"><span class="header-link"></span></a>grunt-helpers.js</h3>
+<h3><a name="grunt-helpers-js" class="anchor" href="#grunt-helpers-js"><span class="header-link"></span></a>grunt-helpers.js</h3>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
     <span class="kd">function</span> <span class="nx">removePath</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">return</span> <span class="nx">element</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">).</span><span class="nx">pop</span><span class="p">();</span>
@@ -561,9 +561,9 @@
 <span class="p">};</span>
 </pre></div>
 </code></pre>
-<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
 <p>So there you have it. A real-world look at using the Grunt API to do something a little bit more involved with Grunt. Hopefully you found it useful and will give you a better idea of how you can integrate Grunt with your own work flow and solve your own specific domain problems.</p>
-<h2><a name="update"class="anchor" href="#update"><span class="header-link"></span></a>Update</h2>
+<h2><a name="update" class="anchor" href="#update"><span class="header-link"></span></a>Update</h2>
 <p>A quick update to say we found a much simpler route to handle the dynamic generation of Sass content and this came from recognising Grunt&#39;s ability to access arguments passed through the command line: <code>&lt;%= grunt.task.current.args[0] %&gt;</code>.</p>
 <p>With this knowledge we then call the task like so: <code>&#39;sass:service:&lt;%= grunt.task.current.args[0] %&gt;&#39;</code>.</p>
 <p>Goes to show it&#39;s always worth your time reading through all of the API documentation for the tools you use to discover these little gems :-)</p>

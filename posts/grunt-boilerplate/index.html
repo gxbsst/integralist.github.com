@@ -45,7 +45,7 @@
   <span class="post-date">2013 &#183; 5 &#183; 13</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 19mins</em></p>
 <ul>
 <li>What is Grunt?</li>
@@ -64,7 +64,7 @@
 <li>Our full Grunt file</li>
 <li>Conclusion</li>
 </ul>
-<h2><a name="what-is-grunt-"class="anchor" href="#what-is-grunt-"><span class="header-link"></span></a>What is Grunt?</h2>
+<h2><a name="what-is-grunt" class="anchor" href="#what-is-grunt"><span class="header-link"></span></a>What is Grunt?</h2>
 <p><a href="http://gruntjs.com/">Grunt</a> is a JavaScript based task runner. What this means is that it will help you spend less time manually running tasks that can be automated.</p>
 <p>Grunt comes with many pre-built tasks available and that can automate the majority of a developer&#39;s typical work flow. You also have the facility to write your own custom tasks if you have a specific requirement that isn&#39;t already catered for.</p>
 <p>There are approximately 700+ tasks built for Grunt (as of May 2013) and the list is growing. Some of the most popular tasks I&#39;ll be covering in this article…</p>
@@ -78,7 +78,7 @@
 </ul>
 <p>…but there are many more for tasks such as: compiling CoffeeScript to JavaScript, concatenating files, connecting to a web server, copying files and folders, precompiling handlebar templates, live reload within a web browser, compiling code documentation - just to name a few. </p>
 <p>See the <a href="http://gruntjs.com/plugins">Grunt Plugins</a> page for a more comprehensive list (but also check GitHub).</p>
-<h2><a name="installation"class="anchor" href="#installation"><span class="header-link"></span></a>Installation</h2>
+<h2><a name="installation" class="anchor" href="#installation"><span class="header-link"></span></a>Installation</h2>
 <p>Grunt uses <a href="http://nodejs.org/">Node.js</a> and Node&#39;s package manager system (NPM) to handle the installation of Grunt tasks.</p>
 <p>Essentially (as of Grunt 0.4) there are three items you need to install to get up and running with Grunt…</p>
 <ol>
@@ -90,7 +90,7 @@
 <p>Your mileage may vary, but if you have homebrew installed you can run the following commands via your terminal to install Node.js and NPM: <code>brew install node</code>.</p>
 <p>The next step is to install Grunt CLI which you can do using: <code>npm install -g grunt-cli</code> (the <code>-g</code> means to install it globally on your OS so that you can use the <code>grunt</code> command where ever you are on your system).</p>
 <p>Now you&#39;ll also want to run: <code>npm install -g grunt-init</code> and once that&#39;s done you&#39;ve effectively installed the basic requirements for Grunt.</p>
-<h2><a name="package-json"class="anchor" href="#package-json"><span class="header-link"></span></a>Package.json</h2>
+<h2><a name="package-json" class="anchor" href="#package-json"><span class="header-link"></span></a>Package.json</h2>
 <p>Before you can start using Grunt you&#39;ll need a <code>package.json</code> file which stores all the base configuration settings.</p>
 <p>To automatically generate this file run: <code>npm init</code>.</p>
 <p>Below is the <code>package.json</code> file for my Grunt Boilerplate project...</p>
@@ -131,7 +131,7 @@
 </pre></div>
 </code></pre>
 <p>…most of it is populated with content I provided when I ran <code>npm init</code> and the rest (such as <code>devDependencies</code>) was automatically generated for me when I started installing Grunt tasks (see next section).</p>
-<h2><a name="dependencies"class="anchor" href="#dependencies"><span class="header-link"></span></a>Dependencies</h2>
+<h2><a name="dependencies" class="anchor" href="#dependencies"><span class="header-link"></span></a>Dependencies</h2>
 <p>Typically we don&#39;t want dependencies we install to be installed globally (remember we installed Grunt globally using the <code>-g</code> flag). </p>
 <p>The reason being, the dependencies you install for Project X might be different from your next project. </p>
 <p>For example, you might install a Grunt task with a version number of 1.0 and by the time you start your next project that task might have been updated to version 2.0 and part of the major version update was a complete change in their API. So if you globally updated the task, your last project would break as it&#39;s using the old API. </p>
@@ -155,7 +155,7 @@
 <p>Because these dependencies are installed locally, you&#39;ll notice a new <code>node_modules</code> folder has appeared within your project. This folder holds all of the above dependencies/tasks we&#39;ve just installed.</p>
 <p>I suggest you create a <code>.gitignore</code> file (you are using <a href="http://git-scm.com/">Git</a> for your version control system, right?) that ignores this folder (you don&#39;t want to end up pushing these modules into your repo for other users to pull down, best to let them install these themselves as per my instructions above).</p>
 <p>OK, now that we have all the dependencies/tasks installed, lets look at the remaining piece of the puzzle, the <code>Gruntfile.js</code>.</p>
-<h2><a name="gruntfile-js"class="anchor" href="#gruntfile-js"><span class="header-link"></span></a>Gruntfile.js</h2>
+<h2><a name="gruntfile-js" class="anchor" href="#gruntfile-js"><span class="header-link"></span></a>Gruntfile.js</h2>
 <p><code>Gruntfile.js</code> is the main set-up file and contains the settings for each task we have installed.</p>
 <p>Because Grunt is run using Node.js you&#39;ll notice the content of the file is wrapped in a closure and assigned to a module <code>exports</code> property…</p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
@@ -169,7 +169,7 @@
 <p>One of the first properties we set is <code>pkg: grunt.file.readJSON(&#39;package.json&#39;)</code> which means that from within the other properties of our object we can access settings specified within our <code>package.json</code> configuration file.</p>
 <p>For example, if we wanted to access the name of our package (which if you remember was set <code>&quot;name&quot;:&quot;Grunt Boilerplate&quot;</code>) then we could access it from within our object using <code>&lt;%= pkg.name %&gt;</code>.</p>
 <p>From here, this is where we now start to explore the different tasks we previously installed (for full details of each task&#39;s own settings please go to their corresponding website/github repo).</p>
-<h2><a name="sass"class="anchor" href="#sass"><span class="header-link"></span></a>Sass</h2>
+<h2><a name="sass" class="anchor" href="#sass"><span class="header-link"></span></a>Sass</h2>
 <p>The Sass task allows us to compile our Sass files into CSS.</p>
 <p>Here is an example...</p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="nx">sass</span><span class="o">:</span> <span class="p">{</span>
@@ -212,7 +212,7 @@
 <p><code>ext: &#39;.css&#39;</code> - and that I want each exported file to have an extension of <code>css</code>.</p>
 <p>To run this specific task we could open our terminal and execute: <code>grunt sass</code> (which would execute both sub tasks), or we could run a specific sub task like so: <code>grunt sass:dev</code>.</p>
 <p>I won&#39;t explain the running of specific tasks again from here because effectively it&#39;s exactly the same for all tasks.</p>
-<h2><a name="requirejs"class="anchor" href="#requirejs"><span class="header-link"></span></a>RequireJS</h2>
+<h2><a name="requirejs" class="anchor" href="#requirejs"><span class="header-link"></span></a>RequireJS</h2>
 <p>This task is effectively the <code>r.js</code> build script that comes with RequireJS so I won&#39;t go into the details of how to write a build script - I&#39;ll instead refer you to the <a href="https://github.com/jrburke/r.js/blob/master/build/example.build.js">r.js documentation</a>, but know that the following has exactly the same settings as you would have used for <code>r.js</code> previously… </p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="nx">requirejs</span><span class="o">:</span> <span class="p">{</span>
     <span class="nx">compile</span><span class="o">:</span> <span class="p">{</span>
@@ -231,7 +231,7 @@
 <span class="p">}</span>
 </pre></div>
 </code></pre>
-<h2><a name="jshint"class="anchor" href="#jshint"><span class="header-link"></span></a>JSHint</h2>
+<h2><a name="jshint" class="anchor" href="#jshint"><span class="header-link"></span></a>JSHint</h2>
 <p>JSHint is a task that mimics the <a href="http://www.jshint.com/">web interface</a> in that it lets you specify files to lint (i.e. makes sure the code is written with valid syntax according to a set of rules you want it to abide by)… </p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="nx">jshint</span><span class="o">:</span> <span class="p">{</span>
     <span class="nx">files</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;Gruntfile.js&#39;</span><span class="p">,</span> <span class="s1">&#39;app/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;!app/release/**&#39;</span><span class="p">,</span> <span class="s1">&#39;modules/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;specs/**/*Spec.js&#39;</span><span class="p">],</span>
@@ -277,7 +277,7 @@
 <p>…some things to note: we&#39;re using the bang operator <code>!</code> to tell Grunt to ignore specific directories. So you&#39;ll see we said <code>!app/release/</code> which means DON&#39;T lint that particular directory because it will likely cause errors according to the rules set for JSHint (because that directory is our minified version of our JavaScript code that RequireJS compiled for us).</p>
 <p>Also, you&#39;ll see we&#39;ve told JSHint about certain variables that we expect to be present (i.e. to be globally available). We need to do this because JSHint inspects our JavaScript files in isolation so although when we run our application all the scripts are loaded together, at the time of linting JSHint isn&#39;t aware of these different globals and so if we didn&#39;t tell it about them it would just error.</p>
 <p>Finally, for the full list of rules that JSHint abides by see the <a href="http://www.jshint.com/docs/#enforcing_options">JSHint site</a>.</p>
-<h2><a name="jasmine-bdd"class="anchor" href="#jasmine-bdd"><span class="header-link"></span></a>Jasmine BDD</h2>
+<h2><a name="jasmine-bdd" class="anchor" href="#jasmine-bdd"><span class="header-link"></span></a>Jasmine BDD</h2>
 <p>Jasmine is a Behaviour-Driven unit testing framework and assertion library.</p>
 <p>This is probably one the most complicated task we cover because it requires a few other tasks.</p>
 <p>The first first task it relies on is the <code>connect</code> task which fires up a web server using PhantomJS. But realise that this isn&#39;t required if your scripts have no DOM interaction (unlikely if you&#39;re doing web development), but because we&#39;re doing DOM manipulation and we&#39;re testing that interaction we need a DOM to test against, hence the need for the <code>connect</code> web server task… </p>
@@ -312,7 +312,7 @@
 <p>Next comes the other complicated part of this task: we need a &#39;template&#39; sub task which is specifically built for Jasmine <code>grunt-template-jasmine-requirejs</code>. We need this additional task because we&#39;re using AMD for making our JavaScript code modular, but AMD introduces race condition issues when it comes to running our async based scripts against a dynamic spec runner such as our Grunt Jasmine task.</p>
 <p>You&#39;ll see that we just need to tell <code>grunt-template-jasmine-requirejs</code> where our base JS directory is and which file is the main AMD file to bootstrap our application. In the background the task generates a <code>_SpecRunner.html</code> file which basically requires in every single AMD modules and then starts running our tests within a callback once all the modules are loaded. It&#39;s not the greatest solution but it works.</p>
 <p>If the tests pass then the <code>_SpecRunner.html</code> is removed so you never notice it, but if there are any failing tests then the file is left in your root directory so you can inspect the file and run it manually via a real web browser and try and debug any failing tests.</p>
-<h2><a name="image-minification"class="anchor" href="#image-minification"><span class="header-link"></span></a>Image Minification</h2>
+<h2><a name="image-minification" class="anchor" href="#image-minification"><span class="header-link"></span></a>Image Minification</h2>
 <p>The ImageMin task does exactly what you would expect, it searches out any images it finds (png or jpg format) and compresses them so they are smaller in file size.</p>
 <p>As you can see from the below example we&#39;re using the <code>expand: true</code> setting (and subsequent settings) to tell Grunt where to find our images and where to export them to… </p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="nx">imagemin</span><span class="o">:</span> <span class="p">{</span>
@@ -347,7 +347,7 @@
 <span class="p">}</span>
 </pre></div>
 </code></pre>
-<h2><a name="html-minification"class="anchor" href="#html-minification"><span class="header-link"></span></a>HTML Minification</h2>
+<h2><a name="html-minification" class="anchor" href="#html-minification"><span class="header-link"></span></a>HTML Minification</h2>
 <p>The HTMLMin task does exactly what you would expect, it searches out any HTML files it finds and compresses them so they are minified and thus smaller in file size.</p>
 <p>As you can see from the below example we&#39;ve NOT used the <code>expand: true</code> setting but instead this task provided a slightly different api to let us tell Grunt where to find our HTML files and where to export the minified versions to (but effectively we could use <code>expand: true</code> if we wanted)…</p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="nx">htmlmin</span><span class="o">:</span> <span class="p">{</span>
@@ -368,7 +368,7 @@
 <span class="p">}</span>
 </pre></div>
 </code></pre>
-<h2><a name="registering-tasks"class="anchor" href="#registering-tasks"><span class="header-link"></span></a>Registering tasks</h2>
+<h2><a name="registering-tasks" class="anchor" href="#registering-tasks"><span class="header-link"></span></a>Registering tasks</h2>
 <p>So far we&#39;ve looked at running specific Grunt tasks like so: <code>grunt sass:dev</code> and <code>grunt jshint</code> but you can also set-up a custom task which does nothing but run other tasks.</p>
 <p>For example, you could create a task which when run would execute a specific set of tasks… </p>
 <p><code>grunt.registerTask(&#39;release&#39;, [&#39;jshint&#39;, &#39;jasmine&#39;, &#39;requirejs&#39;, &#39;sass:dist&#39;, &#39;imagemin&#39;, &#39;htmlmin&#39;]);</code></p>
@@ -377,7 +377,7 @@
 <p>When you execute the command <code>grunt</code> by itself then it will  look for a registered task called <code>default</code>… </p>
 <p><code>grunt.registerTask(&#39;default&#39;, [&#39;jshint&#39;, &#39;connect&#39;, &#39;jasmine&#39;, &#39;sass:dev&#39;]);</code></p>
 <p>…in this case we&#39;re telling it to execute our JavaScript linting task, then to check our unit tests are still passing and finally to generate debug versions of our CSS.</p>
-<h2><a name="watching-files"class="anchor" href="#watching-files"><span class="header-link"></span></a>Watching files</h2>
+<h2><a name="watching-files" class="anchor" href="#watching-files"><span class="header-link"></span></a>Watching files</h2>
 <p>Instead of manually running a Grunt command every time we make a change (e.g. imagine making a change to your Sass file and then having to go to the terminal and running <code>grunt sass:dev</code> to get the Sass to compile to CSS just so you can see the change reflected in your browser), we can instead get Grunt to do the hard work for us and to automatically run a task (or multiple tasks) whenever a specific set of files have been changed/updated… </p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="nx">watch</span><span class="o">:</span> <span class="p">{</span>
     <span class="nx">files</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;%= jshint.files %&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;%= jasmine.options.specs %&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;%= sass.dev.src %&gt;&#39;</span><span class="p">],</span>
@@ -388,7 +388,7 @@
 <p>…here you can see we&#39;re using the &#39;watch&#39; task along with a specific interpolation syntax to let it know what files to keep an eye on for us.</p>
 <p>The syntax is: <code>&lt;%= jshint.files %&gt;</code> and in this instance it means &quot;look at the <code>jshint</code> property and return the value set on its sub property <code>files</code>&quot;. </p>
 <p>So as you can see from the above example, we&#39;re telling the watch task to look out for any changes made to our JavaScript and Sass files, and if so run the <code>default</code> registered task.</p>
-<h2><a name="our-full-grunt-file"class="anchor" href="#our-full-grunt-file"><span class="header-link"></span></a>Our full Grunt file</h2>
+<h2><a name="our-full-grunt-file" class="anchor" href="#our-full-grunt-file"><span class="header-link"></span></a>Our full Grunt file</h2>
 <p>You can find the following file on my <a href="https://github.com/Integralist/Grunt-Boilerplate">Grunt Boilerplate repo</a>… </p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
 
@@ -619,7 +619,7 @@
 <span class="p">};</span>
 </pre></div>
 </code></pre>
-<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
 <p>Hopefully this guide gives you a good starting point to begin using Grunt to automate more of your work flow. It&#39;s an extremely powerful tool and we haven&#39;t even begun to scratch the surface as there is the custom task features built-in that let you write your own tasks that interact with the file system and do pretty much anything you want. Well worth investigating further.</p>
 <p>Note: my <a href="https://github.com/Integralist/Grunt-Boilerplate">Grunt Boilerplate</a> project is constantly being updated so watch the repo to keep up to speed.</p>
 </div>

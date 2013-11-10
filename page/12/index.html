@@ -44,7 +44,7 @@
 </div>
 
 <div class="post-body"><p>Be warned, this is a &#39;long one&#39;, so go grab a cup of coffee… </p>
-<h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 53mins</em></p>
 <ul>
 <li>Introduction</li>
@@ -85,7 +85,7 @@
 <li>Automation: making life easier</li>
 <li>Conclusion</li>
 </ul>
-<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
 <p>I wanted to get down in writing my process for building websites using the <em>current</em> techology available to us (July 2012). It seemed like a good idea to share how I approach web development and to discuss the tools I use to help make my life easier. I&#39;ve had a (un)fortunate history of being able to work on a few large scale applications that have turned out fine but have become a nightmare to maintain or scale - what this means is: I know what techniques just don&#39;t work <em>for me</em> and I&#39;d like to share some insights as to what techniques and tools I think <strong>do</strong> work for getting your project off to the best start possible.</p>
 <p>The beauty (or curse, depending on your perspective) of the web is that by the time you read this there may be better ways (again) of doing things. It wasn&#39;t long ago that some of the principles I&#39;ll be discussing today changed from how I used to do things (really they have only been progressively refactored to be more efficient, but some of the stuff I&#39;ll be talking about here have still only come onto my radar in the last year or so).</p>
 <p>Ideally where you want to constantly be - doesn&#39;t matter how good you are (or think you are) - is at a stage where you&#39;re eager to improve your skill set. If you are passionate about what you do then this urge to learn should come easily.</p>
@@ -93,13 +93,13 @@
 <p>This also isn&#39;t a &#39;beginners guide&#39; or &#39;introduction to&#39; style article, I wont be discussing how to write code in the languages that are mentioned, but if you do know everything there is to know about a particular section I&#39;ve gone into then well, that&#39;s all good for you :-)</p>
 <p>Now, some of the techniques and tools I&#39;ll be talking about just wont fit right for you and that&#39;s OK! You need to keep trying different things to see if they work <em>for you</em>. Just because everyone is using &quot;Hot Sauce XYZ&quot; software doesn&#39;t mean <em>you</em> have to. Just because &quot;Hot Sauce XYZ&quot; is the talk of the community and is heralded as a modern marvel doesn&#39;t mean <em>you</em> feel the same way about it. Just because I found &quot;Hot Sauce XYZ&quot; to be a life/time saver and I think it&#39;s the future of the web… doesn&#39;t mean <em>you</em> will agree or feel the same. That&#39;s OK! </p>
 <p>Take what you need and move on. Shall we begin?</p>
-<h2><a name="html-the-foundation-"class="anchor" href="#html-the-foundation-"><span class="header-link"></span></a>HTML: <em>the foundation</em></h2>
+<h2><a name="html-the-foundation" class="anchor" href="#html-the-foundation"><span class="header-link"></span></a>HTML: <em>the foundation</em></h2>
 <blockquote>
 <p>&quot;Hamburgers! The cornerstone to any nutritious breakfast&quot;</p>
 </blockquote>
 <p>Well, the beginning of any web site (web page/app whatever you happening to be working on) is HTML.</p>
 <p>Things have a come a loooong way since the good &#39;ole days of web development. Our HTML mark-up has become streamlined and easier to remember. Hell, I can now remember how to write my <code>doctype</code> without using a template file or Googling for the answer.</p>
-<h3><a name="example-html"class="anchor" href="#example-html"><span class="header-link"></span></a>Example HTML</h3>
+<h3><a name="example-html" class="anchor" href="#example-html"><span class="header-link"></span></a>Example HTML</h3>
 <p>Below is an example of a web page HTML structure…</p>
 <pre><code class="lang-html"><div class="highlight"><pre><span class="cp">&lt;!doctype html&gt;</span>
 <span class="c">&lt;!--[if IE 8]&gt;&lt;html class=&quot;ie8&quot; dir=&quot;ltr&quot; lang=&quot;en&quot;&gt;&lt;![endif]--&gt;</span>
@@ -154,17 +154,17 @@
 <span class="nx">Location</span><span class="o">:</span> <span class="nx">Address</span>
 </pre></div>
 </code></pre>
-<h3><a name="brief-example-of-media-queries"class="anchor" href="#brief-example-of-media-queries"><span class="header-link"></span></a>Brief Example of Media Queries</h3>
+<h3><a name="brief-example-of-media-queries" class="anchor" href="#brief-example-of-media-queries"><span class="header-link"></span></a>Brief Example of Media Queries</h3>
 <p>After this we link to some CSS files. These stylesheets apply styles based on certain &#39;conditions&#39; (known as &#39;Media Queries&#39;) such as the width of the user&#39;s device. </p>
 <p>So for example, if the user&#39;s device is 960px wide then we make the assumption that they must be on a desktop computer (or potentially a large tablet device) and thus load styles specific to the device so the website can look its best on that device. </p>
 <p>Yes this &#39;assumption&#39; about the users device screen can be problematic as it relies on the assumption that devices are of a known width - and obviously if history has taught us anything - these assumptions will fail at some point in the future. </p>
-<h3><a name="better-practice-media-queries"class="anchor" href="#better-practice-media-queries"><span class="header-link"></span></a>Better practice Media Queries</h3>
+<h3><a name="better-practice-media-queries" class="anchor" href="#better-practice-media-queries"><span class="header-link"></span></a>Better practice Media Queries</h3>
 <p>While we&#39;re here I wanted to suggest a better practice for writing Media Queries which is to not have stylesheets load based on the dimensions of current devices, but instead to set-up &#39;break points&#39; for where your site starts to naturally break down. </p>
 <p>So for example, rather than trying to target an iPhone (which you know has a dimension of xyz), instead look at your site and think &quot;hmm, my site looks a bit crap when smaller than x width - I&#39;ll set a break point for that dimension&quot;. </p>
 <p>This is still a bit &#39;hit and miss&#39;, as you might decide your site doesn&#39;t look good at x pixels wide but that means certain devices either jump up/down a stylesheet when you didn&#39;t expect them to. But as long as you&#39;re using an &#39;adaptive&#39; approach to loading your CSS then that can ultimately only be a good thing for your users compared to loading the desktop variation of your site&#39;s design on a smaller screen mobile device.</p>
-<h3><a name="mobile-first-approach"class="anchor" href="#mobile-first-approach"><span class="header-link"></span></a>Mobile First Approach</h3>
+<h3><a name="mobile-first-approach" class="anchor" href="#mobile-first-approach"><span class="header-link"></span></a>Mobile First Approach</h3>
 <p>The stylesheets in this example are using a &#39;mobile first&#39; approach, and by this I mean we&#39;re building a site from the mobile design upwards. If we didn&#39;t do this then we would end up loading lots of CSS onto the mobile device that was actually only needed for the desktop computer (this is because the desktop version of the site would have a more complicated design compared to the design for the mobile version of the site). I&#39;ll go into this in more detail later but it&#39;s important to note here because after the stylesheet links you&#39;ll see another &#39;conditional comment&#39; <code>&lt;!--[if (lt IE 9) &amp; (!IEMobile)]&gt;</code> which is there because Internet Explorer browsers less than version 9 do not understand CSS Media Queries and so if we take a mobile first approach then IE &lt; 9 wont have any stylesheet to load (as it wont know &#39;how&#39; to load them). So this conditional comment is a &#39;fallback&#39; for those browsers. So if a user is on an older crappy Windows based phone then they&#39;ll at the very least get the desktop version of the site loaded (which is still likely to be a better experience than having no styling on the content at all).</p>
-<h3><a name="semantic-elements"class="anchor" href="#semantic-elements"><span class="header-link"></span></a>Semantic Elements</h3>
+<h3><a name="semantic-elements" class="anchor" href="#semantic-elements"><span class="header-link"></span></a>Semantic Elements</h3>
 <p>After that, we have the <code>&lt;body&gt;</code> element which will contain the content of your page.</p>
 <p>It&#39;s important that you use only elements that semantically match the content. There are easy examples and there are slightly more awkward examples. An easy example is a top level navigation menu, I think most of us are aware by now that the most semantically correct element to use here is an un-ordered list <code>&lt;ul&gt;</code>…</p>
 <pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;ul&gt;</span>
@@ -261,14 +261,14 @@
 </pre></div>
 </code></pre>
 <p>…this is a bit of an anal analysis of &#39;semantic&#39; usage, but the fact is this sort of thing happens all the time. We look at something in a design and try to think of the most semantic element to use and although <code>&lt;dl&gt;</code> seems like the right choice, is it really? I guess it depends on how you interpret the specification. I know I&#39;ve used the <code>&lt;dl&gt;</code> elements many times but I sometimes wonder if I shouldn&#39;t have just gone with the <code>&lt;table&gt;</code> element instead (on a side note: I&#39;d love to hear people&#39;s feedback on this)</p>
-<h3><a name="automation"class="anchor" href="#automation"><span class="header-link"></span></a>Automation</h3>
+<h3><a name="automation" class="anchor" href="#automation"><span class="header-link"></span></a>Automation</h3>
 <p>I&#39;ve not discussed it here but one thing we&#39;ll come back to later in this article is the idea of &#39;automation&#39; - so that your &#39;generic&#39; HTML never need to be typed out by hand again. You should either have a re-usable template project/file or use a generator system that handles it for you.</p>
-<h2><a name="css-the-styling-"class="anchor" href="#css-the-styling-"><span class="header-link"></span></a>CSS: <em>the styling</em></h2>
-<h3><a name="oocss-sass"class="anchor" href="#oocss-sass"><span class="header-link"></span></a>OOCSS &amp; Sass</h3>
+<h2><a name="css-the-styling" class="anchor" href="#css-the-styling"><span class="header-link"></span></a>CSS: <em>the styling</em></h2>
+<h3><a name="oocss-sass" class="anchor" href="#oocss-sass"><span class="header-link"></span></a>OOCSS &amp; Sass</h3>
 <p>CSS is the one area of web development that has been changing pretty much constantly for me these past couple of years. </p>
 <p>I&#39;ve been trying to settle on a technique or style that would mean the maintenance of my projects are made easier &amp; simpler, and I now believe I&#39;ve found (at least so far) one such method that appears to work both in favour of maintainability and scalability: &#39;OOCSS&#39; (Object-Oriented CSS).</p>
 <p>The principles vary depending on the author (e.g. <a href="https://github.com/stubbornella/oocss/">stubbornella</a>, <a href="http://smacss.com/">SMACSS</a>, <a href="http://csswizardry.com/2012/04/the-single-responsibility-principle-applied-to-css/">the single responsibility principle</a> and many more), and my way of utilising OOCSS is a bit of an amalgamation of the existing styles available today. Also, I utilise the CSS pre-processor <a href="http://sass-lang.com/">Sass</a> which originally I wasn&#39;t too keen on (I saw it in a similar light to tools like jQuery where it wasn&#39;t necessary, and caused more problems than it solved) but I&#39;m now more sold on it&#39;s benefits, and because of my skeptical mindset I know what issues can occur when using a pre-processor and how to avoid those issues.</p>
-<h3><a name="modular-structure"class="anchor" href="#modular-structure"><span class="header-link"></span></a>Modular Structure</h3>
+<h3><a name="modular-structure" class="anchor" href="#modular-structure"><span class="header-link"></span></a>Modular Structure</h3>
 <p>Here follows is my current CSS/Sass structure…</p>
 <ul>
 <li>/<code>Assets</code>/<ul>
@@ -333,7 +333,7 @@
 </li>
 </ul>
 <p>…now this may look like a <strong>lot</strong> of style sheets, but the beauty of using a pre-processor such as Sass is that it allows you to have a very modular code base and yet for deployment/production (e.g. the pushing of your code to the &#39;live&#39; server) you can <em>build</em> your separate code modules into a single (compressed/minified) stylesheet.</p>
-<h3><a name="sass-example"class="anchor" href="#sass-example"><span class="header-link"></span></a>Sass Example</h3>
+<h3><a name="sass-example" class="anchor" href="#sass-example"><span class="header-link"></span></a>Sass Example</h3>
 <p>So where you see the <code>.css</code> files inside of the /<code>Styles</code>/ directory - this is actually a single file that has been built up from selected Sass files.</p>
 <p>For example, the home.scss file (which is what generates the home.css file) could contain the following content (note: that this content changes depending on the requirements of your project)…</p>
 <pre><code class="lang-sass"><div class="highlight"><pre><span class="c1">// Configurations/Settings</span>
@@ -385,7 +385,7 @@
 </ol>
 <p>Initially it seems like a bit of work is involved, but once you get used to structuring your stylesheets with the relevant modules the job becomes a lot easier to manage in the long run - no more do you need to sift through hundreds/thousands lines of CSS code looking for a particular rule; because your code is modular you now know where to look to find it and can access it a lot quicker, along with the ability to more easily re-use code (as long as you&#39;ve taken an OOCSS approach that is!) </p>
 <p>There are many benefits to having a modular code base, but the most important thing to remember is: don&#39;t start thinking that because you&#39;re using Sass that it will some how magically make you write better code, it wont - that is still <em>your</em> responsibility. </p>
-<h3><a name="avoiding-pre-processor-pitfalls"class="anchor" href="#avoiding-pre-processor-pitfalls"><span class="header-link"></span></a>Avoiding pre-processor pitfalls</h3>
+<h3><a name="avoiding-pre-processor-pitfalls" class="anchor" href="#avoiding-pre-processor-pitfalls"><span class="header-link"></span></a>Avoiding pre-processor pitfalls</h3>
 <p>Now before we get into OOCSS let&#39;s first quickly demonstrate some issues with using pre-processors.</p>
 <p>Here is a typical usage of Sass:</p>
 <pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.nav</span><span class="err">{</span>
@@ -472,7 +472,7 @@
 </code></pre>
 <p>…again, looks great but you need to be careful because in Internet Explorer there is a limit to the amount of selectors you can specify for a single rule! So if you were using <code>@extend</code> everywhere you might hit an issue (unlikely you&#39;ll reach that limit, but on a application big enough and with bad architecture in place that could still happen).</p>
 <p>There is another more complicated example given within the &#39;performance&#39; section of this article which discusses more structural concerns, but we&#39;ll come to that soon enough.</p>
-<h3><a name="how-i-write-oocss"class="anchor" href="#how-i-write-oocss"><span class="header-link"></span></a>How I write OOCSS</h3>
+<h3><a name="how-i-write-oocss" class="anchor" href="#how-i-write-oocss"><span class="header-link"></span></a>How I write OOCSS</h3>
 <p>This is where things get interesting because OOCSS is still (although around for a few years now) a moving target and something that isn&#39;t a straight forward &quot;<em>this is how it&#39;s done</em>&quot; process.</p>
 <p>I have the following terminology I use when discussing OOCSS…</p>
 <table>
@@ -505,7 +505,7 @@
 </tr>
 </tbody>
 </table>
-<h4><a name="base"class="anchor" href="#base"><span class="header-link"></span></a>Base</h4>
+<h4><a name="base" class="anchor" href="#base"><span class="header-link"></span></a>Base</h4>
 <p>My &#39;Base&#39; styles cover two areas: </p>
 <ol>
 <li>Normalisation of browser quirks/formatting (handled by <a href="http://twitter.com/necolas">@necolas</a>&#39; <a href="http://necolas.github.com/normalize.css/">Normalize.css</a>)</li>
@@ -515,11 +515,11 @@
 <p>My <code>_theme.scss</code> stylesheet is for base styles for the current project, so it might include a font-face used in the site&#39;s design, or setting all <code>&lt;h1&gt;</code>&#39;s to have a standard brand colour (things of that nature).</p>
 <p>My <code>_placeholder.scss</code> is used in conjunction with my the <code>/Scripts/Utils/Polyfills/placeholder.js</code> script which makes it possible for an input to be one colour (to signify a &#39;hint&#39;) but change to a different colour when the user focus&#39; on the input (this is only used for browsers that don&#39;t natively support the <code>placeholder</code> attribute. Because placeholders appear quite heavily in a lot of the designs created (by the agency I work for), it became apparent that I should store these styles into their own stylesheet rather than repeating them for every project.</p>
 <p>Eagle eye readers will probably notice that in my folder struture above I also had an <code>_additions.scss</code> stylesheet which consists of some extra base rules that <code>Normalize.css</code> doesn&#39;t cover. You&#39;ll see later in the section about &#39;automation&#39; that I&#39;ve now started using Git/GitHub to manage 3rd party code dependancies and so really I could add my &#39;additions&#39; into the one Normalize.css file and then if Normalise.css ever had an update I could pull in those changes from GitHub and merge them into my version of Normalise, that way I wouldn&#39;t override my version completely but just integrate the latest updates. But for the time being, because Sass concatenates all stylesheets into one, it doesn&#39;t really matter that this <code>_additions.scss</code> is a separate file.</p>
-<h4><a name="layout"class="anchor" href="#layout"><span class="header-link"></span></a>Layout</h4>
+<h4><a name="layout" class="anchor" href="#layout"><span class="header-link"></span></a>Layout</h4>
 <p>These are the easiest component in the CSS stack so far. Layouts hold content. They don&#39;t try to style content in any way, they literally just contain a module or content of some kind.</p>
 <p>Layouts can be manually created or they can be created using a grid system (see: <a href="http://960.gs/">960 CSS Grid System</a>). I use a fork of Twitter&#39;s Bootstrap Grid that was originally written in <a href="http://lesscss.org/">Less</a> but some kind soul had ported over to Sass (I modified it slightly to not include &#39;gutters&#39; - as most of my grid layouts don&#39;t require gutters).</p>
 <p>I&#39;m still a bit skeptical of using &#39;grids&#39; because of the extra overhead as far as HTML is concerned but they can be pretty useful when used sparingly and in the right situations. <a href="http://csswizardry.com/">Harry Roberts</a> once told me to think of grids as &#39;shelves&#39; which you place items upon, and that&#39;s pretty much an accurate portrayal of the role grids take - nothing more complicated than that really.</p>
-<h4><a name="modules-"class="anchor" href="#modules-"><span class="header-link"></span></a>Modules?</h4>
+<h4><a name="modules" class="anchor" href="#modules"><span class="header-link"></span></a>Modules?</h4>
 <p>The word &#39;module&#39; in my CSS means different things, mainly because it refers to something as being &#39;modular&#39;.</p>
 <p>The key to having a more modular code base is: &#39;abstraction&#39; - taking a common design pattern and abstracting it into a self contained re-usable component.</p>
 <p>Two prolific &#39;abstractors&#39; are Nicole Sullivan (see: the <a href="http://www.stubbornella.org/content/2010/06/25/the-media-object-saves-hundreds-of-lines-of-code/">&#39;media object&#39;</a>) and Harry Roberts (see: the <a href="http://csswizardry.com/2011/10/the-island-object/">&#39;island object&#39;</a> and <a href="http://csswizardry.com/2011/09/the-nav-abstraction/">&#39;nav abstraction&#39;</a>).</p>
@@ -540,7 +540,7 @@
 <span class="err">}</span>
 </pre></div>
 </code></pre>
-<h4><a name="extensions"class="anchor" href="#extensions"><span class="header-link"></span></a>Extensions</h4>
+<h4><a name="extensions" class="anchor" href="#extensions"><span class="header-link"></span></a>Extensions</h4>
 <p>Extensions are effectively re-usable classes which you can incorporate into any existing rule. An example of this could be having a class that lets you set a box shadow…</p>
 <pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.shadow</span> <span class="err">{</span>
     <span class="k">@include</span><span class="nd"> shadow</span><span class="p">(</span><span class="mi">0</span> <span class="mi">3</span><span class="kt">px</span> <span class="mi">6</span><span class="kt">px</span> <span class="mh">#666</span><span class="p">)</span><span class="err">;</span>
@@ -561,7 +561,7 @@
 </pre></div>
 </code></pre>
 <p>…you could argue that this type of class should be incorporated into a &#39;module&#39; - and most of the time that is correct - but this isn&#39;t <em>always</em> appropriate.</p>
-<h4><a name="state"class="anchor" href="#state"><span class="header-link"></span></a>State</h4>
+<h4><a name="state" class="anchor" href="#state"><span class="header-link"></span></a>State</h4>
 <p>State classes are pretty self-explanatory in that they affect the state of an object/element, and the syntax is <code>.is-xxxx</code>.</p>
 <p>For example, if you have an element that had both a hidden state and a visible state (and JavaScript was used to switch states) then the visible state would be the default (because if the user had no JavaScript support then you don&#39;t want the content to be hidden by default) and you could trigger the alternative state by applying a class like <code>.is-hidden</code>.</p>
 <p>I used to have a separate <code>State.scss</code> file but I found that was a nightmare to maintain because I&#39;d have a module in one file and a specific &#39;state&#39; for that module in another file, and then on top of that I used to have my Internet Explorer fixes in separate <code>IE8.css</code> and <code>IE7.css</code> files and so if there were any tweaks needed to a module for IE then I&#39;d have those in separate files as well, it was a total nightmare.</p>
@@ -583,7 +583,7 @@
 </pre></div>
 </code></pre>
 <p>…yes doing it this way <em>can</em> mean the overall file size of your CSS is larger for browsers that aren&#39;t affected by the IE specific code, but to be honest since dropping support for IE7 the amount of IE fixes needed has literally dropped off the radar!</p>
-<h3><a name="selectors"class="anchor" href="#selectors"><span class="header-link"></span></a>Selectors</h3>
+<h3><a name="selectors" class="anchor" href="#selectors"><span class="header-link"></span></a>Selectors</h3>
 <p>Selectors are a tricky subject in CSS. The key principle is to be as &#39;specific&#39; as possible.</p>
 <p>Where you may have <code>ul.menu</code> just use <code>.menu</code>. This is because if you had another element which isn&#39;t a <code>ul</code> but which needed similar stylings to your <code>.menu</code> class you can now reuse that class, where as before you would of had to of either written another class with similar code, or added another element selector to the rule like so…</p>
 <pre><code class="lang-css"><div class="highlight"><pre><span class="nt">ul</span><span class="nc">.menu</span><span class="o">,</span>
@@ -598,17 +598,17 @@
 <p>Ask yourself: am I selecting this because it’s a ul inside of .header or because it is my site’s main nav?</p>
 </blockquote>
 <p>Using this type of questioning we know when it&#39;s OK to not be too specific (e.g. <code>.header &gt; ul</code>) and when we <em>must</em> be specific to avoid changes in the future causing us problems.</p>
-<h3><a name="sprites"class="anchor" href="#sprites"><span class="header-link"></span></a>Sprites</h3>
+<h3><a name="sprites" class="anchor" href="#sprites"><span class="header-link"></span></a>Sprites</h3>
 <p>The idea behind sprites is pretty straight forward. Take all the little icons or miscellaneous imagery and stick them in one single image file, like so…</p>
 <p><img src="http://f.cl.ly/items/1Z3M010W210t25130P2h/apple.jpg" alt=""></p>
 <p>…now you have helped towards your performance goal of &#39;<a href="http://developer.yahoo.com/performance/rules.html#num_http">reducing HTTP requests</a>&#39; because instead of having (using the above image as an example) 20 different images, meaning 20 separate HTTP requests, you now have just one HTTP request.</p>
 <p>You could argue the overall size of the image sprite can become very large and some pages might not use all the icons/images within the sprite, but by that point the sprite would have been loaded and cached by the browser and so that argument becomes redundant.</p>
-<h4><a name="image-source-files"class="anchor" href="#image-source-files"><span class="header-link"></span></a>Image Source Files</h4>
+<h4><a name="image-source-files" class="anchor" href="#image-source-files"><span class="header-link"></span></a>Image Source Files</h4>
 <p>One other important thing to do (and there was no where else appropriate for me to mention this) is to have a <code>/Source/</code> folder inside your <code>/Images/</code> folder to hold all the source files (same as if you had a <code>/Flash/</code> folder for your animations then you should have a sub folder inside that called <code>/Source/</code> to hold all the <code>.fla</code> files). </p>
 <p>This may seem over kill and I can hear people crying out already about using up loads of server space on these types of files that aren&#39;t used by the website in any way, but hear me out! </p>
 <p>In modern web development there isn&#39;t usually a whole lot of these types of files (and by these files I mean <code>.fla</code> or the source <code>.png</code> for an image sprite) - items that are likely to need changing in the future and I don&#39;t mean keep hi-res photos or the original Illustrator/Photoshop design files. </p>
 <p>The biggest benefit I&#39;ve found is when going back to a website after (let&#39;s say) two years! You had all the source files on a backup server somewhere and now you have to go find it. Maybe it&#39;s in the loft, or locked in a fireproof safe at your work office, either way it&#39;s a pain in the ass to get to and try and locate these files when you could just connect to the web server and find them there alongside your website files!</p>
-<h3><a name="responsive-design"class="anchor" href="#responsive-design"><span class="header-link"></span></a>Responsive Design</h3>
+<h3><a name="responsive-design" class="anchor" href="#responsive-design"><span class="header-link"></span></a>Responsive Design</h3>
 <p>The principle solution to making your site design responsive is to not set widths on anything. Depending on the design of your site the layouts will need a width set - for example a two column layout needs to have a width set on each column (you can&#39;t avoid that), but any modules you have shouldn&#39;t have a width set on them.</p>
 <p>Anything you do set a width on needs to be in percentages.</p>
 <p>Here is an example of how you can handle this using the two column layout example above…</p>
@@ -622,14 +622,14 @@
 <p><code>150 / 960 = .15625</code>. </p>
 <p>But with percentages you wouldn&#39;t just set the width to <code>.15625%</code> you need to move the decimal place over by two places so it becomes <code>15.625%</code>. </p>
 <p><code>target / context = result</code> is <em>THE</em> algorithm for responsive design!</p>
-<h4><a name="responsive-images"class="anchor" href="#responsive-images"><span class="header-link"></span></a>Responsive Images</h4>
+<h4><a name="responsive-images" class="anchor" href="#responsive-images"><span class="header-link"></span></a>Responsive Images</h4>
 <p>To help your images scale appropriately along with your responsive design you can set the <code>max-width</code> property to be 100% which means the image will never be larger than its container but can happily resize/scale downwards on smaller screens…</p>
 <pre><code class="lang-css"><div class="highlight"><pre><span class="nt">img</span> <span class="p">{</span>
     <span class="k">max-width</span><span class="o">:</span> <span class="m">100</span><span class="o">%</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 </code></pre>
-<h4><a name="what-about-containing-elements-with-unknown-widths-"class="anchor" href="#what-about-containing-elements-with-unknown-widths-"><span class="header-link"></span></a>What about containing elements with unknown widths?</h4>
+<h4><a name="what-about-containing-elements-with-unknown-widths" class="anchor" href="#what-about-containing-elements-with-unknown-widths"><span class="header-link"></span></a>What about containing elements with unknown widths?</h4>
 <p>Normally what you see in web design is the main website content is wrapped in an element such as a <code>&lt;div&gt;</code> with a set <code>max-width</code> of 960px (so it fits onto a range of devices without requiring a horizontal scrollbar to appear). We use <code>max-width</code> instead of <code>width</code> for the same reason we use it for our responsive images, so it never gets larger than it should but can happily resize downwards depending on the size of the device viewing it.</p>
 <p>But how do we convert 960px into a responsive unit? We know the algorithm for responsive design is <code>target / context = result</code> but we have no container in this instance (unless we count the <code>&lt;body&gt;</code> tag)? But then what&#39;s the width of the <code>&lt;body&gt;</code> tag? We don&#39;t know because it&#39;ll be different on every device!</p>
 <p>Well there is one way to get 960px into a responsive unit and that is to take into account that the default font size on nearly all browsers is 16px. If you set <code>font-size: 100%</code> onto the <code>&lt;body&gt;</code> element then this equates to a font size of 16px.</p>
@@ -641,7 +641,7 @@
 <span class="p">}</span>
 </pre></div>
 </code></pre>
-<h3><a name="mobile-design-users-on-the-move-"class="anchor" href="#mobile-design-users-on-the-move-"><span class="header-link"></span></a>Mobile Design: <em>users on the move</em></h3>
+<h3><a name="mobile-design-users-on-the-move" class="anchor" href="#mobile-design-users-on-the-move"><span class="header-link"></span></a>Mobile Design: <em>users on the move</em></h3>
 <p>Because I make sure my sites are built using a responsive approach, it isn&#39;t a whole lot of extra work to tweak the styles/design to look more appropriate for devices with smaller screen dimensions. </p>
 <p>The tool for that job are &#39;Media Queries&#39;…</p>
 <pre><code class="lang-css"><div class="highlight"><pre><span class="k">@media</span> <span class="nt">only</span> <span class="nt">screen</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">min-width</span><span class="o">:</span> <span class="nt">320px</span><span class="o">)</span> <span class="p">{</span>
@@ -659,14 +659,14 @@
 </code></pre>
 <p>…yes I know these examples are <em>conveniently</em> matching the dimensions of an iPhone and iPad - which is a bad thing! What you ideally want to do is target good &#39;break-points&#39; in your design and not screen dimensions because let&#39;s face it: we know better by now that these assumptions will fail us in the future.</p>
 <p>When you have your media queries in place you can amend your designs so they are easier to view on those smaller screen dimensions.</p>
-<h3><a name="mobile-first"class="anchor" href="#mobile-first"><span class="header-link"></span></a>Mobile First</h3>
+<h3><a name="mobile-first" class="anchor" href="#mobile-first"><span class="header-link"></span></a>Mobile First</h3>
 <p>Building sites that <em>look</em> good on mobile devices is one thing, but the performance of those sites will be worse than those built to take a &#39;mobile first&#39; approach.</p>
 <p>The &#39;mobile first&#39; approach is effectively building the site to work for mobiles first and foremost, and to work your way up to the desktop version.</p>
 <p>The beauty of this approach is that the DOM structure is clean and uncluttered meaning the browser has less to render and if there is any JavaScript interaction then a smaller DOM means your JavaScript can sift through the DOM more easily. Also, you don&#39;t end up downloading unnecessary assets on a smaller/less powerful device (e.g. if you built your site for desktop and then added Media Queries to make it <em>look</em> good on mobile devices then you&#39;re still loading desktop related stylesheets onto a mobile device which doesn&#39;t need them).</p>
 <p>The &#39;mobile first&#39; approach can be very strange and uncomfortable, but I guess that - like anything - if you do it enough then the benefits will shine through and you&#39;ll wonder how you did things any other way.</p>
-<h3><a name="tools"class="anchor" href="#tools"><span class="header-link"></span></a>Tools</h3>
+<h3><a name="tools" class="anchor" href="#tools"><span class="header-link"></span></a>Tools</h3>
 <p>There is only really one CSS tool I use and that is a <a href="http://www.colorzilla.com/gradient-editor/">CSS gradient generator</a> from ColorZilla. The reason I use it is because it generates a gradient based on an image! So I can take our designers files and then export a slice of any gradient used, upload it and get CSS generated for me that perfectly matches the gradient the designers have used.</p>
-<h3><a name="linting-via-the-command-line"class="anchor" href="#linting-via-the-command-line"><span class="header-link"></span></a>Linting via the Command Line</h3>
+<h3><a name="linting-via-the-command-line" class="anchor" href="#linting-via-the-command-line"><span class="header-link"></span></a>Linting via the Command Line</h3>
 <p>Linting your code is very important. Linting helps highlight problems and potential bugs in your code.</p>
 <p>There is an online tool called <a href="http://csslint.net/">CSS Lint</a> that lets you paste your stylesheet code into a field and have it return results on its quality (based on specific &#39;rules&#39; that you would like it to abide by).</p>
 <p>I use CSS Lint as my linting tool of choice for CSS. The only problem is that it&#39;s a pain to have to copy/paste my code every time I want to lint it. So instead, I use the <a href="https://github.com/stubbornella/csslint/wiki/Command-line-interface">command line interface</a> version of the online tool as it&#39;s the easiest/quickest way to lint my code (and again, this is where using tools that make your job easier comes into play - why copy/paste the code from EACH of my CSS files into an external website when I can run a single command in my terminal which lints all of the files for me).</p>
@@ -686,10 +686,10 @@ csslint --warnings<span class="o">=</span>box-model,ids test.css // <span class=
 </pre></div>
 </code></pre>
 <p>When I run that command I see any bugs/issues with my CSS code that doesn&#39;t appear to abide by the &#39;rules&#39; specified via the command line options.</p>
-<h2><a name="javascript-the-behaviour-"class="anchor" href="#javascript-the-behaviour-"><span class="header-link"></span></a>JavaScript: <em>the behaviour</em></h2>
+<h2><a name="javascript-the-behaviour" class="anchor" href="#javascript-the-behaviour"><span class="header-link"></span></a>JavaScript: <em>the behaviour</em></h2>
 <p>Wow, have we really managed to get through the CSS section!?</p>
 <p>OK, JavaScript, here we go…</p>
-<h3><a name="amd"class="anchor" href="#amd"><span class="header-link"></span></a>AMD</h3>
+<h3><a name="amd" class="anchor" href="#amd"><span class="header-link"></span></a>AMD</h3>
 <p>I guess the best place to start is with a good foundation and that is: AMD</p>
 <blockquote>
 <p>The Asynchronous Module Definition (AMD) API specifies a mechanism for defining modules such that the module and its dependencies can be asynchronously loaded. This is particularly well suited for the browser environment where synchronous loading of modules incurs performance, usability, debugging, and cross-domain access problems.</p>
@@ -699,7 +699,7 @@ csslint --warnings<span class="o">=</span>box-model,ids test.css // <span class=
 <p>Because modules aren&#39;t natively supported in browsers yet (they&#39;re in discussion for ES6) then AMD is the next best thing. To use AMD you need a module loader and that&#39;s where <a href="http://requirejs.org/">RequireJS</a> comes in - there are other AMD loaders available but I prefer to use RequireJS. I won&#39;t go into the details of how to use RequireJS as <a href="https://github.com/Integralist/Blog-Posts/blob/master/Beginners-guide-to-AMD-and-RequireJS.md">I&#39;ve already written about it in the past</a> but suffice to say it makes it very easy to work on a large scale project and to deploy your JavaScript as a single minified file.</p>
 <p>That&#39;s right, using modules is great but you still need to consider performance (all those HTTP requests aren&#39;t good for you) so RequireJS provides a handy build tool that lets you use NodeJs (or Java) to concatenate and minify all your modules into a single file. I&#39;ve said it before and I&#39;ll say it again: I appreciate that some people think that the overall file size could be worse than loading multiple files but when I consider low connectivity devices the idea of loading one single file just feels better to me. </p>
 <p>The great thing to remember about modules is the maintainability of the project and the re-usable code you get from it.</p>
-<h3><a name="linting"class="anchor" href="#linting"><span class="header-link"></span></a>Linting</h3>
+<h3><a name="linting" class="anchor" href="#linting"><span class="header-link"></span></a>Linting</h3>
 <p>Similar to my CSS work flow (see above), I use the command line to lint my JavaScript code - which helps me find silly errors in my code before I go off to production.</p>
 <p>There is an online tool called <a href="http://www.jshint.com/">JS Hint</a> that lets you paste your JavaScript code into a field and have it return results on its quality (based on specific &#39;rules&#39; that you would like it to abide by).</p>
 <p>I use JS Hint as my linting tool of choice for JavaScript. The only problem is that it&#39;s a pain to have to copy/paste my code every time I want to lint it. So instead, I use the <a href="https://github.com/jshint/node-jshint">command line interface</a> version of the online tool as it&#39;s the easiest/quickest way to lint my code (and again, this is where using tools that make your job easier comes into play - why copy/paste the code from EACH of my JavaScript files into an external website when I can run a single command in my terminal which lints all of the files for me).</p>
@@ -803,7 +803,7 @@ jshint main.js --show-non-errors --config ./Lint/config.json // <span class="o">
 </pre></div>
 </code></pre>
 <p>When I run that command I see any bugs/issues with my JavaScript code that doesn&#39;t appear to abide by the &#39;rules&#39; specified via the command line options. If I see nothing then that means there were no errors and I&#39;m good to go.</p>
-<h3><a name="code-structure"class="anchor" href="#code-structure"><span class="header-link"></span></a>Code Structure</h3>
+<h3><a name="code-structure" class="anchor" href="#code-structure"><span class="header-link"></span></a>Code Structure</h3>
 <p>One thing I find very useful to do for all my JavaScript files is to include a code structure comment at the top like so...</p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="cm">/*</span>
 <span class="cm"> * Code Structure:</span>
@@ -823,17 +823,17 @@ jshint main.js --show-non-errors --config ./Lint/config.json // <span class="o">
 </pre></div>
 </code></pre>
 <p>...this makes understanding where specific code is in the file a lot easier (at a glance). As you can see this code structure follows my <a href="https://github.com/Integralist/Style-Guides/blob/master/JavaScript%20Style%20Guide.md">JavaScript Style Guide</a> which goes into more detail about the specifics of my JavaScript code structure.</p>
-<h3><a name="pure-functions"class="anchor" href="#pure-functions"><span class="header-link"></span></a>Pure Functions</h3>
+<h3><a name="pure-functions" class="anchor" href="#pure-functions"><span class="header-link"></span></a>Pure Functions</h3>
 <p>Something else I&#39;ve started to do more recently - and this was something I used to avoid in the past as I was &#39;scare mongered&#39; into believing it was a performance concern - is the idea of making more use of functions in a &#39;pure&#39; style, and by this I mean writing functions that do one thing and one thing only without causing side effects.</p>
 <p>Writing functions that only do one thing - rather than 5 or more different things - make it much easier to write unit-tests for but also makes it a hell of a lot easier to just debug in general.</p>
 <p>On top of that it just <em>feels</em> cleaner. A bit <em>Zen</em> like and how they say if you clear your desk then you&#39;ve cleared your mind. I find more relaxed knowing each of my functions do one thing and one thing only, I know they aren&#39;t becoming overly complex and bloated and I can more easily refactor them without worrying about side effects on my code.</p>
-<h2><a name="style-guides-keeping-things-consistent-"class="anchor" href="#style-guides-keeping-things-consistent-"><span class="header-link"></span></a>Style Guides: <em>keeping things consistent</em></h2>
+<h2><a name="style-guides-keeping-things-consistent" class="anchor" href="#style-guides-keeping-things-consistent"><span class="header-link"></span></a>Style Guides: <em>keeping things consistent</em></h2>
 <p>I strongly recommend the use of a Style Guides for a team of developers. Mainly because it means there is a consistency in the code style, and that alone can make a great difference in the ease of maintaining a large code base.</p>
 <p>I&#39;ve written a few Style Guides already so I wont go into specifics here:</p>
 <p><a href="https://github.com/Integralist/Style-Guides/blob/master/JavaScript%20Style%20Guide.md">JavaScript Style Guide</a></p>
 <p><a href="https://github.com/Integralist/Style-Guides/blob/master/HTML%20Style%20Guide.md">HTML Style Guide</a></p>
 <p><a href="https://github.com/Integralist/Style-Guides/blob/master/CSS%20Style%20Guide.md">CSS Style Guide</a></p>
-<h2><a name="testing-making-sure-stuff-works-"class="anchor" href="#testing-making-sure-stuff-works-"><span class="header-link"></span></a>Testing: <em>making sure stuff works</em></h2>
+<h2><a name="testing-making-sure-stuff-works" class="anchor" href="#testing-making-sure-stuff-works"><span class="header-link"></span></a>Testing: <em>making sure stuff works</em></h2>
 <p>Well, we all know we should test our code and I admit I just don&#39;t do this enough.</p>
 <p>But just to be clear: when I say &#39;test our code&#39; I don&#39;t mean &#39;unit testing&#39; because, although that helps, that doesn&#39;t eliminate all bugs. I also don&#39;t like the idea of writing tests <em>after</em> the code is written - I feel like the tests we write will miss something important (almost like a subconscious design to not break the code we&#39;ve spent a long time writing, so we don&#39;t write the most robust tests we probably could). </p>
 <p>I much prefer the TDD (Test-Driven Development) process where you:</p>
@@ -847,7 +847,7 @@ jshint main.js --show-non-errors --config ./Lint/config.json // <span class="o">
 <p>So although I <em>currently</em> don&#39;t don&#39;t do this, on my next job the Test-Driven Development process will be taking a much more prominent place in my developer work flow. It has to, for my sanity.</p>
 <p>I highly recommend you use the TDD specific <a href="http://busterjs.org/">BusterJs</a>, which is without a doubt the best testing toolkit available today. I love it. It can be run from the browser or via the command line and makes it very easy to do mocking and stubbing, writing deferred and async tests, nested tests as well as something really useful which is to tell BusterJs to NOT run specific tests based on the results of your own feature detection (e.g. testing a specific feature that is known to crash IE6 is a bit pointless). OH, and it also works with AMD!</p>
 <p>I&#39;ve also written an article about <a href="https://github.com/Integralist/Blog-Posts/blob/master/Beginners-guide-on-how-to-test-your-code-%28using-Jasmine-BDD%29.md">using the Behaviour-Driven Development testing framework Jasmine</a> - it goes into detail about testing your code and the differences between TDD/BDD and &#39;unit testing&#39;.</p>
-<h2><a name="performance-running-fast-"class="anchor" href="#performance-running-fast-"><span class="header-link"></span></a>Performance: <em>running fast</em></h2>
+<h2><a name="performance-running-fast" class="anchor" href="#performance-running-fast"><span class="header-link"></span></a>Performance: <em>running fast</em></h2>
 <p>Performance has had a mention in quite a few areas of this post already so it seems silly not to dedicate a section to it.</p>
 <p>I - like many of you - abide by the (now) standard rules of <a href="http://developer.yahoo.com/yslow/">YSlow</a> and <a href="https://developers.google.com/speed/pagespeed/">Google Pagespeed</a> - so things like:</p>
 <ul>
@@ -993,7 +993,7 @@ jshint main.js --show-non-errors --config ./Lint/config.json // <span class="o">
 <p>I don&#39;t know which performs better. I could imagine the larger file size GZIP&#39;ing better, but in my Sass code I now have two places I need to update the border radius value (if it ever needed to change), and that&#39;s not efficient with regards to my own time maintaining this code. I know that doesn&#39;t seem like much in this example, but imagine you had this sort of stuff happening all over the place, then it would soon start adding up to be a right pain in the ass.</p>
 <p>So in the end I went back to the original solution I had which meant the selector was duplicated but it had the two pros of: overall file size was down and developer maintenance was easier.</p>
 <p>In this example neither option was really wrong, but it goes to show that you not only need to be careful when using a pre-processor but also you need to be thinking about how performance and maintenance tie together when writing your code.</p>
-<h2><a name="version-control-keeping-track-of-things"class="anchor" href="#version-control-keeping-track-of-things"><span class="header-link"></span></a>Version Control: keeping track of things</h2>
+<h2><a name="version-control-keeping-track-of-things" class="anchor" href="#version-control-keeping-track-of-things"><span class="header-link"></span></a>Version Control: keeping track of things</h2>
 <p>Using version control software is a no-brainer really. Depending on whether you use the comand line interface or a visual app is a personal choice and I prefer to use the command line as it&#39;s just more efficient.</p>
 <p>There are many different version control systems, but the one I learnt to use was <a href="http://git-scm.com/">Git</a> (which as of 2012 has had a beautiful site redesign).</p>
 <p>The good thing about using Git is that it makes it extremely easy to create &#39;branches&#39; for different areas of development. If the client asks for a new feature to be added then we&#39;ll create a new branch for that feature and then merge back into our master branch when ready to deploy the code.</p>
@@ -1004,7 +1004,7 @@ jshint main.js --show-non-errors --config ./Lint/config.json // <span class="o">
 <p>…so not matter what you&#39;re working: on your &#39;master&#39; branch should always be clean.</p>
 <p>I also recommend using <a href="https://github.com/integralist">GitHub</a> for storing your code - there are both public and private accounts so you can keep business critical code safe. One nice feature of GitHub is the ease at which you can create promotional pages for your open-source projects (see: <a href="http://integralist.co.uk/Passage/"><a href="http://integralist.co.uk/Passage/">http://integralist.co.uk/Passage/</a></a> for an example using a pre-designed/built responsive template)</p>
 <p>You can also have GitHub host simple website pages for you - <a href="http://www.integralist.co.uk/">my site</a> for example is hosted by GitHub and so I can push my site changes live straight from the command line without needing an FTP program (which is amazing in it&#39;s simplicity and ease) - a nice side effect from having my site hosted on GitHub is that all my GitHub pages are also mapped to my domain - so for example <a href="http://integralist.github.com/Passage"><a href="http://integralist.github.com/Passage">http://integralist.github.com/Passage</a></a> actually redirects to <a href="http://integralist.co.uk/Passage/"><a href="http://integralist.co.uk/Passage/">http://integralist.co.uk/Passage/</a></a>.</p>
-<h2><a name="automation-making-life-easier-"class="anchor" href="#automation-making-life-easier-"><span class="header-link"></span></a>Automation: <em>making life easier</em></h2>
+<h2><a name="automation-making-life-easier" class="anchor" href="#automation-making-life-easier"><span class="header-link"></span></a>Automation: <em>making life easier</em></h2>
 <p>There are many ways to automate your work flow, doing so makes you more efficient and productive and in general can just save you hassle.</p>
 <p>I&#39;ve already discussed some of the command line tools I use that make my life easier (e.g. jshint, csslint, the RequireJS build script).</p>
 <p>But there are other things you can do so as using a content generator like <a href="http://yeoman.io/">Yeoman</a> which I&#39;ll be honest I don&#39;t use but some of the things it does for you are quite nice, such as:</p>
@@ -1023,7 +1023,7 @@ jshint main.js --show-non-errors --config ./Lint/config.json // <span class="o">
 <p>I already have CSS and JavaScript linting on the command line which works for me and the process of optising images using the ImageOptim app works fine (drag and drop images folder and have it take care of the rest) - but I am currently looking into installing both <a href="http://optipng.sourceforge.net/">OptiPNG</a> and <a href="http://jpegclub.org/jpegtran/">JPEGTran</a> so I can move away from the ImageOptim app and use the command line instead.</p>
 <p>I use the command line to handle my dependancies by pulling in GitHub hosted repositories as sub modules and then any time there is an update I can just run <code>git pull</code> on the relevant sub modules to get the latest versions - not quite as automatic as something like Google&#39;s Yeoman but it works for me.</p>
 <p>My CSS and JavaScript files are concatenated and minified with a combination of Sass and the RequireJS build script and so the only thing left to do is start programming.</p>
-<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
 <p>I felt this (damn)long post deserved a &#39;conclusion&#39; but I&#39;ve suddenly realised that I&#39;m not actually very good at writing them, but here we go:</p>
 <p>There is a lot of new cool tech available at the moment - along with the current batch of good/useful development best practices - which has made programming really fun and refreshing for me once again (every few years you get bored of the environment you&#39;re in and then something happens to inject new life into the industry - and that is what has happened over the past year for me). </p>
 <p>If you haven&#39;t already, then it&#39;s time to just get stuck in and start taking advantage of what&#39;s out there and help take your skills to the next level.</p>
@@ -1043,7 +1043,7 @@ jshint main.js --show-non-errors --config ./Lint/config.json // <span class="o">
   <span class="post-date">2012 &#183; 4 &#183; 19</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 11mins</em></p>
 <ul>
 <li>Introduction</li>
@@ -1058,26 +1058,26 @@ jshint main.js --show-non-errors --config ./Lint/config.json // <span class="o">
 <li>Mixins</li>
 <li>Interpolation</li>
 </ul>
-<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
 <p>I agree that &#39;pre-processors&#39; such as LESS, Sass, Compass etc are normally a bad idea because generally they are used badly by developers/designers who could do better without them (see: <a href="https://github.com/stubbornella/oocss/wiki">Object-Oriented CSS</a>).</p>
 <p>That being said, there are some areas where pre-processors can really help out, such as being able to use <code>@import</code> without worrying about the browser loading the stylesheet synchronously and thus making the page slower to load. Or being able to create a variable to hold your client&#39;s branding colours for easy re-use.</p>
 <p>In this post I&#39;ve purposely not included details on everything that Sass can do because I don&#39;t believe they are useful. I would rather you utilise principles of OOCSS and only use Sass as an addition to that which helps round off those rough edges when developing CSS for large scale applications. Two items I have mentioned which should be avoided (and I&#39;ll repeat this later as well) are <code>@extend</code> and <code>@mixin</code>. Both of these causes more problems than they solve and can be worked around with good OOCSS structuring, but I&#39;ve mentioned them so curious readers don&#39;t think I&#39;ve neglected them out of hand and so I&#39;ve detailed some of the potential issues with using them (use at your own risk!)</p>
-<h2><a name="installation"class="anchor" href="#installation"><span class="header-link"></span></a>Installation</h2>
+<h2><a name="installation" class="anchor" href="#installation"><span class="header-link"></span></a>Installation</h2>
 <p>To install Sass you need to have <code>Ruby</code> installed.</p>
 <p>For Mac users, you already have it!</p>
 <p>For Window users there are quite a few installers available, but according to some: <a href="http:/rubyinstaller.org">http:/rubyinstaller.org</a> is recommended.</p>
 <p>Once <code>Ruby</code> is installed, you&#39;ll need to open your command line interface of choice (I&#39;m on a Mac, so for me this is the <code>Terminal</code> app).</p>
 <p>From the command line execute <code>gem install sass</code> (I needed to use <code>sudo</code> along with that because I didn&#39;t have authorisation to install in the directory it wanted)</p>
-<h2><a name="how-to-run"class="anchor" href="#how-to-run"><span class="header-link"></span></a>How to run</h2>
+<h2><a name="how-to-run" class="anchor" href="#how-to-run"><span class="header-link"></span></a>How to run</h2>
 <p>Within the command line navigate to your website directory and execute the command <code>sass --watch Assets/Styles/</code> (change <code>Assets/Styles/</code> to whatever path your Sass/CSS files are). As you can see in my example, from the root directory of my website I have my Sass files stored here: <code>Assets/Styles</code>. This command uses the <code>--watch</code> flag which means every time a <code>.scss</code> file is saved a corresponding <code>.css</code> file is compiled automatically for you.</p>
 <p>One thing to be aware of is that if you aren going to use <code>nested</code> items (which apparently is a big selling point for Sass users but one that I personally think is a terrible feature for performance and efficiency) then you&#39;ll be better off starting up Sass using <code>sass --style expanded --watch Assets/Styles/</code> which means when your CSS is compiled the nested output will at least be laid out more logically than their default mess of a display (which is very difficult to try and understand).</p>
 <p>One last point here is that if you execute the above command then you will need to have your <code>.scss</code> files in the same location as where your <code>.css</code> files should be. If on the other hand, like me, you prefer to keep your Sass files separate then amend the original command as follows:</p>
 <p><code>sass --style extended --watch Assets/Styles/Sass/:Assets/Styles/</code> </p>
 <p>…this basically says &quot;watch the folder <code>Assets/Styles/Sass/</code> and compile any files into the parent folder <code>Assets/Styles</code>&quot; - you&#39;ll notice that the colon character <code>:</code> is what helped make that happen.</p>
-<h2><a name="comments"class="anchor" href="#comments"><span class="header-link"></span></a>Comments</h2>
+<h2><a name="comments" class="anchor" href="#comments"><span class="header-link"></span></a>Comments</h2>
 <p>Comments are a standard feature of CSS, but sometimes it would be nice to use a easier syntax for writing them (as seen in other programming languages). Such as: <code>// this is a comment</code> rather than having to write <code>/* a typical CSS comment */</code>.</p>
 <p>Sass lets you do this, but it&#39;s worth keeping in mind that the reason they provide this is so you can have &#39;private&#39; comments, and by this they mean that comments like <code>// comment</code> are not included in the compiled CSS file, where as the standard comments style <code>/* comment */</code> are. Not that this should matter because when you push your CSS to the production server it should be minified for performance purposes, but it&#39;s worth knowing about.</p>
-<h2><a name="variables"class="anchor" href="#variables"><span class="header-link"></span></a>Variables</h2>
+<h2><a name="variables" class="anchor" href="#variables"><span class="header-link"></span></a>Variables</h2>
 <p>Variables are a great way to not have to repeat entering the same value over and over. The most common use case is the client&#39;s branding colours. Normally this colour will appear in lots of different areas of the site (links, hover effects etc) and if the colour does need to change slightly then you either do it by hand or you run a &#39;find and replace&#39; function.</p>
 <p>To create a variable in Sass you simply prefix the name of the variable with a dollar sign: <code>$brand_color: #C00;</code> I can now use <code>$brand_color</code> wherever I like. For example…</p>
 <pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.header</span> <span class="err">{</span>
@@ -1086,7 +1086,7 @@ jshint main.js --show-non-errors --config ./Lint/config.json // <span class="o">
 </pre></div>
 </code></pre>
 <p>This makes life a lot easier and although I&#39;ve seen people claim that OOCSS can work around this, it can, but not easily and so using Sass for this alone is still extremely useful in my mind.</p>
-<h2><a name="calculations"class="anchor" href="#calculations"><span class="header-link"></span></a>Calculations</h2>
+<h2><a name="calculations" class="anchor" href="#calculations"><span class="header-link"></span></a>Calculations</h2>
 <p>I can&#39;t imagine me ever using this feature, but I&#39;ve included it because it also doesn&#39;t cause any negative effect (unlike <code>@extend</code> and <code>@mixin</code>).</p>
 <p>You can use all standard operators (*, /, +, -) for example:</p>
 <pre><code class="lang-sass"><div class="highlight"><pre><span class="nv">$width</span><span class="o">:</span> <span class="mi">10</span><span class="kt">px</span><span class="err">;</span> 
@@ -1095,7 +1095,7 @@ jshint main.js --show-non-errors --config ./Lint/config.json // <span class="o">
 </code></pre>
 <p>You can do calculations inline (i.e. where the property value is set) and you can also group calculations:</p>
 <p><code>width: $width * (1 - $sidebar_percent);</code></p>
-<h2><a name="colour-functions"class="anchor" href="#colour-functions"><span class="header-link"></span></a>Colour functions</h2>
+<h2><a name="colour-functions" class="anchor" href="#colour-functions"><span class="header-link"></span></a>Colour functions</h2>
 <p>These are very useful. A lot of times you have for example &#39;hover&#39; effects that need a colour that is similar in shade to the main brand colour. Normally you have to open up a colour palette and randomly pick something, whereas the following functions help with that process:</p>
 <p><code>lighten(colour, percentage)</code></p>
 <pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.txt-light</span> <span class="err">{</span>
@@ -1139,7 +1139,7 @@ jshint main.js --show-non-errors --config ./Lint/config.json // <span class="o">
 <span class="err">}</span>
 </pre></div>
 </code></pre>
-<h2><a name="importing"class="anchor" href="#importing"><span class="header-link"></span></a>Importing</h2>
+<h2><a name="importing" class="anchor" href="#importing"><span class="header-link"></span></a>Importing</h2>
 <p>You can import other Sass files into your main stylesheet using <code>@import &quot;other.scss&quot;</code></p>
 <p>The biggest note of warning here is that if you import a SCSS file and that file generates a CSS file of its own then you wont be able to use variables that aren&#39;t imported or defined in the imported SCSS file. For example… </p>
 <p>If you have the main stylesheet <code>structure.scss</code> and within that file you import another SCSS file called <code>colours.scss</code> - if <code>colours.scss</code> generates its own CSS file <code>colours.css</code> then the Sass file <code>colours.scss</code> cannot use any variables that are defined inside <code>structure.scss</code> (or which have been imported separately into <code>structure.scss</code>). </p>
@@ -1176,7 +1176,7 @@ jshint main.js --show-non-errors --config ./Lint/config.json // <span class="o">
 <p>…but that&#39;s the trade-off between Sass features and the efficiency of the produced code.</p>
 <p>Note: you can import a normal CSS file (as you would in standard CSS) but it&#39;ll be pushed to the top of the compiled CSS file. This is because in standard CSS an imported stylesheet is only allowed to be imported from the top of the file.</p>
 <p>Lastly, be aware that you could end up trying to import the same Sass file multiple times, and the way Sass handles that situation is by only including the imported file once BUT in the last place it was referenced (which may or may not cause you specificity issues).</p>
-<h2><a name="extend"class="anchor" href="#extend"><span class="header-link"></span></a>Extend</h2>
+<h2><a name="extend" class="anchor" href="#extend"><span class="header-link"></span></a>Extend</h2>
 <p>This feature is almost pointless as you really should be developing OOCSS (object-oriented CSS). All this does is repeat properties in the compiled CSS file. </p>
 <p>The reason I&#39;m even mentioning this feature is so you know not to bother with it and instead concentrate on the concepts of OOCSS more.</p>
 <p>Anywhere you have a CSS class you can re-import that inside another rule:</p>
@@ -1204,7 +1204,7 @@ jshint main.js --show-non-errors --config ./Lint/config.json // <span class="o">
 </code></pre>
 <p>A couple of last words of caution: <code>extend</code> avoids code duplication but it also causes other problems in that the amount of selectors can become an issue. If you @extend the same base class multiple times you may end up with a rule that has thousands of selectors, which isn&#39;t good for performance and can even make the browser crash (limit its use if you must use it).</p>
 <p>Also, you could end up adding properties that are already specified in the <code>extend</code>/<code>mixin</code> because let&#39;s face it you&#39;re unlikely to remember every property set inside them, so when you do use them and come back a few days/weeks/months later to make further updates you&#39;ll have to keep checking them before you can safely add another property just to make sure you&#39;re not doubling up on properties already there - which is hassle and can lead to mistakes.</p>
-<h2><a name="mixins"class="anchor" href="#mixins"><span class="header-link"></span></a>Mixins</h2>
+<h2><a name="mixins" class="anchor" href="#mixins"><span class="header-link"></span></a>Mixins</h2>
 <p>These are functionally similar to <code>extend</code>, but a mixin&#39;s properties are copied into the class rather than referenced (<code>extend</code> is designed to be used as a mechanism for proper inheritance as seen in other classical object-oriented programming languages), but more importantly with mixins you can also change the values when calling the mixin into your class (like they were a function).</p>
 <p>Remember that this can cause code duplication so please do NOT use &#39;Mixins&#39; (OOCSS should be used instead).</p>
 <p>You create a mixing like so:</p>
@@ -1261,7 +1261,7 @@ jshint main.js --show-non-errors --config ./Lint/config.json // <span class="o">
 <span class="err">}</span>
 </pre></div>
 </code></pre>
-<h2><a name="interpolation"class="anchor" href="#interpolation"><span class="header-link"></span></a>Interpolation</h2>
+<h2><a name="interpolation" class="anchor" href="#interpolation"><span class="header-link"></span></a>Interpolation</h2>
 <p>One area where mixins can&#39;t help you is when there is some specific CSS3 syntax such as <code>background-image</code> (with gradients). This is because not only the value changes but the syntax itself is different for each browser. </p>
 <p>One way to work around this issue is to use <code>interpolation</code>. The way it works is that you wrap a variable name with <code>#{}</code> e.g. <code>#{$my_variable}</code> and that will dynamically insert the value at that place in your CSS. Might sound a bit confusing so best to demonstrate this with an example, and the best example I can think of is again the <code>background-image</code> property with multiple different vendor prefixes… </p>
 <pre><code class="lang-sass"><div class="highlight"><pre><span class="c1">// Variable</span>

@@ -45,7 +45,7 @@
   <span class="post-date">2012 &#183; 4 &#183; 22</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 6mins</em></p>
 <ul>
 <li>Introduction</li>
@@ -53,12 +53,12 @@
 <li>How to detect them?</li>
 <li>When is it OK to modify them?</li>
 </ul>
-<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
 <p>This was intended as a short and overly simplified post about Host methods and Native methods.</p>
-<h2><a name="what-they-are-"class="anchor" href="#what-they-are-"><span class="header-link"></span></a>What they are?</h2>
+<h2><a name="what-they-are" class="anchor" href="#what-they-are"><span class="header-link"></span></a>What they are?</h2>
 <p>Native methods are built-in functions provided by the ECMAScript core specification. So things like Object methods (e.g. <code>Object.create</code>), Array methods (e.g. <code>Array#forEach</code>) etc.</p>
 <p>Host methods are functions provided by the host environment (most of the time when working in web development the host environment will be the user’s web browser). So things like the DOM API and the Events object are host objects/methods (e.g. <code>attachEvent</code> is a host method and <code>addEventListener</code> is a host method)</p>
-<h2><a name="how-to-detect-them-"class="anchor" href="#how-to-detect-them-"><span class="header-link"></span></a>How to detect them?</h2>
+<h2><a name="how-to-detect-them" class="anchor" href="#how-to-detect-them"><span class="header-link"></span></a>How to detect them?</h2>
 <p>Detecting Native methods is relatively straight forward. The real problem comes when you need to determine whether the object/method you’re detecting actually works the way the specification dictates it should work. So just checking it is available to use isn’t good enough.</p>
 <p>Detecting host methods is similar but a lot more problematic, because the ECMAScript specification states that the host environment can implement certain methods however they like and so there is no guarantee that your checks for certain host methods (which may work today) will work in future.</p>
 <p>We’ll give an example of each so you can get an idea of what I mean…</p>
@@ -110,7 +110,7 @@
 <p>  So, in IE calling the <code>typeof</code> operator with properties of an ActiveX Object will result in <code>unknown</code>.</p>
 </li>
 </ul>
-<h2><a name="when-is-it-ok-to-modify-them-"class="anchor" href="#when-is-it-ok-to-modify-them-"><span class="header-link"></span></a>When is it OK to modify them?</h2>
+<h2><a name="when-is-it-ok-to-modify-them" class="anchor" href="#when-is-it-ok-to-modify-them"><span class="header-link"></span></a>When is it OK to modify them?</h2>
 <p>Modifying built-in Native objects isn’t as dangerous as host objects (as already noted by Kangax <a href="http://perfectionkills.com/extending-built-in-native-objects-evil-or-not/"><a href="http://perfectionkills.com/extending-built-in-native-objects-evil-or-not/">http://perfectionkills.com/extending-built-in-native-objects-evil-or-not/</a></a>) but care needs to be taken to ensure the augmented object works as the spec dictates (something that isn’t possible all the time, for example like with <code>Object.create</code>).</p>
 <p>As far as host objects are concerned, never ever ever ever modify or augment them, just too dangerous.</p>
 </div>

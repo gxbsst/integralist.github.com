@@ -45,7 +45,7 @@
   <span class="post-date">2012 &#183; 11 &#183; 26</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 17mins</em></p>
 <ul>
 <li>Introduction</li>
@@ -55,18 +55,18 @@
 <li>Validation Module</li>
 <li>Conclusion</li>
 </ul>
-<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
 <p>A while ago I had any issue with validating a form using the Backbone.Model&#39;s <code>validate</code> method and so I went to the official Backbone GitHub issues area to raise a query. The problem I had isn&#39;t necessarily important but the ultimate result I got from the discussion with the maintainers of Backbone was that validating a form using a Model wasn&#39;t really the way you should use a Model.</p>
 <p>To me this didn&#39;t make a lot of sense because a form is just data and a Model holds data and so I would have thought using the built-in <code>validate</code> method of the Model would have been the best way to validate the form data. But apparently that&#39;s not considered a best practice using Backbone.</p>
 <p>So I decided to create a validation module that would make validating a form (and displaying errors) a little bit easier, because lets face it, validating forms are tedious and boring.</p>
 <p>You can download the <a href="https://github.com/Integralist/Backbone-Validation-View">full project code from GitHub</a></p>
-<h2><a name="dependencies"class="anchor" href="#dependencies"><span class="header-link"></span></a>Dependencies</h2>
+<h2><a name="dependencies" class="anchor" href="#dependencies"><span class="header-link"></span></a>Dependencies</h2>
 <ul>
 <li>Backbone (obviously, so this includes the dependencies required by Backbone)</li>
 <li><a href="http://twitter.github.com/hogan.js/">Hogan.js</a> (for loading the error messages)</li>
 </ul>
 <p>Now although I&#39;ve used Backbone/Hogan you don&#39;t have to. The code is straight forward enough to port over to use whatever you like. You could rewrite the code to not use a framework at all. The principles are very simple.</p>
-<h2><a name="html-set-up"class="anchor" href="#html-set-up"><span class="header-link"></span></a>HTML set-up</h2>
+<h2><a name="html-set-up" class="anchor" href="#html-set-up"><span class="header-link"></span></a>HTML set-up</h2>
 <p>OK, so the HTML requires a bit of setting up. Nothing major, but we utilise specific classes and custom data attributes in the HTML to help us validate the form.</p>
 <p>For example, we mark-up any mandatory fields with a class of <code>js-mandatory-field</code> - you&#39;ll notice I&#39;ve prefixed the class with &#39;js-&#39; so other developers know that this class has no styles associated with it. It&#39;s literally only used as a JavaScript hook.</p>
 <p>We also use a custom data attribute <code>data-message</code> to store specific validation error messages. I prefer having custom messages because otherwise at some point you&#39;ll want to validate a field that doesn&#39;t conform to the known validation methods. So having a custom message for each field gives better feedback to the user.</p>
@@ -88,7 +88,7 @@
 <span class="nt">&lt;/form&gt;</span>
 </pre></div>
 </code></pre>
-<h2><a name="javascript-set-up"class="anchor" href="#javascript-set-up"><span class="header-link"></span></a>JavaScript set-up</h2>
+<h2><a name="javascript-set-up" class="anchor" href="#javascript-set-up"><span class="header-link"></span></a>JavaScript set-up</h2>
 <p>Next let&#39;s look at our JavaScript set-up: we&#39;re utilising AMD to help keep our scripts modular and I&#39;m using the <a href="https://github.com/cujojs/curl">Curl.js AMD loader</a>.</p>
 <p>So in our HTML file we&#39;ll load up the JavaScript files required…</p>
 <pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;Assets/Scripts/curl.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
@@ -124,7 +124,7 @@
 </pre></div>
 </code></pre>
 <p>Now we have our JavaScript set-up lets move onto the Backbone.View that will handle the validation of our form.</p>
-<h2><a name="validation-module"class="anchor" href="#validation-module"><span class="header-link"></span></a>Validation Module</h2>
+<h2><a name="validation-module" class="anchor" href="#validation-module"><span class="header-link"></span></a>Validation Module</h2>
 <p>We will go through each of the methods within this module so we can better understand what they&#39;re doing. There are four main methods and the rest are different validation methods.</p>
 <p>The four main methods are:</p>
 <ul>
@@ -575,7 +575,7 @@
 <span class="p">});</span>
 </pre></div>
 </code></pre>
-<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
 <p>OK, so that&#39;s our full validation method! It looks big but when you break it down it&#39;s not actually that complicated.</p>
 <p>It works for me and has made my life a hell of a lot easier whenever I&#39;ve needed to validate a form. Hopefully it helps someone else, or inspires some one to take the principles shown here and to build their own variation so their life is a little easier when dealing with forms.</p>
 </div>

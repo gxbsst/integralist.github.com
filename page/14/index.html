@@ -43,7 +43,7 @@
   <span class="post-date">2012 &#183; 1 &#183; 3</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 26mins</em></p>
 <ul>
 <li>Introduction</li>
@@ -62,16 +62,16 @@
 <li>Tell Git to ignore certain files and formats</li>
 <li>Best practices for Commit Messages</li>
 </ul>
-<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
 <p>If you’re having trouble understanding how to get up and running with GitHub, or you just wanted to find a free version-control system and heard about this thing called ‘Git’ then hopefully the following information should help…</p>
-<h2><a name="what-is-git-github-"class="anchor" href="#what-is-git-github-"><span class="header-link"></span></a>What is Git/GitHub?</h2>
+<h2><a name="what-is-gitgithub" class="anchor" href="#what-is-gitgithub"><span class="header-link"></span></a>What is Git/GitHub?</h2>
 <p>When I first heard about GitHub I was unsure as to its purpose and why it was such a hit with other developers. I had never heard of ‘Git’ before and whenever people spoke of GitHub they would mention Git at the same time, and so because they both had ‘Git’ in their name I just assumed they were one and the same thing - which as it turns out was quite wrong indeed.</p>
 <p>To clarify, ‘Git’ is a program. Once installed on your computer it can be accessed via the Command Line. You could very well have yourself a nice little ‘version control’ set-up on your computer using just Git and without ever needing to look at, or even having heard of, ‘GitHub’.</p>
 <p>GitHub on the other hand is a website that hosts Git ‘files’ (known as ‘repositories’) and so it makes it a lot easier for open-source projects to have other developers help extend the project by allowing these developers to grab(<code>fork</code>) the project code (even though they didn’t create the project on GitHub) and to duplicate the project set-up and to modify it however the developer wishes and then allow the developer to submit changes, bug fixes, new features etc back to the original developers to integrate if they were so inclined.</p>
 <p>It’s an incredibly powerful tool.</p>
 <p>So with this in mind it’s best to learn about Git first, so then using GitHub will suddenly make a whole lot more sense! And this is why I think I struggled with GitHub initially: because I had no idea about what Git was and how it worked.</p>
 <p>But before we get started…</p>
-<h2><a name="using-the-github-interface"class="anchor" href="#using-the-github-interface"><span class="header-link"></span></a>Using the GitHub interface</h2>
+<h2><a name="using-the-github-interface" class="anchor" href="#using-the-github-interface"><span class="header-link"></span></a>Using the GitHub interface</h2>
 <p>Now I know I said we would start with learning Git first, THEN GitHub. But it is worth noting at this stage (mainly by <a href="http://twitter.com/paul_irish">@paul_irish</a>’s request) that you can in fact update files directly via the GitHub website!</p>
 <p>So if you want to avoid the command line altogether but you still want to help work with open-source projects on GitHub and in the simplest/easiest way possible, then read this section only and stop there (as the rest of the sections of this post will likely be of no interest to you).</p>
 <p>If on the other hand using the GitHub interface doesn’t interest you at all and you really want to learn about what Git is and how to use it (and thus be able to use GitHub more effectively) then just skip this section and move onto “Installing Git”. So first thing you guys want to do is to sign-up for a GitHub account here:</p>
@@ -84,7 +84,7 @@
 <p>Once your commit message has been entered then you can click the “Commit Changes” button at the bottom of the page. Now when the page reloads you’ll see the latest note/commit for this file is actually yours and shows your commit message. But this is still only changes to <em>your</em> copy of the jQuery library.</p>
 <p>You need to now tell jQuery about your very important change and get them to integrate it into their source version. To do this you now need to click the “Pull Request” link at the top of the page (near where you clicked on the “Fork” link from earlier. Clicking the “Pull Request” link will redirect you to a page where you must enter a message to go along with your commit (this will be reviewed by core committers!). Final step! Click “Send pull request” at the bottom of that page (just under where you entered your message).</p>
 <p>From here you can sit back and relax, I think? Again I’ve read somewhere previously (for jQuery UI) that you need to add a link to your commit to the ticket in their tracker system (jQuery may very well have something similar I’m not sure though). But enough of this GUI nonsense, lets start using Git how it was meant to be used… on the command line!</p>
-<h2><a name="installing-git"class="anchor" href="#installing-git"><span class="header-link"></span></a>Installing Git</h2>
+<h2><a name="installing-git" class="anchor" href="#installing-git"><span class="header-link"></span></a>Installing Git</h2>
 <p>OK, first thing first, lets get Git installed (by the way I work on a Mac so hopefully this guide is still somewhat useful to PC users). I personally found the easiest way to install git is via a pre-compiled installer: <a href="http://code.google.com/p/git-osx-installer/"><a href="http://code.google.com/p/git-osx-installer/">http://code.google.com/p/git-osx-installer/</a></a>.</p>
 <p>There are installers for PC as well as Mac and Linux so take your pick and you can install from the original Git source code but that’s a bit more ‘involved’. The official GitHub website mentions many ways to install Git, but I found the pre-compiled installer the quickest/easiest way - I pretty much ran the installer and it was done in about two seconds flat.</p>
 <p>When Git is installed the first thing we’ll probably want to do is to tell it what our name and email is (this way, when working with a system - such as GitHub - and having multiple users working on your code base you can easily see which users made changes to the code - and tell them off if they added/removed code that broke your application).</p>
@@ -101,7 +101,7 @@ git config user.email
 <p>Next you want to make sure that Git ignores any ‘white space’ changes. Now this needs a little bit extra explanation: Git tracks file <em>content</em> and NOT individual files. So if you add an empty new line to a file (and Git is tracking that file) then Git will inform you that the file has been modified but you don’t really want a single empty line to be flagged up to you (not in web development really as white space is not that important). To have Git ignore whitespace changes you can enter the following into the Terminal:</p>
 <p><code>git config --global apply.whitespace nowarn</code></p>
 <p>Now that we’ve got Git set-up we need to look at how we can tell it to ‘track’ certain files &amp; folders in your project.</p>
-<h2><a name="setting-up-a-new-git-repository"class="anchor" href="#setting-up-a-new-git-repository"><span class="header-link"></span></a>Setting up a new Git repository</h2>
+<h2><a name="setting-up-a-new-git-repository" class="anchor" href="#setting-up-a-new-git-repository"><span class="header-link"></span></a>Setting up a new Git repository</h2>
 <p>Now, using Git does require a tiny bit of command line knowledge (such as navigating your computer via command line, making new directories and files, removing files etc). I’ll try and cover as much of this as I think is needed to use Git (you may need more commands than I cover but then I’ll leave that up to you to look into further). OK, so with the Terminal still open, navigate to your project folder (we do this by using the <code>cd</code> command - which stands for ‘change directory’)…</p>
 <p><code>cd ~/Dropbox/Project/</code></p>
 <p>…as you can see I have a folder called ‘Project’ within a private <a href="http://www.dropbox.com/">Dropbox</a> folder. The tilda character <code>~</code> simply tells Terminal to go back to your home directory and start looking from there for the folder you need. You can also navigate your Mac using <code>../</code> to go up and down folders. If you want to check the contents of a particular folder then simply type <code>ls</code> which tells Terminal to ‘list’ the content of the current folder.</p>
@@ -113,7 +113,7 @@ killall Finder
 </pre></div>
 </code></pre>
 <p>…the first line tells Finder to allow showing of hidden files, and the second line restarts Finder so you can see the changes take effect. Once you have a new Git repository set-up you need to tell Git what files/folders to start ‘tracking’.</p>
-<h2><a name="adding-files-for-git-to-track"class="anchor" href="#adding-files-for-git-to-track"><span class="header-link"></span></a>Adding files for Git to track</h2>
+<h2><a name="adding-files-for-git-to-track" class="anchor" href="#adding-files-for-git-to-track"><span class="header-link"></span></a>Adding files for Git to track</h2>
 <p>If you don’t already have any files in your project folder then we can at least add one file (via the Terminal as well) which will become useful later when you start to use GitHub as a code sharing platform. To create a file via the Terminal we must use the <code>touch</code> command like so…</p>
 <p><code>touch README.md</code></p>
 <p>…the above line creates a ‘README.md’ file (which is used by GitHub to give a project you create a visible description). Now as it happens I already had a few files in my project folder so along with the README.md file I just created I’m going to start adding these files to Git’s “Staging Area”.</p>
@@ -127,15 +127,15 @@ killall Finder
 <p><code>git add .</code></p>
 <p>…the period character (.) simply means ‘any un-tracked files’ and saves you having to remember which new files are or aren’t being tracked already. The <code>add</code> command makes it easy to add as many files as you like to Git’s “Staging Area”.</p>
 <p>You can add some files, go away and make a cup of tea, work on something else and then come back and add some more files to the Staging Area. But for any of these files to be ‘committed’ and thus have a ‘snap shot’ of the project (so we can - if we need to - revert back to an older version) we need to use the <code>commit</code> command to tell Git we want it to snap shot our project in its current state…</p>
-<h2><a name="commiting-files-to-git"class="anchor" href="#commiting-files-to-git"><span class="header-link"></span></a>Commiting files to Git</h2>
+<h2><a name="commiting-files-to-git" class="anchor" href="#commiting-files-to-git"><span class="header-link"></span></a>Commiting files to Git</h2>
 <p><code>git commit -m &#39;Add a README file to help explain the project&#39;</code></p>
 <p>…the above command uses the <code>-m</code> ‘flag’ which means you’re about to add a comment to go along with this ‘commit’. You don’t have to use the <code>-m</code> flag, but if you don’t then Terminal will try and open the default text editor so you can enter your commit description and I find it quicker and easier just to use the <code>-m</code> command.</p>
 <p>Now that we’ve been acquainted with Git, and created a new Git repository, added some files and committed them to Git we can start looking at using a remote server for collaborating on our project. To do this we’re going to use <a href="https://github.com/"><a href="https://github.com/">https://github.com/</a></a> the ‘Social Coding’ website.</p>
-<h2><a name="setting-up-a-github-account"class="anchor" href="#setting-up-a-github-account"><span class="header-link"></span></a>Setting up a GitHub account</h2>
+<h2><a name="setting-up-a-github-account" class="anchor" href="#setting-up-a-github-account"><span class="header-link"></span></a>Setting up a GitHub account</h2>
 <p>Note: if you need extra help (beyond what I’ve shared) then you can refer to the official GitHub help pages here: <a href="http://learn.github.com/p/setup.html"><a href="http://learn.github.com/p/setup.html">http://learn.github.com/p/setup.html</a></a> So the first thing to do is to register for an account (you have to go through the ‘Pricing and Signup’ page to find the ‘free’ account set-up): <a href="https://github.com/signup/free"><a href="https://github.com/signup/free">https://github.com/signup/free</a></a> (as you’ll see on that page, there are paid for options available so your team of developers can collaborate with a version-controlled project using GitHub’s servers, rather than having to work out how to set-up their own ‘remote’ server to push code changes to).</p>
 <p>Once you’ve signed up, I recommend the first thing you do is to create a SSH Public Key (you’re going to need it to be able to securely access remote files - and by ‘remote’ I mean access your project files on the GitHub server). GitHub have a useful page for explaining how to set-up the SSH Public Key: <a href="http://help.github.com/mac-key-setup/"><a href="http://help.github.com/mac-key-setup/">http://help.github.com/mac-key-setup/</a></a>.</p>
 <p>Most of you will find that you can skip the first part of the page and head straight down to the section titled ‘Generating a key’ (I mention how to set-up your SSH Public Key below, but do have a read over the provided link as it should help clarify what to do).</p>
-<h2><a name="generating-an-ssh-public-key"class="anchor" href="#generating-an-ssh-public-key"><span class="header-link"></span></a>Generating an SSH Public Key</h2>
+<h2><a name="generating-an-ssh-public-key" class="anchor" href="#generating-an-ssh-public-key"><span class="header-link"></span></a>Generating an SSH Public Key</h2>
 <p>Basically, in the Terminal you type…</p>
 <p><code>ssh-keygen -t rsa -C &quot;joe@bloggs.com&quot;</code></p>
 <p>…obviously change the email address from <code>joe@bloggs.com</code> to whatever email address you used to sign-up to GitHub with. Terminal will then tell you…</p>
@@ -152,11 +152,11 @@ Enter file in which to save the key <span class="o">(</span>/Users/tekkub/.ssh/i
 <p>Now go back to the Terminal and enter the following command to copy your SSH Public Key to your clipboard…</p>
 <p><code>cat ~/.ssh/id_rsa.pub | pbcopy</code></p>
 <p>…once copied into your clipboard, go back to the relevant GitHub SSH page and paste your key in and save the changes to your account settings. This now leaves just one last thing for you to do while logged into the GitHub website and that is to create a new ‘repository’.</p>
-<h2><a name="creating-a-new-github-repository"class="anchor" href="#creating-a-new-github-repository"><span class="header-link"></span></a>Creating a new GitHub repository</h2>
+<h2><a name="creating-a-new-github-repository" class="anchor" href="#creating-a-new-github-repository"><span class="header-link"></span></a>Creating a new GitHub repository</h2>
 <p>To create a new repository you’ll need to go to this page <a href="https://github.com/repositories/new"><a href="https://github.com/repositories/new">https://github.com/repositories/new</a></a> (you’ll find links all over the place for creating a new repository, but it’s easier if I just link to it for you).</p>
 <p>Now enter the information GitHub asks for (I created a repository called ‘Project Template’ and it generated the following URL: <a href="https://github.com/Integralist/Project-Template">https://github.com/Integralist/Project-Template</a>).</p>
 <p>Once you’ve created a new repository on GitHub, it will show you some Terminal commands you can run for setting up Git locally and pushing the project file to GitHub’s online repository.</p>
-<h2><a name="pushing-your-project-up-to-github-s-repository"class="anchor" href="#pushing-your-project-up-to-github-s-repository"><span class="header-link"></span></a>Pushing your project up to GitHub’s repository</h2>
+<h2><a name="pushing-your-project-up-to-githubs-repository" class="anchor" href="#pushing-your-project-up-to-githubs-repository"><span class="header-link"></span></a>Pushing your project up to GitHub’s repository</h2>
 <p>In the Terminal, lets make sure we’re still in our project directory…</p>
 <p><code>cd ~/Dropbox/Project/</code></p>
 <p>…once we’re back in our project folder we can now set-up our remote server access…</p>
@@ -177,7 +177,7 @@ git commit -m <span class="s1">&#39;Add some new robot configurations&#39;</span
 git push origin master
 </pre></div>
 </code></pre>
-<h2><a name="removing-editing-files"class="anchor" href="#removing-editing-files"><span class="header-link"></span></a>Removing/Editing files</h2>
+<h2><a name="removingediting-files" class="anchor" href="#removingediting-files"><span class="header-link"></span></a>Removing/Editing files</h2>
 <p>To remove a file (e.g. lets remove the ‘robots.txt’ file) simply type…</p>
 <p><code>git rm robots.txt</code></p>
 <p>…then do the normal commit with message and push.</p>
@@ -187,7 +187,7 @@ git push origin master
 </code></pre>
 <p>To edit existing files is the same process as adding files. But beware, as you’ll get an error if the file hasn’t actually been changed!</p>
 <p>Remember, Git tracks file <em>content</em>, NOT individual files. So it wont like you wasting its time by uploading files that haven’t changed at all.</p>
-<h2><a name="git-tips"class="anchor" href="#git-tips"><span class="header-link"></span></a>Git Tips</h2>
+<h2><a name="git-tips" class="anchor" href="#git-tips"><span class="header-link"></span></a>Git Tips</h2>
 <p>Any time you need to check the status of a <code>.git</code> repository:</p>
 <p><code>git status</code></p>
 <p>Show all Git commands:</p>
@@ -239,7 +239,7 @@ git push origin master
 <p><code>git describe</code></p>
 <p>*Note: it shows the name of the tag followed by how many commits have happened since its inception (as well as the first seven characters from the hash that references the commit, and the -g is not part of the hash; it’s a suffix that stands for “Git” - according to the Git documentation it “useful in an environment where people may use different SCMs”).</p>
 <p>e.g. my_first_tag-1-gd8a7d27*</p>
-<h2><a name="tell-git-to-ignore-certain-files-and-formats"class="anchor" href="#tell-git-to-ignore-certain-files-and-formats"><span class="header-link"></span></a>Tell Git to ignore certain files and formats</h2>
+<h2><a name="tell-git-to-ignore-certain-files-and-formats" class="anchor" href="#tell-git-to-ignore-certain-files-and-formats"><span class="header-link"></span></a>Tell Git to ignore certain files and formats</h2>
 <p><code>.gitignore</code> is a file that you can create to hold rules about what items Git should ignore.</p>
 <p>A good example of using .gitignore is if you wanted a config script - e.g. Settings.php - that held your database username/password ignored so it wasn’t accidentally pushed to a public repository (such as GitHub):</p>
 <p>You can use a <code>#</code> as a comment line and then specify the types of files or specific files to be ignored, such as:</p>
@@ -255,7 +255,7 @@ git push origin master
 <span class="err">!errors.log</span>
 </pre></div>
 </code></pre>
-<h2><a name="best-practices-for-commit-messages"class="anchor" href="#best-practices-for-commit-messages"><span class="header-link"></span></a>Best practices for Commit Messages</h2>
+<h2><a name="best-practices-for-commit-messages" class="anchor" href="#best-practices-for-commit-messages"><span class="header-link"></span></a>Best practices for Commit Messages</h2>
 <p>As requested by <a href="http://twitter.com/mathias">@Mathias</a> (on quite a few occasions…) there are a few best practices to consider when writing your commit messages.</p>
 <p>One of the most obvious and useful is to split your commit message into a ‘summary’ and ‘body’ (this is done by including a blank line in-between the first and second lines of your commit message).</p>
 <p>The ‘summary’ should (ideally) be no more than 50 characters. This is so that when other users are viewing your commit messages (via different means) then they can always understand what the commit is about, and then if they wish to read the full commit message (i.e. the ‘body’ part - which should include further information on the specifics of the commit) then they can do.</p>
@@ -273,7 +273,7 @@ git push origin master
 </ul>
 <p>When writing your commit message it’s probably a good idea to write in the ‘present tense’ (e.g. ‘fix’ rather than ‘fixed’) - this is to help keep consistency between other git commands such as <code>git merge</code> | <code>git revert</code>.</p>
 <p>Also, when writing the ‘body’ part of your commit message, make sure to keep the character length to 72 per line. Feel free to read up on the details of why at <a href="http://tbaggery.com/">tbaggery.com</a>, but the principle is basically that using certain git commands on certain set-ups could cause the text to overflow off the edge of the screen. The previous link also includes some tips on how to achieve this via Vim or TextMate.</p>
-<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
 <p>And that’s about it for the “Git Basics”. There is so much more that you can learn and I can’t recommend the book “Getting Good with Git” enough! Go check that out here: <a href="http://rockablepress.com/books/getting-good-with-git/"><a href="http://rockablepress.com/books/getting-good-with-git/">http://rockablepress.com/books/getting-good-with-git/</a></a>.</p>
 </div>
 
@@ -291,7 +291,7 @@ git push origin master
   <span class="post-date">2012 &#183; 1 &#183; 2</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 11mins</em></p>
 <ul>
 <li>Introduction</li>
@@ -304,7 +304,7 @@ git push origin master
 <li>Review of example</li>
 <li>Conclusion</li>
 </ul>
-<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
 <p>Any programmer worth a damn will tell you that you need to test your code.</p>
 <p>There are different types of tests that inspect the different areas of your application:</p>
 <ul>
@@ -317,12 +317,12 @@ git push origin master
 <p>Within a test you write a number of ‘assertions’ (which means you’re expecting certain values to be returned at that point in a certain format or type) and if the code fails to produce the relevant value the assertion will fail and thus the test itself will fail.</p>
 <p>There are different methodologies for testing your code, the two most famous are Test-Driven Development (TDD) and Behaviour-Driven Development (BDD). Both are very similar and differ in &#39;direction&#39; more than anything.</p>
 <p>Fundamentally TDD is about the developer and their perspective on testing a piece of code, where BDD is more about using language that management and stake holders can understand (so your tests are still written in code but uses more &#39;domain specific language&#39; - e.g. instead of <code>assertEqual(x, y)</code> you would write <code>expect(x).toEqual(y)</code>).</p>
-<h2><a name="start-how-you-mean-to-go-on"class="anchor" href="#start-how-you-mean-to-go-on"><span class="header-link"></span></a>Start how you mean to go on</h2>
+<h2><a name="start-how-you-mean-to-go-on" class="anchor" href="#start-how-you-mean-to-go-on"><span class="header-link"></span></a>Start how you mean to go on</h2>
 <p>Something else you normally hear from the TDD crowd is that you <em>should</em> write your tests first! That’s probably going to sound a bit alien to you because how can you write tests for code that doesn’t yet exist? Why would anyone do that?</p>
 <p>Well, the reasoning behind it is quite logical when you think about it. Normally you’ll just start writing some code with no idea of how it should work, you just start hacking away and as you progress you go back and refactor sections and make it cleaner/more efficient and hopefully at the end you don’t need to change your code in any meaningful way to appease your users who may be using your code (e.g. if you’re building the next big JavaScript framework then your API is what your users will be relying on and if you discover there is a bug in your code and it means you have to go back and change the API because of it then that causes big concerns for your users).</p>
 <p>So the idea of writing tests first is that you’re thinking about your API from the beginning. You’ll think about what the perfect API is for your code to produce and you’ll ensure you write code that fits that API (you won’t realise halfway through coding “ah crap, this doesn’t work as well as I had hoped it would, I’m going to have to change this”).</p>
 <p>Although we’re not worrying about “writing tests first” in this article, I mention it so you are at least aware of the process.</p>
-<h2><a name="the-write-test-first-process"class="anchor" href="#the-write-test-first-process"><span class="header-link"></span></a>The ‘write test first’ process</h2>
+<h2><a name="the-write-test-first-process" class="anchor" href="#the-write-test-first-process"><span class="header-link"></span></a>The ‘write test first’ process</h2>
 <p>For those interested it goes a little like this:</p>
 <ul>
 <li>Write a unit-test</li>
@@ -332,20 +332,20 @@ git push origin master
 <li>Once the test passes, go back and refactor your code so it’s how it should be (i.e. clean/efficient)</li>
 <li>Run the test again and watch it pass</li>
 </ul>
-<h2><a name="other-aspects-of-tdd-bdd"class="anchor" href="#other-aspects-of-tdd-bdd"><span class="header-link"></span></a>Other aspects of TDD/BDD</h2>
+<h2><a name="other-aspects-of-tddbdd" class="anchor" href="#other-aspects-of-tddbdd"><span class="header-link"></span></a>Other aspects of TDD/BDD</h2>
 <p>Here are a few other aspects of testing worth mentioning before we get stuck into some examples: methods such as ‘setUp’ and ‘tearDown’ (which run before and after each test) are useful (for example…) because it means you can prepare each test to run from a fresh set-up.  This probably doesn’t make a lot of sense at the moment so I’ll demonstrate this later in our example code below, but trust me, when you’re testing your code it’s useful before each test (or after each test) to reset your environment.</p>
 <p>There are also more complicated aspects such as mocks, stubs and spies which are useful when you start getting deep into testing application code where ‘state’ becomes relevant (e.g. using some of these features makes testing code in the deepest parts of your application a lot easier).</p>
 <p>So with all this in mind, I would highly recommend you go and read a book titled ‘Test-Driven JavaScript Development’ by Christian Johansen (<a href="http://twitter.com/cjno">@cjno</a>) which covers all these topics in great detail.</p>
-<h2><a name="what-do-these-test-types-mean-"class="anchor" href="#what-do-these-test-types-mean-"><span class="header-link"></span></a>What do these test &#39;types&#39; mean?</h2>
-<h3><a name="unit-tests"class="anchor" href="#unit-tests"><span class="header-link"></span></a>Unit Tests</h3>
+<h2><a name="what-do-these-test-types-mean" class="anchor" href="#what-do-these-test-types-mean"><span class="header-link"></span></a>What do these test &#39;types&#39; mean?</h2>
+<h3><a name="unit-tests" class="anchor" href="#unit-tests"><span class="header-link"></span></a>Unit Tests</h3>
 <p>These are very atomic (i.e. small) tests that test a specific chunk of code.</p>
-<h3><a name="integration-tests"class="anchor" href="#integration-tests"><span class="header-link"></span></a>Integration Tests</h3>
+<h3><a name="integration-tests" class="anchor" href="#integration-tests"><span class="header-link"></span></a>Integration Tests</h3>
 <p>These are tests that ensure all the separate parts of your application code work when interacting with each other.</p>
-<h3><a name="acceptance-tests"class="anchor" href="#acceptance-tests"><span class="header-link"></span></a>Acceptance Tests</h3>
+<h3><a name="acceptance-tests" class="anchor" href="#acceptance-tests"><span class="header-link"></span></a>Acceptance Tests</h3>
 <p>These are tests that prove to management or your stake holders that the application is providing all the functionality they require (typically acceptance tests are written using BDD which uses domain specific language that makes it easy for management to write tests for the developer to implement).</p>
-<h3><a name="regression-tests"class="anchor" href="#regression-tests"><span class="header-link"></span></a>Regression Tests</h3>
+<h3><a name="regression-tests" class="anchor" href="#regression-tests"><span class="header-link"></span></a>Regression Tests</h3>
 <p>This is the process of running your unit tests again after fixing any integration tests to make sure your fixes haven&#39;t caused your unit tests to break.</p>
-<h2><a name="using-jasmine"class="anchor" href="#using-jasmine"><span class="header-link"></span></a>Using Jasmine</h2>
+<h2><a name="using-jasmine" class="anchor" href="#using-jasmine"><span class="header-link"></span></a>Using Jasmine</h2>
 <p>For the purpose of this article we&#39;re going to focus on unit testing but we&#39;re going to use a BDD library called Jasmine to help run our tests. You can download it from here: <a href="http://pivotal.github.com/jasmine/"><a href="http://pivotal.github.com/jasmine/">http://pivotal.github.com/jasmine/</a></a></p>
 <p>The set-up is as follows:</p>
 <ul>
@@ -367,7 +367,7 @@ jasmine.getEnv().execute();
 <span class="p">});</span>
 </pre></div>
 </code></pre>
-<h2><a name="an-example"class="anchor" href="#an-example"><span class="header-link"></span></a>An example</h2>
+<h2><a name="an-example" class="anchor" href="#an-example"><span class="header-link"></span></a>An example</h2>
 <p>So now imagine your ‘my-cool-library.js’ consisted of an object whose API let the user add/remove or check for CSS classes on an element. Lets say the API was as follows…</p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">header</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;my-header&#39;</span><span class="p">);</span>
 <span class="nx">css</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">header</span><span class="p">,</span> <span class="s1">&#39;newclass&#39;</span><span class="p">)</span> <span class="c1">// --&gt; adds the class &#39;newclass&#39; to the specified element &#39;header&#39;</span>
@@ -450,7 +450,7 @@ jasmine.getEnv().execute();
 <span class="p">});</span>
 </pre></div>
 </code></pre>
-<h2><a name="review-of-example"class="anchor" href="#review-of-example"><span class="header-link"></span></a>Review of example</h2>
+<h2><a name="review-of-example" class="anchor" href="#review-of-example"><span class="header-link"></span></a>Review of example</h2>
 <p>We’ll look at one of the example tests and explain what’s happening so you get an idea of how Jasmine works, then from there you should be at least good to go in getting up and running and playing around with it yourself.</p>
 <p>I’ve set-up an example of the code found in this post on Github: <a href="https://github.com/Integralist/Unit-testing-with-Jasmine-BDD"><a href="https://github.com/Integralist/Unit-testing-with-Jasmine-BDD">https://github.com/Integralist/Unit-testing-with-Jasmine-BDD</a></a> (which should also help you getting started)</p>
 <p>So lets look at one of the tests…</p>
@@ -474,7 +474,7 @@ jasmine.getEnv().execute();
 &gt;&gt;&gt;&gt; <span class="o">(</span>after this you get a stack trace of what was executed so you can see specifics of where the error occurred<span class="o">)</span>
 </pre></div>
 </code></pre>
-<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
 <p>Hopefully this has given you a taster for how easy it is to get started writing unit-tests for your code (even if you don’t take the “write tests first” approach).</p>
 <p>There are many good unit-testing libraries available today and they each have their pros/cons as far as the API is concerned and the features they offer.</p>
 <p>I personally prefer Jasmine because I love the simplicity of the terminology and API and the flexibility I have to include my own matchers.</p>

@@ -45,7 +45,7 @@
   <span class="post-date">2013 &#183; 8 &#183; 4</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 11mins</em></p>
 <ul>
 <li>What is PhantomJS?</li>
@@ -56,12 +56,12 @@
 <li>Other PhantomJS features</li>
 <li>Conclusion</li>
 </ul>
-<h2><a name="what-is-phantomjs-"class="anchor" href="#what-is-phantomjs-"><span class="header-link"></span></a>What is PhantomJS?</h2>
+<h2><a name="what-is-phantomjs" class="anchor" href="#what-is-phantomjs"><span class="header-link"></span></a>What is PhantomJS?</h2>
 <p>To quote the source…</p>
 <blockquote>
 <p>PhantomJS is a headless WebKit scriptable with a JavaScript API. It has fast and native support for various web standards: DOM handling, CSS selector, JSON, Canvas, and SVG.</p>
 </blockquote>
-<h2><a name="why-use-phantomjs-"class="anchor" href="#why-use-phantomjs-"><span class="header-link"></span></a>Why use PhantomJS?</h2>
+<h2><a name="why-use-phantomjs" class="anchor" href="#why-use-phantomjs"><span class="header-link"></span></a>Why use PhantomJS?</h2>
 <p>So why do you care? Well, having a headless WebKit allows you to do all sorts of things. You can automate anything within a browser environment, and that&#39;s very cool!</p>
 <p>So for example, I work for BBC News on the responsive code base and some of the very talented guys here have recently released an open-source project called <a href="https://github.com/BBC-News/wraith">Wraith</a> which is a front-end regression testing tool that lets you grab screen shot images of web pages at different dimensions (it&#39;s great for making sure your recent CSS commits or changes hasn&#39;t broken your site, it doesn&#39;t replace acceptance tests, unit tests or manual testing but it helps improve confidence). </p>
 <p>In case you&#39;re wondering, the definition of &#39;wraith&#39; is…</p>
@@ -70,12 +70,12 @@
 </blockquote>
 <p>…see what we did there, Phantom… ghost… wraith… yeah?</p>
 <p>But there are other spin-offs such as <a href="http://casperjs.org/">CasperJS</a> and <a href="https://github.com/jonleighton/poltergeist#poltergeist---a-phantomjs-driver-for-capybara">Poltergeist</a> both of which are named on a variation of the phantom theme but focus specifically on user/acceptance testing a user interface by allowing developers to interact with a web page programmatically.</p>
-<h2><a name="how-can-we-use-it-"class="anchor" href="#how-can-we-use-it-"><span class="header-link"></span></a>How can we use it?</h2>
+<h2><a name="how-can-we-use-it" class="anchor" href="#how-can-we-use-it"><span class="header-link"></span></a>How can we use it?</h2>
 <p>We&#39;ll be using PhantomJS to help us interrogate a web page of the user&#39;s choice. It will check the network requests, store them and then generate a Application Cache manifest file based on the content of the web page.</p>
 <p>So I wrote a small script that allows you to do this which I called <a href="https://github.com/integralist/squirrel">Squirrel</a> because you&#39;re storing away small pieces of information… like… nuts? Yeah I think you see where I&#39;m coming from.</p>
 <p>This is very much a work in progress but the principles are there and it also demonstrates some different parts of PhantomJS that you might be interested in.</p>
 <p>I won&#39;t go into the details of what the Application Cache does (or should do), I&#39;ll <a href="http://www.html5rocks.com/en/tutorials/appcache/beginner/">leave that to another</a>.</p>
-<h2><a name="basic-introduction"class="anchor" href="#basic-introduction"><span class="header-link"></span></a>Basic introduction</h2>
+<h2><a name="basic-introduction" class="anchor" href="#basic-introduction"><span class="header-link"></span></a>Basic introduction</h2>
 <p>Here&#39;s a super quick introduction on how to use PhantomJS… </p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">page</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;webpage&#39;</span><span class="p">).</span><span class="nx">create</span><span class="p">(),</span>
     <span class="nx">url</span> <span class="o">=</span> <span class="s1">&#39;http://www.phantomjs.org/&#39;</span><span class="p">;</span>
@@ -90,7 +90,7 @@
 <p>We then call the <code>open()</code> method on this web page object and pass in the URL of the web page we want to open.</p>
 <p>We then execute the <code>exit()</code> method on Phantom itself which tells the script that we&#39;re finished doing what we&#39;re doing.</p>
 <p>That&#39;s it. Super simple run down of how to use PhantomJS.</p>
-<h2><a name="let-s-break-down-squirrel"class="anchor" href="#let-s-break-down-squirrel"><span class="header-link"></span></a>Let&#39;s break down Squirrel</h2>
+<h2><a name="lets-break-down-squirrel" class="anchor" href="#lets-break-down-squirrel"><span class="header-link"></span></a>Let&#39;s break down Squirrel</h2>
 <p>OK, so let&#39;s review our Squirrel repo (specifically the <code>appcache.js</code> file).</p>
 <p>The process of our script is as follows…</p>
 <ol>
@@ -105,7 +105,7 @@
 <li>Call a function <code>populateManifest()</code> that will begin the process of populating our manifest file.</li>
 <li>Exit our PhantomJS script.</li>
 </ol>
-<h3><a name="set-up"class="anchor" href="#set-up"><span class="header-link"></span></a>Set-up</h3>
+<h3><a name="set-up" class="anchor" href="#set-up"><span class="header-link"></span></a>Set-up</h3>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">_</span>          <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;lodash&#39;</span><span class="p">),</span>
     <span class="nx">system</span>     <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;system&#39;</span><span class="p">),</span>
     <span class="nx">fs</span>         <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">),</span>
@@ -124,7 +124,7 @@
 </code></pre>
 <p>…OK so this looks a bit ugly but this long list of variables is basically us loading the Lo-Dash utility library, the Node file system, the PhantomJS web page module and then grabbing any arguments passed via the command line and reading the content of our manifest file.</p>
 <p>You might be wondering about the long list of empty Arrays, well we have to set each variable to an empty Array because Arrays are a reference type object which means if we did <code>var css = jpgs = pngs = gifs = images = javascript = [];</code> then although we&#39;d end up with shorter code (a one liner) it means that we&#39;re not getting a unique Array for each variable but sharing a single Array instance (which isn&#39;t what we want).</p>
-<h3><a name="functions"class="anchor" href="#functions"><span class="header-link"></span></a>Functions</h3>
+<h3><a name="functions" class="anchor" href="#functions"><span class="header-link"></span></a>Functions</h3>
 <p>We have a whole group of functions that carry out different things for us, so we&#39;ll just quickly scan over them…</p>
 <ul>
 <li><p><code>getLinks</code> uses the PhantomJS&#39; <code>evaluate</code> method on the web page object (which lets you parse the open web page using JavaScript, meaning you run JavaScript code within the context of the open web page).</p>
@@ -198,7 +198,7 @@
 </code></pre>
 </li>
 </ul>
-<h3><a name="checking-resources-that-are-loaded"class="anchor" href="#checking-resources-that-are-loaded"><span class="header-link"></span></a>Checking resources that are loaded</h3>
+<h3><a name="checking-resources-that-are-loaded" class="anchor" href="#checking-resources-that-are-loaded"><span class="header-link"></span></a>Checking resources that are loaded</h3>
 <p>The following is our event handler that checks the content type of the resource being loaded and stores it in the relevant Array.</p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="nx">page</span><span class="p">.</span><span class="nx">onResourceReceived</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">// Some requests can have `contentType = null` which causes errors if we don&#39;t check for truthy value</span>
@@ -251,7 +251,7 @@
 <span class="p">};</span>
 </pre></div>
 </code></pre>
-<h3><a name="checking-for-errors"class="anchor" href="#checking-for-errors"><span class="header-link"></span></a>Checking for errors</h3>
+<h3><a name="checking-for-errors" class="anchor" href="#checking-for-errors"><span class="header-link"></span></a>Checking for errors</h3>
 <p>This should be self explanatory, but basically it checks for any errors that happen while the page is loading and displays them for the user… </p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="nx">page</span><span class="p">.</span><span class="nx">onError</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">msg</span><span class="p">,</span> <span class="nx">trace</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">msg</span><span class="p">);</span>
@@ -262,7 +262,7 @@
 <span class="p">}</span>
 </pre></div>
 </code></pre>
-<h3><a name="ensure-url-is-provided"class="anchor" href="#ensure-url-is-provided"><span class="header-link"></span></a>Ensure URL is provided</h3>
+<h3><a name="ensure-url-is-provided" class="anchor" href="#ensure-url-is-provided"><span class="header-link"></span></a>Ensure URL is provided</h3>
 <p>Following conditional makes sure that a URL was provided by the user from the command line and if not it displays appropriate feedback to the user to let them know what they should be doing… </p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nx">urlProvided</span><span class="p">())</span> <span class="p">{</span>
     <span class="nx">url</span> <span class="o">=</span> <span class="nx">cleanUrl</span><span class="p">(</span><span class="nx">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
@@ -273,7 +273,7 @@
 <span class="p">}</span>
 </pre></div>
 </code></pre>
-<h3><a name="setting-custom-headers"class="anchor" href="#setting-custom-headers"><span class="header-link"></span></a>Setting custom headers</h3>
+<h3><a name="setting-custom-headers" class="anchor" href="#setting-custom-headers"><span class="header-link"></span></a>Setting custom headers</h3>
 <p>The following code isn&#39;t needed for our Squirrel repo to do its job, I just stuck it in to demonstrate how you could use an interesting feature of PhantomJS which is to set cookies.</p>
 <p>Here we check if the URL being requested is BBC News and if so I want the user to load up the responsive code base version of the site, and to do that we need to set a cookie for the page to know to load that version of the page… </p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nx">bbcNews</span><span class="p">())</span> <span class="p">{</span>
@@ -286,7 +286,7 @@
 <span class="p">}</span>
 </pre></div>
 </code></pre>
-<h3><a name="the-main-star-of-the-show"class="anchor" href="#the-main-star-of-the-show"><span class="header-link"></span></a>The main star of the show</h3>
+<h3><a name="the-main-star-of-the-show" class="anchor" href="#the-main-star-of-the-show"><span class="header-link"></span></a>The main star of the show</h3>
 <p>Here is the fundamental piece of the puzzle, the call to open the web page specified by the user and which once the page has loaded then parses the page for the information we&#39;re interested in…  </p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="nx">page</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">links</span> <span class="o">=</span> <span class="nx">getLinks</span><span class="p">();</span>
@@ -309,17 +309,17 @@
 </code></pre>
 <p>…PhantomJS passes us a status string as an argument to the callback function and which tells us if the page loaded successfully or not.</p>
 <p>After we&#39;ve called our main <code>populateManifest()</code> method we then tell PhantomJS to stop (<code>phantom.exit()</code>).</p>
-<h2><a name="example-usage"class="anchor" href="#example-usage"><span class="header-link"></span></a>Example usage</h2>
+<h2><a name="example-usage" class="anchor" href="#example-usage"><span class="header-link"></span></a>Example usage</h2>
 <p>So how do we use this script? Well, once you&#39;ve cloned down the repo and followed the installation instructions you simply jump inside our cloned directory and run something like:</p>
 <p><code>phantomjs appcache.js bbc.co.uk/news</code></p>
-<h2><a name="other-phantomjs-features"class="anchor" href="#other-phantomjs-features"><span class="header-link"></span></a>Other PhantomJS features</h2>
+<h2><a name="other-phantomjs-features" class="anchor" href="#other-phantomjs-features"><span class="header-link"></span></a>Other PhantomJS features</h2>
 <p>Here follows are a quick run down of some other features available to you when using PhantomJS, just check the <a href="https://github.com/ariya/phantomjs/wiki/API-Reference">PhantomJS API</a> for full details.</p>
 <ul>
 <li>Custom Headers</li>
 <li>Remote Debugging</li>
 <li>View Port Sizing</li>
 </ul>
-<h3><a name="custom-headers"class="anchor" href="#custom-headers"><span class="header-link"></span></a>Custom Headers</h3>
+<h3><a name="custom-headers" class="anchor" href="#custom-headers"><span class="header-link"></span></a>Custom Headers</h3>
 <p>For BBC News I wrote a similar script, but because I was interrogating a local development URL which uses test data I had to set some additional headers to get the page to load live data…</p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="nx">page</span><span class="p">.</span><span class="nx">customHeaders</span> <span class="o">=</span> <span class="p">{</span> 
     <span class="s1">&#39;X-Candy-Override&#39;</span><span class="o">:</span> <span class="s1">&#39;https://api.live.bbc.co.uk&#39;</span><span class="p">,</span>
@@ -327,14 +327,14 @@
 <span class="p">};</span>
 </pre></div>
 </code></pre>
-<h3><a name="remote-debugging"class="anchor" href="#remote-debugging"><span class="header-link"></span></a>Remote Debugging</h3>
+<h3><a name="remote-debugging" class="anchor" href="#remote-debugging"><span class="header-link"></span></a>Remote Debugging</h3>
 <p>You can remote debug your code by executing your code with a debug flag <code>phantomjs --remote-debugger-port=9000 appcache.js [url]</code>, you can then open up Chrome or Safari and access the debugger via <code>http://127.0.0.1:9000/</code></p>
-<h3><a name="view-port-size"class="anchor" href="#view-port-size"><span class="header-link"></span></a>View Port Size</h3>
+<h3><a name="view-port-size" class="anchor" href="#view-port-size"><span class="header-link"></span></a>View Port Size</h3>
 <p>You can change the dimensions of the page being loaded using the <code>viewportSize</code> property (this is used in the <a href="http://github.com/BBC-News/wraith/">Wraith</a> open-source project released by BBC News)… </p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="nx">page</span><span class="p">.</span><span class="nx">viewportSize</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">width</span><span class="o">:</span> <span class="mi">320</span><span class="p">,</span> <span class="nx">height</span><span class="o">:</span> <span class="mi">480</span> <span class="p">};</span>
 </pre></div>
 </code></pre>
-<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
 <p>Hopefully this introduction to PhantomJS was useful. The Squirrel repo is still a work in progress so feel free to open up an issue (or better yet a pull request) on GitHub if you find any problems.</p>
 <p>I&#39;ll likely follow up this article at some point in the future with one about using CasperJS so keep your eyes peeled for that.</p>
 <p>Any other feedback then catch me on <a href="http://twitter.com/integralist">twitter</a>.</p>

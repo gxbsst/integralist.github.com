@@ -43,7 +43,7 @@
   <span class="post-date">2013 &#183; 10 &#183; 11</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 14mins</em></p>
 <ul>
 <li>Introduction</li>
@@ -60,10 +60,10 @@
 <li>Querying</li>
 <li>Conclusion</li>
 </ul>
-<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
 <p>This was intended to be a quick post about how to use the embedded relational database &quot;<a href="http://www.sqlite.org/">SQLite</a>&quot; with a Ruby/Sinatra application but will also include information on incorporating the ActiveRecord pattern as well.</p>
 <p>We&#39;ll look at installing and setting up SQLite and incorporating the ActiveRecord pattern using the open-source library of the same name (which is included as part of the <a href="http://rubyonrails.org/">Ruby on Rails Framework</a>).</p>
-<h2><a name="sqlite"class="anchor" href="#sqlite"><span class="header-link"></span></a>SQLite</h2>
+<h2><a name="sqlite" class="anchor" href="#sqlite"><span class="header-link"></span></a>SQLite</h2>
 <p>Typically if you&#39;re developing an application in Ruby using the <a href="http://rubyonrails.org/">Ruby on Rails framework</a> then you&#39;ll use SQLite in development and then switch over to another database for production (maybe <a href="http://www.mysql.com/">MySQL</a> or <a href="http://www.postgresql.org/">PostgreSQL</a>). </p>
 <p>What most people don&#39;t realise is that if you have a low traffic website then SQLite is fine to use. </p>
 <p>The only thing to be aware of when using SQLite in production is that it inherently isn&#39;t designed to scale. To help clarify, the author of SQLite had this to say on the subject… </p>
@@ -71,11 +71,11 @@
 <p>SQLite usually will work great as the database engine for low to medium traffic websites. The amount of web traffic that SQLite can handle depends, of course, on how heavily the website uses its database. Generally speaking, any site that gets fewer than 100K hits/day should work fine with SQLite. The 100K hits/day figure is a conservative estimate, not a hard upper bound. SQLite has been demonstrated to work with 10 times that amount of traffic.</p>
 <p>SQLite will normally work fine as the database backend to a website. But if your website is so busy that you are thinking of splitting the database component off onto a separate machine, then you should definitely consider using an enterprise-class client/server database engine instead of SQLite.</p>
 </blockquote>
-<h2><a name="activerecord"class="anchor" href="#activerecord"><span class="header-link"></span></a>ActiveRecord</h2>
+<h2><a name="activerecord" class="anchor" href="#activerecord"><span class="header-link"></span></a>ActiveRecord</h2>
 <p>So most Ruby developers will know of <a href="http://guides.rubyonrails.org/active_record_querying.html">ActiveRecord</a> but may not realise that it&#39;s actually an architectural pattern and the term was originally coined by <a href="http://martinfowler.com/">Martin Fowler</a> (a legend in the field of software engineering and data modeling).</p>
 <p>The pattern describes how to provide an Interface that lets the user interact with a relational database in a more user friendly fashion rather than constructing their own SQL queries.</p>
 <p>We&#39;ll be using Ruby on Rails&#39; implementation of the pattern which they&#39;ve extracted into an external library/module (so it&#39;s not specifically reliant on the Ruby on Rails framework if you&#39;re using something more lightweight like Sinatra).</p>
-<h2><a name="installation"class="anchor" href="#installation"><span class="header-link"></span></a>Installation</h2>
+<h2><a name="installation" class="anchor" href="#installation"><span class="header-link"></span></a>Installation</h2>
 <p>There are a couple of things we need to do:</p>
 <ol>
 <li>Install the SQLite libraries</li>
@@ -86,11 +86,11 @@
 <p>Note: you may need to run <code>brew --force link</code> afterwards, as a much older version of SQLite is already installed on the Mac OS and so the OS will attempt to load that first.</p>
 <p>To install the ruby module just run <code>gem install sqlite3</code></p>
 <p>To install the ActiveRecord ruby module just run <code>gem install activerecord</code></p>
-<h2><a name="command-line-tool"class="anchor" href="#command-line-tool"><span class="header-link"></span></a>Command Line Tool</h2>
+<h2><a name="command-line-tool" class="anchor" href="#command-line-tool"><span class="header-link"></span></a>Command Line Tool</h2>
 <p>Once the SQLite libraries are installed you will have access to a command line tool that lets you directly inspect the contents of a SQLite database file.</p>
 <p>For example, if you have a database file called <code>test.db</code> then you can run <code>sqlite3 test.db</code> to open the database.</p>
 <p>You can then run SQL commands against the database such as <code>select * from tableName;</code> (notice the semicolon at the end <code>;</code> you&#39;ll need this otherwise the command won&#39;t know when it is considered completed, the plus side is that you can write complex SQL queries across multiple lines).</p>
-<h2><a name="set-up"class="anchor" href="#set-up"><span class="header-link"></span></a>Set-up</h2>
+<h2><a name="set-up" class="anchor" href="#set-up"><span class="header-link"></span></a>Set-up</h2>
 <p>Imagine we have a single file <code>sqlite-example.rb</code> with the following content… </p>
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;active_record&#39;</span>
 
@@ -109,7 +109,7 @@
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="ss">:database</span> <span class="o">=&gt;</span> <span class="s1">&#39;:memory:&#39;</span>
 </pre></div>
 </code></pre>
-<h2><a name="schema"class="anchor" href="#schema"><span class="header-link"></span></a>Schema</h2>
+<h2><a name="schema" class="anchor" href="#schema"><span class="header-link"></span></a>Schema</h2>
 <p>As you should probably already know, we need to define a Schema for our database. Because although we&#39;re using an ActiveRecord interface we&#39;re still interacting with a relational database underneath that layer.</p>
 <p>A Schema helps dictate in code what the structure of the database should be and what the different columns/rows and data types should be used.</p>
 <p>To do this we&#39;ll add… </p>
@@ -137,7 +137,7 @@
 <p>Thirdly, inside of the table creation we&#39;re specifying specific columns and what their data types should be.</p>
 <p>When we create a table a &quot;<a href="http://en.wikipedia.org/wiki/Primary_key">primary key</a>&quot; is automatically created for us and is named after the table. So in this instance we have two primary keys created for us: <code>albums_id</code> and <code>tracks_id</code> (notice the naming convention of <code>tableName_id</code> - singular, not plural).</p>
 <p>Inside the <code>tracks</code> table you&#39;ll see the first column we create is actually a &quot;<a href="http://en.wikipedia.org/wiki/Foreign_key">foreign key</a>&quot; because we&#39;re creating a column which is named after the <code>albums</code> table&#39;s primary key (<code>album_id</code>).</p>
-<h2><a name="creating"class="anchor" href="#creating"><span class="header-link"></span></a>Creating</h2>
+<h2><a name="creating" class="anchor" href="#creating"><span class="header-link"></span></a>Creating</h2>
 <p>The ActiveRecord pattern is based on conventions, so in this instance we&#39;ll create two new classes that inherit from ActiveRecord&#39;s base class and we&#39;ll use these two classes for creating new records for each table… </p>
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Album</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
   <span class="n">has_many</span> <span class="ss">:tracks</span>
@@ -206,10 +206,10 @@
 <p>…OK, so there are a couple of things worth noting here:</p>
 <p>When we inherit from <code>ActiveRecord::Base</code> our class is mapped to a table of the same name. So for example our class <code>Album</code> is mapped to the <code>albums</code> table.</p>
 <p>Also, as we&#39;re inheriting from the ActiveRecord Base class, we don&#39;t need to specify attributes (for example, inside our Tracks class) such as <code>:title</code> or <code>:track_number</code> within our class, as they will be indirectly inferred from the Schema we defined earlier and will come from that table which the class is mapped to.</p>
-<h3><a name="association"class="anchor" href="#association"><span class="header-link"></span></a>Association</h3>
+<h3><a name="association" class="anchor" href="#association"><span class="header-link"></span></a>Association</h3>
 <p>You&#39;ll notice within the <code>Album</code> class we call a <code>has_many</code> method (provided through the inheritance chain via <code>ActiveRecord::Base</code>) which sets up the association between &#39;albums&#39; and &#39;tracks&#39;.</p>
 <p>Similarly, within the <code>Track</code> class we call <code>belongs_to</code> and tell it that our tracks belong to the &#39;albums&#39; table. We should only do this when the class/table holds the foreign key for the table we&#39;re saying it belongs to. In this case our &#39;Track&#39; class holds the foreign key that points to the &#39;albums&#39; table.</p>
-<h3><a name="record-creation"class="anchor" href="#record-creation"><span class="header-link"></span></a>Record Creation</h3>
+<h3><a name="record-creation" class="anchor" href="#record-creation"><span class="header-link"></span></a>Record Creation</h3>
 <p>Finally we actually create some records to insert into each table.</p>
 <p>We call a <code>create</code> method like so…</p>
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">album</span> <span class="o">=</span> <span class="no">Album</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="p">)</span>
@@ -232,25 +232,25 @@
 <p>…instead, I create the track listing as an <code>Array</code> and then loop the Array creating new records. </p>
 <p>The only additional logic I need is to avoid including the <code>[0]</code> item in the Array which I do using <code>album.tracks.create(…) unless index === 0</code>. </p>
 <p>The reason I avoid it is simply because track listings on albums always start at <code>1</code> where as our Array is zero-indexed.</p>
-<h2><a name="querying"class="anchor" href="#querying"><span class="header-link"></span></a>Querying</h2>
+<h2><a name="querying" class="anchor" href="#querying"><span class="header-link"></span></a>Querying</h2>
 <p>Now in my example code you&#39;ll find me wrapping certain chunks in <code>begin/rescue</code> as my example isn&#39;t made to work when accessed multiple times (<em>it&#39;s just a silly example to demonstrate how to connect, populate and query data using ActiveRecords</em>). So don&#39;t worry about those aspects and instead just focus on the APIs I&#39;m using. Specifically…</p>
-<h3><a name="-find-"class="anchor" href="#-find-"><span class="header-link"></span></a><code>find</code></h3>
+<h3><a name="find" class="anchor" href="#find"><span class="header-link"></span></a><code>find</code></h3>
 <p>This allows you to find a record by ID. So <code>Album.find(1)</code> would return the first album in the table. <code>Album.find(1).tracks.length</code> would then tell you the number of tracks that particular album held.</p>
-<h3><a name="-find_by-"class="anchor" href="#-find_by-"><span class="header-link"></span></a><code>find_by</code></h3>
+<h3><a name="find-by" class="anchor" href="#find-by"><span class="header-link"></span></a><code>find_by</code></h3>
 <p>This is actually a very intelligent method. It is based on conventions again, so <code>find_by_title</code> maps to a standard <code>find_by</code> method but passes through <code>title</code> as the attribute we&#39;re interested in searching within: <code>Album.find_by_title(&#39;La-te-ra-lus&#39;)</code></p>
-<h3><a name="-all-"class="anchor" href="#-all-"><span class="header-link"></span></a><code>all</code></h3>
+<h3><a name="all" class="anchor" href="#all"><span class="header-link"></span></a><code>all</code></h3>
 <p>This is an alias for <code>find(:all)</code>. So <code>Album.all</code> would return all records found within the &#39;Album` table.</p>
-<h3><a name="-where-"class="anchor" href="#-where-"><span class="header-link"></span></a><code>where</code></h3>
+<h3><a name="where" class="anchor" href="#where"><span class="header-link"></span></a><code>where</code></h3>
 <p>This is a conditional that maps to SQL&#39;s <code>where</code> clause. So <code>Track.where(title: &#39;Triad&#39;)</code> would return the record(s) within the Track database whose <code>title</code> attribute contained the value <code>Triad</code>. You can do more complicated filters such as: <code>Table.where(user_name: user_name, password: password).first</code> which safely sanitises your input and checks two different attributes and then returns the first record found (in case there are multiples).</p>
-<h3><a name="-first-"class="anchor" href="#-first-"><span class="header-link"></span></a><code>first</code></h3>
+<h3><a name="first" class="anchor" href="#first"><span class="header-link"></span></a><code>first</code></h3>
 <p>We&#39;ve seen this used already and works in a similar way to how Ruby&#39;s <code>first</code> property works (it returns the first item found).</p>
-<h3><a name="-last-"class="anchor" href="#-last-"><span class="header-link"></span></a><code>last</code></h3>
+<h3><a name="last" class="anchor" href="#last"><span class="header-link"></span></a><code>last</code></h3>
 <p>Same as <code>first</code> but returns the last item found.</p>
-<h3><a name="-delete-"class="anchor" href="#-delete-"><span class="header-link"></span></a><code>delete</code></h3>
+<h3><a name="delete" class="anchor" href="#delete"><span class="header-link"></span></a><code>delete</code></h3>
 <p>Once you&#39;ve found a record then you can delete it using this method. So <code>Album.first.delete</code> would find the first record in the <code>Album</code> table and then delete that record.</p>
-<h3><a name="-save-"class="anchor" href="#-save-"><span class="header-link"></span></a><code>save</code></h3>
+<h3><a name="save" class="anchor" href="#save"><span class="header-link"></span></a><code>save</code></h3>
 <p>You can modify records by first locating them and simply assigning a new value to them, but you would then use the <code>save</code> method to store that update back to the database: <code>track = Track.where(title: &#39;yolo&#39;).first.title = &#39;Blah&#39;; track.save</code></p>
-<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
 <p>So we&#39;ve not delved too deeply (as there is far too much to cover in one post) but hopefully this has been a good starting point for you.</p>
 <p>The complete code I was using looks like this… </p>
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;active_record&#39;</span>
@@ -391,7 +391,7 @@
   <span class="post-date">2013 &#183; 10 &#183; 1</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 15mins</em></p>
 <ul>
 <li>Introduction</li>
@@ -427,54 +427,54 @@
 </li>
 <li>Conclusion</li>
 </ul>
-<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
 <p>The unix command line has a hundred or so commands, and a small majority of those you can realistically find yourself using on a regular basis. In this post I want to cover some common commands that can actually be quite useful to you.</p>
 <p>Shell commands aren&#39;t something you can cover in one post. Entire books have been written on the subject. So don&#39;t expect anything other than the bare bone basics here, which should hopefully give you enough of an understanding to take your own learning forward.</p>
 <p>So let&#39;s begin… </p>
-<h2><a name="basics"class="anchor" href="#basics"><span class="header-link"></span></a>Basics</h2>
+<h2><a name="basics" class="anchor" href="#basics"><span class="header-link"></span></a>Basics</h2>
 <p>OK, so I&#39;ll assume you have absolutely no prior command line experience which means we need to start at the basics.</p>
 <p>So, first things first: open up your shell (if you&#39;re on a Mac then this will be your <code>Terminal.app</code> application.</p>
-<h3><a name="what-directory-am-i-currently-in-"class="anchor" href="#what-directory-am-i-currently-in-"><span class="header-link"></span></a>What directory am I currently in?</h3>
+<h3><a name="what-directory-am-i-currently-in" class="anchor" href="#what-directory-am-i-currently-in"><span class="header-link"></span></a>What directory am I currently in?</h3>
 <p><code>pwd</code> - this stands for &quot;Print Working Directory&quot;</p>
-<h3><a name="how-can-i-see-what-s-in-this-directory-"class="anchor" href="#how-can-i-see-what-s-in-this-directory-"><span class="header-link"></span></a>How can I see what&#39;s in this directory?</h3>
+<h3><a name="how-can-i-see-whats-in-this-directory" class="anchor" href="#how-can-i-see-whats-in-this-directory"><span class="header-link"></span></a>How can I see what&#39;s in this directory?</h3>
 <p><code>ls</code> - this tells the shell to list out any files or folders in the current working directory.</p>
 <p>You can also tell the command a directory path you want it to look inside of: <code>ls ~/Desktop</code> (this will list all files and folders on your desktop).</p>
 <p><code>ls -l</code> - the <code>-l</code> flag tells the command to stack the list when it prints its output to the shell.</p>
 <p><code>ls -la</code> - this is a combination of the previous flag and the <code>-a</code> flag which means &quot;show all files&quot; (by this I mean, it&#39;ll show you hidden files).</p>
-<h3><a name="moving-around"class="anchor" href="#moving-around"><span class="header-link"></span></a>Moving around</h3>
+<h3><a name="moving-around" class="anchor" href="#moving-around"><span class="header-link"></span></a>Moving around</h3>
 <p>To move around your file system you use the &#39;change directory&#39; command <code>cd</code>.</p>
 <p>So: <code>cd ~/Desktop</code> will put you in the Desktop.</p>
 <p>You can also use relative paths such as <code>cd ../</code> which will take you up one level from wherever you happen to be.</p>
-<h3><a name="displaying-content-of-a-file"class="anchor" href="#displaying-content-of-a-file"><span class="header-link"></span></a>Displaying content of a file</h3>
+<h3><a name="displaying-content-of-a-file" class="anchor" href="#displaying-content-of-a-file"><span class="header-link"></span></a>Displaying content of a file</h3>
 <p>The <code>cat</code> command is a concatenation command, meaning that if you ran <code>cat original.txt new.txt</code> it would display on your screen the combination of the content from both files specified.</p>
 <p>So, with that understanding we can use <code>cat original.txt</code> (i.e. specifying just a single file) to show the contents of that file.</p>
-<h3><a name="let-s-copy-a-file"class="anchor" href="#let-s-copy-a-file"><span class="header-link"></span></a>Let&#39;s copy a file</h3>
+<h3><a name="lets-copy-a-file" class="anchor" href="#lets-copy-a-file"><span class="header-link"></span></a>Let&#39;s copy a file</h3>
 <p>To copy a file we need the <code>cp</code> command, and we tell it what file to copy and where to copy it to.</p>
 <p>So: <code>cp ~/Downloads/test.txt ~/Desktop/test.txt</code> will copy the file <code>test.txt</code> (which is inside our &#39;Downloads&#39; folder) and put the copy on our Desktop.</p>
-<h3><a name="let-s-move-a-file"class="anchor" href="#let-s-move-a-file"><span class="header-link"></span></a>Let&#39;s move a file</h3>
+<h3><a name="lets-move-a-file" class="anchor" href="#lets-move-a-file"><span class="header-link"></span></a>Let&#39;s move a file</h3>
 <p>To move a file you need the <code>mv</code> command, and we tell it what file to move and where to move it to.</p>
 <p>So: <code>mv ~/Downloads/test.txt ~/Desktop/test.txt</code> will move the file <code>test.txt</code> from our &#39;Downloads&#39; folder onto our &#39;Desktop&#39;.</p>
-<h3><a name="let-s-rename-a-file"class="anchor" href="#let-s-rename-a-file"><span class="header-link"></span></a>Let&#39;s rename a file</h3>
+<h3><a name="lets-rename-a-file" class="anchor" href="#lets-rename-a-file"><span class="header-link"></span></a>Let&#39;s rename a file</h3>
 <p>There is no <code>rename</code> command on Unix (although there is in Linux) and so we need to use a trick, the trick being to use the <code>mv</code> command.</p>
 <p>So: <code>mv ~/Downloads/test.txt ~/Downloads/new.txt</code> will actually rename the file <code>test.txt</code> to <code>new.txt</code> as we&#39;ve moved the file into the same directory it was already in but with a different name (effectively acting like we renamed it)</p>
-<h3><a name="let-s-delete-a-file"class="anchor" href="#let-s-delete-a-file"><span class="header-link"></span></a>Let&#39;s delete a file</h3>
+<h3><a name="lets-delete-a-file" class="anchor" href="#lets-delete-a-file"><span class="header-link"></span></a>Let&#39;s delete a file</h3>
 <p>To delete a file we need the &#39;remove&#39; command <code>rm</code>.</p>
 <p>So: <code>rm ~/Downloads/test.txt</code> will delete our <code>test.txt</code> file.</p>
-<h3><a name="let-s-delete-a-directory"class="anchor" href="#let-s-delete-a-directory"><span class="header-link"></span></a>Let&#39;s delete a directory</h3>
+<h3><a name="lets-delete-a-directory" class="anchor" href="#lets-delete-a-directory"><span class="header-link"></span></a>Let&#39;s delete a directory</h3>
 <p>To delete a folder we need the &#39;remove&#39; command <code>rm</code> again but this time we need to pass in a couple of flags to the command.</p>
 <p>The first flag is <code>-f</code> which means &#39;force&#39; the removal (otherwise if you try to remove a folder then the shell will try and prevent this as it&#39;ll assume you&#39;ve made a mistake, and deleting a whole folder could be a big mistake if you&#39;re not careful).</p>
 <p>The second flag is <code>-r</code> which means &#39;recursively&#39;. So you&#39;ll recursively delete files within the folder.</p>
 <p>So: <code>rm -rf ~/Desktop/some-folder</code> will delete our <code>some-folder</code> folder on the Desktop.</p>
-<h2><a name="grep-searching-for-patterns-"class="anchor" href="#grep-searching-for-patterns-"><span class="header-link"></span></a>Grep (Searching for patterns)</h2>
+<h2><a name="grep-searching-for-patterns" class="anchor" href="#grep-searching-for-patterns"><span class="header-link"></span></a>Grep (Searching for patterns)</h2>
 <p>Grep is a command that lets you find a pattern (either a string or a regular expression) inside of a file or list of files.</p>
 <p>So: <code>grep &#39;something&#39; test.txt</code> looks for the word &#39;something&#39; inside of the file <code>test.txt</code>.</p>
 <p>To use grep on a directory of files then we need to use an additional flag: <code>-r</code> which means &#39;recursive&#39; (similar to the <code>rm</code> command we saw previously).</p>
 <p>So: <code>grep -r &#39;something&#39; ~/Desktop</code> looks for the word &#39;something&#39; inside of any files on the Desktop.</p>
-<h2><a name="sed-find-and-replace-"class="anchor" href="#sed-find-and-replace-"><span class="header-link"></span></a>Sed (Find and Replace)</h2>
+<h2><a name="sed-find-and-replace" class="anchor" href="#sed-find-and-replace"><span class="header-link"></span></a>Sed (Find and Replace)</h2>
 <p>The <code>sed</code> command stands for (S)tream (Ed)itor and allows you to  read in the contents of a file and then write the modified output to another file or pipe it through to another I/O command (we&#39;ll cover piping later).</p>
 <p>A basic example of its use would be: <code>sed s/day/night/ novel.txt</code></p>
 <p>This replaces the first occurrence of &#39;day&#39; to &#39;night&#39;. If we wanted to replace multiple occurrences then you would need to pass a <code>g</code> flag (meaning global) to the regular expression like so: <code>sed s/day/night/g novel.txt</code></p>
-<h2><a name="awk-looping-logic-"class="anchor" href="#awk-looping-logic-"><span class="header-link"></span></a>Awk (Looping Logic)</h2>
+<h2><a name="awk-looping-logic" class="anchor" href="#awk-looping-logic"><span class="header-link"></span></a>Awk (Looping Logic)</h2>
 <p>The <code>awk</code> command reads in each line of a file and splits the line into fields (using whitespace - space, tab - as its default delimiter).</p>
 <p>You can then execute commands for each line and reference each field.</p>
 <p>A basic example of its use would be: <code>awk &#39;{ print $1 }&#39;</code> which means &quot;print the first field found in the current line&quot;.</p>
@@ -502,15 +502,15 @@ Line 3: third
 <li><code>NF</code> stands for (N)umber of (F)ields.</li>
 <li>The <code>$()</code> wrapping around <code>NF</code> is our &#39;process substitution&#39;. This means we&#39;re not just outputting some data but manipulating it by using logic to give us 1 field back from the last, hence it needs to be wrapped in <code>$()</code></li>
 </ul>
-<h2><a name="piping-i-o"class="anchor" href="#piping-i-o"><span class="header-link"></span></a>Piping I/O</h2>
+<h2><a name="piping-io" class="anchor" href="#piping-io"><span class="header-link"></span></a>Piping I/O</h2>
 <p>The previous commands <code>awk</code>, <code>sed</code>, <code>grep</code> are all really useful, but it&#39;s when you can combine them that their true power shines.</p>
-<h3><a name="input-and-output"class="anchor" href="#input-and-output"><span class="header-link"></span></a>Input and Output</h3>
+<h3><a name="input-and-output" class="anchor" href="#input-and-output"><span class="header-link"></span></a>Input and Output</h3>
 <p>Unix is based on the principle of &quot;input&quot; and &quot;output&quot; (known as &quot;I/O&quot;). In the Shell you have <code>stdin</code> (standard input) and <code>stdout</code> (standard output).</p>
 <p>By default, <code>stdin</code> is your keyboard (i.e. whatever you type into the terminal shell) and <code>stdout</code> is the terminal (i.e. your screen).</p>
-<h3><a name="redirection"class="anchor" href="#redirection"><span class="header-link"></span></a>Redirection</h3>
+<h3><a name="redirection" class="anchor" href="#redirection"><span class="header-link"></span></a>Redirection</h3>
 <p>Once you understand <code>stdin</code> and <code>stdout</code> you can start to look at redirecting them.</p>
 <p>For example when using the <code>sed</code> command you could use redirection to not overwrite your original file and instead direct the output <code>stdout</code> coming from the <code>sed</code> command to another file: <code>sed s/day/night/g original.txt &gt; new.txt</code></p>
-<h3><a name="piping"class="anchor" href="#piping"><span class="header-link"></span></a>Piping</h3>
+<h3><a name="piping" class="anchor" href="#piping"><span class="header-link"></span></a>Piping</h3>
 <p>Another way to <em>direct</em> input and output is to use pipes <code>|</code> (a vertical bar).</p>
 <p>A really simple example would be: look at the <code>sed</code> command we used earlier (<code>sed s/day/night/ novel.txt</code>). Rather than actually execute it and have it make the specified change to our file <code>novel.txt</code> we could instead test the command to make sure it does what we expect it to.</p>
 <p>To do that we would use the <code>cat</code> command (which we looked at previously) and pipe its output through to the <code>sed</code> command like so… </p>
@@ -518,12 +518,12 @@ Line 3: third
 <p>So, to clarify how this works: we&#39;re redirecting the <code>cat</code> command&#39;s <code>stdout</code> through to the <code>sed</code> command&#39;s <code>stdin</code>. </p>
 <p>In our original <code>sed</code> example we directed the <code>sed</code> command&#39;s <code>stdout</code> to an actual file (<code>novel.txt</code>), but in this case it has no <code>stdout</code> specified so it falls back to the default <code>stdout</code> which in this case is the terminal shell itself.</p>
 <p>Hence the results of the <code>sed</code> command (the modified content) are displayed on your screen.</p>
-<h3><a name="piping-to-vim"class="anchor" href="#piping-to-vim"><span class="header-link"></span></a>Piping to Vim</h3>
+<h3><a name="piping-to-vim" class="anchor" href="#piping-to-vim"><span class="header-link"></span></a>Piping to Vim</h3>
 <p>One thing I discovered recently (via <a href="http://twitter.com/Pand0ra83">Crystal Hirschorn</a>) was that you can&#39;t just pipe <code>stdout</code> into Vim unless you add a hyphen/dash <code>-</code> to the end of the command like so: <code>ls | vim -</code></p>
 <p>Otherwise Vim will complain that: <code>Input is not from a terminal</code></p>
 <p>That&#39;s a good one to remember!</p>
 <p>Also you can pipe the input into Vim in read-only mode using the <code>-R</code> flag as well: <code>ls | vim -R -</code></p>
-<h3><a name="piping-examples"class="anchor" href="#piping-examples"><span class="header-link"></span></a>Piping examples</h3>
+<h3><a name="piping-examples" class="anchor" href="#piping-examples"><span class="header-link"></span></a>Piping examples</h3>
 <p>Here are three real world examples I&#39;ve used recently…</p>
 <pre><code class="lang-sh"><div class="highlight"><pre>phantomjs 2&gt;<span class="p">&amp;</span>1 network-test.js <span class="p">|</span> tee log.txt
 </pre></div>
@@ -567,15 +567,15 @@ Line 3: third
 <p>So the only difference here is instead of using both Awk and Sed, we&#39;re just using Cut. I&#39;ve not mentioned it before but <code>cut</code> works like this: </p>
 <p>Cut splits the input into fields (like Awk does). We then tell it that we want the fields to be split by <code>:</code> (that&#39;s the <code>-d :</code> section). Then finally we use <code>-f 1</code> to say we want the first field, which we pipe over to xargs. Otherwise the rest of the command is the same as before.</p>
 <p>Nice huh!</p>
-<h2><a name="miscellaneous-commands"class="anchor" href="#miscellaneous-commands"><span class="header-link"></span></a>Miscellaneous Commands</h2>
-<h3><a name="-tee-"class="anchor" href="#-tee-"><span class="header-link"></span></a><code>tee</code></h3>
+<h2><a name="miscellaneous-commands" class="anchor" href="#miscellaneous-commands"><span class="header-link"></span></a>Miscellaneous Commands</h2>
+<h3><a name="tee" class="anchor" href="#tee"><span class="header-link"></span></a><code>tee</code></h3>
 <p>The <code>tee</code> command you&#39;ve seen already now (in our above example) but just to reiterate its use, here is how the manual describes it… </p>
 <blockquote>
 <p>The tee utility copies standard input to standard output, making a copy in zero or more files.</p>
 </blockquote>
-<h3><a name="-dig-"class="anchor" href="#-dig-"><span class="header-link"></span></a><code>dig</code></h3>
+<h3><a name="dig" class="anchor" href="#dig"><span class="header-link"></span></a><code>dig</code></h3>
 <p>The <code>dig</code> command is used for carrying out DNS lookups: <code>dig integralist.co.uk</code> returns the DNS records found for my domain name.</p>
-<h3><a name="-ps-"class="anchor" href="#-ps-"><span class="header-link"></span></a><code>ps</code></h3>
+<h3><a name="ps" class="anchor" href="#ps"><span class="header-link"></span></a><code>ps</code></h3>
 <p>The <code>ps</code> command stands for (p)rocess (s)tatus</p>
 <p>It shows you all running processes on your computer.</p>
 <p>You can use piping again to narrow down the results to something in particular you know is causing your computer to slow down and then execute another command to kill that process.</p>
@@ -583,10 +583,10 @@ Line 3: third
 <p>In the above example we also pass <code>aux</code> which basically specifies table of results that should be returned (see: <a href="http://en.wikipedia.org/wiki/Ps_\(Unix\"><a href="http://en.wikipedia.org/wiki/Ps_(Unix">http://en.wikipedia.org/wiki/Ps_(Unix</a>)</a>) for more information).</p>
 <p>We then pipe that through to <code>grep</code> and tell it we&#39;re interested only in processes that have the text <code>ruby</code> somewhere (that way we can narrow down the results printed to the screen).</p>
 <p>Finally to kill a particular process you&#39;ll need its PID number (which <code>ps aux</code> would have displayed) so locate that PID and then run <code>kill -9 xxxx</code> where <code>xxxx</code> is the PID number you want to stop.</p>
-<h3><a name="-xargs-"class="anchor" href="#-xargs-"><span class="header-link"></span></a><code>xargs</code></h3>
+<h3><a name="xargs" class="anchor" href="#xargs"><span class="header-link"></span></a><code>xargs</code></h3>
 <p>I know we&#39;ve covered Xargs already in my previous examples, but it&#39;s worth mentioning that you can also use the <code>-0</code> flag which helps with some commands that won&#39;t work when passed arguments that have spaces in them (imagine a file name with spaces). Using the <code>-0</code> flag resolves that issue.</p>
 <p>Also, if the command you want to run only excepts a single argument (for example <code>echo 123</code>) then you can omit the <code>-I {}</code> placeholder definition. </p>
-<h3><a name="-cut-"class="anchor" href="#-cut-"><span class="header-link"></span></a><code>cut</code></h3>
+<h3><a name="cut" class="anchor" href="#cut"><span class="header-link"></span></a><code>cut</code></h3>
 <p>Again, we&#39;ve covered Cut above already, but just to note that you can change the field delimiter using <code>-d</code> (e.g. <code>-d ,</code> would split the line on commas).</p>
 <p>Also, <code>-f</code> allows a range, not just a single field index. So if you wanted fields 3 to 4 you could do <code>-f 3,4</code></p>
 <p>Another feature of <code>cut</code> is the <code>-c</code> flag which cuts based on &#39;character position&#39; rather than &#39;fields&#39; like <code>-f</code> does. </p>
@@ -594,7 +594,7 @@ Line 3: third
 <p><code>echo &quot; xyz &quot; | cut -c 2- | rev | cut -c 2- | rev</code></p>
 <p>…notice our text &quot;xyz&quot; has one character of white space at the start and end. So we specifically tell <code>cut</code> to start at character 2 <code>x</code> and cut until the end of the line <code>2-</code> and then we use the <code>rev</code> command which reverses the content so it becomes &quot; zyx&quot; and then we again cut from the 2nd character (this time <code>z</code>) and cut until the end of the line and finally we reverse the line one more time so we&#39;re back to where we were initially but with the white space removed.</p>
 <p>There are probably more elegant ways to achieve this but it gives you an indication of how you might want to use a command in unique ways.</p>
-<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
 <p>This was a pretty fast paced run through of some different unix commands. As time goes on I&#39;ll update this post to include other commands and real work use cases that I think would be interesting and useful to those readers new to the command line.</p>
 <p>If there were any errors or any thing like that then just let me know by pinging me on <a href="http://twitter.com/integralist">twitter</a>.</p>
 </div>

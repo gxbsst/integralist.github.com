@@ -43,7 +43,7 @@
   <span class="post-date">2012 &#183; 7 &#183; 22</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 23mins</em></p>
 <ul>
 <li>Introduction<ul>
@@ -67,21 +67,21 @@
 </li>
 <li>Conclusions</li>
 </ul>
-<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
 <p>In my opinion there&#39;s isn&#39;t enough good information on the web about how to get started building a <a href="http://www.ruby-lang.org/" title="The Ruby Programming Language">Ruby</a> based website (unless you want to use the ever popular <a href="http://rubyonrails.org/" title="Ruby on Rails">Ruby on Rails</a> framework). </p>
 <p>But even then, it&#39;s not as straight forward as you&#39;d think (not for someone new to the language or server-side coding in general).</p>
-<h3><a name="dsl-vs-gpl"class="anchor" href="#dsl-vs-gpl"><span class="header-link"></span></a>DSL vs GPL</h3>
+<h3><a name="dsl-vs-gpl" class="anchor" href="#dsl-vs-gpl"><span class="header-link"></span></a>DSL vs GPL</h3>
 <p>Before we go any further, it&#39;s worth clarifying the difference between a Domain Specific Language (DSL) and a General Purpose Language (GPL). Languages like JavaScript and PHP are DSL&#39;s** because they were designed to be run within a specific &#39;domain&#39; (and by domain we really mean &#39;environment&#39;) such as the web. But languages like Python and Ruby are GPL&#39;s because they can run within many different domains (e.g. Ruby can run on the web, desktop, command line etc).</p>
 <p>If we look at a DSL language such as <a href="http://www.php.net/" title="PHP Hypertext Preprocessor">PHP</a>**: it is very easy to build a site using PHP because you can just input some procedural code, upload the file onto a server that supports PHP (and what server doesn&#39;t nowadays) and that&#39;s all there is to it (!now I&#39;m obviously not suggesting this is good practice - I&#39;m just illustrating the point that if you wanted to <strong>just get started</strong> with PHP then that is all there is to it).</p>
 <p>With a GPL such as Ruby it isn&#39;t so straight forward (it&#39;s like the old adage &quot;the question is easy when you know the answer&quot;: Ruby can be easy to use and get set-up when you know what you&#39;re doing, but the fundamentals - in my opinion - are difficult to grasp without a helping hand).</p>
 <p><em>**PHP (and JavaScript) were designed to be DSL&#39;s but have since evolved more into GPL&#39;s as they can be run on the desktop as well as the web (and many other environments they weren&#39;t originally designed for).</em></p>
 <p>My issue with Ruby is that there is no &quot;just get started&quot; guide for those who want to build a site with it but not have to deal with design patterns such as MVC (maybe not straight away at least). I wouldn&#39;t be surprised if developers new to Ruby felt obliged to use Ruby on Rails because it seems to be the only Ruby related framework out there that gets any real spotlight - and I understand why, because it truly is an all encompassing framework - but I wanted a Ruby site without the bloat of a framework like <a href="http://rubyonrails.org/" title="Ruby on Rails">Ruby on Rails</a>. I didn&#39;t want all the confusing MVC structure and features that I&#39;d never use. Hence why I&#39;m writing this now.</p>
-<h2><a name="github-repository"class="anchor" href="#github-repository"><span class="header-link"></span></a>GitHub Repository</h2>
+<h2><a name="github-repository" class="anchor" href="#github-repository"><span class="header-link"></span></a>GitHub Repository</h2>
 <p>You can find an example repository with all code discussed in this article here: <a href="https://github.com/Integralist/passage"><a href="https://github.com/Integralist/passage">https://github.com/Integralist/passage</a></a></p>
-<h2><a name="sinatra"class="anchor" href="#sinatra"><span class="header-link"></span></a>Sinatra</h2>
+<h2><a name="sinatra" class="anchor" href="#sinatra"><span class="header-link"></span></a>Sinatra</h2>
 <p>So, let me begin by introducing you to <a href="http://www.sinatrarb.com/" title="Put this in your pipe and smoke it">Sinatra</a>. Sinatra is a micro web framework for Ruby that although small (much smaller than a framework such as Ruby on Rails) is still surprising complex and powerful (I&#39;d highly recommend reading O&#39;Reilly&#39;s book &quot;<a href="http://shop.oreilly.com/product/0636920019664.do" title="Ruby for the Web">Sinatra: Up and Running</a>&quot;).</p>
 <p>Sinatra does require you to do a lot of work off your own back, but at the same time it doesn&#39;t enforce a particular style on you. It&#39;s also very easy to get a site up and running with Sinatra and that is hopefully what I&#39;ll demonstrate here today.</p>
-<h2><a name="hosting"class="anchor" href="#hosting"><span class="header-link"></span></a>Hosting</h2>
+<h2><a name="hosting" class="anchor" href="#hosting"><span class="header-link"></span></a>Hosting</h2>
 <p>Now running a site locally on your computer is one thing, but you want to be able to share it with the community and let others use it! Ruby hosting is something I&#39;m still looking into but I have found two popular options for those who aren&#39;t willing to put their money where their mouth is just yet (e.g. developers who are just experimenting with Ruby to see if it&#39;ll work for them). These are:</p>
 <ul>
 <li><a href="http://www.heroku.com/" title="Cloud Application Platform">Heroku</a></li>
@@ -91,8 +91,8 @@
 <p>Heroku is one of the most well known and talked about Ruby web hosts and offers both free and paid for options.</p>
 <p>This means we can use either one to host our application for free and so allow us to test their services, and if you discover your latest web creation is doing well and getting lots of traffic then these platforms can scale to meet your needs.</p>
 <p>For today we&#39;ll be using the first option Heroku, but we&#39;ll come back to the hosting aspect at the end of this article when we&#39;re ready to actually upload our test application.</p>
-<h2><a name="example"class="anchor" href="#example"><span class="header-link"></span></a>Example</h2>
-<h3><a name="requirements"class="anchor" href="#requirements"><span class="header-link"></span></a>Requirements</h3>
+<h2><a name="example" class="anchor" href="#example"><span class="header-link"></span></a>Example</h2>
+<h3><a name="requirements" class="anchor" href="#requirements"><span class="header-link"></span></a>Requirements</h3>
 <p>OK, for us to build our application we&#39;re going to need to install the following software...</p>
 <ul>
 <li>Ruby (Programming Language - see my <a href="https://github.com/Integralist/Blog-Posts/blob/master/Introduction-to-Ruby.md" title="Introduction to Ruby (a front-end developers perspective)">introduction to the Ruby language</a> for more information on how to do this)</li>
@@ -135,7 +135,7 @@ tilt <span class="o">(</span>1.3.3<span class="o">)</span>
 treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 </pre></div>
 </code></pre>
-<h3><a name="set-up"class="anchor" href="#set-up"><span class="header-link"></span></a>Set-up</h3>
+<h3><a name="set-up" class="anchor" href="#set-up"><span class="header-link"></span></a>Set-up</h3>
 <p>Now we have our software set-up, lets open our programming tool of choice and start writing some code.</p>
 <p>First thing we want to do is to create a file that will be our application. So lets go ahead and do that and call it <code>app.rb</code> and lets add the following content to it…</p>
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="c1">#!/usr/bin/env ruby</span>
@@ -167,12 +167,12 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 </li>
 </ul>
 <p><em>**There are two ways to build Sinatra applications: one is the &quot;Classic&quot; way (which we&#39;ll be doing as it&#39;s much easier to understand) and the other is the &quot;Modular&quot; way which doesn&#39;t use the DSL syntax and taps straight into the base Sinatra Class.</em></p>
-<h3><a name="shotgun"class="anchor" href="#shotgun"><span class="header-link"></span></a>Shotgun</h3>
+<h3><a name="shotgun" class="anchor" href="#shotgun"><span class="header-link"></span></a>Shotgun</h3>
 <p>One quick note about running your Ruby application: we used <code>ruby app.rb</code> but for development purposes we want to use our <code>shotgun</code> utility instead. </p>
 <p>What <code>shotgun</code> does is it restarts the web server for every HTTP request it receives. This is only useful for local development, you wouldn&#39;t do this on a live server as that would just be wasting resources. The reason we use <code>shotgun</code> is because otherwise if we&#39;re running our application using <code>ruby app.rb</code> and decide to make a tweak to our code then we wouldn&#39;t be able to see the change until we restarted the web server! So we&#39;d have to first stop Sinatra (<code>Ctrl+C</code>) and then start it back up again (<code>ruby app.rb</code>) and that&#39;s a lot of hassle when you&#39;re making changes every few seconds and checking them in your web browser. So <code>shotgun</code> helps workaround this issue (while we&#39;re in development). Just run: <code>shotgun app.rb</code> and it&#39;ll take care of the rest**.</p>
 <p><em>**One thing I&#39;ve noticed using <code>shotgun</code> is that it can affect other resources. For example, I was caching resources and for some reason when running <code>shotgun</code> I noticed the resources weren&#39;t being cached - but if I shut it down and run <code>ruby app.rb</code> instead then the resources would show as cached? Apparently it has something to do with the internals of how <code>shotgun</code> works and is something to be aware of if you notice something not working then just try running your Ruby application without <code>shotgun</code>.</em></p>
 <p>So at this point you&#39;ve got some Ruby code and you&#39;re able to view it in a web browser. Now lets look further at Sinatra&#39;s DSL syntax...</p>
-<h3><a name="loading-pages"class="anchor" href="#loading-pages"><span class="header-link"></span></a>Loading pages</h3>
+<h3><a name="loading-pages" class="anchor" href="#loading-pages"><span class="header-link"></span></a>Loading pages</h3>
 <p>If you wanted to add a new page called &quot;Projects&quot; that you accessed via <code>http://localhost:4567/projects</code> then all you would need to do is add the following code…</p>
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">get</span> <span class="s1">&#39;/projects&#39;</span> <span class="k">do</span>
     <span class="c1"># page content</span>
@@ -208,7 +208,7 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 </pre></div>
 </code></pre>
 <p>…this would display on the page the result of adding <code>a</code> and <code>b</code> together. So if I went to the URL <code>http://localhost:4567/add/2/2</code> then this would display <code>4</code> as that would be the result of <code>2 + 2</code> (which was the two parameters I specified within the URL).</p>
-<h3><a name="loading-templates"class="anchor" href="#loading-templates"><span class="header-link"></span></a>Loading templates</h3>
+<h3><a name="loading-templates" class="anchor" href="#loading-templates"><span class="header-link"></span></a>Loading templates</h3>
 <p>Now at the moment we&#39;re using the fact that with Ruby, the last expression inside a function is what gets returned from that function. These calls to <code>get</code> and <code>post</code> are actually function calls hidden behind an abstraction. So in my original example we were displaying &quot;Hello World!&quot; to the page because that was the last expression inside the <code>get</code> call.</p>
 <p>But we ideally want to be displaying HTML to the user! To do this we&#39;ll use &#39;templates&#39;.</p>
 <p>Note that templates can be inlined inside your Ruby code, but personally I prefer them to be external because I think that&#39;s a lot cleaner and abides by the &#39;separate of concerns&#39; rule (which I like to keep to whenever possible).</p>
@@ -302,7 +302,7 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 </pre></div>
 </code></pre>
 <p>…notice I picked up the field from the URL and stored it in a class instance variable and used that variable within my template.</p>
-<h3><a name="static-resources"class="anchor" href="#static-resources"><span class="header-link"></span></a>Static resources</h3>
+<h3><a name="static-resources" class="anchor" href="#static-resources"><span class="header-link"></span></a>Static resources</h3>
 <p>OK, the next thing to be aware of is that Sinatra serves up ALL static resources from a folder called <code>public</code> (again you can change this but I&#39;m happy using it - as the name is perfectly logical already).</p>
 <p>What this means is that if you have a file path like: <code>/path/to/file</code> then for that to work you need to have the folders/files within the root <code>public</code> folder otherwise Sinatra can&#39;t locate them. It DOESN&#39;T mean you have to change all your paths to <code>/public/path/to/file</code>. You keep the path the same as it is already but you just move the files/folders inside of a root folder called <code>public</code>.</p>
 <p>So for example in all my projects I have my JavaScript files in the following directory…</p>
@@ -311,7 +311,7 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 <p><code>Assets/Styles/</code></p>
 <p>…all I need to do is create an <code>Assets</code> folder within the <code>public</code> folder. Within that I then have the <code>Assets</code> folder, and inside of that is my <code>Scripts</code> and <code>Styles</code> folders which hold the relevant files.</p>
 <p>If this sounds a bit confusing then have a look at the GitHub repo linked at the top of this article to see what I&#39;m talking about.</p>
-<h3><a name="handling-errors"class="anchor" href="#handling-errors"><span class="header-link"></span></a>Handling errors</h3>
+<h3><a name="handling-errors" class="anchor" href="#handling-errors"><span class="header-link"></span></a>Handling errors</h3>
 <p>If the user tries to access a page that doesn&#39;t exist then you can direct them to your own <code>404 error</code> page by using the following route…</p>
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">not_found</span> <span class="k">do</span>
     <span class="n">erb</span> <span class="ss">:notfound</span>
@@ -340,7 +340,7 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 <pre><code class="lang-erb"><div class="highlight"><pre><span class="x">&lt;p&gt;Sorry there was the following error: &lt;strong class=&quot;error&quot;&gt;</span><span class="cp">&lt;%=</span> <span class="n">env</span><span class="o">[</span><span class="s2">&quot;sinatra.error&quot;</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x">&lt;/strong&gt;&lt;/p&gt;</span>
 </pre></div>
 </code></pre>
-<h3><a name="performance"class="anchor" href="#performance"><span class="header-link"></span></a>Performance</h3>
+<h3><a name="performance" class="anchor" href="#performance"><span class="header-link"></span></a>Performance</h3>
 <p>The performance of your application is very important, and specifically for a web application you want to make sure that all resources are sent to the user as quickly as possible.</p>
 <p>Here are some things you can do to help improve the performance of your web application...</p>
 <ol>
@@ -348,20 +348,20 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 <li>Use the <code>Thin</code> Web Server</li>
 <li>GZIP all content</li>
 </ol>
-<h3><a name="cache-static-resources"class="anchor" href="#cache-static-resources"><span class="header-link"></span></a>Cache static resources</h3>
+<h3><a name="cache-static-resources" class="anchor" href="#cache-static-resources"><span class="header-link"></span></a>Cache static resources</h3>
 <p>We set the cache control for static resources to approximately 1 month</p>
 <p><code>set :static_cache_control, [:public, :max_age =&gt; 2678400]</code></p>
-<h3><a name="use-the-thin-web-server"class="anchor" href="#use-the-thin-web-server"><span class="header-link"></span></a>Use the <code>Thin</code> Web Server</h3>
+<h3><a name="use-the-thin-web-server" class="anchor" href="#use-the-thin-web-server"><span class="header-link"></span></a>Use the <code>Thin</code> Web Server</h3>
 <p>You can also tell Sinatra to use the <code>Thin</code> server rather than the default <code>WEBrick</code> server if it&#39;s available (<code>Thin</code> is a supremely better performing web server so do please use it!)</p>
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="c1"># We specify which server we want to use (Thin is tried first and then failing that WEBrick)</span>
 <span class="n">set</span> <span class="ss">:server</span><span class="p">,</span> <span class="sx">%w[thin webrick]</span>
 </pre></div>
 </code></pre>
-<h3><a name="gzip-all-content"class="anchor" href="#gzip-all-content"><span class="header-link"></span></a>GZIP all content</h3>
+<h3><a name="gzip-all-content" class="anchor" href="#gzip-all-content"><span class="header-link"></span></a>GZIP all content</h3>
 <p>We can also have the web server automatically GZIP all our static resources (which can reduce the file size of a resource by up to 70%!) such as HTML content, JavaScript files, CSS files by using one line of Ruby code…</p>
 <p><code>use Rack::Deflater</code></p>
 <p>…this uses the &#39;Rack&#39; middleware application (Rack is what sits behind Sinatra and is the actual HTTP web server interface), but Sinatra hides all of that behind the DSL syntax of <code>get</code> and <code>post</code> calls (nice huh).</p>
-<h3><a name="hosting-our-application"class="anchor" href="#hosting-our-application"><span class="header-link"></span></a>Hosting our application</h3>
+<h3><a name="hosting-our-application" class="anchor" href="#hosting-our-application"><span class="header-link"></span></a>Hosting our application</h3>
 <p>Right. Let&#39;s get our application uploaded shall we.</p>
 <p>This is going to be short and quick…</p>
 <ol>
@@ -399,7 +399,7 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 </li>
 </ol>
 <p>Hopefully if you followed along, and had no errors, then you should see your new app online and hosted by heroku!</p>
-<h2><a name="conclusions"class="anchor" href="#conclusions"><span class="header-link"></span></a>Conclusions</h2>
+<h2><a name="conclusions" class="anchor" href="#conclusions"><span class="header-link"></span></a>Conclusions</h2>
 <p>Well, there you have it. Building a website using Sinatra and Ruby, and actually getting it hosted online.</p>
 <p>It has been a bit of a whirlwind pace we&#39;ve set here, going through lots of different concepts such as performance tricks and handling errors, through to loading template files etc. But hopefully it wasn&#39;t too fast paced, and you managed to utilise this information to get you up and running. </p>
 <p>I&#39;m actually writing this at record pace at home, late at night - feeling very tired, so if this article doesn&#39;t read right, or you think it needs improving then please get in contact and let me know what you think would help improve it (and thus help other people better understand the concepts)</p>
@@ -420,7 +420,7 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
   <span class="post-date">2012 &#183; 6 &#183; 18</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 39mins</em></p>
 <ul>
 <li>Introduction</li>
@@ -441,14 +441,14 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 </ul>
 </li>
 </ul>
-<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
 <p>I&#39;ve been playing around with the <a href="https://developer.mozilla.org/en/HTML/Canvas">Canvas</a> element for a little bit now, using it for more realistic features such as manipulating user uploaded images (using <a href="http://dvcs.w3.org/hg/xhr/raw-file/tip/Overview.html">XHR2</a>). For example, within a custom Content Management System where the user controls the images that appear on their website we would normally let the server handle the manipulation of the uploaded image using an external library such as <a href="http://www.imagemagick.org/">ImageMagick</a>, but now we handle this all on the client-side using Canvas.</p>
 <p>I&#39;ve also played with the raw pixel data in images to apply filters and effect the colours of an image, which is interesting (although I have no actual use for that sort of manipulation at the present time).</p>
 <p>So I thought I would dive a little bit further into the Canvas element and use it for building a game (as that&#39;s what most people are using it for). Nothing fancy, just the classic &quot;sliding image puzzle&quot; game we have all played at some point.  If you&#39;ve never played this game: the idea is to take an image and to split it into pieces. You then jumble up the pieces and remove one piece so there is an empty space. You then have to re-assemble the original image by sliding the pieces around but only able to move one piece at a time via the empty space that is available to you.</p>
 <p>The game works on both desktop and mobile devices (e.g. &#39;touch&#39; based devices).</p>
 <p>To see an example of the game then go to my <a href="https://github.com/Integralist/HTML5-Image-Slider-Game/">GitHub repository here</a> and run the HTML file in a browser that supports the HTML5 Canvas element.</p>
 <p>In this article we&#39;re going to discuss the process I went through to build this game in more detail. The first two sections (HTML, CSS) are brief because the main chunk of work is residing inside the JavaScript so for that section we&#39;re going to step through each section of the code and explain what&#39;s happening.</p>
-<h2><a name="html"class="anchor" href="#html"><span class="header-link"></span></a>HTML</h2>
+<h2><a name="html" class="anchor" href="#html"><span class="header-link"></span></a>HTML</h2>
 <p>The HTML is pretty straight forward, it consists of a <code>meta</code> tag which tells the device to set the width to be 760px wide (this is so the game fits the full width of the device) and also specifies that the user cannot resize the content - the reason being is we want to ensure the game is always fitting the screen. After this we have a link to our style sheet - note: there are some declarations in our CSS which are included specifically to help with &#39;touch&#39; based devices (e.g. devices such as smart phones which don&#39;t utilise a &#39;mouse&#39; to interact with the content) - along with a single <code>canvas</code> element (which we could have created via JavaScript but I decided I preferred to have the element coded into the HTML). We also have a checkbox on the page which lets the user make the game a little easier by allowing them to move certain &#39;illegal&#39; puzzle pieces, and finally we have the <code>script</code> element which obviously is pointing to our JavaScript file which creates the game… </p>
 <pre><code class="lang-html"><div class="highlight"><pre><span class="cp">&lt;!doctype html&gt;</span>
 <span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span> <span class="na">dir=</span><span class="s">&quot;ltr&quot;</span><span class="nt">&gt;</span>
@@ -466,7 +466,7 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 <span class="nt">&lt;/html&gt;</span>
 </pre></div>
 </code></pre>
-<h2><a name="css"class="anchor" href="#css"><span class="header-link"></span></a>CSS</h2>
+<h2><a name="css" class="anchor" href="#css"><span class="header-link"></span></a>CSS</h2>
 <p>The CSS is also pretty straight forward - with the exception of one part we&#39;ll come to in a moment - the main chunk of this style sheet is simply setting generic styles and normalising certain elements. </p>
 <p>You&#39;ll notice though a rule called <code>.drag-canvas</code> which will be applied to another <code>canvas</code> element which you haven&#39;t seen yet as it&#39;s not part of the HTML, it is instead created via JavaScript (I&#39;ll explain what this 2nd <code>canvas</code> is for later when we start discussing the JavaScript side of the project).</p>
 <p>The <code>canvas</code> selector sets a rule which has some specific declarations (along with appropriate vendor prefixes) that are applied to any <code>canvas</code> element found in the page. The declaration we&#39;re applying is <a href="https://developer.mozilla.org/en/CSS/-moz-user-select"><code>user-select</code></a> which controls the selection a user makes on the content. You&#39;ll see we&#39;ve set this to <code>none</code>. What this does is it prevents any iOS devices (and potentially other devices - hence the use of the vendor prefixes) from showing an additional option which lets the user carry out an action (e.g. &#39;copy&#39;). The reason I want to prevent this is because in our game we also want users to be able to &#39;drag and drop&#39; puzzle pieces (rather than just letting them &#39;click&#39; or &#39;touch&#39; to move a puzzle piece) and the way we do this (again, we&#39;ll go into this in more detail later) is by checking how long the user holds their &#39;touch&#39; down on the puzzle piece. But if you have ever used an iOS device you&#39;ll know that if you hold your touch down for more than a second you&#39;ll see a context menu pop up asking you to either &#39;Select, Select All, Paste&#39; or &#39;Copy&#39; and it&#39;s these options we want to disable while the user is playing our game.</p>
@@ -506,9 +506,9 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 <span class="p">}</span>
 </pre></div>
 </code></pre>
-<h2><a name="javascript"class="anchor" href="#javascript"><span class="header-link"></span></a>JavaScript</h2>
+<h2><a name="javascript" class="anchor" href="#javascript"><span class="header-link"></span></a>JavaScript</h2>
 <p>Now the JavaScript is where it gets interesting…  </p>
-<h3><a name="requestanimationframe"class="anchor" href="#requestanimationframe"><span class="header-link"></span></a>requestAnimationFrame</h3>
+<h3><a name="requestanimationframe" class="anchor" href="#requestanimationframe"><span class="header-link"></span></a>requestAnimationFrame</h3>
 <p>The first thing you&#39;ll notice is a polyfill for <a href="https://developer.mozilla.org/en/DOM/window.requestAnimationFrame">requestAnimationFrame</a>. If you don&#39;t know what it is, <code>requestAnimationFrame</code> is a more efficient alternative for <code>setInterval</code>and <code>setTimeout</code>. It&#39;s actually based more on <code>setTimeout</code> than <code>setInterval</code>, and what I mean by this is your specified function to be executed must itself call <code>requestAnimationFrame</code> (unless you want the animation to stop).</p>
 <p>The polyfill I&#39;m using I&#39;ve modified slightly so that it creates a property of the global object whose value is a boolean which indicates if it is supported by the user&#39;s browser or not. The reason I store this result is because later in the script when I specify a &#39;step amount&#39; (e.g. how far I want the puzzle piece to move on each iteration) I found that I got better performance setting a higher step amount for browsers that support <code>requestAnimationFrame</code> so I want to change the step amount depending on if I&#39;m using <code>setInterval</code> or not.</p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="c1">// Polyfill for requestAnimationFrame which I&#39;ve modified from Paul Irish&#39;s original</span>
@@ -554,7 +554,7 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 <span class="p">}(</span><span class="k">this</span><span class="p">));</span>
 </pre></div>
 </code></pre>
-<h3><a name="variables"class="anchor" href="#variables"><span class="header-link"></span></a>Variables</h3>
+<h3><a name="variables" class="anchor" href="#variables"><span class="header-link"></span></a>Variables</h3>
 <p>Now, if you look at my <a href="https://github.com/Integralist/Style-Guides/blob/master/JavaScript%20Style%20Guide.md#javascript-style-guide">JavaScript Style Guide</a> you&#39;ll see that I like to set-up the structure of my code as follows… </p>
 <ul>
 <li>Variables</li>
@@ -600,7 +600,7 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 </pre></div>
 </code></pre>
 <p>…looking at these variables you can see that we&#39;re not only getting a reference to the <code>canvas</code> element in the page but we&#39;re also creating another <code>canvas</code> element. The purpose of having two <code>canvas</code>&#39;es is that the one found inside the HTML will be used for holding the puzzle pieces. The second <code>canvas</code> (created via JavaScript) is used for handling event listeners and also handling the &#39;drag and drop&#39; of individual puzzle pieces.</p>
-<h3><a name="events-alias-"class="anchor" href="#events-alias-"><span class="header-link"></span></a>Events alias&#39;</h3>
+<h3><a name="events-alias" class="anchor" href="#events-alias"><span class="header-link"></span></a>Events alias&#39;</h3>
 <p>You&#39;ll also see that we&#39;ve created an object called <code>eventsMap</code> which we&#39;re using to map our own events (such as &#39;select&#39;, &#39;down&#39;, &#39;up&#39;, &#39;move&#39;) to the relevant mouse events available. This is because it makes it easier for us to swap to using touch events if they are supported by the users browser. So for example, just after setting up these variables we do a check for whether touch events are supported and if they are we swap the mouse specific values for touch specific values… </p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="s2">&quot;ontouchstart&quot;</span> <span class="k">in</span> <span class="nx">global</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">touchSupported</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
@@ -613,7 +613,7 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 <span class="p">}</span>
 </pre></div>
 </code></pre>
-<h3><a name="image-loading"class="anchor" href="#image-loading"><span class="header-link"></span></a>Image loading</h3>
+<h3><a name="image-loading" class="anchor" href="#image-loading"><span class="header-link"></span></a>Image loading</h3>
 <p>You&#39;ll also see that within the variable declarations we&#39;re creating an <code>Image</code> object and after the variables we now set a <code>src</code> value which points to the image we&#39;re going to use for our game. We then set an <code>onload</code> event listener to be triggered when the image has loaded. </p>
 <p>Once the image is loaded we know we can set-up the dimensions of the <code>canvas</code> and the puzzle pieces and also get the &#39;drag&#39; <code>canvas</code> placed on top of the main <code>canvas</code>. You&#39;ll notice that we&#39;ve set the &#39;drag&#39; <code>canvas</code> to have <code>globalAlpha = .9;</code> which basically makes the top <code>canvas</code> slightly opaque/transparent (e.g. if a puzzle piece was drawn on the &#39;drag&#39; <code>canvas</code> then you would be able to see through the puzzle piece to the bottom <code>canvas</code>).</p>
 <p>We then finally call <code>loadImageOntoCanvas</code> to load the image on to the main <code>canvas</code>… </p>
@@ -635,7 +635,7 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 </pre></div>
 </code></pre>
 <p>…one other small note is the use of the bitwise operator <code>~~</code> which you can see I&#39;ve used inside the <code>onload</code> listener: <code>piece_height = ~~(this.height / canvas_grid);</code>. What this does is functionally equivalent to <code>Math.floor</code> and is a technique I discovered from <a href="http://james.padolsey.com/javascript/double-bitwise-not/">James Padolsey</a>.</p>
-<h3><a name="clearing-the-canvas"class="anchor" href="#clearing-the-canvas"><span class="header-link"></span></a>Clearing the Canvas</h3>
+<h3><a name="clearing-the-canvas" class="anchor" href="#clearing-the-canvas"><span class="header-link"></span></a>Clearing the Canvas</h3>
 <p>Next we see a function called <code>clearCanvas</code>… </p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">clearCanvas</span> <span class="p">(</span><span class="nx">c</span><span class="p">)</span> <span class="p">{</span>
    <span class="nx">c</span><span class="p">.</span><span class="nx">width</span> <span class="o">=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">width</span><span class="p">;</span>
@@ -643,7 +643,7 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 </pre></div>
 </code></pre>
 <p>This does exactly what you think it does. But instead of using the API method <code>clearRect</code> to clear the <code>canvas</code> it uses a trick where by if you set the width and height of the <code>canvas</code> to the same dimensions as the <code>canvas</code> itself then the <code>canvas</code> will clear. <strong>BUT BE WARNED:</strong> this will also erase all state from the <code>canvas</code>! (for more information on &#39;state&#39; <a href="http://html5.litten.com/understanding-save-and-restore-for-the-canvas-context/">see here</a>)</p>
-<h3><a name="load-image-onto-canvas"class="anchor" href="#load-image-onto-canvas"><span class="header-link"></span></a>Load image onto Canvas</h3>
+<h3><a name="load-image-onto-canvas" class="anchor" href="#load-image-onto-canvas"><span class="header-link"></span></a>Load image onto Canvas</h3>
 <p>Now we move onto the function <code>loadImageOntoCanvas</code>… </p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">loadImageOntoCanvas</span><span class="p">(){</span>
     <span class="nx">context</span><span class="p">.</span><span class="nx">drawImage</span><span class="p">(</span><span class="nx">img</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">canvas_width</span><span class="p">,</span> <span class="nx">canvas_height</span><span class="p">);</span>
@@ -673,7 +673,7 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 <pre><code><div class="highlight"><pre><span class="nx">dragCanvas</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="nx">eventsMap</span><span class="p">.</span><span class="nx">select</span><span class="p">,</span> <span class="nx">init</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 </pre></div>
 </code></pre>
-<h3><a name="initialise-game"class="anchor" href="#initialise-game"><span class="header-link"></span></a>Initialise Game</h3>
+<h3><a name="initialise-game" class="anchor" href="#initialise-game"><span class="header-link"></span></a>Initialise Game</h3>
 <p>In short: the <code>init</code> function clears the <code>canvas</code> and splits up the image into individual pieces and then displays them in a jumbled order. From there it sets up further event listeners for &#39;down&#39; and &#39;up&#39; events (which map to <code>mousedown</code>/<code>mouseup</code> and <code>touchstart</code>/<code>touchend</code>).</p>
 <p>Lets look at this function in more detail… </p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="nx">dragCanvas</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="nx">eventsMap</span><span class="p">.</span><span class="nx">select</span><span class="p">,</span> <span class="nx">init</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
@@ -724,7 +724,7 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 </pre></div>
 </code></pre>
 <p>…these event listeners are going to help us detect when the user wants to move a puzzle piece.</p>
-<h3><a name="user-interaction"class="anchor" href="#user-interaction"><span class="header-link"></span></a>User interaction</h3>
+<h3><a name="user-interaction" class="anchor" href="#user-interaction"><span class="header-link"></span></a>User interaction</h3>
 <p>So we can see that the &#39;down&#39; event will call the <code>checkDrag</code> function, so lets start from there… </p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="nx">dragCanvas</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="nx">eventsMap</span><span class="p">.</span><span class="nx">down</span><span class="p">,</span> <span class="nx">checkDrag</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 
@@ -759,7 +759,7 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 </pre></div>
 </code></pre>
 <p>UPDATE: I have since realised another way I could have implemented &#39;drag &amp; drop&#39; which is to check the &#39;move&#39; event (remember this is an alias for <code>mousemove</code> and <code>touchmove</code>) while the &#39;down&#39; event was triggered and to set a threshold of let&#39;s say 4px in any direction before triggering the drag and drop mechanism. I don&#39;t know how much this would have simplified things but maybe that could be an exercise for the reader to investigate. </p>
-<h3><a name="automatic-puzzle-piece-animation"class="anchor" href="#automatic-puzzle-piece-animation"><span class="header-link"></span></a>Automatic puzzle piece animation</h3>
+<h3><a name="automatic-puzzle-piece-animation" class="anchor" href="#automatic-puzzle-piece-animation"><span class="header-link"></span></a>Automatic puzzle piece animation</h3>
 <p>We have two routes to go down now: <code>startDrag</code> or <code>movePiece</code>.</p>
 <p>We&#39;re going to start with <code>movePiece</code> as that&#39;s the simpler of the two routes at the moment.</p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">puzzle_randomised</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span>
@@ -997,7 +997,7 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 <span class="p">}</span>
 </pre></div>
 </code></pre>
-<h3><a name="drag-and-drop-interaction"class="anchor" href="#drag-and-drop-interaction"><span class="header-link"></span></a>Drag and Drop interaction</h3>
+<h3><a name="drag-and-drop-interaction" class="anchor" href="#drag-and-drop-interaction"><span class="header-link"></span></a>Drag and Drop interaction</h3>
 <p>So now we&#39;ve been through the automatic moving of puzzle pieces lets start looking at how the &#39;drag and drop&#39; route works.</p>
 <p>So if you remember we had a conditional that was checking if the variable <code>drag</code> was true or false. But it would check the value after a few milliseconds (which was long enough for our program to change the value of <code>drag</code> to true if the user had kept their click/touch down - signifying they intended to drag the puzzle piece).</p>
 <p>If the user intended to drag the piece we would call the appropriately named function <code>startDrag</code>… </p>
@@ -1256,7 +1256,7 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 </pre></div>
 </code></pre>
 <p>…the first thing we do is remove the &#39;move&#39; event - <em>now to be honest, as I&#39;m writing this post a few weeks after completing the game, I&#39;m not sure why I&#39;m removing the event again in that section as it should have already been removed? I&#39;ll leave this in for now and re-evaluate the code at a later date to see if it is indeed as redundant as it appears to be now</em> - then we update <code>wasJustDragging</code> so we know that we just completed a drag and drop motion. Then we call the <code>resetOptions</code> function (which we went over earlier) and finally we call the function <code>checkIfGameFinished</code> which nicely leads us into our final section… </p>
-<h3><a name="determining-the-end-of-game"class="anchor" href="#determining-the-end-of-game"><span class="header-link"></span></a>Determining the end of game</h3>
+<h3><a name="determining-the-end-of-game" class="anchor" href="#determining-the-end-of-game"><span class="header-link"></span></a>Determining the end of game</h3>
 <p>The <code>checkIfGameFinished</code> function simply loops through all puzzle pieces to see if they match the correct order… </p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">checkIfGameFinished</span><span class="p">(){</span>
     <span class="kd">var</span> <span class="nx">copied_puzzle_randomised</span> <span class="o">=</span> <span class="nx">puzzle_randomised</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>

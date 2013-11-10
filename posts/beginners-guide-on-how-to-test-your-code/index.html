@@ -45,7 +45,7 @@
   <span class="post-date">2012 &#183; 1 &#183; 2</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 11mins</em></p>
 <ul>
 <li>Introduction</li>
@@ -58,7 +58,7 @@
 <li>Review of example</li>
 <li>Conclusion</li>
 </ul>
-<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
 <p>Any programmer worth a damn will tell you that you need to test your code.</p>
 <p>There are different types of tests that inspect the different areas of your application:</p>
 <ul>
@@ -71,12 +71,12 @@
 <p>Within a test you write a number of ‘assertions’ (which means you’re expecting certain values to be returned at that point in a certain format or type) and if the code fails to produce the relevant value the assertion will fail and thus the test itself will fail.</p>
 <p>There are different methodologies for testing your code, the two most famous are Test-Driven Development (TDD) and Behaviour-Driven Development (BDD). Both are very similar and differ in &#39;direction&#39; more than anything.</p>
 <p>Fundamentally TDD is about the developer and their perspective on testing a piece of code, where BDD is more about using language that management and stake holders can understand (so your tests are still written in code but uses more &#39;domain specific language&#39; - e.g. instead of <code>assertEqual(x, y)</code> you would write <code>expect(x).toEqual(y)</code>).</p>
-<h2><a name="start-how-you-mean-to-go-on"class="anchor" href="#start-how-you-mean-to-go-on"><span class="header-link"></span></a>Start how you mean to go on</h2>
+<h2><a name="start-how-you-mean-to-go-on" class="anchor" href="#start-how-you-mean-to-go-on"><span class="header-link"></span></a>Start how you mean to go on</h2>
 <p>Something else you normally hear from the TDD crowd is that you <em>should</em> write your tests first! That’s probably going to sound a bit alien to you because how can you write tests for code that doesn’t yet exist? Why would anyone do that?</p>
 <p>Well, the reasoning behind it is quite logical when you think about it. Normally you’ll just start writing some code with no idea of how it should work, you just start hacking away and as you progress you go back and refactor sections and make it cleaner/more efficient and hopefully at the end you don’t need to change your code in any meaningful way to appease your users who may be using your code (e.g. if you’re building the next big JavaScript framework then your API is what your users will be relying on and if you discover there is a bug in your code and it means you have to go back and change the API because of it then that causes big concerns for your users).</p>
 <p>So the idea of writing tests first is that you’re thinking about your API from the beginning. You’ll think about what the perfect API is for your code to produce and you’ll ensure you write code that fits that API (you won’t realise halfway through coding “ah crap, this doesn’t work as well as I had hoped it would, I’m going to have to change this”).</p>
 <p>Although we’re not worrying about “writing tests first” in this article, I mention it so you are at least aware of the process.</p>
-<h2><a name="the-write-test-first-process"class="anchor" href="#the-write-test-first-process"><span class="header-link"></span></a>The ‘write test first’ process</h2>
+<h2><a name="the-write-test-first-process" class="anchor" href="#the-write-test-first-process"><span class="header-link"></span></a>The ‘write test first’ process</h2>
 <p>For those interested it goes a little like this:</p>
 <ul>
 <li>Write a unit-test</li>
@@ -86,20 +86,20 @@
 <li>Once the test passes, go back and refactor your code so it’s how it should be (i.e. clean/efficient)</li>
 <li>Run the test again and watch it pass</li>
 </ul>
-<h2><a name="other-aspects-of-tdd-bdd"class="anchor" href="#other-aspects-of-tdd-bdd"><span class="header-link"></span></a>Other aspects of TDD/BDD</h2>
+<h2><a name="other-aspects-of-tddbdd" class="anchor" href="#other-aspects-of-tddbdd"><span class="header-link"></span></a>Other aspects of TDD/BDD</h2>
 <p>Here are a few other aspects of testing worth mentioning before we get stuck into some examples: methods such as ‘setUp’ and ‘tearDown’ (which run before and after each test) are useful (for example…) because it means you can prepare each test to run from a fresh set-up.  This probably doesn’t make a lot of sense at the moment so I’ll demonstrate this later in our example code below, but trust me, when you’re testing your code it’s useful before each test (or after each test) to reset your environment.</p>
 <p>There are also more complicated aspects such as mocks, stubs and spies which are useful when you start getting deep into testing application code where ‘state’ becomes relevant (e.g. using some of these features makes testing code in the deepest parts of your application a lot easier).</p>
 <p>So with all this in mind, I would highly recommend you go and read a book titled ‘Test-Driven JavaScript Development’ by Christian Johansen (<a href="http://twitter.com/cjno">@cjno</a>) which covers all these topics in great detail.</p>
-<h2><a name="what-do-these-test-types-mean-"class="anchor" href="#what-do-these-test-types-mean-"><span class="header-link"></span></a>What do these test &#39;types&#39; mean?</h2>
-<h3><a name="unit-tests"class="anchor" href="#unit-tests"><span class="header-link"></span></a>Unit Tests</h3>
+<h2><a name="what-do-these-test-types-mean" class="anchor" href="#what-do-these-test-types-mean"><span class="header-link"></span></a>What do these test &#39;types&#39; mean?</h2>
+<h3><a name="unit-tests" class="anchor" href="#unit-tests"><span class="header-link"></span></a>Unit Tests</h3>
 <p>These are very atomic (i.e. small) tests that test a specific chunk of code.</p>
-<h3><a name="integration-tests"class="anchor" href="#integration-tests"><span class="header-link"></span></a>Integration Tests</h3>
+<h3><a name="integration-tests" class="anchor" href="#integration-tests"><span class="header-link"></span></a>Integration Tests</h3>
 <p>These are tests that ensure all the separate parts of your application code work when interacting with each other.</p>
-<h3><a name="acceptance-tests"class="anchor" href="#acceptance-tests"><span class="header-link"></span></a>Acceptance Tests</h3>
+<h3><a name="acceptance-tests" class="anchor" href="#acceptance-tests"><span class="header-link"></span></a>Acceptance Tests</h3>
 <p>These are tests that prove to management or your stake holders that the application is providing all the functionality they require (typically acceptance tests are written using BDD which uses domain specific language that makes it easy for management to write tests for the developer to implement).</p>
-<h3><a name="regression-tests"class="anchor" href="#regression-tests"><span class="header-link"></span></a>Regression Tests</h3>
+<h3><a name="regression-tests" class="anchor" href="#regression-tests"><span class="header-link"></span></a>Regression Tests</h3>
 <p>This is the process of running your unit tests again after fixing any integration tests to make sure your fixes haven&#39;t caused your unit tests to break.</p>
-<h2><a name="using-jasmine"class="anchor" href="#using-jasmine"><span class="header-link"></span></a>Using Jasmine</h2>
+<h2><a name="using-jasmine" class="anchor" href="#using-jasmine"><span class="header-link"></span></a>Using Jasmine</h2>
 <p>For the purpose of this article we&#39;re going to focus on unit testing but we&#39;re going to use a BDD library called Jasmine to help run our tests. You can download it from here: <a href="http://pivotal.github.com/jasmine/"><a href="http://pivotal.github.com/jasmine/">http://pivotal.github.com/jasmine/</a></a></p>
 <p>The set-up is as follows:</p>
 <ul>
@@ -121,7 +121,7 @@ jasmine.getEnv().execute();
 <span class="p">});</span>
 </pre></div>
 </code></pre>
-<h2><a name="an-example"class="anchor" href="#an-example"><span class="header-link"></span></a>An example</h2>
+<h2><a name="an-example" class="anchor" href="#an-example"><span class="header-link"></span></a>An example</h2>
 <p>So now imagine your ‘my-cool-library.js’ consisted of an object whose API let the user add/remove or check for CSS classes on an element. Lets say the API was as follows…</p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">header</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;my-header&#39;</span><span class="p">);</span>
 <span class="nx">css</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">header</span><span class="p">,</span> <span class="s1">&#39;newclass&#39;</span><span class="p">)</span> <span class="c1">// --&gt; adds the class &#39;newclass&#39; to the specified element &#39;header&#39;</span>
@@ -204,7 +204,7 @@ jasmine.getEnv().execute();
 <span class="p">});</span>
 </pre></div>
 </code></pre>
-<h2><a name="review-of-example"class="anchor" href="#review-of-example"><span class="header-link"></span></a>Review of example</h2>
+<h2><a name="review-of-example" class="anchor" href="#review-of-example"><span class="header-link"></span></a>Review of example</h2>
 <p>We’ll look at one of the example tests and explain what’s happening so you get an idea of how Jasmine works, then from there you should be at least good to go in getting up and running and playing around with it yourself.</p>
 <p>I’ve set-up an example of the code found in this post on Github: <a href="https://github.com/Integralist/Unit-testing-with-Jasmine-BDD"><a href="https://github.com/Integralist/Unit-testing-with-Jasmine-BDD">https://github.com/Integralist/Unit-testing-with-Jasmine-BDD</a></a> (which should also help you getting started)</p>
 <p>So lets look at one of the tests…</p>
@@ -228,7 +228,7 @@ jasmine.getEnv().execute();
 &gt;&gt;&gt;&gt; <span class="o">(</span>after this you get a stack trace of what was executed so you can see specifics of where the error occurred<span class="o">)</span>
 </pre></div>
 </code></pre>
-<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
 <p>Hopefully this has given you a taster for how easy it is to get started writing unit-tests for your code (even if you don’t take the “write tests first” approach).</p>
 <p>There are many good unit-testing libraries available today and they each have their pros/cons as far as the API is concerned and the features they offer.</p>
 <p>I personally prefer Jasmine because I love the simplicity of the terminology and API and the flexibility I have to include my own matchers.</p>

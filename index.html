@@ -43,7 +43,7 @@
   <span class="post-date">2013 &#183; 11 &#183; 10</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 17mins</em></p>
 <ul>
 <li>Introduction</li>
@@ -72,7 +72,7 @@
 </li>
 <li>Conclusion</li>
 </ul>
-<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
 <p>Let&#39;s begin by considering: &quot;What is Refactoring?&quot;</p>
 <p>The definition of refactoring is:</p>
 <blockquote>
@@ -82,14 +82,14 @@
 <p>Two of the most prolific programmers of recent times, <a href="http://martinfowler.com/">Martin Fowler</a> and <a href="http://en.wikipedia.org/wiki/Kent_Beck">Kent Beck</a> literally wrote the book on the subject of refactoring called &quot;<a href="http://www.amazon.com/gp/product/0201485672">Refactoring: Improving the Design of Existing Code</a>&quot; (well, written by Martin with contributions from Kent).</p>
 <p>In 2009 both Martin and Kent helped with a rewrite of the book that focused more on the Ruby language than the original book&#39;s target language of Java. This follow-up book was called &quot;<a href="http://www.amazon.com/Refactoring-Ruby-Edition-Jay-Fields/dp/0321603508">Refactoring: The Ruby Edition</a>&quot; and it&#39;s that book which is the primary driving force of this post.</p>
 <p>Since reading the Ruby edition I wanted to have a short summarised version of some of the more commonly used refactoring techniques (mainly for my own reference). By that I mean the techniques described in the book that I find interesting and use a lot in my day to day programming life.</p>
-<h2><a name="languages"class="anchor" href="#languages"><span class="header-link"></span></a>Languages</h2>
+<h2><a name="languages" class="anchor" href="#languages"><span class="header-link"></span></a>Languages</h2>
 <p>These refactoring techniques aren&#39;t specific to the Ruby language. I also use them when working with JavaScript and PHP with no problem. The idioms and syntax differences between languages become redundant when you focus on the pattern of the solutions.</p>
-<h2><a name="why-refactor-"class="anchor" href="#why-refactor-"><span class="header-link"></span></a>Why refactor?</h2>
+<h2><a name="why-refactor" class="anchor" href="#why-refactor"><span class="header-link"></span></a>Why refactor?</h2>
 <p>The purpose of refactoring is to improve the quality, clarity and maintainability of your code. Simple really.</p>
 <p>But also, refactoring can be a great lesson in understanding an unfamiliar code base.</p>
 <p>Think about it, if you inherit a poorly designed code base that you&#39;ve not seen before and you now need to either fix a bug or add a new feature, then implementing the code necessary would be a lot easier once you had refactored it to be in a more stable, maintainable and ultimately &#39;understandable&#39; state. </p>
 <p>Otherwise you would be forced to retro fit your new code on top of a poorly designed foundation and that would be the start of a very unhappy relationship.</p>
-<h2><a name="when-should-you-refactor-"class="anchor" href="#when-should-you-refactor-"><span class="header-link"></span></a>When should you refactor?</h2>
+<h2><a name="when-should-you-refactor" class="anchor" href="#when-should-you-refactor"><span class="header-link"></span></a>When should you refactor?</h2>
 <p>You&#39;ll usually find the time you start refactoring the most is when you are fixing bugs or adding new features.</p>
 <p>For example, you typically first need to understand the code that has already been written (regardless of whether it was you who wrote it originally or someone else). </p>
 <p>The process of refactoring helps you better understand the code, in preparation for modifying it.</p>
@@ -99,7 +99,7 @@
 <p>leave a module in a better state than you found it</p>
 </blockquote>
 <p>...what this suggests is that refactoring is essential to your daily coding process.</p>
-<h3><a name="tests"class="anchor" href="#tests"><span class="header-link"></span></a>Tests</h3>
+<h3><a name="tests" class="anchor" href="#tests"><span class="header-link"></span></a>Tests</h3>
 <p>Before we get started, it&#39;s important to mention that you should have tests in place when you&#39;re refactoring. </p>
 <p>You <em>can</em> refactor without tests, but realise that without tests to back you up then you can have no confidence in the refactoring you are implementing.</p>
 <p>Refactoring can result in substantial changes to the code and architecture but can still leave the top layer API the same. So while you&#39;re refactoring remember the old adage...</p>
@@ -111,28 +111,28 @@
 <p>Remember, the process of writing tests (even for an application you don&#39;t know) will help solidify your understanding and expectations of the code you&#39;re about to work on.</p>
 <p>Code should be tested regularly while refactoring to ensure you don&#39;t break anything. Keep the &#39;red, green, refactor&#39; feedback loop tight. Tests help confirm if your refactoring has worked or not. Without them you&#39;re effectively flying blind.</p>
 <p>So although I won&#39;t explicitly mention it below when discussing the different refactoring techniques, it is implied that on every change to your code you should really be running the relevant tests to ensure no breaking tests arise.</p>
-<h2><a name="refactoring-techniques"class="anchor" href="#refactoring-techniques"><span class="header-link"></span></a>Refactoring Techniques</h2>
+<h2><a name="refactoring-techniques" class="anchor" href="#refactoring-techniques"><span class="header-link"></span></a>Refactoring Techniques</h2>
 <p>There are many documented refactoring techniques and I do not attempt to cover them all, as this post would end up becoming a book in itself. So I&#39;ve picked what I feel are the most common and useful refactoring techniques and I try my best to explain them in a short and concise way.</p>
 <p>I&#39;ve put these techniques in order of how you might approach refactoring a piece of code, in a linear, top to bottom order. This is a personal preference and doesn&#39;t necessarily represent the best way to refactor.</p>
 <p>Final note, some of these techniques I provide a basic code example, but to be honest some of them are so simple they do not need any example. The Extract Method is one such technique that although it really useful and important, providing a code example would be a waste of time and space.</p>
 <p>So without further ado, let&#39;s begin...</p>
-<h3><a name="rename-method"class="anchor" href="#rename-method"><span class="header-link"></span></a>Rename Method</h3>
+<h3><a name="rename-method" class="anchor" href="#rename-method"><span class="header-link"></span></a>Rename Method</h3>
 <p>The single most effective and simple refactoring you can implement is to rename a property/attribute, method or object.</p>
 <p>Renaming identifiers can reduce the need for code comments and nearly always helps to promote greater clarity.</p>
 <p>You&#39;ll find that renaming things is a fundamental part of other refactoring techniques to aid understanding of the code.</p>
 <p>This technique relies on giving items a descriptive name to ensure the developer knows at a glance exactly what it does. The following technique Introduce Explaining Variable is effectively the same.</p>
-<h3><a name="introduce-explaining-variable"class="anchor" href="#introduce-explaining-variable"><span class="header-link"></span></a>Introduce Explaining Variable</h3>
+<h3><a name="introduce-explaining-variable" class="anchor" href="#introduce-explaining-variable"><span class="header-link"></span></a>Introduce Explaining Variable</h3>
 <p>So here is a technique specifically based around the premise of renaming. </p>
 <p>If you have a complicated expression (for example, you&#39;ll typically have a long winded set of conditions within an <code>if</code> statement) then place that complex expression into a temp variable and give it a descriptive identifier. </p>
 <p>Note: this is the only technique that finds temps (i.e. local variables) acceptable. This is because temps are deemed to be less reusable than methods (due to their very nature being &#39;local&#39;) and so introducing temps is something that shouldn&#39;t be considered lightly. Maybe consider using the Extract Method technique instead before using this particular technique. </p>
 <p>Also, don&#39;t worry about performance until you know you have a performance issue to worry about. Developers will always suggest that calling methods is slower than running code inline, but good programming is about readability and maintainability, and extracted methods are not only easier to understand but are much more reusable by other methods. </p>
 <p>So if you are considering using the Introduce Explaining Variable technique, first decide whether the temp would be more useful if it was available to other methods (that way you could use Extract Method instead and avoid defining a temp altogether).</p>
-<h3><a name="inline-temp"class="anchor" href="#inline-temp"><span class="header-link"></span></a>Inline Temp</h3>
+<h3><a name="inline-temp" class="anchor" href="#inline-temp"><span class="header-link"></span></a>Inline Temp</h3>
 <p>Temp variables are a bit of a code smell as they make methods longer and can make the Extract Method more awkward (as you&#39;d have to pass through more data to the extracted method).</p>
 <p>Inline Temp effectively removes the temp variable altogether by just using the value assigned to it (I&#39;d only suggest doing this if the temp is only used once or if the resulting value has come from a method invocation).</p>
 <p>Note: a temp by itself doesn&#39;t do any harm, and in some instances can actually make the code clearer (especially if using a result from a method invocation and the method identifier doesn&#39;t indicate the intent as well as it should).</p>
 <p>But most likely you&#39;ll end up using this technique to aid the Extract Method technique as less temp vars means less requirement to pass through additional parameters to the extracted method.</p>
-<h3><a name="split-temp-variable"class="anchor" href="#split-temp-variable"><span class="header-link"></span></a>Split Temp Variable</h3>
+<h3><a name="split-temp-variable" class="anchor" href="#split-temp-variable"><span class="header-link"></span></a>Split Temp Variable</h3>
 <p>This technique aims to resolve the concern of violating the SRP (Single Responsibility Principle), although slightly tamer in the sense that SRP is aimed more at Classes/Objects and methods, not typically variable assignments.</p>
 <p>But regardless if a temporary variable is assigned to more than once and it is not a loop variable or a collecting/accumulator variable then it is a temp considered to have too many responsibilities.</p>
 <p><strong>For example</strong>: (this is a daft example, but what the heck)</p>
@@ -146,7 +146,7 @@
 </pre></div>
 </code></pre>
 <p>As you can see, the temp variable was handling more responsibility than it should be and so by creating two appropriately distinct temps we ensure greater code clarity.</p>
-<h3><a name="replace-temp-with-query"class="anchor" href="#replace-temp-with-query"><span class="header-link"></span></a>Replace Temp With Query</h3>
+<h3><a name="replace-temp-with-query" class="anchor" href="#replace-temp-with-query"><span class="header-link"></span></a>Replace Temp With Query</h3>
 <p>This technique has a very similar intent to Inline Temp in that one of its primary focuses is to aid the Extract Method.</p>
 <p>The subtle but important difference between this technique and Inline Temp is that the complex expression assigned to the temp needs to be first moved to a method (where as the Inline Temp technique is different in that the temp may already be using a method invocation).</p>
 <p>This technique can help to shorten a long method by not having to define lots of temp variables just to hold values.</p>
@@ -154,7 +154,7 @@
 <p>Also, it is considered bad form to define a variable which changes once it has been set (hence moving to a method better indicates an unstable value). </p>
 <p>Note: this technique can sometimes be made easier to implement once you&#39;ve used Split Temp Variable. </p>
 <p>Remember this technique (as with other techniques) is an incremental step towards removing non-essential temps, so consider using Inline Temp afterwards, thus removing the need for the temp altogether.</p>
-<h3><a name="replace-temp-with-chain"class="anchor" href="#replace-temp-with-chain"><span class="header-link"></span></a>Replace Temp With Chain</h3>
+<h3><a name="replace-temp-with-chain" class="anchor" href="#replace-temp-with-chain"><span class="header-link"></span></a>Replace Temp With Chain</h3>
 <p>This is yet another technique designed to rid your code of temp variables. </p>
 <p>If you have a temp variable holding the result of calling an object&#39;s method, and follow the assignment by using that temp to carry out more method calls, then you should consider chaining method calls instead.</p>
 <p>The implementation is quite simple, you just have to ensure the methods called return <code>self</code> (or <code>this</code> if using a language like JavaScript).</p>
@@ -199,26 +199,26 @@
    <span class="p">.</span><span class="nx">addStudent</span><span class="p">();</span>
 </pre></div>
 </code></pre>
-<h3><a name="extract-method"class="anchor" href="#extract-method"><span class="header-link"></span></a>Extract Method</h3>
+<h3><a name="extract-method" class="anchor" href="#extract-method"><span class="header-link"></span></a>Extract Method</h3>
 <p>Here it is! In my opinion &#39;<em>The</em>&#39; most used and important refactoring technique.</p>
 <p>The implementation behind this technique is very simple. It consists of breaking up long methods by shifting overly complex chunks of code into new methods which have very descriptive identifiers. </p>
 <p>But be careful with handling local variables as you&#39;ll need to pass them through to the extracted method and that can be difficult if there are lots of temps in use. Sometimes to facility the Extract Method you&#39;ll need to first incorporate other techniques such as Replace temp With Query and Inline Temp.</p>
-<h3><a name="inline-method"class="anchor" href="#inline-method"><span class="header-link"></span></a>Inline Method</h3>
+<h3><a name="inline-method" class="anchor" href="#inline-method"><span class="header-link"></span></a>Inline Method</h3>
 <p>Sometimes you want the opposite of the Extract Method technique. Imagine a method exists whose content is already simple and clear, and whose identifier adds no extra benefit. In this instance we&#39;re just making an extra call for no real benefit.</p>
 <p>So to fix this problem we&#39;ll convert the method invocation into an inlined piece of code (unless of course the method is used in multiple places, in that case leave it where it is as having it in a separate method keeps our code DRY).</p>
-<h3><a name="move-method"class="anchor" href="#move-method"><span class="header-link"></span></a>Move Method</h3>
+<h3><a name="move-method" class="anchor" href="#move-method"><span class="header-link"></span></a>Move Method</h3>
 <p>In a previous post about <a href="http://www.integralist.co.uk/posts/object-oriented-design-ood/#class-analysis">Object-Oriented Design</a> I explained that you should query your classes/objects to ensure the methods they define are actually where they should be.</p>
 <p>The Move Method technique ensures this decoupling by simply moving the identified misplaced method onto the correct one.</p>
 <p>Once the method has been moved you should clean up the previously passed parameters by seeing what can be moved over to the other object or whether additional data needs to be passed over now via the method invocation. </p>
 <p>From the original class/object keep the original method in place while you test and change it so it now delegates to the method on the new object. Then slowly refactor by replacing delegating calls throughout your code base with direct calls to the method via its new host. </p>
 <p>Finally, remove the old method altogether and the tests should tell you if you missed a replacement somewhere.</p>
-<h3><a name="replace-method-with-method-object"class="anchor" href="#replace-method-with-method-object"><span class="header-link"></span></a>Replace Method With Method Object</h3>
+<h3><a name="replace-method-with-method-object" class="anchor" href="#replace-method-with-method-object"><span class="header-link"></span></a>Replace Method With Method Object</h3>
 <p>You may run into a problem where you have a long method you want to use Extract Method on, but the number of temporary local variables are too great to allow you to utilise the Extract Method technique (because passing around that many variables would be just as messy as the long method itself).</p>
 <p>To resolve this issue you could look at different types of smaller refactors (such as Inline Temp) but in some cases it would actually be better to first move the contents of the long method into an entirely new object.</p>
 <p>So the first thing to do is create a new class named after the long method and add the temp local vars as properties/attributes of the class/object.</p>
 <p>Now when you try to implement Extract Method you don&#39;t have to pass around the temp vars because they are now available throughout the class/object. </p>
 <p>Then from within the original class/object you can delegate any calls to the original method on to the object (you&#39;ll still pass on the original arguments to the method within the new object but from there on the method extraction becomes easier).</p>
-<h3><a name="replace-loop-with-collection-closure-method"class="anchor" href="#replace-loop-with-collection-closure-method"><span class="header-link"></span></a>Replace Loop With Collection Closure Method</h3>
+<h3><a name="replace-loop-with-collection-closure-method" class="anchor" href="#replace-loop-with-collection-closure-method"><span class="header-link"></span></a>Replace Loop With Collection Closure Method</h3>
 <p>If you write a loop that parses a collection and interacts with the individual elements within the collection then move that interaction out into a separate closure based method (meaning you replace the loop with an Enumerable method). </p>
 <p>This refactoring may not be as clear or impressive as other refactoring techniques but the motivation behind it is that you hide the ugly details of the loop behind a nicer iteration method, allowing the developer looking at the code to focus on the business logic instead.</p>
 <p><strong>For example</strong>:</p>
@@ -235,9 +235,9 @@
 <p>Ruby has a few of these types of enumerable methods but other languages such as PHP and JavaScript aren&#39;t so lucky. </p>
 <p>JavaScript You have a couple of accumulators: <code>Array#reduce</code> and <code>Array#reduceRight</code> but they don&#39;t work the same as Ruby based methods such as <code>Enumerable#inject</code>, <code>Enumerable#select</code> or <code>Enumerable#collect</code>. </p>
 <p>Although in JavaScript you can implement a similar effect with clever use of closures.</p>
-<h3><a name="pull-up-method"class="anchor" href="#pull-up-method"><span class="header-link"></span></a>Pull Up Method</h3>
+<h3><a name="pull-up-method" class="anchor" href="#pull-up-method"><span class="header-link"></span></a>Pull Up Method</h3>
 <p>When you have duplicated code across two separate classes then the best refactoring technique to implement is to pull that duplicate code up into a super class so we DRY (Don&#39;t Repeat Yourself) out the code and allow it to be used in multiple places without duplication (meaning changes in future only have to happen in one place).</p>
-<h3><a name="form-template-method"class="anchor" href="#form-template-method"><span class="header-link"></span></a>Form Template Method</h3>
+<h3><a name="form-template-method" class="anchor" href="#form-template-method"><span class="header-link"></span></a>Form Template Method</h3>
 <p>This is one of the quintessential refactoring techniques. It involves shifting duplicate code from within multiple methods into a super class. Then create sub classes with identical interfaces but the actual implementation can be unique to the sub class.</p>
 <p>This could be implemented using standard Interfaces (as found in PHP), so you would just define empty methods the Interface should enforce but don&#39;t implement any logic or content within them.</p>
 <p>But if you find yourself using the Pull Up Method technique (which also reduces any duplication in pre-existing code) then you&#39;ll need an Abstract class instead, as you would have pulled up an actual implementation into the super class. </p>
@@ -248,7 +248,7 @@
 <li>Use Pull Up Method to place duplicate code into the super class</li>
 <li>Use Rename Method to ensure sub classes have identical signatures to match to the super class interface</li>
 </ul>
-<h3><a name="extract-surrounding-method"class="anchor" href="#extract-surrounding-method"><span class="header-link"></span></a>Extract Surrounding Method</h3>
+<h3><a name="extract-surrounding-method" class="anchor" href="#extract-surrounding-method"><span class="header-link"></span></a>Extract Surrounding Method</h3>
 <p>This is actually a common pattern in Ruby known as the &#39;wrap around&#39; method. </p>
 <p>If you find you have different methods which contain almost identical code but with a slight variant in the middle, then pull up the duplicated code into a single method and pass a code block to the newly created method which it yields to in order to execute the unique behaviour...</p>
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">do_something</span>
@@ -274,11 +274,11 @@
 </code></pre>
 <p>...although in the latest versions of Node (as of November 2013) Generators are implemented and would allow you to <code>yield</code>.</p>
 <p>Note: this technique is similar to the Form Template Method but is different in that you can use it without forcing an inheritance model on your code.</p>
-<h3><a name="self-encapsulate-field"class="anchor" href="#self-encapsulate-field"><span class="header-link"></span></a>Self Encapsulate Field</h3>
+<h3><a name="self-encapsulate-field" class="anchor" href="#self-encapsulate-field"><span class="header-link"></span></a>Self Encapsulate Field</h3>
 <p>When inheriting properties from a parent class/object then it can be more flexible if the parent class only allows access to the properties from within a getter/setter.</p>
 <p>The motivation for this technique is that a sub class can override and modify the behaviour of the getter/setter without affecting the parent class&#39; implementation. Which is similar to how the Decorator design pattern works (e.g. modifying the behaviour without affecting the original).</p>
 <p>This technique should only be used once you find the coupling between objects is becoming a problem. Otherwise direct access to properties and instance variables should be acceptable initially.</p>
-<h3><a name="introduce-named-parameter"class="anchor" href="#introduce-named-parameter"><span class="header-link"></span></a>Introduce Named Parameter</h3>
+<h3><a name="introduce-named-parameter" class="anchor" href="#introduce-named-parameter"><span class="header-link"></span></a>Introduce Named Parameter</h3>
 <p>When method arguments are unclear then convert them into named parameters so they become clearer (and easier to remember). </p>
 <p>Although Ruby supports named parameters, neither PHP or JavaScript do, so for PHP you can pass an associated Array and with JavaScript you can pass an Object/Hash.</p>
 <p>Note: ECMAScript 6.0 (the latest JavaScript specification - which is still being worked on as of Nov 2013) implements named parameters.</p>
@@ -290,7 +290,7 @@
 <pre><code class="lang-js"><div class="highlight"><pre><span class="nx">turnOnTheTV</span><span class="p">({</span> <span class="nx">channel</span><span class="o">:</span> <span class="mi">101</span><span class="p">,</span> <span class="nx">volume</span><span class="o">:</span> <span class="mi">10</span> <span class="p">});</span>
 </pre></div>
 </code></pre>
-<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
 <p>OK, so there are still many different refactoring techniques that I&#39;ve not included. But hopefully you&#39;ve found this quick reference useful so far.</p>
 <p>Most of these techniques I do automatically now (as I&#39;ve committed them to muscle memory). But sometimes when I&#39;m carrying out a refactoring I get confused on the best technique I should use and so I&#39;ll refer to this reference to help me find an appropriate solution.</p>
 </div>
@@ -309,7 +309,7 @@
   <span class="post-date">2013 &#183; 10 &#183; 22</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 8mins</em></p>
 <ul>
 <li>Introduction<ul>
@@ -337,27 +337,27 @@
 </li>
 <li>Conclusion</li>
 </ul>
-<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
 <p>Model, View, Controller (MVC). This is a pretty standard architectural pattern and has been in use when developing software since the early 1970&#39;s.</p>
 <p>The basic principle of the pattern is to separate the different areas of logic from your application into distinct compartments.</p>
-<h3><a name="model"class="anchor" href="#model"><span class="header-link"></span></a>Model</h3>
+<h3><a name="model" class="anchor" href="#model"><span class="header-link"></span></a>Model</h3>
 <p>The model holds your business data. Typically this will be data that is pulled in from a database or external data service of some kind.</p>
-<h3><a name="view"class="anchor" href="#view"><span class="header-link"></span></a>View</h3>
+<h3><a name="view" class="anchor" href="#view"><span class="header-link"></span></a>View</h3>
 <p>The view is your user interface. This is what the client will interact with when using your application.</p>
-<h3><a name="controller"class="anchor" href="#controller"><span class="header-link"></span></a>Controller</h3>
+<h3><a name="controller" class="anchor" href="#controller"><span class="header-link"></span></a>Controller</h3>
 <p>The controller is the boss. He sits at the top and delegates responsibilities to either the view or the model.</p>
-<h2><a name="mixed-definitions"class="anchor" href="#mixed-definitions"><span class="header-link"></span></a>Mixed definitions</h2>
+<h2><a name="mixed-definitions" class="anchor" href="#mixed-definitions"><span class="header-link"></span></a>Mixed definitions</h2>
 <p>There seems to be a dispute in the dev community regarding how the responsibilities should be divided.</p>
 <p>Some feel a &#39;fat controller&#39; principle is best (where by the controller tells the model not only <em>when</em> but <em>where</em> and <em>how</em> it should get its data).</p>
 <p>My understanding of the pattern is that it was designed so that the Controller stays &#39;skinny&#39;. It may be the boss, but like most good bosses it doesn&#39;t try and stay in control. It knows the best team member for the job at hand and delegates accordingly.</p>
 <p>This is also good code design because the Controller doesn&#39;t have too much <em>context</em> (i.e. it doesn&#39;t know everything, which means it&#39;ll be easier to maintain and scale).</p>
-<h3><a name="god-controller"class="anchor" href="#god-controller"><span class="header-link"></span></a>God Controller</h3>
+<h3><a name="god-controller" class="anchor" href="#god-controller"><span class="header-link"></span></a>God Controller</h3>
 <p>There are a few ways we can implement an MVC pattern, one is known as the &#39;God Controller&#39;. </p>
 <p>This is where a single Controller exists and it oversees everything no matter what was requested by the client. </p>
 <p>For example, the single Controller would be passed the request from the client (usually handled by a custom routing application, and most frameworks will provide their own).</p>
 <p>The Controller would determine what type of request was made (if the request was for a &#39;contact&#39; page then it&#39;ll make a request for the Contact model, or if the request was for the &#39;about&#39; page then it&#39;ll make a request for the About model).</p>
 <p>Once it knows the type of request it&#39;ll proceed to get the relevant model data and assign it to some View variables and render the required View.</p>
-<h3><a name="problems"class="anchor" href="#problems"><span class="header-link"></span></a>Problems</h3>
+<h3><a name="problems" class="anchor" href="#problems"><span class="header-link"></span></a>Problems</h3>
 <p>Now there are two problems with this implementation:</p>
 <ol>
 <li>maintainability</li>
@@ -365,7 +365,7 @@
 </ol>
 <p>As mentioned before, this comes down to bad code design. The &#39;God Controller&#39; knows too much and tries to do too much. Once you start getting above a few different types of requests you&#39;ll start to understand what a mess the code can become by having multiple branches for different routing scenarios.</p>
 <p>I work as an engineer for the BBC News team in London and we had suffered from this exact set-up (hence the lessons the team has learnt and improved upon are the reason why I&#39;m able to write this post for you now).</p>
-<h3><a name="skinny-controller"class="anchor" href="#skinny-controller"><span class="header-link"></span></a>Skinny Controller</h3>
+<h3><a name="skinny-controller" class="anchor" href="#skinny-controller"><span class="header-link"></span></a>Skinny Controller</h3>
 <p>There is another approach we can take which is known as the &#39;skinny controller&#39; approach.</p>
 <p>The way it works is that a request will come into the application and will get passed to a page specific Controller.</p>
 <p>The page specific Controller will call the relevant Model and will assign the returned data to a few View variables.</p>
@@ -373,8 +373,8 @@
 <p>As you can see, this isn&#39;t that different from the &#39;God Controller&#39; with the exception that the Routing part of the application now will have extra logic which determines which specific Controller should be loaded. This is a better situation to be in because you&#39;re making your code base both more maintainable and scalable.</p>
 <p>Note: as I mentioned in the previous section, BBC News had a sort of &#39;God Controller&#39; issue and our first step to resolving the problem was to take a similar approach as described above (i.e. to start creating page specific Controllers). That was a good first step. </p>
 <p>The next step from here was to separate out our logic even further by implementing Presenters, and it was our tech lead at BBC News (<a href="http://twitter.com/jcleveley">John Cleveley</a>) who made that decision which resulted in a much more efficient, maintainable and scalable code base.</p>
-<h2><a name="presenters"class="anchor" href="#presenters"><span class="header-link"></span></a>Presenters</h2>
-<h3><a name="what-problem-are-presenters-trying-to-solve-"class="anchor" href="#what-problem-are-presenters-trying-to-solve-"><span class="header-link"></span></a>What problem are Presenters trying to solve?</h3>
+<h2><a name="presenters" class="anchor" href="#presenters"><span class="header-link"></span></a>Presenters</h2>
+<h3><a name="what-problem-are-presenters-trying-to-solve" class="anchor" href="#what-problem-are-presenters-trying-to-solve"><span class="header-link"></span></a>What problem are Presenters trying to solve?</h3>
 <p>Let&#39;s imagine we&#39;ve gone for the &#39;Skinny Controller&#39; approach. There are still some inherent issues… </p>
 <p>First of all, our Controller can still have too much context and be handling more information than it should. </p>
 <p>But also, and more importantly, you may find there is still a lot of duplication of code across your Controllers.</p>
@@ -383,12 +383,12 @@
 <p>For example the navigation menu on a page could be considered a &#39;component&#39;. Also, the navigation menu component is likely going to need to appear on every single page of the application.</p>
 <p>So, if you&#39;re splitting up your logic into page specific Controllers then it&#39;s possible that you&#39;re still repeating code across the Controllers to handle the loading of re-occurring components such as the navigation (e.g. pulling its data from a navigation Model and setting View variables etc).</p>
 <p>Now there are ways that this code repetition can be avoided, and one such way is to use the concept of Presenters.</p>
-<h3><a name="how-do-they-work-"class="anchor" href="#how-do-they-work-"><span class="header-link"></span></a>How do they work?</h3>
+<h3><a name="how-do-they-work" class="anchor" href="#how-do-they-work"><span class="header-link"></span></a>How do they work?</h3>
 <p>Presenters (like everything in software engineering) can be implemented in many different ways. </p>
 <p>For example, at BBC News we initially were manually creating new Presenter instances within our page Controllers. But the team here are quite clever chaps (especially <a href="http://twitter.com/kenturamon">Robert Kenny</a> and <a href="http://twitter.com/sthulb">Simon Thulbourn</a>) and they realised that this process could be greatly improved by using configuration files instead (specifically <a href="http://yaml.org/">YAML</a>). As we have multiple teams working on the BBC News code base and in multiple languages, using configuration files is a much easier and maintainable solution.</p>
 <p>I&#39;m not going to go into the configuration set-up we use at BBC News. Instead I&#39;ll focus on the basic principles of how Presenters work, which is quite simply a case of moving the logic (getting component specific Model data and assigning it to to component specific variables) into separate files called Presenters which you can instantiate within your controller.</p>
-<h2><a name="code-example"class="anchor" href="#code-example"><span class="header-link"></span></a>Code Example</h2>
-<h3><a name="controller"class="anchor" href="#controller"><span class="header-link"></span></a>Controller</h3>
+<h2><a name="code-example" class="anchor" href="#code-example"><span class="header-link"></span></a>Code Example</h2>
+<h3><a name="controller" class="anchor" href="#controller"><span class="header-link"></span></a>Controller</h3>
 <p>Here is a basic example in Ruby…</p>
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;app/presenters/a&#39;</span>
 <span class="nb">require</span> <span class="s1">&#39;app/presenters/b&#39;</span>
@@ -406,7 +406,7 @@
 </code></pre>
 <p>…in this example we have an &#39;About&#39; page which is made up of two components <code>a</code> and <code>b</code>. As you can see we <code>require</code> the presenters which handle those two components and within our Controller we instantiate the Presenters.</p>
 <p>Notice that&#39;s all we do. Each Presenter encapsulates the logic needed to prepare the data to be passed to the <code>:about</code> view template.</p>
-<h3><a name="view"class="anchor" href="#view"><span class="header-link"></span></a>View</h3>
+<h3><a name="view" class="anchor" href="#view"><span class="header-link"></span></a>View</h3>
 <p>Before I show you the Presenter code itself, I&#39;ll show you the View template file… </p>
 <pre><code class="lang-erb"><div class="highlight"><pre><span class="x">&lt;h1&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@title</span> <span class="cp">%&gt;</span><span class="x">&lt;/h1&gt;</span>
 
@@ -423,7 +423,7 @@
 <p> We literally just check to see if the component has been initialised (in this case we created a <code>run</code> property we set to <code>true</code> when the component&#39;s Presenter is first initialised).</p>
 <p>We then render the View for the component and pass through the variables that were set-up from within the Presenter.</p>
 <p>Now I can also open up my <code>:home</code> View file and add in the <code>a</code> component there as well just as easily. It would be even easier if I didn&#39;t have to manually add the <code>a</code> component to the <code>:home</code> View file but that&#39;s where running from configuration files like we do at BBC News would come in handy (but that would have been too complicated an implementation for the sake of such a basic example as required for this post).</p>
-<h3><a name="presenter"class="anchor" href="#presenter"><span class="header-link"></span></a>Presenter</h3>
+<h3><a name="presenter" class="anchor" href="#presenter"><span class="header-link"></span></a>Presenter</h3>
 <p>Now let&#39;s take a look at one of our Presenters, in this case the Presenter for our <code>b</code> component… </p>
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;app/presenters/base&#39;</span>
 <span class="nb">require</span> <span class="s1">&#39;app/models/b&#39;</span>
@@ -456,7 +456,7 @@
 </pre></div>
 </code></pre>
 <p>…it&#39;s just a module namespace with a base class that has a single method <code>prepare_view_data</code> which dynamically generates instance variables based on the data we passed through from the inheriting Presenter class and which then are usable within the View.</p>
-<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
 <p>That&#39;s all there is to it as far as understanding the Presenter pattern. It&#39;s a nice clean solution for componentising your different page features and keeping your code more easily maintainable.</p>
 <p>I&#39;ve created a repo on GitHub called <a href="https://github.com/Integralist/MVCP">MVCP</a> which is written in <a href="https://www.ruby-lang.org/">Ruby</a> and uses the <a href="http://www.sinatrarb.com/">Sinatra</a> web framework. Note: I had some help from my colleague <a href="http://twitter.com/sthulb">Simon</a> in cleaning up and refactoring some of the code (it may only have been minor changes but as with all good refactorings it made a massive difference to the quality of the code, so thanks to him for helping out).</p>
 <p>If you have any questions then feel free to contact me either here on <a href="http://twitter.com/integralist">twitter</a> and let me know your thoughts.</p>

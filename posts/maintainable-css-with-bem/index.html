@@ -45,7 +45,7 @@
   <span class="post-date">2012 &#183; 12 &#183; 9</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 7mins</em></p>
 <ul>
 <li>Introduction</li>
@@ -54,17 +54,17 @@
 <li>Why BEM over the others?</li>
 <li>Conclusion</li>
 </ul>
-<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
 <p>This is a super quick post to introduce you to a method of writing more maintainable CSS by using what&#39;s called &quot;<a href="http://bem.info">BEM</a>&quot;.</p>
 <p>Update: <a href="http://twitter.com/necolas">@necolas</a> made a comment worth noting, that I&#39;m using a modified version of the BEM naming conventions (BEM is a total framework that goes beyond just naming of classes and writing maintainable CSS). So I thought it best to make note of that here so as to not cause any confusion.</p>
-<h2><a name="bem-block-element-modifier"class="anchor" href="#bem-block-element-modifier"><span class="header-link"></span></a>BEM: Block, Element, Modifier</h2>
+<h2><a name="bem-block-element-modifier" class="anchor" href="#bem-block-element-modifier"><span class="header-link"></span></a>BEM: Block, Element, Modifier</h2>
 <p>BEM stands for &quot;Block, Element, Modifier&quot; and is a simple but effective way to group together different components/widgets (as shown by the following visual aid).</p>
 <div class="delayed-image-load" data-src="/images/generated/BEM-1024.png" data-width="1024"></div>
 
 <p>Within each defined &#39;Block&#39; you can have multiple &#39;elements&#39; that make up the object, and for each element (depending on where it appears within the block) you might need to &#39;modify&#39; the state of the element.</p>
 <p>The principles are similar to other methods of structuring CSS (<a href="https://github.com/stubbornella/oocss/wiki">OOCSS</a>/<a href="http://smacss.com">SMACSS</a>) but they are greatly simplified in comparison without giving up any of the architectural benefits.</p>
 <p>The best way to understand BEM is to see an example of how it&#39;s used (see next section). But if you want the full details of its history and some more detailed/visual break down of the concepts then please see the <a href="http://bem.info">BEM</a> website.</p>
-<h2><a name="example"class="anchor" href="#example"><span class="header-link"></span></a>Example</h2>
+<h2><a name="example" class="anchor" href="#example"><span class="header-link"></span></a>Example</h2>
 <p>Below we have a money calculator widget. You enter an amount of money (e.g. £2.12p) and when you press on &#39;calculate&#39; it&#39;ll return to you a list of coins required to make up the amount specified.</p>
 <p>The HTML is very simple...</p>
 <pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;section&gt;</span>
@@ -138,7 +138,7 @@
 <span class="p">}</span>
 </pre></div>
 </code></pre>
-<h2><a name="why-bem-over-the-others-"class="anchor" href="#why-bem-over-the-others-"><span class="header-link"></span></a>Why BEM over the others?</h2>
+<h2><a name="why-bem-over-the-others" class="anchor" href="#why-bem-over-the-others"><span class="header-link"></span></a>Why BEM over the others?</h2>
 <p>I&#39;ve tried a lot of different ways of writing CSS over the years. It went something like this…</p>
 <ul>
 <li>No structure, everything in one file loaded on every page of a site.</li>
@@ -153,7 +153,7 @@
 <p>This might not be the case for some people, but for me these are all instances of the old adage: &quot;<em>don&#39;t make me think</em>&quot;. If I have to think too hard about how something works, or where I need to find the code for something then (in my opinion) that methodology has failed.</p>
 <p>BEM succeeds because it provides a good object oriented structure with a familiar terminology and is simple enough to not get in your way.</p>
 <p>But like with any tool, it can be misused. In the end it comes down to the overall skill and understanding of the developer.</p>
-<h3><a name="simplicity"class="anchor" href="#simplicity"><span class="header-link"></span></a>Simplicity</h3>
+<h3><a name="simplicity" class="anchor" href="#simplicity"><span class="header-link"></span></a>Simplicity</h3>
 <p>As I said before, the reason I find BEM a better option is the simplicity. </p>
 <p>Even down to the terminology used is simplified compared to other methodologies. For example, depending on who you talk to about structured CSS you may hear the words: </p>
 <ul>
@@ -174,9 +174,9 @@
 <blockquote>
 <p>I want to modify this element, how should I do that?</p>
 </blockquote>
-<h3><a name="but-still-structured"class="anchor" href="#but-still-structured"><span class="header-link"></span></a>But still structured</h3>
+<h3><a name="but-still-structured" class="anchor" href="#but-still-structured"><span class="header-link"></span></a>But still structured</h3>
 <p>But with this simplified terminology/structure it gives us all the tools we need to write maintainable and easily understandable code. BEM easily scales with the size of a project.</p>
-<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
 <p>I know I&#39;ve said it before about SMACSS (&quot;<em>wow, I think this is it!</em>&quot;) but even when I first started using SMACSS I still had niggling feelings about &quot;<em>hmm, it&#39;s a little complicated getting this all in place, but it seems to work well</em>&quot;. With BEM I&#39;ve not had any of those concerns. The only initial concern I had was with the look of it. I didn&#39;t like the double underscores or the double dashes. But now I actually like them!</p>
 <p>If you want to see more good usage of BEM then I&#39;ll refer you to a small CSS abstraction library called <a href="https://github.com/csswizardry/inuit.css">inuit.css</a> by <a href="http://csswizardry.com/">Harry Roberts</a> as well as <a href="https://github.com/Integralist/integralist.github.com">my own website&#39;s source code</a></p>
 </div>

@@ -47,7 +47,7 @@
 
 <div class="post-body"><p>I thought I would get down in a blog post the different <a href="http://git-scm.com">Git</a> commands and tips that I find really useful, because every now and then it seems I need to refer back to these notes (which up until this point have been in a txt file in my Dropbox) if I&#39;ve not used a particular command in a while. </p>
 <p>Hopefully you&#39;ll find them useful too.</p>
-<h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 13mins</em></p>
 <ol>
 <li><a href="#1">Show where Git is installed</a></li>
@@ -81,20 +81,20 @@
 <li><a href="#29">Modifying your Git history with <code>rebase</code></a></li>
 </ol>
 <p><div id="1"></div></p>
-<h2><a name="show-where-git-is-installed"class="anchor" href="#show-where-git-is-installed"><span class="header-link"></span></a>Show where Git is installed</h2>
+<h2><a name="show-where-git-is-installed" class="anchor" href="#show-where-git-is-installed"><span class="header-link"></span></a>Show where Git is installed</h2>
 <p><code>which git</code></p>
 <p><div id="2"></div></p>
-<h2><a name="show-the-git-version-installed"class="anchor" href="#show-the-git-version-installed"><span class="header-link"></span></a>Show the Git version installed</h2>
+<h2><a name="show-the-git-version-installed" class="anchor" href="#show-the-git-version-installed"><span class="header-link"></span></a>Show the Git version installed</h2>
 <p><code>git version</code></p>
 <p><div id="3"></div></p>
-<h2><a name="update-your-global-user-details"class="anchor" href="#update-your-global-user-details"><span class="header-link"></span></a>Update your global user details</h2>
+<h2><a name="update-your-global-user-details" class="anchor" href="#update-your-global-user-details"><span class="header-link"></span></a>Update your global user details</h2>
 <pre><code class="lang-sh"><div class="highlight"><pre>git config --global user.name <span class="s2">&quot;Your Name&quot;</span>
 git config --global user.email <span class="s2">&quot;Your Email&quot;</span>
 git config --global apply.whitespace nowarn <span class="c"># ignore white space changes!</span>
 </pre></div>
 </code></pre>
 <p><div id="4"></div></p>
-<h2><a name="set-up-a-global-ignore-file"class="anchor" href="#set-up-a-global-ignore-file"><span class="header-link"></span></a>Set-up a global ignore file</h2>
+<h2><a name="set-up-a-global-ignore-file" class="anchor" href="#set-up-a-global-ignore-file"><span class="header-link"></span></a>Set-up a global ignore file</h2>
 <p>First create the global ignore file…</p>
 <p><code>touch ~/.gitignore_global</code></p>
 <p>Then add the following content to it (<em>this is a standard ignore file but I&#39;ve added some Sass CSS pre-processor files to it</em>)…</p>
@@ -150,10 +150,10 @@ Thumbs.db
 <p>…or once the <code>.gitignore_global</code> file is created you can just tell git by using this short-hand command…</p>
 <p><code>git config --global core.excludesfile ~/.gitignore_global</code></p>
 <p><div id="5"></div></p>
-<h2><a name="adding-all-files-inc-those-marked-as-deleted-"class="anchor" href="#adding-all-files-inc-those-marked-as-deleted-"><span class="header-link"></span></a>Adding all files (inc. those marked as deleted)</h2>
+<h2><a name="adding-all-files-inc-those-marked-as-deleted" class="anchor" href="#adding-all-files-inc-those-marked-as-deleted"><span class="header-link"></span></a>Adding all files (inc. those marked as deleted)</h2>
 <p><code>git add -A</code></p>
 <p><div id="6"></div></p>
-<h2><a name="writing-a-long-commit"class="anchor" href="#writing-a-long-commit"><span class="header-link"></span></a>Writing a long commit</h2>
+<h2><a name="writing-a-long-commit" class="anchor" href="#writing-a-long-commit"><span class="header-link"></span></a>Writing a long commit</h2>
 <p>A short git commit message would look like this…</p>
 <p><code>git commit -m &quot;My short commit message&quot;</code></p>
 <p>…but you should really be writing longer more descriptive commit messages which you do like so:</p>
@@ -171,13 +171,13 @@ Thumbs.db
 <li>Press <code>:wq</code> (the colon means you can execute more commands, w = write, q = quit)</li>
 </ul>
 <p><div id="7"></div></p>
-<h2><a name="viewing-file-changes-while-writing-your-commit"class="anchor" href="#viewing-file-changes-while-writing-your-commit"><span class="header-link"></span></a>Viewing file changes while writing your commit</h2>
+<h2><a name="viewing-file-changes-while-writing-your-commit" class="anchor" href="#viewing-file-changes-while-writing-your-commit"><span class="header-link"></span></a>Viewing file changes while writing your commit</h2>
 <p><code>git commit -v</code></p>
 <p><div id="8"></div></p>
-<h2><a name="viewing-what-files-have-been-committed"class="anchor" href="#viewing-what-files-have-been-committed"><span class="header-link"></span></a>Viewing what files have been committed</h2>
+<h2><a name="viewing-what-files-have-been-committed" class="anchor" href="#viewing-what-files-have-been-committed"><span class="header-link"></span></a>Viewing what files have been committed</h2>
 <p><code>git ls-files</code></p>
 <p><div id="9"></div></p>
-<h2><a name="improving-git-log-with-git-lg-"class="anchor" href="#improving-git-log-with-git-lg-"><span class="header-link"></span></a>Improving <code>git log</code> with <code>git lg</code></h2>
+<h2><a name="improving-git-log-with-git-lg" class="anchor" href="#improving-git-log-with-git-lg"><span class="header-link"></span></a>Improving <code>git log</code> with <code>git lg</code></h2>
 <p>To get a better looking <code>git log</code> we need to write an alias called <code>git lg</code> that is just made up of standard Git commands/flags but when put together (along with specific colour settings) means we can have a short git command that provides us lots of useful information.</p>
 <p>What we need to do is open the <code>~/.gitconfig</code> file and then add the following content… </p>
 <pre><code class="lang-sh"><div class="highlight"><pre><span class="o">[</span><span class="nb">alias</span><span class="o">]</span>
@@ -185,7 +185,7 @@ Thumbs.db
 </pre></div>
 </code></pre>
 <p><div id="10"></div></p>
-<h2><a name="shorter-git-status-"class="anchor" href="#shorter-git-status-"><span class="header-link"></span></a>Shorter <code>git status</code></h2>
+<h2><a name="shorter-git-status" class="anchor" href="#shorter-git-status"><span class="header-link"></span></a>Shorter <code>git status</code></h2>
 <p>As per the above tip, we can create two extra alias&#39; which give us a shorter command to type (I don&#39;t know about you but when typing really fast I seem to always misspell the word &#39;status&#39;) and doesn&#39;t show us all the unnecessary crap that someone new to Git needs to see.</p>
 <p>What we need to do is open the <code>~/.gitconfig</code> file and then add the following content… </p>
 <pre><code class="lang-sh"><div class="highlight"><pre><span class="o">[</span><span class="nb">alias</span><span class="o">]</span> 
@@ -196,14 +196,14 @@ Thumbs.db
 <p>…you don&#39;t need to specify <code>[alias]</code> if it&#39;s already in the file (see previous tip).</p>
 <p>Now typing <code>git st</code> will be the same as <code>git status</code>, and typing <code>git sts</code> will be the same as <code>git status -sb</code>.</p>
 <p><div id="11"></div></p>
-<h2><a name="finding-a-commit-that-includes-a-specific-phrase"class="anchor" href="#finding-a-commit-that-includes-a-specific-phrase"><span class="header-link"></span></a>Finding a commit that includes a specific phrase</h2>
+<h2><a name="finding-a-commit-that-includes-a-specific-phrase" class="anchor" href="#finding-a-commit-that-includes-a-specific-phrase"><span class="header-link"></span></a>Finding a commit that includes a specific phrase</h2>
 <p><code>git log --grep=&lt;your-phrase-here&gt;</code></p>
 <p>For example, <code>git log --grep=CSS</code> will display all commits that contain the word &#39;CSS&#39; in the message.</p>
 <p><div id="12"></div></p>
-<h2><a name="only-merging-the-files-you-want"class="anchor" href="#only-merging-the-files-you-want"><span class="header-link"></span></a>Only merging the files you want</h2>
+<h2><a name="only-merging-the-files-you-want" class="anchor" href="#only-merging-the-files-you-want"><span class="header-link"></span></a>Only merging the files you want</h2>
 <p><code>git checkout &lt;branch-name&gt; &lt;file1&gt; &lt;file2&gt; &lt;file3&gt;</code></p>
 <p><div id="13"></div></p>
-<h2><a name="stashing-changes-you-re-not-ready-to-commit"class="anchor" href="#stashing-changes-you-re-not-ready-to-commit"><span class="header-link"></span></a>Stashing changes you&#39;re not ready to commit</h2>
+<h2><a name="stashing-changes-youre-not-ready-to-commit" class="anchor" href="#stashing-changes-youre-not-ready-to-commit"><span class="header-link"></span></a>Stashing changes you&#39;re not ready to commit</h2>
 <p>If you make changes to your branch and then want to quickly change branches without first having to commit your current &#39;dirty state&#39; then run:</p>
 <p><code>git stash</code></p>
 <p>To apply a stashed state (git assumes the most recent stashed state if none specified) use: </p>
@@ -229,11 +229,11 @@ Thumbs.db
 <p><code>git stash --keep-index</code></p>
 <p>...finally you can then <code>git reset</code> the files you originally added (if you don&#39;t plan on committing them yet).</p>
 <p><div id="14"></div></p>
-<h2><a name="revert-all-changes-back-to-last-commit"class="anchor" href="#revert-all-changes-back-to-last-commit"><span class="header-link"></span></a>Revert all changes back to last commit</h2>
+<h2><a name="revert-all-changes-back-to-last-commit" class="anchor" href="#revert-all-changes-back-to-last-commit"><span class="header-link"></span></a>Revert all changes back to last commit</h2>
 <p><code>git reset --hard</code></p>
 <p>Note: you can do a &#39;soft&#39; reset <code>git reset --soft &lt;hash&gt;</code>. The difference between <code>--hard</code> and <code>--soft</code> is with <code>--hard</code> the specified commit hash&#39;s files are moved into the working directory and the staging area (as if there were no changes since that specified commit). But using <code>--soft</code> will leave whatever changes you&#39;ve made in your working directory/staging area but will restore the specified commit you&#39;ve selected.</p>
 <p><div id="15"></div></p>
-<h2><a name="unstaging-files"class="anchor" href="#unstaging-files"><span class="header-link"></span></a>Unstaging files</h2>
+<h2><a name="unstaging-files" class="anchor" href="#unstaging-files"><span class="header-link"></span></a>Unstaging files</h2>
 <p>To unstage files we&#39;ve added to the staging area we need to run the command <code>reset HEAD</code> but that&#39;s a bit ugly and awkward to remember. What would be easier is if we could just say <code>git unstage</code>, so let&#39;s create an alias to help make that easier!</p>
 <p>Open up the file <code>~/.gitconfig</code> and then add the following content… </p>
 <pre><code class="lang-sh"><div class="highlight"><pre><span class="o">[</span><span class="nb">alias</span><span class="o">]</span>
@@ -246,23 +246,23 @@ Thumbs.db
 <p>If you&#39;ve staged files before any commits have been set (e.g. right at the start of your project) then you&#39;ll find the above wont work because technically there are no commits to revert back to. So instead you&#39;ll need to remove the files like so…</p>
 <p><code>git rm --cached &lt;file&gt;</code></p>
 <p><div id="16"></div></p>
-<h2><a name="untrack-a-file-without-deleting-it"class="anchor" href="#untrack-a-file-without-deleting-it"><span class="header-link"></span></a>Untrack a file without deleting it</h2>
+<h2><a name="untrack-a-file-without-deleting-it" class="anchor" href="#untrack-a-file-without-deleting-it"><span class="header-link"></span></a>Untrack a file without deleting it</h2>
 <p>If you want to have Git stop tracking a file it&#39;s already tracking then you would think to run:</p>
 <p><code>git rm &lt;file&gt;</code></p>
 <p>…but the problem with that command is that Git will also delete the file altogether!? Something we usually don&#39;t want to have happen.</p>
 <p>The work around to that issue is to use the <code>--cached</code> flag:</p>
 <p><code>git rm --cached &lt;file&gt;</code></p>
 <p><div id="17"></div></p>
-<h2><a name="amend-your-last-commit"class="anchor" href="#amend-your-last-commit"><span class="header-link"></span></a>Amend your last commit</h2>
+<h2><a name="amend-your-last-commit" class="anchor" href="#amend-your-last-commit"><span class="header-link"></span></a>Amend your last commit</h2>
 <p>If you make a commit and then realise that you want to amend the commit message then don&#39;t make any changes to the files and just run…</p>
 <p><code>git commit --amend</code></p>
 <p>…which will open up the default editor for handling commits (usually Vim) and will let you amend the commit message.</p>
 <p>If on the other hand you decide that after you&#39;ve written a commit that you want to amend the commit by adding some more files to it then just add the files as normal and run the same command as above and when Vim opens to let you edit the commit message you&#39;ll see the extra files you added as part of that commit.</p>
 <p><div id="18"></div></p>
-<h2><a name="show-the-files-within-a-commit"class="anchor" href="#show-the-files-within-a-commit"><span class="header-link"></span></a>Show the files within a commit</h2>
+<h2><a name="show-the-files-within-a-commit" class="anchor" href="#show-the-files-within-a-commit"><span class="header-link"></span></a>Show the files within a commit</h2>
 <p><code>git show &lt;hash&gt; --name-only</code></p>
 <p><div id="19"></div></p>
-<h2><a name="see-differences-between-files"class="anchor" href="#see-differences-between-files"><span class="header-link"></span></a>See differences between files</h2>
+<h2><a name="see-differences-between-files" class="anchor" href="#see-differences-between-files"><span class="header-link"></span></a>See differences between files</h2>
 <p>To see the difference between the current working directory and the last commit:  </p>
 <p><code>git diff</code></p>
 <p>If your files have been added to the staging area already then you can use the <code>--cached</code> flag:  </p>
@@ -274,36 +274,36 @@ Thumbs.db
 <p>To see the difference between branches:</p>
 <p><code>git diff &lt;branch-1&gt;..&lt;branch-2&gt;</code></p>
 <p><div id="20"></div></p>
-<h2><a name="see-changes-between-two-commits"class="anchor" href="#see-changes-between-two-commits"><span class="header-link"></span></a>See changes between two commits</h2>
+<h2><a name="see-changes-between-two-commits" class="anchor" href="#see-changes-between-two-commits"><span class="header-link"></span></a>See changes between two commits</h2>
 <p><code>git diff &lt;more-recent-hash&gt; &lt;older-hash&gt;</code></p>
 <p><div id="21"></div></p>
-<h2><a name="creating-a-branch-and-moving-to-it-at-the-same-time"class="anchor" href="#creating-a-branch-and-moving-to-it-at-the-same-time"><span class="header-link"></span></a>Creating a branch and moving to it at the same time</h2>
+<h2><a name="creating-a-branch-and-moving-to-it-at-the-same-time" class="anchor" href="#creating-a-branch-and-moving-to-it-at-the-same-time"><span class="header-link"></span></a>Creating a branch and moving to it at the same time</h2>
 <p><code>git checkout -b &lt;branch-name&gt;</code></p>
 <p><div id="22"></div></p>
-<h2><a name="deleting-a-branch"class="anchor" href="#deleting-a-branch"><span class="header-link"></span></a>Deleting a branch</h2>
+<h2><a name="deleting-a-branch" class="anchor" href="#deleting-a-branch"><span class="header-link"></span></a>Deleting a branch</h2>
 <p><code>git branch -D &lt;branch-name&gt;</code></p>
 <p><div id="23"></div></p>
-<h2><a name="viewing-all-branches-of-a-remote"class="anchor" href="#viewing-all-branches-of-a-remote"><span class="header-link"></span></a>Viewing all branches of a remote</h2>
+<h2><a name="viewing-all-branches-of-a-remote" class="anchor" href="#viewing-all-branches-of-a-remote"><span class="header-link"></span></a>Viewing all branches of a remote</h2>
 <p><code>git branch -a</code></p>
 <p><div id="24"></div></p>
-<h2><a name="checkout-a-remote-branch"class="anchor" href="#checkout-a-remote-branch"><span class="header-link"></span></a>Checkout a remote branch</h2>
+<h2><a name="checkout-a-remote-branch" class="anchor" href="#checkout-a-remote-branch"><span class="header-link"></span></a>Checkout a remote branch</h2>
 <p>What normally happens is this: you clone down a repository from GitHub and this repo will have multiple branches, but if you run <code>git branch</code> locally all you see is the <code>master</code> branch.</p>
 <p>If you run <code>git branch -a</code> you can see all the branches for that remote repository but you just can&#39;t access them or check them out?</p>
 <p>So if you want to access the other branches within that repo then run the following command:</p>
 <p><code>git checkout -b &lt;new-local-branch-name&gt; origin/&lt;remote-branch-name&gt;</code></p>
 <p>…this will create a new branch named whatever you called it and contains the content of the remote branch you specified.</p>
 <p><div id="25"></div></p>
-<h2><a name="remove-a-remote"class="anchor" href="#remove-a-remote"><span class="header-link"></span></a>Remove a remote</h2>
+<h2><a name="remove-a-remote" class="anchor" href="#remove-a-remote"><span class="header-link"></span></a>Remove a remote</h2>
 <p><code>git remove rm &lt;remote&gt;</code></p>
 <p><div id="26"></div></p>
-<h2><a name="revert-a-specific-file-back-to-an-earlier-version"class="anchor" href="#revert-a-specific-file-back-to-an-earlier-version"><span class="header-link"></span></a>Revert a specific file back to an earlier version</h2>
+<h2><a name="revert-a-specific-file-back-to-an-earlier-version" class="anchor" href="#revert-a-specific-file-back-to-an-earlier-version"><span class="header-link"></span></a>Revert a specific file back to an earlier version</h2>
 <p><code>git checkout &lt;hash|tag|HEAD&gt; &lt;file-name&gt;</code></p>
 <p>Note if you&#39;ve staged your file and then started making changes to the file which you no longer want applied you can use: <code>git checkout -- &lt;file-name&gt;</code> to revert to the version of the file in the staging area.</p>
 <p><div id="27"></div></p>
-<h2><a name="viewing-all-commits-for-a-file-and-who-made-those-changes"class="anchor" href="#viewing-all-commits-for-a-file-and-who-made-those-changes"><span class="header-link"></span></a>Viewing all commits for a file and who made those changes</h2>
+<h2><a name="viewing-all-commits-for-a-file-and-who-made-those-changes" class="anchor" href="#viewing-all-commits-for-a-file-and-who-made-those-changes"><span class="header-link"></span></a>Viewing all commits for a file and who made those changes</h2>
 <p><code>git blame &lt;file&gt;</code></p>
 <p><div id="28"></div></p>
-<h2><a name="commiting-only-parts-of-a-file-rather-than-the-whole-file"class="anchor" href="#commiting-only-parts-of-a-file-rather-than-the-whole-file"><span class="header-link"></span></a>Commiting only parts of a file rather than the whole file</h2>
+<h2><a name="commiting-only-parts-of-a-file-rather-than-the-whole-file" class="anchor" href="#commiting-only-parts-of-a-file-rather-than-the-whole-file"><span class="header-link"></span></a>Commiting only parts of a file rather than the whole file</h2>
 <p>If you have a file with lots of changes made, you might not want to have all the changes logged under one single commit.</p>
 <p>To split the single file into multiple commits you need to use Git&#39;s <code>patch</code> mode… </p>
 <p><code>git add &lt;file&gt; -p</code></p>
@@ -317,7 +317,7 @@ Thumbs.db
 <p>Sometimes you can&#39;t split a hunk into more hunks automatically, you have to do it manually. To do so you press <code>e</code> to edit and then use Vim to manually make changes.</p>
 <p>So if you have a line removed that you want to keep as part of the commit then you&#39;ll remove the <code>-</code> so there is just a space instead, and if you have a line added that you want to not have included as part of the commit then you remove the entire line. BUT the most important part it also updating the line numbers at the top of the file so that the number of lines in the file match what you are looking to commit (otherwise the commit will fail). To make the edit to the hunk final (pre-commit) press <code>esc</code> then <code>:wq</code> and then you&#39;ll be able to commit the selected changes.</p>
 <p><div id="29"></div></p>
-<h2><a name="modifying-your-git-history-with-rebase-"class="anchor" href="#modifying-your-git-history-with-rebase-"><span class="header-link"></span></a>Modifying your Git history with <code>rebase</code></h2>
+<h2><a name="modifying-your-git-history-with-rebase" class="anchor" href="#modifying-your-git-history-with-rebase"><span class="header-link"></span></a>Modifying your Git history with <code>rebase</code></h2>
 <p>To change multiple commits you must use the interactive mode of the <code>rebase</code> command and you must tell Git how many commits back you want to go (because it&#39;ll start from there and keep moving through the commits until it reaches the <code>HEAD</code>).</p>
 <p>REMEMBER: when using <code>rebase</code> every commit in the range specified is changed whether you change the message or not. So don&#39;t use <code>rebase</code> on commits that have already been pushed to a remote server as other users might have those commits pulled down and your changing of the commits will cause havoc for those users in the near future.</p>
 <p>To amend the last 3 commits we use: <code>git rebase -i HEAD~3</code> and follow the instructions.</p>

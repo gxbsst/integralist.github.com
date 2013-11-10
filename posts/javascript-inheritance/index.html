@@ -45,7 +45,7 @@
   <span class="post-date">2012 &#183; 1 &#183; 1</span>
 </div>
 
-<div class="post-body"><h2><a name="what-we-ll-cover"class="anchor" href="#what-we-ll-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 2mins</em></p>
 <ul>
 <li>Introduction</li>
@@ -53,11 +53,11 @@
 <li>Example Code</li>
 <li>Conclusion</li>
 </ul>
-<h2><a name="introduction"class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
 <p><a href="http://en.wikipedia.org/wiki/Class_(object-oriented_programming\">Class based inheritance</a>) doesn’t exist in JavaScript (<em>note: ECMAScript had plans to implement in ES6 basic Class syntax, but as of April 2012 this seems to be in doubt again</em>), but you can replicate its syntax by using functions as Constructors.</p>
-<h2><a name="constructors"class="anchor" href="#constructors"><span class="header-link"></span></a>Constructors</h2>
+<h2><a name="constructors" class="anchor" href="#constructors"><span class="header-link"></span></a>Constructors</h2>
 <p>The basic premise to have code that appears more <code>Class</code> like is this: JavaScript functions created using the <code>new</code> keyword work in a similar way to what Class based languages refer to as ‘Constructors’. When a function uses the <code>new</code> keyword the Function object is given a <code>prototype</code> property which points (initially) to an empty object. This empty object can then have methods and properties added to it which will be available to all other objects that point their own prototype link to it.</p>
-<h2><a name="example-code"class="anchor" href="#example-code"><span class="header-link"></span></a>Example Code</h2>
+<h2><a name="example-code" class="anchor" href="#example-code"><span class="header-link"></span></a>Example Code</h2>
 <p>A basic example is as follows…</p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">Person</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">settings</span><span class="p">)</span> <span class="p">{</span>
    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">settings</span><span class="p">)</span> <span class="p">{</span> <span class="nx">settings</span> <span class="o">=</span> <span class="p">{};</span> <span class="p">}</span> <span class="c1">// code defensively</span>
@@ -107,7 +107,7 @@
 <span class="nx">user</span><span class="p">.</span><span class="nx">getNameAndAge</span><span class="p">();</span>
 </pre></div>
 </code></pre>
-<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
 <p>Personally I would suggest you learn how JavaScript implements its own form of inheritance (prototypal inheritance) which is more efficient and nicer to work with than the use of functions as Constructors.</p>
 <p>The Mozilla Developer Network has written up a short article on the differences between Class-based and Prototype-based languages which you can find here: <a href="https://developer.mozilla.org/en/Core_JavaScript_1.5_Guide/Details_of_the_Object_Model#Class-Based_vs._Prototype-Based_Languages"><a href="https://developer.mozilla.org/en/Core_JavaScript_1.5_Guide/Details_of_the_Object_Model#Class-Based_vs._Prototype-Based_Languages">https://developer.mozilla.org/en/Core_JavaScript_1.5_Guide/Details_of_the_Object_Model#Class-Based_vs._Prototype-Based_Languages</a></a></p>
 </div>
