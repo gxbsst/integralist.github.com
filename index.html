@@ -160,43 +160,42 @@
 <p>The implementation is quite simple, you just have to ensure the methods called return <code>self</code> (or <code>this</code> if using a language like JavaScript).</p>
 <p>By allowing methods to chain we again have the opportunity to remove an unnecessary temps.</p>
 <p><strong>For example</strong>:</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">College</span>
+    <span class="k">def</span> <span class="nf">create_course</span>
+        <span class="nb">puts</span> <span class="s2">&quot;create course&quot;</span>
+    <span class="k">end</span>
 
-    <span class="nx">createCourse</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;create course&#39;</span><span class="p">);</span>
-    <span class="p">},</span>
+    <span class="k">def</span> <span class="nf">add_student</span>
+        <span class="nb">puts</span> <span class="s2">&quot;add student&quot;</span>
+    <span class="k">end</span>
+<span class="k">end</span>
 
-    <span class="nx">addStudent</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;add student&#39;</span><span class="p">);</span>
-    <span class="p">}</span>
-
-<span class="p">};</span>
-
-<span class="kd">var</span> <span class="nx">temp</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">createCourse</span><span class="p">();</span>
-    <span class="nx">temp</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">addStudent</span><span class="p">();</span>
-    <span class="nx">temp</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">addStudent</span><span class="p">();</span>
-    <span class="nx">temp</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">addStudent</span><span class="p">();</span>
+<span class="n">temp</span> <span class="o">=</span> <span class="no">College</span><span class="o">.</span><span class="n">new</span>
+<span class="n">temp</span><span class="o">.</span><span class="n">create_course</span>
+<span class="n">temp</span><span class="o">.</span><span class="n">add_student</span>
+<span class="n">temp</span><span class="o">.</span><span class="n">add_student</span>
+<span class="n">temp</span><span class="o">.</span><span class="n">add_student</span>
 </pre></div>
 </code></pre>
 <p><strong>Becomes</strong>:</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">College</span>
+    <span class="c1"># static method so can be accessed without creating an instance</span>
+    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">create_course</span>
+        <span class="n">college</span> <span class="o">=</span> <span class="no">College</span><span class="o">.</span><span class="n">new</span>
+        <span class="nb">puts</span> <span class="s2">&quot;create course&quot;</span>
+        <span class="n">college</span> <span class="c1"># return new object instance</span>
+    <span class="k">end</span>
 
-    <span class="nx">createCourse</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;create course&#39;</span><span class="p">);</span>
-        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
-    <span class="p">},</span>
+    <span class="k">def</span> <span class="nf">add_student</span>
+        <span class="nb">puts</span> <span class="s2">&quot;add student&quot;</span>
+        <span class="nb">self</span> <span class="c1"># refers to the new object instance</span>
+    <span class="k">end</span>
+<span class="k">end</span>
 
-    <span class="nx">addStudent</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;add student&#39;</span><span class="p">);</span>
-        <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
-    <span class="p">}</span>
-
-<span class="p">};</span>
-
-<span class="nx">obj</span><span class="p">.</span><span class="nx">createCourse</span><span class="p">()</span>
-   <span class="p">.</span><span class="nx">addStudent</span><span class="p">()</span>
-   <span class="p">.</span><span class="nx">addStudent</span><span class="p">()</span>
-   <span class="p">.</span><span class="nx">addStudent</span><span class="p">();</span>
+<span class="n">college</span> <span class="o">=</span> <span class="no">College</span><span class="o">.</span><span class="n">create_course</span>
+                 <span class="o">.</span><span class="n">add_student</span>
+                 <span class="o">.</span><span class="n">add_student</span>
+                 <span class="o">.</span><span class="n">add_student</span>
 </pre></div>
 </code></pre>
 <h3><a name="extract-method" class="anchor" href="#extract-method"><span class="header-link"></span></a>Extract Method</h3>
@@ -233,8 +232,8 @@
 </pre></div>
 </code></pre>
 <p>Ruby has a few of these types of enumerable methods but other languages such as PHP and JavaScript aren&#39;t so lucky. </p>
-<p>JavaScript You have a couple of accumulators: <code>Array#reduce</code> and <code>Array#reduceRight</code> but they don&#39;t work the same as Ruby based methods such as <code>Enumerable#inject</code>, <code>Enumerable#select</code> or <code>Enumerable#collect</code>. </p>
-<p>Although in JavaScript you can implement a similar effect with clever use of closures.</p>
+<p>JavaScript has a couple of accumulators: <code>Array#reduce</code> and <code>Array#reduceRight</code> but they aren&#39;t very useful as closure based collection methods compared to Ruby which has methods such as <code>Enumerable#inject</code>, <code>Enumerable#select</code> (seen in above example) or <code>Enumerable#collect</code>. </p>
+<p>Note: in JavaScript you can implement a similar effect with clever use of closures.</p>
 <h3><a name="pull-up-method" class="anchor" href="#pull-up-method"><span class="header-link"></span></a>Pull Up Method</h3>
 <p>When you have duplicated code across two separate classes then the best refactoring technique to implement is to pull that duplicate code up into a super class so we DRY (Don&#39;t Repeat Yourself) out the code and allow it to be used in multiple places without duplication (meaning changes in future only have to happen in one place).</p>
 <h3><a name="form-template-method" class="anchor" href="#form-template-method"><span class="header-link"></span></a>Form Template Method</h3>
@@ -249,7 +248,6 @@
 <li>Use Rename Method to ensure sub classes have identical signatures to match to the super class interface</li>
 </ul>
 <h3><a name="extract-surrounding-method" class="anchor" href="#extract-surrounding-method"><span class="header-link"></span></a>Extract Surrounding Method</h3>
-<p>This is actually a common pattern in Ruby known as the &#39;wrap around&#39; method. </p>
 <p>If you find you have different methods which contain almost identical code but with a slight variant in the middle, then pull up the duplicated code into a single method and pass a code block to the newly created method which it yields to in order to execute the unique behaviour...</p>
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">do_something</span>
     <span class="nb">puts</span> <span class="mi">1</span>
@@ -260,7 +258,8 @@
 <span class="n">do_something</span> <span class="p">{</span> <span class="nb">puts</span> <span class="mi">2</span> <span class="p">}</span>
 </pre></div>
 </code></pre>
-<p>In JavaScript the ability to pass a code block isn&#39;t possible but it can be replicated by passing a callback function...</p>
+<p>This is actually a common pattern in Ruby known as the &#39;wrap around&#39; method. This technique is similar to the Form Template Method, but is different in that you can use it without forcing an inheritance model on your code.</p>
+<p>Note: JavaScript doesn&#39;t have the ability to pass a code block but it can be replicated by passing a function that acts like a callback...</p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">doSomething</span> <span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
         <span class="nx">callback</span><span class="p">();</span>
@@ -272,24 +271,30 @@
 <span class="p">});</span>
 </pre></div>
 </code></pre>
-<p>...although in the latest versions of Node (as of November 2013) Generators are implemented and would allow you to <code>yield</code>.</p>
-<p>Note: this technique is similar to the Form Template Method but is different in that you can use it without forcing an inheritance model on your code.</p>
+<p>...although in the latest versions of Node (as of November 2013) Generators are implemented and would allow JavaScript code to <code>yield</code> similar to how Ruby works.</p>
 <h3><a name="self-encapsulate-field" class="anchor" href="#self-encapsulate-field"><span class="header-link"></span></a>Self Encapsulate Field</h3>
 <p>When inheriting properties from a parent class/object then it can be more flexible if the parent class only allows access to the properties from within a getter/setter.</p>
 <p>The motivation for this technique is that a sub class can override and modify the behaviour of the getter/setter without affecting the parent class&#39; implementation. Which is similar to how the Decorator design pattern works (e.g. modifying the behaviour without affecting the original).</p>
 <p>This technique should only be used once you find the coupling between objects is becoming a problem. Otherwise direct access to properties and instance variables should be acceptable initially.</p>
 <h3><a name="introduce-named-parameter" class="anchor" href="#introduce-named-parameter"><span class="header-link"></span></a>Introduce Named Parameter</h3>
 <p>When method arguments are unclear then convert them into named parameters so they become clearer (and easier to remember). </p>
-<p>Although Ruby supports named parameters, neither PHP or JavaScript do, so for PHP you can pass an associated Array and with JavaScript you can pass an Object/Hash.</p>
-<p>Note: ECMAScript 6.0 (the latest JavaScript specification - which is still being worked on as of Nov 2013) implements named parameters.</p>
-<p><strong>For example</strong>:</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">turnOnTheTV</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<p>Although Ruby supports named parameters...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">turnOnTheTV</span> <span class="p">(</span><span class="ss">channel</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">volume</span><span class="p">:</span> <span class="mi">1</span><span class="p">);</span> <span class="k">end</span>
+<span class="n">turnOnTheTV</span><span class="p">(</span><span class="ss">channel</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="ss">volume</span><span class="p">:</span> <span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</code></pre>
+<p>...neither PHP or JavaScript do, so for PHP you can pass an associated Array and with JavaScript you can pass an Object/Hash.</p>
+<p><strong>For example (JavaScript)</strong>:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">turnOnTheTV</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">v</span><span class="p">);</span> <span class="k">end</span>
+<span class="n">turnOnTheTV</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
 </pre></div>
 </code></pre>
 <p><strong>Becomes</strong>:</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">turnOnTheTV</span><span class="p">({</span> <span class="nx">channel</span><span class="o">:</span> <span class="mi">101</span><span class="p">,</span> <span class="nx">volume</span><span class="o">:</span> <span class="mi">10</span> <span class="p">});</span>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">turnOnTheTV</span><span class="p">(</span><span class="ss">channel</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">volume</span><span class="p">:</span> <span class="mi">1</span><span class="p">);</span> <span class="k">end</span>
+<span class="n">turnOnTheTV</span><span class="p">(</span><span class="ss">channel</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="ss">volume</span><span class="p">:</span> <span class="mi">10</span><span class="p">);</span>
 </pre></div>
 </code></pre>
+<p>Note: ECMAScript 6.0 (the latest JavaScript specification - which is still being worked on as of Nov 2013) implements named parameters.</p>
 <h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
 <p>OK, so there are still many different refactoring techniques that I&#39;ve not included. But hopefully you&#39;ve found this quick reference useful so far.</p>
 <p>Most of these techniques I do automatically now (as I&#39;ve committed them to muscle memory). But sometimes when I&#39;m carrying out a refactoring I get confused on the best technique I should use and so I&#39;ll refer to this reference to help me find an appropriate solution.</p>
