@@ -85,7 +85,9 @@
 <p>In 2009 both Martin and Kent helped with a rewrite of the book that focused more on the Ruby language than the original book&#39;s target language of Java. This follow-up book was called &quot;<a href="http://www.amazon.com/Refactoring-Ruby-Edition-Jay-Fields/dp/0321603508">Refactoring: The Ruby Edition</a>&quot; and it&#39;s that book which is the primary driving force of this post.</p>
 <p>Since reading the Ruby edition I wanted to have a short summarised version of some of the more commonly used refactoring techniques (mainly for my own reference). By that I mean the techniques described in the book that I find interesting and use a lot in my day to day programming life.</p>
 <h2><a name="languages" class="anchor" href="#languages"><span class="header-link"></span></a>Languages</h2>
-<p>These refactoring techniques aren&#39;t specific to the Ruby language. I also use them when working with JavaScript and PHP with no problem. The idioms and syntax differences between languages become redundant when you focus on the pattern of the solutions.</p>
+<p>These refactoring techniques aren&#39;t specific to the Ruby language. You can use them when working with JavaScript or PHP (or any other language for that matter). </p>
+<p>Programming languages don&#39;t all offer identical APIs and so sometimes you might need to tweak the examples slightly to fit your environment. </p>
+<p>Regardless, the idioms and syntax differences between languages become redundant when you just focus on the pattern(s) behind the proposed solution.</p>
 <h2><a name="why-refactor" class="anchor" href="#why-refactor"><span class="header-link"></span></a>Why refactor?</h2>
 <p>The purpose of refactoring is to improve the quality, clarity and maintainability of your code. Simple really.</p>
 <p>But also, refactoring can be a great lesson in understanding an unfamiliar code base.</p>
@@ -95,7 +97,7 @@
 <p>You&#39;ll usually find the time you start refactoring the most is when you are fixing bugs or adding new features.</p>
 <p>For example, you typically first need to understand the code that has already been written (regardless of whether it was you who wrote it originally or someone else). </p>
 <p>The process of refactoring helps you better understand the code, in preparation for modifying it.</p>
-<p>But don&#39;t fall into the trap of thinking that refactoring is something you set aside time for or only consider at the start/end of a project. It&#39;s not. Refactoring should be done in small chunks throughout the entire life cycle of the project.</p>
+<p>But don&#39;t fall into the trap of thinking that refactoring is something you set aside time for, or only consider at the start/end of a project. It&#39;s not. Refactoring should be done in small chunks throughout the entire life cycle of the project.</p>
 <p>As the great <a href="http://www.cleancoder.com/">Uncle Bob</a> once said:</p>
 <blockquote>
 <p>leave a module in a better state than you found it</p>
@@ -104,7 +106,7 @@
 <h3><a name="tests" class="anchor" href="#tests"><span class="header-link"></span></a>Tests</h3>
 <p>Before we get started, it&#39;s important to mention that you should have tests in place when you&#39;re refactoring. </p>
 <p>You <em>can</em> refactor without tests, but realise that without tests to back you up then you can have no confidence in the refactoring you are implementing.</p>
-<p>Refactoring can result in substantial changes to the code and architecture but can still leave the top layer API the same. So while you&#39;re refactoring remember the old adage...</p>
+<p>Refactoring can result in substantial changes to the code and architecture but still leave the top layer API the same. So while you&#39;re refactoring remember the old adage...</p>
 <blockquote>
 <p>program to an interface, not an implementation</p>
 </blockquote>
@@ -112,11 +114,11 @@
 <p>If you don&#39;t have tests then I recommend you write some (now)... don&#39;t worry, I&#39;ll wait.</p>
 <p>Remember, the process of writing tests (even for an application you don&#39;t know) will help solidify your understanding and expectations of the code you&#39;re about to work on.</p>
 <p>Code should be tested regularly while refactoring to ensure you don&#39;t break anything. Keep the &#39;red, green, refactor&#39; feedback loop tight. Tests help confirm if your refactoring has worked or not. Without them you&#39;re effectively flying blind.</p>
-<p>So although I won&#39;t explicitly mention it below when discussing the different refactoring techniques, it is implied that on every change to your code you should really be running the relevant tests to ensure no breaking tests arise.</p>
+<p>So although I won&#39;t explicitly mention it below when discussing the different refactoring techniques, it is implied that on every change to your code you should really be running the relevant tests to ensure no broken code appears.</p>
 <h2><a name="refactoring-techniques" class="anchor" href="#refactoring-techniques"><span class="header-link"></span></a>Refactoring Techniques</h2>
 <p>There are many documented refactoring techniques and I do not attempt to cover them all, as this post would end up becoming a book in itself. So I&#39;ve picked what I feel are the most common and useful refactoring techniques and I try my best to explain them in a short and concise way.</p>
 <p>I&#39;ve put these techniques in order of how you might approach refactoring a piece of code, in a linear, top to bottom order. This is a personal preference and doesn&#39;t necessarily represent the best way to refactor.</p>
-<p>Final note, some of these techniques I provide a basic code example, but to be honest some of them are so simple they do not need any example. The <a href="#extract-method">Extract Method</a> is one such technique that although it really useful and important, providing a code example would be a waste of time and space.</p>
+<p>Final note: with some of the techniques I have provided a basic code example, but to be honest some techniques are so simple they do not need any example. The <a href="#extract-method">Extract Method</a> is one such technique that although it really useful and important, providing a code example would be a waste of time and space.</p>
 <p>So without further ado, let&#39;s begin...</p>
 <h3><a name="rename-method" class="anchor" href="#rename-method"><span class="header-link"></span></a>Rename Method</h3>
 <p>The single most effective and simple refactoring you can implement is to rename a property/attribute, method or object.</p>
