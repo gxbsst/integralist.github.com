@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Integralist: BBC News Engineer]]></title><description><![CDATA[I aim to implement Object-Oriented Design principles in which ever language I happen to be using (Node, Ruby, PHP, JavaScript, CSS/BEM)]]></description><link>http://www.integralist.co.uk/</link><generator>RSS for Node</generator><lastBuildDate>Sun, 17 Nov 2013 18:32:37 GMT</lastBuildDate><atom:link href="http://www.integralist.co.uk/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Mark McDonnell]]></author><pubDate>Sun, 17 Nov 2013 18:32:37 GMT</pubDate><copyright><![CDATA[2013 Mark McDonnell]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[mark.mcdx@gmail.com]]></managingEditor><webMaster><![CDATA[mark.mcdx@gmail.com]]></webMaster><ttl>60</ttl><item><title><![CDATA[Vim Workflow (Part Deux)]]></title><description><![CDATA[<h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Integralist: BBC News Engineer]]></title><description><![CDATA[I aim to implement Object-Oriented Design principles in which ever language I happen to be using (Node, Ruby, PHP, JavaScript, CSS/BEM)]]></description><link>http://www.integralist.co.uk/</link><generator>RSS for Node</generator><lastBuildDate>Sun, 17 Nov 2013 18:47:27 GMT</lastBuildDate><atom:link href="http://www.integralist.co.uk/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Mark McDonnell]]></author><pubDate>Sun, 17 Nov 2013 18:47:27 GMT</pubDate><copyright><![CDATA[2013 Mark McDonnell]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[mark.mcdx@gmail.com]]></managingEditor><webMaster><![CDATA[mark.mcdx@gmail.com]]></webMaster><ttl>60</ttl><item><title><![CDATA[Vim Workflow (Part Deux)]]></title><description><![CDATA[<h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 27mins</em></p>
 <ul>
 <li><a href="#introduction">Introduction</a></li>
@@ -101,7 +101,7 @@ map <span class="p">&lt;</span>leader<span class="p">&gt;</span>` <span class="p
 </pre></div>
 </code></pre>
 <p>...as you can see, if I want to create a horizontal split window then I just
-press: <code>\;</code> and if I want the vertical equivalent I just press: ```. </p>
+press: <code>\;</code> and if I want the vertical equivalent I just press: \`</p>
 <p>If I want the current window to fill the screen I press: <code>\w]</code> and if I want all
 windows to be equal size again then I press: <code>\w[</code>.</p>
 <p>Finally if I want the current window to be slightly larger, then I press: <code>\w+</code>
