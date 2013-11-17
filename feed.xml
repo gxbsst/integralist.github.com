@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Integralist: BBC News Engineer]]></title><description><![CDATA[I aim to implement Object-Oriented Design principles in which ever language I happen to be using (Node, Ruby, PHP, JavaScript, CSS/BEM)]]></description><link>http://www.integralist.co.uk/</link><generator>RSS for Node</generator><lastBuildDate>Sun, 17 Nov 2013 18:51:12 GMT</lastBuildDate><atom:link href="http://www.integralist.co.uk/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Mark McDonnell]]></author><pubDate>Sun, 17 Nov 2013 18:51:12 GMT</pubDate><copyright><![CDATA[2013 Mark McDonnell]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[mark.mcdx@gmail.com]]></managingEditor><webMaster><![CDATA[mark.mcdx@gmail.com]]></webMaster><ttl>60</ttl><item><title><![CDATA[Vim Workflow (Part Deux)]]></title><description><![CDATA[<h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Integralist: BBC News Engineer]]></title><description><![CDATA[I aim to implement Object-Oriented Design principles in which ever language I happen to be using (Node, Ruby, PHP, JavaScript, CSS/BEM)]]></description><link>http://www.integralist.co.uk/</link><generator>RSS for Node</generator><lastBuildDate>Sun, 17 Nov 2013 18:56:40 GMT</lastBuildDate><atom:link href="http://www.integralist.co.uk/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Mark McDonnell]]></author><pubDate>Sun, 17 Nov 2013 18:56:40 GMT</pubDate><copyright><![CDATA[2013 Mark McDonnell]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[mark.mcdx@gmail.com]]></managingEditor><webMaster><![CDATA[mark.mcdx@gmail.com]]></webMaster><ttl>60</ttl><item><title><![CDATA[Vim Workflow (Part Deux)]]></title><description><![CDATA[<h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 27mins</em></p>
 <ul>
 <li><a href="#introduction">Introduction</a></li>
@@ -125,11 +125,11 @@ once, if I do I&#39;m clearly doing too much)</li>
 <p>This gives me the majority of the functionality I need when dealing with files.</p>
 <h3><a name="tabs" class="anchor" href="#tabs"><span class="header-link"></span></a>Tabs</h3>
 <p>Vim&#39;s tab feature is something I very rarely use but like I say, if you&#39;re using
-Vim&#39;s window feature like I am and once in a while full screening a window pane
-isn&#39;t working out then extracting that window out into a tab is the only way (in
+Vim&#39;s window features like I am, and once in a while when you do find full screening a window pane
+isn&#39;t working out, then extracting that window out into a tab is the only way to go (in
 tmux you can just press <code>Ctrl-z</code> and that would properly full screen the current
-pane but this really isn&#39;t much of an issue not using tmux nowadays that I can
-live with full screen a typical Vim window).</p>
+pane - but not using tmux any more isn&#39;t really much of an issue for me nowadays and so I can
+live with the standard full screen feature available to Vim windows).</p>
 <p>In case you&#39;re wondering you can create a new tab with the command <code>:tabnew</code> and
 you can move between tabs using <code>gt</code> which moves forward through your tab list
 and <code>gT</code> to move backwards through the tab list.</p>
