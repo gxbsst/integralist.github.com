@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Integralist: BBC News Engineer]]></title><description><![CDATA[I aim to implement Object-Oriented Design principles in which ever language I happen to be using (Node, Ruby, PHP, JavaScript, CSS/BEM)]]></description><link>http://www.integralist.co.uk/</link><generator>RSS for Node</generator><lastBuildDate>Sun, 17 Nov 2013 18:26:41 GMT</lastBuildDate><atom:link href="http://www.integralist.co.uk/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Mark McDonnell]]></author><pubDate>Sun, 17 Nov 2013 18:26:41 GMT</pubDate><copyright><![CDATA[2013 Mark McDonnell]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[mark.mcdx@gmail.com]]></managingEditor><webMaster><![CDATA[mark.mcdx@gmail.com]]></webMaster><ttl>60</ttl><item><title><![CDATA[Vim Workflow (Part Deux)]]></title><description><![CDATA[<h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Integralist: BBC News Engineer]]></title><description><![CDATA[I aim to implement Object-Oriented Design principles in which ever language I happen to be using (Node, Ruby, PHP, JavaScript, CSS/BEM)]]></description><link>http://www.integralist.co.uk/</link><generator>RSS for Node</generator><lastBuildDate>Sun, 17 Nov 2013 18:32:37 GMT</lastBuildDate><atom:link href="http://www.integralist.co.uk/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Mark McDonnell]]></author><pubDate>Sun, 17 Nov 2013 18:32:37 GMT</pubDate><copyright><![CDATA[2013 Mark McDonnell]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[mark.mcdx@gmail.com]]></managingEditor><webMaster><![CDATA[mark.mcdx@gmail.com]]></webMaster><ttl>60</ttl><item><title><![CDATA[Vim Workflow (Part Deux)]]></title><description><![CDATA[<h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 27mins</em></p>
 <ul>
 <li><a href="#introduction">Introduction</a></li>
@@ -10,12 +10,12 @@
 <li><a href="#plugins">Plugins</a><ul>
 <li><a href="#ctrl-p">Ctrl-p</a></li>
 <li><a href="#ack">Ack</a></li>
-<li><a href="#endwise">EndWise</a></li>
-<li><a href="#powerline">Powerline</a></li>
+<li><a href="#plugins">EndWise</a></li>
+<li><a href="#plugins">Powerline</a></li>
 <li><a href="#nerdtree">NERDTree</a></li>
 <li><a href="#surround">Surround</a></li>
-<li><a href="#html5">HTML5</a></li>
-<li><a href="#tabular">Tabular</a></li>
+<li><a href="#plugins">HTML5</a></li>
+<li><a href="#plugins">Tabular</a></li>
 </ul>
 </li>
 <li><a href="#configuration">Configuration</a></li>
