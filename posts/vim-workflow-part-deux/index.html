@@ -72,6 +72,7 @@ files</a></li>
 <li><a href="#auto-indenting">Auto indenting</a></li>
 <li><a href="#changing-content">Changing content</a></li>
 <li><a href="#selecting-content">Selecting content</a></li>
+<li><a href="#using-the-register">Using the register</a></li>
 <li><a href="#buffer-management">Buffer management</a></li>
 <li><a href="#jump-list">Jump List</a></li>
 <li><a href="#change-list">Change List</a></li>
@@ -624,6 +625,34 @@ be quite useful as well.</p>
 <p>Most Vim users probably know this but just in case you don&#39;t, to be able to
 select content inside of a set of punctuation (such as a brackets or quotations)
 then use: <code>vi(</code> or <code>vi&#39;</code> or <code>vi&quot;</code> (you get the idea).</p>
+<h3><a name="using-the-register" class="anchor" href="#using-the-register"><span class="header-link"></span></a>Using the register</h3>
+<p>One of the real annoying issues I have is when I have some content I want to
+copy and paste to another place in my code. Imagine you have the following
+code...</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * @param abc</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">someThing</span> <span class="p">(</span><span class="nx">def</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>...I want to replace <code>def</code> with <code>abc</code> so the first thing I do is yank/copy the
+<code>abc</code>, then move to the parenthesis, but rather than manually delete <code>def</code> and
+then paste my content I&#39;ll do a <code>di(</code> to delete the content first. </p>
+<p>This causes me a problem because it updates the register list (which tracks 
+everything that has been yanked). Any time you change or delete content it gets 
+copied to the register list. So if I was to paste now I&#39;d just end up pasting
+<code>def</code> as the delete command has placed that at the top of my register list.</p>
+<p>So I&#39;ll end up having to go back and re-copy <code>abc</code> and then head back again to
+the parenthesis to paste it in.</p>
+<p>My colleague showed me this alternative better workflow: copy <code>abc</code> and still delete
+inside the parenthesis, but if you execute <code>:reg</code> and look at the list there
+you&#39;ll see something like <code>&quot;1 abc</code>. I can then reuse that particular item by
+typing <code>&quot;1p</code> (so I grab what&#39;s held at <code>&quot;1</code> and then use the paste command).</p>
+<p>It might sound like I&#39;m doing more work by looking up what&#39;s in the register
+list, but really I&#39;m saving myself time compared to moving my cursor back to the original
+location and re-copying <code>abc</code> and then moving back to parenthesis and pasting.</p>
 <h3><a name="buffer-management" class="anchor" href="#buffer-management"><span class="header-link"></span></a>Buffer management</h3>
 <p>This should be common knowledge for Vim users: when you open a file then Vim
 places the contents of that file inside of a buffer. When you edit the buffer
