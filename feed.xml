@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Integralist: BBC News Engineer]]></title><description><![CDATA[I aim to implement Object-Oriented Design principles in which ever language I happen to be using (Node, Ruby, PHP, JavaScript, CSS/BEM)]]></description><link>http://www.integralist.co.uk/</link><generator>RSS for Node</generator><lastBuildDate>Sun, 17 Nov 2013 20:34:46 GMT</lastBuildDate><atom:link href="http://www.integralist.co.uk/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Mark McDonnell]]></author><pubDate>Sun, 17 Nov 2013 20:34:46 GMT</pubDate><copyright><![CDATA[2013 Mark McDonnell]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[mark.mcdx@gmail.com]]></managingEditor><webMaster><![CDATA[mark.mcdx@gmail.com]]></webMaster><ttl>60</ttl><item><title><![CDATA[Vim Workflow (Part Deux)]]></title><description><![CDATA[<h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Integralist: BBC News Engineer]]></title><description><![CDATA[I aim to implement Object-Oriented Design principles in which ever language I happen to be using (Node, Ruby, PHP, JavaScript, CSS/BEM)]]></description><link>http://www.integralist.co.uk/</link><generator>RSS for Node</generator><lastBuildDate>Mon, 18 Nov 2013 09:46:07 GMT</lastBuildDate><atom:link href="http://www.integralist.co.uk/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Mark McDonnell]]></author><pubDate>Mon, 18 Nov 2013 09:46:07 GMT</pubDate><copyright><![CDATA[2013 Mark McDonnell]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[mark.mcdx@gmail.com]]></managingEditor><webMaster><![CDATA[mark.mcdx@gmail.com]]></webMaster><ttl>60</ttl><item><title><![CDATA[Vim Workflow (Part Deux)]]></title><description><![CDATA[<h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 27mins</em></p>
 <ul>
 <li><a href="#introduction">Introduction</a></li>
@@ -229,6 +229,9 @@ square brackets around the word).</p>
 what you should use if you want no space, and the left side bracket if you want
 a space included. For example, if you wanted <code>[ abc ]</code> then run <code>ysiw[</code>. But if
 you want <code>[abc]</code> then use <code>ysiw]</code> instead.</p>
+<p>The standard syntax for adding surrounding syntax is <code>ys</code> followed by your
+selection command (e.g. this could be <code>$</code> to select to the end of the line)
+followed by the punctuation you want to use.</p>
 <h2><a name="configuration" class="anchor" href="#configuration"><span class="header-link"></span></a>Configuration</h2>
 <p>For the full configuration set-up have a look at my &quot;<a href="https://github.com/Integralist/Fresh-Install">Fresh Install</a>&quot; repo.
 Below are just a few different vim settings (most are outright stolen from
