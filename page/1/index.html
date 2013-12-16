@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="/images/cabin.png" >
+    <link href="/styles/main.css" rel="stylesheet">
+    
+    <title>Integralist -> BBC News Engineer</title>
+    
+    
+    <link rel="alternate" type="application/atom+xml" title="Integralist" href="http://feeds.feedburner.com/Integralist">
+  </head>
+  <body>
+    <nav>
+      <h1 class="name">
+          <a href="/">Integralist</a> <span class="role">BBC News Engineer</span>
+      </h1>
+      <div class="menu icon-menu"></div>
+      <ul class="nav-links">
+        <li class="text-link">
+          <a href="/about.html">about</a>
+        </li>
+        <li class="text-link">
+          <a href="/projects.html">projects</a>
+        </li>
+        <li class="text-link">
+          <a href="/archives.html">archives</a>
+        </li>
+      </ul>
+      <div class="social-media">
+        <a href="https://github.com/integralist" class="icon-github"></a>
+        <a href="https://twitter.com/integralist" class="icon-twitter"></a>
+      </div>
+    </nav>
+    <div class="content">
+
+
+  <div class="post-head group">
+  <a href="/posts/mvcp-model-view-controller-presenter/">
+    <h1 class="post-title">MVCP: Model, View, Controller, Presenter</h1>
+  </a>
+  <span class="post-date">2013 &#183; 10 &#183; 22</span>
+</div>
+
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 8mins</em></p>
+<ul>
+<li>Introduction<ul>
+<li>Model</li>
+<li>View</li>
+<li>Controller</li>
+</ul>
+</li>
+<li>Mixed definitions<ul>
+<li>God Controller</li>
+<li>Problems</li>
+<li>Skinny Controller</li>
+</ul>
+</li>
+<li>Presenters?<ul>
+<li>What problem are Presenters trying to solve?</li>
+<li>How do they work?</li>
+</ul>
+</li>
+<li>Code Example<ul>
+<li>Controller</li>
+<li>View</li>
+<li>Presenter</li>
+</ul>
+</li>
+<li>Conclusion</li>
+</ul>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<p>Model, View, Controller (MVC). This is a pretty standard architectural pattern and has been in use when developing software since the early 1970&#39;s.</p>
+<p>The basic principle of the pattern is to separate the different areas of logic from your application into distinct compartments.</p>
+<h3><a name="model" class="anchor" href="#model"><span class="header-link"></span></a>Model</h3>
+<p>The model holds your business data. Typically this will be data that is pulled in from a database or external data service of some kind.</p>
+<h3><a name="view" class="anchor" href="#view"><span class="header-link"></span></a>View</h3>
+<p>The view is your user interface. This is what the client will interact with when using your application.</p>
+<h3><a name="controller" class="anchor" href="#controller"><span class="header-link"></span></a>Controller</h3>
+<p>The controller is the boss. He sits at the top and delegates responsibilities to either the view or the model.</p>
+<h2><a name="mixed-definitions" class="anchor" href="#mixed-definitions"><span class="header-link"></span></a>Mixed definitions</h2>
+<p>There seems to be a dispute in the dev community regarding how the responsibilities should be divided.</p>
+<p>Some feel a &#39;fat controller&#39; principle is best (where by the controller tells the model not only <em>when</em> but <em>where</em> and <em>how</em> it should get its data).</p>
+<p>My understanding of the pattern is that it was designed so that the Controller stays &#39;skinny&#39;. It may be the boss, but like most good bosses it doesn&#39;t try and stay in control. It knows the best team member for the job at hand and delegates accordingly.</p>
+<p>This is also good code design because the Controller doesn&#39;t have too much <em>context</em> (i.e. it doesn&#39;t know everything, which means it&#39;ll be easier to maintain and scale).</p>
+<h3><a name="god-controller" class="anchor" href="#god-controller"><span class="header-link"></span></a>God Controller</h3>
+<p>There are a few ways we can implement an MVC pattern, one is known as the &#39;God Controller&#39;. </p>
+<p>This is where a single Controller exists and it oversees everything no matter what was requested by the client. </p>
+<p>For example, the single Controller would be passed the request from the client (usually handled by a custom routing application, and most frameworks will provide their own).</p>
+<p>The Controller would determine what type of request was made (if the request was for a &#39;contact&#39; page then it&#39;ll make a request for the Contact model, or if the request was for the &#39;about&#39; page then it&#39;ll make a request for the About model).</p>
+<p>Once it knows the type of request it&#39;ll proceed to get the relevant model data and assign it to some View variables and render the required View.</p>
+<h3><a name="problems" class="anchor" href="#problems"><span class="header-link"></span></a>Problems</h3>
+<p>Now there are two problems with this implementation:</p>
+<ol>
+<li>maintainability</li>
+<li>scalability</li>
+</ol>
+<p>As mentioned before, this comes down to bad code design. The &#39;God Controller&#39; knows too much and tries to do too much. Once you start getting above a few different types of requests you&#39;ll start to understand what a mess the code can become by having multiple branches for different routing scenarios.</p>
+<p>I work as an engineer for the BBC News team in London and we had suffered from this exact set-up (hence the lessons the team has learnt and improved upon are the reason why I&#39;m able to write this post for you now).</p>
+<h3><a name="skinny-controller" class="anchor" href="#skinny-controller"><span class="header-link"></span></a>Skinny Controller</h3>
+<p>There is another approach we can take which is known as the &#39;skinny controller&#39; approach.</p>
+<p>The way it works is that a request will come into the application and will get passed to a page specific Controller.</p>
+<p>The page specific Controller will call the relevant Model and will assign the returned data to a few View variables.</p>
+<p>The Controller will then render a View and pass through the variables into the View for it to use.</p>
+<p>As you can see, this isn&#39;t that different from the &#39;God Controller&#39; with the exception that the Routing part of the application now will have extra logic which determines which specific Controller should be loaded. This is a better situation to be in because you&#39;re making your code base both more maintainable and scalable.</p>
+<p>Note: as I mentioned in the previous section, BBC News had a sort of &#39;God Controller&#39; issue and our first step to resolving the problem was to take a similar approach as described above (i.e. to start creating page specific Controllers). That was a good first step. </p>
+<p>The next step from here was to separate out our logic even further by implementing Presenters, and it was our tech lead at BBC News (<a href="http://twitter.com/jcleveley">John Cleveley</a>) who made that decision which resulted in a much more efficient, maintainable and scalable code base.</p>
+<h2><a name="presenters" class="anchor" href="#presenters"><span class="header-link"></span></a>Presenters</h2>
+<h3><a name="what-problem-are-presenters-trying-to-solve" class="anchor" href="#what-problem-are-presenters-trying-to-solve"><span class="header-link"></span></a>What problem are Presenters trying to solve?</h3>
+<p>Let&#39;s imagine we&#39;ve gone for the &#39;Skinny Controller&#39; approach. There are still some inherent issues… </p>
+<p>First of all, our Controller can still have too much context and be handling more information than it should. </p>
+<p>But also, and more importantly, you may find there is still a lot of duplication of code across your Controllers.</p>
+<p>The reasoning for this is that if you consider the structure of a web page/application you&#39;ll notice that it is typically made up of unique &#39;features&#39;. For example, if you&#39;re displaying your tweets on a page then that&#39;s a unique feature.</p>
+<p>Each feature must be able to stand on its own. We normally describe these features as being &#39;components&#39;. Each component can be loaded whenever and wherever needed. Having a component based architecture allows your code base to become more modular and reusable.</p>
+<p>For example the navigation menu on a page could be considered a &#39;component&#39;. Also, the navigation menu component is likely going to need to appear on every single page of the application.</p>
+<p>So, if you&#39;re splitting up your logic into page specific Controllers then it&#39;s possible that you&#39;re still repeating code across the Controllers to handle the loading of re-occurring components such as the navigation (e.g. pulling its data from a navigation Model and setting View variables etc).</p>
+<p>Now there are ways that this code repetition can be avoided, and one such way is to use the concept of Presenters.</p>
+<h3><a name="how-do-they-work" class="anchor" href="#how-do-they-work"><span class="header-link"></span></a>How do they work?</h3>
+<p>Presenters (like everything in software engineering) can be implemented in many different ways. </p>
+<p>For example, at BBC News we initially were manually creating new Presenter instances within our page Controllers. But the team here are quite clever chaps (especially <a href="http://twitter.com/kenturamon">Robert Kenny</a> and <a href="http://twitter.com/sthulb">Simon Thulbourn</a>) and they realised that this process could be greatly improved by using configuration files instead (specifically <a href="http://yaml.org/">YAML</a>). As we have multiple teams working on the BBC News code base and in multiple languages, using configuration files is a much easier and maintainable solution.</p>
+<p>I&#39;m not going to go into the configuration set-up we use at BBC News. Instead I&#39;ll focus on the basic principles of how Presenters work, which is quite simply a case of moving the logic (getting component specific Model data and assigning it to to component specific variables) into separate files called Presenters which you can instantiate within your controller.</p>
+<h2><a name="code-example" class="anchor" href="#code-example"><span class="header-link"></span></a>Code Example</h2>
+<h3><a name="controller" class="anchor" href="#controller"><span class="header-link"></span></a>Controller</h3>
+<p>Here is a basic example in Ruby…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;app/presenters/a&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;app/presenters/b&#39;</span>
+
+<span class="k">class</span> <span class="nc">AboutController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+    <span class="vi">@a</span> <span class="o">=</span> <span class="no">Presenters</span><span class="o">::</span><span class="n">A</span><span class="o">.</span><span class="n">new</span>
+    <span class="vi">@b</span> <span class="o">=</span> <span class="no">Presenters</span><span class="o">::</span><span class="n">B</span><span class="o">.</span><span class="n">new</span>
+
+    <span class="n">title</span> <span class="s1">&#39;About&#39;</span>
+    <span class="n">erb</span> <span class="ss">:about</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>…in this example we have an &#39;About&#39; page which is made up of two components <code>a</code> and <code>b</code>. As you can see we <code>require</code> the presenters which handle those two components and within our Controller we instantiate the Presenters.</p>
+<p>Notice that&#39;s all we do. Each Presenter encapsulates the logic needed to prepare the data to be passed to the <code>:about</code> view template.</p>
+<h3><a name="view" class="anchor" href="#view"><span class="header-link"></span></a>View</h3>
+<p>Before I show you the Presenter code itself, I&#39;ll show you the View template file… </p>
+<pre><code class="lang-erb"><div class="highlight"><pre><span class="x">&lt;h1&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@title</span> <span class="cp">%&gt;</span><span class="x">&lt;/h1&gt;</span>
+
+<span class="cp">&lt;%</span> <span class="k">if</span> <span class="vi">@a</span><span class="o">.</span><span class="n">run</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">partial</span> <span class="ss">:&quot;components/a&quot;</span><span class="p">,</span> <span class="p">{</span> <span class="ss">:title</span> <span class="o">=&gt;</span> <span class="vi">@a</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="ss">:summary</span> <span class="o">=&gt;</span> <span class="vi">@a</span><span class="o">.</span><span class="n">summary</span><span class="p">,</span> <span class="ss">:data</span> <span class="o">=&gt;</span> <span class="vi">@a</span><span class="o">.</span><span class="n">data</span> <span class="p">}</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+
+<span class="cp">&lt;%</span> <span class="k">if</span> <span class="vi">@b</span><span class="o">.</span><span class="n">run</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">partial</span> <span class="ss">:&quot;components/b&quot;</span><span class="p">,</span> <span class="p">{</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="vi">@b</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="ss">:age</span> <span class="o">=&gt;</span> <span class="vi">@b</span><span class="o">.</span><span class="n">age</span> <span class="p">}</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</pre></div>
+</code></pre>
+<p>…as you can see we have very minimal logic in place. If anything I have too much logic in the View as I initially was re-using the same View template over and over and so I wanted to protect again errors appearing when loading a template which referenced a component I wasn&#39;t loading, but I&#39;ve since changed how my application was working but left the conditional checks in as an example of how code can evolve over time.</p>
+<p> We literally just check to see if the component has been initialised (in this case we created a <code>run</code> property we set to <code>true</code> when the component&#39;s Presenter is first initialised).</p>
+<p>We then render the View for the component and pass through the variables that were set-up from within the Presenter.</p>
+<p>Now I can also open up my <code>:home</code> View file and add in the <code>a</code> component there as well just as easily. It would be even easier if I didn&#39;t have to manually add the <code>a</code> component to the <code>:home</code> View file but that&#39;s where running from configuration files like we do at BBC News would come in handy (but that would have been too complicated an implementation for the sake of such a basic example as required for this post).</p>
+<h3><a name="presenter" class="anchor" href="#presenter"><span class="header-link"></span></a>Presenter</h3>
+<p>Now let&#39;s take a look at one of our Presenters, in this case the Presenter for our <code>b</code> component… </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;app/presenters/base&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;app/models/b&#39;</span>
+
+<span class="k">class</span> <span class="nc">Presenters</span><span class="o">::</span><span class="n">B</span> <span class="o">&lt;</span> <span class="no">Presenters</span><span class="o">::</span><span class="no">Base</span>
+  <span class="kp">attr_reader</span> <span class="ss">:run</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:age</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span>
+    <span class="vi">@run</span> <span class="o">=</span> <span class="kp">true</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">B</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;Mark&#39;</span><span class="p">,</span> <span class="s1">&#39;99&#39;</span><span class="p">)</span>
+    <span class="n">prepare_view_data</span><span class="p">({</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="n">model</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="ss">:age</span> <span class="o">=&gt;</span> <span class="n">model</span><span class="o">.</span><span class="n">age</span> <span class="p">})</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>…as you can see we load a specific Model for this component and then generate our View data by passing the Model information through to a <code>prepare_view_data</code> method (see below for the implementation details).</p>
+<p>The <code>Base</code> Presenter which our component Presenters inherit from is very straight forward as you can see from the following example… </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">module</span> <span class="nn">Presenters</span>
+  <span class="k">class</span> <span class="nc">Base</span>
+    <span class="kp">attr_accessor</span> <span class="ss">:model</span>
+
+    <span class="k">def</span> <span class="nf">prepare_view_data</span> <span class="nb">hash</span>
+      <span class="nb">hash</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span>
+        <span class="nb">instance_variable_set</span><span class="p">(</span><span class="s2">&quot;@</span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>…it&#39;s just a module namespace with a base class that has a single method <code>prepare_view_data</code> which dynamically generates instance variables based on the data we passed through from the inheriting Presenter class and which then are usable within the View.</p>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>That&#39;s all there is to it as far as understanding the Presenter pattern. It&#39;s a nice clean solution for componentising your different page features and keeping your code more easily maintainable.</p>
+<p>I&#39;ve created a repo on GitHub called <a href="https://github.com/Integralist/MVCP">MVCP</a> which is written in <a href="https://www.ruby-lang.org/">Ruby</a> and uses the <a href="http://www.sinatrarb.com/">Sinatra</a> web framework. Note: I had some help from my colleague <a href="http://twitter.com/sthulb">Simon</a> in cleaning up and refactoring some of the code (it may only have been minor changes but as with all good refactorings it made a massive difference to the quality of the code, so thanks to him for helping out).</p>
+<p>If you have any questions then feel free to contact me either here on <a href="http://twitter.com/integralist">twitter</a> and let me know your thoughts.</p>
+</div>
+
+  <div class="comments">
+    <a href="/posts/mvcp-model-view-controller-presenter/#comments">
+      <span class="icon-bubbles"></span>
+      Comments
+    </a>
+  </div>
+
+  <div class="post-head group">
+  <a href="/posts/sqlite-and-activerecord/">
+    <h1 class="post-title">SQLite and ActiveRecord</h1>
+  </a>
+  <span class="post-date">2013 &#183; 10 &#183; 11</span>
+</div>
+
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 14mins</em></p>
+<ul>
+<li>Introduction</li>
+<li>SQLite</li>
+<li>ActiveRecord</li>
+<li>Installation</li>
+<li>Set-up</li>
+<li>Schema</li>
+<li>Creating<ul>
+<li>Association</li>
+<li>Record Creation</li>
+</ul>
+</li>
+<li>Querying</li>
+<li>Conclusion</li>
+</ul>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<p>This was intended to be a quick post about how to use the embedded relational database &quot;<a href="http://www.sqlite.org/">SQLite</a>&quot; with a Ruby/Sinatra application but will also include information on incorporating the ActiveRecord pattern as well.</p>
+<p>We&#39;ll look at installing and setting up SQLite and incorporating the ActiveRecord pattern using the open-source library of the same name (which is included as part of the <a href="http://rubyonrails.org/">Ruby on Rails Framework</a>).</p>
+<h2><a name="sqlite" class="anchor" href="#sqlite"><span class="header-link"></span></a>SQLite</h2>
+<p>Typically if you&#39;re developing an application in Ruby using the <a href="http://rubyonrails.org/">Ruby on Rails framework</a> then you&#39;ll use SQLite in development and then switch over to another database for production (maybe <a href="http://www.mysql.com/">MySQL</a> or <a href="http://www.postgresql.org/">PostgreSQL</a>). </p>
+<p>What most people don&#39;t realise is that if you have a low traffic website then SQLite is fine to use. </p>
+<p>The only thing to be aware of when using SQLite in production is that it inherently isn&#39;t designed to scale. To help clarify, the author of SQLite had this to say on the subject… </p>
+<blockquote>
+<p>SQLite usually will work great as the database engine for low to medium traffic websites. The amount of web traffic that SQLite can handle depends, of course, on how heavily the website uses its database. Generally speaking, any site that gets fewer than 100K hits/day should work fine with SQLite. The 100K hits/day figure is a conservative estimate, not a hard upper bound. SQLite has been demonstrated to work with 10 times that amount of traffic.</p>
+<p>SQLite will normally work fine as the database backend to a website. But if your website is so busy that you are thinking of splitting the database component off onto a separate machine, then you should definitely consider using an enterprise-class client/server database engine instead of SQLite.</p>
+</blockquote>
+<h2><a name="activerecord" class="anchor" href="#activerecord"><span class="header-link"></span></a>ActiveRecord</h2>
+<p>So most Ruby developers will know of <a href="http://guides.rubyonrails.org/active_record_querying.html">ActiveRecord</a> but may not realise that it&#39;s actually an architectural pattern and the term was originally coined by <a href="http://martinfowler.com/">Martin Fowler</a> (a legend in the field of software engineering and data modeling).</p>
+<p>The pattern describes how to provide an Interface that lets the user interact with a relational database in a more user friendly fashion rather than constructing their own SQL queries.</p>
+<p>We&#39;ll be using Ruby on Rails&#39; implementation of the pattern which they&#39;ve extracted into an external library/module (so it&#39;s not specifically reliant on the Ruby on Rails framework if you&#39;re using something more lightweight like Sinatra).</p>
+<h2><a name="installation" class="anchor" href="#installation"><span class="header-link"></span></a>Installation</h2>
+<p>There are a couple of things we need to do:</p>
+<ol>
+<li>Install the SQLite libraries</li>
+<li>Install the SQLite Ruby module</li>
+<li>Install the ActiveRecord Ruby module</li>
+</ol>
+<p>So if you have <a href="http://brew.sh/">Homebrew</a> installed then you can simply run <code>brew install sqlite</code>.</p>
+<p>Note: you may need to run <code>brew --force link</code> afterwards, as a much older version of SQLite is already installed on the Mac OS and so the OS will attempt to load that first.</p>
+<p>To install the ruby module just run <code>gem install sqlite3</code></p>
+<p>To install the ActiveRecord ruby module just run <code>gem install activerecord</code></p>
+<h2><a name="command-line-tool" class="anchor" href="#command-line-tool"><span class="header-link"></span></a>Command Line Tool</h2>
+<p>Once the SQLite libraries are installed you will have access to a command line tool that lets you directly inspect the contents of a SQLite database file.</p>
+<p>For example, if you have a database file called <code>test.db</code> then you can run <code>sqlite3 test.db</code> to open the database.</p>
+<p>You can then run SQL commands against the database such as <code>select * from tableName;</code> (notice the semicolon at the end <code>;</code> you&#39;ll need this otherwise the command won&#39;t know when it is considered completed, the plus side is that you can write complex SQL queries across multiple lines).</p>
+<h2><a name="set-up" class="anchor" href="#set-up"><span class="header-link"></span></a>Set-up</h2>
+<p>Imagine we have a single file <code>sqlite-example.rb</code> with the following content… </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;active_record&#39;</span>
+
+<span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="no">Logger</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;database.log&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">))</span>
+
+<span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span><span class="p">(</span>
+  <span class="ss">:adapter</span>  <span class="o">=&gt;</span> <span class="s1">&#39;sqlite3&#39;</span><span class="p">,</span>
+  <span class="ss">:database</span> <span class="o">=&gt;</span> <span class="s1">&#39;example.db&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</code></pre>
+<p>…so let&#39;s analyse what this script is doing.</p>
+<p>First thing we&#39;re doing is loading the SQLite module.</p>
+<p>Second, ActiveRecord allows us to specify a recipient for any log information. In this instance we store any log information into a file called <code>database.log</code>. We could also send the log information directly to the terminal screen using <code>Logger.new(STDERR)</code> instead.</p>
+<p>Thirdly, we actually connect to the SQLite database. ActiveRecord has adapters for multiple databases and so here we specify we&#39;re using SQLite and that we want to connect to the <code>example.db</code> database. We could store data all in memory if we wanted (e.g. it wouldn&#39;t persist after the application has finished running), we do this by changing to…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="ss">:database</span> <span class="o">=&gt;</span> <span class="s1">&#39;:memory:&#39;</span>
+</pre></div>
+</code></pre>
+<h2><a name="schema" class="anchor" href="#schema"><span class="header-link"></span></a>Schema</h2>
+<p>As you should probably already know, we need to define a Schema for our database. Because although we&#39;re using an ActiveRecord interface we&#39;re still interacting with a relational database underneath that layer.</p>
+<p>A Schema helps dictate in code what the structure of the database should be and what the different columns/rows and data types should be used.</p>
+<p>To do this we&#39;ll add… </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Schema</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
+  <span class="k">unless</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">include?</span> <span class="s1">&#39;albums&#39;</span>
+    <span class="n">create_table</span> <span class="ss">:albums</span> <span class="k">do</span> <span class="o">|</span><span class="n">table</span><span class="o">|</span>
+      <span class="n">table</span><span class="o">.</span><span class="n">column</span> <span class="ss">:title</span><span class="p">,</span>     <span class="ss">:string</span>
+      <span class="n">table</span><span class="o">.</span><span class="n">column</span> <span class="ss">:performer</span><span class="p">,</span> <span class="ss">:string</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">unless</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">include?</span> <span class="s1">&#39;tracks&#39;</span>
+    <span class="n">create_table</span> <span class="ss">:tracks</span> <span class="k">do</span> <span class="o">|</span><span class="n">table</span><span class="o">|</span>
+      <span class="n">table</span><span class="o">.</span><span class="n">column</span> <span class="ss">:album_id</span><span class="p">,</span>     <span class="ss">:integer</span> <span class="c1"># foreign key &lt;table-name-singular&gt;_id (i.e. this is the primary key from the &#39;albums&#39; table)</span>
+      <span class="n">table</span><span class="o">.</span><span class="n">column</span> <span class="ss">:track_number</span><span class="p">,</span> <span class="ss">:integer</span>
+      <span class="n">table</span><span class="o">.</span><span class="n">column</span> <span class="ss">:title</span><span class="p">,</span>        <span class="ss">:string</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>…as you might be able to tell, we&#39;re doing a couple of things.</p>
+<p>First we&#39;re defining a new Schema.</p>
+<p>Second, we&#39;re creating two tables: <code>albums</code> and <code>tracks</code> (we wrap the creation of the tables in a condition so we make sure we don&#39;t cause any errors by trying to create a table that already exists). Also, the convention is to name the tables as plurals (notice we don&#39;t call it <code>album</code> or <code>track</code> as they&#39;ll be holding multiples of that data).</p>
+<p>Thirdly, inside of the table creation we&#39;re specifying specific columns and what their data types should be.</p>
+<p>When we create a table a &quot;<a href="http://en.wikipedia.org/wiki/Primary_key">primary key</a>&quot; is automatically created for us and is named after the table. So in this instance we have two primary keys created for us: <code>albums_id</code> and <code>tracks_id</code> (notice the naming convention of <code>tableName_id</code> - singular, not plural).</p>
+<p>Inside the <code>tracks</code> table you&#39;ll see the first column we create is actually a &quot;<a href="http://en.wikipedia.org/wiki/Foreign_key">foreign key</a>&quot; because we&#39;re creating a column which is named after the <code>albums</code> table&#39;s primary key (<code>album_id</code>).</p>
+<h2><a name="creating" class="anchor" href="#creating"><span class="header-link"></span></a>Creating</h2>
+<p>The ActiveRecord pattern is based on conventions, so in this instance we&#39;ll create two new classes that inherit from ActiveRecord&#39;s base class and we&#39;ll use these two classes for creating new records for each table… </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Album</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">has_many</span> <span class="ss">:tracks</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Track</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">belongs_to</span> <span class="ss">:album</span>
+<span class="k">end</span>
+
+<span class="k">unless</span> <span class="no">Album</span><span class="o">.</span><span class="n">find_by_title</span><span class="p">(</span><span class="s1">&#39;In Utero&#39;</span><span class="p">)</span>
+  <span class="n">album</span> <span class="o">=</span> <span class="no">Album</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="ss">:title</span>     <span class="o">=&gt;</span> <span class="s1">&#39;In Utero&#39;</span><span class="p">,</span>
+    <span class="ss">:performer</span> <span class="o">=&gt;</span> <span class="s1">&#39;Nirvana&#39;</span>
+  <span class="p">)</span>
+
+  <span class="n">track_listing</span> <span class="o">=</span> <span class="o">[</span>
+    <span class="kp">nil</span><span class="p">,</span>
+    <span class="s1">&#39;Serve the Servants&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Scentless Apprentice&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Heart-Shaped Box&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Rape Me&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Frances Farmer&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Dumb&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Very Ape&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Milk It&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Pennyroyal Tea&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Radio Friendly Unit Shifter&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Tourettes&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;All Apologies&#39;</span>
+  <span class="o">]</span>
+
+  <span class="n">track_listing</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="p">,</span> <span class="n">index</span><span class="o">|</span>
+    <span class="n">album</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:track_number</span> <span class="o">=&gt;</span> <span class="n">index</span><span class="p">,</span> <span class="ss">:title</span> <span class="o">=&gt;</span> <span class="n">value</span><span class="p">)</span> <span class="k">unless</span> <span class="n">index</span> <span class="o">===</span> <span class="mi">0</span> <span class="c1"># skip zero index</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">unless</span> <span class="no">Album</span><span class="o">.</span><span class="n">find_by_title</span><span class="p">(</span><span class="s1">&#39;La-te-ra-lus&#39;</span><span class="p">)</span>
+  <span class="n">album</span> <span class="o">=</span> <span class="no">Album</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="ss">:title</span>     <span class="o">=&gt;</span> <span class="s1">&#39;La-te-ra-lus&#39;</span><span class="p">,</span>
+    <span class="ss">:performer</span> <span class="o">=&gt;</span> <span class="s1">&#39;Tool&#39;</span>
+  <span class="p">)</span>
+
+  <span class="n">track_listing</span> <span class="o">=</span> <span class="o">[</span>
+    <span class="kp">nil</span><span class="p">,</span>
+    <span class="s1">&#39;The Grudge&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Eon Blue Apocalypse&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;The Patient&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Mantra&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Schism&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Parabol&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Parabola&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Ticks &amp; Leeches&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Lateralus&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Disposition&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Reflection&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Triad&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Faaip de Oiad&#39;</span>
+  <span class="o">]</span>
+
+  <span class="n">track_listing</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="p">,</span> <span class="n">index</span><span class="o">|</span>
+    <span class="n">album</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:track_number</span> <span class="o">=&gt;</span> <span class="n">index</span><span class="p">,</span> <span class="ss">:title</span> <span class="o">=&gt;</span> <span class="n">value</span><span class="p">)</span> <span class="k">unless</span> <span class="n">index</span> <span class="o">===</span> <span class="mi">0</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>…OK, so there are a couple of things worth noting here:</p>
+<p>When we inherit from <code>ActiveRecord::Base</code> our class is mapped to a table of the same name. So for example our class <code>Album</code> is mapped to the <code>albums</code> table.</p>
+<p>Also, as we&#39;re inheriting from the ActiveRecord Base class, we don&#39;t need to specify attributes (for example, inside our Tracks class) such as <code>:title</code> or <code>:track_number</code> within our class, as they will be indirectly inferred from the Schema we defined earlier and will come from that table which the class is mapped to.</p>
+<h3><a name="association" class="anchor" href="#association"><span class="header-link"></span></a>Association</h3>
+<p>You&#39;ll notice within the <code>Album</code> class we call a <code>has_many</code> method (provided through the inheritance chain via <code>ActiveRecord::Base</code>) which sets up the association between &#39;albums&#39; and &#39;tracks&#39;.</p>
+<p>Similarly, within the <code>Track</code> class we call <code>belongs_to</code> and tell it that our tracks belong to the &#39;albums&#39; table. We should only do this when the class/table holds the foreign key for the table we&#39;re saying it belongs to. In this case our &#39;Track&#39; class holds the foreign key that points to the &#39;albums&#39; table.</p>
+<h3><a name="record-creation" class="anchor" href="#record-creation"><span class="header-link"></span></a>Record Creation</h3>
+<p>Finally we actually create some records to insert into each table.</p>
+<p>We call a <code>create</code> method like so…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">album</span> <span class="o">=</span> <span class="no">Album</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="p">)</span>
+</pre></div>
+</code></pre>
+<p>…which is equivalent to… </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">album</span> <span class="o">=</span> <span class="no">Album</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="p">);</span>
+<span class="n">album</span><span class="o">.</span><span class="n">save</span>
+</pre></div>
+</code></pre>
+<p>…so it saves us a little extra typing (which is nice).</p>
+<p>You&#39;ll also notice that when we create a new <code>Album</code> instance we can access and create new <code>Tracks</code> as well (via the <code>album</code> instance: <code>album.tracks.create(…)</code>). This is because we&#39;ve made an association within the top level classes between Albums and Tracks.</p>
+<p>In my example I&#39;m trying to be a bit smarter by not repeating the same chunk of code over and over. So rather than doing… </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">album</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:track_number</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span>
+<span class="n">album</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:track_number</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">album</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:track_number</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">,</span> <span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span>
+<span class="c1">#…rinse repeat…</span>
+</pre></div>
+</code></pre>
+<p>…instead, I create the track listing as an <code>Array</code> and then loop the Array creating new records. </p>
+<p>The only additional logic I need is to avoid including the <code>[0]</code> item in the Array which I do using <code>album.tracks.create(…) unless index === 0</code>. </p>
+<p>The reason I avoid it is simply because track listings on albums always start at <code>1</code> where as our Array is zero-indexed.</p>
+<h2><a name="querying" class="anchor" href="#querying"><span class="header-link"></span></a>Querying</h2>
+<p>Now in my example code you&#39;ll find me wrapping certain chunks in <code>begin/rescue</code> as my example isn&#39;t made to work when accessed multiple times (<em>it&#39;s just a silly example to demonstrate how to connect, populate and query data using ActiveRecords</em>). So don&#39;t worry about those aspects and instead just focus on the APIs I&#39;m using. Specifically…</p>
+<h3><a name="find" class="anchor" href="#find"><span class="header-link"></span></a><code>find</code></h3>
+<p>This allows you to find a record by ID. So <code>Album.find(1)</code> would return the first album in the table. <code>Album.find(1).tracks.length</code> would then tell you the number of tracks that particular album held.</p>
+<h3><a name="find-by" class="anchor" href="#find-by"><span class="header-link"></span></a><code>find_by</code></h3>
+<p>This is actually a very intelligent method. It is based on conventions again, so <code>find_by_title</code> maps to a standard <code>find_by</code> method but passes through <code>title</code> as the attribute we&#39;re interested in searching within: <code>Album.find_by_title(&#39;La-te-ra-lus&#39;)</code></p>
+<h3><a name="all" class="anchor" href="#all"><span class="header-link"></span></a><code>all</code></h3>
+<p>This is an alias for <code>find(:all)</code>. So <code>Album.all</code> would return all records found within the &#39;Album` table.</p>
+<h3><a name="where" class="anchor" href="#where"><span class="header-link"></span></a><code>where</code></h3>
+<p>This is a conditional that maps to SQL&#39;s <code>where</code> clause. So <code>Track.where(title: &#39;Triad&#39;)</code> would return the record(s) within the Track database whose <code>title</code> attribute contained the value <code>Triad</code>. You can do more complicated filters such as: <code>Table.where(user_name: user_name, password: password).first</code> which safely sanitises your input and checks two different attributes and then returns the first record found (in case there are multiples).</p>
+<h3><a name="first" class="anchor" href="#first"><span class="header-link"></span></a><code>first</code></h3>
+<p>We&#39;ve seen this used already and works in a similar way to how Ruby&#39;s <code>first</code> property works (it returns the first item found).</p>
+<h3><a name="last" class="anchor" href="#last"><span class="header-link"></span></a><code>last</code></h3>
+<p>Same as <code>first</code> but returns the last item found.</p>
+<h3><a name="delete" class="anchor" href="#delete"><span class="header-link"></span></a><code>delete</code></h3>
+<p>Once you&#39;ve found a record then you can delete it using this method. So <code>Album.first.delete</code> would find the first record in the <code>Album</code> table and then delete that record.</p>
+<h3><a name="save" class="anchor" href="#save"><span class="header-link"></span></a><code>save</code></h3>
+<p>You can modify records by first locating them and simply assigning a new value to them, but you would then use the <code>save</code> method to store that update back to the database: <code>track = Track.where(title: &#39;yolo&#39;).first.title = &#39;Blah&#39;; track.save</code></p>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>So we&#39;ve not delved too deeply (as there is far too much to cover in one post) but hopefully this has been a good starting point for you.</p>
+<p>The complete code I was using looks like this… </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;active_record&#39;</span>
+
+<span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="no">Logger</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;database.log&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">))</span>
+
+<span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span><span class="p">(</span>
+  <span class="ss">:adapter</span>  <span class="o">=&gt;</span> <span class="s1">&#39;sqlite3&#39;</span><span class="p">,</span>
+  <span class="ss">:database</span> <span class="o">=&gt;</span> <span class="s1">&#39;example.db&#39;</span>
+<span class="p">)</span>
+
+<span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Schema</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
+  <span class="k">unless</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">include?</span> <span class="s1">&#39;albums&#39;</span>
+    <span class="n">create_table</span> <span class="ss">:albums</span> <span class="k">do</span> <span class="o">|</span><span class="n">table</span><span class="o">|</span>
+      <span class="n">table</span><span class="o">.</span><span class="n">column</span> <span class="ss">:title</span><span class="p">,</span>     <span class="ss">:string</span>
+      <span class="n">table</span><span class="o">.</span><span class="n">column</span> <span class="ss">:performer</span><span class="p">,</span> <span class="ss">:string</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">unless</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">include?</span> <span class="s1">&#39;tracks&#39;</span>
+    <span class="n">create_table</span> <span class="ss">:tracks</span> <span class="k">do</span> <span class="o">|</span><span class="n">table</span><span class="o">|</span>
+      <span class="n">table</span><span class="o">.</span><span class="n">column</span> <span class="ss">:album_id</span><span class="p">,</span>     <span class="ss">:integer</span>
+      <span class="n">table</span><span class="o">.</span><span class="n">column</span> <span class="ss">:track_number</span><span class="p">,</span> <span class="ss">:integer</span>
+      <span class="n">table</span><span class="o">.</span><span class="n">column</span> <span class="ss">:title</span><span class="p">,</span>        <span class="ss">:string</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Album</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">has_many</span> <span class="ss">:tracks</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Track</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">belongs_to</span> <span class="ss">:album</span>
+<span class="k">end</span>
+
+<span class="k">unless</span> <span class="no">Album</span><span class="o">.</span><span class="n">find_by_title</span><span class="p">(</span><span class="s1">&#39;In Utero&#39;</span><span class="p">)</span>
+  <span class="n">album</span> <span class="o">=</span> <span class="no">Album</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="ss">:title</span>     <span class="o">=&gt;</span> <span class="s1">&#39;In Utero&#39;</span><span class="p">,</span>
+    <span class="ss">:performer</span> <span class="o">=&gt;</span> <span class="s1">&#39;Nirvana&#39;</span>
+  <span class="p">)</span>
+
+  <span class="n">track_listing</span> <span class="o">=</span> <span class="o">[</span>
+    <span class="kp">nil</span><span class="p">,</span>
+    <span class="s1">&#39;Serve the Servants&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Scentless Apprentice&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Heart-Shaped Box&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Rape Me&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Frances Farmer&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Dumb&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Very Ape&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Milk It&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Pennyroyal Tea&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Radio Friendly Unit Shifter&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Tourettes&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;All Apologies&#39;</span>
+  <span class="o">]</span>
+
+  <span class="n">track_listing</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="p">,</span> <span class="n">index</span><span class="o">|</span>
+    <span class="n">album</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:track_number</span> <span class="o">=&gt;</span> <span class="n">index</span><span class="p">,</span> <span class="ss">:title</span> <span class="o">=&gt;</span> <span class="n">value</span><span class="p">)</span> <span class="k">unless</span> <span class="n">index</span> <span class="o">===</span> <span class="mi">0</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">unless</span> <span class="no">Album</span><span class="o">.</span><span class="n">find_by_title</span><span class="p">(</span><span class="s1">&#39;La-te-ra-lus&#39;</span><span class="p">)</span>
+  <span class="n">album</span> <span class="o">=</span> <span class="no">Album</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="ss">:title</span>     <span class="o">=&gt;</span> <span class="s1">&#39;La-te-ra-lus&#39;</span><span class="p">,</span>
+    <span class="ss">:performer</span> <span class="o">=&gt;</span> <span class="s1">&#39;Tool&#39;</span>
+  <span class="p">)</span>
+
+  <span class="n">track_listing</span> <span class="o">=</span> <span class="o">[</span>
+    <span class="kp">nil</span><span class="p">,</span>
+    <span class="s1">&#39;The Grudge&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Eon Blue Apocalypse&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;The Patient&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Mantra&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Schism&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Parabol&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Parabola&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Ticks &amp; Leeches&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Lateralus&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Disposition&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Reflection&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Triad&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Faaip de Oiad&#39;</span>
+  <span class="o">]</span>
+
+  <span class="n">track_listing</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="p">,</span> <span class="n">index</span><span class="o">|</span>
+    <span class="n">album</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:track_number</span> <span class="o">=&gt;</span> <span class="n">index</span><span class="p">,</span> <span class="ss">:title</span> <span class="o">=&gt;</span> <span class="n">value</span><span class="p">)</span> <span class="k">unless</span> <span class="n">index</span> <span class="o">===</span> <span class="mi">0</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">begin</span>
+  <span class="nb">p</span> <span class="no">Album</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">length</span> <span class="c1"># 13 (on first run of this script it&#39;s fine, but next run we&#39;ve deleted the record)</span>
+<span class="k">rescue</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">RecordNotFound</span>
+  <span class="nb">p</span> <span class="s1">&#39;We just rescued a &quot;RecordNotFound&quot; error&#39;</span>
+<span class="k">end</span>
+
+<span class="nb">p</span> <span class="no">Album</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">length</span> <span class="c1"># 14</span>
+<span class="nb">p</span> <span class="no">Album</span><span class="o">.</span><span class="n">find_by_title</span><span class="p">(</span><span class="s1">&#39;La-te-ra-lus&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span> <span class="c1"># &quot;La-te-ra-lus&quot;</span>
+<span class="nb">p</span> <span class="no">Track</span><span class="o">.</span><span class="n">find_by_title</span><span class="p">(</span><span class="s1">&#39;Very Ape&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">album_id</span> <span class="c1"># 1</span>
+<span class="nb">p</span> <span class="no">Album</span><span class="o">.</span><span class="n">all</span> <span class="c1"># ActiveRecord::Relation =&gt; complete set of database records</span>
+<span class="nb">p</span> <span class="no">Album</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">length</span> <span class="c1"># 2</span>
+<span class="nb">p</span> <span class="no">Track</span><span class="o">.</span><span class="n">all</span> <span class="c1"># ActiveRecord::Relation =&gt; complete set of database records</span>
+<span class="nb">p</span> <span class="no">Track</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">title</span><span class="p">:</span> <span class="s1">&#39;Triad&#39;</span><span class="p">)</span> <span class="c1"># ActiveRecord::Relation =&gt; single record</span>
+<span class="nb">p</span> <span class="no">Track</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">track_number</span><span class="p">:</span> <span class="mi">6</span><span class="o">.</span><span class="n">.</span><span class="mi">8</span><span class="p">)</span> <span class="c1"># returns tracks 6 to 8 from all albums</span>
+<span class="nb">p</span> <span class="no">Album</span><span class="o">.</span><span class="n">first</span> <span class="c1"># returns first record (calling `Album.find(:first|:last) is deprecated`)</span>
+<span class="nb">p</span> <span class="no">Album</span><span class="o">.</span><span class="n">last</span> <span class="c1"># returns last record</span>
+
+<span class="k">if</span> <span class="no">Album</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">1</span>
+  <span class="nb">p</span> <span class="no">Album</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">delete</span> <span class="c1"># delete the first record</span>
+<span class="k">end</span>
+
+<span class="nb">p</span> <span class="no">Album</span><span class="o">.</span><span class="n">all</span> <span class="c1"># now we&#39;ll see there is only one record remaining</span>
+
+<span class="n">track_to_be_modified</span> <span class="o">=</span> <span class="no">Track</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">title</span><span class="p">:</span> <span class="s1">&#39;The Grudge&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span>
+<span class="n">track_to_be_modified</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Grudgeola&#39;</span>
+<span class="n">track_to_be_modified</span><span class="o">.</span><span class="n">save</span>
+<span class="nb">p</span> <span class="n">track_to_be_modified</span> <span class="c1"># displays modified record</span>
+<span class="nb">p</span> <span class="no">Track</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">title</span><span class="p">:</span> <span class="s1">&#39;The Grudge&#39;</span><span class="p">)</span> <span class="c1"># empty Array (not found as we&#39;ve overridden the original record)</span>
+<span class="nb">p</span> <span class="no">Track</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">title</span><span class="p">:</span> <span class="s1">&#39;Grudgeola&#39;</span><span class="p">)</span> <span class="c1"># displays Array of records found (only one, the modified record)</span>
+</pre></div>
+</code></pre>
+<p>But remember this was just a quick introduction to the concepts of the ActiveRecord pattern (and using it with a SQLite database). There are <em>many</em> different querying methods available via ActiveRecord so do get stuck into the API documentation to see what other goodies are at your disposal. </p>
+<p>If you don&#39;t use/like Ruby then as I said previously: there are many different adaptations of the ActiveRecord pattern so look out for implementations in your language of choice.</p>
+</div>
+
+  <div class="comments">
+    <a href="/posts/sqlite-and-activerecord/#comments">
+      <span class="icon-bubbles"></span>
+      Comments
+    </a>
+  </div>
+
+
+<div class="pagination group">
+  
+    
+    
+      <a href="/" class="newer"> Newer &#8594;</a>
+    
+  
+    
+    
+  
+    
+    
+      <a href="/page/2/" class="older"> &#8592; Older</a>
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+</div>
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" type="text/javascript"></script>
+    <script src="/scripts/main.js" type="text/javascript"></script>
+    <script src="/scripts/Imager.js" type="text/javascript"></script>
+    <script>
+        var _gaq=[['_setAccount','UA-33159515-1'],['_trackPageview']];
+        (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g,s)}(document,'script'));
+    </script>
+  </body>
+</html>
+
