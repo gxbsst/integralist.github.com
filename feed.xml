@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Integralist: BBC News Engineer]]></title><description><![CDATA[I aim to implement Object-Oriented Design principles in which ever language I happen to be using (Node, Ruby, PHP, JavaScript, CSS/BEM)]]></description><link>http://www.integralist.co.uk/</link><generator>RSS for Node</generator><lastBuildDate>Mon, 16 Dec 2013 16:16:45 GMT</lastBuildDate><atom:link href="http://www.integralist.co.uk/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Mark McDonnell]]></author><pubDate>Mon, 16 Dec 2013 16:16:45 GMT</pubDate><copyright><![CDATA[2013 Mark McDonnell]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[mark.mcdx@gmail.com]]></managingEditor><webMaster><![CDATA[mark.mcdx@gmail.com]]></webMaster><ttl>60</ttl><item><title><![CDATA[Vim Workflow (Part Deux)]]></title><description><![CDATA[<h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+=======
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Integralist: BBC News Engineer]]></title><description><![CDATA[I aim to implement Object-Oriented Design principles in which ever language I happen to be using (Node, Ruby, PHP, JavaScript, CSS/BEM)]]></description><link>http://www.integralist.co.uk/</link><generator>RSS for Node</generator><lastBuildDate>Mon, 18 Nov 2013 16:26:14 GMT</lastBuildDate><atom:link href="http://www.integralist.co.uk/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Mark McDonnell]]></author><pubDate>Mon, 18 Nov 2013 16:26:14 GMT</pubDate><copyright><![CDATA[2013 Mark McDonnell]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[mark.mcdx@gmail.com]]></managingEditor><webMaster><![CDATA[mark.mcdx@gmail.com]]></webMaster><ttl>60</ttl><item><title><![CDATA[Vim Workflow (Part Deux)]]></title><description><![CDATA[<h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+>>>>>>> a33883440738723a1acdcbf3ba88db536986bec0
 <p><em>reading time: approx. 27mins</em></p>
 <ul>
 <li><a href="#introduction">Introduction</a></li>
@@ -61,7 +65,10 @@ pointed at a terminal shell (so I could run shell commands without affecting my
 current Vim window).</p>
 <p>So why would I give that up? What am I using now?</p>
 <p>Well, I&#39;m just using Vim&#39;s standard windows feature! So let me explain <em>how</em> I use Vim windows...</p>
+<<<<<<< HEAD
 <p><strong>Update</strong>: just to be clear that I do still use tmux but only when I&#39;m doing TDD or refactoring with tests. That is the one instance where I&#39;ll fire up two tmux panes (one to hold Vim and the other to be a terminal running my tests -&gt; this makes the &#39;red, green, refactor&#39; feedback loop nice and tight).</p>
+=======
+>>>>>>> a33883440738723a1acdcbf3ba88db536986bec0
 <h2><a name="vim-windows" class="anchor" href="#vim-windows"><span class="header-link"></span></a>Vim windows</h2>
 <p>When I create a new window in Vim (same as a tmux pane), the new window
 holds a copy of the current file. I then just use the Ctrl-p plugin to
@@ -550,6 +557,7 @@ files to check against.</p>
 <p>Not completely ideal, I know, as it effectively has similar issues to the Vim way in
 that you have to try and filter down files searched (although I&#39;d argue doing
 this via the shell should/could be more efficient than from within Vim).</p>
+<<<<<<< HEAD
 <h4><a name="the-gnu-way" class="anchor" href="#the-gnu-way"><span class="header-link"></span></a>The GNU Way</h4>
 <p>The very last way is the same as the previous solution but is the one I use
 now...</p>
@@ -560,6 +568,9 @@ install gnu-sed</code>.</p>
 extra files to have to remove).</p>
 <p>This for me is the best way to handle this type of issue.</p>
 <p>All of the above should cover the majority of solutions you&#39;ll find on the internet for this problem.</p>
+=======
+<p>The above should cover the majority of solutions you&#39;ll find on the internet for this problem.</p>
+>>>>>>> a33883440738723a1acdcbf3ba88db536986bec0
 <h3><a name="moving-between-brackets" class="anchor" href="#moving-between-brackets"><span class="header-link"></span></a>Moving between brackets</h3>
 <p>It can be useful sometimes to be able to jump between opening and closing
 brackets (especially when working on code), this is where <code>Shift-%</code> comes in.</p>
@@ -834,7 +845,11 @@ things).</p>
 <h2><a name="refactoring-techniques" class="anchor" href="#refactoring-techniques"><span class="header-link"></span></a>Refactoring Techniques</h2>
 <p>There are many documented refactoring techniques and I do not attempt to cover them all, as this post would end up becoming a book in itself. So I&#39;ve picked what I feel are the most common and useful refactoring techniques and I try my best to explain them in a short and concise way.</p>
 <p>I&#39;ve put these techniques in order of how you might approach refactoring a piece of code, in a linear, top to bottom order. This is a personal preference and doesn&#39;t necessarily represent the best way to refactor.</p>
+<<<<<<< HEAD
 <p>Final note: with some of the techniques I have provided a basic code example, but to be honest some techniques are so simple they do not need any example. The <a href="#extract-method">Extract Method</a> is one such technique that although really useful and important, providing a code example would be a waste of time and space.</p>
+=======
+<p>Final note: with some of the techniques I have provided a basic code example, but to be honest some techniques are so simple they do not need any example. The <a href="#extract-method">Extract Method</a> is one such technique that although it really useful and important, providing a code example would be a waste of time and space.</p>
+>>>>>>> a33883440738723a1acdcbf3ba88db536986bec0
 <p>So without further ado, let&#39;s begin...</p>
 <h3><a name="rename-method" class="anchor" href="#rename-method"><span class="header-link"></span></a>Rename Method</h3>
 <p>The single most effective and simple refactoring you can implement is to rename a property/attribute, method or object.</p>
@@ -1005,16 +1020,25 @@ things).</p>
 </code></pre>
 <p>...neither PHP or JavaScript do, so for PHP you can pass an associated Array and with JavaScript you can pass an Object/Hash.</p>
 <p><strong>For example (JavaScript)</strong>:</p>
+<<<<<<< HEAD
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">function</span> <span class="n">turnOnTheTV</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">v</span><span class="p">){}</span>
+=======
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">turnOnTheTV</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">v</span><span class="p">);</span> <span class="k">end</span>
+>>>>>>> a33883440738723a1acdcbf3ba88db536986bec0
 <span class="n">turnOnTheTV</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
 </pre></div>
 </code></pre>
 <p><strong>Becomes</strong>:</p>
+<<<<<<< HEAD
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">function</span> <span class="n">turnOnTheTV</span> <span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="p">{</span>
     <span class="sr">//</span> <span class="n">config</span><span class="o">.</span><span class="n">channel</span> <span class="o">===</span> <span class="mi">101</span>
     <span class="o">//</span> <span class="n">config</span><span class="o">.</span><span class="n">volume</span>  <span class="o">===</span> <span class="mi">10</span>
 <span class="p">}</span>
 <span class="n">turnOnTheTV</span><span class="p">({</span> <span class="ss">channel</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="ss">volume</span><span class="p">:</span> <span class="mi">10</span> <span class="p">});</span>
+=======
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">turnOnTheTV</span><span class="p">(</span><span class="ss">channel</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">volume</span><span class="p">:</span> <span class="mi">1</span><span class="p">);</span> <span class="k">end</span>
+<span class="n">turnOnTheTV</span><span class="p">(</span><span class="ss">channel</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="ss">volume</span><span class="p">:</span> <span class="mi">10</span><span class="p">);</span>
+>>>>>>> a33883440738723a1acdcbf3ba88db536986bec0
 </pre></div>
 </code></pre>
 <p>Note: ECMAScript 6.0 (the latest JavaScript specification - which is still being worked on as of Nov 2013) implements named parameters.</p>
@@ -1835,8 +1859,11 @@ Line 3: third
 <li>Search and Replace</li>
 <li>Viewing different buffers</li>
 <li>Change list</li>
+<<<<<<< HEAD
 <li>Jump list</li>
 <li>Diff Tool</li>
+=======
+>>>>>>> a33883440738723a1acdcbf3ba88db536986bec0
 <li>Code Comments</li>
 <li>Syntax Formatting</li>
 <li>Auto Indenting</li>
@@ -1845,7 +1872,11 @@ Line 3: third
 <li>Visual Block Mode</li>
 <li>Vim Windows</li>
 <li>Repeating Yourself</li>
+<<<<<<< HEAD
 <li>Making life easier (changing case)</li>
+=======
+<li>Making life easier</li>
+>>>>>>> a33883440738723a1acdcbf3ba88db536986bec0
 <li>Keep to the basics</li>
 </ul>
 </li>
@@ -2163,6 +2194,7 @@ Bundle <span class="s1">&#39;vim-scripts/The-NERD-tree&#39;</span>
 <p>To access a specific change position run <code>:changes n</code> (where <code>n</code> is the number of the change position you&#39;re interested in). Moving to a previous change position doesn&#39;t undo the changes but instead just moves the cursor to that position. The reason why this is a good feature to have in Vim is because it allows you to jump around your file a lot more quickly and easily and can help to speed up your editing.</p>
 <p>To sequentially move back and forth between the change list points use the commands:</p>
 <p><code>g;</code> - prev<br><code>g,</code> - next</p>
+<<<<<<< HEAD
 <h3><a name="jump-list" class="anchor" href="#jump-list"><span class="header-link"></span></a>Jump list</h3>
 <p>Similar to the &#39;change list&#39; feature, there is also a &#39;jump list&#39; which allows you to move back and forth between all cursor positions.</p>
 <p>You can view all cursor positions by running the command <code>:jumps</code>.</p>
@@ -2173,6 +2205,8 @@ Bundle <span class="s1">&#39;vim-scripts/The-NERD-tree&#39;</span>
 <p>Then within each window run the command <code>:diffthis</code>. You&#39;ll see any differences between the files highlighted for you along with their line number.</p>
 <p>When you scroll the file then Vim will keep the scrolling in sync across both files.</p>
 <p>To turn off the diff tool then run <code>:diffoff</code> in any one of the windows.</p>
+=======
+>>>>>>> a33883440738723a1acdcbf3ba88db536986bec0
 <h3><a name="code-comments" class="anchor" href="#code-comments"><span class="header-link"></span></a>Code Comments</h3>
 <p>The following commands use the <code>vim-commentary.git</code> plugin…</p>
 <p><code>gcc</code> = comment out a line (or <code>\\\</code>)<br><code>gcu</code> = uncomment the commented line (you can do <code>gcc</code> as a toggle)</p>
@@ -2219,7 +2253,11 @@ Bundle <span class="s1">&#39;vim-scripts/The-NERD-tree&#39;</span>
 <p>If you need to repeat an edit you just made within INSERT mode then use the <code>.</code> command. </p>
 <p>For example, imagine you have the text &quot;this is text&quot; and you wanted to have the first letter of each word capitalised. </p>
 <p>You could first move to the start of the line <code>0</code> and then use the &#39;toggle casing&#39; command <code>~</code> and then run the command <code>w.</code> twice which means you would: (<code>w</code>) move the cursor to the next word and then (<code>.</code>) repeat the last edit.</p>
+<<<<<<< HEAD
 <h3><a name="making-life-easier-changing-case" class="anchor" href="#making-life-easier-changing-case"><span class="header-link"></span></a>Making life easier (changing case)</h3>
+=======
+<h3><a name="making-life-easier" class="anchor" href="#making-life-easier"><span class="header-link"></span></a>Making life easier</h3>
+>>>>>>> a33883440738723a1acdcbf3ba88db536986bec0
 <p>Now imagine you have the word &quot;THIS&quot; and you wanted to only have the first letter of each word capitalised. </p>
 <p>Rather than manually rewrite each word, move your cursor to the start of the line and run <code>lve~</code>. </p>
 <p>That will (<code>l</code>) move the cursor to the right, (<code>v</code>) select (<code>e</code>) to the end of the word and then (<code>~</code>) switch that selection&#39;s casing (so in this instance it&#39;ll change to lowercase).</p>

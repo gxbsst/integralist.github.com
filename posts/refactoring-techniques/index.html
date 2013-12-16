@@ -118,7 +118,11 @@
 <h2><a name="refactoring-techniques" class="anchor" href="#refactoring-techniques"><span class="header-link"></span></a>Refactoring Techniques</h2>
 <p>There are many documented refactoring techniques and I do not attempt to cover them all, as this post would end up becoming a book in itself. So I&#39;ve picked what I feel are the most common and useful refactoring techniques and I try my best to explain them in a short and concise way.</p>
 <p>I&#39;ve put these techniques in order of how you might approach refactoring a piece of code, in a linear, top to bottom order. This is a personal preference and doesn&#39;t necessarily represent the best way to refactor.</p>
+<<<<<<< HEAD
 <p>Final note: with some of the techniques I have provided a basic code example, but to be honest some techniques are so simple they do not need any example. The <a href="#extract-method">Extract Method</a> is one such technique that although really useful and important, providing a code example would be a waste of time and space.</p>
+=======
+<p>Final note: with some of the techniques I have provided a basic code example, but to be honest some techniques are so simple they do not need any example. The <a href="#extract-method">Extract Method</a> is one such technique that although it really useful and important, providing a code example would be a waste of time and space.</p>
+>>>>>>> a33883440738723a1acdcbf3ba88db536986bec0
 <p>So without further ado, let&#39;s begin...</p>
 <h3><a name="rename-method" class="anchor" href="#rename-method"><span class="header-link"></span></a>Rename Method</h3>
 <p>The single most effective and simple refactoring you can implement is to rename a property/attribute, method or object.</p>
@@ -289,16 +293,25 @@
 </code></pre>
 <p>...neither PHP or JavaScript do, so for PHP you can pass an associated Array and with JavaScript you can pass an Object/Hash.</p>
 <p><strong>For example (JavaScript)</strong>:</p>
+<<<<<<< HEAD
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">function</span> <span class="n">turnOnTheTV</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">v</span><span class="p">){}</span>
+=======
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">turnOnTheTV</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">v</span><span class="p">);</span> <span class="k">end</span>
+>>>>>>> a33883440738723a1acdcbf3ba88db536986bec0
 <span class="n">turnOnTheTV</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
 </pre></div>
 </code></pre>
 <p><strong>Becomes</strong>:</p>
+<<<<<<< HEAD
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">function</span> <span class="n">turnOnTheTV</span> <span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="p">{</span>
     <span class="sr">//</span> <span class="n">config</span><span class="o">.</span><span class="n">channel</span> <span class="o">===</span> <span class="mi">101</span>
     <span class="o">//</span> <span class="n">config</span><span class="o">.</span><span class="n">volume</span>  <span class="o">===</span> <span class="mi">10</span>
 <span class="p">}</span>
 <span class="n">turnOnTheTV</span><span class="p">({</span> <span class="ss">channel</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="ss">volume</span><span class="p">:</span> <span class="mi">10</span> <span class="p">});</span>
+=======
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">turnOnTheTV</span><span class="p">(</span><span class="ss">channel</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">volume</span><span class="p">:</span> <span class="mi">1</span><span class="p">);</span> <span class="k">end</span>
+<span class="n">turnOnTheTV</span><span class="p">(</span><span class="ss">channel</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="ss">volume</span><span class="p">:</span> <span class="mi">10</span><span class="p">);</span>
+>>>>>>> a33883440738723a1acdcbf3ba88db536986bec0
 </pre></div>
 </code></pre>
 <p>Note: ECMAScript 6.0 (the latest JavaScript specification - which is still being worked on as of Nov 2013) implements named parameters.</p>
