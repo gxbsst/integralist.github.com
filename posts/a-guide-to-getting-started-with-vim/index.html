@@ -78,11 +78,8 @@
 <li>Search and Replace</li>
 <li>Viewing different buffers</li>
 <li>Change list</li>
-<<<<<<< HEAD
 <li>Jump list</li>
 <li>Diff Tool</li>
-=======
->>>>>>> a33883440738723a1acdcbf3ba88db536986bec0
 <li>Code Comments</li>
 <li>Syntax Formatting</li>
 <li>Auto Indenting</li>
@@ -91,11 +88,7 @@
 <li>Visual Block Mode</li>
 <li>Vim Windows</li>
 <li>Repeating Yourself</li>
-<<<<<<< HEAD
 <li>Making life easier (changing case)</li>
-=======
-<li>Making life easier</li>
->>>>>>> a33883440738723a1acdcbf3ba88db536986bec0
 <li>Keep to the basics</li>
 </ul>
 </li>
@@ -413,7 +406,6 @@ Bundle <span class="s1">&#39;vim-scripts/The-NERD-tree&#39;</span>
 <p>To access a specific change position run <code>:changes n</code> (where <code>n</code> is the number of the change position you&#39;re interested in). Moving to a previous change position doesn&#39;t undo the changes but instead just moves the cursor to that position. The reason why this is a good feature to have in Vim is because it allows you to jump around your file a lot more quickly and easily and can help to speed up your editing.</p>
 <p>To sequentially move back and forth between the change list points use the commands:</p>
 <p><code>g;</code> - prev<br><code>g,</code> - next</p>
-<<<<<<< HEAD
 <h3><a name="jump-list" class="anchor" href="#jump-list"><span class="header-link"></span></a>Jump list</h3>
 <p>Similar to the &#39;change list&#39; feature, there is also a &#39;jump list&#39; which allows you to move back and forth between all cursor positions.</p>
 <p>You can view all cursor positions by running the command <code>:jumps</code>.</p>
@@ -424,8 +416,6 @@ Bundle <span class="s1">&#39;vim-scripts/The-NERD-tree&#39;</span>
 <p>Then within each window run the command <code>:diffthis</code>. You&#39;ll see any differences between the files highlighted for you along with their line number.</p>
 <p>When you scroll the file then Vim will keep the scrolling in sync across both files.</p>
 <p>To turn off the diff tool then run <code>:diffoff</code> in any one of the windows.</p>
-=======
->>>>>>> a33883440738723a1acdcbf3ba88db536986bec0
 <h3><a name="code-comments" class="anchor" href="#code-comments"><span class="header-link"></span></a>Code Comments</h3>
 <p>The following commands use the <code>vim-commentary.git</code> plugin…</p>
 <p><code>gcc</code> = comment out a line (or <code>\\\</code>)<br><code>gcu</code> = uncomment the commented line (you can do <code>gcc</code> as a toggle)</p>
@@ -472,11 +462,7 @@ Bundle <span class="s1">&#39;vim-scripts/The-NERD-tree&#39;</span>
 <p>If you need to repeat an edit you just made within INSERT mode then use the <code>.</code> command. </p>
 <p>For example, imagine you have the text &quot;this is text&quot; and you wanted to have the first letter of each word capitalised. </p>
 <p>You could first move to the start of the line <code>0</code> and then use the &#39;toggle casing&#39; command <code>~</code> and then run the command <code>w.</code> twice which means you would: (<code>w</code>) move the cursor to the next word and then (<code>.</code>) repeat the last edit.</p>
-<<<<<<< HEAD
 <h3><a name="making-life-easier-changing-case" class="anchor" href="#making-life-easier-changing-case"><span class="header-link"></span></a>Making life easier (changing case)</h3>
-=======
-<h3><a name="making-life-easier" class="anchor" href="#making-life-easier"><span class="header-link"></span></a>Making life easier</h3>
->>>>>>> a33883440738723a1acdcbf3ba88db536986bec0
 <p>Now imagine you have the word &quot;THIS&quot; and you wanted to only have the first letter of each word capitalised. </p>
 <p>Rather than manually rewrite each word, move your cursor to the start of the line and run <code>lve~</code>. </p>
 <p>That will (<code>l</code>) move the cursor to the right, (<code>v</code>) select (<code>e</code>) to the end of the word and then (<code>~</code>) switch that selection&#39;s casing (so in this instance it&#39;ll change to lowercase).</p>
