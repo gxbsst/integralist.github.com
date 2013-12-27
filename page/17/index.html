@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="/images/cabin.png" >
+    <link href="/styles/main.css" rel="stylesheet">
+    
+    <title>Integralist -> BBC News Engineer</title>
+    
+    
+    <link rel="alternate" type="application/atom+xml" title="Integralist" href="http://feeds.feedburner.com/Integralist">
+  </head>
+  <body>
+    <nav>
+      <h1 class="name">
+          <a href="/">Integralist</a> <span class="role">BBC News Engineer</span>
+      </h1>
+      <div class="menu icon-menu"></div>
+      <ul class="nav-links">
+        <li class="text-link">
+          <a href="/about.html">about</a>
+        </li>
+        <li class="text-link">
+          <a href="/projects.html">projects</a>
+        </li>
+        <li class="text-link">
+          <a href="/archives.html">archives</a>
+        </li>
+      </ul>
+      <div class="social-media">
+        <a href="https://github.com/integralist" class="icon-github"></a>
+        <a href="https://twitter.com/integralist" class="icon-twitter"></a>
+      </div>
+    </nav>
+    <div class="content">
+
+
+  <div class="post-head group">
+  <a href="/posts/javascript-inheritance/">
+    <h1 class="post-title">JavaScript Inheritance</h1>
+  </a>
+  <span class="post-date">2012 &#183; 1 &#183; 1</span>
+</div>
+
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 2mins</em></p>
+<ul>
+<li>Introduction</li>
+<li>Constructors</li>
+<li>Example Code</li>
+<li>Conclusion</li>
+</ul>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<p><a href="http://en.wikipedia.org/wiki/Class_(object-oriented_programming\">Class based inheritance</a>) doesn’t exist in JavaScript (<em>note: ECMAScript had plans to implement in ES6 basic Class syntax, but as of April 2012 this seems to be in doubt again</em>), but you can replicate its syntax by using functions as Constructors.</p>
+<h2><a name="constructors" class="anchor" href="#constructors"><span class="header-link"></span></a>Constructors</h2>
+<p>The basic premise to have code that appears more <code>Class</code> like is this: JavaScript functions created using the <code>new</code> keyword work in a similar way to what Class based languages refer to as ‘Constructors’. When a function uses the <code>new</code> keyword the Function object is given a <code>prototype</code> property which points (initially) to an empty object. This empty object can then have methods and properties added to it which will be available to all other objects that point their own prototype link to it.</p>
+<h2><a name="example-code" class="anchor" href="#example-code"><span class="header-link"></span></a>Example Code</h2>
+<p>A basic example is as follows…</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">Person</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">settings</span><span class="p">)</span> <span class="p">{</span>
+   <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">settings</span><span class="p">)</span> <span class="p">{</span> <span class="nx">settings</span> <span class="o">=</span> <span class="p">{};</span> <span class="p">}</span> <span class="c1">// code defensively</span>
+
+   <span class="c1">// Instance properties (any new instances of the Person class will have these properties)</span>
+   <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">settings</span><span class="p">.</span><span class="nx">name</span> <span class="o">||</span> <span class="s1">&#39;no name given&#39;</span><span class="p">;</span>
+   <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">settings</span><span class="p">.</span><span class="nx">age</span> <span class="o">||</span> <span class="s1">&#39;no age given&#39;</span><span class="p">;</span>
+
+   <span class="c1">// Instance method (any new instances of the Person class will have this method)</span>
+   <span class="k">this</span><span class="p">.</span><span class="nx">getName</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+   <span class="p">};</span>
+<span class="p">};</span>
+
+<span class="c1">// Create a new instance of the Person Class</span>
+<span class="kd">var</span> <span class="nx">integralist</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">({</span> <span class="nx">name</span><span class="o">:</span><span class="s1">&#39;Mark&#39;</span><span class="p">,</span> <span class="nx">age</span><span class="o">:</span><span class="mi">7</span> <span class="p">});</span>
+
+<span class="c1">// Add a method to this instance of the Person Class only (no other instances created will have this method)</span>
+<span class="nx">integralist</span><span class="p">.</span><span class="nx">getAge</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">age</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Test the integralist instance has access to both methods</span>
+<span class="nx">integralist</span><span class="p">.</span><span class="nx">getName</span><span class="p">();</span>
+<span class="nx">integralist</span><span class="p">.</span><span class="nx">getAge</span><span class="p">();</span>
+
+<span class="c1">// Create another instance of the Person Class</span>
+<span class="kd">var</span> <span class="nx">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">();</span>
+
+<span class="c1">// Notice the user has access to a &#39;getName&#39; method but not a &#39;getAge&#39; method</span>
+<span class="nx">user</span><span class="p">.</span><span class="nx">getName</span><span class="p">();</span>
+
+<span class="c1">// I know this will error so I&#39;m wrapping it in a try statement</span>
+<span class="k">try</span> <span class="p">{</span>
+   <span class="nx">user</span><span class="p">.</span><span class="nx">getAge</span><span class="p">();</span>
+<span class="p">}</span> <span class="k">catch</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">alert</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="c1">// Uncaught TypeError: Object [object Object] has no method &#39;getAge&#39;</span>
+<span class="p">}</span>
+
+<span class="c1">// Add a method to the Person Class&#39; prototype chain (all instances of the Person Class will now get this method - even those already defined)</span>
+<span class="nx">Person</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">getNameAndAge</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;Hi, my name is &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;, and I\&#39;m &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">+</span> <span class="s1">&#39; years old.&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Test this new method is accessible to all instances of the Person Class</span>
+<span class="nx">integralist</span><span class="p">.</span><span class="nx">getNameAndAge</span><span class="p">();</span>
+<span class="nx">user</span><span class="p">.</span><span class="nx">getNameAndAge</span><span class="p">();</span>
+</pre></div>
+</code></pre>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>Personally I would suggest you learn how JavaScript implements its own form of inheritance (prototypal inheritance) which is more efficient and nicer to work with than the use of functions as Constructors.</p>
+<p>The Mozilla Developer Network has written up a short article on the differences between Class-based and Prototype-based languages which you can find here: <a href="https://developer.mozilla.org/en/Core_JavaScript_1.5_Guide/Details_of_the_Object_Model#Class-Based_vs._Prototype-Based_Languages"><a href="https://developer.mozilla.org/en/Core_JavaScript_1.5_Guide/Details_of_the_Object_Model#Class-Based_vs._Prototype-Based_Languages">https://developer.mozilla.org/en/Core_JavaScript_1.5_Guide/Details_of_the_Object_Model#Class-Based_vs._Prototype-Based_Languages</a></a></p>
+</div>
+
+  <div class="comments">
+    <a href="/posts/javascript-inheritance/#comments">
+      <span class="icon-bubbles"></span>
+      Comments
+    </a>
+  </div>
+
+
+<div class="pagination group">
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+      <a href="/page/16/" class="newer"> Newer &#8594;</a>
+    
+  
+    
+    
+  
+</div>
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" type="text/javascript"></script>
+    <script src="/scripts/main.js" type="text/javascript"></script>
+    <script src="/scripts/Imager.js" type="text/javascript"></script>
+    <script>
+        var _gaq=[['_setAccount','UA-33159515-1'],['_trackPageview']];
+        (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g,s)}(document,'script'));
+    </script>
+  </body>
+</html>
+

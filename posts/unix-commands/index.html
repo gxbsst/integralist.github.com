@@ -59,6 +59,7 @@
 <li>Rename a file</li>
 <li>Delete a file</li>
 <li>Delete a directory</li>
+<li>Create a directory</li>
 </ul>
 </li>
 <li>Grep (Searching for patterns)</li>
@@ -119,6 +120,9 @@
 <p>The first flag is <code>-f</code> which means &#39;force&#39; the removal (otherwise if you try to remove a folder then the shell will try and prevent this as it&#39;ll assume you&#39;ve made a mistake, and deleting a whole folder could be a big mistake if you&#39;re not careful).</p>
 <p>The second flag is <code>-r</code> which means &#39;recursively&#39;. So you&#39;ll recursively delete files within the folder.</p>
 <p>So: <code>rm -rf ~/Desktop/some-folder</code> will delete our <code>some-folder</code> folder on the Desktop.</p>
+<h3><a name="lets-create-a-directory" class="anchor" href="#lets-create-a-directory"><span class="header-link"></span></a>Let&#39;s create a directory</h3>
+<p>To create a directory you can use the make directory command <code>mkdir my_folder_name</code></p>
+<p>To make creating lots of sub directories easier you can pass a <code>-p</code> flag like so <code>mkdir -p Assets/{Scripts,Styles}</code> (notice we use interpolation <code>{}</code> which lets use specify multiple folder names in the current directory level).</p>
 <h2><a name="grep-searching-for-patterns" class="anchor" href="#grep-searching-for-patterns"><span class="header-link"></span></a>Grep (Searching for patterns)</h2>
 <p>Grep is a command that lets you find a pattern (either a string or a regular expression) inside of a file or list of files.</p>
 <p>So: <code>grep &#39;something&#39; test.txt</code> looks for the word &#39;something&#39; inside of the file <code>test.txt</code>.</p>

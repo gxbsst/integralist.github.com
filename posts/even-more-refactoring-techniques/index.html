@@ -1,0 +1,451 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="/images/cabin.png" >
+    <link href="/styles/main.css" rel="stylesheet">
+    
+    <title>Even More Refactoring Techniques</title>
+    
+    
+    <meta name="description" content="This is a second reference guide to some of the more commonly used refactoring techniques as described by visionary authors such as Kent Beck and Martin Fowler">
+    
+    <link rel="alternate" type="application/atom+xml" title="Integralist" href="http://feeds.feedburner.com/Integralist">
+  </head>
+  <body>
+    <nav>
+      <h1 class="name">
+          <a href="/">Integralist</a> <span class="role">BBC News Engineer</span>
+      </h1>
+      <div class="menu icon-menu"></div>
+      <ul class="nav-links">
+        <li class="text-link">
+          <a href="/about.html">about</a>
+        </li>
+        <li class="text-link">
+          <a href="/projects.html">projects</a>
+        </li>
+        <li class="text-link">
+          <a href="/archives.html">archives</a>
+        </li>
+      </ul>
+      <div class="social-media">
+        <a href="https://github.com/integralist" class="icon-github"></a>
+        <a href="https://twitter.com/integralist" class="icon-twitter"></a>
+      </div>
+    </nav>
+    <div class="content">
+
+<div class="post-head group">
+  <a href="/posts/even-more-refactoring-techniques/">
+    <h1 class="post-title">Even More Refactoring Techniques</h1>
+  </a>
+  <span class="post-date">2013 &#183; 12 &#183; 27</span>
+</div>
+
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 10mins</em></p>
+<ul>
+<li>Introduction<ul>
+<li><a href="#remove-redundancy">Remove Redundancy</a></li>
+<li><a href="#dynamic-method-definition">Dynamic Method Definition</a></li>
+<li><a href="#extract-class">Extract Class</a></li>
+<li><a href="#hide-delegate">Hide Delegate</a></li>
+<li><a href="#replace-array-with-object">Replace Array with Object</a></li>
+<li><a href="#replace-conditional-with-polymorphism">Replace Conditional with Polymorphism</a></li>
+<li><a href="#decompose-conditional">Decompose Conditional</a></li>
+<li><a href="#introduce-null-object">Introduce Null Object</a></li>
+</ul>
+</li>
+<li>Conclusion</li>
+</ul>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<p>Well here we are again to learn some more refactoring techniques. If you want to recap the other techniques then go <a href="/posts/refactoring-techniques/">read my previous post</a>, otherwise let&#39;s just crack on...</p>
+<h3><a name="remove-redundancy" class="anchor" href="#remove-redundancy"><span class="header-link"></span></a>Remove Redundancy</h3>
+<p>This isn&#39;t an explicit technique, more a grouping of techniques.</p>
+<p>The principle idea being that: code evolves, and as it evolves you may find techniques you previously implemented (as part of an earlier refactoring) have since become redundant. </p>
+<p>Imagine you implemented the &quot;<a href="/posts/refactoring-techniques/#introduce-named-parameter">Introduce Named Parameter</a>&quot; technique (passing a hash with named properties as a single argument instead of multiple unidentified arguments). </p>
+<p>Now, after some other refactorings have taken place, you discover the method originally refactored is no longer as complex and so your argument hash refactor has been reduced down to just a single named property. </p>
+<p>In this particular scenario you should remove the named parameter and simply pass a single argument instead.</p>
+<p>This principle applies with other refactoring techniques. </p>
+<p>Imagine an earlier refactoring included implementing a default parameter value for a method call. As your code evolves, if you discover you now only ever call the method <em>with</em> an argument then the default value becomes redundant and makes the code more complex than it needs to be by providing a default value. So just remove the redundant code.</p>
+<h3><a name="dynamic-method-definition" class="anchor" href="#dynamic-method-definition"><span class="header-link"></span></a>Dynamic Method Definition</h3>
+<p>Sometimes defining multiple methods can be wasteful when functionally they carry out similar steps. </p>
+<p>For example, imagine we had the following code... </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">failure</span> <span class="k">do</span> 
+  <span class="nb">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;failure&quot;</span> 
+<span class="k">end</span> 
+
+<span class="k">def</span> <span class="nf">success</span> <span class="k">do</span> 
+  <span class="nb">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;success&quot;</span> 
+<span class="k">end</span> 
+
+<span class="k">def</span> <span class="nf">error</span> <span class="k">do</span> 
+  <span class="nb">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;error&quot;</span> 
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Notice how the functions are structurally identical. They simply set a <code>result</code> property to have a value
+This can be refactored using Ruby&#39;s <code>define_method</code> method (which let&#39;s you create methods dynamically at run time)... </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="o">[</span><span class="ss">:failure</span><span class="p">,</span> <span class="ss">:success</span><span class="p">,</span> <span class="ss">:error</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">method</span><span class="o">|</span> 
+  <span class="n">define_method</span> <span class="nb">method</span> <span class="k">do</span> 
+    <span class="nb">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="nb">method</span><span class="o">.</span><span class="n">to_s</span> 
+  <span class="k">end</span> 
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Note: you could also abstract this code into a more reusable (and easier to maintain) function like so... </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">dynamic_methods</span><span class="p">(</span><span class="o">*</span><span class="n">method_names</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span> 
+  <span class="n">method_names</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">method_name</span><span class="o">|</span> 
+    <span class="n">define_method</span> <span class="n">method_name</span> <span class="k">do</span> 
+      <span class="n">instance_exec</span><span class="p">(</span><span class="n">method_name</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+    <span class="k">end</span> 
+  <span class="k">end</span> 
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>You can also use this technique to help ease creating properties on an object. For example, I used this technique in my <a href="/posts/mvcp-model-view-controller-presenter/">MVCP</a> blog post to dynamically create instance variables... </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;app/presenters/base&#39;</span> 
+<span class="nb">require</span> <span class="s1">&#39;app/models/person&#39;</span> 
+
+<span class="k">class</span> <span class="nc">Presenters</span><span class="o">::</span><span class="no">Person</span> <span class="o">&lt;</span> <span class="no">Presenters</span><span class="o">::</span><span class="no">Base</span> 
+  <span class="kp">attr_reader</span> <span class="ss">:run</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:age</span> 
+
+  <span class="k">def</span> <span class="nf">initialize</span> 
+    <span class="vi">@run</span> <span class="o">=</span> <span class="kp">true</span> 
+
+    <span class="n">model</span> <span class="o">=</span> <span class="no">Person</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;Mark&#39;</span><span class="p">,</span> <span class="s1">&#39;99&#39;</span><span class="p">)</span> 
+    <span class="n">prepare_view_data</span><span class="p">({</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="n">model</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="ss">:age</span> <span class="o">=&gt;</span> <span class="n">model</span><span class="o">.</span><span class="n">age</span> <span class="p">})</span> 
+  <span class="k">end</span> 
+<span class="k">end</span> 
+
+<span class="k">module</span> <span class="nn">Presenters</span> 
+  <span class="k">class</span> <span class="nc">Base</span> 
+    <span class="kp">attr_accessor</span> <span class="ss">:model</span> 
+
+    <span class="k">def</span> <span class="nf">prepare_view_data</span> <span class="nb">hash</span> 
+      <span class="nb">hash</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span> 
+        <span class="nb">instance_variable_set</span><span class="p">(</span><span class="s2">&quot;@</span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> 
+      <span class="k">end</span> 
+    <span class="k">end</span> 
+  <span class="k">end</span> 
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<h3><a name="extract-class" class="anchor" href="#extract-class"><span class="header-link"></span></a>Extract Class</h3>
+<p>This is a pretty standard technique which helps ensure your objects abide by the SRP (Single Responsibility Principle). </p>
+<p>If you find your classes are doing too much then simply create a new class and move the relevant fields and methods over one by one (while running the tests as you go to ensure all code continues working as expected).</p>
+<p>Doing so you&#39;ll end up with two small, focused and clean classes which are easier to manage. </p>
+<h3><a name="hide-delegate" class="anchor" href="#hide-delegate"><span class="header-link"></span></a>Hide Delegate</h3>
+<p>This technique focuses on the principle of object encapsulation. Specifically decoupling two or more objects by reducing the context the objects have of each other. </p>
+<p>The following code demonstrates the idea...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">module</span> <span class="nn">Bar</span>
+  <span class="k">def</span> <span class="nf">display</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Bar Stuff&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">module</span> <span class="nn">Baz</span>
+  <span class="k">def</span> <span class="nf">display</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Baz Stuff&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Foo</span>
+  <span class="kp">include</span> <span class="no">Bar</span>
+
+  <span class="k">def</span> <span class="nf">do_something</span>
+    <span class="nb">display</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">foo</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span>
+<span class="n">foo</span><span class="o">.</span><span class="n">do_something</span>
+</pre></div>
+</code></pre>
+<p>...as you can see, the user only needs to rely on the interface having a <code>do_something</code> method. </p>
+<p>The implementation details of <code>do_somthing</code> (in this case the delegation off to another method) are hidden.</p>
+<p>If we changed <code>include Bar</code> for <code>include Baz</code>, or maybe we don&#39;t mixin a module at all and just write some code inside of <code>do_something</code>, it doesn&#39;t matter because the public interface is set as far as the user is concerned.</p>
+<h3><a name="replace-array-with-object" class="anchor" href="#replace-array-with-object"><span class="header-link"></span></a>Replace Array with Object</h3>
+<p>The motivation for this technique is to convert a simple data container which holds multiple data types into an object with clear and descriptive identifiers. </p>
+<p>This principle helps to present your complex data into a more sensible format (I demonstrated this in a previous post on <a href="/posts/object-oriented-design-ood/#direct-references">object-oriented design</a>). This technique also makes the data interaction more maintainable by providing an easier and understandable interface to the data. </p>
+<p>Here is an example where we&#39;re violating the principle of a clean data interaction...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span> 
+  <span class="kp">attr_reader</span> <span class="ss">:data</span> 
+
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> 
+    <span class="vi">@data</span> <span class="o">=</span> <span class="n">data</span> 
+  <span class="k">end</span> 
+
+  <span class="k">def</span> <span class="nf">do_something</span> 
+    <span class="n">data</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span> 
+      <span class="nb">puts</span> <span class="n">item</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> 
+      <span class="nb">puts</span> <span class="n">item</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> 
+      <span class="nb">puts</span> <span class="s1">&#39;---&#39;</span> 
+    <span class="k">end</span> 
+  <span class="k">end</span> 
+<span class="k">end</span> 
+
+<span class="n">obj</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">41</span><span class="p">,</span> <span class="mi">7</span><span class="o">]]</span><span class="p">)</span> 
+<span class="n">obj</span><span class="o">.</span><span class="n">do_something</span>
+</pre></div>
+</code></pre>
+<p>Notice in the first example how our code has far too much knowledge (context) about the object it&#39;s interacting with. It knows that the Array index zero holds an X coordinate and the Array index one holds a Y coordinate. </p>
+<p>If that format was to change (let&#39;s say the X and Y swap places) then that would cause our code to break in unexpected ways.</p>
+<p>But now take a look at the following example which works around this issue by converting our complex data structure into a cleaner data format... </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span> 
+  <span class="kp">attr_reader</span> <span class="ss">:new_data</span> 
+
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> 
+    <span class="vi">@new_data</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> 
+  <span class="k">end</span> 
+
+  <span class="k">def</span> <span class="nf">do_something</span> 
+    <span class="n">new_data</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span> 
+      <span class="c1"># now we are able to reference easily understandable </span>
+      <span class="c1"># property names (rather than item[0], item[1]) </span>
+      <span class="nb">puts</span> <span class="n">item</span><span class="o">.</span><span class="n">coord_x</span> 
+      <span class="nb">puts</span> <span class="n">item</span><span class="o">.</span><span class="n">coord_y</span> 
+      <span class="nb">puts</span> <span class="s1">&#39;---&#39;</span> 
+    <span class="k">end</span> 
+  <span class="k">end</span> 
+
+  <span class="no">Transform</span> <span class="o">=</span> <span class="no">Struct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:coord_x</span><span class="p">,</span> <span class="ss">:coord_y</span><span class="p">)</span> 
+
+  <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> 
+    <span class="n">data</span><span class="o">.</span><span class="n">collect</span> <span class="p">{</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span> <span class="no">Transform</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">item</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span> <span class="n">item</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">)</span> <span class="p">}</span> 
+  <span class="k">end</span> 
+<span class="k">end</span> 
+
+<span class="n">obj</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">41</span><span class="p">,</span> <span class="mi">7</span><span class="o">]]</span><span class="p">)</span> 
+<span class="n">obj</span><span class="o">.</span><span class="n">do_something</span>
+</pre></div>
+</code></pre>
+<p>...here we convert the Array into an object and instead can more easily and safely reference the data we&#39;re interested in via recognisable property identifiers. This doesn&#39;t mean if the data source changes that we&#39;ll totally avoid all problems but it&#39;ll be clearer where the problem is arising.</p>
+<h3><a name="replace-conditional-with-polymorphism" class="anchor" href="#replace-conditional-with-polymorphism"><span class="header-link"></span></a>Replace Conditional with Polymorphism</h3>
+<p>This is one of the most useful refactoring techniques available to you, and there are two ways it can help: </p>
+<ol>
+<li>It removes the code smell of conditional logic </li>
+<li>It demonstrates perfectly the principle of object-oriented design </li>
+</ol>
+<p>The following example shows the typical procedural attempt to handle different scenarios based on the data object type being passed...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="vi">@data</span> <span class="o">=</span> <span class="n">data</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">do_something</span>
+    <span class="k">if</span> <span class="vi">@data</span><span class="o">.</span><span class="n">class</span> <span class="o">==</span> <span class="no">Bar</span>
+      <span class="nb">puts</span> <span class="s2">&quot;Bar!&quot;</span>
+    <span class="k">elsif</span> <span class="vi">@data</span><span class="o">.</span><span class="n">class</span> <span class="o">==</span> <span class="no">Baz</span>
+      <span class="nb">puts</span> <span class="s2">&quot;Baz!&quot;</span>
+    <span class="k">elsif</span> <span class="vi">@data</span><span class="o">.</span><span class="n">class</span> <span class="o">==</span> <span class="no">Qux</span>
+      <span class="nb">puts</span> <span class="s2">&quot;Qux!&quot;</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Bar</span><span class="p">;</span> <span class="k">end</span>
+<span class="k">class</span> <span class="nc">Baz</span><span class="p">;</span> <span class="k">end</span>
+<span class="k">class</span> <span class="nc">Qux</span><span class="p">;</span> <span class="k">end</span>
+
+<span class="n">foo_bar</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Bar</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+<span class="n">foo_bar</span><span class="o">.</span><span class="n">do_something</span>
+
+<span class="n">foo_baz</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Baz</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+<span class="n">foo_baz</span><span class="o">.</span><span class="n">do_something</span>
+
+<span class="n">foo_qux</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Qux</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+<span class="n">foo_qux</span><span class="o">.</span><span class="n">do_something</span>
+</pre></div>
+</code></pre>
+<p>...as you can see, if we have a new Class type we need to go back and to modify the <code>Foo</code> base class. This violates the OCP (Open/Closed Principle) which states a file should be open for extension but closed for modification.</p>
+<p>For us to abide by OCP we can use polymorphism and a trusted interface/duck typing to solve the problem...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="vi">@data</span> <span class="o">=</span> <span class="n">data</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">do_something</span>
+    <span class="vi">@data</span><span class="o">.</span><span class="n">identifier</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Bar</span>
+  <span class="k">def</span> <span class="nf">identifier</span>
+    <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="si">}</span><span class="s2">!&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Baz</span>
+  <span class="k">def</span> <span class="nf">identifier</span>
+    <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="si">}</span><span class="s2">!&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Qux</span>
+  <span class="k">def</span> <span class="nf">identifier</span>
+    <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="si">}</span><span class="s2">!&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">foo_bar</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Bar</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+<span class="n">foo_bar</span><span class="o">.</span><span class="n">do_something</span>
+
+<span class="n">foo_baz</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Baz</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+<span class="n">foo_baz</span><span class="o">.</span><span class="n">do_something</span>
+
+<span class="n">foo_qux</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Qux</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+<span class="n">foo_qux</span><span class="o">.</span><span class="n">do_something</span>
+</pre></div>
+</code></pre>
+<p>Notice we have removed the need for a conditional and just sent the message to the relevant object to be handled. Much cleaner and easier to maintain and scale.</p>
+<h3><a name="decompose-conditional" class="anchor" href="#decompose-conditional"><span class="header-link"></span></a>Decompose Conditional</h3>
+<p>Not all conditional statements can be avoided through the use of polymorphism. In those cases you can simplify the conditional logic (and the subsequent statements) by <a href="/posts/refactoring-techniques/#extract-method">extracting them into external methods</a>. </p>
+<p>Here is a simple example...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">if</span> <span class="n">date</span> <span class="o">&lt;</span> <span class="no">SUMMER_START</span> <span class="o">||</span> <span class="n">date</span> <span class="o">&gt;</span> <span class="no">SUMMER_END</span> 
+  <span class="n">charge</span> <span class="o">=</span> <span class="c1"># some complex calculation if it&#39;s winter </span>
+<span class="k">else</span> 
+  <span class="n">charge</span> <span class="o">=</span> <span class="c1"># some other complex calculation if it&#39;s summer </span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>...which we can refactor like so... </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">if</span> <span class="n">not_summer</span><span class="p">(</span><span class="n">date</span><span class="p">)</span> 
+  <span class="n">charge</span> <span class="o">=</span> <span class="n">winter_charge</span> 
+<span class="k">else</span> 
+  <span class="n">charge</span> <span class="o">=</span> <span class="n">summer_charge</span> 
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>...much better.</p>
+<h3><a name="introduce-null-object" class="anchor" href="#introduce-null-object"><span class="header-link"></span></a>Introduce Null Object</h3>
+<p>The motivation behind this technique is to avoid using a conditional whose purpose is to check whether a property exists or not before using it.</p>
+<p>Here is a simple example of what we want to avoid...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Post</span>
+  <span class="kp">attr_reader</span> <span class="ss">:id</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span> <span class="nb">id</span>
+    <span class="vi">@id</span>        <span class="o">=</span> <span class="nb">id</span>
+    <span class="vi">@published</span> <span class="o">=</span> <span class="kp">false</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find_and_publish</span> <span class="nb">id</span>
+    <span class="c1"># Simulated database operation</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="no">Posts</span><span class="o">.</span><span class="n">find</span> <span class="p">{</span> <span class="o">|</span><span class="n">post</span><span class="o">|</span> <span class="n">post</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="nb">id</span> <span class="p">}</span>
+    <span class="n">post</span><span class="o">.</span><span class="n">publish</span> <span class="k">unless</span> <span class="n">post</span><span class="o">.</span><span class="n">nil?</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">publish</span>
+    <span class="nb">puts</span> <span class="vi">@published</span> <span class="o">=</span> <span class="kp">true</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Posts</span> <span class="o">=</span> <span class="o">[</span><span class="no">Post</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="no">Post</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">]</span>
+
+<span class="no">Post</span><span class="o">.</span><span class="n">find_and_publish</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># displays nothing</span>
+<span class="no">Post</span><span class="o">.</span><span class="n">find_and_publish</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># displays true</span>
+</pre></div>
+</code></pre>
+<p>...in the above example we check whether <code>post</code> is <code>nil</code> or not. If it isn&#39;t <code>nil</code> then we call the <code>publish</code> method, otherwise we don&#39;t do anything.</p>
+<p>This is kind of ugly.</p>
+<p>The following code demonstrates how we can avoid that problem by introducing the concept of having an object to handle null scenarios (it&#39;s the same principle of using duck typing/trusted interfaces/polymorphism)...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Post</span>
+  <span class="kp">attr_reader</span> <span class="ss">:id</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span> <span class="nb">id</span>
+    <span class="vi">@id</span>        <span class="o">=</span> <span class="nb">id</span>
+    <span class="vi">@published</span> <span class="o">=</span> <span class="kp">false</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find_and_publish</span> <span class="nb">id</span>
+    <span class="c1"># Simulated database operation</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="no">Posts</span><span class="o">.</span><span class="n">find</span> <span class="p">{</span> <span class="o">|</span><span class="n">post</span><span class="o">|</span> <span class="n">post</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="nb">id</span> <span class="p">}</span> <span class="o">||</span> <span class="no">NullPost</span><span class="o">.</span><span class="n">new</span>
+    <span class="n">post</span><span class="o">.</span><span class="n">publish</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">publish</span>
+    <span class="nb">puts</span> <span class="vi">@published</span> <span class="o">=</span> <span class="kp">true</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">NullPost</span>
+  <span class="k">def</span> <span class="nf">publish</span>
+    <span class="c1"># noop</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Posts</span> <span class="o">=</span> <span class="o">[</span><span class="no">Post</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="no">Post</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">]</span>
+
+<span class="no">Post</span><span class="o">.</span><span class="n">find_and_publish</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># displays nothing</span>
+<span class="no">Post</span><span class="o">.</span><span class="n">find_and_publish</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># displays true</span>
+</pre></div>
+</code></pre>
+<p>...as you can see, effectively we have the same code with the exception that we no longer check for <code>nil?</code> in the second example and instead we rely on another object <code>NullPost</code> implementing the same interface but returns a null related value.</p>
+<p>This way we&#39;re using objects to handle our logic. Yes, we end up with more code (one extra Class) but ultimately this is more maintainable and understandable than lots of inline logic.</p>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>Again, there are still many different refactoring techniques that I&#39;ve not included. But hopefully you&#39;ve found this second instalment just as useful as the first, I&#39;ll update the post or start anew with more techniques soon.</p>
+</div>
+
+<!--Social sharing icons-->
+<div class="social">
+  <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+  <div data-size="medium" data-annotation="bubble" data-width="300" class="g-plusone"></div>
+  <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+</div>
+<!--Disqus comments, Make sure to replace `colinwren` with your account name in the Disqus helper script below-->
+<div id="comments">
+  <div id="disqus_thread"></div>
+</div>
+
+<!--Helper scripts for social share icons-->
+<!--Hacker News-->
+<script type="text/javascript">
+  (function(d, t) {
+    var g = d.createElement(t),
+        s = d.getElementsByTagName(t)[0];
+    g.src = '//hnbutton.appspot.com/static/hn.min.js';
+    s.parentNode.insertBefore(g, s);
+  }(document, 'script'));
+</script>
+
+<!--Twitter-->
+<script type="text/javascript">
+  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+</script>
+
+<!--Google Plus-->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<!--Disqus-->
+<script type="text/javascript">
+  var disqus_shortname = 'integralist'; // Change this to your Disqus account name
+
+  (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" type="text/javascript"></script>
+    <script src="/scripts/main.js" type="text/javascript"></script>
+    <script src="/scripts/Imager.js" type="text/javascript"></script>
+    <script>
+        var _gaq=[['_setAccount','UA-33159515-1'],['_trackPageview']];
+        (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g,s)}(document,'script'));
+    </script>
+  </body>
+</html>
+

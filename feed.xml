@@ -1,5 +1,347 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Integralist: BBC News Engineer]]></title><description><![CDATA[I aim to implement Object-Oriented Design principles in which ever language I happen to be using (Node, Ruby, PHP, JavaScript, CSS/BEM)]]></description><link>http://www.integralist.co.uk/</link><generator>RSS for Node</generator><lastBuildDate>Mon, 16 Dec 2013 16:16:45 GMT</lastBuildDate><atom:link href="http://www.integralist.co.uk/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Mark McDonnell]]></author><pubDate>Mon, 16 Dec 2013 16:16:45 GMT</pubDate><copyright><![CDATA[2013 Mark McDonnell]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[mark.mcdx@gmail.com]]></managingEditor><webMaster><![CDATA[mark.mcdx@gmail.com]]></webMaster><ttl>60</ttl><item><title><![CDATA[Vim Workflow (Part Deux)]]></title><description><![CDATA[<h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Integralist: BBC News Engineer]]></title><description><![CDATA[I aim to implement Object-Oriented Design principles in which ever language I happen to be using (Node, Ruby, PHP, JavaScript, CSS/BEM)]]></description><link>http://www.integralist.co.uk/</link><generator>RSS for Node</generator><lastBuildDate>Fri, 27 Dec 2013 23:00:50 GMT</lastBuildDate><atom:link href="http://www.integralist.co.uk/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[Mark McDonnell]]></author><pubDate>Fri, 27 Dec 2013 23:00:50 GMT</pubDate><copyright><![CDATA[2013 Mark McDonnell]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[mark.mcdx@gmail.com]]></managingEditor><webMaster><![CDATA[mark.mcdx@gmail.com]]></webMaster><ttl>60</ttl><item><title><![CDATA[Even More Refactoring Techniques]]></title><description><![CDATA[<h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 10mins</em></p>
+<ul>
+<li>Introduction<ul>
+<li><a href="#remove-redundancy">Remove Redundancy</a></li>
+<li><a href="#dynamic-method-definition">Dynamic Method Definition</a></li>
+<li><a href="#extract-class">Extract Class</a></li>
+<li><a href="#hide-delegate">Hide Delegate</a></li>
+<li><a href="#replace-array-with-object">Replace Array with Object</a></li>
+<li><a href="#replace-conditional-with-polymorphism">Replace Conditional with Polymorphism</a></li>
+<li><a href="#decompose-conditional">Decompose Conditional</a></li>
+<li><a href="#introduce-null-object">Introduce Null Object</a></li>
+</ul>
+</li>
+<li>Conclusion</li>
+</ul>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<p>Well here we are again to learn some more refactoring techniques. If you want to recap the other techniques then go <a href="/posts/refactoring-techniques/">read my previous post</a>, otherwise let&#39;s just crack on...</p>
+<h3><a name="remove-redundancy" class="anchor" href="#remove-redundancy"><span class="header-link"></span></a>Remove Redundancy</h3>
+<p>This isn&#39;t an explicit technique, more a grouping of techniques.</p>
+<p>The principle idea being that: code evolves, and as it evolves you may find techniques you previously implemented (as part of an earlier refactoring) have since become redundant. </p>
+<p>Imagine you implemented the &quot;<a href="/posts/refactoring-techniques/#introduce-named-parameter">Introduce Named Parameter</a>&quot; technique (passing a hash with named properties as a single argument instead of multiple unidentified arguments). </p>
+<p>Now, after some other refactorings have taken place, you discover the method originally refactored is no longer as complex and so your argument hash refactor has been reduced down to just a single named property. </p>
+<p>In this particular scenario you should remove the named parameter and simply pass a single argument instead.</p>
+<p>This principle applies with other refactoring techniques. </p>
+<p>Imagine an earlier refactoring included implementing a default parameter value for a method call. As your code evolves, if you discover you now only ever call the method <em>with</em> an argument then the default value becomes redundant and makes the code more complex than it needs to be by providing a default value. So just remove the redundant code.</p>
+<h3><a name="dynamic-method-definition" class="anchor" href="#dynamic-method-definition"><span class="header-link"></span></a>Dynamic Method Definition</h3>
+<p>Sometimes defining multiple methods can be wasteful when functionally they carry out similar steps. </p>
+<p>For example, imagine we had the following code... </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">failure</span> <span class="k">do</span> 
+  <span class="nb">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;failure&quot;</span> 
+<span class="k">end</span> 
+
+<span class="k">def</span> <span class="nf">success</span> <span class="k">do</span> 
+  <span class="nb">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;success&quot;</span> 
+<span class="k">end</span> 
+
+<span class="k">def</span> <span class="nf">error</span> <span class="k">do</span> 
+  <span class="nb">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;error&quot;</span> 
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Notice how the functions are structurally identical. They simply set a <code>result</code> property to have a value
+This can be refactored using Ruby&#39;s <code>define_method</code> method (which let&#39;s you create methods dynamically at run time)... </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="o">[</span><span class="ss">:failure</span><span class="p">,</span> <span class="ss">:success</span><span class="p">,</span> <span class="ss">:error</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">method</span><span class="o">|</span> 
+  <span class="n">define_method</span> <span class="nb">method</span> <span class="k">do</span> 
+    <span class="nb">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="nb">method</span><span class="o">.</span><span class="n">to_s</span> 
+  <span class="k">end</span> 
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Note: you could also abstract this code into a more reusable (and easier to maintain) function like so... </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">dynamic_methods</span><span class="p">(</span><span class="o">*</span><span class="n">method_names</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span> 
+  <span class="n">method_names</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">method_name</span><span class="o">|</span> 
+    <span class="n">define_method</span> <span class="n">method_name</span> <span class="k">do</span> 
+      <span class="n">instance_exec</span><span class="p">(</span><span class="n">method_name</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+    <span class="k">end</span> 
+  <span class="k">end</span> 
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>You can also use this technique to help ease creating properties on an object. For example, I used this technique in my <a href="/posts/mvcp-model-view-controller-presenter/">MVCP</a> blog post to dynamically create instance variables... </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;app/presenters/base&#39;</span> 
+<span class="nb">require</span> <span class="s1">&#39;app/models/person&#39;</span> 
+
+<span class="k">class</span> <span class="nc">Presenters</span><span class="o">::</span><span class="no">Person</span> <span class="o">&lt;</span> <span class="no">Presenters</span><span class="o">::</span><span class="no">Base</span> 
+  <span class="kp">attr_reader</span> <span class="ss">:run</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:age</span> 
+
+  <span class="k">def</span> <span class="nf">initialize</span> 
+    <span class="vi">@run</span> <span class="o">=</span> <span class="kp">true</span> 
+
+    <span class="n">model</span> <span class="o">=</span> <span class="no">Person</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;Mark&#39;</span><span class="p">,</span> <span class="s1">&#39;99&#39;</span><span class="p">)</span> 
+    <span class="n">prepare_view_data</span><span class="p">({</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="n">model</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="ss">:age</span> <span class="o">=&gt;</span> <span class="n">model</span><span class="o">.</span><span class="n">age</span> <span class="p">})</span> 
+  <span class="k">end</span> 
+<span class="k">end</span> 
+
+<span class="k">module</span> <span class="nn">Presenters</span> 
+  <span class="k">class</span> <span class="nc">Base</span> 
+    <span class="kp">attr_accessor</span> <span class="ss">:model</span> 
+
+    <span class="k">def</span> <span class="nf">prepare_view_data</span> <span class="nb">hash</span> 
+      <span class="nb">hash</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span> 
+        <span class="nb">instance_variable_set</span><span class="p">(</span><span class="s2">&quot;@</span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> 
+      <span class="k">end</span> 
+    <span class="k">end</span> 
+  <span class="k">end</span> 
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<h3><a name="extract-class" class="anchor" href="#extract-class"><span class="header-link"></span></a>Extract Class</h3>
+<p>This is a pretty standard technique which helps ensure your objects abide by the SRP (Single Responsibility Principle). </p>
+<p>If you find your classes are doing too much then simply create a new class and move the relevant fields and methods over one by one (while running the tests as you go to ensure all code continues working as expected).</p>
+<p>Doing so you&#39;ll end up with two small, focused and clean classes which are easier to manage. </p>
+<h3><a name="hide-delegate" class="anchor" href="#hide-delegate"><span class="header-link"></span></a>Hide Delegate</h3>
+<p>This technique focuses on the principle of object encapsulation. Specifically decoupling two or more objects by reducing the context the objects have of each other. </p>
+<p>The following code demonstrates the idea...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">module</span> <span class="nn">Bar</span>
+  <span class="k">def</span> <span class="nf">display</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Bar Stuff&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">module</span> <span class="nn">Baz</span>
+  <span class="k">def</span> <span class="nf">display</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Baz Stuff&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Foo</span>
+  <span class="kp">include</span> <span class="no">Bar</span>
+
+  <span class="k">def</span> <span class="nf">do_something</span>
+    <span class="nb">display</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">foo</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span>
+<span class="n">foo</span><span class="o">.</span><span class="n">do_something</span>
+</pre></div>
+</code></pre>
+<p>...as you can see, the user only needs to rely on the interface having a <code>do_something</code> method. </p>
+<p>The implementation details of <code>do_somthing</code> (in this case the delegation off to another method) are hidden.</p>
+<p>If we changed <code>include Bar</code> for <code>include Baz</code>, or maybe we don&#39;t mixin a module at all and just write some code inside of <code>do_something</code>, it doesn&#39;t matter because the public interface is set as far as the user is concerned.</p>
+<h3><a name="replace-array-with-object" class="anchor" href="#replace-array-with-object"><span class="header-link"></span></a>Replace Array with Object</h3>
+<p>The motivation for this technique is to convert a simple data container which holds multiple data types into an object with clear and descriptive identifiers. </p>
+<p>This principle helps to present your complex data into a more sensible format (I demonstrated this in a previous post on <a href="/posts/object-oriented-design-ood/#direct-references">object-oriented design</a>). This technique also makes the data interaction more maintainable by providing an easier and understandable interface to the data. </p>
+<p>Here is an example where we&#39;re violating the principle of a clean data interaction...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span> 
+  <span class="kp">attr_reader</span> <span class="ss">:data</span> 
+
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> 
+    <span class="vi">@data</span> <span class="o">=</span> <span class="n">data</span> 
+  <span class="k">end</span> 
+
+  <span class="k">def</span> <span class="nf">do_something</span> 
+    <span class="n">data</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span> 
+      <span class="nb">puts</span> <span class="n">item</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> 
+      <span class="nb">puts</span> <span class="n">item</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> 
+      <span class="nb">puts</span> <span class="s1">&#39;---&#39;</span> 
+    <span class="k">end</span> 
+  <span class="k">end</span> 
+<span class="k">end</span> 
+
+<span class="n">obj</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">41</span><span class="p">,</span> <span class="mi">7</span><span class="o">]]</span><span class="p">)</span> 
+<span class="n">obj</span><span class="o">.</span><span class="n">do_something</span>
+</pre></div>
+</code></pre>
+<p>Notice in the first example how our code has far too much knowledge (context) about the object it&#39;s interacting with. It knows that the Array index zero holds an X coordinate and the Array index one holds a Y coordinate. </p>
+<p>If that format was to change (let&#39;s say the X and Y swap places) then that would cause our code to break in unexpected ways.</p>
+<p>But now take a look at the following example which works around this issue by converting our complex data structure into a cleaner data format... </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span> 
+  <span class="kp">attr_reader</span> <span class="ss">:new_data</span> 
+
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> 
+    <span class="vi">@new_data</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> 
+  <span class="k">end</span> 
+
+  <span class="k">def</span> <span class="nf">do_something</span> 
+    <span class="n">new_data</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span> 
+      <span class="c1"># now we are able to reference easily understandable </span>
+      <span class="c1"># property names (rather than item[0], item[1]) </span>
+      <span class="nb">puts</span> <span class="n">item</span><span class="o">.</span><span class="n">coord_x</span> 
+      <span class="nb">puts</span> <span class="n">item</span><span class="o">.</span><span class="n">coord_y</span> 
+      <span class="nb">puts</span> <span class="s1">&#39;---&#39;</span> 
+    <span class="k">end</span> 
+  <span class="k">end</span> 
+
+  <span class="no">Transform</span> <span class="o">=</span> <span class="no">Struct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:coord_x</span><span class="p">,</span> <span class="ss">:coord_y</span><span class="p">)</span> 
+
+  <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> 
+    <span class="n">data</span><span class="o">.</span><span class="n">collect</span> <span class="p">{</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span> <span class="no">Transform</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">item</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span> <span class="n">item</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">)</span> <span class="p">}</span> 
+  <span class="k">end</span> 
+<span class="k">end</span> 
+
+<span class="n">obj</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">41</span><span class="p">,</span> <span class="mi">7</span><span class="o">]]</span><span class="p">)</span> 
+<span class="n">obj</span><span class="o">.</span><span class="n">do_something</span>
+</pre></div>
+</code></pre>
+<p>...here we convert the Array into an object and instead can more easily and safely reference the data we&#39;re interested in via recognisable property identifiers. This doesn&#39;t mean if the data source changes that we&#39;ll totally avoid all problems but it&#39;ll be clearer where the problem is arising.</p>
+<h3><a name="replace-conditional-with-polymorphism" class="anchor" href="#replace-conditional-with-polymorphism"><span class="header-link"></span></a>Replace Conditional with Polymorphism</h3>
+<p>This is one of the most useful refactoring techniques available to you, and there are two ways it can help: </p>
+<ol>
+<li>It removes the code smell of conditional logic </li>
+<li>It demonstrates perfectly the principle of object-oriented design </li>
+</ol>
+<p>The following example shows the typical procedural attempt to handle different scenarios based on the data object type being passed...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="vi">@data</span> <span class="o">=</span> <span class="n">data</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">do_something</span>
+    <span class="k">if</span> <span class="vi">@data</span><span class="o">.</span><span class="n">class</span> <span class="o">==</span> <span class="no">Bar</span>
+      <span class="nb">puts</span> <span class="s2">&quot;Bar!&quot;</span>
+    <span class="k">elsif</span> <span class="vi">@data</span><span class="o">.</span><span class="n">class</span> <span class="o">==</span> <span class="no">Baz</span>
+      <span class="nb">puts</span> <span class="s2">&quot;Baz!&quot;</span>
+    <span class="k">elsif</span> <span class="vi">@data</span><span class="o">.</span><span class="n">class</span> <span class="o">==</span> <span class="no">Qux</span>
+      <span class="nb">puts</span> <span class="s2">&quot;Qux!&quot;</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Bar</span><span class="p">;</span> <span class="k">end</span>
+<span class="k">class</span> <span class="nc">Baz</span><span class="p">;</span> <span class="k">end</span>
+<span class="k">class</span> <span class="nc">Qux</span><span class="p">;</span> <span class="k">end</span>
+
+<span class="n">foo_bar</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Bar</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+<span class="n">foo_bar</span><span class="o">.</span><span class="n">do_something</span>
+
+<span class="n">foo_baz</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Baz</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+<span class="n">foo_baz</span><span class="o">.</span><span class="n">do_something</span>
+
+<span class="n">foo_qux</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Qux</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+<span class="n">foo_qux</span><span class="o">.</span><span class="n">do_something</span>
+</pre></div>
+</code></pre>
+<p>...as you can see, if we have a new Class type we need to go back and to modify the <code>Foo</code> base class. This violates the OCP (Open/Closed Principle) which states a file should be open for extension but closed for modification.</p>
+<p>For us to abide by OCP we can use polymorphism and a trusted interface/duck typing to solve the problem...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="vi">@data</span> <span class="o">=</span> <span class="n">data</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">do_something</span>
+    <span class="vi">@data</span><span class="o">.</span><span class="n">identifier</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Bar</span>
+  <span class="k">def</span> <span class="nf">identifier</span>
+    <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="si">}</span><span class="s2">!&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Baz</span>
+  <span class="k">def</span> <span class="nf">identifier</span>
+    <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="si">}</span><span class="s2">!&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Qux</span>
+  <span class="k">def</span> <span class="nf">identifier</span>
+    <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="si">}</span><span class="s2">!&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">foo_bar</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Bar</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+<span class="n">foo_bar</span><span class="o">.</span><span class="n">do_something</span>
+
+<span class="n">foo_baz</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Baz</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+<span class="n">foo_baz</span><span class="o">.</span><span class="n">do_something</span>
+
+<span class="n">foo_qux</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Qux</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+<span class="n">foo_qux</span><span class="o">.</span><span class="n">do_something</span>
+</pre></div>
+</code></pre>
+<p>Notice we have removed the need for a conditional and just sent the message to the relevant object to be handled. Much cleaner and easier to maintain and scale.</p>
+<h3><a name="decompose-conditional" class="anchor" href="#decompose-conditional"><span class="header-link"></span></a>Decompose Conditional</h3>
+<p>Not all conditional statements can be avoided through the use of polymorphism. In those cases you can simplify the conditional logic (and the subsequent statements) by <a href="/posts/refactoring-techniques/#extract-method">extracting them into external methods</a>. </p>
+<p>Here is a simple example...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">if</span> <span class="n">date</span> <span class="o">&lt;</span> <span class="no">SUMMER_START</span> <span class="o">||</span> <span class="n">date</span> <span class="o">&gt;</span> <span class="no">SUMMER_END</span> 
+  <span class="n">charge</span> <span class="o">=</span> <span class="c1"># some complex calculation if it&#39;s winter </span>
+<span class="k">else</span> 
+  <span class="n">charge</span> <span class="o">=</span> <span class="c1"># some other complex calculation if it&#39;s summer </span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>...which we can refactor like so... </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">if</span> <span class="n">not_summer</span><span class="p">(</span><span class="n">date</span><span class="p">)</span> 
+  <span class="n">charge</span> <span class="o">=</span> <span class="n">winter_charge</span> 
+<span class="k">else</span> 
+  <span class="n">charge</span> <span class="o">=</span> <span class="n">summer_charge</span> 
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>...much better.</p>
+<h3><a name="introduce-null-object" class="anchor" href="#introduce-null-object"><span class="header-link"></span></a>Introduce Null Object</h3>
+<p>The motivation behind this technique is to avoid using a conditional whose purpose is to check whether a property exists or not before using it.</p>
+<p>Here is a simple example of what we want to avoid...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Post</span>
+  <span class="kp">attr_reader</span> <span class="ss">:id</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span> <span class="nb">id</span>
+    <span class="vi">@id</span>        <span class="o">=</span> <span class="nb">id</span>
+    <span class="vi">@published</span> <span class="o">=</span> <span class="kp">false</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find_and_publish</span> <span class="nb">id</span>
+    <span class="c1"># Simulated database operation</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="no">Posts</span><span class="o">.</span><span class="n">find</span> <span class="p">{</span> <span class="o">|</span><span class="n">post</span><span class="o">|</span> <span class="n">post</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="nb">id</span> <span class="p">}</span>
+    <span class="n">post</span><span class="o">.</span><span class="n">publish</span> <span class="k">unless</span> <span class="n">post</span><span class="o">.</span><span class="n">nil?</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">publish</span>
+    <span class="nb">puts</span> <span class="vi">@published</span> <span class="o">=</span> <span class="kp">true</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Posts</span> <span class="o">=</span> <span class="o">[</span><span class="no">Post</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="no">Post</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">]</span>
+
+<span class="no">Post</span><span class="o">.</span><span class="n">find_and_publish</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># displays nothing</span>
+<span class="no">Post</span><span class="o">.</span><span class="n">find_and_publish</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># displays true</span>
+</pre></div>
+</code></pre>
+<p>...in the above example we check whether <code>post</code> is <code>nil</code> or not. If it isn&#39;t <code>nil</code> then we call the <code>publish</code> method, otherwise we don&#39;t do anything.</p>
+<p>This is kind of ugly.</p>
+<p>The following code demonstrates how we can avoid that problem by introducing the concept of having an object to handle null scenarios (it&#39;s the same principle of using duck typing/trusted interfaces/polymorphism)...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Post</span>
+  <span class="kp">attr_reader</span> <span class="ss">:id</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span> <span class="nb">id</span>
+    <span class="vi">@id</span>        <span class="o">=</span> <span class="nb">id</span>
+    <span class="vi">@published</span> <span class="o">=</span> <span class="kp">false</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find_and_publish</span> <span class="nb">id</span>
+    <span class="c1"># Simulated database operation</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="no">Posts</span><span class="o">.</span><span class="n">find</span> <span class="p">{</span> <span class="o">|</span><span class="n">post</span><span class="o">|</span> <span class="n">post</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="nb">id</span> <span class="p">}</span> <span class="o">||</span> <span class="no">NullPost</span><span class="o">.</span><span class="n">new</span>
+    <span class="n">post</span><span class="o">.</span><span class="n">publish</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">publish</span>
+    <span class="nb">puts</span> <span class="vi">@published</span> <span class="o">=</span> <span class="kp">true</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">NullPost</span>
+  <span class="k">def</span> <span class="nf">publish</span>
+    <span class="c1"># noop</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Posts</span> <span class="o">=</span> <span class="o">[</span><span class="no">Post</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="no">Post</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">]</span>
+
+<span class="no">Post</span><span class="o">.</span><span class="n">find_and_publish</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># displays nothing</span>
+<span class="no">Post</span><span class="o">.</span><span class="n">find_and_publish</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># displays true</span>
+</pre></div>
+</code></pre>
+<p>...as you can see, effectively we have the same code with the exception that we no longer check for <code>nil?</code> in the second example and instead we rely on another object <code>NullPost</code> implementing the same interface but returns a null related value.</p>
+<p>This way we&#39;re using objects to handle our logic. Yes, we end up with more code (one extra Class) but ultimately this is more maintainable and understandable than lots of inline logic.</p>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>Again, there are still many different refactoring techniques that I&#39;ve not included. But hopefully you&#39;ve found this second instalment just as useful as the first, I&#39;ll update the post or start anew with more techniques soon.</p>
+]]></description><link>http://www.integralist.co.uk/posts/even-more-refactoring-techniques/</link><guid isPermaLink="true">http://www.integralist.co.uk/posts/even-more-refactoring-techniques/</guid><dc:creator><![CDATA[Mark McDonnell]]></dc:creator><pubDate>Fri, 27 Dec 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[Vim Workflow (Part Deux)]]></title><description><![CDATA[<h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 27mins</em></p>
 <ul>
 <li><a href="#introduction">Introduction</a></li>
@@ -762,7 +1104,7 @@ Install</a>&quot; which should tell you
 everything you need to know (I update this a lot as I find better ways of doing
 things).</p>
 ]]></description><link>http://www.integralist.co.uk/posts/vim-workflow-part-deux/</link><guid isPermaLink="true">http://www.integralist.co.uk/posts/vim-workflow-part-deux/</guid><dc:creator><![CDATA[Mark McDonnell]]></dc:creator><pubDate>Sun, 17 Nov 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[Refactoring Techniques]]></title><description><![CDATA[<h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
-<p><em>reading time: approx. 17mins</em></p>
+<p><em>reading time: approx. 18mins</em></p>
 <ul>
 <li>Introduction</li>
 <li>Languages</li>
@@ -1019,8 +1361,7 @@ things).</p>
 </code></pre>
 <p>Note: ECMAScript 6.0 (the latest JavaScript specification - which is still being worked on as of Nov 2013) implements named parameters.</p>
 <h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
-<p>OK, so there are still many different refactoring techniques that I&#39;ve not included. But hopefully you&#39;ve found this quick reference useful so far.</p>
-<p>Most of these techniques I do automatically now (as I&#39;ve committed them to muscle memory). But sometimes when I&#39;m carrying out a refactoring I get confused on the best technique I should use and so I&#39;ll refer to this reference to help me find an appropriate solution.</p>
+<p>There are still many different refactoring techniques that I&#39;ve not included. But hopefully you&#39;ve found this quick reference useful so far. I&#39;ll continue these on in another post.</p>
 ]]></description><link>http://www.integralist.co.uk/posts/refactoring-techniques/</link><guid isPermaLink="true">http://www.integralist.co.uk/posts/refactoring-techniques/</guid><dc:creator><![CDATA[Mark McDonnell]]></dc:creator><pubDate>Sun, 10 Nov 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[MVCP: Model, View, Controller, Presenter]]></title><description><![CDATA[<h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
 <p><em>reading time: approx. 8mins</em></p>
 <ul>
@@ -1518,6 +1859,7 @@ things).</p>
 <li>Rename a file</li>
 <li>Delete a file</li>
 <li>Delete a directory</li>
+<li>Create a directory</li>
 </ul>
 </li>
 <li>Grep (Searching for patterns)</li>
@@ -1578,6 +1920,9 @@ things).</p>
 <p>The first flag is <code>-f</code> which means &#39;force&#39; the removal (otherwise if you try to remove a folder then the shell will try and prevent this as it&#39;ll assume you&#39;ve made a mistake, and deleting a whole folder could be a big mistake if you&#39;re not careful).</p>
 <p>The second flag is <code>-r</code> which means &#39;recursively&#39;. So you&#39;ll recursively delete files within the folder.</p>
 <p>So: <code>rm -rf ~/Desktop/some-folder</code> will delete our <code>some-folder</code> folder on the Desktop.</p>
+<h3><a name="lets-create-a-directory" class="anchor" href="#lets-create-a-directory"><span class="header-link"></span></a>Let&#39;s create a directory</h3>
+<p>To create a directory you can use the make directory command <code>mkdir my_folder_name</code></p>
+<p>To make creating lots of sub directories easier you can pass a <code>-p</code> flag like so <code>mkdir -p Assets/{Scripts,Styles}</code> (notice we use interpolation <code>{}</code> which lets use specify multiple folder names in the current directory level).</p>
 <h2><a name="grep-searching-for-patterns" class="anchor" href="#grep-searching-for-patterns"><span class="header-link"></span></a>Grep (Searching for patterns)</h2>
 <p>Grep is a command that lets you find a pattern (either a string or a regular expression) inside of a file or list of files.</p>
 <p>So: <code>grep &#39;something&#39; test.txt</code> looks for the word &#39;something&#39; inside of the file <code>test.txt</code>.</p>
@@ -2769,297 +3114,4 @@ autocmd BufWritePre * :%s/<span class="se">\s\+</span><span class="nv">$/</span>
 <h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
 <p>OK, so this was a quick run-through of my Stark project and its purpose might still not be totally clear to a lot of you at this point. But as I said from the start, I&#39;m not selling an all encompassing framework or set of tools that work &#39;out of the box&#39;. I&#39;m simply demonstrating a &#39;strategy&#39;, a way of working, thinking, and writing/structuring your front-end code.</p>
 <p>I&#39;d love to hear your feedback and get your thoughts so <a href="http://twitter.com/integralist">contact me on twitter</a>, open up an discussion on <a href="https://github.com/Integralist/Stark">GitHub</a> (or better yet a Pull Request).</p>
-]]></description><link>http://www.integralist.co.uk/posts/stark-simplified-separation-of-components-into-decoupled-applications/</link><guid isPermaLink="true">http://www.integralist.co.uk/posts/stark-simplified-separation-of-components-into-decoupled-applications/</guid><dc:creator><![CDATA[Mark McDonnell]]></dc:creator><pubDate>Wed, 07 Aug 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[Generate Application Cache Manifest with PhantomJS]]></title><description><![CDATA[<h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
-<p><em>reading time: approx. 11mins</em></p>
-<ul>
-<li>What is PhantomJS?</li>
-<li>Why use PhantomJS?</li>
-<li>How can we use it?</li>
-<li>Basic introduction</li>
-<li>Let&#39;s break down Squirrel</li>
-<li>Other PhantomJS features</li>
-<li>Conclusion</li>
-</ul>
-<h2><a name="what-is-phantomjs" class="anchor" href="#what-is-phantomjs"><span class="header-link"></span></a>What is PhantomJS?</h2>
-<p>To quote the source…</p>
-<blockquote>
-<p>PhantomJS is a headless WebKit scriptable with a JavaScript API. It has fast and native support for various web standards: DOM handling, CSS selector, JSON, Canvas, and SVG.</p>
-</blockquote>
-<h2><a name="why-use-phantomjs" class="anchor" href="#why-use-phantomjs"><span class="header-link"></span></a>Why use PhantomJS?</h2>
-<p>So why do you care? Well, having a headless WebKit allows you to do all sorts of things. You can automate anything within a browser environment, and that&#39;s very cool!</p>
-<p>So for example, I work for BBC News on the responsive code base and some of the very talented guys here have recently released an open-source project called <a href="https://github.com/BBC-News/wraith">Wraith</a> which is a front-end regression testing tool that lets you grab screen shot images of web pages at different dimensions (it&#39;s great for making sure your recent CSS commits or changes hasn&#39;t broken your site, it doesn&#39;t replace acceptance tests, unit tests or manual testing but it helps improve confidence). </p>
-<p>In case you&#39;re wondering, the definition of &#39;wraith&#39; is…</p>
-<blockquote>
-<p>a ghost or ghostlike image of someone</p>
-</blockquote>
-<p>…see what we did there, Phantom… ghost… wraith… yeah?</p>
-<p>But there are other spin-offs such as <a href="http://casperjs.org/">CasperJS</a> and <a href="https://github.com/jonleighton/poltergeist#poltergeist---a-phantomjs-driver-for-capybara">Poltergeist</a> both of which are named on a variation of the phantom theme but focus specifically on user/acceptance testing a user interface by allowing developers to interact with a web page programmatically.</p>
-<h2><a name="how-can-we-use-it" class="anchor" href="#how-can-we-use-it"><span class="header-link"></span></a>How can we use it?</h2>
-<p>We&#39;ll be using PhantomJS to help us interrogate a web page of the user&#39;s choice. It will check the network requests, store them and then generate a Application Cache manifest file based on the content of the web page.</p>
-<p>So I wrote a small script that allows you to do this which I called <a href="https://github.com/integralist/squirrel">Squirrel</a> because you&#39;re storing away small pieces of information… like… nuts? Yeah I think you see where I&#39;m coming from.</p>
-<p>This is very much a work in progress but the principles are there and it also demonstrates some different parts of PhantomJS that you might be interested in.</p>
-<p>I won&#39;t go into the details of what the Application Cache does (or should do), I&#39;ll <a href="http://www.html5rocks.com/en/tutorials/appcache/beginner/">leave that to another</a>.</p>
-<h2><a name="basic-introduction" class="anchor" href="#basic-introduction"><span class="header-link"></span></a>Basic introduction</h2>
-<p>Here&#39;s a super quick introduction on how to use PhantomJS… </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">page</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;webpage&#39;</span><span class="p">).</span><span class="nx">create</span><span class="p">(),</span>
-    <span class="nx">url</span> <span class="o">=</span> <span class="s1">&#39;http://www.phantomjs.org/&#39;</span><span class="p">;</span>
-
-<span class="nx">page</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// Page is loaded!</span>
-    <span class="nx">phantom</span><span class="p">.</span><span class="nx">exit</span><span class="p">();</span>
-<span class="p">});</span>
-</pre></div>
-</code></pre>
-<p>…here we load the PhantomJS <code>webpage</code> module, and call the <code>create()</code> method which instantiates a new web page.</p>
-<p>We then call the <code>open()</code> method on this web page object and pass in the URL of the web page we want to open.</p>
-<p>We then execute the <code>exit()</code> method on Phantom itself which tells the script that we&#39;re finished doing what we&#39;re doing.</p>
-<p>That&#39;s it. Super simple run down of how to use PhantomJS.</p>
-<h2><a name="lets-break-down-squirrel" class="anchor" href="#lets-break-down-squirrel"><span class="header-link"></span></a>Let&#39;s break down Squirrel</h2>
-<p>OK, so let&#39;s review our Squirrel repo (specifically the <code>appcache.js</code> file).</p>
-<p>The process of our script is as follows…</p>
-<ol>
-<li>Set-up variables and load specific modules</li>
-<li>Set-up event listeners for resources requested, received and any errors detected.</li>
-<li>In the <code>onResourceReceived</code> we check the <code>contentType</code> of the resource and if it falls into any of the categories we&#39;re interested in (image, style sheet, javascript) then we store it.</li>
-<li>Check the URL provided by the user is in the required format.</li>
-<li>If the URL is our example <code>bbc.co.uk/news</code> then set an additional cookie (required to load the Responsive version of BBC News site)</li>
-<li>Open the URL specified by the user (the clean-up version).</li>
-<li>Get a list of all anchors/links found in the web page.</li>
-<li>Make sure we have a unique list of each resource type.</li>
-<li>Call a function <code>populateManifest()</code> that will begin the process of populating our manifest file.</li>
-<li>Exit our PhantomJS script.</li>
-</ol>
-<h3><a name="set-up" class="anchor" href="#set-up"><span class="header-link"></span></a>Set-up</h3>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">_</span>          <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;lodash&#39;</span><span class="p">),</span>
-    <span class="nx">system</span>     <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;system&#39;</span><span class="p">),</span>
-    <span class="nx">fs</span>         <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">),</span>
-    <span class="nx">page</span>       <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;webpage&#39;</span><span class="p">).</span><span class="nx">create</span><span class="p">(),</span>
-    <span class="nx">args</span>       <span class="o">=</span> <span class="nx">system</span><span class="p">.</span><span class="nx">args</span><span class="p">,</span>
-    <span class="nx">path</span>       <span class="o">=</span> <span class="s1">&#39;./appcache.manifest&#39;</span><span class="p">,</span>
-    <span class="nx">manifest</span>   <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">read</span><span class="p">(</span><span class="nx">path</span><span class="p">),</span>
-    <span class="nx">css</span>        <span class="o">=</span> <span class="p">[],</span>
-    <span class="nx">jpgs</span>       <span class="o">=</span> <span class="p">[],</span>
-    <span class="nx">pngs</span>       <span class="o">=</span> <span class="p">[],</span>
-    <span class="nx">gifs</span>       <span class="o">=</span> <span class="p">[],</span>
-    <span class="nx">images</span>     <span class="o">=</span> <span class="p">[],</span>
-    <span class="nx">javascript</span> <span class="o">=</span> <span class="p">[],</span>
-    <span class="nx">links</span><span class="p">,</span> <span class="nx">url</span><span class="p">;</span>
-</pre></div>
-</code></pre>
-<p>…OK so this looks a bit ugly but this long list of variables is basically us loading the Lo-Dash utility library, the Node file system, the PhantomJS web page module and then grabbing any arguments passed via the command line and reading the content of our manifest file.</p>
-<p>You might be wondering about the long list of empty Arrays, well we have to set each variable to an empty Array because Arrays are a reference type object which means if we did <code>var css = jpgs = pngs = gifs = images = javascript = [];</code> then although we&#39;d end up with shorter code (a one liner) it means that we&#39;re not getting a unique Array for each variable but sharing a single Array instance (which isn&#39;t what we want).</p>
-<h3><a name="functions" class="anchor" href="#functions"><span class="header-link"></span></a>Functions</h3>
-<p>We have a whole group of functions that carry out different things for us, so we&#39;ll just quickly scan over them…</p>
-<ul>
-<li><p><code>getLinks</code> uses the PhantomJS&#39; <code>evaluate</code> method on the web page object (which lets you parse the open web page using JavaScript, meaning you run JavaScript code within the context of the open web page).</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">getLinks</span><span class="p">(){</span>
-  <span class="kd">var</span> <span class="nx">results</span> <span class="o">=</span> <span class="nx">page</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
-      <span class="k">return</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)).</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
-          <span class="k">return</span> <span class="nx">item</span><span class="p">.</span><span class="nx">href</span><span class="p">;</span>
-      <span class="p">});</span>
-  <span class="p">});</span>
-
-  <span class="k">return</span> <span class="nx">results</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-</li>
-<li><p><code>populateManifest</code> is called next but this just delegates calls to the following other functions.</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">populateManifest</span><span class="p">(){</span>
-  <span class="nx">writeVersion</span><span class="p">();</span>
-
-  <span class="nx">writeListContentFor</span><span class="p">(</span><span class="s1">&#39;Images&#39;</span><span class="p">,</span> <span class="nx">images</span><span class="p">);</span>
-  <span class="nx">writeListContentFor</span><span class="p">(</span><span class="s1">&#39;Internal HTML documents&#39;</span><span class="p">,</span> <span class="nx">links</span><span class="p">);</span>
-  <span class="nx">writeListContentFor</span><span class="p">(</span><span class="s1">&#39;Style Sheets&#39;</span><span class="p">,</span> <span class="nx">css</span><span class="p">);</span>
-  <span class="nx">writeListContentFor</span><span class="p">(</span><span class="s1">&#39;JavaScript&#39;</span><span class="p">,</span> <span class="nx">javascript</span><span class="p">);</span>
-
-  <span class="nx">writeManifest</span><span class="p">();</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-</li>
-<li><code>writeVersion</code> replaces the current time stamp within our manifest file (we&#39;re doing this in memory, not saving the change back to the manifest file yet).<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">writeVersion</span><span class="p">(){</span>
-  <span class="nx">manifest</span> <span class="o">=</span> <span class="nx">manifest</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/# Timestamp: \d+/i</span><span class="p">,</span> <span class="s1">&#39;# Timestamp: &#39;</span> <span class="o">+</span> <span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">()).</span><span class="nx">getTime</span><span class="p">());</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-</li>
-<li><code>writeListContentFor</code> is called multiple times and is just an abstraction for a common pattern of code which looks through the manifest file content for &#39;hooks&#39; and then replace the content found with the updated content that we&#39;ve parsed from the page as it was loading (e.g. the event listener we set-up for <code>onResourceReceived</code> which checked the <code>contentType</code> of the resource being loaded).<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">writeListContentFor</span> <span class="p">(</span><span class="nx">str</span><span class="p">,</span> <span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">manifest</span> <span class="o">=</span> <span class="nx">manifest</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="s1">&#39;(# &#39;</span> <span class="o">+</span> <span class="nx">str</span> <span class="o">+</span> <span class="s1">&#39;)\\n[\\s\\S]+?\\n\\n&#39;</span><span class="p">,</span> <span class="s1">&#39;igm&#39;</span><span class="p">),</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">match</span><span class="p">,</span> <span class="nx">cg</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="nx">cg</span> <span class="o">+</span> <span class="s1">&#39;\n&#39;</span> <span class="o">+</span> <span class="nx">type</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;\n\n&#39;</span><span class="p">;</span>
-  <span class="p">});</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-</li>
-<li><code>writeManifest</code> opens up our original manifest file using Node&#39;s file system module and writes over the content with the new content string we&#39;ve constructed in the <code>manifest</code> variable.<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">writeManifest</span><span class="p">(){</span>
-  <span class="nx">fs</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">path</span><span class="p">,</span> <span class="nx">manifest</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-</li>
-<li><code>urlProvided</code> just checks to make sure an argument was provided by the user on the command line.<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">urlProvided</span><span class="p">(){</span>
-  <span class="k">return</span> <span class="nx">args</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="sr">/(?:www\.)?[a-z-z1-9]+\./i</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-</li>
-<li><code>cleanUrl</code> takes in a URL and formats it so it doesn&#39;t break PhantomJS<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">cleanUrl</span> <span class="p">(</span><span class="nx">providedUrl</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// If no http or https found at the start of the url...</span>
-  <span class="k">if</span> <span class="p">(</span><span class="sr">/^(?!https?:\/\/)[\w\d]/i</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">providedUrl</span><span class="p">))</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="s1">&#39;http://&#39;</span> <span class="o">+</span> <span class="nx">providedUrl</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-</li>
-<li><code>bbcNews</code> checks to see if the URL is for the BBC News site (if it is then later on we&#39;ll do something specific for that scenario). It&#39;s not essential for the script to work, just something specific I wanted to demonstrate.<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">bbcNews</span><span class="p">(){</span>
-  <span class="k">if</span> <span class="p">(</span><span class="sr">/bbc.co.uk\/news/i</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">url</span><span class="p">))</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-</li>
-</ul>
-<h3><a name="checking-resources-that-are-loaded" class="anchor" href="#checking-resources-that-are-loaded"><span class="header-link"></span></a>Checking resources that are loaded</h3>
-<p>The following is our event handler that checks the content type of the resource being loaded and stores it in the relevant Array.</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">page</span><span class="p">.</span><span class="nx">onResourceReceived</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// Some requests can have `contentType = null` which causes errors if we don&#39;t check for truthy value</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">contentType</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">contentType</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;text/css&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">css</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
-        <span class="p">}</span>
-
-        <span class="c1">// application/javascript &amp; application/x-javascript</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">contentType</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;javascript&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">javascript</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
-        <span class="p">}</span>
-
-        <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">contentType</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;image/png&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;data:image&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">pngs</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-
-        <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">contentType</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;image/jpeg&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;data:image&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">jpgs</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-
-        <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">contentType</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;image/gif&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;data:image&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">gifs</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">};</span>
-</pre></div>
-</code></pre>
-<p>To be honest we don&#39;t need to separate the content types out into jpg, gif and png. We could just have an images Array that holds them all - it would be cleaner and more efficient code, something like...</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">page</span><span class="p">.</span><span class="nx">onResourceReceived</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">contentType</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">contentType</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;text/css&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">css</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
-        <span class="p">}</span>
-
-        <span class="k">if</span> <span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">contentType</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;javascript&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">javascript</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
-        <span class="p">}</span>
-
-        <span class="k">if</span> <span class="p">(</span><span class="sr">/image\/(?:png|jpeg|gif)/i</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">contentType</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;data:image&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">images</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">};</span>
-</pre></div>
-</code></pre>
-<h3><a name="checking-for-errors" class="anchor" href="#checking-for-errors"><span class="header-link"></span></a>Checking for errors</h3>
-<p>This should be self explanatory, but basically it checks for any errors that happen while the page is loading and displays them for the user… </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">page</span><span class="p">.</span><span class="nx">onError</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">msg</span><span class="p">,</span> <span class="nx">trace</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">msg</span><span class="p">);</span>
-
-    <span class="nx">trace</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;  &#39;</span><span class="p">,</span> <span class="nx">item</span><span class="p">.</span><span class="nx">file</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="nx">item</span><span class="p">.</span><span class="nx">line</span><span class="p">);</span>
-    <span class="p">});</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h3><a name="ensure-url-is-provided" class="anchor" href="#ensure-url-is-provided"><span class="header-link"></span></a>Ensure URL is provided</h3>
-<p>Following conditional makes sure that a URL was provided by the user from the command line and if not it displays appropriate feedback to the user to let them know what they should be doing… </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nx">urlProvided</span><span class="p">())</span> <span class="p">{</span>
-    <span class="nx">url</span> <span class="o">=</span> <span class="nx">cleanUrl</span><span class="p">(</span><span class="nx">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
-<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Sorry a valid URL should have been provided&#39;</span><span class="p">);</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Example usage: phantomjs appcache.js bbc.co.uk/news&#39;</span><span class="p">);</span>
-    <span class="nx">phantom</span><span class="p">.</span><span class="nx">exit</span><span class="p">();</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h3><a name="setting-custom-headers" class="anchor" href="#setting-custom-headers"><span class="header-link"></span></a>Setting custom headers</h3>
-<p>The following code isn&#39;t needed for our Squirrel repo to do its job, I just stuck it in to demonstrate how you could use an interesting feature of PhantomJS which is to set cookies.</p>
-<p>Here we check if the URL being requested is BBC News and if so I want the user to load up the responsive code base version of the site, and to do that we need to set a cookie for the page to know to load that version of the page… </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nx">bbcNews</span><span class="p">())</span> <span class="p">{</span>
-    <span class="c1">// We want to serve up the responsive code base...</span>
-    <span class="nx">phantom</span><span class="p">.</span><span class="nx">addCookie</span><span class="p">({</span>
-        <span class="s1">&#39;name&#39;</span>  <span class="o">:</span> <span class="s1">&#39;ckps_d&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;value&#39;</span> <span class="o">:</span> <span class="s1">&#39;m&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;domain&#39;</span><span class="o">:</span> <span class="s1">&#39;.bbc.co.uk&#39;</span>
-    <span class="p">});</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h3><a name="the-main-star-of-the-show" class="anchor" href="#the-main-star-of-the-show"><span class="header-link"></span></a>The main star of the show</h3>
-<p>Here is the fundamental piece of the puzzle, the call to open the web page specified by the user and which once the page has loaded then parses the page for the information we&#39;re interested in…  </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">page</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">links</span> <span class="o">=</span> <span class="nx">getLinks</span><span class="p">();</span>
-
-    <span class="nx">links</span>      <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">unique</span><span class="p">(</span><span class="nx">links</span><span class="p">);</span>
-    <span class="nx">images</span>     <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">unique</span><span class="p">(</span><span class="nx">pngs</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">jpgs</span><span class="p">).</span><span class="nx">concat</span><span class="p">(</span><span class="nx">gifs</span><span class="p">));</span>
-    <span class="nx">css</span>        <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">unique</span><span class="p">(</span><span class="nx">css</span><span class="p">);</span>
-    <span class="nx">javascript</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">unique</span><span class="p">(</span><span class="nx">javascript</span><span class="p">);</span>
-
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;links: &#39;</span><span class="p">,</span> <span class="nx">links</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;images: &#39;</span><span class="p">,</span> <span class="nx">images</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;css: &#39;</span><span class="p">,</span> <span class="nx">css</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;javascript: &#39;</span><span class="p">,</span> <span class="nx">javascript</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
-
-    <span class="nx">populateManifest</span><span class="p">();</span>
-
-    <span class="nx">phantom</span><span class="p">.</span><span class="nx">exit</span><span class="p">();</span>
-<span class="p">});</span>
-</pre></div>
-</code></pre>
-<p>…PhantomJS passes us a status string as an argument to the callback function and which tells us if the page loaded successfully or not.</p>
-<p>After we&#39;ve called our main <code>populateManifest()</code> method we then tell PhantomJS to stop (<code>phantom.exit()</code>).</p>
-<h2><a name="example-usage" class="anchor" href="#example-usage"><span class="header-link"></span></a>Example usage</h2>
-<p>So how do we use this script? Well, once you&#39;ve cloned down the repo and followed the installation instructions you simply jump inside our cloned directory and run something like:</p>
-<p><code>phantomjs appcache.js bbc.co.uk/news</code></p>
-<h2><a name="other-phantomjs-features" class="anchor" href="#other-phantomjs-features"><span class="header-link"></span></a>Other PhantomJS features</h2>
-<p>Here follows are a quick run down of some other features available to you when using PhantomJS, just check the <a href="https://github.com/ariya/phantomjs/wiki/API-Reference">PhantomJS API</a> for full details.</p>
-<ul>
-<li>Custom Headers</li>
-<li>Remote Debugging</li>
-<li>View Port Sizing</li>
-</ul>
-<h3><a name="custom-headers" class="anchor" href="#custom-headers"><span class="header-link"></span></a>Custom Headers</h3>
-<p>For BBC News I wrote a similar script, but because I was interrogating a local development URL which uses test data I had to set some additional headers to get the page to load live data…</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">page</span><span class="p">.</span><span class="nx">customHeaders</span> <span class="o">=</span> <span class="p">{</span> 
-    <span class="s1">&#39;X-Candy-Override&#39;</span><span class="o">:</span> <span class="s1">&#39;https://api.live.bbc.co.uk&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;X-Compiled-Js&#39;</span>   <span class="o">:</span> <span class="s1">&#39;true&#39;</span>
-<span class="p">};</span>
-</pre></div>
-</code></pre>
-<h3><a name="remote-debugging" class="anchor" href="#remote-debugging"><span class="header-link"></span></a>Remote Debugging</h3>
-<p>You can remote debug your code by executing your code with a debug flag <code>phantomjs --remote-debugger-port=9000 appcache.js [url]</code>, you can then open up Chrome or Safari and access the debugger via <code>http://127.0.0.1:9000/</code></p>
-<h3><a name="view-port-size" class="anchor" href="#view-port-size"><span class="header-link"></span></a>View Port Size</h3>
-<p>You can change the dimensions of the page being loaded using the <code>viewportSize</code> property (this is used in the <a href="http://github.com/BBC-News/wraith/">Wraith</a> open-source project released by BBC News)… </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">page</span><span class="p">.</span><span class="nx">viewportSize</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">width</span><span class="o">:</span> <span class="mi">320</span><span class="p">,</span> <span class="nx">height</span><span class="o">:</span> <span class="mi">480</span> <span class="p">};</span>
-</pre></div>
-</code></pre>
-<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
-<p>Hopefully this introduction to PhantomJS was useful. The Squirrel repo is still a work in progress so feel free to open up an issue (or better yet a pull request) on GitHub if you find any problems.</p>
-<p>I&#39;ll likely follow up this article at some point in the future with one about using CasperJS so keep your eyes peeled for that.</p>
-<p>Any other feedback then catch me on <a href="http://twitter.com/integralist">twitter</a>.</p>
-]]></description><link>http://www.integralist.co.uk/posts/generate-application-cache-manifest-with-phantomjs/</link><guid isPermaLink="true">http://www.integralist.co.uk/posts/generate-application-cache-manifest-with-phantomjs/</guid><dc:creator><![CDATA[Mark McDonnell]]></dc:creator><pubDate>Sun, 04 Aug 2013 00:00:00 GMT</pubDate></item></channel></rss>
+]]></description><link>http://www.integralist.co.uk/posts/stark-simplified-separation-of-components-into-decoupled-applications/</link><guid isPermaLink="true">http://www.integralist.co.uk/posts/stark-simplified-separation-of-components-into-decoupled-applications/</guid><dc:creator><![CDATA[Mark McDonnell]]></dc:creator><pubDate>Wed, 07 Aug 2013 00:00:00 GMT</pubDate></item></channel></rss>

@@ -37,6 +37,364 @@
 
 
   <div class="post-head group">
+  <a href="/posts/even-more-refactoring-techniques/">
+    <h1 class="post-title">Even More Refactoring Techniques</h1>
+  </a>
+  <span class="post-date">2013 &#183; 12 &#183; 27</span>
+</div>
+
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 10mins</em></p>
+<ul>
+<li>Introduction<ul>
+<li><a href="#remove-redundancy">Remove Redundancy</a></li>
+<li><a href="#dynamic-method-definition">Dynamic Method Definition</a></li>
+<li><a href="#extract-class">Extract Class</a></li>
+<li><a href="#hide-delegate">Hide Delegate</a></li>
+<li><a href="#replace-array-with-object">Replace Array with Object</a></li>
+<li><a href="#replace-conditional-with-polymorphism">Replace Conditional with Polymorphism</a></li>
+<li><a href="#decompose-conditional">Decompose Conditional</a></li>
+<li><a href="#introduce-null-object">Introduce Null Object</a></li>
+</ul>
+</li>
+<li>Conclusion</li>
+</ul>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<p>Well here we are again to learn some more refactoring techniques. If you want to recap the other techniques then go <a href="/posts/refactoring-techniques/">read my previous post</a>, otherwise let&#39;s just crack on...</p>
+<h3><a name="remove-redundancy" class="anchor" href="#remove-redundancy"><span class="header-link"></span></a>Remove Redundancy</h3>
+<p>This isn&#39;t an explicit technique, more a grouping of techniques.</p>
+<p>The principle idea being that: code evolves, and as it evolves you may find techniques you previously implemented (as part of an earlier refactoring) have since become redundant. </p>
+<p>Imagine you implemented the &quot;<a href="/posts/refactoring-techniques/#introduce-named-parameter">Introduce Named Parameter</a>&quot; technique (passing a hash with named properties as a single argument instead of multiple unidentified arguments). </p>
+<p>Now, after some other refactorings have taken place, you discover the method originally refactored is no longer as complex and so your argument hash refactor has been reduced down to just a single named property. </p>
+<p>In this particular scenario you should remove the named parameter and simply pass a single argument instead.</p>
+<p>This principle applies with other refactoring techniques. </p>
+<p>Imagine an earlier refactoring included implementing a default parameter value for a method call. As your code evolves, if you discover you now only ever call the method <em>with</em> an argument then the default value becomes redundant and makes the code more complex than it needs to be by providing a default value. So just remove the redundant code.</p>
+<h3><a name="dynamic-method-definition" class="anchor" href="#dynamic-method-definition"><span class="header-link"></span></a>Dynamic Method Definition</h3>
+<p>Sometimes defining multiple methods can be wasteful when functionally they carry out similar steps. </p>
+<p>For example, imagine we had the following code... </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">failure</span> <span class="k">do</span> 
+  <span class="nb">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;failure&quot;</span> 
+<span class="k">end</span> 
+
+<span class="k">def</span> <span class="nf">success</span> <span class="k">do</span> 
+  <span class="nb">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;success&quot;</span> 
+<span class="k">end</span> 
+
+<span class="k">def</span> <span class="nf">error</span> <span class="k">do</span> 
+  <span class="nb">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;error&quot;</span> 
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Notice how the functions are structurally identical. They simply set a <code>result</code> property to have a value
+This can be refactored using Ruby&#39;s <code>define_method</code> method (which let&#39;s you create methods dynamically at run time)... </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="o">[</span><span class="ss">:failure</span><span class="p">,</span> <span class="ss">:success</span><span class="p">,</span> <span class="ss">:error</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">method</span><span class="o">|</span> 
+  <span class="n">define_method</span> <span class="nb">method</span> <span class="k">do</span> 
+    <span class="nb">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="nb">method</span><span class="o">.</span><span class="n">to_s</span> 
+  <span class="k">end</span> 
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Note: you could also abstract this code into a more reusable (and easier to maintain) function like so... </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">dynamic_methods</span><span class="p">(</span><span class="o">*</span><span class="n">method_names</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span> 
+  <span class="n">method_names</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">method_name</span><span class="o">|</span> 
+    <span class="n">define_method</span> <span class="n">method_name</span> <span class="k">do</span> 
+      <span class="n">instance_exec</span><span class="p">(</span><span class="n">method_name</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+    <span class="k">end</span> 
+  <span class="k">end</span> 
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>You can also use this technique to help ease creating properties on an object. For example, I used this technique in my <a href="/posts/mvcp-model-view-controller-presenter/">MVCP</a> blog post to dynamically create instance variables... </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;app/presenters/base&#39;</span> 
+<span class="nb">require</span> <span class="s1">&#39;app/models/person&#39;</span> 
+
+<span class="k">class</span> <span class="nc">Presenters</span><span class="o">::</span><span class="no">Person</span> <span class="o">&lt;</span> <span class="no">Presenters</span><span class="o">::</span><span class="no">Base</span> 
+  <span class="kp">attr_reader</span> <span class="ss">:run</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:age</span> 
+
+  <span class="k">def</span> <span class="nf">initialize</span> 
+    <span class="vi">@run</span> <span class="o">=</span> <span class="kp">true</span> 
+
+    <span class="n">model</span> <span class="o">=</span> <span class="no">Person</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;Mark&#39;</span><span class="p">,</span> <span class="s1">&#39;99&#39;</span><span class="p">)</span> 
+    <span class="n">prepare_view_data</span><span class="p">({</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="n">model</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="ss">:age</span> <span class="o">=&gt;</span> <span class="n">model</span><span class="o">.</span><span class="n">age</span> <span class="p">})</span> 
+  <span class="k">end</span> 
+<span class="k">end</span> 
+
+<span class="k">module</span> <span class="nn">Presenters</span> 
+  <span class="k">class</span> <span class="nc">Base</span> 
+    <span class="kp">attr_accessor</span> <span class="ss">:model</span> 
+
+    <span class="k">def</span> <span class="nf">prepare_view_data</span> <span class="nb">hash</span> 
+      <span class="nb">hash</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span> 
+        <span class="nb">instance_variable_set</span><span class="p">(</span><span class="s2">&quot;@</span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> 
+      <span class="k">end</span> 
+    <span class="k">end</span> 
+  <span class="k">end</span> 
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<h3><a name="extract-class" class="anchor" href="#extract-class"><span class="header-link"></span></a>Extract Class</h3>
+<p>This is a pretty standard technique which helps ensure your objects abide by the SRP (Single Responsibility Principle). </p>
+<p>If you find your classes are doing too much then simply create a new class and move the relevant fields and methods over one by one (while running the tests as you go to ensure all code continues working as expected).</p>
+<p>Doing so you&#39;ll end up with two small, focused and clean classes which are easier to manage. </p>
+<h3><a name="hide-delegate" class="anchor" href="#hide-delegate"><span class="header-link"></span></a>Hide Delegate</h3>
+<p>This technique focuses on the principle of object encapsulation. Specifically decoupling two or more objects by reducing the context the objects have of each other. </p>
+<p>The following code demonstrates the idea...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">module</span> <span class="nn">Bar</span>
+  <span class="k">def</span> <span class="nf">display</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Bar Stuff&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">module</span> <span class="nn">Baz</span>
+  <span class="k">def</span> <span class="nf">display</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Baz Stuff&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Foo</span>
+  <span class="kp">include</span> <span class="no">Bar</span>
+
+  <span class="k">def</span> <span class="nf">do_something</span>
+    <span class="nb">display</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">foo</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span>
+<span class="n">foo</span><span class="o">.</span><span class="n">do_something</span>
+</pre></div>
+</code></pre>
+<p>...as you can see, the user only needs to rely on the interface having a <code>do_something</code> method. </p>
+<p>The implementation details of <code>do_somthing</code> (in this case the delegation off to another method) are hidden.</p>
+<p>If we changed <code>include Bar</code> for <code>include Baz</code>, or maybe we don&#39;t mixin a module at all and just write some code inside of <code>do_something</code>, it doesn&#39;t matter because the public interface is set as far as the user is concerned.</p>
+<h3><a name="replace-array-with-object" class="anchor" href="#replace-array-with-object"><span class="header-link"></span></a>Replace Array with Object</h3>
+<p>The motivation for this technique is to convert a simple data container which holds multiple data types into an object with clear and descriptive identifiers. </p>
+<p>This principle helps to present your complex data into a more sensible format (I demonstrated this in a previous post on <a href="/posts/object-oriented-design-ood/#direct-references">object-oriented design</a>). This technique also makes the data interaction more maintainable by providing an easier and understandable interface to the data. </p>
+<p>Here is an example where we&#39;re violating the principle of a clean data interaction...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span> 
+  <span class="kp">attr_reader</span> <span class="ss">:data</span> 
+
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> 
+    <span class="vi">@data</span> <span class="o">=</span> <span class="n">data</span> 
+  <span class="k">end</span> 
+
+  <span class="k">def</span> <span class="nf">do_something</span> 
+    <span class="n">data</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span> 
+      <span class="nb">puts</span> <span class="n">item</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> 
+      <span class="nb">puts</span> <span class="n">item</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> 
+      <span class="nb">puts</span> <span class="s1">&#39;---&#39;</span> 
+    <span class="k">end</span> 
+  <span class="k">end</span> 
+<span class="k">end</span> 
+
+<span class="n">obj</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">41</span><span class="p">,</span> <span class="mi">7</span><span class="o">]]</span><span class="p">)</span> 
+<span class="n">obj</span><span class="o">.</span><span class="n">do_something</span>
+</pre></div>
+</code></pre>
+<p>Notice in the first example how our code has far too much knowledge (context) about the object it&#39;s interacting with. It knows that the Array index zero holds an X coordinate and the Array index one holds a Y coordinate. </p>
+<p>If that format was to change (let&#39;s say the X and Y swap places) then that would cause our code to break in unexpected ways.</p>
+<p>But now take a look at the following example which works around this issue by converting our complex data structure into a cleaner data format... </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span> 
+  <span class="kp">attr_reader</span> <span class="ss">:new_data</span> 
+
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> 
+    <span class="vi">@new_data</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> 
+  <span class="k">end</span> 
+
+  <span class="k">def</span> <span class="nf">do_something</span> 
+    <span class="n">new_data</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span> 
+      <span class="c1"># now we are able to reference easily understandable </span>
+      <span class="c1"># property names (rather than item[0], item[1]) </span>
+      <span class="nb">puts</span> <span class="n">item</span><span class="o">.</span><span class="n">coord_x</span> 
+      <span class="nb">puts</span> <span class="n">item</span><span class="o">.</span><span class="n">coord_y</span> 
+      <span class="nb">puts</span> <span class="s1">&#39;---&#39;</span> 
+    <span class="k">end</span> 
+  <span class="k">end</span> 
+
+  <span class="no">Transform</span> <span class="o">=</span> <span class="no">Struct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:coord_x</span><span class="p">,</span> <span class="ss">:coord_y</span><span class="p">)</span> 
+
+  <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> 
+    <span class="n">data</span><span class="o">.</span><span class="n">collect</span> <span class="p">{</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span> <span class="no">Transform</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">item</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span> <span class="n">item</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">)</span> <span class="p">}</span> 
+  <span class="k">end</span> 
+<span class="k">end</span> 
+
+<span class="n">obj</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">41</span><span class="p">,</span> <span class="mi">7</span><span class="o">]]</span><span class="p">)</span> 
+<span class="n">obj</span><span class="o">.</span><span class="n">do_something</span>
+</pre></div>
+</code></pre>
+<p>...here we convert the Array into an object and instead can more easily and safely reference the data we&#39;re interested in via recognisable property identifiers. This doesn&#39;t mean if the data source changes that we&#39;ll totally avoid all problems but it&#39;ll be clearer where the problem is arising.</p>
+<h3><a name="replace-conditional-with-polymorphism" class="anchor" href="#replace-conditional-with-polymorphism"><span class="header-link"></span></a>Replace Conditional with Polymorphism</h3>
+<p>This is one of the most useful refactoring techniques available to you, and there are two ways it can help: </p>
+<ol>
+<li>It removes the code smell of conditional logic </li>
+<li>It demonstrates perfectly the principle of object-oriented design </li>
+</ol>
+<p>The following example shows the typical procedural attempt to handle different scenarios based on the data object type being passed...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="vi">@data</span> <span class="o">=</span> <span class="n">data</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">do_something</span>
+    <span class="k">if</span> <span class="vi">@data</span><span class="o">.</span><span class="n">class</span> <span class="o">==</span> <span class="no">Bar</span>
+      <span class="nb">puts</span> <span class="s2">&quot;Bar!&quot;</span>
+    <span class="k">elsif</span> <span class="vi">@data</span><span class="o">.</span><span class="n">class</span> <span class="o">==</span> <span class="no">Baz</span>
+      <span class="nb">puts</span> <span class="s2">&quot;Baz!&quot;</span>
+    <span class="k">elsif</span> <span class="vi">@data</span><span class="o">.</span><span class="n">class</span> <span class="o">==</span> <span class="no">Qux</span>
+      <span class="nb">puts</span> <span class="s2">&quot;Qux!&quot;</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Bar</span><span class="p">;</span> <span class="k">end</span>
+<span class="k">class</span> <span class="nc">Baz</span><span class="p">;</span> <span class="k">end</span>
+<span class="k">class</span> <span class="nc">Qux</span><span class="p">;</span> <span class="k">end</span>
+
+<span class="n">foo_bar</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Bar</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+<span class="n">foo_bar</span><span class="o">.</span><span class="n">do_something</span>
+
+<span class="n">foo_baz</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Baz</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+<span class="n">foo_baz</span><span class="o">.</span><span class="n">do_something</span>
+
+<span class="n">foo_qux</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Qux</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+<span class="n">foo_qux</span><span class="o">.</span><span class="n">do_something</span>
+</pre></div>
+</code></pre>
+<p>...as you can see, if we have a new Class type we need to go back and to modify the <code>Foo</code> base class. This violates the OCP (Open/Closed Principle) which states a file should be open for extension but closed for modification.</p>
+<p>For us to abide by OCP we can use polymorphism and a trusted interface/duck typing to solve the problem...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="vi">@data</span> <span class="o">=</span> <span class="n">data</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">do_something</span>
+    <span class="vi">@data</span><span class="o">.</span><span class="n">identifier</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Bar</span>
+  <span class="k">def</span> <span class="nf">identifier</span>
+    <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="si">}</span><span class="s2">!&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Baz</span>
+  <span class="k">def</span> <span class="nf">identifier</span>
+    <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="si">}</span><span class="s2">!&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Qux</span>
+  <span class="k">def</span> <span class="nf">identifier</span>
+    <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="si">}</span><span class="s2">!&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">foo_bar</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Bar</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+<span class="n">foo_bar</span><span class="o">.</span><span class="n">do_something</span>
+
+<span class="n">foo_baz</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Baz</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+<span class="n">foo_baz</span><span class="o">.</span><span class="n">do_something</span>
+
+<span class="n">foo_qux</span> <span class="o">=</span> <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Qux</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+<span class="n">foo_qux</span><span class="o">.</span><span class="n">do_something</span>
+</pre></div>
+</code></pre>
+<p>Notice we have removed the need for a conditional and just sent the message to the relevant object to be handled. Much cleaner and easier to maintain and scale.</p>
+<h3><a name="decompose-conditional" class="anchor" href="#decompose-conditional"><span class="header-link"></span></a>Decompose Conditional</h3>
+<p>Not all conditional statements can be avoided through the use of polymorphism. In those cases you can simplify the conditional logic (and the subsequent statements) by <a href="/posts/refactoring-techniques/#extract-method">extracting them into external methods</a>. </p>
+<p>Here is a simple example...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">if</span> <span class="n">date</span> <span class="o">&lt;</span> <span class="no">SUMMER_START</span> <span class="o">||</span> <span class="n">date</span> <span class="o">&gt;</span> <span class="no">SUMMER_END</span> 
+  <span class="n">charge</span> <span class="o">=</span> <span class="c1"># some complex calculation if it&#39;s winter </span>
+<span class="k">else</span> 
+  <span class="n">charge</span> <span class="o">=</span> <span class="c1"># some other complex calculation if it&#39;s summer </span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>...which we can refactor like so... </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">if</span> <span class="n">not_summer</span><span class="p">(</span><span class="n">date</span><span class="p">)</span> 
+  <span class="n">charge</span> <span class="o">=</span> <span class="n">winter_charge</span> 
+<span class="k">else</span> 
+  <span class="n">charge</span> <span class="o">=</span> <span class="n">summer_charge</span> 
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>...much better.</p>
+<h3><a name="introduce-null-object" class="anchor" href="#introduce-null-object"><span class="header-link"></span></a>Introduce Null Object</h3>
+<p>The motivation behind this technique is to avoid using a conditional whose purpose is to check whether a property exists or not before using it.</p>
+<p>Here is a simple example of what we want to avoid...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Post</span>
+  <span class="kp">attr_reader</span> <span class="ss">:id</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span> <span class="nb">id</span>
+    <span class="vi">@id</span>        <span class="o">=</span> <span class="nb">id</span>
+    <span class="vi">@published</span> <span class="o">=</span> <span class="kp">false</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find_and_publish</span> <span class="nb">id</span>
+    <span class="c1"># Simulated database operation</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="no">Posts</span><span class="o">.</span><span class="n">find</span> <span class="p">{</span> <span class="o">|</span><span class="n">post</span><span class="o">|</span> <span class="n">post</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="nb">id</span> <span class="p">}</span>
+    <span class="n">post</span><span class="o">.</span><span class="n">publish</span> <span class="k">unless</span> <span class="n">post</span><span class="o">.</span><span class="n">nil?</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">publish</span>
+    <span class="nb">puts</span> <span class="vi">@published</span> <span class="o">=</span> <span class="kp">true</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Posts</span> <span class="o">=</span> <span class="o">[</span><span class="no">Post</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="no">Post</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">]</span>
+
+<span class="no">Post</span><span class="o">.</span><span class="n">find_and_publish</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># displays nothing</span>
+<span class="no">Post</span><span class="o">.</span><span class="n">find_and_publish</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># displays true</span>
+</pre></div>
+</code></pre>
+<p>...in the above example we check whether <code>post</code> is <code>nil</code> or not. If it isn&#39;t <code>nil</code> then we call the <code>publish</code> method, otherwise we don&#39;t do anything.</p>
+<p>This is kind of ugly.</p>
+<p>The following code demonstrates how we can avoid that problem by introducing the concept of having an object to handle null scenarios (it&#39;s the same principle of using duck typing/trusted interfaces/polymorphism)...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Post</span>
+  <span class="kp">attr_reader</span> <span class="ss">:id</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span> <span class="nb">id</span>
+    <span class="vi">@id</span>        <span class="o">=</span> <span class="nb">id</span>
+    <span class="vi">@published</span> <span class="o">=</span> <span class="kp">false</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find_and_publish</span> <span class="nb">id</span>
+    <span class="c1"># Simulated database operation</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="no">Posts</span><span class="o">.</span><span class="n">find</span> <span class="p">{</span> <span class="o">|</span><span class="n">post</span><span class="o">|</span> <span class="n">post</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="nb">id</span> <span class="p">}</span> <span class="o">||</span> <span class="no">NullPost</span><span class="o">.</span><span class="n">new</span>
+    <span class="n">post</span><span class="o">.</span><span class="n">publish</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">publish</span>
+    <span class="nb">puts</span> <span class="vi">@published</span> <span class="o">=</span> <span class="kp">true</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">NullPost</span>
+  <span class="k">def</span> <span class="nf">publish</span>
+    <span class="c1"># noop</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Posts</span> <span class="o">=</span> <span class="o">[</span><span class="no">Post</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="no">Post</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">]</span>
+
+<span class="no">Post</span><span class="o">.</span><span class="n">find_and_publish</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># displays nothing</span>
+<span class="no">Post</span><span class="o">.</span><span class="n">find_and_publish</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># displays true</span>
+</pre></div>
+</code></pre>
+<p>...as you can see, effectively we have the same code with the exception that we no longer check for <code>nil?</code> in the second example and instead we rely on another object <code>NullPost</code> implementing the same interface but returns a null related value.</p>
+<p>This way we&#39;re using objects to handle our logic. Yes, we end up with more code (one extra Class) but ultimately this is more maintainable and understandable than lots of inline logic.</p>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>Again, there are still many different refactoring techniques that I&#39;ve not included. But hopefully you&#39;ve found this second instalment just as useful as the first, I&#39;ll update the post or start anew with more techniques soon.</p>
+</div>
+
+  <div class="comments">
+    <a href="/posts/even-more-refactoring-techniques/#comments">
+      <span class="icon-bubbles"></span>
+      Comments
+    </a>
+  </div>
+
+  <div class="post-head group">
   <a href="/posts/vim-workflow-part-deux/">
     <h1 class="post-title">Vim Workflow (Part Deux)</h1>
   </a>
@@ -814,282 +1172,6 @@ things).</p>
     </a>
   </div>
 
-  <div class="post-head group">
-  <a href="/posts/refactoring-techniques/">
-    <h1 class="post-title">Refactoring Techniques</h1>
-  </a>
-  <span class="post-date">2013 &#183; 11 &#183; 10</span>
-</div>
-
-<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
-<p><em>reading time: approx. 17mins</em></p>
-<ul>
-<li>Introduction</li>
-<li>Languages</li>
-<li>Why refactor?</li>
-<li>When should refactor?</li>
-<li>Tests</li>
-<li>Refactoring Techniques<ul>
-<li><a href="#rename-method">Rename Method</a></li>
-<li><a href="#introduce-explaining-variable">Introduce Explaining Variable</a></li>
-<li><a href="#inline-temp">Inline Temp</a></li>
-<li><a href="#split-temp-variable">Split Temp Variable</a></li>
-<li><a href="#replace-temp-with-query">Replace Temp With Query</a></li>
-<li><a href="#replace-temp-with-chain">Replace Temp With Chain</a></li>
-<li><a href="#extract-method">Extract Method</a></li>
-<li><a href="#inline-method">Inline Method</a></li>
-<li><a href="#move-method">Move Method</a></li>
-<li><a href="#replace-method-with-method-object">Replace Method With Method Object</a></li>
-<li><a href="#replace-loop-with-collection-closure-method">Replace Loop With Collection Closure Method</a></li>
-<li><a href="#pull-up-method">Pull Up Method</a></li>
-<li><a href="#form-template-method">Form Template Method</a></li>
-<li><a href="#extract-surrounding-method">Extract Surrounding Method</a></li>
-<li><a href="#self-encapsulate-field">Self Encapsulate Field</a></li>
-<li><a href="#introduce-named-parameter">Introduce Named Parameter</a></li>
-</ul>
-</li>
-<li>Conclusion</li>
-</ul>
-<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
-<p>Let&#39;s begin by considering: &quot;What is Refactoring?&quot;</p>
-<p>The definition of refactoring is:</p>
-<blockquote>
-<p>a disciplined technique for restructuring an existing body of code, altering its internal structure without changing its external behaviour</p>
-</blockquote>
-<p>Refactoring is a term originated from the <a href="http://en.wikipedia.org/wiki/Smalltalk">Smalltalk</a> community of developers back in the mid-late nineties. </p>
-<p>Two of the most prolific programmers of recent times, <a href="http://martinfowler.com/">Martin Fowler</a> and <a href="http://en.wikipedia.org/wiki/Kent_Beck">Kent Beck</a> literally wrote the book on the subject of refactoring called &quot;<a href="http://www.amazon.com/gp/product/0201485672">Refactoring: Improving the Design of Existing Code</a>&quot; (well, written by Martin with contributions from Kent).</p>
-<p>In 2009 both Martin and Kent helped with a rewrite of the book that focused more on the Ruby language than the original book&#39;s target language of Java. This follow-up book was called &quot;<a href="http://www.amazon.com/Refactoring-Ruby-Edition-Jay-Fields/dp/0321603508">Refactoring: The Ruby Edition</a>&quot; and it&#39;s that book which is the primary driving force of this post.</p>
-<p>Since reading the Ruby edition I wanted to have a short summarised version of some of the more commonly used refactoring techniques (mainly for my own reference). By that I mean the techniques described in the book that I find interesting and use a lot in my day to day programming life.</p>
-<h2><a name="languages" class="anchor" href="#languages"><span class="header-link"></span></a>Languages</h2>
-<p>These refactoring techniques aren&#39;t specific to the Ruby language. You can use them when working with JavaScript or PHP (or any other language for that matter). </p>
-<p>Programming languages don&#39;t all offer identical APIs and so sometimes you might need to tweak the examples slightly to fit your environment. </p>
-<p>Regardless, the idioms and syntax differences between languages become redundant when you just focus on the pattern(s) behind the proposed solution.</p>
-<h2><a name="why-refactor" class="anchor" href="#why-refactor"><span class="header-link"></span></a>Why refactor?</h2>
-<p>The purpose of refactoring is to improve the quality, clarity and maintainability of your code. Simple really.</p>
-<p>But also, refactoring can be a great lesson in understanding an unfamiliar code base.</p>
-<p>Think about it, if you inherit a poorly designed code base that you&#39;ve not seen before and you now need to either fix a bug or add a new feature, then implementing the code necessary would be a lot easier once you had refactored it to be in a more stable, maintainable and ultimately &#39;understandable&#39; state. </p>
-<p>Otherwise you would be forced to retro fit your new code on top of a poorly designed foundation and that would be the start of a very unhappy relationship.</p>
-<h2><a name="when-should-you-refactor" class="anchor" href="#when-should-you-refactor"><span class="header-link"></span></a>When should you refactor?</h2>
-<p>You&#39;ll usually find the time you start refactoring the most is when you are fixing bugs or adding new features.</p>
-<p>For example, you typically first need to understand the code that has already been written (regardless of whether it was you who wrote it originally or someone else). </p>
-<p>The process of refactoring helps you better understand the code, in preparation for modifying it.</p>
-<p>But don&#39;t fall into the trap of thinking that refactoring is something you set aside time for, or only consider at the start/end of a project. It&#39;s not. Refactoring should be done in small chunks throughout the entire life cycle of the project.</p>
-<p>As the great <a href="http://www.cleancoder.com/">Uncle Bob</a> once said:</p>
-<blockquote>
-<p>leave a module in a better state than you found it</p>
-</blockquote>
-<p>...what this suggests is that refactoring is essential to your daily coding process.</p>
-<h3><a name="tests" class="anchor" href="#tests"><span class="header-link"></span></a>Tests</h3>
-<p>Before we get started, it&#39;s important to mention that you should have tests in place when you&#39;re refactoring. </p>
-<p>You <em>can</em> refactor without tests, but realise that without tests to back you up then you can have no confidence in the refactoring you are implementing.</p>
-<p>Refactoring can result in substantial changes to the code and architecture but still leave the top layer API the same. So while you&#39;re refactoring remember the old adage...</p>
-<blockquote>
-<p>program to an interface, not an implementation</p>
-</blockquote>
-<p>We want to avoid changing a public API where ever possible (as that&#39;s one of the tenets of refactoring).</p>
-<p>If you don&#39;t have tests then I recommend you write some (now)... don&#39;t worry, I&#39;ll wait.</p>
-<p>Remember, the process of writing tests (even for an application you don&#39;t know) will help solidify your understanding and expectations of the code you&#39;re about to work on.</p>
-<p>Code should be tested regularly while refactoring to ensure you don&#39;t break anything. Keep the &#39;red, green, refactor&#39; feedback loop tight. Tests help confirm if your refactoring has worked or not. Without them you&#39;re effectively flying blind.</p>
-<p>So although I won&#39;t explicitly mention it below when discussing the different refactoring techniques, it is implied that on every change to your code you should really be running the relevant tests to ensure no broken code appears.</p>
-<h2><a name="refactoring-techniques" class="anchor" href="#refactoring-techniques"><span class="header-link"></span></a>Refactoring Techniques</h2>
-<p>There are many documented refactoring techniques and I do not attempt to cover them all, as this post would end up becoming a book in itself. So I&#39;ve picked what I feel are the most common and useful refactoring techniques and I try my best to explain them in a short and concise way.</p>
-<p>I&#39;ve put these techniques in order of how you might approach refactoring a piece of code, in a linear, top to bottom order. This is a personal preference and doesn&#39;t necessarily represent the best way to refactor.</p>
-<p>Final note: with some of the techniques I have provided a basic code example, but to be honest some techniques are so simple they do not need any example. The <a href="#extract-method">Extract Method</a> is one such technique that although really useful and important, providing a code example would be a waste of time and space.</p>
-<p>So without further ado, let&#39;s begin...</p>
-<h3><a name="rename-method" class="anchor" href="#rename-method"><span class="header-link"></span></a>Rename Method</h3>
-<p>The single most effective and simple refactoring you can implement is to rename a property/attribute, method or object.</p>
-<p>Renaming identifiers can reduce the need for code comments and nearly always helps to promote greater clarity.</p>
-<p>You&#39;ll find that renaming things is a fundamental part of other refactoring techniques to aid understanding of the code.</p>
-<p>This technique relies on giving items a descriptive name to ensure the developer knows at a glance exactly what it does. The following technique <a href="#introduce-explaining-variable">Introduce Explaining Variable</a> is effectively the same.</p>
-<h3><a name="introduce-explaining-variable" class="anchor" href="#introduce-explaining-variable"><span class="header-link"></span></a>Introduce Explaining Variable</h3>
-<p>So here is a technique specifically based around the premise of renaming. </p>
-<p>If you have a complicated expression (for example, you&#39;ll typically have a long winded set of conditions within an <code>if</code> statement) then place that complex expression into a temp variable and give it a descriptive identifier. </p>
-<p>Note: this is the only technique that finds temps (i.e. local variables) acceptable. This is because temps are deemed to be less reusable than methods (due to their very nature being &#39;local&#39;) and so introducing temps is something that shouldn&#39;t be considered lightly. Maybe consider using the <a href="#extract-method">Extract Method</a> technique instead before using this particular technique. </p>
-<p>Also, don&#39;t worry about performance until you know you have a performance issue to worry about. Developers will always suggest that calling methods is slower than running code inline, but good programming is about readability and maintainability, and extracted methods are not only easier to understand but are much more reusable by other methods. </p>
-<p>So if you are considering using the <a href="#introduce-explaining-variable">Introduce Explaining Variable</a> technique, first decide whether the temp would be more useful if it was available to other methods (that way you could use <a href="#extract-method">Extract Method</a> instead and avoid defining a temp altogether).</p>
-<h3><a name="inline-temp" class="anchor" href="#inline-temp"><span class="header-link"></span></a>Inline Temp</h3>
-<p>Temp variables are a bit of a code smell as they make methods longer and can make the <a href="#extract-method">Extract Method</a> more awkward (as you&#39;d have to pass through more data to the extracted method).</p>
-<p>Inline Temp effectively removes the temp variable altogether by just using the value assigned to it (I&#39;d only suggest doing this if the temp is only used once or if the resulting value has come from a method invocation).</p>
-<p>Note: a temp by itself doesn&#39;t do any harm, and in some instances can actually make the code clearer (especially if using a result from a method invocation and the method identifier doesn&#39;t indicate the intent as well as it should).</p>
-<p>But most likely you&#39;ll end up using this technique to aid the <a href="#extract-method">Extract Method</a> technique as less temp vars means less requirement to pass through additional parameters to the extracted method.</p>
-<h3><a name="split-temp-variable" class="anchor" href="#split-temp-variable"><span class="header-link"></span></a>Split Temp Variable</h3>
-<p>This technique aims to resolve the concern of violating the SRP (Single Responsibility Principle), although slightly tamer in the sense that SRP is aimed more at Classes/Objects and methods, not typically variable assignments.</p>
-<p>But regardless if a temporary variable is assigned to more than once and it is not a loop variable or a collecting/accumulator variable then it is a temp considered to have too many responsibilities.</p>
-<p><strong>For example</strong>: (this is a daft example, but what the heck)</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">temp</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">height</span> <span class="o">+</span> <span class="n">width</span><span class="p">)</span>
-<span class="n">temp</span> <span class="o">=</span> <span class="n">height</span> <span class="o">*</span> <span class="n">width</span>
-</pre></div>
-</code></pre>
-<p><strong>Becomes</strong>:</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">perimeter</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">height</span> <span class="o">+</span> <span class="n">width</span><span class="p">)</span>
-<span class="n">area</span> <span class="o">=</span> <span class="n">height</span> <span class="o">*</span> <span class="n">width</span>
-</pre></div>
-</code></pre>
-<p>As you can see, the temp variable was handling more responsibility than it should be and so by creating two appropriately distinct temps we ensure greater code clarity.</p>
-<h3><a name="replace-temp-with-query" class="anchor" href="#replace-temp-with-query"><span class="header-link"></span></a>Replace Temp With Query</h3>
-<p>This technique has a very similar intent to <a href="#inline-temp">Inline Temp</a> in that one of its primary focuses is to aid the <a href="#extract-method">Extract Method</a>.</p>
-<p>The subtle but important difference between this technique and <a href="#inline-temp">Inline Temp</a> is that the complex expression assigned to the temp needs to be first moved to a method (where as the <a href="#inline-temp">Inline Temp</a> technique is different in that the temp may already be using a method invocation).</p>
-<p>This technique can help to shorten a long method by not having to define lots of temp variables just to hold values.</p>
-<p>If the extracted query method is given an identifier that aptly describes its purpose then the code still can be considered clear and descriptive. </p>
-<p>Also, it is considered bad form to define a variable which changes once it has been set (hence moving to a method better indicates an unstable value). </p>
-<p>Note: this technique can sometimes be made easier to implement once you&#39;ve used <a href="#split-temp-variable">Split Temp Variable</a>. </p>
-<p>Remember this technique (as with other techniques) is an incremental step towards removing non-essential temps, so consider using <a href="#inline-temp">Inline Temp</a> afterwards, thus removing the need for the temp altogether.</p>
-<h3><a name="replace-temp-with-chain" class="anchor" href="#replace-temp-with-chain"><span class="header-link"></span></a>Replace Temp With Chain</h3>
-<p>This is yet another technique designed to rid your code of temp variables. </p>
-<p>If you have a temp variable holding the result of calling an object&#39;s method, and follow the assignment by using that temp to carry out more method calls, then you should consider chaining method calls instead.</p>
-<p>The implementation is quite simple, you just have to ensure the methods called return <code>self</code> (or <code>this</code> if using a language like JavaScript).</p>
-<p>By allowing methods to chain we again have the opportunity to remove an unnecessary temps.</p>
-<p><strong>For example</strong>:</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">College</span>
-    <span class="k">def</span> <span class="nf">create_course</span>
-        <span class="nb">puts</span> <span class="s2">&quot;create course&quot;</span>
-    <span class="k">end</span>
-
-    <span class="k">def</span> <span class="nf">add_student</span>
-        <span class="nb">puts</span> <span class="s2">&quot;add student&quot;</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="n">temp</span> <span class="o">=</span> <span class="no">College</span><span class="o">.</span><span class="n">new</span>
-<span class="n">temp</span><span class="o">.</span><span class="n">create_course</span>
-<span class="n">temp</span><span class="o">.</span><span class="n">add_student</span>
-<span class="n">temp</span><span class="o">.</span><span class="n">add_student</span>
-<span class="n">temp</span><span class="o">.</span><span class="n">add_student</span>
-</pre></div>
-</code></pre>
-<p><strong>Becomes</strong>:</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">College</span>
-    <span class="c1"># static method so can be accessed without creating an instance</span>
-    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">create_course</span>
-        <span class="n">college</span> <span class="o">=</span> <span class="no">College</span><span class="o">.</span><span class="n">new</span>
-        <span class="nb">puts</span> <span class="s2">&quot;create course&quot;</span>
-        <span class="n">college</span> <span class="c1"># return new object instance</span>
-    <span class="k">end</span>
-
-    <span class="k">def</span> <span class="nf">add_student</span>
-        <span class="nb">puts</span> <span class="s2">&quot;add student&quot;</span>
-        <span class="nb">self</span> <span class="c1"># refers to the new object instance</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="n">college</span> <span class="o">=</span> <span class="no">College</span><span class="o">.</span><span class="n">create_course</span>
-                 <span class="o">.</span><span class="n">add_student</span>
-                 <span class="o">.</span><span class="n">add_student</span>
-                 <span class="o">.</span><span class="n">add_student</span>
-</pre></div>
-</code></pre>
-<h3><a name="extract-method" class="anchor" href="#extract-method"><span class="header-link"></span></a>Extract Method</h3>
-<p>Here it is! In my opinion &#39;<em>The</em>&#39; most used and important refactoring technique.</p>
-<p>The implementation behind this technique is very simple. It consists of breaking up long methods by shifting overly complex chunks of code into new methods which have very descriptive identifiers. </p>
-<p>But be careful with handling local variables as you&#39;ll need to pass them through to the extracted method and that can be difficult if there are lots of temps in use. Sometimes to facility the Extract Method you&#39;ll need to first incorporate other techniques such as <a href="#replace-temp-with-query">Replace Temp With Query</a> and <a href="#inline-temp">Inline Temp</a>.</p>
-<h3><a name="inline-method" class="anchor" href="#inline-method"><span class="header-link"></span></a>Inline Method</h3>
-<p>Sometimes you want the opposite of the <a href="#extract-method">Extract Method</a> technique. Imagine a method exists whose content is already simple and clear, and whose identifier adds no extra benefit. In this instance we&#39;re just making an extra call for no real benefit.</p>
-<p>So to fix this problem we&#39;ll convert the method invocation into an inlined piece of code (unless of course the method is used in multiple places, in that case leave it where it is as having it in a separate method keeps our code DRY).</p>
-<h3><a name="move-method" class="anchor" href="#move-method"><span class="header-link"></span></a>Move Method</h3>
-<p>In a previous post about <a href="http://www.integralist.co.uk/posts/object-oriented-design-ood/#class-analysis">Object-Oriented Design</a> I explained that you should query your classes/objects to ensure the methods they define are actually where they should be.</p>
-<p>The Move Method technique ensures this decoupling by simply moving the identified misplaced method onto the correct one.</p>
-<p>Once the method has been moved you should clean up the previously passed parameters by seeing what can be moved over to the other object or whether additional data needs to be passed over now via the method invocation. </p>
-<p>From the original class/object keep the original method in place while you test and change it so it now delegates to the method on the new object. Then slowly refactor by replacing delegating calls throughout your code base with direct calls to the method via its new host. </p>
-<p>Finally, remove the old method altogether and the tests should tell you if you missed a replacement somewhere.</p>
-<h3><a name="replace-method-with-method-object" class="anchor" href="#replace-method-with-method-object"><span class="header-link"></span></a>Replace Method With Method Object</h3>
-<p>You may run into a problem where you have a long method you want to use <a href="#extract-method">Extract Method</a> on, but the number of temporary local variables are too great to allow you to utilise the <a href="#extract-method">Extract Method</a> technique (because passing around that many variables would be just as messy as the long method itself).</p>
-<p>To resolve this issue you could look at different types of smaller refactors (such as <a href="#inline-temp">Inline Temp</a>) but in some cases it would actually be better to first move the contents of the long method into an entirely new object.</p>
-<p>So the first thing to do is create a new class named after the long method and add the temp local vars as properties/attributes of the class/object.</p>
-<p>Now when you try to implement <a href="#extract-method">Extract Method</a> you don&#39;t have to pass around the temp vars because they are now available throughout the class/object. </p>
-<p>Then from within the original class/object you can delegate any calls to the original method on to the object (you&#39;ll still pass on the original arguments to the method within the new object but from there on the method extraction becomes easier).</p>
-<h3><a name="replace-loop-with-collection-closure-method" class="anchor" href="#replace-loop-with-collection-closure-method"><span class="header-link"></span></a>Replace Loop With Collection Closure Method</h3>
-<p>If you write a loop that parses a collection and interacts with the individual elements within the collection then move that interaction out into a separate closure based method (meaning you replace the loop with an Enumerable method). </p>
-<p>This refactoring may not be as clear or impressive as other refactoring techniques but the motivation behind it is that you hide the ugly details of the loop behind a nicer iteration method, allowing the developer looking at the code to focus on the business logic instead.</p>
-<p><strong>For example</strong>:</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">managers</span> <span class="o">=</span> <span class="o">[]</span>
-<span class="n">employees</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
-    <span class="n">managers</span> <span class="o">&lt;&lt;</span> <span class="n">e</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">manager?</span>
-<span class="k">end</span>
-</pre></div>
-</code></pre>
-<p><strong>Becomes</strong>:</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">managers</span> <span class="o">=</span> <span class="n">employees</span><span class="o">.</span><span class="n">select</span> <span class="p">{</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span> <span class="n">e</span><span class="o">.</span><span class="n">manager?</span> <span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>Ruby has a few of these types of enumerable methods but other languages such as PHP and JavaScript aren&#39;t so lucky. </p>
-<p>JavaScript has a couple of accumulators: <code>Array#reduce</code> and <code>Array#reduceRight</code> but they aren&#39;t very useful as closure based collection methods compared to Ruby which has methods such as <code>Enumerable#inject</code>, <code>Enumerable#select</code> (seen in above example) or <code>Enumerable#collect</code>. </p>
-<p>Note: in JavaScript you can implement a similar effect with clever use of closures.</p>
-<h3><a name="pull-up-method" class="anchor" href="#pull-up-method"><span class="header-link"></span></a>Pull Up Method</h3>
-<p>When you have duplicated code across two separate classes then the best refactoring technique to implement is to pull that duplicate code up into a super class so we DRY (Don&#39;t Repeat Yourself) out the code and allow it to be used in multiple places without duplication (meaning changes in future only have to happen in one place).</p>
-<h3><a name="form-template-method" class="anchor" href="#form-template-method"><span class="header-link"></span></a>Form Template Method</h3>
-<p>This is one of the quintessential refactoring techniques. It involves shifting duplicate code from within multiple methods into a super class. Then create sub classes with identical interfaces but the actual implementation can be unique to the sub class.</p>
-<p>This could be implemented using standard Interfaces (as found in PHP), so you would just define empty methods the Interface should enforce but don&#39;t implement any logic or content within them.</p>
-<p>But if you find yourself using the <a href="#pull-up-method">Pull Up Method</a> technique (which also reduces any duplication in pre-existing code) then you&#39;ll need an Abstract class instead, as you would have pulled up an actual implementation into the super class. </p>
-<p>But even with an Abstract class, other methods defined can still just be an empty definition so sub classes can override them.</p>
-<p>Ruby and JavaScript don&#39;t support Interfaces so you would need to implement this using Duck Typing (although in JavaScript you can implement a form of Interface - to see how read <a href="http://www.apress.com/9781590599082">Pro JavaScript Design Patterns</a>)</p>
-<p>Note: this technique might be a bit confusing in the sense that it seems to be very similar to the <a href="#pull-up-method">Pull Up Method</a>. The difference is subtle but for this technique to be effective (such as implementation of interfaces and abstract classes - or similar concepts) means it must use other techniques (such as <a href="#pull-up-method">Pull Up Method</a>).</p>
-<ul>
-<li>Use <a href="#pull-up-method">Pull Up Method</a> to place duplicate code into the super class</li>
-<li>Use <a href="#rename-method">Rename Method</a> to ensure sub classes have identical signatures to match to the super class interface</li>
-</ul>
-<h3><a name="extract-surrounding-method" class="anchor" href="#extract-surrounding-method"><span class="header-link"></span></a>Extract Surrounding Method</h3>
-<p>If you find you have different methods which contain almost identical code but with a slight variant in the middle, then pull up the duplicated code into a single method and pass a code block to the newly created method which it yields to in order to execute the unique behaviour...</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">do_something</span>
-    <span class="nb">puts</span> <span class="mi">1</span>
-    <span class="k">yield</span>
-    <span class="nb">puts</span> <span class="mi">3</span>
-<span class="k">end</span>
-
-<span class="n">do_something</span> <span class="p">{</span> <span class="nb">puts</span> <span class="mi">2</span> <span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>This is actually a common pattern in Ruby known as the &#39;wrap around&#39; method. This technique is similar to the <a href="#form-template-method">Form Template Method</a>, but is different in that you can use it without forcing an inheritance model on your code.</p>
-<p>Note: JavaScript doesn&#39;t have the ability to pass a code block but it can be replicated by passing a function that acts like a callback...</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">doSomething</span> <span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-        <span class="nx">callback</span><span class="p">();</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="nx">doSomething</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-<span class="p">});</span>
-</pre></div>
-</code></pre>
-<p>...although in the latest versions of Node (as of November 2013) Generators are implemented and would allow JavaScript code to <code>yield</code> similar to how Ruby works.</p>
-<h3><a name="self-encapsulate-field" class="anchor" href="#self-encapsulate-field"><span class="header-link"></span></a>Self Encapsulate Field</h3>
-<p>When inheriting properties from a parent class/object then it can be more flexible if the parent class only allows access to the properties from within a getter/setter.</p>
-<p>The motivation for this technique is that a sub class can override and modify the behaviour of the getter/setter without affecting the parent class&#39; implementation. Which is similar to how the Decorator design pattern works (e.g. modifying the behaviour without affecting the original).</p>
-<p>This technique should only be used once you find the coupling between objects is becoming a problem. Otherwise direct access to properties and instance variables should be acceptable initially.</p>
-<h3><a name="introduce-named-parameter" class="anchor" href="#introduce-named-parameter"><span class="header-link"></span></a>Introduce Named Parameter</h3>
-<p>When method arguments are unclear then convert them into named parameters so they become clearer (and easier to remember). </p>
-<p>Although Ruby supports named parameters...</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">turnOnTheTV</span> <span class="p">(</span><span class="ss">channel</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">volume</span><span class="p">:</span> <span class="mi">1</span><span class="p">);</span> <span class="k">end</span>
-<span class="n">turnOnTheTV</span><span class="p">(</span><span class="ss">channel</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="ss">volume</span><span class="p">:</span> <span class="mi">10</span><span class="p">)</span>
-</pre></div>
-</code></pre>
-<p>...neither PHP or JavaScript do, so for PHP you can pass an associated Array and with JavaScript you can pass an Object/Hash.</p>
-<p><strong>For example (JavaScript)</strong>:</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">function</span> <span class="n">turnOnTheTV</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">v</span><span class="p">){}</span>
-<span class="n">turnOnTheTV</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
-</pre></div>
-</code></pre>
-<p><strong>Becomes</strong>:</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">function</span> <span class="n">turnOnTheTV</span> <span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="p">{</span>
-    <span class="sr">//</span> <span class="n">config</span><span class="o">.</span><span class="n">channel</span> <span class="o">===</span> <span class="mi">101</span>
-    <span class="o">//</span> <span class="n">config</span><span class="o">.</span><span class="n">volume</span>  <span class="o">===</span> <span class="mi">10</span>
-<span class="p">}</span>
-<span class="n">turnOnTheTV</span><span class="p">({</span> <span class="ss">channel</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="ss">volume</span><span class="p">:</span> <span class="mi">10</span> <span class="p">});</span>
-</pre></div>
-</code></pre>
-<p>Note: ECMAScript 6.0 (the latest JavaScript specification - which is still being worked on as of Nov 2013) implements named parameters.</p>
-<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
-<p>OK, so there are still many different refactoring techniques that I&#39;ve not included. But hopefully you&#39;ve found this quick reference useful so far.</p>
-<p>Most of these techniques I do automatically now (as I&#39;ve committed them to muscle memory). But sometimes when I&#39;m carrying out a refactoring I get confused on the best technique I should use and so I&#39;ll refer to this reference to help me find an appropriate solution.</p>
-</div>
-
-  <div class="comments">
-    <a href="/posts/refactoring-techniques/#comments">
-      <span class="icon-bubbles"></span>
-      Comments
-    </a>
-  </div>
-
 
 <div class="pagination group">
   
@@ -1099,6 +1181,9 @@ things).</p>
     
     
       <a href="/page/1/" class="older"> &#8592; Older</a>
+    
+  
+    
     
   
     
