@@ -241,16 +241,102 @@
 <h3><a name="pull-up-method" class="anchor" href="#pull-up-method"><span class="header-link"></span></a>Pull Up Method</h3>
 <p>When you have duplicated code across two separate classes then the best refactoring technique to implement is to pull that duplicate code up into a super class so we DRY (Don&#39;t Repeat Yourself) out the code and allow it to be used in multiple places without duplication (meaning changes in future only have to happen in one place).</p>
 <h3><a name="form-template-method" class="anchor" href="#form-template-method"><span class="header-link"></span></a>Form Template Method</h3>
-<p>This is one of the quintessential refactoring techniques. It involves shifting duplicate code from within multiple methods into a super class. Then create sub classes with identical interfaces but the actual implementation can be unique to the sub class.</p>
-<p>This could be implemented using standard Interfaces (as found in PHP), so you would just define empty methods the Interface should enforce but don&#39;t implement any logic or content within them.</p>
-<p>But if you find yourself using the <a href="#pull-up-method">Pull Up Method</a> technique (which also reduces any duplication in pre-existing code) then you&#39;ll need an Abstract class instead, as you would have pulled up an actual implementation into the super class. </p>
-<p>But even with an Abstract class, other methods defined can still just be an empty definition so sub classes can override them.</p>
-<p>Ruby and JavaScript don&#39;t support Interfaces so you would need to implement this using Duck Typing (although in JavaScript you can implement a form of Interface - to see how read <a href="http://www.apress.com/9781590599082">Pro JavaScript Design Patterns</a>)</p>
-<p>Note: this technique might be a bit confusing in the sense that it seems to be very similar to the <a href="#pull-up-method">Pull Up Method</a>. The difference is subtle but for this technique to be effective (such as implementation of interfaces and abstract classes - or similar concepts) means it must use other techniques (such as <a href="#pull-up-method">Pull Up Method</a>).</p>
-<ul>
-<li>Use <a href="#pull-up-method">Pull Up Method</a> to place duplicate code into the super class</li>
-<li>Use <a href="#rename-method">Rename Method</a> to ensure sub classes have identical signatures to match to the super class interface</li>
-</ul>
+<h1><a name="refactoring" class="anchor" href="#refactoring"><span class="header-link"></span></a>Refactoring</h1>
+<h2><a name="form-template-method" class="anchor" href="#form-template-method"><span class="header-link"></span></a>Form Template Method</h2>
+<p>The technique is reliant on inheritance: a parent class and two sub classes of
+that parent. The two sub classes have methods which have similar steps, in the
+same order and yet the steps themselves are different.</p>
+<p>The technique involves moving the sequence of steps into the parent class and
+then using polymorphism to allow the sub classes to handle the differences in
+the steps.</p>
+<p>Here is a silly example (I’m no good at giving real examples), here is an
+example of our problematic code…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span><span class="p">;</span> <span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Bar</span> <span class="o">&lt;</span> <span class="no">Foo</span>
+  <span class="k">def</span> <span class="nf">initialize</span>
+    <span class="vi">@hey</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="vi">@hai</span> <span class="o">=</span> <span class="mi">2</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">qux</span>
+    <span class="vi">@a</span> <span class="o">=</span> <span class="vi">@hey</span> <span class="o">+</span> <span class="vi">@hai</span>
+    <span class="vi">@b</span> <span class="o">=</span> <span class="vi">@a</span> <span class="o">*</span> <span class="mi">10</span>
+    <span class="vi">@a</span> <span class="o">+</span> <span class="vi">@b</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Baz</span> <span class="o">&lt;</span> <span class="no">Foo</span>
+  <span class="k">def</span> <span class="nf">initialize</span>
+    <span class="vi">@hey</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="vi">@hai</span> <span class="o">=</span> <span class="mi">7</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">qux</span>
+    <span class="vi">@a</span> <span class="o">=</span> <span class="vi">@hey</span> <span class="o">+</span> <span class="vi">@hai</span>
+    <span class="vi">@b</span> <span class="o">=</span> <span class="vi">@a</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">20</span>
+    <span class="vi">@a</span> <span class="o">+</span> <span class="vi">@b</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">bar</span> <span class="o">=</span> <span class="no">Bar</span><span class="o">.</span><span class="n">new</span>
+<span class="n">baz</span> <span class="o">=</span> <span class="no">Baz</span><span class="o">.</span><span class="n">new</span>
+
+<span class="nb">puts</span> <span class="n">bar</span><span class="o">.</span><span class="n">qux</span>
+<span class="nb">puts</span> <span class="n">baz</span><span class="o">.</span><span class="n">qux</span>
+</pre></div>
+</code></pre>
+<p>…we could try to inject the values each sub class requires but then we still
+have a lot of duplication in this code.</p>
+<p>We can see the sequence of steps is:</p>
+<p>determine what <code>a</code> should be
+determine what <code>b</code> should be
+return a specific calculation</p>
+<p>…so we can clean up our code a little by abstracting the commonality...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">hey</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">hai</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="vi">@hey</span> <span class="o">=</span> <span class="n">hey</span>
+    <span class="vi">@hai</span> <span class="o">=</span> <span class="n">hai</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">qux</span>
+    <span class="n">determine_a</span>
+    <span class="n">determine_b</span>
+    <span class="n">result</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">determine_a</span>
+    <span class="vi">@a</span> <span class="o">=</span> <span class="vi">@hey</span> <span class="o">+</span> <span class="vi">@hai</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">result</span>
+    <span class="vi">@a</span> <span class="o">+</span> <span class="vi">@b</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Bar</span> <span class="o">&lt;</span> <span class="no">Foo</span>
+  <span class="kp">protected</span>
+
+  <span class="k">def</span> <span class="nf">determine_b</span>
+    <span class="vi">@b</span> <span class="o">=</span> <span class="vi">@a</span> <span class="o">*</span> <span class="mi">10</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Baz</span> <span class="o">&lt;</span> <span class="no">Foo</span>
+  <span class="kp">protected</span>
+
+  <span class="k">def</span> <span class="nf">determine_b</span>
+    <span class="vi">@b</span> <span class="o">=</span> <span class="vi">@a</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">20</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">bar</span> <span class="o">=</span> <span class="no">Bar</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">baz</span> <span class="o">=</span> <span class="no">Baz</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+
+<span class="nb">puts</span> <span class="n">bar</span><span class="o">.</span><span class="n">qux</span>
+<span class="nb">puts</span> <span class="n">baz</span><span class="o">.</span><span class="n">qux</span>
+</pre></div>
+</code></pre>
 <h3><a name="extract-surrounding-method" class="anchor" href="#extract-surrounding-method"><span class="header-link"></span></a>Extract Surrounding Method</h3>
 <p>If you find you have different methods which contain almost identical code but with a slight variant in the middle, then pull up the duplicated code into a single method and pass a code block to the newly created method which it yields to in order to execute the unique behaviour...</p>
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">do_something</span>
