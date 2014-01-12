@@ -128,12 +128,47 @@
 <h3><a name="introduce-explaining-variable" class="anchor" href="#introduce-explaining-variable"><span class="header-link"></span></a>Introduce Explaining Variable</h3>
 <p>So here is a technique specifically based around the premise of renaming. </p>
 <p>If you have a complicated expression (for example, you&#39;ll typically have a long winded set of conditions within an <code>if</code> statement) then place that complex expression into a temp variable and give it a descriptive identifier. </p>
+<p>For example:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">unless</span> <span class="s2">&quot;This is a String with some CAPS&quot;</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/([A-Z])/</span><span class="p">)</span><span class="o">.</span><span class="n">empty?</span>
+  <span class="nb">puts</span> <span class="s2">&quot;capitalised text was found&quot;</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Should be:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">caps_not_found</span> <span class="o">=</span> <span class="s2">&quot;This is a String with some CAPS&quot;</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/([A-Z])/</span><span class="p">)</span><span class="o">.</span><span class="n">empty?</span>
+
+<span class="k">unless</span> <span class="n">caps_not_found</span>
+  <span class="nb">puts</span> <span class="s2">&quot;capitalised text was found&quot;</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
 <p>Note: this is the only technique that finds temps (i.e. local variables) acceptable. This is because temps are deemed to be less reusable than methods (due to their very nature being &#39;local&#39;) and so introducing temps is something that shouldn&#39;t be considered lightly. Maybe consider using the <a href="#extract-method">Extract Method</a> technique instead before using this particular technique. </p>
 <p>Also, don&#39;t worry about performance until you know you have a performance issue to worry about. Developers will always suggest that calling methods is slower than running code inline, but good programming is about readability and maintainability, and extracted methods are not only easier to understand but are much more reusable by other methods. </p>
 <p>So if you are considering using the <a href="#introduce-explaining-variable">Introduce Explaining Variable</a> technique, first decide whether the temp would be more useful if it was available to other methods (that way you could use <a href="#extract-method">Extract Method</a> instead and avoid defining a temp altogether).</p>
 <h3><a name="inline-temp" class="anchor" href="#inline-temp"><span class="header-link"></span></a>Inline Temp</h3>
 <p>Temp variables are a bit of a code smell as they make methods longer and can make the <a href="#extract-method">Extract Method</a> more awkward (as you&#39;d have to pass through more data to the extracted method).</p>
 <p>Inline Temp effectively removes the temp variable altogether by just using the value assigned to it (I&#39;d only suggest doing this if the temp is only used once or if the resulting value has come from a method invocation).</p>
+<p>For example:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">add_stuff</span>
+    <span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">do_something</span>
+    <span class="n">temp_variable_with_descriptive_name</span> <span class="o">=</span> <span class="n">add_stuff</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Number is </span><span class="si">#{</span><span class="n">temp_variable_with_descriptive_name</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Should be:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">add_stuff</span>
+    <span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">do_something</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Number is </span><span class="si">#{</span><span class="n">add_stuff</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
 <p>Note: a temp by itself doesn&#39;t do any harm, and in some instances can actually make the code clearer (especially if using a result from a method invocation and the method identifier doesn&#39;t indicate the intent as well as it should).</p>
 <p>But most likely you&#39;ll end up using this technique to aid the <a href="#extract-method">Extract Method</a> technique as less temp vars means less requirement to pass through additional parameters to the extracted method.</p>
 <h3><a name="split-temp-variable" class="anchor" href="#split-temp-variable"><span class="header-link"></span></a>Split Temp Variable</h3>
@@ -153,6 +188,45 @@
 <h3><a name="replace-temp-with-query" class="anchor" href="#replace-temp-with-query"><span class="header-link"></span></a>Replace Temp With Query</h3>
 <p>This technique has a very similar intent to <a href="#inline-temp">Inline Temp</a> in that one of its primary focuses is to aid the <a href="#extract-method">Extract Method</a>.</p>
 <p>The subtle but important difference between this technique and <a href="#inline-temp">Inline Temp</a> is that the complex expression assigned to the temp needs to be first moved to a method (where as the <a href="#inline-temp">Inline Temp</a> technique is different in that the temp may already be using a method invocation).</p>
+<p>For example:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Box</span>
+  <span class="kp">attr_reader</span> <span class="ss">:length</span><span class="p">,</span> <span class="ss">:width</span><span class="p">,</span> <span class="ss">:height</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span> <span class="n">length</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span>
+    <span class="vi">@length</span> <span class="o">=</span> <span class="n">length</span>
+    <span class="vi">@width</span>  <span class="o">=</span> <span class="n">width</span>
+    <span class="vi">@height</span> <span class="o">=</span> <span class="n">height</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">volume</span>
+    <span class="c1"># `area` is the temp</span>
+    <span class="n">area</span> <span class="o">=</span> <span class="n">length</span> <span class="o">*</span> <span class="n">width</span>
+    <span class="n">area</span> <span class="o">*</span> <span class="n">height</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Becomes:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Box</span>
+  <span class="kp">attr_reader</span> <span class="ss">:length</span><span class="p">,</span> <span class="ss">:width</span><span class="p">,</span> <span class="ss">:height</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span> <span class="n">length</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span>
+    <span class="vi">@length</span> <span class="o">=</span> <span class="n">length</span>
+    <span class="vi">@width</span>  <span class="o">=</span> <span class="n">width</span>
+    <span class="vi">@height</span> <span class="o">=</span> <span class="n">height</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">volume</span>
+    <span class="c1"># notice `area` is now a direct method call</span>
+    <span class="n">area</span> <span class="o">*</span> <span class="n">height</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">area</span>
+    <span class="n">length</span> <span class="o">*</span> <span class="n">width</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
 <p>This technique can help to shorten a long method by not having to define lots of temp variables just to hold values.</p>
 <p>If the extracted query method is given an identifier that aptly describes its purpose then the code still can be considered clear and descriptive. </p>
 <p>Also, it is considered bad form to define a variable which changes once it has been set (hence moving to a method better indicates an unstable value). </p>
@@ -205,14 +279,114 @@
 <h3><a name="extract-method" class="anchor" href="#extract-method"><span class="header-link"></span></a>Extract Method</h3>
 <p>Here it is! In my opinion &#39;<em>The</em>&#39; most used and important refactoring technique.</p>
 <p>The implementation behind this technique is very simple. It consists of breaking up long methods by shifting overly complex chunks of code into new methods which have very descriptive identifiers. </p>
+<p>For example:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span>
+  <span class="kp">attr_reader</span> <span class="ss">:bar</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span> <span class="n">bar</span>
+    <span class="vi">@bar</span> <span class="o">=</span> <span class="n">bar</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">do_something</span>
+    <span class="nb">puts</span> <span class="s2">&quot;my baz&quot;</span> <span class="c1"># notice this is duplication</span>
+    <span class="nb">puts</span> <span class="n">bar</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">do_something_else</span>
+    <span class="nb">puts</span> <span class="s2">&quot;my baz&quot;</span> <span class="c1"># notice this is duplication</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Something else&quot;</span>
+    <span class="nb">puts</span> <span class="n">bar</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Becomes:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span>
+  <span class="kp">attr_reader</span> <span class="ss">:bar</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span> <span class="n">bar</span>
+    <span class="vi">@bar</span> <span class="o">=</span> <span class="n">bar</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">do_something</span>
+    <span class="n">baz</span>
+    <span class="nb">puts</span> <span class="n">bar</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">do_something_else</span>
+    <span class="n">baz</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Something else&quot;</span>
+    <span class="nb">puts</span> <span class="n">bar</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">baz</span>
+    <span class="nb">puts</span> <span class="s2">&quot;my baz&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
 <p>But be careful with handling local variables as you&#39;ll need to pass them through to the extracted method and that can be difficult if there are lots of temps in use. Sometimes to facility the Extract Method you&#39;ll need to first incorporate other techniques such as <a href="#replace-temp-with-query">Replace Temp With Query</a> and <a href="#inline-temp">Inline Temp</a>.</p>
 <h3><a name="inline-method" class="anchor" href="#inline-method"><span class="header-link"></span></a>Inline Method</h3>
 <p>Sometimes you want the opposite of the <a href="#extract-method">Extract Method</a> technique. Imagine a method exists whose content is already simple and clear, and whose identifier adds no extra benefit. In this instance we&#39;re just making an extra call for no real benefit.</p>
 <p>So to fix this problem we&#39;ll convert the method invocation into an inlined piece of code (unless of course the method is used in multiple places, in that case leave it where it is as having it in a separate method keeps our code DRY).</p>
 <h3><a name="move-method" class="anchor" href="#move-method"><span class="header-link"></span></a>Move Method</h3>
-<p>In a previous post about <a href="http://www.integralist.co.uk/posts/object-oriented-design-ood/#class-analysis">Object-Oriented Design</a> I explained that you should query your classes/objects to ensure the methods they define are actually where they should be.</p>
+<p>In a previous post about <a href="http://www.integralist.co.uk/posts/object-oriented-design-ood/#class-analysis">Object-Oriented Design</a> I explained that you should query your classes/objects to ensure the methods they define are actually where they should be (another reason is &#39;feature envy&#39;, if a method is asking another class a lot of questions then it may be an indication the method is on the wrong object).</p>
 <p>The Move Method technique ensures this decoupling by simply moving the identified misplaced method onto the correct one.</p>
 <p>Once the method has been moved you should clean up the previously passed parameters by seeing what can be moved over to the other object or whether additional data needs to be passed over now via the method invocation. </p>
+<p>For example:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Gear</span>
+    <span class="kp">attr_reader</span> <span class="ss">:chainring</span><span class="p">,</span> <span class="ss">:cog</span><span class="p">,</span> <span class="ss">:rim</span><span class="p">,</span> <span class="ss">:tire</span>
+
+    <span class="k">def</span> <span class="nf">initialize</span> <span class="p">(</span><span class="n">chainring</span><span class="p">,</span> <span class="n">cog</span><span class="p">,</span> <span class="n">rim</span><span class="p">,</span> <span class="n">tire</span><span class="p">)</span>
+      <span class="vi">@chainring</span> <span class="o">=</span> <span class="n">chainring</span>
+      <span class="vi">@cog</span>       <span class="o">=</span> <span class="n">cog</span>
+      <span class="vi">@rim</span>       <span class="o">=</span> <span class="n">rim</span>
+      <span class="vi">@tire</span>      <span class="o">=</span> <span class="n">tire</span>
+
+      <span class="c1"># let&#39;s asked the question:</span>
+      <span class="c1"># &quot;Please Mr. Gear what is your tire size?&quot;</span>
+      <span class="c1"># hmm? notice this doesn&#39;t sound like it quite fits the purpose of a &#39;Gears&#39; class</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">ratio</span>
+      <span class="n">chainring</span> <span class="o">/</span> <span class="n">cog</span><span class="o">.</span><span class="n">to_f</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">gear_inches</span>
+        <span class="c1"># tire goes around rim twice for diameter</span>
+        <span class="n">ratio</span> <span class="o">*</span> <span class="p">(</span><span class="n">rim</span> <span class="o">+</span> <span class="p">(</span><span class="n">tire</span> <span class="o">*</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Becomes:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Gear</span>
+    <span class="kp">attr_reader</span> <span class="ss">:chainring</span><span class="p">,</span> <span class="ss">:cog</span><span class="p">,</span> <span class="ss">:rim</span><span class="p">,</span> <span class="ss">:tire</span>
+
+    <span class="k">def</span> <span class="nf">initialize</span> <span class="p">(</span><span class="n">chainring</span><span class="p">,</span> <span class="n">cog</span><span class="p">,</span> <span class="n">rim</span><span class="p">,</span> <span class="n">tire</span><span class="p">)</span>
+      <span class="vi">@chainring</span> <span class="o">=</span> <span class="n">chainring</span>
+      <span class="vi">@cog</span>       <span class="o">=</span> <span class="n">cog</span>
+      <span class="vi">@rim</span>       <span class="o">=</span> <span class="n">rim</span>
+      <span class="vi">@tire</span>      <span class="o">=</span> <span class="n">tire</span><span class="o">.</span><span class="n">size</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">ratio</span>
+      <span class="n">chainring</span> <span class="o">/</span> <span class="n">cog</span><span class="o">.</span><span class="n">to_f</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">gear_inches</span>
+        <span class="c1"># tire goes around rim twice for diameter</span>
+        <span class="n">ratio</span> <span class="o">*</span> <span class="p">(</span><span class="n">rim</span> <span class="o">+</span> <span class="p">(</span><span class="n">tire</span> <span class="o">*</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Tire</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">size</span>
+    <span class="mi">5</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
 <p>From the original class/object keep the original method in place while you test and change it so it now delegates to the method on the new object. Then slowly refactor by replacing delegating calls throughout your code base with direct calls to the method via its new host. </p>
 <p>Finally, remove the old method altogether and the tests should tell you if you missed a replacement somewhere.</p>
 <h3><a name="replace-method-with-method-object" class="anchor" href="#replace-method-with-method-object"><span class="header-link"></span></a>Replace Method With Method Object</h3>
@@ -221,6 +395,59 @@
 <p>So the first thing to do is create a new class named after the long method and add the temp local vars as properties/attributes of the class/object.</p>
 <p>Now when you try to implement <a href="#extract-method">Extract Method</a> you don&#39;t have to pass around the temp vars because they are now available throughout the class/object. </p>
 <p>Then from within the original class/object you can delegate any calls to the original method on to the object (you&#39;ll still pass on the original arguments to the method within the new object but from there on the method extraction becomes easier).</p>
+<p>For example:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span>
+  <span class="k">def</span> <span class="nf">bar</span>
+    <span class="nb">puts</span> <span class="s2">&quot;We&#39;re doing some bar stuff&quot;</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">baz</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="s1">&#39;something&#39;</span>
+      <span class="c1"># do something</span>
+    <span class="k">end</span>
+
+    <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="s1">&#39;else&#39;</span>
+      <span class="c1"># do else</span>
+    <span class="k">end</span>
+
+    <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;none&#39;</span>
+      <span class="c1"># do none</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Becomes:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span>
+  <span class="k">def</span> <span class="nf">bar</span>
+    <span class="nb">puts</span> <span class="s2">&quot;We&#39;re doing some bar stuff&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Baz</span>
+  <span class="kp">attr_accessor</span> <span class="ss">:a</span><span class="p">,</span> <span class="ss">:b</span><span class="p">,</span> <span class="ss">:c</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+    <span class="vi">@a</span> <span class="o">=</span> <span class="n">a</span>
+    <span class="vi">@b</span> <span class="o">=</span> <span class="n">b</span>
+    <span class="vi">@c</span> <span class="o">=</span> <span class="n">c</span>
+
+    <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="s1">&#39;something&#39;</span>
+      <span class="c1"># do something</span>
+    <span class="k">end</span>
+
+    <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="s1">&#39;else&#39;</span>
+      <span class="c1"># do else</span>
+    <span class="k">end</span>
+
+    <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;none&#39;</span>
+      <span class="c1"># do none</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>From here we&#39;re now in a better state to use both the <a href="#extract-method">Extract Method</a> and <a href="/posts/even-more-refactoring-techniques/#replace-conditional-with-polymorphism">Replace Conditional with Polymorphism</a> techniques to refactor the <code>Baz</code> class.</p>
 <h3><a name="replace-loop-with-collection-closure-method" class="anchor" href="#replace-loop-with-collection-closure-method"><span class="header-link"></span></a>Replace Loop With Collection Closure Method</h3>
 <p>If you write a loop that parses a collection and interacts with the individual elements within the collection then move that interaction out into a separate closure based method (meaning you replace the loop with an Enumerable method). </p>
 <p>This refactoring may not be as clear or impressive as other refactoring techniques but the motivation behind it is that you hide the ugly details of the loop behind a nicer iteration method, allowing the developer looking at the code to focus on the business logic instead.</p>
@@ -240,16 +467,75 @@
 <p>Note: in JavaScript you can implement a similar effect with clever use of closures.</p>
 <h3><a name="pull-up-method" class="anchor" href="#pull-up-method"><span class="header-link"></span></a>Pull Up Method</h3>
 <p>When you have duplicated code across two separate classes then the best refactoring technique to implement is to pull that duplicate code up into a super class so we DRY (Don&#39;t Repeat Yourself) out the code and allow it to be used in multiple places without duplication (meaning changes in future only have to happen in one place).</p>
+<p>For example:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Person</span>
+  <span class="kp">attr_reader</span> <span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:last_name</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span>
+    <span class="vi">@first_name</span> <span class="o">=</span> <span class="n">first_name</span>
+    <span class="vi">@last_name</span> <span class="o">=</span> <span class="n">last_name</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">MalePerson</span> <span class="o">&lt;</span> <span class="no">Person</span>
+  <span class="c1"># This is duplicated in the `FemalePerson` class</span>
+  <span class="k">def</span> <span class="nf">full_name</span>
+    <span class="n">first_name</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">last_name</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">gender</span>
+    <span class="s2">&quot;M&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">FemalePerson</span> <span class="o">&lt;</span> <span class="no">Person</span>
+  <span class="c1"># This is duplicated in the `MalePerson` class</span>
+  <span class="k">def</span> <span class="nf">full_name</span>
+    <span class="n">first_name</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">last_name</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">gender</span>
+    <span class="s2">&quot;F&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Becomes:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Person</span>
+  <span class="kp">attr_reader</span> <span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:last_name</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span>
+    <span class="vi">@first_name</span> <span class="o">=</span> <span class="n">first_name</span>
+    <span class="vi">@last_name</span> <span class="o">=</span> <span class="n">last_name</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">full_name</span>
+    <span class="n">first_name</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">last_name</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">MalePerson</span> <span class="o">&lt;</span> <span class="no">Person</span>
+  <span class="k">def</span> <span class="nf">gender</span>
+    <span class="s2">&quot;M&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">FemalePerson</span> <span class="o">&lt;</span> <span class="no">Person</span>
+  <span class="k">def</span> <span class="nf">gender</span>
+    <span class="s2">&quot;F&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
 <h3><a name="form-template-method" class="anchor" href="#form-template-method"><span class="header-link"></span></a>Form Template Method</h3>
-<h1><a name="refactoring" class="anchor" href="#refactoring"><span class="header-link"></span></a>Refactoring</h1>
-<h2><a name="form-template-method" class="anchor" href="#form-template-method"><span class="header-link"></span></a>Form Template Method</h2>
 <p>The technique is reliant on inheritance: a parent class and two sub classes of
 that parent. The two sub classes have methods which have similar steps, in the
 same order and yet the steps themselves are different.</p>
 <p>The technique involves moving the sequence of steps into the parent class and
 then using polymorphism to allow the sub classes to handle the differences in
 the steps.</p>
-<p>Here is a silly example (I’m no good at giving real examples), here is an
+<p>Here is a silly example (I’m no good at giving real examples; you may have noticed), here is an
 example of our problematic code…</p>
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span><span class="p">;</span> <span class="k">end</span>
 
@@ -289,9 +575,7 @@ example of our problematic code…</p>
 <p>…we could try to inject the values each sub class requires but then we still
 have a lot of duplication in this code.</p>
 <p>We can see the sequence of steps is:</p>
-<p>determine what <code>a</code> should be
-determine what <code>b</code> should be
-return a specific calculation</p>
+<p>determine what <code>a</code> should be<br>determine what <code>b</code> should be<br>return a specific calculation</p>
 <p>…so we can clean up our code a little by abstracting the commonality...</p>
 <pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span>
   <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">hey</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">hai</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -366,6 +650,20 @@ return a specific calculation</p>
 <p>When inheriting properties from a parent class/object then it can be more flexible if the parent class only allows access to the properties from within a getter/setter.</p>
 <p>The motivation for this technique is that a sub class can override and modify the behaviour of the getter/setter without affecting the parent class&#39; implementation. Which is similar to how the Decorator design pattern works (e.g. modifying the behaviour without affecting the original).</p>
 <p>This technique should only be used once you find the coupling between objects is becoming a problem. Otherwise direct access to properties and instance variables should be acceptable initially.</p>
+<p>For example:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">total</span>
+  <span class="vi">@base_price</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="vi">@tax_rate</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Becomes:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="kp">attr_reader</span> <span class="ss">:base_price</span><span class="p">,</span> <span class="ss">:tax_rate</span>
+
+<span class="k">def</span> <span class="nf">total</span>
+  <span class="n">base_price</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">tax_rate</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
 <h3><a name="introduce-named-parameter" class="anchor" href="#introduce-named-parameter"><span class="header-link"></span></a>Introduce Named Parameter</h3>
 <p>When method arguments are unclear then convert them into named parameters so they become clearer (and easier to remember). </p>
 <p>Although Ruby supports named parameters...</p>
