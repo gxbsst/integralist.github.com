@@ -1,0 +1,685 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="/images/cabin.png" >
+    <link href="/styles/main.css" rel="stylesheet">
+    
+    <title>Testing your code with Guard, RSpec and Pry</title>
+    
+    
+    <meta name="description" content="A basic TDD set-up explained using Guard to watch file changes and RSpec to handle the test duties">
+    
+    <link rel="alternate" type="application/atom+xml" title="Integralist" href="http://feeds.feedburner.com/Integralist">
+  </head>
+  <body>
+    <nav>
+      <h1 class="name">
+          <a href="/">Integralist</a> <span class="role">BBC News Engineer</span>
+      </h1>
+      <div class="menu icon-menu"></div>
+      <ul class="nav-links">
+        <li class="text-link">
+          <a href="/about.html">about</a>
+        </li>
+        <li class="text-link">
+          <a href="/projects.html">projects</a>
+        </li>
+        <li class="text-link">
+          <a href="/archives.html">archives</a>
+        </li>
+      </ul>
+      <div class="social-media">
+        <a href="https://github.com/integralist" class="icon-github"></a>
+        <a href="https://twitter.com/integralist" class="icon-twitter"></a>
+      </div>
+    </nav>
+    <div class="content">
+
+<div class="post-head group">
+  <a href="/posts/testing-your-code-with-guard-rspec-and-pry/">
+    <h1 class="post-title">Testing your code with Guard, RSpec and Pry</h1>
+  </a>
+  <span class="post-date">2014 &#183; 1 &#183; 19</span>
+</div>
+
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 21mins</em></p>
+<ul>
+<li>Introduction</li>
+<li>Experience</li>
+<li>Guard</li>
+<li>RSpec</li>
+<li>Pry</li>
+<li>TDD</li>
+<li>Example<ul>
+<li>Set-up</li>
+<li>Directory structure</li>
+<li>Installation</li>
+<li>Gemfile</li>
+<li>Rakefile</li>
+<li>Guardfile</li>
+</ul>
+</li>
+<li>Test code<ul>
+<li>example_spec.rb</li>
+<li>spec_helper.rb</li>
+<li>example.rb</li>
+</ul>
+</li>
+<li>Other RSpec features<ul>
+<li>Pending</li>
+<li>Set-up and tear-down</li>
+<li>Context</li>
+<li>Stubs</li>
+<li>Consecutive return values</li>
+<li>Mocks</li>
+<li>Subject</li>
+</ul>
+</li>
+<li>Debugging with Pry<ul>
+<li><code>binding.pry</code></li>
+<li><code>whereami</code></li>
+<li><code>wtf</code></li>
+<li><code>ls</code></li>
+<li><code>cd</code></li>
+<li><code>nesting</code></li>
+<li><code>find-method</code></li>
+<li><code>Next, Step, Continue</code></li>
+</ul>
+</li>
+<li>Conclusion</li>
+</ul>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<p>I&#39;ve started working on a cloud based Ruby project that utilises a few different Amazon services such as:</p>
+<ul>
+<li>SQS (Simple Queue Service)</li>
+<li>DynamoDB (key/value store)</li>
+<li>S3 (Simple Storage Service)</li>
+</ul>
+<p>I&#39;m working with one of the tech leads here at <a href="http://www.bbc.co.uk/news">BBC News</a>: <a href="http://twitter.com/kenturamon">Robert Kenny</a>. </p>
+<p>Kenny is very well versed with writing Ruby applications <a href="http://en.wikipedia.org/wiki/Test-driven_development">TDD (test-driven development)</a> style; </p>
+<p>For this particular application we&#39;re using <a href="http://rspec.info/">RSpec</a> for writing our tests/specification and I wanted to take moment to show you how to go about setting up your test environment using RSpec and another tool called <a href="http://guardgem.org/">Guard</a></p>
+<h2><a name="experience" class="anchor" href="#experience"><span class="header-link"></span></a>Experience</h2>
+<p>I&#39;m going to make an assumption that you are familiar with Ruby code and the Ruby eco-system. For example, I shouldn&#39;t need to have to explain to you what &#39;gems&#39; are. </p>
+<p>If you&#39;re unsure then I would recommend reading one of my other posts on Ruby to get yourself up to speed first.</p>
+<h2><a name="guard" class="anchor" href="#guard"><span class="header-link"></span></a>Guard</h2>
+<p>You might not be familiar with Guard but it&#39;s a command line tool that utilises Ruby to handle different events whenever there are modifications to any files on your system.</p>
+<p>This is something that is quite big at the moment in the JavaScript world (see: <a href="http://www.gruntjs.org/">Grunt</a>, <a href="http://gulpjs.com/">gulp</a>).</p>
+<p>The reason we&#39;ll be using Guard is because it helps make the feedback loop (when doing TDD) a lot tighter. It allows us to edit our test files, see a failing test, update and save our code and immediately see if it passes or fails (depending on what we wrote).</p>
+<p>You could use something like Grunt or gulp instead, but we prefer to use those types of task runners for handling front-end/client-side stuff; For back-end/server-side code we use Rake and Guard.</p>
+<h2><a name="rspec" class="anchor" href="#rspec"><span class="header-link"></span></a>RSpec</h2>
+<p>RSpec, if you weren&#39;t already aware, is a testing tool for the <a href="https://www.ruby-lang.org/en/">Ruby</a> programming language.</p>
+<p>You run your tests (using RSpec) via the command line; and I&#39;ll demonstrate how you can make this process easier via the use of Ruby&#39;s build program <a href="http://rake.rubyforge.org/">Rake</a>.</p>
+<h2><a name="pry" class="anchor" href="#pry"><span class="header-link"></span></a>Pry</h2>
+<p>Lastly, we&#39;ll be using another Ruby gem called <a href="http://pryrepl.org/">Pry</a> which is an extremely powerful Ruby debugging tool which injects itself into your application while it is running to allow you to inspect your code and figure out why something isn&#39;t working.</p>
+<h2><a name="tdd" class="anchor" href="#tdd"><span class="header-link"></span></a>TDD</h2>
+<p>Although not necessary for this demonstration of RSpec and Guard, it&#39;s worth noting that I endorse the use of TDD as a means to ensure every line of code you write has a purpose and has been designed in a testable and reliable manner.</p>
+<p>I&#39;ll be detailing how we would do TDD with a simple application so at least you&#39;ll get a feel for how the process works.</p>
+<h2><a name="example" class="anchor" href="#example"><span class="header-link"></span></a>Example</h2>
+<p>I&#39;ve created a basic example on GitHub. You can download all the code from there: <a href="https://github.com/Integralist/Guard-and-RSpec"><a href="https://github.com/Integralist/Guard-and-RSpec">https://github.com/Integralist/Guard-and-RSpec</a></a>.</p>
+<h3><a name="set-up" class="anchor" href="#set-up"><span class="header-link"></span></a>Set-up</h3>
+<p>There are three primary files you&#39;ll need to get yourself set-up...</p>
+<ol>
+<li><code>Gemfile</code></li>
+<li><code>Guardfile</code></li>
+<li><code>Rakefile</code></li>
+</ol>
+<p>...we&#39;ll go over the content of each them in a moment, but first thing thing we need to get your directory structure in place.</p>
+<h3><a name="directory-structure" class="anchor" href="#directory-structure"><span class="header-link"></span></a>Directory structure</h3>
+<p>For our example project we&#39;ll need two folders created:</p>
+<ul>
+<li><code>lib</code> (this will hold our application code)</li>
+<li><code>spec</code> (this will hold our test code)</li>
+</ul>
+<p>This is pretty straight forward. You&#39;ll see shortly that this isn&#39;t a requirement for your application; you can easily tweak the code within our other files to work with whatever structure suits you.</p>
+<h3><a name="installation" class="anchor" href="#installation"><span class="header-link"></span></a>Installation</h3>
+<p>Open up your terminal and run the following command: </p>
+<p><code>gem install bundler</code></p>
+<p>Bundler is a tool that makes installing other gems easier.</p>
+<p>Once you&#39;ve done that create the above three files (<code>Gemfile</code>, <code>Guardfile</code> and <code>Rakefile</code>) and add the following content to them...</p>
+<h3><a name="gemfile" class="anchor" href="#gemfile"><span class="header-link"></span></a>Gemfile</h3>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">source</span> <span class="s2">&quot;https://rubygems.org&quot;</span>
+
+<span class="n">gem</span> <span class="s1">&#39;rspec&#39;</span>
+
+<span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s1">&#39;guard&#39;</span>
+  <span class="n">gem</span> <span class="s1">&#39;guard-rspec&#39;</span>
+  <span class="n">gem</span> <span class="s1">&#39;pry&#39;</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>So now we have this file we can run the command:</p>
+<p><code>bundle install</code></p>
+<p>...and that will install all our gems for us (including those gems specified within the <code>development</code> group.</p>
+<p>The purpose of the <code>development</code> group (which is a bundler specific feature) is so when you deploy your application you can tell your production environment to install only the gems that are required for your application to function properly.</p>
+<p>So for example, all the gems inside the <code>development</code> group aren&#39;t required for the application to function properly.</p>
+<p>To install the right gems on your production server you would need to run something like:</p>
+<p><code>bundle install --without development</code></p>
+<h3><a name="rakefile" class="anchor" href="#rakefile"><span class="header-link"></span></a>Rakefile</h3>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;rspec/core/rake_task&#39;</span>
+
+<span class="no">RSpec</span><span class="o">::</span><span class="no">Core</span><span class="o">::</span><span class="no">RakeTask</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">task</span><span class="o">|</span>
+  <span class="n">task</span><span class="o">.</span><span class="n">rspec_opts</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;--color&#39;</span><span class="p">,</span> <span class="s1">&#39;--format&#39;</span><span class="p">,</span> <span class="s1">&#39;doc&#39;</span><span class="o">]</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Finally we come to the <code>Rakefile</code> which allows us to run our RSpec tests from the command line.</p>
+<p>Note: you don&#39;t need Guard to be able to run your RSpec tests. We just use Guard to make it easier to do TDD.</p>
+<p>When you install RSpec it gives you access to a built in Rake task, and that&#39;s what we&#39;re using here.</p>
+<p>We create a new instance of <code>RakeTask</code> which by default creates a task called <code>spec</code> that will look for a folder called <code>spec</code> and will run all the test files within that folder using the configuration options we&#39;ve defined (in this instance, we want our shell output to have colour and we want to format the output to the <code>doc</code> style -&gt; you could change the format to be <code>nested</code> as an example).</p>
+<p>You can configure the Rake task to work any way you want, and to look into different directories if that&#39;s what you have. But the default settings work great for our application and so that&#39;s what we&#39;ll be using.</p>
+<p>Now if I want to run my tests from the command line then all I need to do is run the command:</p>
+<p><code>rake spec</code>.</p>
+<p>This gives us the following output:</p>
+<pre><code class="lang-sh"><div class="highlight"><pre>❯ rake spec
+/bin/ruby -S rspec ./spec/example_spec.rb --color --format doc
+
+RSpec Greeter
+  should say <span class="s2">&quot;Hello RSpec!&quot;</span> when it receives the greet<span class="o">()</span> message
+
+Finished in 0.00058 seconds
+1 example, 0 failures
+</pre></div>
+</code></pre>
+<h3><a name="guardfile" class="anchor" href="#guardfile"><span class="header-link"></span></a>Guardfile</h3>
+<p>The contents of this file tells Guard what to do when we run the <code>guard</code> command:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">guard</span> <span class="s1">&#39;rspec&#39;</span> <span class="k">do</span>
+  <span class="c1"># watch /lib/ files</span>
+  <span class="n">watch</span><span class="p">(</span><span class="sr">%r{^lib/(.+)\.rb$}</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span>
+    <span class="s2">&quot;spec/</span><span class="si">#{</span><span class="n">m</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="si">}</span><span class="s2">_spec.rb&quot;</span>
+  <span class="k">end</span>
+
+  <span class="c1"># watch /spec/ files</span>
+  <span class="n">watch</span><span class="p">(</span><span class="sr">%r{^spec/(.+)\.rb$}</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">m</span><span class="o">|</span>
+    <span class="s2">&quot;spec/</span><span class="si">#{</span><span class="n">m</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="si">}</span><span class="s2">.rb&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>You&#39;ll have noticed within our <code>Gemfile</code> we specified the gem <code>guard-rspec</code>. We need that gem to allow Guard to understand how to handle changes to RSpec related files.</p>
+<p>If we look again at the content we can see that if we ran <code>guard rspec</code> then Guard would watch the specified files and execute the specified commands once any changes to those files had occurred.</p>
+<p>Note: because we only have one guard task <code>rspec</code>  then that is run by default if we ran the command <code>guard</code>.</p>
+<p>You can see Guard provides us with a <code>watch</code> function which we pass a <a href="http://www.regular-expressions.info/">Regular Expression</a> to allow us to define what files we&#39;re interested in Guard watching.</p>
+<p>In this instance we&#39;re telling Guard to watch all the files within our <code>lib</code> and <code>spec</code> folders and if any changes occur to any of those files then to execute the test files within our <code>spec</code> folder to make sure no changes we made broke our tests (and subsequently didn&#39;t break our code).</p>
+<p>If you have all the files downloaded from the <a href="https://github.com/Integralist/Guard-and-RSpec">GitHub repo</a> then you can try out the command for yourself. </p>
+<p>Run <code>guard</code> and then save one of the files to see it run the tests.</p>
+<h2><a name="test-code" class="anchor" href="#test-code"><span class="header-link"></span></a>Test code</h2>
+<p>Before we start looking at some test and application code let me just explain what our application is going to do: our application is a single Class that will return a greeting message to whoever is running the code. </p>
+<p>Our requirements are purposely simplified as it&#39;ll make the process we&#39;re about to undertake easier to understand.</p>
+<p>Let&#39;s now take a look at our example specification (our test file) <code>example_spec.rb</code> which will describe the requirements and we&#39;ll start to step through the code and see how we should use TDD to aid us in writing our application.</p>
+<h3><a name="example-spec-rb" class="anchor" href="#example-spec-rb"><span class="header-link"></span></a>example_spec.rb</h3>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;spec_helper&#39;</span>
+
+<span class="n">describe</span> <span class="s1">&#39;RSpecGreeter&#39;</span> <span class="k">do</span>
+  <span class="n">it</span> <span class="s1">&#39;RSpecGreeter#greet()&#39;</span> <span class="k">do</span>
+    <span class="n">greeter</span>  <span class="o">=</span> <span class="no">RSpecGreeter</span><span class="o">.</span><span class="n">new</span>         <span class="c1"># Given</span>
+    <span class="n">greeting</span> <span class="o">=</span> <span class="n">greeter</span><span class="o">.</span><span class="n">greet</span>            <span class="c1"># When</span>
+    <span class="n">greeting</span><span class="o">.</span><span class="n">should</span> <span class="n">eq</span><span class="p">(</span><span class="s1">&#39;Hello RSpec!&#39;</span><span class="p">)</span>  <span class="c1"># Then</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>The first thing we do inside this file is load <code>spec_helper.rb</code> (which is found in the same directory as our spec file).</p>
+<p>Next we have two blocks that are specific to RSpec:</p>
+<ul>
+<li><code>describe &#39;x&#39; do</code></li>
+<li><code>it &#39;y&#39; do</code></li>
+</ul>
+<p>The first <code>describe</code> block allows us to describe the specific class/module we&#39;re working on. </p>
+<p>There are many different theories of how best to input the <code>describe</code> and <code>it</code> description blocks; I personally prefer simplicity and so I&#39;ll use the identifiers for the Class/Modules/Methods that we&#39;ll be testing.</p>
+<p>The <code>it</code> block should explain &#39;how&#39; we want our application to work. You could use a normal sentence to describe the requirements, but sometimes that can cause the descriptions to be too explicit when they should be implicit. By using the identifier instead we can avoid that.</p>
+<p>The contents of the <code>it</code> block is the code we&#39;re going to test. </p>
+<p>We create a new instance of the class <code>RSpecGreeter</code> (which doesn&#39;t exist yet). We send the message <code>greet</code> (also doesn&#39;t exist yet) to the instantiated object created (these two lines are standard Ruby code at this point). </p>
+<p>Finally we tell the testing framework that we expect the outcome of calling <code>greet</code> should be the text &quot;Hello RSpec!&quot;; by using the RSpec syntax <code>expect(something)to eq(something)</code>. Notice how this code&#39;s syntax allows it to be quite easily read (even by a non-technical person). These are known as &#39;assertions&#39;.</p>
+<p>There&#39;s a lot of different RSpec assertions and we won&#39;t go into the details, but feel free to review the <a href="https://relishapp.com/rspec">documentation</a> to see all the features RSpec provides.</p>
+<h3><a name="spec-helper-rb" class="anchor" href="#spec-helper-rb"><span class="header-link"></span></a>spec_helper.rb</h3>
+<p><code>spec_helper.rb</code> is what loads our application for the tests to run against, but it also loads the <code>pry</code> gem; which we can use to debug our code (if we need to).</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="vg">$:</span> <span class="o">&lt;&lt;</span> <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">),</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;lib&#39;</span><span class="p">)</span>
+
+<span class="nb">require</span> <span class="s1">&#39;pry&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;example&#39;</span>
+</pre></div>
+</code></pre>
+<p>Note: the first line adds the <code>/lib/</code> folder to Ruby&#39;s <code>$LOAD_PATH</code> system variable so when we run <code>require example</code> it&#39;s able to find the file in it&#39;s relevant location: <code>lib/example.rb</code>.</p>
+<h3><a name="example-rb" class="anchor" href="#example-rb"><span class="header-link"></span></a>example.rb</h3>
+<p>Let&#39;s assume you&#39;re using <code>guard</code> to run your tests (so every time we make a change to <code>example.rb</code> guard will notice and run <code>example_spec.rb</code> to make sure our tests pass).</p>
+<p>For us to do TDD properly, our <code>example.rb</code> file will be empty and our test will fail...</p>
+<pre><code class="lang-sh"><div class="highlight"><pre>Failures:
+  1<span class="o">)</span> RSpecGreeter RSpecGreeter#greet<span class="o">()</span>
+     Failure/Error: <span class="nv">greeter</span>  <span class="o">=</span> RSpecGreeter.new         <span class="c"># Given</span>
+     NameError:
+       uninitialized constant RSpecGreeter
+     <span class="c"># ./spec/example_spec.rb:5:in `block (2 levels) in &lt;top (required)&gt;&#39;</span>
+
+Finished in 0.00059 seconds
+1 example, 1 failure
+
+Failed examples:
+
+rspec ./spec/example_spec.rb:4 <span class="c"># RSpecGreeter RSpecGreeter#greet()</span>
+</pre></div>
+</code></pre>
+<p>As you can see in the error, there is no <code>RSpecGreeter</code> class defined. Let&#39;s fix that and add the following code and save the file so our tests run.</p>
+<p>Now before we review the code we&#39;ve written, let be clarify that TDD is based on the premise that every line of code has a reason to exist so <strong>DON&#39;T</strong> write out the class and the method and the content of the method, as you could end up with a passing test but you won&#39;t know for sure if all the code you wrote was necessary for the test to pass. Just write the minimum for the test to pass. Which in this case is:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">RSpecGreeter</span>
+  <span class="c1"># code will eventually go here</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>This will result in the following error:</p>
+<pre><code class="lang-sh"><div class="highlight"><pre>Failures:
+  1<span class="o">)</span> RSpecGreeter RSpecGreeter#greet<span class="o">()</span>
+     Failure/Error: <span class="nv">greeter</span>  <span class="o">=</span> greeter.greet            <span class="c"># When</span>
+     NoMethodError:
+       undefined method <span class="sb">`</span>greet<span class="s1">&#39; for #&lt;RSpecGreeter:0x007fe1fa8870f0&gt;</span>
+<span class="s1">     # ./spec/example_spec.rb:6:in `block (2 levels) in &lt;top (required)&gt;&#39;</span>
+
+Finished in 0.00036 seconds
+1 example, 1 failure
+</pre></div>
+</code></pre>
+<p>Now we can see that this error is telling us the method <code>greet</code> doesn&#39;t exist so let&#39;s add it and then again save our file to run our tests:</p>
+<p>``ruby
+class RSpecGreeter
+  def greet</p>
+<pre><code><div class="highlight"><pre><span class="err">#</span> <span class="nx">code</span> <span class="nx">will</span> <span class="nx">eventually</span> <span class="nx">go</span> <span class="nx">here</span>
+</pre></div>
+</code></pre>
+<p>  end
+end</p>
+<pre><code><div class="highlight"><pre><span class="nx">OK</span><span class="p">,</span> <span class="nx">we</span><span class="s1">&#39;re almost there. The error we get now is:</span>
+
+<span class="s1">```sh</span>
+<span class="s1">Failures:</span>
+<span class="s1">  1) RSpecGreeter RSpecGreeter#greet()</span>
+<span class="s1">     Failure/Error: greeter  = greeting.should eq(&#39;</span><span class="nx">Hello</span> <span class="nx">RSpec</span><span class="o">!</span><span class="s1">&#39;)  # Then</span>
+
+<span class="s1">       expected: &quot;Hello RSpec!&quot;</span>
+<span class="s1">            got: nil</span>
+
+<span class="s1">       (compared using ==)</span>
+<span class="s1">     # ./spec/example_spec.rb:7:in `block (2 levels) in &lt;top (required)&gt;&#39;</span>
+
+<span class="nx">Finished</span> <span class="k">in</span> <span class="mf">0.00067</span> <span class="nx">seconds</span>
+<span class="mi">1</span> <span class="nx">example</span><span class="p">,</span> <span class="mi">1</span> <span class="nx">failure</span>
+</pre></div>
+</code></pre>
+<p>RSpec is telling us that it was expecting to see &quot;Hello RSpec!&quot; but instead it got <code>nil</code> (which is because we defined the <code>greet</code> method but didn&#39;t actually define anything inside the method and so it returns <code>nil</code>).</p>
+<p>We&#39;ll add the remaining piece of code that would get our test to pass:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">RSpecGreeter</span>
+  <span class="k">def</span> <span class="nf">greet</span>
+    <span class="s2">&quot;Hello RSpec!&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>There we have it, a passing test:</p>
+<pre><code class="lang-sh"><div class="highlight"><pre>Finished in 0.00061 seconds
+1 example, 0 failures
+</pre></div>
+</code></pre>
+<p>We&#39;re done here. Our test is written, and the code passing.</p>
+<h2><a name="other-rspec-features" class="anchor" href="#other-rspec-features"><span class="header-link"></span></a>Other RSpec features</h2>
+<p>Before we move onto debugging our application using Pry, let&#39;s quickly review some other RSpec features.</p>
+<h3><a name="pending" class="anchor" href="#pending"><span class="header-link"></span></a>Pending</h3>
+<p>Imagine you write a tests but you&#39;re interrupted, or you need to leave for a meeting and haven&#39;t yet completed the code required to get the test to pass.</p>
+<p>You could delete the test and re-write it later when you&#39;re able to come back to your work. Or alternatively you could just comment the code out, but that&#39;s pretty ugly and no good for version control.</p>
+<p>The best thing to do is to define our test as &#39;pending&#39; so whenever the tests are run, the test framework will ignore the test. To do this you need to use the <code>pending</code> keyword:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">describe</span> <span class="s2">&quot;some method&quot;</span> <span class="k">do</span>
+  <span class="n">it</span> <span class="s2">&quot;should do something&quot;</span>
+        <span class="n">pending</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<h3><a name="set-up-and-tear-down" class="anchor" href="#set-up-and-tear-down"><span class="header-link"></span></a>Set-up and tear-down</h3>
+<p>All good testing frameworks allow you to execute code just before and after each test that is run. RSpec is no different. </p>
+<p>It provides us <code>before</code> and <code>after</code> methods which allows us to set-up a specific state for our test to run and to then clean up that state after the test has run so the state doesn&#39;t leak and effect the outcome of subsequent tests.</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">describe</span> <span class="s2">&quot;some method&quot;</span> <span class="k">do</span>
+  <span class="n">before</span><span class="p">(</span><span class="ss">:each</span><span class="p">)</span> <span class="k">do</span>
+    <span class="c1"># some set-up code</span>
+  <span class="k">end</span>
+
+  <span class="n">after</span><span class="p">(</span><span class="ss">:each</span><span class="p">)</span> <span class="k">do</span>
+    <span class="c1"># some tear-down code</span>
+  <span class="k">end</span>
+
+  <span class="n">it</span> <span class="s2">&quot;should do something&quot;</span>
+        <span class="n">pending</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<h3><a name="context" class="anchor" href="#context"><span class="header-link"></span></a>Context</h3>
+<p>We&#39;ve already seen the <code>describe</code> block. There is another block which is functionally equivalent called <code>context</code>. You can use it every where you would use <code>describe</code>.</p>
+<p>The difference between them is subtle but important: <code>context</code> allows us to define a state for our test. Not explicitly though (we don&#39;t actually set the state by defining a <code>context</code> block). </p>
+<p>Here is an example:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre>  <span class="n">describe</span> <span class="s2">&quot;Some method&quot;</span> <span class="k">do</span>
+    <span class="n">context</span> <span class="s2">&quot;block provided&quot;</span> <span class="k">do</span>
+      <span class="n">it</span> <span class="s2">&quot;yields to block&quot;</span> <span class="k">do</span>
+        <span class="n">pending</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="n">context</span> <span class="s2">&quot;no block provided&quot;</span> <span class="k">do</span>
+      <span class="n">it</span> <span class="s2">&quot;calls a private method&quot;</span> <span class="k">do</span>
+        <span class="n">pending</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+</pre></div>
+</code></pre>
+<h3><a name="stubs" class="anchor" href="#stubs"><span class="header-link"></span></a>Stubs</h3>
+<p>We can use the <code>stub</code> method to create a fake version of an existing object and to have it return a pre-determined value.</p>
+<p>This is useful in preventing our tests from touching live service APIs, and guiding our tests by giving predictable results from certain calls.</p>
+<p>To create a stub you execute the stub command:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">describe</span> <span class="no">Person</span> <span class="k">do</span>
+  <span class="n">it</span> <span class="s2">&quot;speak()&quot;</span> <span class="k">do</span>
+    <span class="n">bob</span> <span class="o">=</span> <span class="n">stub</span><span class="p">()</span>
+    <span class="n">bob</span><span class="o">.</span><span class="n">stub</span><span class="p">(</span><span class="ss">:speak</span><span class="p">)</span><span class="o">.</span><span class="n">and_return</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<h3><a name="consecutive-return-values" class="anchor" href="#consecutive-return-values"><span class="header-link"></span></a>Consecutive return values</h3>
+<p>In the previous examples we&#39;ve use the RSpec feature <code>and_return</code> to indicate what our stub should return when it&#39;s called.</p>
+<p>We can indicate a different return value each time the stub is called by specifying multiple arguments to the <code>and_return</code> method:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">obj</span> <span class="o">=</span> <span class="n">stub</span><span class="p">()</span>
+<span class="n">obj</span><span class="o">.</span><span class="n">stub</span><span class="p">(</span><span class="ss">:foo</span><span class="p">)</span><span class="o">.</span><span class="n">and_return</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="n">expect</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">foo</span><span class="p">())</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">foo</span><span class="p">())</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">foo</span><span class="p">())</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</code></pre>
+<h3><a name="mocks" class="anchor" href="#mocks"><span class="header-link"></span></a>Mocks</h3>
+<p>Mocks are similar to Stubs in that we are creating fake versions of our objects but instead of just returning a pre-defined value we&#39;re more specifically guiding the routes our objects <em>must</em> take for the test to be valid.</p>
+<p>To do that we use the <code>mock</code> method:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">describe</span> <span class="no">Foo</span> <span class="k">do</span>
+  <span class="n">it</span> <span class="s2">&quot;bar()&quot;</span> <span class="k">do</span>
+    <span class="n">baz</span> <span class="o">=</span> <span class="n">mock</span><span class="p">()</span>
+    <span class="n">baz</span><span class="o">.</span><span class="n">should_receive</span><span class="p">(</span><span class="ss">:qux</span><span class="p">)</span><span class="o">.</span><span class="n">with</span><span class="p">(</span><span class="sr">/:content/</span><span class="p">)</span>
+
+        <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">some_method</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>In the above example we create a new <code>Foo</code> instance and then call <code>some_method</code> which should mean that the <code>baz</code> object receives a call to the <code>qux</code> method along with <code>:content</code> as an argument.</p>
+<h3><a name="subject" class="anchor" href="#subject"><span class="header-link"></span></a>Subject</h3>
+<p>The <code>subject</code> keyword can be used in a couple of different ways. All of which are designed to reduce code duplication.</p>
+<p>You can use it implicitly:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">describe</span> <span class="nb">Array</span> <span class="k">do</span>
+  <span class="n">describe</span> <span class="s2">&quot;with 3 items&quot;</span> <span class="k">do</span>
+    <span class="n">subject</span> <span class="p">{</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="o">]</span> <span class="p">}</span>
+    <span class="n">it</span> <span class="p">{</span> <span class="n">should_not</span> <span class="n">be_empty</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>You can use it explicitly:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">describe</span> <span class="no">MyClass</span> <span class="k">do</span>
+  <span class="n">describe</span> <span class="s2">&quot;initialization&quot;</span> <span class="k">do</span>
+    <span class="n">subject</span> <span class="p">{</span> <span class="no">MyClass</span> <span class="p">}</span>
+    <span class="n">it</span> <span class="s2">&quot;creates a new instance&quot;</span> <span class="k">do</span>
+      <span class="n">instance</span> <span class="o">=</span> <span class="n">subject</span><span class="o">.</span><span class="n">new</span>
+      <span class="n">expect</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">be_a</span><span class="p">(</span><span class="no">MyClass</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Rather than constantly referencing a subject within your code and passing in different values for instantiation, for example:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">describe</span> <span class="s2">&quot;Foo&quot;</span> <span class="k">do</span>
+  <span class="n">context</span> <span class="s2">&quot;A&quot;</span> <span class="k">do</span>
+    <span class="n">it</span> <span class="s2">&quot;Bar&quot;</span> <span class="k">do</span>
+      <span class="n">baz</span> <span class="o">=</span> <span class="no">Baz</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+      <span class="n">expect</span><span class="p">(</span><span class="n">baz</span><span class="o">.</span><span class="n">type</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="n">context</span> <span class="s2">&quot;B&quot;</span> <span class="k">do</span>
+    <span class="n">it</span> <span class="s2">&quot;Bar&quot;</span> <span class="k">do</span>
+      <span class="n">baz</span> <span class="o">=</span> <span class="no">Baz</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+      <span class="n">expect</span><span class="p">(</span><span class="n">baz</span><span class="o">.</span><span class="n">type</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="n">context</span> <span class="s2">&quot;C&quot;</span> <span class="k">do</span>
+    <span class="n">it</span> <span class="s2">&quot;Bar&quot;</span> <span class="k">do</span>
+      <span class="n">baz</span> <span class="o">=</span> <span class="no">Baz</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">)</span>
+      <span class="n">expect</span><span class="p">(</span><span class="n">baz</span><span class="o">.</span><span class="n">type</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>...you can instead use <code>subject</code> along with <code>let</code> to reduce the duplication:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">describe</span> <span class="s2">&quot;Person&quot;</span> <span class="k">do</span>
+  <span class="n">subject</span> <span class="p">{</span> <span class="no">Person</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span> <span class="p">}</span> <span class="c1"># Person has a get_name method</span>
+
+  <span class="n">context</span> <span class="s2">&quot;Bob&quot;</span> <span class="k">do</span>
+    <span class="n">let</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span> <span class="p">{</span> <span class="s1">&#39;Bob&#39;</span> <span class="p">}</span>
+    <span class="n">its</span><span class="p">(</span><span class="ss">:get_name</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="o">==</span> <span class="s1">&#39;Bob&#39;</span> <span class="p">}</span>
+  <span class="k">end</span>
+
+  <span class="n">context</span> <span class="s2">&quot;Joe&quot;</span> <span class="k">do</span>
+    <span class="n">let</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span> <span class="p">{</span> <span class="s1">&#39;Joe&#39;</span> <span class="p">}</span>
+    <span class="n">its</span><span class="p">(</span><span class="ss">:get_name</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="o">==</span> <span class="s1">&#39;Joe&#39;</span> <span class="p">}</span>
+  <span class="k">end</span>
+
+  <span class="n">context</span> <span class="s2">&quot;Smith&quot;</span> <span class="k">do</span>
+    <span class="n">let</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span> <span class="p">{</span> <span class="s1">&#39;Smith&#39;</span> <span class="p">}</span>
+    <span class="n">its</span><span class="p">(</span><span class="ss">:get_name</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="o">==</span> <span class="s1">&#39;Smith&#39;</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<h2><a name="debugging-with-pry" class="anchor" href="#debugging-with-pry"><span class="header-link"></span></a>Debugging with Pry</h2>
+<p>In our example project you&#39;ll see that we include a file called <code>spec_helper.rb</code>. :</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="vg">$:</span> <span class="o">&lt;&lt;</span> <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">),</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;lib&#39;</span><span class="p">)</span>
+
+<span class="nb">require</span> <span class="s1">&#39;pry&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;example&#39;</span>
+</pre></div>
+</code></pre>
+<p>It&#39;s important to also note that Pry is meant as an improved Ruby REPL tool and not strictly debugging purposes; so for example there are no built-in functions such as: step into, step over, step out style functions. We&#39;ll come back to debugging in a moment, but let&#39;s first review how we&#39;ll be using Pry initially.</p>
+<h3><a name="updated-code-example" class="anchor" href="#updated-code-example"><span class="header-link"></span></a>Updated code example</h3>
+<p>For the purpose of demonstrating Pry I&#39;m going to add more code to my example application (this extra code doesn&#39;t effect our test in any way)</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">RSpecGreeter</span>
+  <span class="kp">attr_accessor</span> <span class="ss">:test</span>
+
+  <span class="vc">@@class_property</span> <span class="o">=</span> <span class="s2">&quot;I&#39;m a class property&quot;</span>
+
+  <span class="k">def</span> <span class="nf">greet</span>
+    <span class="nb">binding</span><span class="o">.</span><span class="n">pry</span>
+    <span class="vi">@instance_property</span> <span class="o">=</span> <span class="s2">&quot;I&#39;m an instance property&quot;</span>
+        <span class="n">pubs</span>
+        <span class="n">privs</span>
+    <span class="s2">&quot;Hello RSpec!&quot;</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">pubs</span>
+    <span class="n">test_var</span> <span class="o">=</span> <span class="s2">&quot;I&#39;m a test variable&quot;</span>
+    <span class="n">test_var</span>
+  <span class="k">end</span>
+
+  <span class="kp">private</span>
+
+  <span class="k">def</span> <span class="nf">privs</span>
+    <span class="nb">puts</span> <span class="s2">&quot;I&#39;m private&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>You&#39;ll notice we&#39;ve added some extra methods, instance and class properties, and make calls to our new methods from within our <code>greet</code> method.</p>
+<p>Let&#39;s now review how you would typically use Pry to debug.</p>
+<h3><a name="binding-pry" class="anchor" href="#binding-pry"><span class="header-link"></span></a><code>binding.pry</code></h3>
+<p>Pry provides a lot of really useful features as a REPL; but as a debugging tool it&#39;s very straight forward: add <code>binding.pry</code> to any line you wish the code to stop whilst in runtime.</p>
+<p>When you run your code now you&#39;ll notice that the terminal will stop and place you inside your code at the exact spot your <code>binding.pry</code> was placed.</p>
+<p>You&#39;ll see something like this...</p>
+<pre><code class="lang-sh"><div class="highlight"><pre>    8: def <span class="nv">greet</span>
+<span class="o">=</span>&gt;  9:   binding.pry
+   10:   pubs
+   11:   privs
+   12:   <span class="s2">&quot;Hello RSpec!&quot;</span>
+   13: end
+</pre></div>
+</code></pre>
+<h3><a name="whereami" class="anchor" href="#whereami"><span class="header-link"></span></a><code>whereami</code></h3>
+<p>If you wanted to get a better view of where you are in the code you can use the <code>whereami</code> command which when run on its own will display what you&#39;re already seeing, but when you add an extra numerical argument like <code>whereami 5</code> you&#39;ll see 5 additional lines above where the <code>binding.pry</code> is placed. This is to help orientate you within the current file.</p>
+<h3><a name="wtf" class="anchor" href="#wtf"><span class="header-link"></span></a><code>wtf</code></h3>
+<p>The <code>wtf</code> command provides a full stack trace (hence &quot;what the f<em>*</em>&quot;) for the most recent exception that has been thrown. It can help you understand the steps leading up to the error that occurred.</p>
+<h3><a name="ls" class="anchor" href="#ls"><span class="header-link"></span></a><code>ls</code></h3>
+<p>The <code>ls</code> command displays what methods and properties are available to Pry. It will show you something like...</p>
+<pre><code class="lang-sh"><div class="highlight"><pre>RSpecGreeter#methods: greet  pubs  <span class="nb">test  test</span><span class="o">=</span>
+class variables: @@class_property
+locals: _  __  _dir_  _ex_  _file_  _in_  _out_  _pry_
+</pre></div>
+</code></pre>
+<p>...here we can see that we have four public methods (<code>test</code> and <code>test=</code> were created using Ruby&#39;s <code>attr_accessor</code> short hand).</p>
+<p>It also displays other class and local variables Pry can access.</p>
+<p>One other useful thing you can do is to grep (search) the results for only what you&#39;re interested in. You&#39;ll need to have an understanding of <a href="http://www.regular-expressions.info/">Regular Expressions</a> but it can be a handy technique:</p>
+<pre><code class="lang-sh"><div class="highlight"><pre>ls -p -G ^p
+<span class="o">=</span>&gt; RSpecGreeter#methods: privs
+</pre></div>
+</code></pre>
+<p>In the above example we&#39;re using the <code>-p</code> and <code>-G</code> options/flags which tell Pry we only want to see public and private methods and we use the regex <code>^p</code> (anything starting with <code>p</code>) as our search pattern to filter the results.</p>
+<p>Running <code>ls --help</code> will show you all available options.</p>
+<h3><a name="cd" class="anchor" href="#cd"><span class="header-link"></span></a><code>cd</code></h3>
+<p>You can change the current scope by using the <code>cd</code> command.</p>
+<p>In our example if we run <code>cd ../pubs</code> it&#39;ll take us to the result of that method call.</p>
+<p>If we now run <code>whereami</code> you&#39;ll see it will display <code>Inside &quot;I&#39;m a test variable&quot;</code>.</p>
+<p>If we run <code>self</code> then you&#39;ll see we get <code>&quot;I&#39;m a test variable&quot;</code> returned.</p>
+<p>If we run <code>self.class</code> we&#39;ll see <code>String</code> returned.</p>
+<p>You can move up the scope chain using <code>cd ..</code> or you can go back to the top level of the scope using <code>cd /</code>.</p>
+<p>Note: we could add another <code>binding.pry</code> inside the <code>pubs</code> method and then our scope would be inside that method rather than the result of the method.</p>
+<h3><a name="nesting" class="anchor" href="#nesting"><span class="header-link"></span></a><code>nesting</code></h3>
+<p>Consider the previous example of running <code>cd pubs</code>. If we run the <code>nesting</code> command we&#39;ll get a top level look on the number of contexts/levels Pry currently has:</p>
+<pre><code class="lang-sh"><div class="highlight"><pre>Nesting status:
+--
+0. <span class="c">#&lt;RSpecGreeter&gt; (Pry top level)</span>
+1. <span class="s2">&quot;I&#39;m a test variable&quot;</span>
+</pre></div>
+</code></pre>
+<p>From there we can run <code>exit</code> to move back to the earlier context (e.g. inside the <code>greet</code> method)</p>
+<p>Running <code>exit</code> again will mean we&#39;re closing the last context Pry has and so Pry finishes and our code continues to run.</p>
+<h3><a name="find-method" class="anchor" href="#find-method"><span class="header-link"></span></a><code>find-method</code></h3>
+<p>If you&#39;re not sure where to find a particular method then you can use the <code>find-method</code> command to show you all files within your code base that has a method that matches what you&#39;re searching for:</p>
+<pre><code class="lang-sh"><div class="highlight"><pre>find-method <span class="nv">priv</span>
+<span class="o">=</span>&gt; Kernel
+   Kernel#private_methods
+   Module
+   Module#private_instance_methods
+   Module#private_constant
+   Module#private_method_defined?
+   Module#private_class_method
+   Module#private
+   RSpecGreeter
+   RSpecGreeter#privs
+</pre></div>
+</code></pre>
+<p>You can also use the <code>-c</code> option/flag to search the content of files instead:</p>
+<pre><code class="lang-sh"><div class="highlight"><pre>find-method -c <span class="nv">greet</span>
+<span class="o">=</span>&gt; RSpecGreeter
+   RSpecGreeter: def greet
+   RSpecGreeter#privs:   greet
+</pre></div>
+</code></pre>
+<h3><a name="next-step-continue" class="anchor" href="#next-step-continue"><span class="header-link"></span></a>Next, Step, Continue</h3>
+<p>Although the above techniques are useful it&#39;s not really &#39;debugging&#39; in the same sense as what you&#39;re probably used to.</p>
+<p>For most developers their editor or browser will provide them with a built-in debugging tool that lets them actually step through their code line by line and follow the route the code takes until completion.</p>
+<p>As Pry is developed to be used as a REPL that&#39;s not to say it&#39;s not useful for debugging. </p>
+<p>A naive solution would be to set multiple <code>binding.pry</code> statements through out a method and use <code>ctrl-d</code> to move through each break-point set. But that&#39; still not quite good enough.</p>
+<p>For step by step debugging you can load the gem <a href="https://github.com/nixme/pry-nav">pry-nav</a>...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">source</span> <span class="s2">&quot;https://rubygems.org&quot;</span>
+
+<span class="n">gem</span> <span class="s1">&#39;rspec&#39;</span>
+
+<span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s1">&#39;guard&#39;</span>
+  <span class="n">gem</span> <span class="s1">&#39;guard-rspec&#39;</span>
+  <span class="n">gem</span> <span class="s1">&#39;pry&#39;</span>
+
+  <span class="c1"># Adds debugging steps to Pry</span>
+  <span class="c1"># continue, step, next</span>
+  <span class="n">gem</span> <span class="s1">&#39;pry-remote&#39;</span>
+  <span class="n">gem</span> <span class="s1">&#39;pry-nav&#39;</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>This gem extends Pry so it understands the following commands:</p>
+<ul>
+<li><code>Next</code> (move to the next line)</li>
+<li><code>Step</code> (move to the next line, and if it&#39;s a method then move into that method)</li>
+<li><code>Continue</code> (Ignore any further break-points in this file)</li>
+</ul>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>We&#39;ve managed to write our application using the TDD process and the RSpec testing framework. We&#39;ve also utilised Pry to show how we can more easily debug a running Ruby application.</p>
+<p>Hopefully this has given you enough of a taste so you are keen to investigate each of these techniques further.</p>
+</div>
+
+<!--Social sharing icons-->
+<div class="social">
+  <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+  <div data-size="medium" data-annotation="bubble" data-width="300" class="g-plusone"></div>
+  <a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
+</div>
+<!--Disqus comments, Make sure to replace `colinwren` with your account name in the Disqus helper script below-->
+<div id="comments">
+  <div id="disqus_thread"></div>
+</div>
+
+<!--Helper scripts for social share icons-->
+<!--Hacker News-->
+<script type="text/javascript">
+  (function(d, t) {
+    var g = d.createElement(t),
+        s = d.getElementsByTagName(t)[0];
+    g.src = '//hnbutton.appspot.com/static/hn.min.js';
+    s.parentNode.insertBefore(g, s);
+  }(document, 'script'));
+</script>
+
+<!--Twitter-->
+<script type="text/javascript">
+  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+</script>
+
+<!--Google Plus-->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<!--Disqus-->
+<script type="text/javascript">
+  var disqus_shortname = 'integralist'; // Change this to your Disqus account name
+
+  (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js" type="text/javascript"></script>
+    <script src="/scripts/main.js" type="text/javascript"></script>
+    <script src="/scripts/Imager.js" type="text/javascript"></script>
+    <script>
+        var _gaq=[['_setAccount','UA-33159515-1'],['_trackPageview']];
+        (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g,s)}(document,'script'));
+    </script>
+  </body>
+</html>
+

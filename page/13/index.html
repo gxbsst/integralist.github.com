@@ -37,90 +37,6 @@
 
 
   <div class="post-head group">
-  <a href="/posts/host-methods-vs-native-methods/">
-    <h1 class="post-title">Host Methods vs Native Methods</h1>
-  </a>
-  <span class="post-date">2012 &#183; 4 &#183; 22</span>
-</div>
-
-<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
-<p><em>reading time: approx. 6mins</em></p>
-<ul>
-<li>Introduction</li>
-<li>What they are?</li>
-<li>How to detect them?</li>
-<li>When is it OK to modify them?</li>
-</ul>
-<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
-<p>This was intended as a short and overly simplified post about Host methods and Native methods.</p>
-<h2><a name="what-they-are" class="anchor" href="#what-they-are"><span class="header-link"></span></a>What they are?</h2>
-<p>Native methods are built-in functions provided by the ECMAScript core specification. So things like Object methods (e.g. <code>Object.create</code>), Array methods (e.g. <code>Array#forEach</code>) etc.</p>
-<p>Host methods are functions provided by the host environment (most of the time when working in web development the host environment will be the user’s web browser). So things like the DOM API and the Events object are host objects/methods (e.g. <code>attachEvent</code> is a host method and <code>addEventListener</code> is a host method)</p>
-<h2><a name="how-to-detect-them" class="anchor" href="#how-to-detect-them"><span class="header-link"></span></a>How to detect them?</h2>
-<p>Detecting Native methods is relatively straight forward. The real problem comes when you need to determine whether the object/method you’re detecting actually works the way the specification dictates it should work. So just checking it is available to use isn’t good enough.</p>
-<p>Detecting host methods is similar but a lot more problematic, because the ECMAScript specification states that the host environment can implement certain methods however they like and so there is no guarantee that your checks for certain host methods (which may work today) will work in future.</p>
-<p>We’ll give an example of each so you can get an idea of what I mean…</p>
-<p>To detect a Native method such as Array#forEach you should be able to do the following:</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">forEach</span><span class="p">)</span> <span class="p">{</span> 
-    <span class="cm">/* polyfill for missing forEach method */</span> 
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>Note: polyfill is a term that Remy Sharp coined which means ‘a shim that mimics a future API’ (see: <a href="http://remysharp.com/2010/10/08/what-is-a-polyfill/"><a href="http://remysharp.com/2010/10/08/what-is-a-polyfill/">http://remysharp.com/2010/10/08/what-is-a-polyfill/</a></a>)</p>
-<p>But the issue you could encounter in this example is if you’re inheriting a project from another developer and they have already extended the Native Array object with a forEach method and their polyfill version of the missing forEach function doesn’t work how the specification has dictated it should then you could find your code errors at hard to debug stages because of the difference in implementation where you’re passing parameters into a polyfill’ed method and that method hasn’t been implemented properly so the extra parameters either throw an error or (potentially worse) silently fail.</p>
-<p>This is where you either ‘suck it and see’ (which is a bad idea, but not always unavoidable), or you attempt genuine ‘feature detection’ which means (in this example) you create a test Array and test the forEach method works how you expect it to.</p>
-<p>The downsides to this approach (although it is the most robust and future-proof way of writing your code) is that all these checks are a performance penalty. If you’re sure the method you’re checking for is going to work how you expect it to then should you waste time/effort writing additional checks/tests to ensure the method works how the specification dictates? What happens if you do the full feature detection and discover the method doesn’t work how you expect it? You’ll still then need to implement some kind of fallback or lose the functionality that relies on that method.</p>
-<p>These are important decisions that need to be made and ones that are outside the realms of this post I’m afraid (simply because there are no easy answers).</p>
-<p>Now, detecting Host methods is actually worse because they can be implemented in any fashion the host environment chooses.</p>
-<p>So far it has been <em>noted</em> that checking the <code>typeof</code> result for a Host method will normally result in either function, object or unknown, so if you get one of these back as a result then it’s a good chance the host object you’re checking for is available to use, but as you should be able to tell by now, this is a flawed process… fun heh!</p>
-<p>Again, this isn’t a reliable assumption to make, because in a future/new host environment they might have a <code>typeof</code> result that is none of the above. Literally you could check the <code>typeof</code> for a method and its result could be <em>spacecraft</em> - there are no rules as far as the Host environment is concerned!</p>
-<p>But for testing a host method exists, the following function has become the de-facto standard:</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="cm">/*</span>
-<span class="cm"> * Feature Testing a Host Method</span>
-<span class="cm"> * Because a callable host object can legitimately have any typeof result then it can&#39;t be relied upon.</span>
-<span class="cm"> *</span>
-<span class="cm"> * @notes:</span>
-<span class="cm"> * The reason for the &amp;&amp; !!object[property] is because in ECMAScript version 3, </span>
-<span class="cm"> * a null object has typeof result &#39;object&#39; (which is considered a bug).</span>
-<span class="cm"> * In future versions (ECMAScript 6+) the typeof result will be &#39;null&#39; (as it should be).</span>
-<span class="cm"> * </span>
-<span class="cm"> * @reference: http://michaux.ca/articles/feature-detection-state-of-the-art-browser-scripting</span>
-<span class="cm"> */</span>
-
-<span class="kd">function</span> <span class="nx">isHostMethod</span><span class="p">(</span><span class="nx">object</span><span class="p">,</span> <span class="nx">property</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">type</span> <span class="o">=</span> <span class="k">typeof</span> <span class="nx">object</span><span class="p">[</span><span class="nx">property</span><span class="p">];</span>
-
-    <span class="k">return</span> <span class="nx">type</span> <span class="o">==</span> <span class="s1">&#39;function&#39;</span> <span class="o">||</span> <span class="c1">// This is the result we&#39;re expecting (as the test is for a method)</span>
-           <span class="p">(</span><span class="nx">type</span> <span class="o">==</span> <span class="s1">&#39;object&#39;</span> <span class="o">&amp;&amp;</span> <span class="o">!!</span><span class="nx">object</span><span class="p">[</span><span class="nx">property</span><span class="p">])</span> <span class="o">||</span> <span class="c1">// Protect against ES3 &#39;null&#39; typeof result being &#39;object&#39;</span>
-           <span class="nx">type</span> <span class="o">==</span> <span class="s1">&#39;unknown&#39;</span><span class="p">;</span> <span class="c1">// For IE &lt; 9 when Microsoft used ActiveX objects for Native Functions (we&#39;re checking property of ActiveX object)</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>So lets take a quick re-cap of what’s going on here:</p>
-<ul>
-<li><p><code>function</code>:<br>  For most browsers the <code>typeof</code> operator will result with <code>function</code> when passed a callable host object</p>
-</li>
-<li><p><code>&#39;object’ &amp;&amp; !!object[property]</code>:<br>  Because we&#39;re dealing with host objects we can&#39;t expect <code>function</code> to be returned, and in most cases (as far as ECMAScript 3 [ES3] implementations are concerned) the result will normally be <code>object</code> which is incorrect but allowed as far as the ES3 spec is concerned.</p>
-<p>  So first of all we check for <code>object</code>.</p>
-<p>  If that matches we then check to make sure the property coerces to true. The reason for this is that ES3 allows the host to return whatever they like, so if the property you&#39;re checking for is actually <code>null</code> the ES3 <code>typeof</code> result (for most browsers) will still be <code>object</code> even though the result is <code>null</code>! So to work around this issue we coerce the result into a boolean (so if <code>null</code> is the result it will coerce to false and thus this whole expression will return false, otherwise it&#39;ll return true).</p>
-</li>
-<li><p><code>unknown</code>:<br>  In older versions of IE (less than 9) it implements some of its host objects not as Native functions but as ActiveX objects (admittedly this is deep browser implementation talk and normally you don’t need to know this stuff, but in this instance it’s important to understand what the heck is going on with IE). </p>
-<p>  So, in IE calling the <code>typeof</code> operator with properties of an ActiveX Object will result in <code>unknown</code>.</p>
-</li>
-</ul>
-<h2><a name="when-is-it-ok-to-modify-them" class="anchor" href="#when-is-it-ok-to-modify-them"><span class="header-link"></span></a>When is it OK to modify them?</h2>
-<p>Modifying built-in Native objects isn’t as dangerous as host objects (as already noted by Kangax <a href="http://perfectionkills.com/extending-built-in-native-objects-evil-or-not/"><a href="http://perfectionkills.com/extending-built-in-native-objects-evil-or-not/">http://perfectionkills.com/extending-built-in-native-objects-evil-or-not/</a></a>) but care needs to be taken to ensure the augmented object works as the spec dictates (something that isn’t possible all the time, for example like with <code>Object.create</code>).</p>
-<p>As far as host objects are concerned, never ever ever ever modify or augment them, just too dangerous.</p>
-</div>
-
-  <div class="comments">
-    <a href="/posts/host-methods-vs-native-methods/#comments">
-      <span class="icon-bubbles"></span>
-      Comments
-    </a>
-  </div>
-
-  <div class="post-head group">
   <a href="/posts/thoughts-on-current-web-development-practices/">
     <h1 class="post-title">Thoughts on current web development practices</h1>
   </a>
@@ -1115,6 +1031,259 @@ jshint main.js --show-non-errors --config ./Lint/config.json // <span class="o">
 
   <div class="comments">
     <a href="/posts/thoughts-on-current-web-development-practices/#comments">
+      <span class="icon-bubbles"></span>
+      Comments
+    </a>
+  </div>
+
+  <div class="post-head group">
+  <a href="/posts/guide-to-using-sass/">
+    <h1 class="post-title">Guide to using Sass</h1>
+  </a>
+  <span class="post-date">2012 &#183; 4 &#183; 19</span>
+</div>
+
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 11mins</em></p>
+<ul>
+<li>Introduction</li>
+<li>Installation</li>
+<li>How to run</li>
+<li>Comments</li>
+<li>Variables</li>
+<li>Calculations</li>
+<li>Colour functions</li>
+<li>Importing</li>
+<li>Extend</li>
+<li>Mixins</li>
+<li>Interpolation</li>
+</ul>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<p>I agree that &#39;pre-processors&#39; such as LESS, Sass, Compass etc are normally a bad idea because generally they are used badly by developers/designers who could do better without them (see: <a href="https://github.com/stubbornella/oocss/wiki">Object-Oriented CSS</a>).</p>
+<p>That being said, there are some areas where pre-processors can really help out, such as being able to use <code>@import</code> without worrying about the browser loading the stylesheet synchronously and thus making the page slower to load. Or being able to create a variable to hold your client&#39;s branding colours for easy re-use.</p>
+<p>In this post I&#39;ve purposely not included details on everything that Sass can do because I don&#39;t believe they are useful. I would rather you utilise principles of OOCSS and only use Sass as an addition to that which helps round off those rough edges when developing CSS for large scale applications. Two items I have mentioned which should be avoided (and I&#39;ll repeat this later as well) are <code>@extend</code> and <code>@mixin</code>. Both of these causes more problems than they solve and can be worked around with good OOCSS structuring, but I&#39;ve mentioned them so curious readers don&#39;t think I&#39;ve neglected them out of hand and so I&#39;ve detailed some of the potential issues with using them (use at your own risk!)</p>
+<h2><a name="installation" class="anchor" href="#installation"><span class="header-link"></span></a>Installation</h2>
+<p>To install Sass you need to have <code>Ruby</code> installed.</p>
+<p>For Mac users, you already have it!</p>
+<p>For Window users there are quite a few installers available, but according to some: <a href="http:/rubyinstaller.org">http:/rubyinstaller.org</a> is recommended.</p>
+<p>Once <code>Ruby</code> is installed, you&#39;ll need to open your command line interface of choice (I&#39;m on a Mac, so for me this is the <code>Terminal</code> app).</p>
+<p>From the command line execute <code>gem install sass</code> (I needed to use <code>sudo</code> along with that because I didn&#39;t have authorisation to install in the directory it wanted)</p>
+<h2><a name="how-to-run" class="anchor" href="#how-to-run"><span class="header-link"></span></a>How to run</h2>
+<p>Within the command line navigate to your website directory and execute the command <code>sass --watch Assets/Styles/</code> (change <code>Assets/Styles/</code> to whatever path your Sass/CSS files are). As you can see in my example, from the root directory of my website I have my Sass files stored here: <code>Assets/Styles</code>. This command uses the <code>--watch</code> flag which means every time a <code>.scss</code> file is saved a corresponding <code>.css</code> file is compiled automatically for you.</p>
+<p>One thing to be aware of is that if you aren going to use <code>nested</code> items (which apparently is a big selling point for Sass users but one that I personally think is a terrible feature for performance and efficiency) then you&#39;ll be better off starting up Sass using <code>sass --style expanded --watch Assets/Styles/</code> which means when your CSS is compiled the nested output will at least be laid out more logically than their default mess of a display (which is very difficult to try and understand).</p>
+<p>One last point here is that if you execute the above command then you will need to have your <code>.scss</code> files in the same location as where your <code>.css</code> files should be. If on the other hand, like me, you prefer to keep your Sass files separate then amend the original command as follows:</p>
+<p><code>sass --style extended --watch Assets/Styles/Sass/:Assets/Styles/</code> </p>
+<p>…this basically says &quot;watch the folder <code>Assets/Styles/Sass/</code> and compile any files into the parent folder <code>Assets/Styles</code>&quot; - you&#39;ll notice that the colon character <code>:</code> is what helped make that happen.</p>
+<h2><a name="comments" class="anchor" href="#comments"><span class="header-link"></span></a>Comments</h2>
+<p>Comments are a standard feature of CSS, but sometimes it would be nice to use a easier syntax for writing them (as seen in other programming languages). Such as: <code>// this is a comment</code> rather than having to write <code>/* a typical CSS comment */</code>.</p>
+<p>Sass lets you do this, but it&#39;s worth keeping in mind that the reason they provide this is so you can have &#39;private&#39; comments, and by this they mean that comments like <code>// comment</code> are not included in the compiled CSS file, where as the standard comments style <code>/* comment */</code> are. Not that this should matter because when you push your CSS to the production server it should be minified for performance purposes, but it&#39;s worth knowing about.</p>
+<h2><a name="variables" class="anchor" href="#variables"><span class="header-link"></span></a>Variables</h2>
+<p>Variables are a great way to not have to repeat entering the same value over and over. The most common use case is the client&#39;s branding colours. Normally this colour will appear in lots of different areas of the site (links, hover effects etc) and if the colour does need to change slightly then you either do it by hand or you run a &#39;find and replace&#39; function.</p>
+<p>To create a variable in Sass you simply prefix the name of the variable with a dollar sign: <code>$brand_color: #C00;</code> I can now use <code>$brand_color</code> wherever I like. For example…</p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.header</span> <span class="err">{</span>
+    <span class="na">color</span><span class="o">:</span> <span class="nv">$brand_color</span><span class="err">;</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p>This makes life a lot easier and although I&#39;ve seen people claim that OOCSS can work around this, it can, but not easily and so using Sass for this alone is still extremely useful in my mind.</p>
+<h2><a name="calculations" class="anchor" href="#calculations"><span class="header-link"></span></a>Calculations</h2>
+<p>I can&#39;t imagine me ever using this feature, but I&#39;ve included it because it also doesn&#39;t cause any negative effect (unlike <code>@extend</code> and <code>@mixin</code>).</p>
+<p>You can use all standard operators (*, /, +, -) for example:</p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nv">$width</span><span class="o">:</span> <span class="mi">10</span><span class="kt">px</span><span class="err">;</span> 
+<span class="nv">$double_width</span><span class="o">:</span> <span class="nv">$width</span> <span class="o">*</span> <span class="mi">2</span><span class="err">;</span>
+</pre></div>
+</code></pre>
+<p>You can do calculations inline (i.e. where the property value is set) and you can also group calculations:</p>
+<p><code>width: $width * (1 - $sidebar_percent);</code></p>
+<h2><a name="colour-functions" class="anchor" href="#colour-functions"><span class="header-link"></span></a>Colour functions</h2>
+<p>These are very useful. A lot of times you have for example &#39;hover&#39; effects that need a colour that is similar in shade to the main brand colour. Normally you have to open up a colour palette and randomly pick something, whereas the following functions help with that process:</p>
+<p><code>lighten(colour, percentage)</code></p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.txt-light</span> <span class="err">{</span>
+    <span class="na">color</span><span class="o">:</span> <span class="nf">lighten</span><span class="p">(</span><span class="nv">$brand_color</span><span class="o">,</span> <span class="mi">30</span><span class="kt">%</span><span class="p">)</span><span class="err">;</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p><code>darken(colour, percentage)</code></p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.txt-dark</span> <span class="err">{</span>
+    <span class="na">color</span><span class="o">:</span> <span class="nf">darken</span><span class="p">(</span><span class="nv">$brand_color</span><span class="o">,</span> <span class="mi">10</span><span class="kt">%</span><span class="p">)</span><span class="err">;</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p><code>saturate(colour, percentage)</code></p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.txt-sat</span> <span class="err">{</span>
+    <span class="na">color</span><span class="o">:</span> <span class="nf">saturate</span><span class="p">(</span><span class="nv">$brand_color</span><span class="o">,</span> <span class="mi">100</span><span class="kt">%</span><span class="p">)</span><span class="err">;</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p><code>desaturate(colour, percentage)</code></p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.txt-desat</span> <span class="err">{</span>
+    <span class="na">color</span><span class="o">:</span> <span class="nf">desaturate</span><span class="p">(</span><span class="nv">$brand_color</span><span class="o">,</span> <span class="mi">20</span><span class="kt">%</span><span class="p">)</span><span class="err">;</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p><code>adjust-hue(colour, degrees)</code></p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.txt-hue</span> <span class="err">{</span>
+    <span class="na">color</span><span class="o">:</span> <span class="nf">adjust-hue</span><span class="p">(</span><span class="nv">$brand_color</span><span class="o">,</span> <span class="mi">180</span><span class="p">)</span><span class="err">;</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p><code>grayscale(colour)</code></p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.txt-greyscale</span> <span class="err">{</span>
+    <span class="na">color</span><span class="o">:</span> <span class="nf">grayscale</span><span class="p">(</span><span class="nv">$brand_color</span><span class="p">)</span><span class="err">;</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p><code>mix(colour, colour)</code></p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.txt-mix</span> <span class="err">{</span>
+    <span class="na">color</span><span class="o">:</span> <span class="nf">mix</span><span class="p">(</span><span class="nv">$brand_color</span><span class="o">,</span> <span class="mh">#C00</span><span class="p">)</span><span class="err">;</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<h2><a name="importing" class="anchor" href="#importing"><span class="header-link"></span></a>Importing</h2>
+<p>You can import other Sass files into your main stylesheet using <code>@import &quot;other.scss&quot;</code></p>
+<p>The biggest note of warning here is that if you import a SCSS file and that file generates a CSS file of its own then you wont be able to use variables that aren&#39;t imported or defined in the imported SCSS file. For example… </p>
+<p>If you have the main stylesheet <code>structure.scss</code> and within that file you import another SCSS file called <code>colours.scss</code> - if <code>colours.scss</code> generates its own CSS file <code>colours.css</code> then the Sass file <code>colours.scss</code> cannot use any variables that are defined inside <code>structure.scss</code> (or which have been imported separately into <code>structure.scss</code>). </p>
+<p>…there is a work-around to this which is to make sure <code>colours.scss</code> doesn&#39;t generate a CSS file, and the way you do that is prefix the file name with an underscore <code>_colours.scss</code>. You can also still import it without specifying the underscore: <code>@import &quot;colours.scss&quot;;</code></p>
+<p>To be honest, it&#39;s likely that any stylesheets you have deemed modular enough to be imported you&#39;ll want them not to generate their own CSS files (what would be the point if when compiled they are being imported into the main CSS file?)</p>
+<p><strong>Beware!</strong> if you&#39;re main stylesheet has for example a <code>.brand</code> class and so does your imported stylesheet, when you compile the Sass file into CSS the <code>.brand</code> class will be listed twice.</p>
+<p>For example:</p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nv">$brand_color</span><span class="o"> =</span> <span class="mh">#0000FF</span><span class="err">;</span>
+<span class="nc">.brand</span> <span class="err">{</span> 
+    <span class="na">color</span><span class="o">:</span> <span class="nv">$brand_color</span><span class="err">;</span> 
+<span class="err">}</span>
+<span class="c1">// MORE STYLES</span>
+<span class="k">@import</span> <span class="s">&quot;other.scss&quot;;</span>
+</pre></div>
+</code></pre>
+<p>…generates the following CSS…</p>
+<pre><code class="lang-css"><div class="highlight"><pre><span class="nc">.brand</span> <span class="p">{</span> 
+    <span class="k">color</span><span class="o">:</span> <span class="nb">blue</span><span class="p">;</span> 
+<span class="p">}</span>
+<span class="o">//</span> <span class="nt">MORE</span> <span class="nt">STYLES</span>
+<span class="nc">.brand</span> <span class="p">{</span> 
+    <span class="k">background-color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span> 
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>…which obviously isn&#39;t as efficient or clean as…</p>
+<pre><code class="lang-css"><div class="highlight"><pre><span class="nc">.brand</span> <span class="p">{</span> 
+    <span class="k">color</span><span class="o">:</span> <span class="nb">blue</span><span class="p">;</span> 
+    <span class="k">background-color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span> 
+<span class="p">}</span>
+<span class="o">//</span> <span class="nt">MORE</span> <span class="nt">STYLES</span>
+</pre></div>
+</code></pre>
+<p>…but that&#39;s the trade-off between Sass features and the efficiency of the produced code.</p>
+<p>Note: you can import a normal CSS file (as you would in standard CSS) but it&#39;ll be pushed to the top of the compiled CSS file. This is because in standard CSS an imported stylesheet is only allowed to be imported from the top of the file.</p>
+<p>Lastly, be aware that you could end up trying to import the same Sass file multiple times, and the way Sass handles that situation is by only including the imported file once BUT in the last place it was referenced (which may or may not cause you specificity issues).</p>
+<h2><a name="extend" class="anchor" href="#extend"><span class="header-link"></span></a>Extend</h2>
+<p>This feature is almost pointless as you really should be developing OOCSS (object-oriented CSS). All this does is repeat properties in the compiled CSS file. </p>
+<p>The reason I&#39;m even mentioning this feature is so you know not to bother with it and instead concentrate on the concepts of OOCSS more.</p>
+<p>Anywhere you have a CSS class you can re-import that inside another rule:</p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.myClass</span> <span class="err">{</span>
+    <span class="na">border</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="mh">#969</span><span class="err">;</span>
+    <span class="na">color</span><span class="o">:</span> <span class="nb">red</span><span class="err">;</span>
+<span class="err">}</span>
+
+<span class="nt">button</span> <span class="err">{</span>
+    <span class="k">@extend</span> <span class="nc">.myClass</span><span class="o">;</span>
+    <span class="na">background-color</span><span class="o">:</span> <span class="ni">orange</span><span class="err">;</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p>…which generates the following CSS…</p>
+<pre><code class="lang-css"><div class="highlight"><pre><span class="nc">.myClass</span><span class="o">,</span> <span class="nt">button</span> <span class="p">{</span>
+    <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="m">#969</span><span class="p">;</span>
+    <span class="k">color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nt">button</span> <span class="p">{</span>
+    <span class="k">background-color</span><span class="o">:</span> <span class="nb">orange</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>A couple of last words of caution: <code>extend</code> avoids code duplication but it also causes other problems in that the amount of selectors can become an issue. If you @extend the same base class multiple times you may end up with a rule that has thousands of selectors, which isn&#39;t good for performance and can even make the browser crash (limit its use if you must use it).</p>
+<p>Also, you could end up adding properties that are already specified in the <code>extend</code>/<code>mixin</code> because let&#39;s face it you&#39;re unlikely to remember every property set inside them, so when you do use them and come back a few days/weeks/months later to make further updates you&#39;ll have to keep checking them before you can safely add another property just to make sure you&#39;re not doubling up on properties already there - which is hassle and can lead to mistakes.</p>
+<h2><a name="mixins" class="anchor" href="#mixins"><span class="header-link"></span></a>Mixins</h2>
+<p>These are functionally similar to <code>extend</code>, but a mixin&#39;s properties are copied into the class rather than referenced (<code>extend</code> is designed to be used as a mechanism for proper inheritance as seen in other classical object-oriented programming languages), but more importantly with mixins you can also change the values when calling the mixin into your class (like they were a function).</p>
+<p>Remember that this can cause code duplication so please do NOT use &#39;Mixins&#39; (OOCSS should be used instead).</p>
+<p>You create a mixing like so:</p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="k">@mixin</span> <span class="nc">.myMixin</span> <span class="err">{</span> 
+    <span class="na">color</span><span class="o">:</span> <span class="nb">blue</span><span class="err">;</span> 
+<span class="err">}</span>
+<span class="nc">.product_title</span> <span class="err">{</span>
+    <span class="k">@include</span> <span class="nc">.myMixin</span><span class="o">;</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p>…and you can change the values like so…</p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="k">@mixin</span> <span class="nc">.myMixin</span><span class="o">(</span><span class="err">$</span><span class="nt">set_colour</span><span class="o">)</span> <span class="err">{</span> 
+    <span class="na">color</span><span class="o">:</span> <span class="nv">$set_colour</span><span class="err">;</span> 
+<span class="err">}</span>
+<span class="nc">.product_title</span> <span class="err">{</span>
+    <span class="k">@include</span> <span class="nc">.myMixin</span><span class="o">(</span><span class="nn">#FF0000</span><span class="o">);</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p>…you can also define a default value if none is provided…</p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="k">@mixin</span> <span class="nc">.myMixin</span><span class="o">(</span><span class="err">$</span><span class="nt">set_colour</span><span class="nd">:</span> <span class="nn">#0000FF</span><span class="o">)</span> <span class="err">{</span> 
+    <span class="na">color</span><span class="o">:</span> <span class="nv">$set_colour</span><span class="err">;</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p>…you can use mixin&#39;s for things like CSS3 properties…</p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="k">@mixin</span><span class="nf"> rounded_borders</span><span class="p">(</span><span class="nv">$color</span><span class="o">,</span> <span class="nv">$width</span><span class="o">:</span> <span class="mi">5</span><span class="kt">px</span><span class="o">,</span> <span class="nv">$rounding</span><span class="o">:</span> <span class="mi">5</span><span class="kt">px</span><span class="p">)</span> <span class="err">{</span> 
+    <span class="na">-moz-border-radius</span><span class="o">:</span> <span class="nv">$rounding</span> <span class="nv">$rounding</span><span class="err">;</span> 
+    <span class="na">-webkit-border-radius</span><span class="o">:</span> <span class="nv">$rounding</span> <span class="nv">$rounding</span><span class="err">;</span> 
+    <span class="na">-khtml-border-radius</span><span class="o">:</span> <span class="nv">$rounding</span> <span class="nv">$rounding</span><span class="err">;</span> 
+    <span class="na">-o-border-radius</span><span class="o">:</span> <span class="nv">$rounding</span> <span class="nv">$rounding</span><span class="err">;</span>
+         <span class="na">border-radius</span><span class="o">:</span> <span class="nv">$rounding</span> <span class="nv">$rounding</span><span class="err">;</span>
+         <span class="na">border</span><span class="o">:</span> <span class="nv">$width</span> <span class="no">solid</span> <span class="nv">$color</span><span class="err">;</span>
+<span class="err">}</span>
+
+<span class="k">@mixin</span><span class="nf"> opacity</span><span class="p">(</span><span class="nv">$opacity</span><span class="p">)</span> <span class="err">{</span>
+    <span class="na">filter</span><span class="o">:</span> <span class="nf">alpha</span><span class="p">(</span><span class="no">opacity</span><span class="o">=</span><span class="si">#{</span><span class="nv">$opacity</span><span class="si">}</span><span class="p">)</span><span class="err">;</span> <span class="c1">// IE 5-9+ </span>
+    <span class="na">opacity</span><span class="o">:</span> <span class="nv">$opacity</span> <span class="o">*</span> <span class="mi">0</span><span class="mf">.01</span><span class="err">;</span> 
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p>…and use the opacity like so…</p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="nc">.h1</span> <span class="err">{</span> 
+    <span class="c1">// Use the IE numbering style (instead of the W3C&#39;s 0-1 numbering style)</span>
+    <span class="k">@include</span><span class="nd"> opacity</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span><span class="err">;</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p>…or you could use the reverse…</p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="k">@mixin</span><span class="nf"> opacity</span><span class="p">(</span><span class="nv">$opacity</span><span class="p">)</span> <span class="err">{</span>
+    <span class="na">filter</span><span class="o">:</span> <span class="nf">alpha</span><span class="p">(</span><span class="no">opacity</span><span class="o">=</span><span class="si">#{</span><span class="nv">$opacity</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="p">)</span><span class="err">;</span> <span class="c1">// IE 5-9+ </span>
+    <span class="na">opacity</span><span class="o">:</span> <span class="nv">$opacity</span><span class="err">;</span> 
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<h2><a name="interpolation" class="anchor" href="#interpolation"><span class="header-link"></span></a>Interpolation</h2>
+<p>One area where mixins can&#39;t help you is when there is some specific CSS3 syntax such as <code>background-image</code> (with gradients). This is because not only the value changes but the syntax itself is different for each browser. </p>
+<p>One way to work around this issue is to use <code>interpolation</code>. The way it works is that you wrap a variable name with <code>#{}</code> e.g. <code>#{$my_variable}</code> and that will dynamically insert the value at that place in your CSS. Might sound a bit confusing so best to demonstrate this with an example, and the best example I can think of is again the <code>background-image</code> property with multiple different vendor prefixes… </p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="c1">// Variable</span>
+<span class="nv">$prefixes</span><span class="o">:-</span><span class="n">webkit</span><span class="o">,-</span><span class="n">moz</span><span class="o">,-</span><span class="n">ms</span><span class="o">,-</span><span class="n">o</span><span class="err">;</span>
+
+<span class="c1">// Loop over each item in the $prefixes variable</span>
+<span class="c1">// using interpolation to insert the relevant value dynamically</span>
+<span class="k">@each</span> <span class="err">$</span><span class="nt">prefix</span> <span class="nt">in</span> <span class="err">$</span><span class="nt">prefixes</span> <span class="err">{</span>
+    <span class="na">background-image</span><span class="o">:</span> <span class="si">#{</span><span class="nv">$prefix</span><span class="si">}</span><span class="nf">-linear-gradient</span><span class="p">(</span><span class="nf">rgba</span><span class="p">(</span><span class="mi">255</span><span class="o">,</span><span class="mi">255</span><span class="o">,</span><span class="mi">255</span><span class="o">,</span><span class="mi">0</span><span class="p">)</span><span class="o">,</span> <span class="nf">rgba</span><span class="p">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="mf">.1</span><span class="p">))</span><span class="err">;</span>
+<span class="err">}</span>
+
+<span class="c1">// The following example might be better placed inside a mixin or extend</span>
+<span class="k">@each</span> <span class="err">$</span><span class="nt">prefix</span> <span class="nt">in</span> <span class="err">$</span><span class="nt">prefixes</span> <span class="err">{</span>
+    <span class="na">#{$prefix}-border-radius</span><span class="o">:</span> <span class="mi">10</span><span class="kt">px</span><span class="err">;</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p>…most of the time mixins will help you work around CSS3 vendor prefixes but in the above instance <code>interpolation</code> is the way forward.</p>
+</div>
+
+  <div class="comments">
+    <a href="/posts/guide-to-using-sass/#comments">
       <span class="icon-bubbles"></span>
       Comments
     </a>

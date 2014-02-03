@@ -37,1045 +37,6 @@
 
 
   <div class="post-head group">
-  <a href="/posts/mvc-in-javascript-with-backbone-js/">
-    <h1 class="post-title">MVC in JavaScript with Backbone.js</h1>
-  </a>
-  <span class="post-date">2012 &#183; 8 &#183; 16</span>
-</div>
-
-<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
-<p><em>reading time: approx. 34mins</em></p>
-<ul>
-<li>Introduction</li>
-<li>What is MVC?</li>
-<li>Backbone&#39;s interpretation of MVC</li>
-<li>Using AMD Modules and RequireJS</li>
-<li>Scope Access</li>
-<li>Project</li>
-<li>Set-up</li>
-<li>Architecture</li>
-<li>Wrap-up</li>
-<li>Conclusion</li>
-</ul>
-<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
-<p>I&#39;ll be honest and tell you that I struggled for quite a while to actually see the point of using <a href="http://backbonejs.org/">Backbone.js</a>. </p>
-<p>It seemed like a lot of overhead for very little in return.</p>
-<p>I also didn&#39;t like the fact that it tied me into using both Underscore and jQuery as dependencies.</p>
-<p>Because of this, and because I knew a lot of these so called MVC frameworks weren&#39;t <em>really</em> MVC (in the traditional sense), I decided to &#39;roll my own&#39; and so started writing <a href="https://github.com/Integralist/MVC-Start-up-Kit/tree/library_agnostic">my own MVC library</a> (please do read the articles listed at the end of this post by <a href="http://twitter.com/addyosmani">Addy Osmani</a> for an in-depth look at the massive MV* culture we have at the moment).</p>
-<p>My own library worked fine, and it genuinely followed the MVC principles:</p>
-<table>
-  <tr>
-    <th>M (Models)</th>
-    <th>V (Views)</th>
-    <th>C (Controllers)</th>
-  </tr>
-  <tr>
-    <td>Data</td>
-    <td>User Interface</td>
-    <td>Logic</td>
-  </tr>
-</table>
-
-<p>But my own biggest concern was that although my MVC library was <em>structurally</em> equivalent to the proper MVC pattern and the API itself was fairly clean and easy to use, there was a lot of areas where I had too tightly coupled my library to a particular way of working and that made it difficult to re-use on different projects without first spending a lot of time making those tight couplings &#39;loose&#39; again each time.</p>
-<p>It was obvious I needed to spend a lot more time on this library of mine for it to be genuinely usable in a production environment, and that&#39;s when I decided to instead take another look into Backbone.js to see what it could offer me, because from all the examples I had looked at in the past the code produced appeared very clean, flexible and well structured. Plus there are <em>lots</em> of agencies/companies implementing Backbone nowadays. So out of all the MVC libraries available (and there are quite a few) it seemed like a pretty safe bet to take another look at it.</p>
-<h2><a name="what-is-mvc" class="anchor" href="#what-is-mvc"><span class="header-link"></span></a>What is MVC?</h2>
-<p>For those who&#39;ve not heard of the MVC Design Pattern it is quite simple: each letter of the acronym is a separate area of concern…</p>
-<h3><a name="m-model" class="anchor" href="#m-model"><span class="header-link"></span></a>M: Model</h3>
-<p>A Model is a piece of data.</p>
-<p>If you had a photo album then each photo would be a Model.</p>
-<p>If you had a car showroom then each car would be a Model.</p>
-<p>If you owned a pet store then each animal would be a Model.</p>
-<p>You get the idea.</p>
-<h3><a name="v-view" class="anchor" href="#v-view"><span class="header-link"></span></a>V: View</h3>
-<p>A View is the user interface.</p>
-<p>This could literally be anything the user of your program interacts with. So any HTML element could be made into a &#39;View&#39;.</p>
-<h3><a name="c-controller" class="anchor" href="#c-controller"><span class="header-link"></span></a>C: Controller</h3>
-<p>A Controller is the brains of the program and determines what happens and when.</p>
-<h3><a name="communication-between-them" class="anchor" href="#communication-between-them"><span class="header-link"></span></a>Communication between them?</h3>
-<p>The traditional concept of MVC states that a Model should only handle its own data and should have no other logic bound to it. So for example, a Model can have a method for getting/updating its data but it should have no logic built-in to determine <em>when</em> it should get that data (that&#39;s what the Controller does). </p>
-<p>Both the Model and the View can alert the Controller of any changes or interactions and then the Controller can decide what to do with that information (e.g. when the user selects an option from a drop down menu within the View then the Controller might request specific data from the Model, when the Model gives that data to the Controller then it can pass that onto the View to display).</p>
-<p>Typically you&#39;ll have one Controller for every View/Model but you could have multiple Views/Models per Controller.</p>
-<h2><a name="backbones-interpretation-of-mvc" class="anchor" href="#backbones-interpretation-of-mvc"><span class="header-link"></span></a>Backbone&#39;s interpretation of MVC</h2>
-<p>Backbone.js is much like all the other JavaScript MVC libraries available today (with the exception of Peter Michaux&#39;s <a href="https://github.com/petermichaux/maria/">Maria</a>) where by it&#39;s not strictly MVC but a variation of the pattern.</p>
-<p>Addy Osmani (from Google) has covered this subject in-depth and so I highly recommend you review his work (see the bottom of this post for links).</p>
-<p>But the basic premise for most of these libraries is that they implement the Model and the View but the Controller is swapped out for something else. So in Backbone&#39;s case it doesn&#39;t have a Controller, instead the View handles both the traditional View responsibilities as well as the Controller logic.</p>
-<h3><a name="collections" class="anchor" href="#collections"><span class="header-link"></span></a>Collections?</h3>
-<p>Backbone.js also introduces another concept called a &#39;Collection&#39;. A Collection is simply a group of a specific Models. So if you had a Model called &quot;PhotoModel&quot; and you created a few instances of that Model you might want to create a Collection called &quot;PhotoAlbum&quot;. PhotoAlbum would then be a <em>collection</em> of PhotoModels.</p>
-<p>Collections trigger events when a Model is added or removed from the Collection and you are able to iterate over the Collection and pull out a specific Model, so they can end up being pretty useful.</p>
-<h3><a name="routerhistory" class="anchor" href="#routerhistory"><span class="header-link"></span></a>Router/History?</h3>
-<p>Backbone.js provides a History object which monitors the <code>hashchange</code> event and also provides an opt-in HTML5 <code>pushState</code> variation (which falls back to standard AJAX style hash bang navigation).</p>
-<p>There is also a Router object provided which handles the set-up of simple URL routing.</p>
-<p>So far I&#39;ve only lightly interacted with the <code>Backbone.Router</code>/<code>Backbone.History</code> aspects but I&#39;ve provided examples below of how to utilise them.</p>
-<h2><a name="using-amd-modules-and-requirejs" class="anchor" href="#using-amd-modules-and-requirejs"><span class="header-link"></span></a>Using AMD Modules and RequireJS</h2>
-<p>Backbone.js can be used with standard <code>&lt;script&gt;</code> tags, so there is no need for you to use a module system such as AMD (or a module loader such as RequireJS). But my personal preference is to using both AMD with RequireJS, and that&#39;s what the example project I&#39;ll show you will use.</p>
-<p>I wont go into the details of what AMD is or how to use RequireJS, I&#39;ll instead point you to <a href="https://github.com/Integralist/Blog-Posts/blob/master/Beginners-guide-to-AMD-and-RequireJS.md">another article I&#39;ve written on the subject</a>.</p>
-<h2><a name="scope-access" class="anchor" href="#scope-access"><span class="header-link"></span></a>Scope Access</h2>
-<p>Because we&#39;re using AMD (which keeps our code self-contained so it doesn&#39;t introduce global variables) it can be awkward (in some situations) to share information across modules.</p>
-<p>One thing I wanted to do recently was access a View instance from within another View. After reviewing the situation I found there were multiple ways to do this:</p>
-<ul>
-<li>Setting an instance property on the other View</li>
-<li>Passing the View through as a property of the argument object when creating the other View</li>
-<li>Adding a property to a global namespace</li>
-</ul>
-<p>…which option you go with depends on personal preference more than anything. I went with the second option.</p>
-<h2><a name="project" class="anchor" href="#project"><span class="header-link"></span></a>Project</h2>
-<p>The project we&#39;ll build is a basic Contact Manager. </p>
-<p>The layout will be a <code>&lt;select&gt;</code> menu that is populated with some Contact names.</p>
-<p>Selecting a Contact from the menu will display all details for that contact.</p>
-<p>Next to the menu will be a form where we can add a new contact and once added it&#39;ll automatically appear within the menu for the user to select to view.</p>
-<p>A finished version of this project can be found <a href="https://github.com/Integralist/Backbone-Playground">on my GitHub</a>.</p>
-<h2><a name="set-up" class="anchor" href="#set-up"><span class="header-link"></span></a>Set-up</h2>
-<p>Let&#39;s take a top level view of our directory structure…</p>
-<ul>
-<li>/Assets/<ul>
-<li>/Includes/<ul>
-<li>Contacts.php</li>
-</ul>
-</li>
-<li>/Scripts/<ul>
-<li>/App/<ul>
-<li>main.js</li>
-<li>namespace.js</li>
-</ul>
-</li>
-<li>/Collections/<ul>
-<li>Contacts.js</li>
-</ul>
-</li>
-<li>/Models/<ul>
-<li>Contact.js</li>
-</ul>
-</li>
-<li>/Routes/<ul>
-<li>Routing.js</li>
-</ul>
-</li>
-<li>/Utils/<ul>
-<li>backbone.js</li>
-<li>jquery.js</li>
-<li>lodash.js</li>
-</ul>
-</li>
-<li>/Views/<ul>
-<li>AddContact.js</li>
-<li>Contact.js</li>
-<li>Contacts.js</li>
-</ul>
-</li>
-<li>require.js</li>
-</ul>
-</li>
-<li>/Styles/<ul>
-<li>styles.css</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>index.html</li>
-</ul>
-<h2><a name="architecture" class="anchor" href="#architecture"><span class="header-link"></span></a>Architecture</h2>
-<h3><a name="html" class="anchor" href="#html"><span class="header-link"></span></a>HTML</h3>
-<p>The HTML page <code>index.html</code> consists of a few different elements that we&#39;ll use as &#39;Views&#39;. </p>
-<p>We have the <code>&lt;select&gt;</code> menu for displaying the initial list of Contacts, the <code>&lt;form&gt;</code> for allowing us to add more Contacts, and an empty <code>&lt;div&gt;</code> which will be used for displaying the full details of the selected contact.</p>
-<p>The full HTML page looks like this...</p>
-<pre><code class="lang-html"><div class="highlight"><pre><span class="cp">&lt;!doctype html&gt;</span>
-<span class="nt">&lt;html</span> <span class="na">dir=</span><span class="s">&quot;ltr&quot;</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;head&gt;</span>
-        <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content=</span><span class="s">&quot;width=device-width, initial-scale=1&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;author&quot;</span> <span class="na">content=</span><span class="s">&quot;Mark McDonnell&quot;</span> <span class="nt">/&gt;</span>
-        <span class="nt">&lt;title&gt;</span>Backbone.js<span class="nt">&lt;/title&gt;</span>
-        <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;Assets/Styles/styles.css&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;/head&gt;</span>
-    <span class="nt">&lt;body&gt;</span>
-        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;view-contacts&quot;</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;select&gt;</span>
-                <span class="nt">&lt;option&gt;</span>Please select a user<span class="nt">&lt;/option&gt;</span>
-            <span class="nt">&lt;/select&gt;</span>
-        <span class="nt">&lt;/div&gt;</span>
-
-        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;view-contact&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
-
-        <span class="nt">&lt;form</span> <span class="na">id=</span><span class="s">&quot;view-add&quot;</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;p&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">placeholder=</span><span class="s">&quot;Name&quot;</span> <span class="na">name=</span><span class="s">&quot;fullname&quot;</span><span class="nt">&gt;&lt;/p&gt;</span>
-            <span class="nt">&lt;p&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">placeholder=</span><span class="s">&quot;Age&quot;</span> <span class="na">maxlength=</span><span class="s">&quot;3&quot;</span> <span class="na">name=</span><span class="s">&quot;age&quot;</span><span class="nt">&gt;&lt;/p&gt;</span>
-            <span class="nt">&lt;p&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">placeholder=</span><span class="s">&quot;Address&quot;</span> <span class="na">name=</span><span class="s">&quot;address&quot;</span><span class="nt">&gt;&lt;/p&gt;</span>
-            <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">value=</span><span class="s">&quot;Add New Record&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;/form&gt;</span>
-
-        <span class="nt">&lt;script </span><span class="na">data-main=</span><span class="s">&quot;Assets/Scripts/App/main&quot;</span> <span class="na">src=</span><span class="s">&quot;Assets/Scripts/require.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/template&quot;</span> <span class="na">id=</span><span class="s">&quot;contact_template&quot;</span><span class="nt">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">dl</span><span class="o">&gt;</span>
-                <span class="o">&lt;</span><span class="nx">dt</span><span class="o">&gt;</span><span class="nx">ID</span><span class="o">&lt;</span><span class="err">/dt&gt;</span>
-                <span class="o">&lt;</span><span class="nx">dd</span><span class="o">&gt;&lt;%=</span><span class="nx">id</span><span class="o">%&gt;&lt;</span><span class="err">/dd&gt;</span>
-                <span class="o">&lt;</span><span class="nx">dt</span><span class="o">&gt;</span><span class="nx">Name</span><span class="o">&lt;</span><span class="err">/dt&gt;</span>
-                <span class="o">&lt;</span><span class="nx">dd</span><span class="o">&gt;&lt;%=</span><span class="nx">name</span><span class="o">%&gt;&lt;</span><span class="err">/dd&gt;</span>
-                <span class="o">&lt;</span><span class="nx">dt</span><span class="o">&gt;</span><span class="nx">Age</span><span class="o">&lt;</span><span class="err">/dt&gt;</span>
-                <span class="o">&lt;</span><span class="nx">dd</span><span class="o">&gt;&lt;%=</span><span class="nx">age</span><span class="o">%&gt;&lt;</span><span class="err">/dd&gt;</span>
-                <span class="o">&lt;</span><span class="nx">dt</span><span class="o">&gt;</span><span class="nx">Address</span><span class="o">&lt;</span><span class="err">/dt&gt;</span>
-                <span class="o">&lt;</span><span class="nx">dd</span><span class="o">&gt;&lt;%=</span><span class="nx">address</span><span class="o">%&gt;&lt;</span><span class="err">/dd&gt;</span>
-            <span class="o">&lt;</span><span class="err">/dl&gt;</span>
-        <span class="nt">&lt;/script&gt;</span>
-    <span class="nt">&lt;/body&gt;</span>
-<span class="nt">&lt;/html&gt;</span>
-</pre></div>
-</code></pre>
-<h3><a name="styles" class="anchor" href="#styles"><span class="header-link"></span></a>Styles</h3>
-<p>The styles for this project are just basic - we&#39;re not worrying about design here… </p>
-<pre><code class="lang-css"><div class="highlight"><pre><span class="nt">body</span> <span class="p">{</span>
-    <span class="k">font</span><span class="o">:</span> <span class="k">normal</span> <span class="n">small</span> <span class="n">Arial</span><span class="o">,</span> <span class="n">Verdana</span><span class="o">,</span> <span class="k">sans-serif</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="nc">.hide</span> <span class="p">{</span>
-    <span class="k">display</span><span class="o">:</span> <span class="k">none</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="nf">#view-add</span> <span class="p">{</span>
-    <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="m">#999</span><span class="p">;</span>
-    <span class="k">left</span><span class="o">:</span> <span class="m">350px</span><span class="p">;</span>
-    <span class="k">padding-bottom</span><span class="o">:</span> <span class="m">10px</span><span class="p">;</span>
-    <span class="k">padding-left</span><span class="o">:</span> <span class="m">10px</span><span class="p">;</span>
-    <span class="k">position</span><span class="o">:</span> <span class="k">absolute</span><span class="p">;</span>
-    <span class="k">top</span><span class="o">:</span> <span class="m">10px</span><span class="p">;</span>
-    <span class="k">width</span><span class="o">:</span> <span class="m">166px</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="nf">#view-add</span> <span class="nt">div</span> <span class="p">{</span>
-    <span class="k">background-color</span><span class="o">:</span> <span class="nb">green</span><span class="p">;</span>
-    <span class="k">color</span><span class="o">:</span> <span class="m">#fff</span><span class="p">;</span>
-    <span class="k">margin-right</span><span class="o">:</span> <span class="m">10px</span><span class="p">;</span>
-    <span class="k">margin-top</span><span class="o">:</span> <span class="m">10px</span><span class="p">;</span>
-    <span class="k">padding</span><span class="o">:</span> <span class="m">10px</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h3><a name="javascript" class="anchor" href="#javascript"><span class="header-link"></span></a>JavaScript</h3>
-<p>RequireJS allows us to utilise just a single <code>&lt;script&gt;</code> tag which points to our main script file that contains the following structure… </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">requirejs</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
-    <span class="nx">shim</span><span class="o">:</span> <span class="p">{</span>
-        <span class="s1">&#39;../Utils/backbone&#39;</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">deps</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;../Utils/lodash&#39;</span><span class="p">,</span> <span class="s1">&#39;../Utils/jquery&#39;</span><span class="p">],</span> <span class="c1">// load dependencies</span>
-            <span class="nx">exports</span><span class="o">:</span> <span class="s1">&#39;Backbone&#39;</span> <span class="c1">// use the global &#39;Backbone&#39; as the module value</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">});</span>
-
-<span class="nx">require</span><span class="p">([</span><span class="s1">&#39;../Models/Contact&#39;</span><span class="p">,</span> <span class="s1">&#39;../Collections/Contacts&#39;</span><span class="p">,</span> <span class="s1">&#39;../Views/Contacts&#39;</span><span class="p">,</span> <span class="s1">&#39;../Views/AddContact&#39;</span><span class="p">,</span> <span class="s1">&#39;../Views/Contact&#39;</span><span class="p">,</span> <span class="s1">&#39;../Routes/Routing&#39;</span><span class="p">],</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">Contact</span><span class="p">,</span> <span class="nx">Contacts</span><span class="p">,</span> <span class="nx">ContactsView</span><span class="p">,</span> <span class="nx">AddContactView</span><span class="p">,</span> <span class="nx">ContactView</span><span class="p">,</span> <span class="nx">Routing</span><span class="p">)</span> <span class="p">{</span>
-
-    <span class="cm">/**</span>
-<span class="cm">     * Model Generation Examples</span>
-<span class="cm">     */</span>
-
-    <span class="kd">var</span> <span class="nx">manager</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Contact</span><span class="p">({</span>
-        <span class="nx">id</span><span class="o">:</span> <span class="nx">_</span><span class="p">.</span><span class="nx">uniqueId</span><span class="p">(),</span>
-        <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Mark McDonnell&#39;</span><span class="p">,</span>
-        <span class="nx">age</span><span class="o">:</span> <span class="mi">30</span>
-    <span class="p">});</span>
-
-    <span class="kd">var</span> <span class="nx">developer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Contact</span><span class="p">({</span>
-        <span class="nx">id</span><span class="o">:</span> <span class="nx">_</span><span class="p">.</span><span class="nx">uniqueId</span><span class="p">(),</span>
-        <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Ashley Banks&#39;</span><span class="p">,</span>
-        <span class="nx">age</span><span class="o">:</span> <span class="mi">23</span>
-    <span class="p">});</span>
-
-    <span class="c1">// The following few lines are used just to demonstrate the Backbone.js API</span>
-    <span class="kd">var</span> <span class="nx">dev_name</span> <span class="o">=</span> <span class="nx">developer</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">dev_age</span> <span class="o">=</span> <span class="nx">developer</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">);</span>
-
-    <span class="nx">developer</span><span class="p">.</span><span class="nx">birthday</span><span class="p">();</span>
-
-    <span class="c1">// The .toJSON() method is a Backbone specific Model/Collection method which returns js object of specified Model</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">dir</span><span class="p">(</span><span class="nx">manager</span><span class="p">.</span><span class="nx">toJSON</span><span class="p">())</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">dir</span><span class="p">(</span><span class="nx">developer</span><span class="p">.</span><span class="nx">toJSON</span><span class="p">());</span>
-
-
-    <span class="cm">/**</span>
-<span class="cm">     * Collection Generation Example</span>
-<span class="cm">     */</span>
-
-    <span class="kd">var</span> <span class="nx">contacts</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Contacts</span><span class="p">([</span><span class="nx">manager</span><span class="p">,</span> <span class="nx">developer</span><span class="p">]);</span>
-
-    <span class="c1">// The .toJSON() method is a Backbone specific Model/Collection method which returns js object of specified Model</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">contacts</span><span class="p">.</span><span class="nx">toJSON</span><span class="p">());</span>
-
-
-    <span class="cm">/**</span>
-<span class="cm">     * View for &lt;select&gt; menu of Contacts</span>
-<span class="cm">     */</span>
-
-    <span class="kd">var</span> <span class="nx">contacts_view</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ContactsView</span><span class="p">({</span>
-        <span class="nx">el</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#view-contacts&#39;</span><span class="p">),</span>
-        <span class="nx">collection</span><span class="o">:</span> <span class="nx">contacts</span><span class="p">,</span> <span class="c1">// pass in the Collection into this View</span>
-
-        <span class="cm">/**</span>
-<span class="cm">         * View for displaying the selected Contact</span>
-<span class="cm">         *</span>
-<span class="cm">         * Originally I had created a global namespace property so I could access this View&#39;s &quot;render()&quot; method from within &#39;contacts_view&#39; (/Views/Contacts.js)</span>
-<span class="cm">         * And according to people smarter than I (i.e. Addy Osmani from Google) this was the most appropriate solution.</span>
-<span class="cm">         * But I since discovered I could pass in additional data when creating a View instance and so that&#39;s what I&#39;ve done here.</span>
-<span class="cm">         */</span>
-
-        <span class="nx">associated_view</span><span class="o">:</span> <span class="k">new</span> <span class="nx">ContactView</span><span class="p">({</span>
-            <span class="nx">el</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#view-contact&#39;</span><span class="p">),</span>
-            <span class="nx">collection</span><span class="o">:</span> <span class="nx">contacts</span>
-        <span class="p">})</span>
-    <span class="p">});</span>
-
-
-    <span class="cm">/**</span>
-<span class="cm">     * View for &lt;form&gt; to add a new Contact</span>
-<span class="cm">     */</span>
-
-    <span class="kd">var</span> <span class="nx">add_contact</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">AddContactView</span><span class="p">({</span>
-        <span class="nx">el</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#view-add&#39;</span><span class="p">),</span>
-        <span class="nx">collection</span><span class="o">:</span> <span class="nx">contacts</span> <span class="c1">// pass in the Collection into this View</span>
-    <span class="p">});</span>
-
-
-    <span class="cm">/**</span>
-<span class="cm">     * Lazy Load Models into Collection</span>
-<span class="cm">     */</span>
-
-    <span class="nx">contacts</span><span class="p">.</span><span class="nx">fetch</span><span class="p">({</span>
-        <span class="nx">add</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> <span class="c1">// Prevent resetting the Collection (i.e. instead or clearing the Collection first we just add new Models on top of current set of Models),</span>
-        <span class="nx">error</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">collection</span><span class="p">,</span> <span class="nx">resp</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">// You can do something on error loading</span>
-        <span class="p">},</span>
-        <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">collection</span><span class="p">,</span> <span class="nx">resp</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">// You can do something on successful loading</span>
-        <span class="p">}</span>
-    <span class="p">});</span>
-
-
-    <span class="cm">/**</span>
-<span class="cm">     * Router/History API Examples</span>
-<span class="cm">     */</span>
-
-    <span class="c1">// Create new instance of our Routing Class</span>
-    <span class="kd">var</span> <span class="nx">routing</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Routing</span><span class="p">();</span>
-
-    <span class="c1">// Initialize the Router</span>
-    <span class="nx">Backbone</span><span class="p">.</span><span class="nx">history</span><span class="p">.</span><span class="nx">start</span><span class="p">({</span> <span class="nx">pushState</span><span class="o">:</span> <span class="kc">true</span> <span class="p">});</span>
-
-<span class="p">});</span>
-</pre></div>
-</code></pre>
-<p>…this breaks down to the following… </p>
-<h3><a name="we-set-up-configurations-for-requirejs" class="anchor" href="#we-set-up-configurations-for-requirejs"><span class="header-link"></span></a>We set-up configurations for RequireJS</h3>
-<p>Such as Backbone&#39;s dependencies - this is done using RequireJS&#39; <code>shim</code> feature for libraries that aren&#39;t AMD compatible.<br>&nbsp;<br>You&#39;ll also notice we aren&#39;t using the Underscore library, instead we&#39;re using Lo-dash which is a better performing/API compatible utility library.</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">requirejs</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
-    <span class="nx">shim</span><span class="o">:</span> <span class="p">{</span>
-        <span class="s1">&#39;../Utils/backbone&#39;</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">deps</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;../Utils/lodash&#39;</span><span class="p">,</span> <span class="s1">&#39;../Utils/jquery&#39;</span><span class="p">],</span> <span class="c1">// load dependencies</span>
-            <span class="nx">exports</span><span class="o">:</span> <span class="s1">&#39;Backbone&#39;</span> <span class="c1">// use the global &#39;Backbone&#39; as the module value</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">});</span>
-</pre></div>
-</code></pre>
-<h3><a name="specify-dependencies-and-execute-callback-function-once-all-are-loaded" class="anchor" href="#specify-dependencies-and-execute-callback-function-once-all-are-loaded"><span class="header-link"></span></a>Specify dependencies and execute callback function once all are loaded</h3>
-<p>The dependencies we&#39;re loading are the relevant Models, Views, Collections required for this application to work - once loaded we can create new instances of them.</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">require</span><span class="p">([</span><span class="s1">&#39;../Models/Contact&#39;</span><span class="p">,</span> <span class="s1">&#39;../Collections/Contacts&#39;</span><span class="p">,</span> <span class="s1">&#39;../Views/Contacts&#39;</span><span class="p">,</span> <span class="s1">&#39;../Views/AddContact&#39;</span><span class="p">,</span> <span class="s1">&#39;../Views/Contact&#39;</span><span class="p">,</span> <span class="s1">&#39;../Routes/Routing&#39;</span><span class="p">,</span> <span class="s1">&#39;../Utils/backbone&#39;</span><span class="p">],</span> 
-<span class="kd">function</span> <span class="p">(</span><span class="nx">Contact</span><span class="p">,</span> <span class="nx">Contacts</span><span class="p">,</span> <span class="nx">ContactsView</span><span class="p">,</span> <span class="nx">AddContactView</span><span class="p">,</span> <span class="nx">ContactView</span><span class="p">,</span> <span class="nx">Routing</span><span class="p">)</span> <span class="p">{</span>
-</pre></div>
-</code></pre>
-<h3><a name="generate-some-data-for-the-initial-select-menu-population" class="anchor" href="#generate-some-data-for-the-initial-select-menu-population"><span class="header-link"></span></a>Generate some data for the initial <code>&lt;select&gt;</code> menu population</h3>
-<p>We&#39;ve loaded the <code>Contact</code> Model and we create two new instances of it and pass in the relevant properties for the Model data.</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * Model Generation Examples</span>
-<span class="cm"> */</span>
-
-<span class="kd">var</span> <span class="nx">manager</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Contact</span><span class="p">({</span>
-    <span class="nx">id</span><span class="o">:</span> <span class="nx">_</span><span class="p">.</span><span class="nx">uniqueId</span><span class="p">(),</span>
-    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Mark McDonnell&#39;</span><span class="p">,</span>
-    <span class="nx">age</span><span class="o">:</span> <span class="mi">30</span>
-<span class="p">});</span>
-
-<span class="kd">var</span> <span class="nx">developer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Contact</span><span class="p">({</span>
-    <span class="nx">id</span><span class="o">:</span> <span class="nx">_</span><span class="p">.</span><span class="nx">uniqueId</span><span class="p">(),</span>
-    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Ashley Banks&#39;</span><span class="p">,</span>
-    <span class="nx">age</span><span class="o">:</span> <span class="mi">23</span>
-<span class="p">});</span>
-</pre></div>
-</code></pre>
-<h3><a name="create-a-collection-that-will-hold-the-model-data-weve-just-created" class="anchor" href="#create-a-collection-that-will-hold-the-model-data-weve-just-created"><span class="header-link"></span></a>Create a Collection that will hold the Model data we&#39;ve just created</h3>
-<p>Backbone lets us pass through an Array of Models to instantiate the Collection with</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * Collection Generation Example</span>
-<span class="cm"> */</span>
-
-<span class="kd">var</span> <span class="nx">contacts</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Contacts</span><span class="p">([</span><span class="nx">manager</span><span class="p">,</span> <span class="nx">developer</span><span class="p">]);</span>
-</pre></div>
-</code></pre>
-<h3><a name="create-the-view" class="anchor" href="#create-the-view"><span class="header-link"></span></a>Create the View</h3>
-<p>You&#39;ll notice that when creating the view Backbone gives us the ability to pass in specific properties such as the HTML element we want to associate our View object with (in this case I&#39;m passing in the <code>&lt;select&gt;</code> element).  </p>
-<p>Backbone also lets us specify a Collection for this View to be associated with (this is so we can watch for any events - such as a adding/removing Models - so we can keep the View in sync with any data changes)  </p>
-<p>Lastly, we pass in a custom property I&#39;ve called <code>associated_view</code> and the value of this will be a new instance of <code>ContactView</code> (this View is the empty <code>&lt;div&gt;</code> which will be used to display the details of a specific record as selected by the user of our application). The reason I&#39;ve passed in this View into another View is because I want the <code>contacts_view</code> to have access to the <code>associated_view</code> so when the user selects a Contact we can easily tell <code>contacts_view</code> to render the selected Contact data.</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * View for &lt;select&gt; menu of Contacts</span>
-<span class="cm"> */</span>
-
-<span class="kd">var</span> <span class="nx">contacts_view</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ContactsView</span><span class="p">({</span>
-    <span class="nx">el</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#view-contacts&#39;</span><span class="p">),</span>
-    <span class="nx">collection</span><span class="o">:</span> <span class="nx">contacts</span><span class="p">,</span> <span class="c1">// pass in the Collection into this View</span>
-
-    <span class="cm">/**</span>
-<span class="cm">     * View for displaying the selected Contact</span>
-<span class="cm">     */</span>
-
-    <span class="nx">associated_view</span><span class="o">:</span> <span class="k">new</span> <span class="nx">ContactView</span><span class="p">({</span>
-        <span class="nx">el</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#view-contact&#39;</span><span class="p">),</span>
-        <span class="nx">collection</span><span class="o">:</span> <span class="nx">contacts</span>
-    <span class="p">})</span>
-<span class="p">});</span>
-</pre></div>
-</code></pre>
-<h3><a name="create-a-view-for-the-form-that-will-create-new-model-data" class="anchor" href="#create-a-view-for-the-form-that-will-create-new-model-data"><span class="header-link"></span></a>Create a View for the <code>&lt;form&gt;</code> that will create new Model data</h3>
-<p>What you&#39;ll probably notice is that out of the three Views we have created instances for, they all use the same <code>contacts</code> Collection.</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * View for &lt;form&gt; to add a new Contact</span>
-<span class="cm"> */</span>
-
-<span class="kd">var</span> <span class="nx">add_contact</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">AddContactView</span><span class="p">({</span>
-    <span class="nx">el</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#view-add&#39;</span><span class="p">),</span>
-    <span class="nx">collection</span><span class="o">:</span> <span class="nx">contacts</span>
-<span class="p">});</span>
-</pre></div>
-</code></pre>
-<h3><a name="load-more-model-data-into-our-collection" class="anchor" href="#load-more-model-data-into-our-collection"><span class="header-link"></span></a>Load more Model data into our Collection</h3>
-<p>We initially loaded some Model data into our Collection when starting our application, but now we&#39;re using a Backbone provided method called <code>fetch</code> which lets us grab more data from the server and populate our Collection with that server data.</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * Lazy Load Models into Collection</span>
-<span class="cm"> */</span>
-
-<span class="nx">contacts</span><span class="p">.</span><span class="nx">fetch</span><span class="p">({</span>
-    <span class="nx">add</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> <span class="c1">// Prevent resetting the Collection (i.e. instead or clearing the Collection first we just add new Models on top of current set of Models),</span>
-    <span class="nx">error</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">collection</span><span class="p">,</span> <span class="nx">resp</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// You can do something on error loading</span>
-    <span class="p">},</span>
-    <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">collection</span><span class="p">,</span> <span class="nx">resp</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// You can do something on successful loading</span>
-    <span class="p">}</span>
-<span class="p">});</span>
-</pre></div>
-</code></pre>
-<h3><a name="fetching-collection-data" class="anchor" href="#fetching-collection-data"><span class="header-link"></span></a>Fetching Collection Data</h3>
-<p>In the previous section we used <code>contacts.fetch</code> to grab Model data from the server.</p>
-<p>To be able to understand how it works we need to look at the Collection module now. </p>
-<p>As we know in the main JavaScript file we required a load of dependencies such as Models, Views and Collections and the following is the Collection module we loaded - hopefully the comments will adequately explain what&#39;s going on… </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="c1">// This Collection requires the &#39;Contact&#39; Model and (obviously) Backbone</span>
-<span class="nx">define</span><span class="p">([</span><span class="s1">&#39;../Models/Contact&#39;</span><span class="p">,</span> <span class="s1">&#39;../Utils/backbone&#39;</span><span class="p">],</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">Contact</span><span class="p">)</span> <span class="p">{</span>
-
-    <span class="c1">// We set-up a collection of Contact Models</span>
-    <span class="c1">// This is so we can manipulate the group of Models more easily</span>
-    <span class="kd">var</span> <span class="nx">Contacts</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Collection</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
-        <span class="c1">// Backbone specific property</span>
-        <span class="nx">model</span><span class="o">:</span> <span class="nx">Contact</span><span class="p">,</span>
-
-        <span class="c1">// Backbone specific property</span>
-        <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;/Assets/Includes/Contacts.php&#39;</span><span class="p">,</span>
-
-        <span class="c1">// Backbone specific method</span>
-        <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
-            <span class="c1">// Collections fire the events &#39;add&#39; and &#39;remove&#39;</span>
-            <span class="k">this</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;add&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">model_added</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
-        <span class="p">},</span>
-
-        <span class="nx">model_added</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">model</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">// The View listens out for &#39;model:added&#39;</span>
-            <span class="c1">// Once it hears it, it updates the &lt;select&gt; menu to include the latest Model</span>
-            <span class="c1">// We pass the latest Model through from here...</span>
-            <span class="k">this</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="s1">&#39;model:added&#39;</span><span class="p">,</span> <span class="nx">model</span><span class="p">);</span>
-        <span class="p">},</span>
-
-        <span class="c1">// We can&#39;t trigger a custom event from within the &#39;initialize&#39; method</span>
-        <span class="c1">// because the View listener wont be ready/set-up yet!</span>
-        <span class="c1">// So we have to stick it inside a separate method which I call after I set-up the associated View</span>
-        <span class="nx">populate</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
-            <span class="k">this</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="s1">&#39;contacts:populate&#39;</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">});</span>
-
-    <span class="k">return</span> <span class="nx">Contacts</span><span class="p">;</span>
-
-<span class="p">});</span>
-</pre></div>
-</code></pre>
-<p>You&#39;ll notice this Collection uses the Backbone specific property <code>url</code> which we&#39;ve pointed to a PHP script (you would replace this with whatever back-end you prefer to use: Ruby, Python, ASP.NET etc). </p>
-<p>The PHP script we&#39;re using would normally connect to a database and return its data converted into JSON (JSON is the perfect data format for Backbone to process). But in this example we&#39;re simply just manually creating data and converting it to JSON… </p>
-<pre><code class="lang-php"><div class="highlight"><pre><span class="cp">&lt;?php</span>
-    <span class="nv">$json</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-        <span class="k">array</span><span class="p">(</span>
-            <span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="mi">99</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Joe Bloggs&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;age&quot;</span> <span class="o">=&gt;</span> <span class="mi">12</span><span class="p">,</span> 
-            <span class="s2">&quot;address&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;9 Cables Street, London&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;role&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Manager&quot;</span>
-        <span class="p">),</span>
-        <span class="k">array</span><span class="p">(</span>
-            <span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="mi">98</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Dan Smith&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;age&quot;</span> <span class="o">=&gt;</span> <span class="mi">23</span><span class="p">,</span> 
-            <span class="s2">&quot;address&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Bambridge Road, Essex&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;role&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Developer&quot;</span>
-        <span class="p">),</span>
-        <span class="k">array</span><span class="p">(</span>
-            <span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="mi">97</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Bradley Few&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;age&quot;</span> <span class="o">=&gt;</span> <span class="mi">22</span><span class="p">,</span> 
-            <span class="s2">&quot;address&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Meeson Mead, Leads&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;role&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Developer&quot;</span>
-        <span class="p">)</span>
-    <span class="p">);</span>
-
-    <span class="k">echo</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$json</span><span class="p">);</span>
-<span class="cp">?&gt;</span><span class="x"></span>
-</pre></div>
-</code></pre>
-<p>…Backbone.js then populates the Collection with the new data it has &#39;fetched&#39; from the server application.</p>
-<p>You may have also noticed that back in our main JavaScript file (when we called the <code>fetch</code> method) we had specified a property called <code>add</code> and set its value to <code>true</code>. The reason we did this was because if we left that property out then when Backbone fetched the data from the server it would have cleared our Collection of all Model data and replaced it with the data from the server. Setting <code>add: true</code> means we don&#39;t overwrite any existing data but instead add the data on top of what&#39;s already there.</p>
-<h3><a name="model-structure" class="anchor" href="#model-structure"><span class="header-link"></span></a>Model Structure</h3>
-<p>So far we have a main script file where we have created new instances of some Backbone Views as well as created a Backbone Collection. We&#39;ve populated that Collection with specific Model data, but now lets look at the Model itself that we&#39;ve been using to construct our data from… </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">define</span><span class="p">([</span><span class="s1">&#39;../Utils/backbone&#39;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(){</span>
-
-    <span class="kd">var</span> <span class="nx">Contact</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Model</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
-        <span class="c1">// Backbone specific object</span>
-        <span class="nx">defaults</span><span class="o">:</span> <span class="p">{</span>
-            <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;No name provided&#39;</span><span class="p">,</span>
-            <span class="nx">age</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
-            <span class="nx">address</span><span class="o">:</span> <span class="s1">&#39;No address provided&#39;</span>
-        <span class="p">},</span>
-
-        <span class="c1">// Backbone specific method</span>
-        <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
-            <span class="c1">// Syntax: .on(type:property)</span>
-            <span class="k">this</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;change:age&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
-                <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;\&#39;s age changed to &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">));</span>
-            <span class="p">});</span>
-
-            <span class="k">this</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">model</span><span class="p">,</span> <span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">console</span><span class="p">.</span><span class="nx">warn</span><span class="p">(</span><span class="s1">&#39;Error:&#39;</span><span class="p">,</span> <span class="nx">model</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
-            <span class="p">});</span>
-        <span class="p">},</span>
-
-        <span class="c1">// Backbone specific method</span>
-        <span class="nx">validate</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">attributes</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">attributes</span><span class="p">.</span><span class="nx">id</span> <span class="o">||</span> <span class="nx">attributes</span><span class="p">.</span><span class="nx">id</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-                <span class="k">return</span> <span class="s1">&#39;An error has occurred? There should be an id generated!&#39;</span><span class="p">;</span>
-            <span class="p">}</span>
-
-            <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">attributes</span><span class="p">.</span><span class="nx">age</span> <span class="o">!=</span> <span class="s1">&#39;number&#39;</span><span class="p">)</span> <span class="p">{</span>
-                <span class="k">return</span> <span class="s1">&#39;Age needs to be a number&#39;</span><span class="p">;</span>
-            <span class="p">}</span>
-        <span class="p">},</span>
-
-        <span class="nx">birthday</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
-            <span class="kd">var</span> <span class="nx">age</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">);</span>
-            <span class="k">this</span><span class="p">.</span><span class="nx">set</span><span class="p">({</span> <span class="s1">&#39;age&#39;</span><span class="o">:</span> <span class="o">++</span><span class="nx">age</span> <span class="p">});</span>
-        <span class="p">}</span>
-    <span class="p">});</span>
-
-    <span class="k">return</span> <span class="nx">Contact</span><span class="p">;</span>
-
-<span class="p">});</span>
-</pre></div>
-</code></pre>
-<p>…as you can see the only dependency this module has is Backbone.js itself. Don&#39;t worry about specifying Backbone.js in each module, when we run a build script using RequireJS&#39; optimisation tool it&#39;ll only load one instance of Backbone. </p>
-<p>The reason we specify Backbone as a dependency in each of these module files (rather than just specifying it once in the top level main script file) is because if we decided to reuse this specific module in another project then it would be crystal clear what dependencies it has (I know in this example if you saw <code>Backbone.Model</code> then it would seem pretty obvious that Backbone.js would need to be loaded, but doing this is just good practice because some modules can have lots of dependencies and they wont always be that obvious, so it&#39;s best to get into the habit of specifying all dependencies for the sake of helpfulness).</p>
-<p>Let&#39;s now break down the specific sections of the Model we&#39;ve created:</p>
-<h3><a name="first-we-specify-default-values" class="anchor" href="#first-we-specify-default-values"><span class="header-link"></span></a>First we specify default values</h3>
-<p>This is in case (when creating a new Model instance) we don&#39;t have all the values readily available</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">defaults</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;No name provided&#39;</span><span class="p">,</span>
-    <span class="nx">age</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="nx">address</span><span class="o">:</span> <span class="s1">&#39;No address provided&#39;</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h3><a name="carry-out-some-initial-set-up-stuff-when-a-new-instance-is-created" class="anchor" href="#carry-out-some-initial-set-up-stuff-when-a-new-instance-is-created"><span class="header-link"></span></a>Carry out some initial set-up stuff when a new instance is created</h3>
-<p>In this example we want to set-up some event listeners for when the <code>age</code> property is changed as well as when an error occurs.</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
-    <span class="c1">// Syntax: .on(type:property)</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;change:age&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;\&#39;s age changed to &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">));</span>
-    <span class="p">});</span>
-
-    <span class="k">this</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">model</span><span class="p">,</span> <span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">warn</span><span class="p">(</span><span class="s1">&#39;Error:&#39;</span><span class="p">,</span> <span class="nx">model</span><span class="p">,</span> <span class="nx">error</span><span class="p">);</span>
-    <span class="p">});</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h3><a name="validate-data-before-actually-making-any-changes" class="anchor" href="#validate-data-before-actually-making-any-changes"><span class="header-link"></span></a>Validate data before actually making any changes</h3>
-<p>Backbone.js provides a <code>validate</code> method that returns your own specified error message.<br>If the function doesn&#39;t return any value then it is assumed the data is valid.<br>If the function returns <em>any thing</em> then whatever was returned is used as the error message.</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">validate</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">attributes</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">attributes</span><span class="p">.</span><span class="nx">id</span> <span class="o">||</span> <span class="nx">attributes</span><span class="p">.</span><span class="nx">id</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="s1">&#39;An error has occurred? There should be an id generated!&#39;</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">attributes</span><span class="p">.</span><span class="nx">age</span> <span class="o">!=</span> <span class="s1">&#39;number&#39;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="s1">&#39;Age needs to be a number&#39;</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h3><a name="create-a-custom-birthday-method" class="anchor" href="#create-a-custom-birthday-method"><span class="header-link"></span></a>Create a custom <code>birthday</code> method</h3>
-<p>We use two Backbone methods: <code>get</code> and <code>set</code> to increment the age of the user.<br>First we <code>get</code> the current age, then we <code>set</code> the age using the prefixed <code>++</code> increment operator</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">birthday</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
-    <span class="kd">var</span> <span class="nx">age</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">set</span><span class="p">({</span> <span class="s1">&#39;age&#39;</span><span class="o">:</span> <span class="o">++</span><span class="nx">age</span> <span class="p">});</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>So in our main script file you&#39;ll remember we used this custom method like so… </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="c1">// Create a new Model instance</span>
-<span class="kd">var</span> <span class="nx">developer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Contact</span><span class="p">({</span>
-    <span class="nx">id</span><span class="o">:</span> <span class="nx">_</span><span class="p">.</span><span class="nx">uniqueId</span><span class="p">(),</span>
-    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Ashley Banks&#39;</span><span class="p">,</span>
-    <span class="nx">age</span><span class="o">:</span> <span class="mi">23</span>
-<span class="p">});</span>
-
-<span class="c1">// Now effectively set the user&#39;s age to 24</span>
-<span class="c1">// i.e. the age was 23 and calling `birthday()` increments the age by one</span>
-<span class="nx">developer</span><span class="p">.</span><span class="nx">birthday</span><span class="p">();</span>
-</pre></div>
-</code></pre>
-<h3><a name="view-structures" class="anchor" href="#view-structures"><span class="header-link"></span></a>View Structures</h3>
-<p>So again, in our main script file we have created three new View instances. Lets now take a look at each of the View files so we can see what they&#39;re doing and how they work.</p>
-<p>If you remember from our main script file we created the following View (well, this is two Views, one inside another)…</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * View for &lt;select&gt; menu of Contacts</span>
-<span class="cm"> */</span>
-
-<span class="kd">var</span> <span class="nx">contacts_view</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ContactsView</span><span class="p">({</span>
-    <span class="nx">el</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#view-contacts&#39;</span><span class="p">),</span>
-    <span class="nx">collection</span><span class="o">:</span> <span class="nx">contacts</span><span class="p">,</span> <span class="c1">// pass in the Collection into this View</span>
-
-    <span class="cm">/**</span>
-<span class="cm">     * View for displaying the selected Contact</span>
-<span class="cm">     *</span>
-<span class="cm">     * Originally I had created a global namespace property so I could access this View&#39;s &quot;render()&quot; method from within &#39;contacts_view&#39; (/Views/Contacts.js)</span>
-<span class="cm">     * And according to people smarter than I (i.e. Addy Osmani from Google) this was the most appropriate solution.</span>
-<span class="cm">     * But I since discovered I could pass in additional data when creating a View instance and so that&#39;s what I&#39;ve done here.</span>
-<span class="cm">     */</span>
-
-    <span class="nx">associated_view</span><span class="o">:</span> <span class="k">new</span> <span class="nx">ContactView</span><span class="p">({</span>
-        <span class="nx">el</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#view-contact&#39;</span><span class="p">),</span>
-        <span class="nx">collection</span><span class="o">:</span> <span class="nx">contacts</span>
-    <span class="p">})</span>
-<span class="p">});</span>
-</pre></div>
-</code></pre>
-<p>…the <code>contacts_view</code> was the <code>&lt;select&gt;</code> menu that held a list of names. The idea being the user selected a name from the list and the details for the selected user was displayed on the page.</p>
-<p>So let&#39;s take a look at that particular View file… </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">define</span><span class="p">([</span><span class="s1">&#39;../Utils/backbone&#39;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(){</span>
-
-    <span class="kd">var</span> <span class="nx">ContactsView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
-        <span class="c1">// Backbone specific method</span>
-        <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">this</span><span class="p">.</span><span class="nx">select</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;select&#39;</span><span class="p">);</span>
-            <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;contacts:populate&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">populate</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
-            <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;model:added&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">update</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
-            <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">populate</span><span class="p">();</span> <span class="c1">// when this completes it triggers the custom event &#39;contacts:populate&#39;</span>
-            <span class="k">this</span><span class="p">.</span><span class="nx">associated_view</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">associated_view</span><span class="p">;</span>
-        <span class="p">},</span>
-
-        <span class="c1">// Backbone specific &#39;events&#39; management only applies to DOM elements (as this is a &#39;View&#39; after all)</span>
-        <span class="c1">// other custom events triggered are handled via &#39;this.on&#39; within the initialize method </span>
-        <span class="c1">// because of this we have to use &#39;this.on&#39; within a &#39;Collection&#39;</span>
-        <span class="nx">events</span><span class="o">:</span> <span class="p">{</span>
-            <span class="s1">&#39;change select&#39;</span><span class="o">:</span> <span class="s1">&#39;display_selected&#39;</span>
-        <span class="p">},</span>
-
-        <span class="nx">populate</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
-            <span class="kd">var</span> <span class="nx">select</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">select</span><span class="p">;</span> <span class="c1">// scope of this changes within &#39;each&#39; (refers to same thing as the &#39;model&#39; argument)</span>
-            <span class="kd">var</span> <span class="nx">frag</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
-            <span class="kd">var</span> <span class="nx">option</span><span class="p">;</span>
-
-            <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">model</span><span class="p">){</span>
-                <span class="nx">option</span> <span class="o">=</span> <span class="s1">&#39;&lt;option value=&quot;&#39;</span> <span class="o">+</span> <span class="nx">model</span><span class="p">.</span><span class="nx">cid</span> <span class="o">+</span> <span class="s1">&#39;&quot;&gt;&#39;</span> <span class="o">+</span> <span class="nx">model</span><span class="p">.</span><span class="nx">attributes</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;&lt;/option&gt;&#39;</span><span class="p">;</span>
-                <span class="nx">frag</span> <span class="o">+=</span> <span class="nx">option</span><span class="p">;</span>
-            <span class="p">},</span> <span class="k">this</span><span class="p">);</span>
-
-            <span class="c1">// We could of had the &#39;append&#39; calls within the loop</span>
-            <span class="c1">// but that would have meant multiple DOM interactions</span>
-            <span class="nx">select</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="nx">frag</span><span class="p">);</span>
-        <span class="p">},</span>
-
-        <span class="nx">display_selected</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kd">var</span> <span class="nx">targ</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">;</span>
-            <span class="kd">var</span> <span class="nx">selected_option</span> <span class="o">=</span> <span class="nx">targ</span><span class="p">.</span><span class="nx">options</span><span class="p">[</span><span class="nx">targ</span><span class="p">.</span><span class="nx">selectedIndex</span><span class="p">];</span>
-            <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">getByCid</span><span class="p">(</span><span class="nx">selected_option</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
-
-            <span class="c1">// We call the &#39;render&#39; method on the associated View we passed through when creating this View&#39;s instance</span>
-            <span class="k">this</span><span class="p">.</span><span class="nx">associated_view</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="nx">model</span><span class="p">);</span>
-        <span class="p">},</span>
-
-        <span class="c1">// &#39;model&#39; is passed through from Collection</span>
-        <span class="nx">update</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">model</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kd">var</span> <span class="nx">select</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;select&#39;</span><span class="p">);</span>
-            <span class="kd">var</span> <span class="nx">option</span> <span class="o">=</span> <span class="s1">&#39;&lt;option value=&quot;&#39;</span> <span class="o">+</span> <span class="nx">model</span><span class="p">.</span><span class="nx">cid</span> <span class="o">+</span> <span class="s1">&#39;&quot;&gt;&#39;</span> <span class="o">+</span> <span class="nx">model</span><span class="p">.</span><span class="nx">attributes</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;&lt;/option&gt;&#39;</span><span class="p">;</span>
-            <span class="nx">select</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="nx">option</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">});</span>
-
-    <span class="k">return</span> <span class="nx">ContactsView</span><span class="p">;</span>
-
-<span class="p">});</span>
-</pre></div>
-</code></pre>
-<p>…and let&#39;s break down what it&#39;s doing… </p>
-<h3><a name="carry-out-some-initial-set-up-stuff-when-a-new-instance-is-created" class="anchor" href="#carry-out-some-initial-set-up-stuff-when-a-new-instance-is-created"><span class="header-link"></span></a>Carry out some initial set-up stuff when a new instance is created</h3>
-<p>A few things going on here:  </p>
-<p>We first grab the <code>&lt;select&gt;</code> element using Backbone&#39;s <code>$el</code> property (this property references the element we passed through to the View&#39;s <code>extend</code> method when creating a new instance. It&#39;s effectively a jQuery wrapped version of the element - which is why we&#39;re able to use jQuery&#39;s <code>find</code> method.  </p>
-<p>Next we set-up a couple of event listeners (for custom events) - you&#39;ll remember the Collection triggers the custom events like so <code>this.trigger(&#39;model:added&#39;, model);</code> and <code>this.trigger(&#39;contacts:populate&#39;);</code>.  </p>
-<p>This is where it gets a little weird I&#39;m afraid. We now call the Collection&#39;s custom <code>populate</code> method. That method does literally nothing other than trigger the custom event <code>contacts:populate</code>. The reason that method even exists (and why we&#39;re calling it) is because we only want to populate the <code>&lt;select&gt;</code> menu when we know there is data available! We weren&#39;t able to trigger a custom event from the Collections <code>initialize</code> method (which would have been ideal, because once the Collection instance is created would have been a good time to trigger the custom event) and so we&#39;ve had to create our own method within the Collection which we manually call from this View. It&#39;s a bit &quot;arse about face&quot; but that&#39;s just the way it is.  </p>
-<p>Lastly we create a property for this instance that points to another View. The reason we do this is because later on in this View&#39;s <code>display_selected</code> method we need to call the associated View&#39;s <code>render</code> method.  </p>
-<p>Because we&#39;re using AMD we&#39;ve made our Views into separate modules/files, but because of this we aren&#39;t able to access code outside of a module (our module&#39;s code is protected) - so we&#39;re unable to access the <code>ContactView</code> View unless we pass around a reference to it like we&#39;ve done here.</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">select</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;select&#39;</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;contacts:populate&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">populate</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;model:added&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">update</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">populate</span><span class="p">();</span> <span class="c1">// when this completes it triggers the custom event &#39;contacts:populate&#39;</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">associated_view</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">associated_view</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h3><a name="define-some-events" class="anchor" href="#define-some-events"><span class="header-link"></span></a>Define some events</h3>
-<p>We specify a &#39;change&#39; event for the <code>&lt;select&gt;</code> element<br>which when triggered executes the <code>display_selected</code> method we&#39;ve created for this View.</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">events</span><span class="o">:</span> <span class="p">{</span>
-    <span class="s1">&#39;change select&#39;</span><span class="o">:</span> <span class="s1">&#39;display_selected&#39;</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h3><a name="custom-populate-function" class="anchor" href="#custom-populate-function"><span class="header-link"></span></a>Custom <code>populate</code> function</h3>
-<p>This method builds up the content of the <code>&lt;select&gt;</code> menu.<br>It does this by looping through the Collection data and accessing each individual Model stored within it.<br>You&#39;ll notice that we set the value of each <code>&lt;option&gt;</code> element to be whatever the <code>cid</code> value for the Model is (the <code>cid</code> value is set automatically by Backbone on each Model)</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">populate</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
-    <span class="kd">var</span> <span class="nx">select</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">select</span><span class="p">;</span> <span class="c1">// scope of this changes within &#39;each&#39; (refers to same thing as the &#39;model&#39; argument)</span>
-    <span class="kd">var</span> <span class="nx">frag</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">option</span><span class="p">;</span>
-
-   <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">model</span><span class="p">){</span>
-        <span class="nx">option</span> <span class="o">=</span> <span class="s1">&#39;&lt;option value=&quot;&#39;</span> <span class="o">+</span> <span class="nx">model</span><span class="p">.</span><span class="nx">cid</span> <span class="o">+</span> <span class="s1">&#39;&quot;&gt;&#39;</span> <span class="o">+</span> <span class="nx">model</span><span class="p">.</span><span class="nx">attributes</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;&lt;/option&gt;&#39;</span><span class="p">;</span>
-        <span class="nx">frag</span> <span class="o">+=</span> <span class="nx">option</span><span class="p">;</span>
-    <span class="p">},</span> <span class="k">this</span><span class="p">);</span>
-
-    <span class="c1">// We could of had the &#39;append&#39; calls within the loop</span>
-    <span class="c1">// but that would have meant multiple DOM interactions</span>
-    <span class="nx">select</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="nx">frag</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h3><a name="custom-display-selected-function" class="anchor" href="#custom-display-selected-function"><span class="header-link"></span></a>Custom <code>display_selected</code> function</h3>
-<p>This methods works out which menu item was selected and then<br>uses a Backbone specific method <code>getByCid</code> to access the required Model.<br>We then call the <code>ContactView</code>&#39;s <code>render</code> method and pass through the Model data that needs to be rendered.</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">display_selected</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">targ</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">selected_option</span> <span class="o">=</span> <span class="nx">targ</span><span class="p">.</span><span class="nx">options</span><span class="p">[</span><span class="nx">targ</span><span class="p">.</span><span class="nx">selectedIndex</span><span class="p">];</span>
-    <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">getByCid</span><span class="p">(</span><span class="nx">selected_option</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
-
-    <span class="c1">// We call the &#39;render&#39; method on the associated View we passed through when creating this View&#39;s instance</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">associated_view</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="nx">model</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h3><a name="custom-update-function" class="anchor" href="#custom-update-function"><span class="header-link"></span></a>Custom <code>update</code> function</h3>
-<p>Every time a Model is added to the Collection it triggers an <code>model:added</code> event.<br>This event causes the View&#39;s <code>update</code> method to be executed, which inserts the new Model directly into the <code>&lt;select&gt;</code> menu.</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">update</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">model</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">select</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;select&#39;</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">option</span> <span class="o">=</span> <span class="s1">&#39;&lt;option value=&quot;&#39;</span> <span class="o">+</span> <span class="nx">model</span><span class="p">.</span><span class="nx">cid</span> <span class="o">+</span> <span class="s1">&#39;&quot;&gt;&#39;</span> <span class="o">+</span> <span class="nx">model</span><span class="p">.</span><span class="nx">attributes</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;&lt;/option&gt;&#39;</span><span class="p">;</span>
-    <span class="nx">select</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="nx">option</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h3><a name="template-for-the-associated-view" class="anchor" href="#template-for-the-associated-view"><span class="header-link"></span></a>Template for the Associated View</h3>
-<p>Let&#39;s take a look at the associated View that we created…</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">define</span><span class="p">([</span><span class="s1">&#39;../Utils/backbone&#39;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(){</span>
-
-    <span class="kd">var</span> <span class="nx">ContactView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
-        <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">model</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">model</span> <span class="o">||</span> <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">models</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-            <span class="kd">var</span> <span class="nx">attributes</span> <span class="o">=</span> <span class="nx">model</span><span class="p">.</span><span class="nx">attributes</span><span class="p">;</span>
-            <span class="kd">var</span> <span class="nx">template</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#contact_template&#39;</span><span class="p">);</span>
-            <span class="kd">var</span> <span class="nx">compile</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">template</span><span class="p">(</span><span class="nx">template</span><span class="p">.</span><span class="nx">html</span><span class="p">(),</span> <span class="p">{</span>
-                <span class="nx">id</span><span class="o">:</span> <span class="nx">attributes</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span>
-                <span class="nx">name</span><span class="o">:</span> <span class="nx">attributes</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span>
-                <span class="nx">age</span><span class="o">:</span> <span class="nx">attributes</span><span class="p">.</span><span class="nx">age</span><span class="p">,</span>
-                <span class="nx">address</span><span class="o">:</span> <span class="nx">attributes</span><span class="p">.</span><span class="nx">address</span>
-            <span class="p">});</span>
-
-            <span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">html</span><span class="p">(</span><span class="nx">compile</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">});</span>
-
-    <span class="k">return</span> <span class="nx">ContactView</span><span class="p">;</span>
-
-<span class="p">});</span>
-</pre></div>
-</code></pre>
-<p>…as you can see: it&#39;s a lot simpler! All it consists of is a <code>render</code> method.</p>
-<p>The purpose of this View is to display the selected contact details.</p>
-<p>When this method is called we pass it the Model that we want to display and then we use Underscore&#39;s <code>_.template</code> method to render the data in HTML.</p>
-<p>If you&#39;ve not used a template library before then it simply is just a text file which contains HTML tags where the dynamic content areas are replaced with specific delimiter tags. You would then pass through an object of data to the template library in which is would use to compile the template&#39;s HTML content so its tags are replaced with content from the data object.</p>
-<p>For example, if the template was <code>&lt;p&gt;{{fullname}}&lt;/p&gt;</code> (this assumes the template library you&#39;re using requires the delimiter tags to be double braces <code>{ {</code> <code>}}</code> then you could pass in a data object like <code>{ fullname: &#39;Mark&#39; }</code> and then when the template is compiled it would return the HTML like this: <code>&lt;p&gt;Mark&lt;/p&gt;</code>.</p>
-<p>Underscore&#39;s <code>_.template</code> method uses different tags: <code>&lt;%=fullname%&gt;</code> and although the internal workings for each template library can be different (each one trying to out perform the other) the general principle of how they work stays the same.</p>
-<p>In this example we&#39;ve gotten the content of the template file from within the HTML page itself. If you remember, the main HTML page we had contained a <code>&lt;script&gt;</code> tag with the <code>type</code> attribute value set to <code>text/template</code>. This odd type value causes the browser to ignore it (a browser wont try to execute the HTML content within that script tag as JavaScript because it doesn&#39;t recognise the type value). </p>
-<p>Ideally though you&#39;d have the template content as a separate file and then AJAX in that template file. The reason I recommend keeping your template in a separate file is because relying on the browser to not execute a script just because it has an unknown attribute value is very fragile and likely to break in future, but for the purpose of this example it&#39;ll do.</p>
-<h3><a name="adding-a-new-model" class="anchor" href="#adding-a-new-model"><span class="header-link"></span></a>Adding a new Model</h3>
-<p>We have one more View left to look at, this is the HTML <code>&lt;form&gt;</code> element which lets us add a new contact to the list of contacts…</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">define</span><span class="p">([</span><span class="s1">&#39;../Models/Contact&#39;</span><span class="p">,</span> <span class="s1">&#39;../Utils/backbone&#39;</span><span class="p">],</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">Contact</span><span class="p">)</span> <span class="p">{</span>
-
-    <span class="kd">var</span> <span class="nx">AddContactView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
-        <span class="c1">// Built-in object for handling DOM events</span>
-        <span class="nx">events</span><span class="o">:</span> <span class="p">{</span>
-            <span class="s1">&#39;click input[type=submit]&#39;</span><span class="o">:</span> <span class="s1">&#39;add_contact&#39;</span>
-        <span class="p">},</span>
-
-        <span class="nx">add_contact</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span> <span class="c1">// prevent form from submitting</span>
-
-            <span class="kd">var</span> <span class="nx">message</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;message-success&#39;</span><span class="p">);</span>
-            <span class="kd">var</span> <span class="nx">errors</span> <span class="o">=</span> <span class="p">[];</span>
-            <span class="kd">var</span> <span class="nx">fullname</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">.</span><span class="nx">fullname</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
-            <span class="kd">var</span> <span class="nx">age</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">.</span><span class="nx">age</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
-            <span class="kd">var</span> <span class="nx">address</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">.</span><span class="nx">address</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
-            <span class="kd">var</span> <span class="nx">contact</span><span class="p">;</span>
-
-            <span class="c1">// This regex tests for a first name with at least two characters, </span>
-            <span class="c1">// followed by an optional middle name with at least two characters (we use a non-capturing group to save the regex engine some work), </span>
-            <span class="c1">// followed by the last name with at least two characters.</span>
-            <span class="c1">// This regex allows the first-middle name (and the middle-last) to be joined by a hypen (e.g. Georges St-Pierre or Georges-St Pierre)</span>
-            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="sr">/[\w-]{2,}(?:\s\w{2,})?[\s-]\w{2,}/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">fullname</span><span class="p">))</span> <span class="p">{</span>
-                <span class="nx">errors</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;Name was invalid&#39;</span><span class="p">);</span>
-            <span class="p">}</span> 
-
-            <span class="c1">// We allow ages from 1-999</span>
-            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="sr">/\d{1,3}/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">age</span><span class="p">))</span> <span class="p">{</span>
-                <span class="nx">errors</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;Age was invalid (should be numeric value only)&#39;</span><span class="p">);</span>
-            <span class="p">}</span>
-
-            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">address</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
-                <span class="c1">// Provide a default for the address (mainly because it&#39;s awkward to validate this type of field)</span>
-                <span class="nx">address</span> <span class="o">=</span> <span class="s1">&#39;No address provided&#39;</span><span class="p">;</span>
-            <span class="p">}</span>
-
-            <span class="c1">// If there are any errors then we can&#39;t proceed</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">errors</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
-                <span class="c1">// If the success message (from a previous successful record added) is still visible</span>
-                <span class="c1">// then remove it to save from confusing the user.</span>
-                <span class="kd">var</span> <span class="nx">success</span><span class="p">;</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nx">success</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;message-success&#39;</span><span class="p">))</span> <span class="p">{</span>
-                    <span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">.</span><span class="nx">removeChild</span><span class="p">(</span><span class="nx">success</span><span class="p">);</span> <span class="c1">// this.el provided by Backbone</span>
-                <span class="p">}</span>
-
-                <span class="c1">// Display errors</span>
-                <span class="nx">alert</span><span class="p">(</span><span class="nx">errors</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">));</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                <span class="c1">// There should be an AJAX function to post data to server-side script (for storing in db)</span>
-                <span class="c1">// Backbone.Model.save() might be a built-in handler for this, I&#39;m not sure yet?</span>
-
-                <span class="c1">// Create a new Model</span>
-                <span class="nx">contact</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Contact</span><span class="p">({</span>
-                    <span class="nx">id</span><span class="o">:</span> <span class="nx">_</span><span class="p">.</span><span class="nx">uniqueId</span><span class="p">(),</span>
-                    <span class="nx">name</span><span class="o">:</span> <span class="nx">fullname</span><span class="p">,</span>
-                    <span class="nx">age</span><span class="o">:</span> <span class="o">+</span><span class="nx">age</span><span class="p">,</span> <span class="c1">// ensure data is an Integer</span>
-                    <span class="nx">address</span><span class="o">:</span> <span class="nx">address</span>
-                <span class="p">});</span>
-
-                <span class="c1">// Add the new Model into the Contacts Collection</span>
-                <span class="c1">// This should trigger an &#39;add&#39; event which means the record is inserted into the &lt;select&gt;</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">contact</span><span class="p">);</span>
-
-                <span class="c1">// Display success message and reset the form</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">.</span><span class="nx">reset</span><span class="p">();</span> <span class="c1">// this.el provided by Backbone</span>
-
-                <span class="c1">// Don&#39;t want to see a massive long list of &#39;Record added successfully!&#39; messages</span>
-                <span class="c1">// So if one is already there then just remove it first</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="nx">message</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">removeChild</span><span class="p">(</span><span class="nx">message</span><span class="p">);</span>
-                <span class="p">}</span>
-
-                <span class="c1">// Create an element to hold our success message</span>
-                <span class="kd">var</span> <span class="nx">doc</span> <span class="o">=</span> <span class="nb">document</span><span class="p">;</span>
-                <span class="kd">var</span> <span class="nx">div</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
-                <span class="kd">var</span> <span class="nx">txt</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">createTextNode</span><span class="p">(</span><span class="s1">&#39;Record added successfully!&#39;</span><span class="p">);</span>
-
-                <span class="nx">div</span><span class="p">.</span><span class="nx">id</span> <span class="o">=</span> <span class="s1">&#39;message-success&#39;</span><span class="p">;</span>
-
-                <span class="nx">div</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">div</span><span class="p">);</span> <span class="c1">// this.el provided by Backbone</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">});</span>
-
-    <span class="k">return</span> <span class="nx">AddContactView</span><span class="p">;</span>
-
-<span class="p">});</span>
-</pre></div>
-</code></pre>
-<p>…this does a lot of stuff so lets break it down…</p>
-<h3><a name="event-listeners" class="anchor" href="#event-listeners"><span class="header-link"></span></a>Event listeners</h3>
-<p>We set-up a listener for the <code>click</code> event for the form&#39;s submit button which calls the <code>add_contact</code> method.</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">events</span><span class="o">:</span> <span class="p">{</span>
-    <span class="s1">&#39;click input[type=submit]&#39;</span><span class="o">:</span> <span class="s1">&#39;add_contact&#39;</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h3><a name="add-a-new-contact-and-validate-the-user-input" class="anchor" href="#add-a-new-contact-and-validate-the-user-input"><span class="header-link"></span></a>Add a new contact and validate the user input</h3>
-<p>We call the <code>add_contact</code> method and immediately call <code>e.preventDefault</code> which stops the form from submitting and thus refreshing the page (which we don&#39;t want to have happen as we&#39;ll lose the state of the page).</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">add_contact</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
-
-    <span class="kd">var</span> <span class="nx">message</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;message-success&#39;</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">errors</span> <span class="o">=</span> <span class="p">[];</span>
-    <span class="kd">var</span> <span class="nx">fullname</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">.</span><span class="nx">fullname</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">age</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">.</span><span class="nx">age</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">address</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">.</span><span class="nx">address</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">contact</span><span class="p">;</span>
-
-    <span class="c1">// This regex tests for a first name with at least two characters, </span>
-    <span class="c1">// followed by an optional middle name with at least two characters (we use a non-capturing group to save the regex engine some work), </span>
-    <span class="c1">// followed by the last name with at least two characters.</span>
-    <span class="c1">// This regex allows the first-middle name (and the middle-last) to be joined by a hypen (e.g. George St-Pierre or Georges-St Pierre)</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="sr">/[\w-]{2,}(?:\s\w{2,})?[\s-]\w{2,}/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">fullname</span><span class="p">))</span> <span class="p">{</span>
-        <span class="nx">errors</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;Name was invalid&#39;</span><span class="p">);</span>
-    <span class="p">}</span> 
-
-    <span class="c1">// We allow ages from 1-999</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="sr">/\d{1,3}/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">age</span><span class="p">))</span> <span class="p">{</span>
-        <span class="nx">errors</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;Age was invalid (should be numeric value only)&#39;</span><span class="p">);</span>
-    <span class="p">}</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">address</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">address</span> <span class="o">=</span> <span class="s1">&#39;No address provided&#39;</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h3><a name="handle-any-invalid-data" class="anchor" href="#handle-any-invalid-data"><span class="header-link"></span></a>Handle any invalid data</h3>
-<p>If the success message (from a previous successful record added) is still visible then remove it to save from confusing the user.<br>Then display any errors found.</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nx">errors</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">success</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">success</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;message-success&#39;</span><span class="p">))</span> <span class="p">{</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">.</span><span class="nx">removeChild</span><span class="p">(</span><span class="nx">success</span><span class="p">);</span> <span class="c1">// this.el provided by Backbone</span>
-    <span class="p">}</span>
-
-    <span class="c1">// Display errors</span>
-    <span class="nx">alert</span><span class="p">(</span><span class="nx">errors</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">));</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h3><a name="add-a-new-contact" class="anchor" href="#add-a-new-contact"><span class="header-link"></span></a>Add a new contact</h3>
-<p>This adds the new Model data, then updates the <code>&lt;select&gt;</code> menu, then inserts a success message to let the user know the details were added without issue.</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="k">else</span> <span class="p">{</span>
-    <span class="c1">// Create a new Model</span>
-    <span class="nx">contact</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Contact</span><span class="p">({</span>
-        <span class="nx">id</span><span class="o">:</span> <span class="nx">_</span><span class="p">.</span><span class="nx">uniqueId</span><span class="p">(),</span>
-        <span class="nx">name</span><span class="o">:</span> <span class="nx">fullname</span><span class="p">,</span>
-        <span class="nx">age</span><span class="o">:</span> <span class="o">+</span><span class="nx">age</span><span class="p">,</span> <span class="c1">// ensure data is an Integer</span>
-        <span class="nx">address</span><span class="o">:</span> <span class="nx">address</span>
-    <span class="p">});</span>
-
-    <span class="c1">// Add the new Model into the Contacts Collection</span>
-    <span class="c1">// This should trigger an &#39;add&#39; event which means the record is inserted into the &lt;select&gt;</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">contact</span><span class="p">);</span>
-
-    <span class="c1">// Display success message and reset the form</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">.</span><span class="nx">reset</span><span class="p">();</span> <span class="c1">// this.el provided by Backbone</span>
-
-    <span class="c1">// Don&#39;t want to see a massive long list of &#39;Record added successfully!&#39; messages</span>
-    <span class="c1">// So if one is already there then just remove it first</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">message</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">removeChild</span><span class="p">(</span><span class="nx">message</span><span class="p">);</span>
-    <span class="p">}</span>
-
-    <span class="c1">// Create an element to hold our success message</span>
-    <span class="kd">var</span> <span class="nx">doc</span> <span class="o">=</span> <span class="nb">document</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">div</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">txt</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">createTextNode</span><span class="p">(</span><span class="s1">&#39;Record added successfully!&#39;</span><span class="p">);</span>
-
-    <span class="nx">div</span><span class="p">.</span><span class="nx">id</span> <span class="o">=</span> <span class="s1">&#39;message-success&#39;</span><span class="p">;</span>
-
-    <span class="nx">div</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">txt</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">div</span><span class="p">);</span> <span class="c1">// this.el provided by Backbone</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h3><a name="url-routing" class="anchor" href="#url-routing"><span class="header-link"></span></a>URL Routing</h3>
-<p>I&#39;ve not built in any real routing logic into this particular example application, but I&#39;ve included below part of the example from the Backbone website so you at least have an idea of how it works...</p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">define</span><span class="p">([</span><span class="s1">&#39;../Utils/backbone&#39;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(){</span>
-
-    <span class="kd">var</span> <span class="nx">Routing</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Router</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
-        <span class="nx">routes</span><span class="o">:</span> <span class="p">{</span>
-            <span class="s1">&#39;test&#39;</span><span class="o">:</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;search/:query/:page&#39;</span><span class="o">:</span> <span class="s1">&#39;search&#39;</span>
-        <span class="p">},</span>
-
-        <span class="nx">test</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
-            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;User has accessed this app from /test/&#39;</span><span class="p">);</span>
-        <span class="p">},</span>
-
-        <span class="nx">search</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">query</span><span class="p">,</span> <span class="nx">page</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">query</span><span class="p">,</span> <span class="nx">page</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">});</span>
-
-    <span class="k">return</span> <span class="nx">Routing</span><span class="p">;</span>
-
-<span class="p">});</span>
-</pre></div>
-</code></pre>
-<p>...what we have here is a new <code>Router</code> instance where we then defines a set of &#39;routes&#39; into your application. The routes we have defined are:</p>
-<ul>
-<li><p><a href="http://backbone:8888/#test">http://backbone:8888/#test</a><br>If we access our application with this URL we&#39;ll see a log message of <code>User has accessed this app from /test/</code></p>
-</li>
-<li><p><a href="http://backbone:8888/#search/testing/p7">http://backbone:8888/#search/testing/p7</a><br>If we access our application with this URL we&#39;ll see a log message of <code>testing, p7</code></p>
-</li>
-</ul>
-<p>...to initialise this Router system we need to trigger it via the main script file... </p>
-<pre><code class="lang-js"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * Router/History API Examples</span>
-<span class="cm"> */</span>
-
-<span class="c1">// Create new instance of our Routing Class</span>
-<span class="kd">var</span> <span class="nx">routing</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Routing</span><span class="p">();</span>
-
-<span class="c1">// Initialize the Router</span>
-<span class="nx">Backbone</span><span class="p">.</span><span class="nx">history</span><span class="p">.</span><span class="nx">start</span><span class="p">({</span> <span class="nx">pushState</span><span class="o">:</span> <span class="kc">true</span> <span class="p">});</span>
-</pre></div>
-</code></pre>
-<p>Instead of displaying basic log messages we would use this routing feature to load a specific application state.</p>
-<p>So for example, if we set-up the relevant route then the user could access the application via a URL like: <a href="http://backbone:8888/#contact/99">http://backbone:8888/#contact/99</a> and that could load the contact details for Model item 99.</p>
-<p>You also have the facility to take advantage of HTML5&#39;s <code>pushState</code> which removes the need for URL rewriting but does require extra application logic/work. The default for <code>Backbone.Router</code> is to use hashbangs.</p>
-<p>If a user accesses the application with a hashbang URL and the application is set-up to use <code>pushState</code> then Backbone will update the URL from the hashbang to the proper HTML5 variation.</p>
-<h2><a name="wrap-up" class="anchor" href="#wrap-up"><span class="header-link"></span></a>Wrap-up</h2>
-<p>So this is where we end. </p>
-<p>We&#39;ve got our three Views set-up, we have our Model defined and contacts created from it and we created a Collection based on that Model type.</p>
-<p>The Views and Models/Collection are tied together and the application is functioning as it should be.</p>
-<p>There are lots of things we could do to improve this example, but as a basic example of an MVC style application built using Backbone.js I think it does everything it needs to.</p>
-<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
-<p>When you start using Backbone.js the concepts can be a bit confusing, but you quickly learn your way around. </p>
-<p>Oddly, trying to <em>explain</em> how to use Backbone.js is harder than actually using it! So I would suggest just start using it.</p>
-<p>The main <a href="http://www.backbonejs.org/">Backbone.js website</a> is the best documentation available and is the ideal place to start after here. </p>
-<p>Also, the following links are excellent resources to understand the MV* concepts discussed at the start of this post.</p>
-<h2><a name="links" class="anchor" href="#links"><span class="header-link"></span></a>Links**</h2>
-<ul>
-<li><a href="http://addyosmani.com/blog/backbone-fundamentals/">Backbone Fundamentals</a></li>
-<li><a href="http://addyosmani.com/blog/short-musings-on-javascript-mv-tech-stacks/">Short Musings On JavaScript MV* Tech Stacks</a></li>
-<li><a href="http://addyosmani.com/blog/understanding-mvc-and-mvp-for-javascript-and-backbone-developers/">Understanding MVC And MVP (For JavaScript And Backbone Developers)</a></li>
-<li><a href="http://addyosmani.com/blog/understanding-mvvm-a-guide-for-javascript-developers/">Understanding MVVM – A Guide For JavaScript Developers</a></li>
-<li><a href="http://addyosmani.com/blog/digesting-javascript-mvc-pattern-abuse-or-evolution/">Digesting JavaScript MVC – Pattern Abuse Or Evolution?</a></li>
-<li><a href="http://addyosmani.com/blog/javascript-mvc-jungle/">Journey Through The JavaScript MVC Jungle</a></li>
-</ul>
-</div>
-
-  <div class="comments">
-    <a href="/posts/mvc-in-javascript-with-backbone-js/#comments">
-      <span class="icon-bubbles"></span>
-      Comments
-    </a>
-  </div>
-
-  <div class="post-head group">
   <a href="/posts/ruby-and-the-sinatra-framework/">
     <h1 class="post-title">Ruby and the Sinatra framework</h1>
   </a>
@@ -1447,6 +408,615 @@ treetop <span class="o">(</span>1.4.10<span class="o">)</span>
 
   <div class="comments">
     <a href="/posts/ruby-and-the-sinatra-framework/#comments">
+      <span class="icon-bubbles"></span>
+      Comments
+    </a>
+  </div>
+
+  <div class="post-head group">
+  <a href="/posts/introduction-to-ruby/">
+    <h1 class="post-title">Introduction to Ruby</h1>
+  </a>
+  <span class="post-date">2012 &#183; 6 &#183; 18</span>
+</div>
+
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 27mins</em></p>
+<ul>
+<li>Introduction</li>
+<li>Installing Ruby</li>
+<li>The Interactive Ruby Console</li>
+<li>How to execute Ruby scripts</li>
+<li>Comments</li>
+<li>Variables</li>
+<li>Magic Variables</li>
+<li>Constants</li>
+<li>Symbols</li>
+<li>Functions/Methods</li>
+<li>Blocks</li>
+<li>Lambdas/Procs</li>
+<li>Classes</li>
+<li>Loops</li>
+<li>Conditionals</li>
+<li>Strings</li>
+<li>Arrays</li>
+<li>Hashes</li>
+<li>Numbers (and how &#39;everything is an object&#39; - similar to JavaScript)</li>
+<li>Conclusion</li>
+</ul>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<p>I&#39;ve not had much experience with the Ruby programming language, but with the arrival of JavaScript pre-processors such as CoffeeScript and the new features being added to ES5 (even more so in ES6), these new additions are pushing the JavaScript language to be more &#39;functional&#39; and thus similar in syntax to Ruby. </p>
+<p>Looking at CoffeeScript I wasn&#39;t convinced. I like the JavaScript syntax, I think it&#39;s actually quite a beautiful language (when written correctly). But I decided that the future is just around the corner so why wait to see what all the fuss is about. In my mind, the best way to get involved with the new JavaScript/CoffeeScript style syntax is to investigate some of its inspirations which (seem to) stem from Ruby.</p>
+<p>What I found though was that Ruby is itself an amazingly flexible and beautiful language. Very expressive and a joy to write and use (and to look at). </p>
+<p>Warning: this introduction assumes you have prior programming knowledge (doesn&#39;t matter really whether it&#39;s JavaScript or C# as long as you&#39;ve had some programming experience). I&#39;m not going to be explaining the basics of what are &#39;expressions&#39;, &#39;block statements&#39;, &#39;variables&#39;, &#39;arrays&#39;, &#39;functions/methods&#39; etc.</p>
+<p>So without further ado, here we go…</p>
+<p><em>Ps, <a href="http://rubymonk.com/"><a href="http://rubymonk.com/toc">http://rubymonk.com/toc</a></a> looks like a pretty good learning resource - I&#39;ve only taken a quick peek at it so far but it looks interesting</em></p>
+<h2><a name="installing-ruby" class="anchor" href="#installing-ruby"><span class="header-link"></span></a>Installing Ruby</h2>
+<p>UPDATE: I&#39;ve found a super sweet way to get multiple versions of Ruby installed onto your Mac (notice I said Mac, not PC - so if you&#39;re on Windows then I&#39;m afraid I can&#39;t help you).</p>
+<p>First install <a href="https://github.com/sstephenson/ruby-build">Ruby-Build</a> - preferable via the Mac package manager <a href="http://mxcl.github.com/homebrew/">Homebrew</a> using the command <code>brew install ruby-build</code>.</p>
+<p>Then install the Ruby switcher <a href="https://github.com/hmans/rbfu">rbfu</a> using the command <code>brew install http://git.io/rbfu.rb</code> - make sure you update your shell startup script (<code>~/.zshrc</code> if your&#39;re using Zsh or <code>~/.bashrc</code>/<code>~/.bash_profile</code> etc if you&#39;re using Bash) to include the line <code>eval &quot;$(rbfu --init --auto)&quot;</code> (this information is documented on the rbfu github README so go there for more info, if you need it).</p>
+<p>Then once those two items are installed you can start installing different Ruby versions using ruby-build and switching Ruby versions using rbfu.</p>
+<p>To install a new Ruby version, first check which ones are available by running the command: <code>ruby-build --definitions</code> - this will list all Ruby versions available to install.</p>
+<p>Pick a version (for example <code>2.0.0-preview2</code>) and run the command:  </p>
+<p><code>ruby-build 2.0.0-preview2 $HOME/.rbfu/rubies/2.0.0-preview2</code></p>
+<p>That takes care of installing that particular version of Ruby, but now for you to switch to using that version you need to create a <code>.ruby-version</code> file and place it inside the directory of your Ruby application. The content of that file should be <code>2.0.0-preview2</code> or whatever version of Ruby you have installed (via Ruby Build) that you want to run for that application.</p>
+<p>Now when you <code>cd</code> into that directory where your <code>.ruby-version</code> file is located you&#39;ll noticed the Terminal will state that it has activated the specific Ruby version requested.</p>
+<p>If for some reason you create a <code>.ruby-version</code> file but forget to run the Ruby Build install for the requested version then the Terminal will display a message to let you know that you need to install the requested version of Ruby.</p>
+<p>Below are my original notes, but you can ignore these now.</p>
+<hr>
+<p><del>~OK, this was an absolute bitch to get set-up. Luckily for you, I&#39;ve suffered so you don&#39;t have to (hopefully).</del>~</p>
+<p><del>~I&#39;m running Mac OSX so your mileage may vary.</del>~</p>
+<p><del>~If you can get away with it, use the package manager homebrew to install: <code>brew install ruby</code>.</del>~</p>
+<p><del>~But homebrew didn&#39;t work for me. It said it installed, but I couldn&#39;t get it to switch from the default Ruby 1.8 the Mac has pre-installed. So the next step was to install what is called &#39;rvm&#39; which lets you install and manage multiple versions of Ruby.</del>~</p>
+<p><del>~The process is as follows (open the Terminal and start typing):</del>~</p>
+<p><del>~1. <code>bash -s stable &lt; &lt;(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)</code>. After rvm is installed you&#39;ll see a message asking you to to run the following...</del>~</p>
+<p><del>~2. <code>source /Users/&lt;username&gt;/.rvm/scripts/rvm</code>. Remember to replace <code>&lt;username&gt;</code> with the name of your computer.</del>~</p>
+<p><del>~3. <code>rvm install 1.9.3 --with-gcc=clang</code>. The <code>--with-gcc=clang</code> was suggested on Stack Overflow to fix issues Mac OSX Lion users were having trying to upgrade to the latest Ruby version 1.9.3. This worked fine at home, but at work it failed so instead I executed… <code>rvm install ruby-1.9.3-p125</code></del>~</p>
+<p><del>~4. <code>rvm use 1.9.3 --default</code>. We&#39;re now telling rvm to use version 1.9.3 as the default version of Ruby</del>~</p>
+<p><del>~5. <code>ruby -v</code> - just check the version quickly to be sure</del>~</p>
+<h2><a name="the-interactive-ruby-console" class="anchor" href="#the-interactive-ruby-console"><span class="header-link"></span></a>The Interactive Ruby Console</h2>
+<p>Beginners are advised to use the interactive Ruby console to get to know the language. So to start it up, in your Terminal type: <code>irb</code> (and if you want to quit use: <code>Ctrl+D</code>).</p>
+<p>From irb you can start typing out code and seeing what the results are.</p>
+<p>For example to display something you would use <code>puts</code> (this is similar to <code>Reponse.Write</code> in ASP or <code>echo</code> in PHP, or even <code>document.write</code> - <em>never use that!</em> - in JavaScript) like so <code>puts &quot;Hello World&quot;</code>. There is also <code>print</code> but be warned that although it looks similar it&#39;s not the same as <code>puts</code>.</p>
+<p>Take the following example…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="mi">5</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span>
+    <span class="nb">print</span> <span class="s2">&quot;This gets written five times&quot;</span>
+    <span class="nb">sleep</span> <span class="mi">2</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>…which every two seconds displays the sentence &quot;This gets written five times&quot;…</p>
+<p><code>This gets written five timesThis gets written five timesThis gets written five timesThis gets written five timesThis gets written five times</code></p>
+<p>…and returns <code>=&gt; 5</code>. Notice the sentence is printed on one line. If you were to change <code>print</code> to <code>puts</code> it would automatically generate a newline for you making it easier to read. </p>
+<p>As far as I understand it, the other more subtle difference is that <code>print</code> buffers the output, so rather than displaying the sentence every two seconds it waits until ten seconds (2 seconds * 5 times) before printing the sentence five times. Now, I tried this myself both via <code>irb</code> and via a standard Ruby script but <code>print</code> definitely was executing every two seconds, so this may only occur under certain environments - but it&#39;s still worth being aware of. See <a href="http://mattberther.com/2009/02/11/puts-vs-print-in-ruby">this article</a> which is where I first heard about this subtle difference.</p>
+<h2><a name="how-to-execute-ruby-scripts" class="anchor" href="#how-to-execute-ruby-scripts"><span class="header-link"></span></a>How to execute Ruby scripts</h2>
+<p>Simply create a file with an extension of <code>.rb</code> and at the top of that file include the following line… </p>
+<p><code>#!/usr/bin/env ruby</code></p>
+<p>…this tells the operating system how to handle the file (e.g. tell it to use the Ruby parser to execute the file).</p>
+<p>Then within the Terminal application, <code>cd</code> to the directory where that file is located and execute the command <code>ruby name_of_file.rb</code></p>
+<h2><a name="comments" class="anchor" href="#comments"><span class="header-link"></span></a>Comments</h2>
+<p>In Ruby you have single line comments <code># this is a comment</code> and multi-line comments:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="cm">=begin</span>
+<span class="cm">    Lots and lots of</span>
+<span class="cm">    code that I want</span>
+<span class="cm">    to comment out all at once</span>
+<span class="cm">=end</span>
+</pre></div>
+</code></pre>
+<p>With multi-line comments there must be no whitespace before the <code>=begin</code> and <code>=end</code> statements otherwise your script will throw an error.</p>
+<h2><a name="variables" class="anchor" href="#variables"><span class="header-link"></span></a>Variables</h2>
+<p>Variables do not have to be declared. So you can literally write <code>a = 123</code>.</p>
+<p>You can assign multiple variables at once like so…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>     <span class="c1"># which is effectively the same as x = 1, y = 2</span>
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span>     <span class="c1"># which switches the values of each variable</span>
+<span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="o">]</span> <span class="c1"># assign each array item value to a variable, so x = 1, y = 2, z = 3</span>
+</pre></div>
+</code></pre>
+<p>Variables in JavaScript typically come in two flavours: Global and Local. In JavaScript if you declare a variable with the <code>var</code> syntax then the variable is added as a property to the global object (which depending on the environment JavaScript is running in) most of the time will be the <code>window</code> object. If you declare a variable inside of a function in JavaScript using the <code>var</code> syntax then that variable is only available within that function (unless it&#39;s accessible via some priviledged object).</p>
+<p>In Ruby, if you declare a variable inside a function with no prefix then it is only available within that function. If you prefix it with a dollar sign (e.g. <code>$my_var = 123</code>) then that declares it as a global variable and is accessible from any where in the program.</p>
+<p>When using Classes, if you declare a variable within the class using an <code>@</code> prefix (e.g. <code>@my_var = 123</code>) then that variable is available to the object created by that class only (also known as an &#39;instance variable&#39;). Where as a double <code>@@</code> (e.g. <code>@@my_var = 123</code>) is known as a &#39;class variable&#39; which means it is available to all objects created by that particular class and any changes to this class variable is reflected in all objects created from that class. </p>
+<p>So for example, if I have a class called &quot;MyClass&quot; and inside of it I set <code>@@my_var</code> to equal 456 instead of 123 then every object created from &quot;MyClass&quot; will have <code>my_var</code> set to 456. Whereas if &quot;MyClass&quot; had <code>@my_var</code> set to 123 and I create a new object from that class and set <code>@my_var</code> to 456 - an &#39;instance variable&#39; - then only that object would see the value of <code>@my_var</code> as 456, all other objects created from the class would still see the value as 123. It sounds tricky but it&#39;s not that bad really. Here is an example of what the above was trying to explain… </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="c1"># Following classes &#39;MyClass&#39; and &#39;MyClass2&#39; demonstrate difference between &#39;class variable&#39; and &#39;instance variable&#39;</span>
+<span class="k">class</span> <span class="nc">MyClass</span>
+    <span class="k">def</span> <span class="nf">initialize</span>
+        <span class="vc">@@class_var</span> <span class="o">=</span> <span class="mi">123</span>
+    <span class="k">end</span>
+    <span class="k">def</span> <span class="nf">showValue</span>
+        <span class="nb">puts</span> <span class="vc">@@class_var</span>
+    <span class="k">end</span>
+    <span class="k">def</span> <span class="nf">setValue</span>
+        <span class="vc">@@class_var</span> <span class="o">=</span> <span class="mi">456</span><span class="p">;</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">MyClass2</span>
+    <span class="k">def</span> <span class="nf">initialize</span>
+        <span class="vi">@class_var</span> <span class="o">=</span> <span class="mi">123</span>
+    <span class="k">end</span>
+    <span class="k">def</span> <span class="nf">showValue</span>
+        <span class="nb">puts</span> <span class="vi">@class_var</span>
+    <span class="k">end</span>
+    <span class="k">def</span> <span class="nf">setValue</span>
+        <span class="vi">@class_var</span> <span class="o">=</span> <span class="mi">456</span><span class="p">;</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1">#############################</span>
+
+<span class="c1"># This is the &#39;class variable&#39;</span>
+
+<span class="n">objA</span> <span class="o">=</span> <span class="no">MyClass</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
+<span class="n">objB</span> <span class="o">=</span> <span class="no">MyClass</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
+
+<span class="n">objA</span><span class="o">.</span><span class="n">showValue</span> <span class="c1"># =&gt; 123</span>
+<span class="n">objB</span><span class="o">.</span><span class="n">showValue</span> <span class="c1"># =&gt; 123</span>
+
+<span class="n">objA</span><span class="o">.</span><span class="n">setValue</span>
+
+<span class="n">objA</span><span class="o">.</span><span class="n">showValue</span> <span class="c1"># =&gt; 456</span>
+<span class="n">objB</span><span class="o">.</span><span class="n">showValue</span> <span class="c1"># =&gt; 456</span>
+
+<span class="c1">#############################</span>
+
+<span class="c1"># This is the &#39;instance variable&#39;</span>
+
+<span class="n">objC</span> <span class="o">=</span> <span class="no">MyClass2</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
+<span class="n">objD</span> <span class="o">=</span> <span class="no">MyClass2</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
+
+<span class="n">objC</span><span class="o">.</span><span class="n">showValue</span> <span class="c1"># =&gt; 123</span>
+<span class="n">objD</span><span class="o">.</span><span class="n">showValue</span> <span class="c1"># =&gt; 123</span>
+
+<span class="n">objC</span><span class="o">.</span><span class="n">setValue</span>
+
+<span class="n">objC</span><span class="o">.</span><span class="n">showValue</span> <span class="c1"># =&gt; 456</span>
+<span class="n">objD</span><span class="o">.</span><span class="n">showValue</span> <span class="c1"># =&gt; 123</span>
+</pre></div>
+</code></pre>
+<h2><a name="magic-variables" class="anchor" href="#magic-variables"><span class="header-link"></span></a>Magic Variables</h2>
+<p>There are &#39;magic&#39; variables (like predefined variables in PHP).</p>
+<p>For example you have <code>__FILE__</code> which refers to the current file being executed and there is also <code>$0</code> which refers to the file used to start the program. I mention these two specifically because these are used in the getting started examples on the <a href="http://www.ruby-lang.org/">Ruby website</a>.</p>
+<h2><a name="constants" class="anchor" href="#constants"><span class="header-link"></span></a>Constants</h2>
+<p>Constants are variables that cannot be changed once they are set. Any variable that is capitalised (e.g. <code>Myconstant</code>) is made into a constant. </p>
+<p>In other languages a constant is normally either prefixed with the keyword <code>constant Myconstant</code> or is all caps <code>MYCONSTANT</code>.</p>
+<p>If you try to overwrite a constant you&#39;ll get the following message: <code>warning: already initialized constant</code> - although as far as I can tell by testing this in irb it seems to change the constant and only warns you rather than actually preventing you from changing the value? <strong><em>Maybe a Rubyist reading this can clarify if this is expected behaviour.</em></strong> </p>
+<h2><a name="symbols" class="anchor" href="#symbols"><span class="header-link"></span></a>Symbols</h2>
+<p>Symbols are like static variables (or constants). They are used as identifiers, as a way to keep code cleaner.</p>
+<p>If you had lots of hashes (which we&#39;ll come to later) and you have a key/property called &quot;name&quot; then you could write your hash like so…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">hash1</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Mark&quot;</span> <span class="p">}</span>
+<span class="n">hash2</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Brad&quot;</span> <span class="p">}</span>
+<span class="n">hash3</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Ash&quot;</span> <span class="p">}</span>
+<span class="n">hash4</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Neil&quot;</span> <span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>…but <code>&quot;name&quot;</code> is being re-created in memory every time it&#39;s referenced. It&#39;s much more energy efficient to use a Symbol which looks like a variable but is prefixed with a colon <code>:name</code>…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">hash1</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Mark&quot;</span> <span class="p">}</span>
+<span class="n">hash2</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Brad&quot;</span> <span class="p">}</span>
+<span class="n">hash3</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Ash&quot;</span> <span class="p">}</span>
+<span class="n">hash4</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Neil&quot;</span> <span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>…as you can see, Symbols don&#39;t have values like variables, they are literally just used as efficient identifiers.</p>
+<h2><a name="functionsmethods" class="anchor" href="#functionsmethods"><span class="header-link"></span></a>Functions/Methods</h2>
+<p>In Ruby everything is an Object (even Strings and Integers) so when you&#39;re defining a function you&#39;re really defining a method (methods are the same as functions but you normally call a function a method when it&#39;s attached to an object).</p>
+<p>To define a method the syntax is:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">method_name</span> <span class="p">(</span><span class="n">arguments</span><span class="p">)</span>
+    <span class="sr">//</span> <span class="n">function</span> <span class="n">code</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>In JavaScript, if a method doesn&#39;t explicitly specify a return value then it returns <code>undefined</code>. In Ruby a method will return the last expression evaluated in its body, and if there isn&#39;t one then it will return <code>nil</code> (<code>nil</code> is equivalent to <code>null</code> in PHP).</p>
+<p>As was noted in the above &#39;Variables&#39; section about variables being able to assigned multiple values, this can come in handy with method returning multiple values as well (which is quite interesting as I&#39;m only used to functions in JavaScript returning a single value)… </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">myMethod</span> 
+    <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">]</span> <span class="c1"># this being the last expression, this is what&#39;s returned</span>
+<span class="k">end</span>
+
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">myMethod</span><span class="p">;</span> <span class="c1"># =&gt; a = 1, b = 2</span>
+</pre></div>
+</code></pre>
+<p>You can call a method without parenthesis, e.g. <code>myMethod</code> apposed to <code>myMethod()</code>. The choice is yours whether you use parenthesis or not - personally there are times where I can see myself not needing them and other times using them so it&#39;s crystal clear that what I&#39;m doing is calling a method (time will tell - but I understand a good practice is to use parenthesis whenever a method expects arguments to be passed otherwise there is no point in using them).</p>
+<p>But note that with multiple arguments the caller must not have a space between the parenthesis and the function name.</p>
+<p>So for example, these work…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">welcome</span><span class="p">(</span><span class="s2">&quot;Mark&quot;</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">welcome</span><span class="s2">&quot;Mark&quot;</span><span class="p">,</span> <span class="mi">30</span>
+<span class="n">welcome</span> <span class="s2">&quot;Mark&quot;</span><span class="p">,</span> <span class="mi">30</span>
+</pre></div>
+</code></pre>
+<p>…but this doesn&#39;t <code>welcome (&quot;Mark&quot;, 30)</code>.</p>
+<p>And calling a method which takes no arguments will also cause an error when called using a space between the method name and the parenthesis.</p>
+<p>e.g. <code>Person.speak ()</code> =&gt; error but <code>Person.speak()</code> or <code>Person.speak</code> is fine.</p>
+<p>You can specify default values for arguments…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">welcome</span> <span class="p">(</span><span class="nb">name</span> <span class="o">=</span> <span class="s2">&quot;World&quot;</span><span class="p">,</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Hello </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">!, I see you&#39;re </span><span class="si">#{</span><span class="n">age</span><span class="si">}</span><span class="s2"> years old.&quot;</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>…which can be used as follows…</p>
+<p><code>welcome</code> =&gt; Hello World! Looks like you&#39;re 1 today<br><code>welcome &quot;Mark&quot;</code> =&gt; Hello Mark! Looks like you&#39;re 1 today<br><code>welcome &quot;Mark&quot;, 30</code> =&gt; Hello Mark! Looks like you&#39;re 30 today</p>
+<p>You can also add new methods to an existing object just by prefixing the name of the method with the relevant object… </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nc">Math</span><span class="o">.</span><span class="nf">someNewThing</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> 
+    <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">x</span><span class="si">}</span><span class="s2"> was here&quot;</span>
+<span class="k">end</span>
+
+<span class="no">Math</span><span class="o">.</span><span class="n">respond_to?</span><span class="p">(</span><span class="s2">&quot;someNewThing&quot;</span><span class="p">)</span> <span class="c1"># =&gt; true</span>
+
+<span class="no">Math</span><span class="o">.</span><span class="n">someNewThing</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span> <span class="c1"># =&gt; 123 was here</span>
+<span class="no">Math</span><span class="o">.</span><span class="n">someNewThing</span><span class="p">(</span><span class="s2">&quot;abc&quot;</span><span class="p">)</span> <span class="c1"># =&gt; abc was here</span>
+</pre></div>
+</code></pre>
+<p>…in Ruby these types of method declarations are referred to as &#39;class methods&#39; (or &#39;singleton methods&#39;)</p>
+<p>In a similar example of extending already defined Classes:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Fixnum</span>
+    <span class="k">def</span> <span class="nf">seconds</span>
+        <span class="nb">self</span>
+    <span class="k">end</span>
+    <span class="k">def</span> <span class="nf">minutes</span>
+        <span class="nb">self</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">end</span>
+    <span class="k">def</span> <span class="nf">hours</span>
+        <span class="nb">self</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span>
+    <span class="k">end</span>
+    <span class="k">def</span> <span class="nf">days</span>
+        <span class="nb">self</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">24</span>
+    <span class="k">end</span> 
+<span class="k">end</span>
+
+<span class="nb">puts</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span>
+<span class="nb">puts</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span> <span class="o">+</span> <span class="mi">10</span><span class="o">.</span><span class="n">minutes</span>
+<span class="nb">puts</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span> <span class="o">+</span> <span class="mi">16</span><span class="o">.</span><span class="n">hours</span>
+<span class="nb">puts</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span> <span class="o">-</span> <span class="mi">7</span><span class="o">.</span><span class="n">days</span>
+</pre></div>
+</code></pre>
+<p>Note: you might see methods that are called using a ? at the end, these indicate that the method will return a Boolean value (e.g. <code>respond_to?</code> which you&#39;ll see below in the &#39;Classes&#39; section)… </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="o">[]</span>
+<span class="n">x</span><span class="o">.</span><span class="n">empty?</span> <span class="c1"># =&gt; true (…or x.empty?() if you prefer the use of parenthesis)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span>
+<span class="n">x</span><span class="o">.</span><span class="n">empty?</span> <span class="c1"># =&gt; false</span>
+</pre></div>
+</code></pre>
+<p>If you want to know what methods are available to an object/class then look at the <code>class</code> of the object and then inspect the methods available… </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">my_hash</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Mark&quot;</span> <span class="p">}</span>
+<span class="n">my_hash</span><span class="o">.</span><span class="n">class</span> <span class="c1"># =&gt; Hash</span>
+<span class="no">Hash</span><span class="o">.</span><span class="n">instance_methods</span> <span class="c1"># =&gt; [:rehash, :to_hash, :to_a, :inspect, :to_s, :==, :[], :hash, :eql?, :fetch, :[]=, :store, :default, :default=, :default_proc, :default_proc=, :key, :index, :size, :length, :empty?, :each_value, :each_key, :each_pair, :each, :keys, :values, :values_at, :shift, :delete, :delete_if, :keep_if, :select, :select!, :reject, :reject!, :clear, :invert, :update, :replace, :merge!, :merge, :assoc, :rassoc, :flatten, :include?, :member?, :has_key?, :has_value?, :key?, :value?, :compare_by_identity, :compare_by_identity?, :entries, :sort, :sort_by, :grep, :count, :find, :detect, :find_index, :find_all, :collect, :map, :flat_map, :collect_concat, :inject, :reduce, :partition, :group_by, :first, :all?, :any?, :one?, :none?, :min, :max, :minmax, :min_by, :max_by, :minmax_by, :each_with_index, :reverse_each, :each_entry, :each_slice, :each_cons, :each_with_object, :zip, :take, :take_while, :drop, :drop_while, :cycle, :chunk, :slice_before, :nil?, :===, :=~, :!~, :&lt;=&gt;, :class, :singleton_class, :clone, :dup, :initialize_dup, :initialize_clone, :taint, :tainted?, :untaint, :untrust, :untrusted?, :trust, :freeze, :frozen?, :methods, :singleton_methods, :protected_methods, :private_methods, :public_methods, :instance_variables, :instance_variable_get, :instance_variable_set, :instance_variable_defined?, :instance_of?, :kind_of?, :is_a?, :tap, :send, :public_send, :respond_to?, :respond_to_missing?, :extend, :display, :method, :public_method, :define_singleton_method, :object_id, :to_enum, :enum_for, :equal?, :!, :!=, :instance_eval, :instance_exec, :__send__, :__id__]</span>
+</pre></div>
+</code></pre>
+<h2><a name="blocks" class="anchor" href="#blocks"><span class="header-link"></span></a>Blocks</h2>
+<p>In Ruby a <code>code block</code> is any piece of code within either <code>do..end</code> or curly brackets <code>{}</code>. </p>
+<p>When creating a method, if you want to pass a code block in as an argument, you need to prefix the argument name with an ampersand <code>&amp;</code> like so…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">myfn</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">code_block</span><span class="p">)</span>
+    <span class="sx">%w(a e I o u)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">vowel</span><span class="o">|</span>
+        <span class="n">code_block</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">vowel</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">myfn</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">x</span> <span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>…what the above code does is create an Array and then iterates over it. Every item in the Array is passed to the code block (the code block which is passed in as an argument to the method).</p>
+<p>But the above can be simplified...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">myfn</span>
+    <span class="sx">%w(a e I o u)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">vowel</span><span class="o">|</span>
+        <span class="k">yield</span> <span class="n">vowel</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">myfn</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">x</span> <span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>...this isn&#39;t as obvious but is less verbose (the <code>yield</code> keyword automatically detects the code block and passes control to it rather than us having to pass through the code block and executing the <code>call</code> method on the code block).</p>
+<h2><a name="lambdasprocs" class="anchor" href="#lambdasprocs"><span class="header-link"></span></a>Lambdas/Procs</h2>
+<p>Ruby also has Lambdas and Proc objects. These are similar to Blocks but have some differences worth mentioning.</p>
+<h3><a name="procs" class="anchor" href="#procs"><span class="header-link"></span></a>Procs</h3>
+<p>Procs are the same as blocks but can be saved into a variable so they are easily reusable. A block on the other hand can&#39;t be reused. It can only be retyped for every method that you want to use it on. </p>
+<p>The following is an example of how to use a Proc object instead of Block...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">my_proc</span> <span class="o">=</span> <span class="no">Proc</span><span class="o">.</span><span class="n">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">x</span> <span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">myfn</span> <span class="n">proc_obj</span>
+    <span class="sx">%w(a e I o u)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">vowel</span><span class="o">|</span>
+        <span class="n">proc_obj</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">vowel</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">myfn</span> <span class="n">my_proc</span>
+</pre></div>
+</code></pre>
+<p>Notice we use a <code>call</code> method on the Proc object rather than the <code>yield</code> keyword which we use for a Block.</p>
+<p>So if you have a one time piece of code you want to pass to a method then a block would make sense, but if you have a piece of code that you want to reuse across multiple methods then best to make it into a Proc object.</p>
+<h3><a name="lambdas" class="anchor" href="#lambdas"><span class="header-link"></span></a>Lambdas</h3>
+<p>Lambdas are the same as Proc objects but with two slight differences.</p>
+<ol>
+<li>If you pass in the wrong number of arguments then the lambda will throw <code>ArgumentError</code></li>
+<li>If they have a <code>return</code> statement then the whole method wont suddenly return from that point (Proc objects cause the rest of the method to halt)</li>
+</ol>
+<p>The following is an example of how to use a Proc object instead of Block...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">my_lambda</span> <span class="o">=</span> <span class="nb">lambda</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">x</span> <span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">myfn</span> <span class="n">lambda_obj</span>
+    <span class="sx">%w(a e I o u)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">vowel</span><span class="o">|</span>
+        <span class="n">lambda_obj</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">vowel</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">myfn</span> <span class="n">my_lambda</span>
+</pre></div>
+</code></pre>
+<p>Lambdas are very popular in other languages hence it&#39;s inclusion in Ruby (it&#39;s just a nice way to pass around code blocks). </p>
+<p>The following example is modified from a test on RubyMonk but is a good example of using lambdas…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">with_names</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+  <span class="n">result</span> <span class="o">=</span> <span class="o">[]</span>
+  <span class="o">[</span> <span class="o">[</span><span class="s2">&quot;Christopher&quot;</span><span class="p">,</span> <span class="s2">&quot;Alexander&quot;</span><span class="o">]</span><span class="p">,</span>
+    <span class="o">[</span><span class="s2">&quot;John&quot;</span><span class="p">,</span> <span class="s2">&quot;McCarthy&quot;</span><span class="o">]</span><span class="p">,</span>
+    <span class="o">[</span><span class="s2">&quot;Joshua&quot;</span><span class="p">,</span> <span class="s2">&quot;Norton&quot;</span><span class="o">]</span> <span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">pair</span><span class="o">|</span>
+      <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="n">fn</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">pair</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span> <span class="n">pair</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">)</span>
+  <span class="k">end</span>
+  <span class="n">result</span>
+<span class="k">end</span>
+
+<span class="n">l</span> <span class="o">=</span> <span class="nb">lambda</span> <span class="p">{</span> <span class="o">|</span><span class="n">name1</span><span class="p">,</span> <span class="n">name2</span><span class="o">|</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">name1</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">name2</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">}</span> 
+
+<span class="n">with_names</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+</pre></div>
+</code></pre>
+<h2><a name="classes" class="anchor" href="#classes"><span class="header-link"></span></a>Classes</h2>
+<p>The Classes syntax is as follows…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">ClassName</span>
+    <span class="k">def</span> <span class="nf">initialize</span> <span class="p">()</span>
+        <span class="sr">//</span> <span class="n">code</span>
+    <span class="k">end</span>
+    <span class="sr">//</span> <span class="n">code</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Instance variables for classes are defined using <code>@variable_name</code> and are available to all methods of the class.</p>
+<p>For example…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Person</span>
+    <span class="k">def</span> <span class="nf">initialize</span> <span class="p">(</span><span class="nb">name</span> <span class="o">=</span> <span class="s2">&quot;Bob&quot;</span><span class="p">)</span>
+        <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">speak</span>
+        <span class="nb">puts</span> <span class="s2">&quot;Hello, my name is </span><span class="si">#{</span><span class="vi">@name</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">employee</span> <span class="o">=</span> <span class="no">Person</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Mark&quot;</span><span class="p">)</span>
+</pre></div>
+</code></pre>
+<p>…executing this via irb returns <code>#&lt;Person:0x007feb988ce048 @name=&quot;Mark&quot;&gt;</code></p>
+<p>Now executing <code>employee.speak</code> returns &quot;Hi, my name is Mark&quot;.</p>
+<p>To check what methods exist for an object/class we can use <code>instance_methods</code> (e.g. using above example Class: <code>Person.instance_methods</code>) which shows ALL methods, even those you&#39;ve not defined yourself.</p>
+<p>We can ignore ancestor methods by setting the <code>instance_methods</code> argument to false: <code>Person.instance_methods(false)</code> which then just shows us the one method we defined (you could use no parenthesis <code>Person.instance_methods false</code> but I don&#39;t think that is as clear in this instance).</p>
+<p>A quick note about the use of parenthesis: I think there is no right or wrong choice but rather it depends on the tastes of the invidual user. I personally find no-parenthesis cleaner, but in some places it is just too confusing without them, so I like to mix and match wherever I feel it&#39;s appropriate.</p>
+<p>We can do a check to see if our object/class has a certain method available by checking if it <code>responds</code> to it…</p>
+<p><code>employee.respond_to?(&quot;speak&quot;)</code> =&gt; true<br><code>employee.respond_to? &quot;speak&quot;</code> =&gt; true</p>
+<p>To create privileged methods, within the class we need to specify <code>attr_accessor :variable_name</code> (where by <code>variable_name</code> is replaced with the appropriate value). This then defines two additional methods onto the class which provides access to the specified variable. The two methods added are <code>variable_name</code> (which &#39;gets&#39; the value) and <code>variable_name=</code> (which &#39;sets&#39; the value).</p>
+<p>For example…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Test</span>
+    <span class="kp">attr_accessor</span> <span class="ss">:user_name</span>
+    <span class="k">def</span> <span class="nf">initialize</span> <span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+        <span class="vi">@user_name</span> <span class="o">=</span> <span class="nb">name</span>
+    <span class="k">end</span>
+    <span class="k">def</span> <span class="nf">speak</span>
+        <span class="nb">puts</span> <span class="s2">&quot;hello </span><span class="si">#{</span><span class="vi">@user_name</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">tester</span> <span class="o">=</span> <span class="no">Test</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Mark&quot;</span><span class="p">)</span>
+</pre></div>
+</code></pre>
+<p><code>tester.speak</code> =&gt; hello Mark<br><code>tester.user_name</code> =&gt; &quot;Mark&quot;<br><code>tester.user_name= &quot;Bob&quot;</code> =&gt; &quot;Bob&quot;<br><code>tester.user_name</code> =&gt; &quot;Bob&quot;</p>
+<p>Note: as well as <code>:attr_accessor</code> which creates getter and setter methods, there is <code>:attr_reader</code> which only creates a getter method, and <code>:attr_writer</code> which only creates a setter method.</p>
+<h2><a name="loops" class="anchor" href="#loops"><span class="header-link"></span></a>Loops</h2>
+<p>Loops in Ruby are straight forward…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">list</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="o">]</span>
+
+<span class="n">list</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
+    <span class="nb">puts</span> <span class="n">item</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>The <code>each</code> method executes a block of code for each item in the Array. The <code>do…end</code> section is such a block. The pipes <code>||</code> denotes the parameter <code>|name|</code> and that parameter is bound to each list item.</p>
+<p>One thing to be aware of (and you&#39;ll see this later under the &#39;Numbers&#39; section), you can swap out <code>do…end</code> for normal curly brackets… </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">list</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="o">]</span>
+
+<span class="n">list</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
+    <span class="nb">puts</span> <span class="n">item</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>…but for an <code>each</code> loop it doesn&#39;t look as nice as <code>do…end</code> so I keep with that style instead. But as you&#39;ll see I still like using curly brackets for other types of loops that don&#39;t have parameters.</p>
+<p>There is a standard <code>while</code> loop as well within Ruby… </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="mi">10</span>
+    <span class="nb">puts</span> <span class="s2">&quot;count = </span><span class="si">#{</span><span class="n">count</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span> <span class="c1"># Ruby has neither ++ or -- to increment/decrement a value</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Also with a <code>while</code> loop (if you&#39;re using a &#39;switch..case&#39; style statement - like you would see in JavaScript) you can explicitly return a value… </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">myFunction</span>
+    <span class="n">xyz</span> <span class="o">=</span> <span class="s2">&quot;def&quot;</span>
+    <span class="k">while</span> <span class="kp">true</span>
+        <span class="k">case</span> <span class="n">xyz</span>
+            <span class="k">when</span> <span class="s2">&quot;abc&quot;</span>
+                <span class="k">return</span> <span class="kp">true</span>
+            <span class="k">when</span> <span class="s2">&quot;def&quot;</span>
+                <span class="k">return</span> <span class="kp">false</span>
+            <span class="k">else</span>
+                <span class="k">return</span> <span class="kp">nil</span> <span class="c1"># in case xyz doesn&#39;t equal what we expect</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>There are other types of iterator methods such as <code>map</code>… </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">myArray</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="o">]</span>
+<span class="n">newArray</span> <span class="o">=</span> <span class="n">myArray</span><span class="o">.</span><span class="n">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+    <span class="n">x</span><span class="o">*</span><span class="n">x</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>…which returns <code>[1, 4, 9, 16]</code></p>
+<h2><a name="conditionals" class="anchor" href="#conditionals"><span class="header-link"></span></a>Conditionals</h2>
+<p>Ruby is slightly different to other programming languages in that even its syntax is very expression-oriented. So where a control structure like <code>if</code> would be called a &#39;statement&#39; in other languages, in Ruby it is actually an expression which means it can be assigned to a variable like so…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span> <span class="k">then</span> 
+    <span class="n">x</span>
+<span class="k">else</span> 
+    <span class="n">y</span>
+<span class="k">end</span>
+
+<span class="c1"># depending on how complicated your condition is you could put it all on one line like so… </span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span> <span class="k">then</span> <span class="n">x</span> <span class="k">else</span> <span class="n">y</span> <span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>…and so, as we&#39;ve mentioned before with <code>functions</code>, these types of blocks return the last expression evalutated inside the block, so in the above example the last expression is returned and stored in the <code>result</code> variable.</p>
+<h2><a name="strings" class="anchor" href="#strings"><span class="header-link"></span></a>Strings</h2>
+<p>Building up string values can be a bit of a nightmare in other languages. I know in PHP and JavaScript it&#39;s a real pain without including some kind of templating rendering (such as <code>Mustache</code>). But in Ruby they provide a technique called Interpolation which is where method arguments and variables can be inserted into a string (must be a double quoted string, not single quotes) using: <code>#{variable_name}</code>. </p>
+<p>For example… </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">welcome</span> <span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Hello </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">!&quot;</span>
+<span class="k">end</span>
+
+<span class="n">welcome</span><span class="p">(</span><span class="s2">&quot;Mark&quot;</span><span class="p">)</span>
+</pre></div>
+</code></pre>
+<p>Multiple arguments work the same way…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">welcome</span> <span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Hello </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">!, I see you&#39;re </span><span class="si">#{</span><span class="n">age</span><span class="si">}</span><span class="s2"> years old.&quot;</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>You could do the same with simple string concatenation… </p>
+<pre><code><div class="highlight"><pre><span class="nx">puts</span> <span class="s2">&quot;Hello&quot;</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot;!, I see you&#39;re &quot;</span> <span class="o">+</span> <span class="nx">age</span> <span class="o">+</span> <span class="s2">&quot; years old.&quot;</span>
+</pre></div>
+</code></pre>
+<p>…but as you can see it&#39;s not as nice to look at or easy to read and definitely isn&#39;t as maintainable.</p>
+<p>As mentioned earlier, as everything in Ruby is an object (even Strings) there are methods available to strings such as:</p>
+<ul>
+<li><code>sub</code> (basic find/replace)</li>
+<li><code>gsub</code> (basic &#39;global&#39; find/replace)</li>
+<li><code>scan</code> (regex based search which executes code block for each match)</li>
+<li><code>match</code> (regex based search with Array of results returned)</li>
+</ul>
+<p>For example…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="s2">&quot;foobarfoobar&quot;</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span>
+<span class="c1"># =&gt; foofoofoobar</span>
+
+<span class="s2">&quot;foobarfoobar&quot;</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span>
+<span class="c1"># =&gt; foofoofoofoo</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;This is a test&quot;</span>
+<span class="n">x</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sr">/^[a-zA-Z]{4}/</span><span class="p">,</span> <span class="s1">&#39;Hello&#39;</span><span class="p">)</span>
+<span class="c1"># =&gt; &quot;Hello is a test&quot;</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;The car cost £2000 in 2012&quot;</span>
+<span class="n">x</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/\d+/</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">match</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">match</span> <span class="p">}</span>
+<span class="c1"># =&gt; 2000</span>
+<span class="c1"># =&gt; 2012</span>
+<span class="c1"># scan() without the code block returns an array of matches</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;This is a test&quot;</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sr">/(\w+) (\w+)/</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="n">x</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="c1"># =&gt; This is</span>
+<span class="nb">puts</span> <span class="n">x</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="c1"># =&gt; This</span>
+<span class="nb">puts</span> <span class="n">x</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span> <span class="c1"># =&gt; is</span>
+</pre></div>
+</code></pre>
+<h2><a name="arrays" class="anchor" href="#arrays"><span class="header-link"></span></a>Arrays</h2>
+<p>We&#39;ve seen Arrays used quite a bit already, but lets look at some additional methods and operators available… </p>
+<p>The bitwise operator <code>&lt;&lt;</code> is used to add a new item to an array:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="o">[]</span>
+<span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;abc&quot;</span>
+</pre></div>
+</code></pre>
+<p>…which is equivalent to <code>x.push(&quot;abc&quot;)</code></p>
+<p>Note: Strings also use the <code>&lt;&lt;</code> operator to add content to them:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">testString</span> <span class="o">=</span> <span class="s2">&quot;this is my string&quot;</span>
+<span class="n">testString</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; that has extra stuff added to it&quot;</span>
+<span class="n">testString</span> <span class="c1"># =&gt; &quot;this is my string that has extra stuff added to it&quot;</span>
+</pre></div>
+</code></pre>
+<p>There are methods for removing the last item in the Array <code>x.pop()</code> as well as joining an array items into a string using the specified character(s) as a separator <code>x.join(&quot;, &quot;)</code>.</p>
+<p>With Strings you can use the <code>split</code> method to convert a string into an Array: <code>&quot;this is my string&quot;.split(&quot; &quot;)</code> which returns <code>=&gt; [&quot;this&quot;, &quot;is&quot;, &quot;my&quot;, &quot;string&quot;]</code>.</p>
+<p>If you need to concatenate two Arrays you can use the <code>concat</code> method… </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">arr</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="o">]</span>
+<span class="n">arr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="o">[</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="o">]</span><span class="p">)</span>
+<span class="n">arr</span> <span class="c1"># =&gt; [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;]</span>
+</pre></div>
+</code></pre>
+<p>…there is also more basic concatenation using the <code>+</code> operator <code>arr + [&quot;d&quot;, &quot;e&quot;]</code> which returns <code>[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;]</code> but one caveat is that you must remember to set the array to be overwritten. For example, the previous code will return an Array which is a combination of <code>arr</code> and <code>[&quot;d&quot;, &quot;e&quot;]</code> but it doesn&#39;t actually overwrite the original Array (<code>arr</code> will still return <code>[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]</code>). If you were expecting <code>arr</code> to be changed to <code>[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;]</code> then you would need to explicitly overwrite <code>arr</code> using: <code>arr += [&quot;d&quot;, &quot;e&quot;]</code> instead.</p>
+<p>There are two other useful Array methods <code>arr.first</code> and <code>arr.last</code>. Can you guess what they do? That&#39;s right, they return the first and last items in the Array.</p>
+<p>Some other interesting features of Ruby is the ability to write Arrays more quickly using the <code>%w()</code> method. So instead of writing <code>[&quot;a&quot;, &quot;e&quot;, &quot;i&quot;, &quot;o&quot;, &quot;u&quot;]</code> you would write <code>%w(a e i o u)</code> which generates the same Array.</p>
+<p>There are many Array methods for inserting new items into an Array, but you can also use Ranges (which normally work like <code>(&#39;A&#39;..&#39;Z&#39;)</code>):</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">arr</span> <span class="o">=</span> <span class="o">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="o">]</span>
+<span class="n">arr</span><span class="o">[</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">3</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="o">]</span>
+<span class="n">arr</span> <span class="c1"># =&gt; [0, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, 4, 5, 6]</span>
+</pre></div>
+</code></pre>
+<h2><a name="hashes" class="anchor" href="#hashes"><span class="header-link"></span></a>Hashes</h2>
+<p>Hashes are like &#39;objects&#39; in JavaScript and &#39;associative arrays&#39; in other languages. Like Arrays they have an iterator method called <code>each</code> which works the same way, the only difference being is that is doesn&#39;t just pass the value through but the &#39;key&#39; as well.</p>
+<p>So for example to create a hash you would use… </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">h</span> <span class="o">=</span> <span class="p">{</span> 
+    <span class="s2">&quot;a&quot;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> 
+    <span class="s2">&quot;b&quot;</span> <span class="o">=&gt;</span> <span class="mi">2</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>…then you can access the relevant key/values (and add new key/values) like so… </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">h</span><span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="o">]</span>     <span class="c1"># =&gt; 1</span>
+<span class="n">h</span><span class="o">[</span><span class="s2">&quot;b&quot;</span><span class="o">]</span>     <span class="c1"># =&gt; 2</span>
+<span class="n">h</span><span class="o">[</span><span class="s2">&quot;c&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1"># create a new key/value</span>
+<span class="n">h</span><span class="o">[</span><span class="s2">&quot;c&quot;</span><span class="o">]</span>     <span class="c1"># =&gt; 3</span>
+</pre></div>
+</code></pre>
+<p>…and finally you can loop through the hash…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">h</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span>
+    <span class="nb">puts</span> <span class="s2">&quot;The value: </span><span class="si">#{</span><span class="n">value</span><span class="si">}</span><span class="s2"> belongs to the key </span><span class="si">#{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>You don&#39;t have to use a String as a hash <code>key</code>. You can use any object or Symbol.</p>
+<p>In Ruby 1.9 the keys of a hash are returned in the order they were added when looping properties (unlike JavaScript where the order are not guaranteed).</p>
+<p>To see what keys are available in an object use the <code>keys</code> property:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="nb">hash</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Mark&quot;</span><span class="p">,</span> <span class="ss">:age</span> <span class="o">=&gt;</span> <span class="mi">30</span> <span class="p">}</span>
+<span class="nb">hash</span><span class="o">.</span><span class="n">keys</span> <span class="c1"># =&gt; [:name, :age]</span>
+</pre></div>
+</code></pre>
+<p>You can delete a key/value from the hash using <code>hash.delete(key)</code></p>
+<p>Hashes also have shortcut for deleting properties depending on their value: <code>hash.delete_if { |key, value| value &lt;= 30 }</code></p>
+<h2><a name="numbers-and-how-everything-is-an-object-similar-to-javascript" class="anchor" href="#numbers-and-how-everything-is-an-object-similar-to-javascript"><span class="header-link"></span></a>Numbers (and how &#39;everything is an object&#39; - similar to JavaScript)</h2>
+<p>In Ruby, all values are objects. This includes even simple things like numeric literals. So for example you can use a number to help carry out a certain action &#39;x&#39; amount of times…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="mi">3</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span>
+    <span class="nb">puts</span> <span class="s2">&quot;This gets written three times&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>And as explained earlier you can swap curly brackets for <code>do…end</code>…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="mi">3</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+    <span class="nb">puts</span> <span class="s2">&quot;This gets written three times&quot;</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>But you can also do…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="mi">1</span><span class="o">.</span><span class="n">upto</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">x</span> 
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>…which can be interchanged with… </p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="mi">1</span><span class="o">.</span><span class="n">upto</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> 
+    <span class="nb">puts</span> <span class="n">x</span> 
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>I normally find anything that takes parameters <code>|x|</code> looks better with <code>do…end</code> style syntax.</p>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>Well, this is just an &#39;introduction&#39; so as you can see although we&#39;ve covered a lot of ground already we&#39;re still literally just scratching the surface. As I start learning more about Ruby I&#39;ll create new blog posts to follow on from here.</p>
+</div>
+
+  <div class="comments">
+    <a href="/posts/introduction-to-ruby/#comments">
       <span class="icon-bubbles"></span>
       Comments
     </a>

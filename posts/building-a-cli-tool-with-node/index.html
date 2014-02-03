@@ -537,47 +537,47 @@
 <p>The purpose of the package.json is to specify the dependencies for the project you&#39;re working on. In this instance it specifies the dependencies required by Squirrel to do its job.</p>
 <p>Below is Squirrel&#39;s package.json file:</p>
 <pre><code class="lang-js"><div class="highlight"><pre><span class="p">{</span>
-  <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;squirrel-js&quot;</span><span class="p">,</span>
-  <span class="nx">version</span><span class="o">:</span> <span class="s2">&quot;0.1.3&quot;</span><span class="p">,</span>
-  <span class="nx">description</span><span class="o">:</span> <span class="s2">&quot;Node based cli tool using PhantomJS to automate generation of an Application Cache manifest file for a specified URL&quot;</span><span class="p">,</span>
-  <span class="nx">main</span><span class="o">:</span> <span class="s2">&quot;lib/squirrel&quot;</span><span class="p">,</span>
-  <span class="nx">scripts</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">test</span><span class="o">:</span> <span class="s2">&quot;echo &quot;</span><span class="nb">Error</span><span class="o">:</span> <span class="nx">no</span> <span class="nx">test</span> <span class="nx">specified</span><span class="s2">&quot; &amp;&amp; exit 1&quot;</span>
+  <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;squirrel-js&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;version&quot;</span><span class="o">:</span> <span class="s2">&quot;0.1.3&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;Node based cli tool using PhantomJS to automate generation of an Application Cache manifest file for a specified URL&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;main&quot;</span><span class="o">:</span> <span class="s2">&quot;lib/squirrel&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;scripts&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;test&quot;</span><span class="o">:</span> <span class="s2">&quot;echo &quot;</span><span class="nb">Error</span><span class="o">:</span> <span class="nx">no</span> <span class="nx">test</span> <span class="nx">specified</span><span class="s2">&quot; &amp;&amp; exit 1&quot;</span>
   <span class="p">},</span>
-  <span class="nx">engines</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">node</span><span class="o">:</span> <span class="s2">&quot;&gt;=0.10&quot;</span>
+  <span class="s2">&quot;engines&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;node&quot;</span><span class="o">:</span> <span class="s2">&quot;&gt;=0.10&quot;</span>
   <span class="p">},</span>
-  <span class="nx">repository</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">type</span><span class="o">:</span> <span class="s2">&quot;git&quot;</span><span class="p">,</span>
-    <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;git://github.com/Integralist/Squirrel.git&quot;</span>
+  <span class="s2">&quot;repository&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;git&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;url&quot;</span><span class="o">:</span> <span class="s2">&quot;git://github.com/Integralist/Squirrel.git&quot;</span>
   <span class="p">},</span>
-  <span class="nx">preferGlobal</span><span class="o">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
-  <span class="nx">bin</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">squirrel</span><span class="o">:</span> <span class="s2">&quot;lib/squirrel.js&quot;</span>
+  <span class="s2">&quot;preferGlobal&quot;</span><span class="o">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;bin&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;squirrel&quot;</span><span class="o">:</span> <span class="s2">&quot;lib/squirrel.js&quot;</span>
   <span class="p">},</span>
-  <span class="nx">dependencies</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">phantomjs</span><span class="o">:</span> <span class="s2">&quot;~1.9.2-6&quot;</span><span class="p">,</span>
-    <span class="nx">lodash</span><span class="p">.</span><span class="nx">uniq</span><span class="o">:</span> <span class="s2">&quot;~2.4.1&quot;</span>
+  <span class="s2">&quot;dependencies&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;phantomjs&quot;</span><span class="o">:</span> <span class="s2">&quot;~1.9.2-6&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lodash.uniq&quot;</span><span class="o">:</span> <span class="s2">&quot;~2.4.1&quot;</span>
   <span class="p">},</span>
-  <span class="nx">keywords</span><span class="o">:</span> <span class="p">[</span>
+  <span class="s2">&quot;keywords&quot;</span><span class="o">:</span> <span class="p">[</span>
     <span class="s2">&quot;appcache&quot;</span><span class="p">,</span>
     <span class="s2">&quot;phantomjs&quot;</span><span class="p">,</span>
     <span class="s2">&quot;cli&quot;</span>
   <span class="p">],</span>
-  <span class="nx">author</span><span class="o">:</span> <span class="s2">&quot;Mark McDonnell &lt;mark.mcdx@gmail.com&gt; (http://www.integralist.co.uk/)&quot;</span><span class="p">,</span>
-  <span class="nx">license</span><span class="o">:</span> <span class="s2">&quot;MIT&quot;</span><span class="p">,</span>
-  <span class="nx">bugs</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;https://github.com/Integralist/Squirrel/issues&quot;</span>
+  <span class="s2">&quot;author&quot;</span><span class="o">:</span> <span class="s2">&quot;Mark McDonnell &lt;mark.mcdx@gmail.com&gt; (http://www.integralist.co.uk/)&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;license&quot;</span><span class="o">:</span> <span class="s2">&quot;MIT&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;bugs&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">&quot;url&quot;</span><span class="o">:</span> <span class="s2">&quot;https://github.com/Integralist/Squirrel/issues&quot;</span>
   <span class="p">},</span>
-  <span class="nx">homepage</span><span class="o">:</span> <span class="s2">&quot;https://github.com/Integralist/Squirrel&quot;</span>
+  <span class="s2">&quot;homepage&quot;</span><span class="o">:</span> <span class="s2">&quot;https://github.com/Integralist/Squirrel&quot;</span>
 <span class="p">}</span>
 </pre></div>
 </code></pre>
 <p>You can read up on all the different properties for the package.json file on the <a href="https://npmjs.org/doc/json.html">NPM registry site</a>. </p>
 <p>The important items to take note of are...</p>
 <ul>
-<li><code>preferGlobal: &quot;true&quot;</code></li>
-<li><code>bin: { squirrel: &quot;lib/squirrel.js&quot; }</code></li>
+<li><code>&quot;preferGlobal&quot;: &quot;true&quot;</code></li>
+<li><code>&quot;bin&quot;: { &quot;squirrel&quot;: &quot;lib/squirrel.js&quot; }</code></li>
 </ul>
 <p>...the first property indicates that when a user installs your module that you would prefer it to be installed globally (in this case we do want it installed globally as it means the user can run the command any where in their system).</p>
 <p>The second property indicates where the command will find the code required to execute the command.</p>

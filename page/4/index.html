@@ -37,579 +37,6 @@
 
 
   <div class="post-head group">
-  <a href="/posts/a-guide-to-getting-started-with-vim/">
-    <h1 class="post-title">A guide to getting started with Vim</h1>
-  </a>
-  <span class="post-date">2013 &#183; 9 &#183; 8</span>
-</div>
-
-<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
-<p><em>reading time: approx. 26mins</em></p>
-<ul>
-<li>Introduction</li>
-<li>Here comes the old man</li>
-<li>The focus of this post</li>
-<li>Step 1: Installation</li>
-<li>TMUX</li>
-<li>TMUXinator</li>
-<li>Vundle<ul>
-<li>Set-up some bundles</li>
-<li>Where can I find bundles?</li>
-</ul>
-</li>
-<li>NERDTree</li>
-<li>Ctrl+P</li>
-<li>Vim<ul>
-<li>Vim Basics</li>
-<li>Using Ctrl+p to do fuzzy file searching</li>
-<li>Updating Ctrl+P&#39;s list</li>
-<li>Using NERDTree to search our file system</li>
-<li>Command Structure</li>
-<li>More Commands</li>
-<li>Cursor Movement</li>
-<li>Page Movement</li>
-<li>Motions</li>
-<li>Operators</li>
-<li>Deleting</li>
-<li>Deleting a tag</li>
-<li>Search within a file</li>
-<li>Search and Replace</li>
-<li>Viewing different buffers</li>
-<li>Change list</li>
-<li>Jump list</li>
-<li>Diff Tool</li>
-<li>Code Comments</li>
-<li>Syntax Formatting</li>
-<li>Auto Indenting</li>
-<li>Run terminal commands within Vim</li>
-<li>Suspend Vim</li>
-<li>Visual Block Mode</li>
-<li>Vim Windows</li>
-<li>Repeating Yourself</li>
-<li>Making life easier (changing case)</li>
-<li>Keep to the basics</li>
-</ul>
-</li>
-<li>Vim Configuration</li>
-<li>Other plugins</li>
-<li>Conclusion</li>
-</ul>
-<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
-<p>So, what editor do you use for programming?</p>
-<p>In case you&#39;re wondering, here is the list of editors I&#39;ve tried at one point or another…</p>
-<ul>
-<li>Homesite</li>
-<li>DreamWeaver</li>
-<li>NetBeans</li>
-<li>Aptana</li>
-<li>Coda</li>
-<li>Chocolat</li>
-<li>Sublime Text</li>
-</ul>
-<p>…and that&#39;s not including some of the real <em>random</em> editors that have cropped up over the years.</p>
-<p>It seems popular editors nowadays are becoming more minimalist (oxymoron?)</p>
-<p>The UI appears to be reducing in favour of keyboard short-cuts, with the intention of improving developer productivity.</p>
-<p>One example of this is the use of a &#39;fuzzy keyword search&#39;. The principle idea being that you press a short-cut key and you&#39;re presented with a field where you can type whatever you like and the editor will attempt to list out a group of files that match (in some way) what you&#39;ve typed.</p>
-<p>The reason this is a good thing is that it makes finding and opening files a lot quicker.</p>
-<p>Imagine you don&#39;t know where a file lives (easily done in a cross team environment where other devs are working on code for a feature you&#39;re not). Fuzzy file searching makes life a lot easier.</p>
-<p>Even if you <em>do</em> know where a file lives, fuzzy file searching is still quicker than reaching for your mouse, moving over to the file system and clicking on folders until you find the file and then double click to open it.</p>
-<p>A lot of editors have a feature like this nowadays (Sublime Text is one such popular example).</p>
-<div class="delayed-image-load" data-src="/images/generated/sublime-text-fuzzy-1024.png" data-width="1024"></div>
-
-<p>The problem is that most editors don&#39;t normally have a long shelf life (none that any serious developer would consider using  nowadays -&gt; I&#39;m looking at Dreamweaver here**).</p>
-<p>**yes I&#39;m sure they&#39;ll be some people who still use Dreamweaver and will not like that sentence, but I think it&#39;s safe to say that the developer community has grown up considerably since those early Macromedia days and developers have long since moved away to other more advanced and efficient development environments.</p>
-<p>For example, the current hotness (as of 2013) is to use Sublime Text (a nice editor with good keyboard based features but also allows users to interact with it using a mouse). But what happens when Sublime Text stops getting updates (TextMate? Don&#39;t think it can&#39;t happen), or gets bought out by a competitor and then is dumped (this happens <em>all</em> the time in the software industry)?</p>
-<p>Where do developers go next?
-Typically developers find another editor.</p>
-<h2><a name="here-comes-the-old-man" class="anchor" href="#here-comes-the-old-man"><span class="header-link"></span></a>Here comes the old man</h2>
-<p>Well, there is an editor that has been around for a <em>very</em> long time and is available everywhere (and in most cases is installed by default) but also has tons of plug-ins and is pretty much the Perl of keyboard short-cuts.</p>
-<p>That editor is <a href="http://en.wikipedia.org/wiki/Vi">VI</a> (well, as you&#39;ll see, more specifically Vim) and it was originally created back in 1976!</p>
-<p>Since then there has been improvements to the editor which nowadays (~1981 onwards) is more commonly known as Vim (meaning: VI Improved) and you can find more information on Vim at its website <a href="http://www.vim.org/"><a href="http://www.vim.org/">http://www.vim.org/</a></a>.</p>
-<h2><a name="the-focus-of-this-post" class="anchor" href="#the-focus-of-this-post"><span class="header-link"></span></a>The focus of this post</h2>
-<p>OK, so the problem with Vim is that although it&#39;s a great program to use, it unfortunately has a <em>very</em> steep learning curve which puts off new comers.</p>
-<p>Also, Vim by itself isn&#39;t as useful (as a development environment) without a few plug-ins that help give it a bit of jazz. That also trips up new comers to Vim as they assume what they see other developers using is <em>just</em> Vim but it&#39;s not. Vim by itself is very nondescript, it&#39;s the plug-ins and custom Vim configurations that make all the difference to the look and feel of Vim.</p>
-<p>So, the key to using Vim (for the first time) as a developer tool is:</p>
-<ul>
-<li>Get a nice clean command line shell</li>
-<li>Get ourselves a set of primary plugins installed first</li>
-<li>Then focus on basic Vim commands last (typically this is considered the first step, but I think that&#39;s a mistake)</li>
-</ul>
-<p>I want to get the primary tools set-up first, and to show you those BEFORE we get ourselves bogged down with Vim commands.</p>
-<h2><a name="step-1-installation" class="anchor" href="#step-1-installation"><span class="header-link"></span></a>Step 1: Installation</h2>
-<p>I&#39;m not going to cover the installation of Vim because chances are it&#39;s already installed! Also, I&#39;m running a Mac and so this tutorial is aimed at that environment (i.e. your mileage may vary otherwise if you&#39;re on Windows or a non Unix system).</p>
-<h3><a name="updating-your-vim-version" class="anchor" href="#updating-your-vim-version"><span class="header-link"></span></a>Updating your Vim version?</h3>
-<p>If you decide you want to update your version of Vim (which when using a Mac is probably something you&#39;ll want to do as the included version is quite old).</p>
-<p>You can do this by installing the latest version of Vim using <a href="http://brew.sh/">Homebrew</a>: <code>brew install vim</code>.</p>
-<p>The problem you&#39;ll likely hit is that the Mac will still be using the original version of Vim.</p>
-<p>Run <code>which vim</code> to see where the system is looking for Vim and if it&#39;s not running from a local user directory then you&#39;ll know it&#39;s not using the Homebrew install version. </p>
-<p>So go to that directory specified by <code>which vim</code> and then rename the Vim folder (e.g. VimVersionXXXX) and then run <code>which vim</code> again and you should find that your system tries looking elsewhere for Vim and it will find the Homebrew install.</p>
-<h3><a name="things-were-going-to-install-to-go-along-with-vim" class="anchor" href="#things-were-going-to-install-to-go-along-with-vim"><span class="header-link"></span></a>Things we&#39;re going to install to go along with Vim</h3>
-<p>But here are the things we&#39;re going to install…</p>
-<ul>
-<li>Pure Zsh</li>
-<li>TMUX</li>
-<li>Vundle</li>
-<li>NERDTree</li>
-<li>Ctrl+p</li>
-</ul>
-<p>…now there are loads of plugins you could install but the above are the fundamental ones that you&#39;ll require (you might decide that&#39;s all you need, I&#39;ll leave it up to you to decide).</p>
-<h2><a name="zsh" class="anchor" href="#zsh"><span class="header-link"></span></a>Zsh</h2>
-<p>To use Vim we&#39;ll need to use a terminal shell. So let&#39;s get that open now (if you&#39;re on a Mac you&#39;ll have a Terminal.app you can run).</p>
-<p>The default terminal shell for the GNU operating system, Linux and Mac OS X is &#39;Bash&#39; but we want to use &#39;Zsh&#39; instead.</p>
-<p>I won&#39;t delve into the reasons why but effectively Zsh is a more efficient shell and offers better features than Bash and in general is more enjoyable to use.</p>
-<p>To see what shells are available on your system you can run the command <code>cat /etc/shells</code> (hopefully you&#39;ll see <code>/bin/zsh</code> in the list).</p>
-<p>To change shells run the command <code>chsh -s /bin/zsh</code>.</p>
-<p>Terminal shells can be configured using (what&#39;s typically referred to as) a &#39;dot file&#39;. These are files that are prefixed with a period character and so are hidden from standard users.</p>
-<p>To see the hidden files in a directory just run the command <code>ls -la</code> and you should see a whole host of hidden dot files and folders.</p>
-<p>For Zsh there should be a <code>.zshrc</code> file in your home directory (if there isn&#39;t then create one, as we&#39;ll need it shortly). You can do this very simply using the command <code>touch .zshrc</code>.</p>
-<p>As we&#39;ll be using Vim there should also be in the home directory a <code>.vimrc</code> file for configuring Vim. If there isn&#39;t then create one (again, we&#39;ll be needing it shortly).</p>
-<h2><a name="pure-zsh" class="anchor" href="#pure-zsh"><span class="header-link"></span></a>Pure Zsh</h2>
-<p>Now that we have Zsh running let&#39;s make it look a bit nicer by using &#39;Pure Zsh&#39;. I&#39;m going to let the author have the pleasure of describing it…</p>
-<blockquote>
-<p>Most prompts are cluttered, ugly and slow. I wanted something visually pleasing that stayed out of my way. Pretty, minimal and fast.</p>
-</blockquote>
-<p>So let&#39;s get it installed. Go to <a href="https://github.com/sindresorhus/pure"><a href="https://github.com/sindresorhus/pure">https://github.com/sindresorhus/pure</a></a> and download the file <code>pure.zsh</code> to your home directory (or wherever you want, just remember where you save it).</p>
-<p>You can import the <code>pure.zsh</code> file by adding the following line into the <code>.zshrc</code> file: <code>. /path/to/pure.zsh</code></p>
-<div class="delayed-image-load" data-src="/images/generated/pure-zsh-1024.png" data-width="1024"></div>
-
-<h2><a name="tmux" class="anchor" href="#tmux"><span class="header-link"></span></a>TMUX</h2>
-<p>So what is tmux? The authors definition is…</p>
-<blockquote>
-<p>It lets you switch easily between several programs in one terminal, detach them (they keep running in the background) and reattach them to a different terminal. And do a lot more.</p>
-</blockquote>
-<p>OK, so in short tmux makes it easy for you to create new terminal windows with panes and complex layouts (stuff you can do with raw Vim but tmux makes easier).</p>
-<p>There are a couple of ways to install <a href="http://tmux.sourceforge.net/">TMUX</a> the easiest is with <a href="http://brew.sh/">Homebrew</a>: <code>brew install tmux</code></p>
-<p>Once you have tmux installed you can start it by simply running the command <code>tmux</code> in your terminal.</p>
-<p>You may wonder if anything has actually happened because tmux doesn&#39;t look any different from what your normal terminal shell looks like, but what you don&#39;t realise is that you now have quite a few new keyboard shortcuts you can use to split your terminal into &#39;panes&#39;, &#39;windows&#39; or &#39;tabs&#39;.</p>
-<div class="delayed-image-load" data-src="/images/generated/tmux-1024.png" data-width="1024"></div>
-
-<h3><a name="prefix" class="anchor" href="#prefix"><span class="header-link"></span></a>Prefix?</h3>
-<p>In tmux whenever you want to run a command you first run a opening command called &#39;the prefix&#39;. The prefix is typically <code>Ctrl+b</code> (i.e. press the <code>Ctrl</code> button and then the <code>b</code> key). </p>
-<p>In my case I&#39;ve updated the prefix to be <code>Ctrl+a</code> instead of <code>Ctrl+b</code> via a <code>tmux.conf</code> configuration file (you&#39;ll find out more about this file in the next section &quot;tmuxinator&quot;).</p>
-<h3><a name="creating-windows" class="anchor" href="#creating-windows"><span class="header-link"></span></a>Creating windows</h3>
-<p>To create a new window just run the prefix command and then press the <code>c</code> key (e.g. <code>Ctrl+b</code> then <code>c</code>)</p>
-<p>To close a window either run <code>exit</code> or press <code>Ctrl+d</code></p>
-<h3><a name="renaming-windows" class="anchor" href="#renaming-windows"><span class="header-link"></span></a>Renaming windows</h3>
-<p>You can rename a window by running the prefix command and then pressing the <code>,</code> key.</p>
-<h3><a name="changing-windows" class="anchor" href="#changing-windows"><span class="header-link"></span></a>Changing windows</h3>
-<p>You can move around your tmux windows using the prefix command and either <code>n</code> (for next) or <code>p</code> (for previous) or specifying a number that correlates with the window number.</p>
-<h3><a name="creating-panes" class="anchor" href="#creating-panes"><span class="header-link"></span></a>Creating panes</h3>
-<p>To create a new horizontal pane run the prefix command and then press <code>Shift+5</code> (the <code>%</code> key).</p>
-<div class="delayed-image-load" data-src="/images/generated/tmux-horizontal-1024.png" data-width="1024"></div>
-
-<p>To create a new vertical pane run the prefix command and then press <code>Shift+&#39;</code> (the <code>&quot;</code> key).</p>
-<div class="delayed-image-load" data-src="/images/generated/tmux-vertical-1024.png" data-width="1024"></div>
-
-<h3><a name="full-screen-a-pane" class="anchor" href="#full-screen-a-pane"><span class="header-link"></span></a>Full screen a pane</h3>
-<p>At any time you can turn a pane into a full screen view (and back again) by running the prefix command followed by <code>z</code>. Run that again to toggle back to the pane view.</p>
-<h3><a name="move-a-pane-into-a-different-pane-space" class="anchor" href="#move-a-pane-into-a-different-pane-space"><span class="header-link"></span></a>Move a pane into a different pane space</h3>
-<p>You can actually shift the panes around so that if a pane is in one position (let&#39;s say top left), you can move it to a different location (let&#39;s say bottom right) simply by running the prefix command followed by <code>Shift+{</code>, every time you press that combination all the panes will shift around.</p>
-<h3><a name="renaming-a-session" class="anchor" href="#renaming-a-session"><span class="header-link"></span></a>Renaming a session</h3>
-<p>When you create a new tmux session (i.e. run <code>tmux</code>). You can opt to give it a name using <code>tmux new -s session_name</code>, but if you forget to do that and want to give the session a name later on (I do this all the time) then from within the session just run the prefix command followed by <code>Shift+4</code> (which is the <code>$</code> key) or alternatively run the prefix command followed by a <code>:</code> and then <code>rename-session -t [current-name] [new-name]</code> (if it has no current name then you&#39;ll just use the number assigned).</p>
-<h2><a name="tmuxinator" class="anchor" href="#tmuxinator"><span class="header-link"></span></a>TMUXinator</h2>
-<p>We&#39;re now going to set-up a tool associated with tmux called &#39;<a href="https://github.com/aziz/tmuxinator">tmuxinator</a>&#39; and this will help us manage complex tmux sessions.</p>
-<p>Basically, rather than you (every day) opening up the terminal and manually creating the same set of panes and windows and opening files in tmux, we can just store these preferences as a template. We do this by creating a text file that holds this configuration information.</p>
-<p>First thing to do is to install TMUXinator.</p>
-<p>Sorry, but we need more technologies and this time it&#39;s Ruby.</p>
-<p>To install it we need to run the command <code>gem install tmuxinator</code>.</p>
-<p>Once installed we can create a new instance by running the command <code>tmuxinator new [project]</code>. You can call your project whatever you like (I went with <code>tmuxinator new work</code>).</p>
-<p>Running this command is going to create a dot file <code>.tmux.conf</code> and also a dot folder called <code>.tmuxinator</code> which holds a <code>project.yml</code> (where the name of the file matches the name of the project, so for me it created a <code>work.yml</code> file).</p>
-<p>If you open the yaml file you&#39;ll see it has a basic example set-up ready for you to configure…</p>
-<pre><code class="lang-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">test-project</span>
-<span class="l-Scalar-Plain">root</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~/Code/news/workspace/</span>
-
-<span class="l-Scalar-Plain">windows</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">editor</span><span class="p-Indicator">:</span>
-      <span class="l-Scalar-Plain">layout</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">main-vertical</span>
-      <span class="l-Scalar-Plain">panes</span><span class="p-Indicator">:</span>
-        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">vim</span>
-        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">git status</span>
-        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">cd path/to/my/cheatsheet &amp;&amp; vim cheat-sheet.txt</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sandbox</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">vagrant ssh</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sass</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">grunt watch:service:news</span>
-</pre></div>
-</code></pre>
-<p>…above is an example of my <code>work.yml</code>.</p>
-<p>You can see I specify that I want to have three tabs created:</p>
-<ul>
-<li>editor</li>
-<li>sandbox</li>
-<li>sass</li>
-</ul>
-<p>Within the first tab <code>editor</code> I have a specific layout used called <code>main-vertical</code> (tmux comes with many different pre-built layouts, this is just one of them).</p>
-<p>The layout I&#39;m using splits the screen into two columns. In the left column I have <code>vim</code> running and in the right column I have two rows. The top row checks the status of my git repository, and the bottom row opens up a Vim cheat sheet.</p>
-<p>In the second tab <code>sandbox</code> I&#39;ve told tmux I want to connect to our local development sandbox (via ssh).</p>
-<p>In the third tab <code>sass</code> I&#39;ve told tmux I want to run a task that watches our Sass development files for any changes (and then compiles the files when a change is detected).</p>
-<div class="delayed-image-load" data-src="/images/generated/tmuxinator-1024.png" data-width="1024"></div>
-
-<h3><a name="starting-tmuxinator" class="anchor" href="#starting-tmuxinator"><span class="header-link"></span></a>Starting tmuxinator</h3>
-<p>Now we have a template set-up, to use it we just run <code>tmuxinator start project</code> (or in my case <code>tmuxinator start work</code>).</p>
-<h3><a name="closing-tmux" class="anchor" href="#closing-tmux"><span class="header-link"></span></a>Closing tmux</h3>
-<p>Chances are you&#39;ll just leave the tmux session open, but if you want a quick way to detach from the tmux session (but leave the session open in the background so you can come back to it) then just run <code>Ctrl+a d</code></p>
-<p>You can see what tmux sessions are still open by running <code>tmux ls</code> which will show a number and a associated session.</p>
-<p>You can re-attach to an existing session by running <code>tmux attach -t {number|name}</code> where <code>{number|name}</code> is either the number or the name of the session.</p>
-<p>If there is only one session then you can just run <code>tmux attach</code>.</p>
-<p>To totally kill a session just run <code>tmux kill-session -t {number|name}</code>.</p>
-<h2><a name="vundle" class="anchor" href="#vundle"><span class="header-link"></span></a>Vundle</h2>
-<p>This is a plug-in manager for Vim.</p>
-<p>To install Vundle run <code>git clone  
-https://github.com/gmarik/  
-vundle.git  
-~/.vim/bundle/vundle</code></p>
-<p>Now you have it installed, you can add plug-ins to your <code>.vimrc</code> configuration file and install them by running a <code>:BundleInstall</code> command from within Vim.</p>
-<p>You can also just run <code>vim +BundleInstall</code> from the command line.</p>
-<h3><a name="set-up-some-bundles" class="anchor" href="#set-up-some-bundles"><span class="header-link"></span></a>Set-up some bundles</h3>
-<p>We&#39;re jumping ahead a little bit (because at the end of this section you&#39;ll see we&#39;ll be using Vim to type one command, but it&#39;s OK we won&#39;t do any more than that until later).</p>
-<p>Let&#39;s open our <code>.vimrc</code> file and add some plug-ins we&#39;re going to need (code comments start with &quot;)…</p>
-<pre><code class="lang-sh"><div class="highlight"><pre><span class="nb">set </span>rtp+<span class="o">=</span><span class="nv">$HOME</span>/.vim/bundle/vundle
-call vundle#rc<span class="o">()</span>
-Bundle <span class="s1">&#39;gmarik/vundle&#39;</span>
-filetype plugin indent on
-
-<span class="s2">&quot; ALL OF THE ABOVE IS ALSO REQUIRED</span>
-<span class="s2">&quot;</span> FOR SUCCESSFUL VUNDLE INSTALL
-<span class="err">&quot;</span> THE FOLLOWING IS NEW FOR US…
-
-Bundle <span class="s1">&#39;kien/ctrlp.vim&#39;</span>
-Bundle <span class="s1">&#39;vim-scripts/The-NERD-tree&#39;</span>
-</pre></div>
-</code></pre>
-<p>…so you may have noticed we&#39;ve specified two plug-ins:</p>
-<ol>
-<li>NERDTree</li>
-<li>Ctrl+p</li>
-</ol>
-<p>If you check the Vundle README on GitHub you&#39;ll see there are multiple ways to specify a &#39;bundle&#39;, in our case we&#39;re installing two bundles that are available on GitHub so you&#39;ll notice that the paths specified are actually the GitHub username/repo-name.</p>
-<p>To actually get these two bundles installed (using the Vundle plug-in) means we need to first open Vim so we can run the relevant install command.</p>
-<p>So to open Vim literally just run: <code>vim</code> and then to run the install command press ESC (just to make sure you&#39;re in the right mode, don&#39;t worry we&#39;ll cover this later) then type <code>:BundleInstall</code> and press ENTER.</p>
-<h3><a name="where-can-i-find-bundles" class="anchor" href="#where-can-i-find-bundles"><span class="header-link"></span></a>Where can I find bundles?</h3>
-<p>Bundles are just pointers to Vim scripts.</p>
-<p>The two bundles we&#39;ve pointed to are references to their GitHub repositories.</p>
-<p>But you can also point to non-github repos, local git repos, or direct to Vim scripts. See the Vundle README for more information.</p>
-<h2><a name="nerdtree" class="anchor" href="#nerdtree"><span class="header-link"></span></a>NERDTree</h2>
-<p>NERDTree is a tree explorer plugin for navigating the filesystem. This is the closest thing you&#39;re going to get to a standard editor feature.</p>
-<p>We&#39;ll cover how to use it in the following Vim Basics section. Suffice to say, with the <code>Ctrl+p</code> plug-in we shouldn&#39;t need to use the NERDTree very often (but sometimes it can come in handy)</p>
-<h2><a name="ctrlp" class="anchor" href="#ctrlp"><span class="header-link"></span></a>Ctrl+p</h2>
-<p>This is a fuzzy file finder so it makes it easy for you to locate files within your project by just typing a couple of characters of the files name.</p>
-<p>Again, we&#39;ll cover how to use it in the following Vim Basics section.</p>
-<h2><a name="vim" class="anchor" href="#vim"><span class="header-link"></span></a>Vim</h2>
-<p>So here we are! We made it to the part where we can actually use Vim! So let&#39;s get stuck in...</p>
-<h3><a name="vim-basics" class="anchor" href="#vim-basics"><span class="header-link"></span></a>Vim Basics</h3>
-<p>Vim is all about not using the mouse, just the keyboard.</p>
-<p>One of the first things to know about Vim are that it has 3 modes:</p>
-<ol>
-<li>NORMAL (you run the majority of your commands from this mode)</li>
-<li>INSERT (you spend the least amount of time in this mode)</li>
-<li>VISUAL (you select text in this mode)</li>
-</ol>
-<p>To switch modes you first press the <code>ESC</code> key and then either <code>i</code> to go into INSERT mode and <code>v</code> to go into VISUAL mode. The act of pressing <code>ESC</code> automatically puts you into NORMAL mode.</p>
-<p>Once you&#39;re in NORMAL or VISUAL mode, to actually run a command (let&#39;s say the command we want is <code>d$</code>, don&#39;t worry what that means for now) you first press <code>:</code> followed by <code>d$</code>.</p>
-<h3><a name="using-ctrlp-to-do-fuzzy-file-searching" class="anchor" href="#using-ctrlp-to-do-fuzzy-file-searching"><span class="header-link"></span></a>Using Ctrl+p to do fuzzy file searching</h3>
-<p>Get ourselves into NORMAL mode by pressing <code>ESC</code>, followed by <code>:</code>, followed by <code>CtrlP</code> (note: for this particular plug-in, if you&#39;re already in NORMAL mode, you can just press the <code>Ctrl</code> and <code>p</code> keys together to trigger the fuzzy search to open, but to not confuse ourselves let&#39;s keep to the standard <code>:some-command</code> format).</p>
-<p>Once the plug-in is open we can just start typing the name of the file we&#39;re looking for, and you&#39;ll see that it lists all the files it thinks matches what we&#39;re looking for.</p>
-<p>Simply use the arrow keys to select the relevant file you want to open and press ENTER.</p>
-<div class="delayed-image-load" data-src="/images/generated/ctrlp-1024.png" data-width="1024"></div>
-
-<h3><a name="updating-ctrlps-list" class="anchor" href="#updating-ctrlps-list"><span class="header-link"></span></a>Updating Ctrl+P&#39;s list</h3>
-<p>If you have Vim open and you add a new file then the list that Ctrl+P uses (which is cached) will be out of date. To fix this, open Ctrl+P and then press <code>F5</code> to refresh the list of files it can search for.</p>
-<h3><a name="using-nerdtree-to-search-our-file-system" class="anchor" href="#using-nerdtree-to-search-our-file-system"><span class="header-link"></span></a>Using NERDTree to search our file system</h3>
-<p>When Vim is open and in NORMAL mode press <code>:</code> followed by <code>NERDTreeToggle</code> this will open NERDTree at the current location. You can then use your arrow keys to move up and down the file system and press <code>ENTER</code> to open folders. Once you find a file you want to open press <code>ENTER</code> once you&#39;re cursor is on the item of interest.</p>
-<div class="delayed-image-load" data-src="/images/generated/nerdtree-1024.png" data-width="1024"></div>
-
-<h3><a name="command-structure" class="anchor" href="#command-structure"><span class="header-link"></span></a>Command Structure</h3>
-<p>It&#39;s worth remembering that most commands follow the format: <code>operator [number] motion</code> (not all the time, but enough of the time - you&#39;ll soon get used to the order you do things).</p>
-<p>What follows is a super short list of commands and what they do.</p>
-<h3><a name="cursor-movement" class="anchor" href="#cursor-movement"><span class="header-link"></span></a>Cursor Movement</h3>
-<p><code>h</code>    : left<br><code>l</code>    : right<br><code>k</code>    : up<br><code>j</code>    : down</p>
-<p>Note: you can use your arrow keys still, but it&#39;s considered best practice by the Vim community to get used to using the above keys rather than the arrow keys.</p>
-<h3><a name="page-movement" class="anchor" href="#page-movement"><span class="header-link"></span></a>Page Movement</h3>
-<p>Rather than moving up and down a file line by line, we can instead just move up and down the file in sections.</p>
-<p><code>Ctrl+u</code> : move one page up<br><code>Ctrl+d</code> : move one page down<br><code>Ctrl+b</code> : move half page up<br><code>Ctrl+f</code> : move half page down</p>
-<h3><a name="motions" class="anchor" href="#motions"><span class="header-link"></span></a>Motions</h3>
-<p>With some commands we need to indicate what direction or motion we want to take.</p>
-<p><code>e</code>    : move to the end of a word<br><code>w</code>    : move to the start of next word (use with a counter -&gt; a counter meaning &quot;a number&quot;)</p>
-<p><strong>Examples</strong>:</p>
-<p><code>5e</code> = move to the end of the 5th word in the sentence<br><code>5w</code> = move to the start of the word after the 5th (so actually move to the start of the 6th word)</p>
-<h3><a name="operators" class="anchor" href="#operators"><span class="header-link"></span></a>Operators</h3>
-<p>Here are some common operators available to use:</p>
-<ul>
-<li><code>0</code> : moves cursor to the start of the line</li>
-<li><code>$</code> : moves cursor to the end of the line</li>
-<li><code>d</code> : delete (e.g. <code>d$</code> deletes the entire line)</li>
-<li><code>G</code> : go to line (e.g. <code>5G</code> takes you to the 5th line of the file)</li>
-<li><code>v</code>    : select (e.g. <code>v1e</code> selects one word, the act of pressing <code>v</code> automatically sticks you in VISUAL mode)</li>
-<li><code>V</code>    : select entire line (e.g. <code>V</code> selects the entire line, the act of pressing <code>v</code> automatically sticks you in VISUAL mode)</li>
-<li><code>j</code>    : move down one line (e.g. <code>d5j</code> deletes 5 lines)</li>
-<li><code>y</code> : copy selected text (e.g. select text and then press <code>y</code>)</li>
-<li><code>yy</code>    : copy line (e.g. <code>yy</code> copies line to buffer ready to be pasted)</li>
-<li><code>p</code>    : paste after cursor (e.g. <code>p</code> pastes content, but obviously requires content to have been copied previously)</li>
-<li><code>P</code>    : paste before cursor (e.g. <code>P</code> pastes content, but obviously requires content to have been copied previously)</li>
-<li><code>c</code>    : change (the change command deletes the selection and then puts user into INSERT mode so e.g. <code>cw</code> deletes the current word ready to have a new word entered)</li>
-<li><code>i</code>    : inside of (e.g. <code>yi&quot;</code> this will (y)ank all content (i)nside of the next set of quotation marks)</li>
-<li><code>a</code> : same as <code>i</code> but content comes after the cursor rather than before</li>
-<li><code>b</code> : moves backwards through words</li>
-<li><code>o</code> : moves cursor to the next line and jumps into insert mode</li>
-<li><code>f</code>    : forward (e.g. <code>f,</code> moves to first comma. if you then press <code>;</code> you&#39;ll move to the next instance of the specified character. You can also move a set number of characters, so <code>2f,</code> will move the cursor to the second instance of a comma)</li>
-<li><code>x</code>    : cut after cursor (e.g. place cursor where you want to cut a character and press <code>x</code> to cut it, ready for pasting elsewhere)</li>
-<li><code>u</code>    : undo (e.g. just pressing <code>u</code> will undo the last change made)</li>
-<li><code>=</code> : auto indent (e.g. pressing == will indent the current line to the correct space, corresponding to the programming language being used in the current buffer)</li>
-<li><code>~</code> : replaces the case of a character (e.g. converts a to A and then back again)</li>
-</ul>
-<h3><a name="deleting" class="anchor" href="#deleting"><span class="header-link"></span></a>Deleting</h3>
-<p>You can select multiple lines and just press <code>d</code> to delete.</p>
-<p>When selecting multiple lines for deletion (e.g. <code>d5j</code>) it is better to use <code>d5d</code> as it deletes the expected number of lines.</p>
-<p>For example…</p>
-<pre><code><div class="highlight"><pre><span class="nx">Line</span> <span class="mi">1</span>  
-<span class="nx">Line</span> <span class="mi">2</span>  
-<span class="nx">Line</span> <span class="mi">3</span>  
-<span class="nx">Line</span> <span class="mi">4</span>  
-<span class="nx">Line</span> <span class="mi">5</span>  
-<span class="nx">Line</span> <span class="mi">6</span>  
-<span class="nx">Line</span> <span class="mi">7</span>  
-<span class="nx">Line</span> <span class="mi">8</span>  
-<span class="nx">Line</span> <span class="mi">9</span>  
-<span class="nx">Line</span> <span class="mi">10</span>
-</pre></div>
-</code></pre>
-<p>…if the cursor is on line 3 and you run <code>d4j</code> you&#39;ll end up deleting lines 3-7 but if you run <code>d4d</code> you&#39;ll delete 3-6 which visually is more likely what you intended (this is because <code>j</code> includes the current line on top of the specified number of lines to delete).</p>
-<h3><a name="deleting-a-tag" class="anchor" href="#deleting-a-tag"><span class="header-link"></span></a>Deleting a tag</h3>
-<p>You can also delete a piece of text and its corresponding tag: <code>dat</code> which means to [d]elete [a]round [t]ag.</p>
-<p>So if you had <code>&lt;div&gt;&lt;p&gt;Some text&lt;/p&gt;&lt;/div&gt;</code> and your cursor was inside the <code>&lt;p&gt;</code> then you could delete the paragraph as well as the text &quot;Some text&quot;.</p>
-<h3><a name="search-within-a-file" class="anchor" href="#search-within-a-file"><span class="header-link"></span></a>Search within a file</h3>
-<p>In NORMAL mode type a forward slash <code>/</code> followed by your search term.</p>
-<p>e.g. <code>/theThingImLookingFor</code> -&gt; this will automatically highlight any matches of the phrase <code>theThingImLookingFor</code> inside of the current file.</p>
-<p>If you press the <code>enter</code> key the matches will stay highlighted and you can press <code>n</code> to navigate through each match (or <code>Shift+n</code> to move backwards through each match).</p>
-<p>You&#39;ll notice that the search is case sensitive (which is annoying). To fix this you can put <code>\c</code> at the end of the search term to make the search case insensitive.</p>
-<p>e.g. <code>/tHEeThingIMLookingFor\c</code> will still find <code>theThingImLookingFor</code></p>
-<p>You can add <code>set smartcase</code> and <code>set ignorecase</code> to your <code>.vimrc</code> file which can help also.</p>
-<p>Also, if you press <code>Shift+8</code> any where inside of a word then that word is selected and automatically searched within the document (note: <code>Shift+3</code> does the same but searches backwards).</p>
-<h3><a name="search-and-replace" class="anchor" href="#search-and-replace"><span class="header-link"></span></a>Search and Replace</h3>
-<p>You can search and replace within a file by first moving into NORMAL mode and then after pressing <code>:</code> and entering the following…</p>
-<p><code>50,100s/search/replace/gc</code></p>
-<p>…what this means is we limit the search range from line 50 up to line 100, we then look for the phrase <code>search</code> and we replace it with the phrase <code>replace</code>. We then use the <code>g</code> global flag which means don&#39;t stop after finding the first match. The <code>c</code> flag means don&#39;t just replace the instance, check with us first by asking us if we definitely want to carry out the replace.</p>
-<p>You don&#39;t have to use the range numbers, you can just use: <code>:%s/search/replace/gc</code> (but notice, now we don&#39;t have the range we need to include a <code>%</code> at the start).</p>
-<p>You can also use regular expressions which is awesome. But be aware that they don&#39;t quite match the standard regex syntax (you have to escape capture groups and word boundaries are no longer <code>\b</code> they are <code>\&lt;</code> and <code>\&gt;</code> +<a href="http://vimregex.com/">many other differences</a>). BUT you can work around this by specifying a <code>\v</code> flag before the regex.</p>
-<p>So for example, if you had the string <code>foo.add(&#39;bar&#39;)</code> then you could find it with something like…</p>
-<p><code>:%s/\v(\.add\(&#39;.*&#39;\))/\1/gc</code></p>
-<p>…notice we&#39;re not having to escape the outer parenthesis which are capturing the entire match (you&#39;ll also notice this find and replace search doesn&#39;t actually do anything because we capture the entire match and then replace it with itself <code>\1</code>, but it gives you an example of how to use the &#39;Very Magic&#39; mode).</p>
-<p>Note: You can also do a site wide search and replace using the <code>Ack</code> plug-in (e.g. add <code>Bundle &#39;mileszs/ack.vim&#39;</code> to our <code>.vimrc</code> file and run the <code>:BundleInstall</code> again). Checkout the Ack repo on GitHub to see how it works.</p>
-<h3><a name="viewing-different-buffers" class="anchor" href="#viewing-different-buffers"><span class="header-link"></span></a>Viewing different buffers</h3>
-<p>Our <code>.vimrc</code> maps <code>\y</code>…</p>
-<p><code>map &lt;leader&gt;y :CtrlPBuffer&lt;cr&gt;</code></p>
-<p>…so it shows us what the current buffer is (this allows us to jump between files within Vim).</p>
-<p>Note: in Vim the <code>&lt;leader&gt;</code> key is a backslash <code>\</code></p>
-<h3><a name="change-list" class="anchor" href="#change-list"><span class="header-link"></span></a>Change list</h3>
-<p>Vim remembers all points where an edit was made when within INSERT mode and stores them in a &#39;change list&#39;.</p>
-<p>To view the change list run the command <code>:changes</code>. This will display a list of edits you made along with the number of its place in the list.</p>
-<p>To access a specific change position run <code>:changes n</code> (where <code>n</code> is the number of the change position you&#39;re interested in). Moving to a previous change position doesn&#39;t undo the changes but instead just moves the cursor to that position. The reason why this is a good feature to have in Vim is because it allows you to jump around your file a lot more quickly and easily and can help to speed up your editing.</p>
-<p>To sequentially move back and forth between the change list points use the commands:</p>
-<p><code>g;</code> - prev<br><code>g,</code> - next</p>
-<h3><a name="jump-list" class="anchor" href="#jump-list"><span class="header-link"></span></a>Jump list</h3>
-<p>Similar to the &#39;change list&#39; feature, there is also a &#39;jump list&#39; which allows you to move back and forth between all cursor positions.</p>
-<p>You can view all cursor positions by running the command <code>:jumps</code>.</p>
-<p>To move to a previous cursor position use <code>ctrl-o</code> and to move forward use <code>ctrl-i</code>.</p>
-<h3><a name="diff-tool" class="anchor" href="#diff-tool"><span class="header-link"></span></a>Diff Tool</h3>
-<p>Vim comes with a built-in diff tool (useful for comparing the same file for changes).</p>
-<p>Open two Vim windows in a split (so you see them both on screen at the same time).</p>
-<p>Then within each window run the command <code>:diffthis</code>. You&#39;ll see any differences between the files highlighted for you along with their line number.</p>
-<p>When you scroll the file then Vim will keep the scrolling in sync across both files.</p>
-<p>To turn off the diff tool then run <code>:diffoff</code> in any one of the windows.</p>
-<h3><a name="code-comments" class="anchor" href="#code-comments"><span class="header-link"></span></a>Code Comments</h3>
-<p>The following commands use the <code>vim-commentary.git</code> plugin…</p>
-<p><code>gcc</code> = comment out a line (or <code>\\\</code>)<br><code>gcu</code> = uncomment the commented line (you can do <code>gcc</code> as a toggle)</p>
-<p>When you select multiple lines to comment out you can just use <code>gc</code> (rather than <code>gcc</code>)</p>
-<h3><a name="syntax-formatting" class="anchor" href="#syntax-formatting"><span class="header-link"></span></a>Syntax Formatting</h3>
-<p>You can set the formatting of a file using <code>:setf</code></p>
-<p>e.g. <code>:setf cucumber</code> (where <code>cucumber</code> is a syntax format installed)</p>
-<h3><a name="auto-indenting" class="anchor" href="#auto-indenting"><span class="header-link"></span></a>Auto Indenting</h3>
-<p>You can use the auto indent feature <code>=</code> to help you while programming.</p>
-<p>To indent the entire file you can use <code>gg=G</code> which breaks down to: <code>gg</code> move to the start of the file, <code>=</code> auto indent, <code>G</code> to the end of the file.</p>
-<p>You can auto indent a single line: <code>==</code></p>
-<p>You can auto indent a code block (while inside of it): <code>=i{</code></p>
-<p>You can auto indent a code block (while outside of it by first moving to either the opening or closing curly bracket): <code>=%</code>. Note: to move to the curly bracket keep pressing <code>%</code> (it&#39;ll move to either curly or parenthesis, which ever is first it&#39;ll stop there and then toggle between the opening/closing bracket, so you may need to manually navigation to the curly bracket and then run <code>=%</code>).</p>
-<h3><a name="run-terminal-commands-within-vim" class="anchor" href="#run-terminal-commands-within-vim"><span class="header-link"></span></a>Run terminal commands within Vim</h3>
-<p>Running the prefix command and then typing <code>:!{terminal command}</code> allows you to run terminal commands from within Vim (e.g. <code>:!pwd</code> shows us the current working directory).</p>
-<p>Note: doing this takes you out of Vim so you can see the results, but if you just press <code>ENTER</code> you&#39;ll be sent back into Vim.</p>
-<h3><a name="suspend-vim" class="anchor" href="#suspend-vim"><span class="header-link"></span></a>Suspend Vim</h3>
-<p>Another way to run terminal commands while Vim is running is to actually suspend Vim.</p>
-<p>If you run the prefix command this will take us back to the terminal to run whatever commands we like and then in the terminal just type <code>fg</code> to bring Vim back to the (f)ore (g)round.</p>
-<h3><a name="visual-block-mode" class="anchor" href="#visual-block-mode"><span class="header-link"></span></a>Visual Block Mode</h3>
-<p><code>Ctrl+v</code> puts us into Visual Block mode which allows us to select single columns and make multiple changes. So for example if you have a long list of items such as…</p>
-<pre><code><div class="highlight"><pre><span class="nx">_List</span> <span class="nx">Item</span> <span class="mi">1</span>  
-<span class="nx">_List</span> <span class="nx">Item</span> <span class="mi">2</span>  
-<span class="nx">_List</span> <span class="nx">Item</span> <span class="mi">3</span>  
-<span class="nx">_List</span> <span class="nx">Item</span> <span class="mi">4</span>  
-<span class="nx">_List</span> <span class="nx">Item</span> <span class="mi">5</span>
-</pre></div>
-</code></pre>
-<p>…if you wanted to remove the opening <code>_</code> underscore then you could enter Visual Block mode, select the underscores by using the direction keys (make sure you&#39;re on the first or last underscore when you enter Visual Block mode) and then after all are selected just press <code>d</code> to delete them.</p>
-<p>Note: you might find you have an issue with editing multiple lines using insert mode. To use insert mode inside of Visual Block mode is to use <code>Shift+i</code> to jump into insert mode (just typing <code>i</code> doesn&#39;t work as that would throw you into the standard INSERT mode, so it&#39;ll remove you from Visual Mode).</p>
-<p>Also you can press <code>c</code> to change multiple lines, but remember that your change only appears to have been made to one line until you escape Visual Mode, then Vim will kick in and apply the change to all other selected lines.</p>
-<h3><a name="vim-windows" class="anchor" href="#vim-windows"><span class="header-link"></span></a>Vim Windows</h3>
-<p>As well as having panes and windows within tmux you can create Windows within Vim (this is useful for times when you just want to do some quick hacking and tmux is too much effort -&gt; if you could believe such a thing).</p>
-<p>To create a new window in Vim (which is the same concept as a &#39;pane&#39; in tmux) you can either <code>Ctrl-s</code> to create a horizontal split screen (or run the command <code>:split</code>, or just <code>:sp</code>). You can also create a vertical split screen using <code>Ctrl-v</code> (or run the command <code>:vsplit</code>, or just <code>:vsp</code>).</p>
-<p>Note: if you use the execute command (i.e. <code>:</code> variation) then you can specify a file&#39;s path to be opened, otherwise Vim will automatically open the window pointing to a new buffer that is the same as the currently opened file (useful for viewing different portions of the same, but very long, file).</p>
-<p>You can create as many windows as you like (e.g. windows within a window).</p>
-<p>To resize a window&#39;s height you can use <code>Ctrl-w</code> then <code>-</code> or <code>+</code>. You can also use the command <code>:resize -N</code> or <code>:resize +N</code> (where <code>N</code> is the number to move by).</p>
-<p>To resize a window&#39;s width you can use <code>Ctrl-w</code> then <code>&lt;</code> or <code>&gt;</code>. You can also use the command <code>:vertical resize -N</code> or <code>:vertical resize +N</code> (where <code>N</code> is the number to move by).</p>
-<p>To maximise the height of the window then use <code>Ctrl-w</code> then <code>_</code>.</p>
-<p>To maximise the width of the window then use <code>Ctrl-w</code> then <code>|</code>.</p>
-<p>Finally, to close all windows use <code>:only</code> (which closes all the windows except the current one, where by you can just run <code>:q</code>)</p>
-<h3><a name="repeating-yourself" class="anchor" href="#repeating-yourself"><span class="header-link"></span></a>Repeating Yourself</h3>
-<p>Vim is designed to help you be as efficient as possible whilst editing so here is a little tip...</p>
-<p>If you need to repeat an edit you just made within INSERT mode then use the <code>.</code> command. </p>
-<p>For example, imagine you have the text &quot;this is text&quot; and you wanted to have the first letter of each word capitalised. </p>
-<p>You could first move to the start of the line <code>0</code> and then use the &#39;toggle casing&#39; command <code>~</code> and then run the command <code>w.</code> twice which means you would: (<code>w</code>) move the cursor to the next word and then (<code>.</code>) repeat the last edit.</p>
-<h3><a name="making-life-easier-changing-case" class="anchor" href="#making-life-easier-changing-case"><span class="header-link"></span></a>Making life easier (changing case)</h3>
-<p>Now imagine you have the word &quot;THIS&quot; and you wanted to only have the first letter of each word capitalised. </p>
-<p>Rather than manually rewrite each word, move your cursor to the start of the line and run <code>lve~</code>. </p>
-<p>That will (<code>l</code>) move the cursor to the right, (<code>v</code>) select (<code>e</code>) to the end of the word and then (<code>~</code>) switch that selection&#39;s casing (so in this instance it&#39;ll change to lowercase).</p>
-<p>Whenever you need to make repetitive changes try and think of how you can best utilise Vim to your advantage.</p>
-<h3><a name="keep-to-the-basics" class="anchor" href="#keep-to-the-basics"><span class="header-link"></span></a>Keep to the basics</h3>
-<p>The above commands quite literally do not even scratch the surface of what&#39;s available within Vim.</p>
-<p>So the best thing to do is to find a comfortable set of commands from the list above and don&#39;t deviate from them until you&#39;ve got them memorised (it&#39;s ok to Google for something you don&#39;t know, but try to just focus on the basic commands for now).</p>
-<h2><a name="vim-configuration" class="anchor" href="#vim-configuration"><span class="header-link"></span></a>Vim Configuration</h2>
-<p>Let&#39;s now take a quick look at some configuration options we can add to our <code>.vimrc</code> file…</p>
-<pre><code class="lang-sh"><div class="highlight"><pre><span class="s2">&quot; switch syntax highlighting on, when the terminal has colors</span>
-<span class="s2">syntax on</span>
-
-<span class="s2">&quot;</span> use vim, not vi api
-<span class="nb">set </span>nocompatible
-
-<span class="s2">&quot; no backup files</span>
-<span class="s2">set nobackup</span>
-
-<span class="s2">&quot;</span> no write backup
-<span class="nb">set </span>nowritebackup
-
-<span class="s2">&quot; no swap file</span>
-<span class="s2">set noswapfile</span>
-
-<span class="s2">&quot;</span> <span class="nb">command history</span>
-<span class="nb">set history</span><span class="o">=</span>100
-
-<span class="s2">&quot; always show cursor</span>
-<span class="s2">set ruler</span>
-
-<span class="s2">&quot;</span> show incomplete commands
-<span class="nb">set </span>showcmd
-
-<span class="s2">&quot; incremental searching</span>
-<span class="s2">set incsearch</span>
-
-<span class="s2">&quot;</span> highlight search
-<span class="nb">set </span>hlsearch
-
-<span class="s2">&quot; ignore case in search</span>
-<span class="s2">set smartcase</span>
-
-<span class="s2">&quot;</span> clear search buffer
-:nnoremap § :nohlsearch&lt;cr&gt;
-
-<span class="s2">&quot; make sure undo history is kept for files in buffer.</span>
-<span class="s2">set hidden</span>
-
-<span class="s2">&quot;</span> turn indentation on
-filetype indent on
-
-<span class="s2">&quot; enable filetype plugins</span>
-<span class="s2">filetype plugin on</span>
-
-<span class="s2">&quot;</span> disable folding because it is evil
-<span class="nb">set </span>nofoldenable
-
-<span class="s2">&quot; turn word wrap off</span>
-<span class="s2">set nowrap</span>
-
-<span class="s2">&quot;</span> scroll with more context
-<span class="nb">set </span><span class="nv">scrolloff</span><span class="o">=</span>10
-
-<span class="s2">&quot; allow backspace to delete end of line, indent and start of line characters</span>
-<span class="s2">set backspace=indent,eol,start</span>
-
-<span class="s2">&quot;</span> convert tabs to spaces
-<span class="nb">set </span>expandtab
-
-<span class="s2">&quot; set tab size</span>
-<span class="s2">set tabstop=4</span>
-
-<span class="s2">&quot;</span> the number of spaces inserted <span class="k">for </span>a tab
-<span class="nb">set </span><span class="nv">shiftwidth</span><span class="o">=</span>4
-
-<span class="s2">&quot; turn on line numbers</span>
-<span class="s2">set number</span>
-
-<span class="s2">&quot;</span> highlight tailing whitespace
-<span class="nb">set </span>list <span class="nv">listchars</span><span class="o">=</span>tab:<span class="se">\ \ </span>,trail:·
-
-<span class="s2">&quot; get rid of the delay when pressing O (for example)</span>
-<span class="s2">&quot;</span> http://stackoverflow.com/questions/2158516/vim-delay-before-o-opens-a-new-line
-<span class="nb">set </span>timeout <span class="nv">timeoutlen</span><span class="o">=</span>1000 <span class="nv">ttimeoutlen</span><span class="o">=</span>100
-
-<span class="s2">&quot; always show status bar</span>
-<span class="s2">set laststatus=2</span>
-
-<span class="s2">&quot;</span> <span class="nb">set </span>the status line to something useful
-<span class="nb">set </span><span class="nv">statusline</span><span class="o">=</span>%f<span class="se">\ </span>%<span class="o">=</span>L:%l/%L<span class="se">\ </span>%c<span class="se">\ </span><span class="o">(</span>%p%%<span class="o">)</span>
-
-<span class="s2">&quot; hide the toolbar</span>
-<span class="s2">set guioptions-=T</span>
-
-<span class="s2">&quot;</span> utf encoding
-<span class="nb">set </span><span class="nv">encoding</span><span class="o">=</span>utf-8
-
-<span class="s2">&quot; autoload files that have changed outside of vim</span>
-<span class="s2">set autoread</span>
-
-<span class="s2">&quot;</span> jump to last cursor
-autocmd BufReadPost *
-  <span class="se">\ </span><span class="k">if </span>line<span class="o">(</span><span class="s2">&quot;&#39;\&quot;&quot;</span><span class="o">)</span> &gt; 0 <span class="o">&amp;&amp;</span> line<span class="o">(</span><span class="s2">&quot;&#39;\&quot;&quot;</span><span class="o">)</span> &lt;<span class="o">=</span> line<span class="o">(</span><span class="s2">&quot;$&quot;</span><span class="o">)</span> <span class="p">|</span>
-  <span class="se">\ </span>  exe <span class="s2">&quot;normal g`\&quot;&quot;</span> <span class="p">|</span>
-  <span class="se">\ </span>endif
-
-<span class="s2">&quot; set-up ctrlp to include hidden files in its search</span>
-<span class="s2">let g:ctrlp_show_hidden=1</span>
-
-<span class="s2">&quot;</span> disable ctrlp<span class="s1">&#39;s feature where it tries to intelligently work out the current working directory to search within</span>
-<span class="s1">let g:ctrlp_working_path_mode=0</span>
-
-<span class="s1">&quot; don&#39;</span>t <span class="nb">let </span>ctrlp take over the screen!
-<span class="nb">let </span>g:ctrlp_max_height<span class="o">=</span>30
-
-<span class="s2">&quot; lets make sure we don&#39;t show these files</span>
-<span class="s2">set wildignore+=*/.git/*,*/.hg/*,*/.svn/*.,*/.DS_Store</span>
-
-<span class="s2">&quot;</span> allows us to more easily work with markdown files
-Bundle <span class="s1">&#39;tpope/vim-markdown&#39;</span>
-
-<span class="s2">&quot; allows us to comment/uncomment lines and content</span>
-<span class="s2">Bundle &#39;tpope/vim-commentary.git&#39;</span>
-
-<span class="s2">&quot;</span> remove whitespace on save
-autocmd BufWritePre * :%s/<span class="se">\s\+</span><span class="nv">$/</span>/e
-</pre></div>
-</code></pre>
-<p>…hopefully the comments are self explanatory. There is so much you can configure with Vim that you just need to take the time to look at what set-up works for you, as chances are you&#39;ll be able to change it.</p>
-<p>You can find loads of Vim configurations on GitHub where you can pinch ideas and settings from.</p>
-<h2><a name="other-plugins" class="anchor" href="#other-plugins"><span class="header-link"></span></a>Other plugins</h2>
-<p>Here are some other really useful plugins worth your time investigating… </p>
-<ul>
-<li>Sparkup (ZenCoding/Emmet) <a href="http://net.tutsplus.com/tutorials/other/vim-essential-plugin-sparkup/">NetTuts Screencast</a> -&gt; uses <code>Ctrl+e</code> to generate the HTML</li>
-<li>Snipmate <a href="http://net.tutsplus.com/tutorials/other/vim-essential-plugin-snipmate/">NetTuts Screencast</a> -&gt; uses a <code>tab</code> to convert the keywords into the relevant snippet of HTML</li>
-</ul>
-<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
-<p>So there you have it. A painfully short introduction to using Vim as your new web development environment. But hopefully enough to get you started.</p>
-<p>Vim is so powerful that it would probably take a life time to really cover everything. It just takes dedication.</p>
-</div>
-
-  <div class="comments">
-    <a href="/posts/a-guide-to-getting-started-with-vim/#comments">
-      <span class="icon-bubbles"></span>
-      Comments
-    </a>
-  </div>
-
-  <div class="post-head group">
   <a href="/posts/imager-js-bbc-news-responsive-images-solution/">
     <h1 class="post-title">Imager.js (BBC News responsive images solution)</h1>
   </a>
@@ -659,6 +86,393 @@ autocmd BufWritePre * :%s/<span class="se">\s\+</span><span class="nv">$/</span>
 
   <div class="comments">
     <a href="/posts/imager-js-bbc-news-responsive-images-solution/#comments">
+      <span class="icon-bubbles"></span>
+      Comments
+    </a>
+  </div>
+
+  <div class="post-head group">
+  <a href="/posts/stark-simplified-separation-of-components-into-decoupled-applications/">
+    <h1 class="post-title">Stark - Simplified separation of components into decoupled applications</h1>
+  </a>
+  <span class="post-date">2013 &#183; 8 &#183; 7</span>
+</div>
+
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 18mins</em></p>
+<ul>
+<li>Convoluted solutions</li>
+<li>Simplicity</li>
+<li>Perfection?</li>
+<li>Good code design</li>
+<li>The front-end landscape</li>
+<li>Introducing Stark</li>
+<li>How does it work</li>
+<li>Components and Extensions</li>
+<li>Convention over configuration</li>
+<li>Examples</li>
+<li>Conclusion</li>
+</ul>
+<h2><a name="convoluted-solutions" class="anchor" href="#convoluted-solutions"><span class="header-link"></span></a>Convoluted solutions</h2>
+<p>The web industry is a fascinating beast. It is constantly evolving, changing, morphing itself into new shapes and producing fun tools for our pleasure (and disposal). It&#39;s like a hyper-active child: it can&#39;t sit still.</p>
+<p>For all the good things that come from this inherent behaviour (e.g. every few weeks there are new toys and techniques, tricks and tips and those beloved buzz words), there is one problem that seems to consequentially arise… complication.</p>
+<p>It seems we&#39;ve lost the simplicity in solutions we provide. It would seem we&#39;re a breed of enthusiasts who (knowingly or unknowingly) love to over-engineer things, and there in lies the problem.</p>
+<p>Now I see this in lots of different places, down to the architectures we create, to the code we write to the designs we implement. </p>
+<h2><a name="simplicity" class="anchor" href="#simplicity"><span class="header-link"></span></a>Simplicity</h2>
+<p>&quot;Simplicity&quot; is defined as… </p>
+<blockquote>
+<p>the quality or condition of being easy to understand or do</p>
+</blockquote>
+<p>…but this doesn&#39;t always present itself in the projects I see or have worked on in the past.</p>
+<h2><a name="perfection" class="anchor" href="#perfection"><span class="header-link"></span></a>Perfection?</h2>
+<p>Now let&#39;s be clear here, I&#39;m no white knight in shining armour. I, like most developers, have at some point written (and may continue to write) bad code. That&#39;s just the way it is when you either have tight deadlines, or you&#39;re unsure of how to solve a problem (or whatever other reason there may be for writing bad code). Sometimes what we do can seem more like a &#39;feeling out&#39; process than a fine art.</p>
+<p>What we do is a creative process. Yes writing &#39;code&#39; isn&#39;t usually thought of as creative but it is, it is an art and a difficult one at that. </p>
+<p>Any time I&#39;ve seen some bad code and thought &quot;WTF?&quot;, I&#39;m not trying to disrespect the author, or question their skills as a developer. That&#39;s just a gut reaction we all have when looking at something we don&#39;t understand. </p>
+<p>We need to remember to put ourselves into the shoes of the author and take their perspective, try to understand the circumstances that brought about the code we&#39;re looking at now.</p>
+<p>It&#39;s all so easy to criticise, it&#39;s another to &quot;do&quot; (and do well).</p>
+<h2><a name="good-code-design" class="anchor" href="#good-code-design"><span class="header-link"></span></a>Good code design</h2>
+<p>When I started working at the BBC I had the pleasure of working with a chap called <a href="http://twitter.com/danscotton">Dan Scotton</a>. Dan, like me, loved to draw his code structure. It was a great exercise in making sure you weren&#39;t going to write code that was redundant or useless. Usually he would ask for my thoughts on code he was working on, which was great to be a part of because it helped both Dan and myself better understand the problem and what the right solution should be (you&#39;d be surprised how many developers keep their code or ideas tightly guarded, afraid of conflict or disapproval from others).</p>
+<p>One of the main points I always reiterated to Dan was the idea of simplicity: &quot;<em>it needs to be as simple, yet effective, efficient and practical as possible</em>&quot; (luckily I didn&#39;t need to preach for too long, as Dan already incorporated those ideas).</p>
+<p>But Dan also introduced me to the principles of good &#39;code design&#39;. Through him I was inspired to read older software engineering books (mostly around object-oriented code and design - lower level, server-side, languages such as Java, C++, Ruby etc). </p>
+<p>For years up until this point I was already a big believer in Design Patterns (as prescribed by &#39;The Gang of Four&#39;) but that didn&#39;t mean I understood the principle of good code &#39;design&#39;. Reading these older software engineering books helped nail home the idea of simplicity which really is the heart of the subject and ironically is the hardest and most complicated principle to truly understand.</p>
+<h2><a name="the-front-end-landscape" class="anchor" href="#the-front-end-landscape"><span class="header-link"></span></a>The front-end landscape</h2>
+<p>So where am I going with this and what problem am I trying to solve?</p>
+<p>Well, for me the front-end developer landscape has become a dumping ground of overly complicated and over-engineered solutions.</p>
+<p>There are some seriously good tools out there. For example, the CSS pre-processor <a href="http://sass-lang.com/">Sass</a> is a useful tool which solves a particular problem. Sass is a just one small piece of the overall puzzle (forgive me this next bit), but… </p>
+<blockquote>
+<p>with great power, comes great responsibility</p>
+</blockquote>
+<p>…Sass (like most of the tools we have at our disposal) can, and is, mis-used. </p>
+<p>With regards to Sass, I&#39;ve seen developers writing mixins that try to solve a thousand different problems all at once (scenarios they may never have). I can only assume they must be thinking: &quot;<em>if I include this extra piece of functionality then people will thank me later when they do finally need it</em>&quot;. </p>
+<p>This isn&#39;t just a problem with developers trying to solve too many problems at once. It ultimately comes down to breaching, and probably a lack of understanding, many good code design principles that help us avoid such disastrously unmaintainable and unscalable code**</p>
+<p>**if you want a good book to read on the subject then I can whole heartedly recommend you get &quot;<a href="http://www.poodr.info/">Practical Object-Oriented Design in Ruby</a>&quot; (also read my own write-up of that book: &quot;<a href="http://integralist.co.uk/Object-Oriented-Design.html">Object-Oriented Design</a>&quot;)</p>
+<h2><a name="introducing-stark" class="anchor" href="#introducing-stark"><span class="header-link"></span></a>Introducing Stark</h2>
+<p>This brings me to a project I&#39;ve been working on (and still am working on) called <a href="https://github.com/Integralist/Stark#stark">Stark</a>.</p>
+<p>Stark is a work in progress. It is by no means a finished product. But the principles it tries to incorporate are things I&#39;ll attempt to explain in more detail here in this post, and are definitely worth your time investigating further still.</p>
+<p>So what is Stark?</p>
+<p>Stark is simply a fancy name for a &#39;strategy&#39;. It&#39;s not another development framework. It&#39;s a way of thinking about, and implementing your project&#39;s architecture and code design. Primarily based around the loading of JavaScript and JavaScript based components, communication between those components and also the CSS that provides the &#39;skin&#39; for those components.</p>
+<p>It is a mix-mash of different techniques and styles but ultimately is aiming for simplicity and effectiveness. </p>
+<p>The API I&#39;ve used, and some of the code structure is based off of the great work <a href="http://twitter.com/addyosmani">Addy Osmani</a> has done with his <a href="http://aurajs.com/">Aura.js project</a>. </p>
+<p>It&#39;s worth noting that what I&#39;ve done here for Stark is not even in the same league as Aura. The reason I mention this is because I&#39;m aiming for… simplicity :-) I didn&#39;t want (or need) the extra bells and whistles. I had my own set of problems I was trying to solve, and reducing the number of dependencies, libraries etc was important for me.</p>
+<p>I&#39;m also not suggesting you should use <a href="https://github.com/Integralist/Stark#stark">Stark</a> (I&#39;m not suggesting my way is the best way), but just to use it as a basis for learning about other ways of thinking and approaching front-end work.</p>
+<h2><a name="how-does-it-work" class="anchor" href="#how-does-it-work"><span class="header-link"></span></a>How does it work</h2>
+<p>Stark is based around the idea of components (pages being made up of uniquely individual components).</p>
+<p>Components are written into the page using plain HTML. Our JavaScript application when initialised will find all components and instantiate them for you automatically. The components can have fallback content which won&#39;t be visible as long as JavaScript is enabled (this is because in the <code>&lt;head&gt;</code> of the page we have a single inline <code>&lt;script&gt;</code> tag which adds the class <code>js</code> to the <code>&lt;html&gt;</code> tag. With this class added our CSS only applies styling to elements if there is a <code>.js</code> class available - similar to how Modernizr works).</p>
+<p>On the JavaScript side of things we utilise AMD (Asynchronous Module Definition) which is an API for loading individual JavaScript modules. Nothing new here. But we also use <a href="http://requirejs.org/">RequireJS</a> for our script loader. Lastly, because we&#39;re lazy-loading component JavaScript modules at run time (e.g. in development) we don&#39;t want to be doing that when we go live (e.g. into production) because we want to be good web citizens and reduce the number of HTTP requests we make, so we lean very heavily on a custom build script using the associated <a href="http://requirejs.org/docs/optimization.html">r.js</a> tool which handles that for us.</p>
+<p>On the CSS side of things we want to be as maintainable, flexible and scalable (i.e. all the great things <a href="http://csswizardry.com/">Harry Roberts</a> talks about). We use the <a href="http://integralist.co.uk/Maintainable-CSS-with-BEM.html">BEM</a> naming conventions for making sure our CSS isn&#39;t overly specific and we use <a href="http://sass-lang.com/">Sass</a> for helping to keep our implementation details of a component encapsulated within the component&#39;s own style sheet. We also use a trick that <a href="http://twitter.com/jaffathecake">Jake Archibald</a> came up with for generating an IE based style sheet (we&#39;ll cover that shortly).</p>
+<p>Later on when we look at some example code this will start making a bit more sense.</p>
+<h2><a name="components-and-extensions" class="anchor" href="#components-and-extensions"><span class="header-link"></span></a>Components and Extensions</h2>
+<p>I made reference above, and I do so regularly in <a href="https://github.com/Integralist/Stark#stark">Stark</a> to &#39;components&#39; and &#39;extensions&#39;. </p>
+<p>I think components are pretty self explanatory, but just to be clear: they are self-contained pieces of functionality. </p>
+<p>Components know nothing about each other (i.e. they lack &#39;context&#39;). Components communicate through the &#39;mediator&#39; design pattern, meaning they can publish an event when they do something interesting and they can also be notified of events outside them, but they don&#39;t need to know anything about the objects that publish those outside events. Total separation means components can more easily be updated and migrated if need be.</p>
+<p>Extensions on the other hand are just small pieces of extra functionality that you can mix into your code. The mediator pattern itself is an extension that I include (i.e. &#39;mix&#39;) into my application.</p>
+<p>I&#39;ll give examples of these shortly.</p>
+<h2><a name="convention-over-configuration" class="anchor" href="#convention-over-configuration"><span class="header-link"></span></a>Convention over configuration</h2>
+<p>Oh boy, &quot;convention over configuration&quot; is usually an alarm bell for me when looking at a new project. It screams &quot;<em>hey, this is my opinionated view on how things should be done</em>&quot;. But what I didn&#39;t realise before (which I do realise now) is that, it&#39;s not until you try and solve a particular problem that you soon discover yourself becoming very opinionated about the route you&#39;ve taken to implement that solution. </p>
+<p>We developers are a sensitive bunch and don&#39;t normally take criticisms well.</p>
+<p>But the difference between you and an overly opinionated developer is that those opinionated developers generally aren&#39;t willing to hear alternatives or to take advice or alternative ways of thinking about a problem. </p>
+<p>I like to think I&#39;m very open to suggestions, change and better ways of doing things. If someone opens up an issue (or better yet a pull request) that suggests a more effective way of solving a problem, then I&#39;m happy to hear it.</p>
+<p>That being said, I&#39;ve implemented a small set of conventions (<a href="https://github.com/Integralist/Stark#conventions">explained in the repo</a>, but I&#39;ll cover briefly here)…</p>
+<ul>
+<li>HTML components need a <code>data-attribute</code> and an <code>id</code></li>
+<li>The data attribute needs to take the form of: <code>data-component=&quot;xxx&quot;</code></li>
+<li>The id attribute needs to take the form of: <code>id=&quot;js-component-xxx&quot;</code></li>
+<li>The <code>xxx</code> mentioned above needs to be the name of the component</li>
+<li>Components are placed inside a <code>/components/</code> directory</li>
+<li>Extensions are placed inside a <code>/extensions/</code> directory</li>
+<li>Each page has its own bootstrap js file <code>boostrap-xxx.js</code></li>
+<li>JavaScript needs to be loaded at the bottom of the page</li>
+<li>Components need to have an <code>init</code> method</li>
+</ul>
+<p>…see that wasn&#39;t too bad now was it.</p>
+<h2><a name="examples" class="anchor" href="#examples"><span class="header-link"></span></a>Examples</h2>
+<p>Finally we come to some code!</p>
+<h3><a name="api" class="anchor" href="#api"><span class="header-link"></span></a>API</h3>
+<ul>
+<li><code>app.use(&#39;extension&#39;, &#39;extension&#39;, &#39;extension&#39;)</code> loads specified extensions</li>
+<li><code>app.start()</code> goes through the HTML looking for components to load</li>
+</ul>
+<p>As mentioned earlier, we use RequireJS and AMD to wrap the above API calls, for example… </p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="c1">// the only part of this code that needs to change</span>
+<span class="c1">// is the list of extensions you want to use</span>
+<span class="c1">// the rest is standard (read: required to be run)</span>
+<span class="nx">require</span><span class="p">([</span><span class="s1">&#39;app&#39;</span><span class="p">,</span> <span class="s1">&#39;configuration&#39;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;extension-a&#39;</span><span class="p">,</span> <span class="s1">&#39;extension-b&#39;</span><span class="p">);</span>
+    <span class="nx">app</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
+<span class="p">});</span>
+</pre></div>
+</code></pre>
+<p>But now let&#39;s look at each section individually… </p>
+<h3><a name="html" class="anchor" href="#html"><span class="header-link"></span></a>HTML…</h3>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">data-component=</span><span class="s">&quot;hello&quot;</span> <span class="na">id=</span><span class="s">&quot;js-component-hello&quot;</span><span class="nt">&gt;</span>hello<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">data-component=</span><span class="s">&quot;world&quot;</span> <span class="na">id=</span><span class="s">&quot;js-component-world&quot;</span><span class="nt">&gt;</span>world<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;libs/require.js&quot;</span> <span class="na">data-main=</span><span class="s">&quot;bootstrap-about&quot;</span> <span class="na">async</span><span class="nt">&gt;&lt;/script&gt;</span>
+</pre></div>
+</code></pre>
+<p>As you can see we have a <code>data-component</code> attribute which is used by the JavaScript application when it is booting up (initialised). </p>
+<p>But we also have an <code>id</code> attribute which I use to reference the component from within the component&#39;s JavaScript module code. So for example, based on the &#39;conventions&#39; I mentioned earlier, the JavaScript application will find a HTML <code>div</code> with a <code>data-component</code> name of <code>hello</code> and will try to load <code>components/hello/component.js</code> - inside of that JavaScript file I might want to replace the <code>div</code> in the DOM with a totally different chunk of HTML code, or I might want to inject more HTML inside of that <code>div</code> element, the choice is up to you as the developer to decide what to do at that point.</p>
+<p>You don&#39;t really need to include the <code>id</code> attribute if you don&#39;t want to but my build script will try and use it as a reference to the DOM node. You can reference the DOM node any way you see fit, I just personally prefer the speed of native <code>getElementById</code> to grab DOM nodes.</p>
+<p>Originally I had thought about not using an empty <code>div</code> container with a custom <code>data-</code> attribute but just a simple HTML comment <code>&lt;!-- #component hello --&gt;</code> but then I realised that there wasn&#39;t an easy hook into the page without parsing the entire DOM, and also there was no fallback content that could be provided.</p>
+<h3><a name="bootstrap" class="anchor" href="#bootstrap"><span class="header-link"></span></a>Bootstrap...</h3>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">require</span><span class="p">([</span><span class="s1">&#39;app&#39;</span><span class="p">,</span> <span class="s1">&#39;configuration&#39;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;mediator&#39;</span><span class="p">,</span> <span class="s1">&#39;extension-a&#39;</span><span class="p">,</span> <span class="s1">&#39;extension-b&#39;</span><span class="p">);</span>
+    <span class="nx">app</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
+<span class="p">});</span>
+</pre></div>
+</code></pre>
+<p>I had considered just having a single bootstrap script but the list of extensions used is very likely going to be different per page, hence we have a different bootstrap for each page.</p>
+<p>The bootstrap loads in our JavaScript application along with a configuration object (which is just the RequireJS config)… </p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">require</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
+    <span class="nx">baseUrl</span><span class="o">:</span> <span class="s1">&#39;./&#39;</span><span class="p">,</span>
+    <span class="nx">paths</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">jquery</span><span class="o">:</span> <span class="s1">&#39;libs/jquery&#39;</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+</code></pre>
+<p>Once our application is loaded we tell the app what extensions we want to use and then we tell the application to start.</p>
+<h3><a name="component" class="anchor" href="#component"><span class="header-link"></span></a>Component...</h3>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">define</span><span class="p">({</span>
+    <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;an example component&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+</code></pre>
+<p>This is an example component. As mentioned earlier: components need to have a public <code>init</code> method, otherwise they can do whatever you want them to.</p>
+<h3><a name="extension" class="anchor" href="#extension"><span class="header-link"></span></a>Extension...</h3>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="c1">// Silly example</span>
+<span class="nx">define</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">blah</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">blah</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="k">this</span> <span class="o">+</span> <span class="s1">&#39; BLAH!&#39;</span><span class="p">;</span>
+        <span class="p">};</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+</code></pre>
+<p>This is an example extension. Extensions can do whatever you want them to do. </p>
+<p>The only thing worth noting about extensions is that they can&#39;t take advantage of dependency injection (e.g. can&#39;t be passed directly into your components). </p>
+<p>To work around this Stark uses the idea of a single global namespace called <code>app</code> (e.g. <code>window.app = {};</code>) which you can attach any extensions or other data you need to pass around.</p>
+<p>So for example, our Mediator extension uses <code>window.app.mediator = mediator;</code> like so… </p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">define</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+    <span class="kd">var</span> <span class="nx">mediator</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+        <span class="c1">// code</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="c1">// public api</span>
+        <span class="p">};</span>
+
+    <span class="p">}());</span>
+
+    <span class="nb">window</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">mediator</span> <span class="o">=</span> <span class="nx">mediator</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="nx">mediator</span><span class="p">;</span>
+<span class="p">});</span>
+</pre></div>
+</code></pre>
+<p><strong>Don&#39;t mistake the phrase: &quot;<em>Don&#39;t pollute the global namespace</em>&quot; with &quot;<em>Don&#39;t ever use the global namespace ever ever ever</em>&quot; - that&#39;s just dogmatic nonsense.</strong></p>
+<h3><a name="css" class="anchor" href="#css"><span class="header-link"></span></a>CSS</h3>
+<p>So our CSS uses Sass to help us keep our code more easily maintainable. Each page should load a page specific style sheet that contains the code relevant for that page.</p>
+<p>So our example page loads <code>project.css</code>, the Sass file looks like this… </p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="cm">/* =============================================================================</span>
+  <span class="cm">Base Utilities</span>
+  <span class="cm">========================================================================== */</span>
+
+  <span class="cm">@import &#39;partials/variables&#39;;</span>
+  <span class="cm">@import &#39;partials/utils&#39;;</span>
+  <span class="cm">@import &#39;partials/baseline&#39;;</span>
+  <span class="cm">@import &#39;partials/grid&#39;;</span>
+
+<span class="cm">/* =============================================================================</span>
+  <span class="cm">Patterns</span>
+  <span class="cm">These are common design patterns abstracted into reusable chunks of code</span>
+  <span class="cm">========================================================================== */</span>
+
+  <span class="cm">@import &#39;patterns/media&#39;;</span>
+
+<span class="cm">/* =============================================================================</span>
+  <span class="cm">Core</span>
+  <span class="cm">This is the experience for either really old devices, or non-js devices</span>
+  <span class="cm">========================================================================== */</span>
+
+  <span class="cm">@import &#39;partials/core&#39;;</span>
+
+<span class="cm">/* =============================================================================</span>
+  <span class="cm">Groups</span>
+  <span class="cm">Any design enhancements that aren&#39;t a separate component and aren&#39;t part </span>
+  <span class="cm">of the core experience should be placed within one of the following groups.</span>
+
+  <span class="cm">Note: we&#39;re using inheritance for our CSS loading strategy which means each</span>
+  <span class="cm">stylesheet inherits styles from the group that came before it</span>
+  <span class="cm">========================================================================== */</span>
+
+  <span class="cm">@import &#39;groups/group1&#39;;</span>
+  <span class="cm">@import &#39;groups/group2&#39;;</span>
+  <span class="cm">@import &#39;groups/group3&#39;;</span>
+  <span class="cm">@import &#39;groups/group4&#39;;</span>
+
+<span class="cm">/* =============================================================================</span>
+  <span class="cm">Components</span>
+  <span class="cm">You only need to import components into the top-level project/project-ie files</span>
+  <span class="cm">Components have been built to be self contained.</span>
+  <span class="cm">This means they encapsulate any logic about viewport dimensions.</span>
+  <span class="cm">This allows them to control their own visual display.</span>
+  <span class="cm">========================================================================== */</span>
+
+  <span class="cm">@import &#39;components/hello&#39;;</span>
+  <span class="cm">@import &#39;components/world&#39;;</span>
+  <span class="cm">@import &#39;components/features-and-analysis&#39;;</span>
+  <span class="cm">@import &#39;components/index&#39;;</span>
+</pre></div>
+</code></pre>
+<p>I won&#39;t go into detail for each part of this file because the code comments should be self explanatory. But we&#39;ll look at bit more at the &#39;groups&#39; and also the &#39;components&#39;.</p>
+<h4><a name="groups" class="anchor" href="#groups"><span class="header-link"></span></a>Groups</h4>
+<p>We break-down our layouts into &#39;groups&#39;, and each group inherits styles from the group that came before it.</p>
+<p>Here is what our group 1 looks like… </p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="cm">/* =============================================================================</span>
+   <span class="cm">Group 1</span>
+   <span class="cm">All devices sizes</span>
+   <span class="cm">========================================================================== */</span>
+
+<span class="nc">.js</span> <span class="err">{</span>
+    <span class="nt">body</span> <span class="err">{</span>
+        <span class="na">background-color</span><span class="o">:</span> <span class="nb">red</span><span class="err">;</span>
+    <span class="err">}</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p>…so group 1 is applied for all device sizes and we&#39;re saying all device sizes should see a red background colour.</p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="cm">/* =============================================================================</span>
+   <span class="cm">Group 2</span>
+   <span class="cm">Viewport &gt;= 400px</span>
+   <span class="cm">========================================================================== */</span>
+
+<span class="nc">.js</span> <span class="err">{</span>
+    <span class="k">@include</span><span class="nd"> respond-min</span><span class="p">(</span><span class="nv">$mq-group2</span><span class="p">)</span> <span class="err">{</span>
+        <span class="nt">body</span> <span class="err">{</span>
+            <span class="na">background-color</span><span class="o">:</span> <span class="nb">yellow</span><span class="err">;</span>
+        <span class="err">}</span>
+    <span class="err">}</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p>All our other groups constrain their stylings using media queries (which we&#39;ve abstracted into a mixin) and use a variable to store a reference to the relevant break-point size.</p>
+<p>You can see that the styles are constrained further by the <code>.js</code> class prefix and nesting the rest of the CSS/Sass inside of it.</p>
+<p>In our group 2 we&#39;re overriding our previous groups styling by saying we want the background colour to be yellow for group 2 sized devices.</p>
+<h4><a name="components" class="anchor" href="#components"><span class="header-link"></span></a>Components</h4>
+<p>Our components work in a similar way to our groups… </p>
+<ul>
+<li>Set a base line style</li>
+<li>Encapsulate styles within the component style sheet</li>
+<li>Use media queries to apply changes to the component</li>
+</ul>
+<p>Here is an example component… </p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="cm">/* =============================================================================</span>
+   <span class="cm">Component: Features &amp; Analysis</span>
+   <span class="cm">Distinguishes featured content from standard content</span>
+   <span class="cm">========================================================================== */</span>
+
+<span class="err">[</span><span class="na">data-component</span><span class="o">=</span><span class="s2">&quot;features-and-analysis&quot;</span><span class="p">]</span> <span class="err">{</span>
+    <span class="na">border</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nb">blue</span><span class="err">;</span>
+
+    <span class="k">@include</span><span class="nd"> respond-min</span><span class="p">(</span><span class="nv">$mq-group2</span><span class="p">)</span> <span class="err">{</span>
+        <span class="k">&amp;</span> <span class="err">{</span>
+            <span class="na">border-color</span><span class="o">:</span> <span class="ni">pink</span><span class="err">;</span>
+
+            <span class="nc">.media</span> <span class="err">{</span>
+                <span class="na">float</span><span class="o">:</span> <span class="no">left</span><span class="err">;</span>
+                <span class="na">width</span><span class="o">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="kt">%</span><span class="err">;</span>
+            <span class="err">}</span>
+        <span class="err">}</span>
+    <span class="err">}</span>
+
+    <span class="k">@include</span><span class="nd"> respond-min</span><span class="p">(</span><span class="nv">$mq-group3</span><span class="p">)</span> <span class="err">{</span>
+        <span class="k">&amp;</span> <span class="err">{</span>
+            <span class="na">border-color</span><span class="o">:</span> <span class="nb">yellow</span><span class="err">;</span>
+
+            <span class="nc">.media</span> <span class="err">{</span>
+                <span class="na">width</span><span class="o">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="kt">%</span><span class="err">;</span>
+            <span class="err">}</span>
+        <span class="err">}</span>
+    <span class="err">}</span>
+
+    <span class="k">@include</span><span class="nd"> respond-min</span><span class="p">(</span><span class="nv">$mq-group4</span><span class="p">)</span> <span class="err">{</span>
+        <span class="k">&amp;</span> <span class="err">{</span>
+            <span class="na">border-color</span><span class="o">:</span> <span class="nb">red</span><span class="err">;</span>
+
+            <span class="nc">.media</span> <span class="err">{</span>
+                <span class="na">width</span><span class="o">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="kt">%</span><span class="err">;</span>
+            <span class="err">}</span>
+        <span class="err">}</span>
+    <span class="err">}</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<h4><a name="internet-explorer" class="anchor" href="#internet-explorer"><span class="header-link"></span></a>Internet Explorer</h4>
+<p>So how do we encapsulate logic (read: bug fixes) for Internet Explorer? We use Sass to help us incorporate these IE specific fixes… </p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="err">[</span><span class="na">data-component</span><span class="o">=</span><span class="s2">&quot;hello&quot;</span><span class="p">]</span> <span class="err">{</span>
+    <span class="na">border</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nb">blue</span><span class="err">;</span>
+
+    <span class="k">@include</span><span class="nd"> respond-min</span><span class="p">(</span><span class="nv">$mq-group2</span><span class="p">)</span> <span class="err">{</span>
+        <span class="k">&amp;</span> <span class="err">{</span>
+            <span class="na">border-color</span><span class="o">:</span> <span class="nb">green</span><span class="err">;</span>
+
+            <span class="k">@include</span><span class="nd"> old-ie</span> <span class="err">{</span>
+                <span class="na">border-width</span><span class="o">:</span> <span class="mi">2</span><span class="kt">px</span><span class="err">;</span>
+            <span class="err">}</span>
+        <span class="err">}</span>
+    <span class="err">}</span>
+
+    <span class="k">@include</span><span class="nd"> respond-min</span><span class="p">(</span><span class="nv">$mq-group3</span><span class="p">)</span> <span class="err">{</span>
+        <span class="k">&amp;</span> <span class="err">{</span>
+            <span class="na">border-color</span><span class="o">:</span> <span class="nb">yellow</span><span class="err">;</span>
+
+            <span class="k">@include</span><span class="nd"> old-ie</span> <span class="err">{</span>
+                <span class="na">border-width</span><span class="o">:</span> <span class="mi">3</span><span class="kt">px</span><span class="err">;</span>
+            <span class="err">}</span>
+        <span class="err">}</span>
+    <span class="err">}</span>
+
+    <span class="k">@include</span><span class="nd"> respond-min</span><span class="p">(</span><span class="nv">$mq-group4</span><span class="p">)</span> <span class="err">{</span>
+        <span class="k">&amp;</span> <span class="err">{</span>
+            <span class="na">border-color</span><span class="o">:</span> <span class="nb">red</span><span class="err">;</span>
+
+            <span class="k">@include</span><span class="nd"> old-ie</span> <span class="err">{</span>
+                <span class="na">border-width</span><span class="o">:</span> <span class="mi">4</span><span class="kt">px</span><span class="err">;</span>
+            <span class="err">}</span>
+        <span class="err">}</span>
+    <span class="err">}</span>
+<span class="err">}</span>
+</pre></div>
+</code></pre>
+<p>…in the above example you can see we have a <code>old-ie</code> mixin that applies a different style for Internet Explorer versions &lt;= 8. It&#39;s nested inside and the way the mixin works is when you compile this Sass code, if a variable (<code>$old-ie</code>) is set to <code>true</code> then the mixin will generate the relevant code.</p>
+<p>So in our HTML page we have the following code… </p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;styles/project.css&quot;</span><span class="nt">&gt;</span>
+<span class="c">&lt;!--[if lte IE 8]&gt;</span>
+<span class="c">&lt;link rel=&quot;stylesheet&quot; href=&quot;styles/project-ie.css&quot;&gt;</span>
+<span class="c">&lt;![endif]--&gt;</span>
+</pre></div>
+</code></pre>
+<p>…as you can see we use a Microsoft Conditional Comment to load an additional style sheet just for IE versions less than or equal to 8.</p>
+<p>The contents of the associated Sass file is… </p>
+<pre><code class="lang-sass"><div class="highlight"><pre><span class="k">@import</span> <span class="s">&#39;partials/variables&#39;;</span>
+
+<span class="na">$old-ie</span><span class="o">:</span> <span class="n-Pseudo">true</span><span class="err">;</span>
+<span class="na">$fix-mqs</span><span class="o">:</span> <span class="nv">$mq-group4</span><span class="err">;</span>
+
+<span class="k">@import</span> <span class="s">&#39;project&#39;;</span>
+</pre></div>
+</code></pre>
+<p>…this Sass file will generate a <code>project-ie.css</code> file. It simply sets some variables and then imports our main <code>projects.scss</code> file. But when we import that file, the decision the Sass code makes (e.g. the <code>old-ie</code> mixin) will change as it relies on variables which we&#39;ve overwritten within <code>project-ie.css</code>.</p>
+<p>Also, our media query mixin internally uses the variable <code>fix-mqs</code> and because IE &lt;=8 doesn&#39;t support media queries, we overwrite that variable value with a fix width (in this case we want old IE to load up our group 4 width, which is our desktop width).</p>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>OK, so this was a quick run-through of my Stark project and its purpose might still not be totally clear to a lot of you at this point. But as I said from the start, I&#39;m not selling an all encompassing framework or set of tools that work &#39;out of the box&#39;. I&#39;m simply demonstrating a &#39;strategy&#39;, a way of working, thinking, and writing/structuring your front-end code.</p>
+<p>I&#39;d love to hear your feedback and get your thoughts so <a href="http://twitter.com/integralist">contact me on twitter</a>, open up an discussion on <a href="https://github.com/Integralist/Stark">GitHub</a> (or better yet a Pull Request).</p>
+</div>
+
+  <div class="comments">
+    <a href="/posts/stark-simplified-separation-of-components-into-decoupled-applications/#comments">
       <span class="icon-bubbles"></span>
       Comments
     </a>
