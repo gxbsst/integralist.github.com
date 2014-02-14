@@ -61,6 +61,7 @@
 <li><a href="#create-a-directory">Create a directory</a></li>
 </ul>
 </li>
+<li><a href="#find-searching-for-files">Find (searching for files)</a></li>
 <li><a href="#grep-searching-for-patterns">Grep (Searching for patterns)</a></li>
 <li><a href="#sed-find-and-replace">Sed (Find and Replace)</a></li>
 <li><a href="#awk-looping-logic">Awk (Looping Logic)</a></li>
@@ -126,6 +127,38 @@
 <h3><a name="create-a-directory" class="anchor" href="#create-a-directory"><span class="header-link"></span></a>Create a directory</h3>
 <p>To create a directory you can use the make directory command <code>mkdir my_folder_name</code></p>
 <p>To make creating lots of sub directories easier you can pass a <code>-p</code> flag like so <code>mkdir -p Assets/{Scripts,Styles}</code> (notice we use interpolation <code>{}</code> which lets use specify multiple folder names in the current directory level).</p>
+<h2><a name="find-searching-for-files" class="anchor" href="#find-searching-for-files"><span class="header-link"></span></a>Find (searching for files)</h2>
+<p>The <code>find</code> command is useful for walking a directory hierarchy and returning a list of files found based on a set of criteria you have determined.</p>
+<p>The most common pattern is to search for a particular file (or file type) within a project folder. Imagine you want to find a file called <code>package.json</code> within your project directory which is inside your home directory. Here is how we&#39;d use the <code>find</code> command to do that:</p>
+<pre><code class="lang-sh"><div class="highlight"><pre><span class="c"># first we&#39;ll set-up the project directory and some files...</span>
+
+<span class="nb">cd</span> ~/ <span class="c"># move in to the user&#39;s home directory</span>
+mkdir project-foobar <span class="c"># make our project directory</span>
+<span class="nb">cd </span>project-foobar <span class="c"># move inside the project directory</span>
+touch test.txt <span class="o">{</span>package,blah<span class="o">}</span>.json <span class="c"># this creates 3 files inside our project directory</span>
+ls <span class="c"># =&gt; blah.json   package.json    test.txt</span>
+<span class="nb">cd</span> ../ <span class="c"># move back into the user&#39;s home directory and we&#39;ll start searching</span>
+
+<span class="c"># here is the actual &#39;find&#39; command</span>
+find ./project-foobar -name <span class="s1">&#39;package.json&#39;</span> <span class="c"># =&gt; ./project-foobar/package.json</span>
+
+find ./project-foobar -name <span class="s1">&#39;*.json&#39;</span>
+<span class="c"># =&gt; ./project-foobar/blah.json</span>
+<span class="c"># =&gt; ./project-foobar/package.json</span>
+</pre></div>
+</code></pre>
+<p>As you can see from the above example the <code>find</code> command has three parameters:</p>
+<ul>
+<li>the directory to search</li>
+<li>an optional flag to indicate what we want to search for</li>
+<li>the file we&#39;re searching for</li>
+</ul>
+<p>Let&#39;s see this broken down:</p>
+<ul>
+<li><code>./project-foobar</code> the directory to search</li>
+<li><code>-name</code> the flag/option we&#39;ve set is &quot;check the name of each item found&quot;</li>
+<li><code>&#39;*.json&#39;</code> we&#39;ve used a wildcard (asterisk <code>*</code>) to indicate we&#39;re interested in &quot;any&quot; json file</li>
+</ul>
 <h2><a name="grep-searching-for-patterns" class="anchor" href="#grep-searching-for-patterns"><span class="header-link"></span></a>Grep (Searching for patterns)</h2>
 <p>Grep is a command that lets you find a pattern (either a string or a regular expression) inside of a file or list of files.</p>
 <p>So: <code>grep &#39;something&#39; test.txt</code> looks for the word &#39;something&#39; inside of the file <code>test.txt</code>.</p>
