@@ -37,6 +37,380 @@
 
 
   <div class="post-head group">
+  <a href="/posts/grunt-boilerplate/">
+    <h1 class="post-title">Grunt Boilerplate</h1>
+  </a>
+  <span class="post-date">2013 &#183; 5 &#183; 13</span>
+</div>
+
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 19mins</em></p>
+<ul>
+<li>What is Grunt?</li>
+<li>Installation</li>
+<li>Package.json</li>
+<li>Dependencies</li>
+<li>Gruntfile.js</li>
+<li>Sass</li>
+<li>RequireJS</li>
+<li>JSHint</li>
+<li>Jasmine BDD</li>
+<li>Image Minification</li>
+<li>HTML Minification</li>
+<li>Registering tasks</li>
+<li>Watching files</li>
+<li>Our full Grunt file</li>
+<li>Conclusion</li>
+<li>Updates</li>
+</ul>
+<p><em>Please note that any additional updates have been added to the bottom of this post to ensure no cross-over between the original focus and new items that might contradict that</em></p>
+<h2><a name="what-is-grunt" class="anchor" href="#what-is-grunt"><span class="header-link"></span></a>What is Grunt?</h2>
+<p><a href="http://gruntjs.com/">Grunt</a> is a JavaScript based task runner. What this means is that it will help you spend less time manually running tasks that can be automated.</p>
+<p>Grunt comes with many pre-built tasks available and that can automate the majority of a developer&#39;s typical work flow. You also have the facility to write your own custom tasks if you have a specific requirement that isn&#39;t already catered for.</p>
+<p>There are approximately 700+ tasks built for Grunt (as of May 2013) and the list is growing. Some of the most popular tasks I&#39;ll be covering in this article…</p>
+<ul>
+<li>Sass (CSS pre-processor)</li>
+<li>RequireJS (AMD/script loader)</li>
+<li>JSHint (JavaScript code quality)</li>
+<li>Jasmine BDD (Behaviour-Driven Unit Testing framework)</li>
+<li>ImageMin (Image minification)</li>
+<li>HTMLMin (HTML minification)</li>
+</ul>
+<p>…but there are many more for tasks such as: compiling CoffeeScript to JavaScript, concatenating files, connecting to a web server, copying files and folders, precompiling handlebar templates, live reload within a web browser, compiling code documentation - just to name a few. </p>
+<p>See the <a href="http://gruntjs.com/plugins">Grunt Plugins</a> page for a more comprehensive list (but also check GitHub).</p>
+<h2><a name="installation" class="anchor" href="#installation"><span class="header-link"></span></a>Installation</h2>
+<p>Grunt uses <a href="http://nodejs.org/">Node.js</a> and Node&#39;s package manager system (NPM) to handle the installation of Grunt tasks.</p>
+<p>Essentially (as of Grunt 0.4) there are three items you need to install to get up and running with Grunt…</p>
+<ol>
+<li>Node.js</li>
+<li>NPM</li>
+<li>Grunt CLI (command line interface)</li>
+</ol>
+<p>The easiest way to install these are using <a href="http://mxcl.github.io/homebrew/">Homebrew</a> which is an excellent package manager for OS X (if you use Windows, my apologies but you&#39;re on your own).</p>
+<p>Your mileage may vary, but if you have homebrew installed you can run the following commands via your terminal to install Node.js and NPM: <code>brew install node</code>.</p>
+<p>The next step is to install Grunt CLI which you can do using: <code>npm install -g grunt-cli</code> (the <code>-g</code> means to install it globally on your OS so that you can use the <code>grunt</code> command where ever you are on your system).</p>
+<p>Now you&#39;ll also want to run: <code>npm install -g grunt-init</code> and once that&#39;s done you&#39;ve effectively installed the basic requirements for Grunt.</p>
+<h2><a name="package-json" class="anchor" href="#package-json"><span class="header-link"></span></a>Package.json</h2>
+<p>Before you can start using Grunt you&#39;ll need a <code>package.json</code> file which stores all the base configuration settings.</p>
+<p>To automatically generate this file run: <code>npm init</code>.</p>
+<p>Below is the <code>package.json</code> file for my Grunt Boilerplate project...</p>
+<pre><code class="lang-json"><div class="highlight"><pre><span class="p">{</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Grunt Boilerplate&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.1.0&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;This is a project set-up using Grunt to take case of some standard tasks such as: compiling AMD based modules using RequireJS, watching/compiling Sass into CSS, watching/linting JS code and some other things such as running unit tests&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;main&quot;</span><span class="p">:</span> <span class="s2">&quot;Gruntfile.js&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dependencies&quot;</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="nt">&quot;devDependencies&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;grunt&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.4.1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;grunt-contrib-watch&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.3.1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;grunt-contrib-jshint&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.4.3&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;grunt-contrib-uglify&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.2.0&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;grunt-contrib-requirejs&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.4.0&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;grunt-contrib-sass&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.3.0&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;grunt-contrib-imagemin&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.1.4&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;grunt-contrib-htmlmin&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.1.3&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;grunt-contrib-jasmine&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.4.2&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;grunt-template-jasmine-istanbul&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.2.1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;grunt-template-jasmine-requirejs&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.1.1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;grunt-contrib-connect&quot;</span><span class="p">:</span> <span class="s2">&quot;~0.3.0&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;scripts&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;test&quot;</span><span class="p">:</span> <span class="s2">&quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;repository&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;git&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;git@github.com:Integralist/Grunt-Boilerplate.git&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;keywords&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;Grunt&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;JavaScript&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Mark McDonnell&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;license&quot;</span><span class="p">:</span> <span class="s2">&quot;MIT&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>…most of it is populated with content I provided when I ran <code>npm init</code> and the rest (such as <code>devDependencies</code>) was automatically generated for me when I started installing Grunt tasks (see next section).</p>
+<h2><a name="dependencies" class="anchor" href="#dependencies"><span class="header-link"></span></a>Dependencies</h2>
+<p>Typically we don&#39;t want dependencies we install to be installed globally (remember we installed Grunt globally using the <code>-g</code> flag). </p>
+<p>The reason being, the dependencies you install for Project X might be different from your next project. </p>
+<p>For example, you might install a Grunt task with a version number of 1.0 and by the time you start your next project that task might have been updated to version 2.0 and part of the major version update was a complete change in their API. So if you globally updated the task, your last project would break as it&#39;s using the old API. </p>
+<p>But you still want to use the latest and greatest version of that task. So instead of installing your dependencies globally, install them locally (e.g. install them into the specific project you&#39;re currently working on) which means there will no chance of conflicts between projects.</p>
+<p>Below are the tasks I install locally as part of my Grunt Boilerplate project…</p>
+<ul>
+<li><code>npm install grunt --save-dev</code></li>
+<li><code>npm install grunt-contrib-watch --save-dev</code></li>
+<li><code>npm install grunt-contrib-jshint --save-dev</code></li>
+<li><code>npm install grunt-contrib-uglify --save-dev</code></li>
+<li><code>npm install grunt-contrib-requirejs --save-dev</code></li>
+<li><code>npm install grunt-contrib-sass --save-dev</code></li>
+<li><code>npm install grunt-contrib-imagemin --save-dev</code></li>
+<li><code>npm install grunt-contrib-htmlmin --save-dev</code></li>
+<li><code>npm install grunt-contrib-connect --save-dev</code></li>
+<li><code>npm install grunt-contrib-jasmine --save-dev</code></li>
+<li><code>npm install grunt-template-jasmine-requirejs --save-dev</code></li>
+</ul>
+<p>…a couple of things to note here are: the first item you see me install is Grunt itself (which is separated from the Grunt CLI). As we&#39;ve already discussed, it means we can install different versions of Grunt if we want (depending on the project requirements).</p>
+<p>The other thing is the use of the <code>--save-dev</code> flag which means our <code>package.json</code> file gets automatically updated to include the dependency we&#39;ve just installed.</p>
+<p>Because these dependencies are installed locally, you&#39;ll notice a new <code>node_modules</code> folder has appeared within your project. This folder holds all of the above dependencies/tasks we&#39;ve just installed.</p>
+<p>I suggest you create a <code>.gitignore</code> file (you are using <a href="http://git-scm.com/">Git</a> for your version control system, right?) that ignores this folder (you don&#39;t want to end up pushing these modules into your repo for other users to pull down, best to let them install these themselves as per my instructions above).</p>
+<p>OK, now that we have all the dependencies/tasks installed, lets look at the remaining piece of the puzzle, the <code>Gruntfile.js</code>.</p>
+<h2><a name="gruntfile-js" class="anchor" href="#gruntfile-js"><span class="header-link"></span></a>Gruntfile.js</h2>
+<p><code>Gruntfile.js</code> is the main set-up file and contains the settings for each task we have installed.</p>
+<p>Because Grunt is run using Node.js you&#39;ll notice the content of the file is wrapped in a closure and assigned to a module <code>exports</code> property…</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">({</span>
+        <span class="c1">// our Grunt task settings</span>
+    <span class="p">});</span>
+<span class="p">};</span>
+</pre></div>
+</code></pre>
+<p>…within the function we call <code>initConfig</code> on the Grunt object, and we pass through an object literal holding our task settings.</p>
+<p>One of the first properties we set is <code>pkg: grunt.file.readJSON(&#39;package.json&#39;)</code> which means that from within the other properties of our object we can access settings specified within our <code>package.json</code> configuration file.</p>
+<p>For example, if we wanted to access the name of our package (which if you remember was set <code>&quot;name&quot;:&quot;Grunt Boilerplate&quot;</code>) then we could access it from within our object using <code>&lt;%= pkg.name %&gt;</code>.</p>
+<p>From here, this is where we now start to explore the different tasks we previously installed (for full details of each task&#39;s own settings please go to their corresponding website/github repo).</p>
+<h2><a name="sass" class="anchor" href="#sass"><span class="header-link"></span></a>Sass</h2>
+<p>The Sass task allows us to compile our Sass files into CSS.</p>
+<p>Here is an example...</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">sass</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">dist</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">style</span><span class="o">:</span> <span class="s1">&#39;compressed&#39;</span><span class="p">,</span>
+            <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;./assets/styles/sass/helpers/url64.rb&#39;</span><span class="p">]</span>
+        <span class="p">},</span>
+        <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/styles/sass/&#39;</span><span class="p">,</span>
+        <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;*.scss&#39;</span><span class="p">],</span>
+        <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/styles/&#39;</span><span class="p">,</span>
+        <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span>
+    <span class="p">},</span>
+    <span class="nx">dev</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">style</span><span class="o">:</span> <span class="s1">&#39;expanded&#39;</span><span class="p">,</span>
+            <span class="nx">debugInfo</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">lineNumbers</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;./app/styles/sass/helpers/url64.rb&#39;</span><span class="p">]</span>
+        <span class="p">},</span>
+        <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/styles/sass/&#39;</span><span class="p">,</span>
+        <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;*.scss&#39;</span><span class="p">],</span>
+        <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/styles/&#39;</span><span class="p">,</span>
+        <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.css&#39;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>You&#39;ll see in the above example we&#39;ve set-up two sub tasks <code>dist</code> and <code>dev</code>.</p>
+<p>The reason I&#39;ve created two sub tasks is because while I&#39;m developing my application I want my Sass files to compile in to expanded CSS (including debugging information), but when I finish my project I want to compile my Sass files in to compressed/minified CSS instead.</p>
+<p>You&#39;ll see for each sub task I specify a <code>options</code> object which tells the compiler how I want the Sass to be compiled and where to find any additional Sass helper scripts.</p>
+<p>You&#39;ll find in my <a href="https://github.com/Integralist/Grunt-Boilerplate">Grunt Boilerplate</a> (used in the above example) that I include a Sass helper script <code>require: [&#39;./app/styles/sass/helpers/url64.rb&#39;]</code> which allows you to use a special Sass function to convert a background image into a Base64 encoded string which is better performing than making an additional HTTP request for an image to be used - it also works around the IE8 issue where an Base64 encoded string can&#39;t be greater than 32kb of data.</p>
+<p>Finally, we are using a Grunt specific pattern that allows us to better target and export multiple files: <code>expand: true</code>. Effectively that setting allows the other properties to follow it to be activated (if we didn&#39;t have <code>expand: true</code> set then the properties following it wouldn&#39;t work).</p>
+<p>Let&#39;s look at the other properties a little bit closer, as you&#39;ll see them used in other tasks in a similar way so it&#39;s important for you to understand how they work…</p>
+<p><code>cwd: &#39;./app/styles/sass/&#39;</code> - here I&#39;m setting the &#39;current working directory&#39; (this is where I want Grunt to find my Sass files).</p>
+<p><code>src: [&#39;*.scss&#39;]</code> - here I&#39;m telling Grunt that I want it to look for any <code>scss</code> files within my &#39;current working directory&#39;.</p>
+<p><code>dest: &#39;./app/styles/&#39;</code> - here I&#39;m telling Grunt that I want it to export the files to this directory.</p>
+<p><code>ext: &#39;.css&#39;</code> - and that I want each exported file to have an extension of <code>css</code>.</p>
+<p>To run this specific task we could open our terminal and execute: <code>grunt sass</code> (which would execute both sub tasks), or we could run a specific sub task like so: <code>grunt sass:dev</code>.</p>
+<p>I won&#39;t explain the running of specific tasks again from here because effectively it&#39;s exactly the same for all tasks.</p>
+<h2><a name="requirejs" class="anchor" href="#requirejs"><span class="header-link"></span></a>RequireJS</h2>
+<p>This task is effectively the <code>r.js</code> build script that comes with RequireJS so I won&#39;t go into the details of how to write a build script - I&#39;ll instead refer you to the <a href="https://github.com/jrburke/r.js/blob/master/build/example.build.js">r.js documentation</a>, but know that the following has exactly the same settings as you would have used for <code>r.js</code> previously… </p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">requirejs</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">compile</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">baseUrl</span><span class="o">:</span> <span class="s1">&#39;./app&#39;</span><span class="p">,</span>
+            <span class="nx">mainConfigFile</span><span class="o">:</span> <span class="s1">&#39;./app/main.js&#39;</span><span class="p">,</span>
+            <span class="nx">dir</span><span class="o">:</span> <span class="s1">&#39;./app/release/&#39;</span><span class="p">,</span>
+            <span class="nx">fileExclusionRegExp</span><span class="o">:</span> <span class="sr">/^\.|node_modules|Gruntfile|\.md|package.json/</span><span class="p">,</span>
+            <span class="nx">modules</span><span class="o">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;main&#39;</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<h2><a name="jshint" class="anchor" href="#jshint"><span class="header-link"></span></a>JSHint</h2>
+<p>JSHint is a task that mimics the <a href="http://www.jshint.com/">web interface</a> in that it lets you specify files to lint (i.e. makes sure the code is written with valid syntax according to a set of rules you want it to abide by)… </p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">jshint</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">files</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;Gruntfile.js&#39;</span><span class="p">,</span> <span class="s1">&#39;app/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;!app/release/**&#39;</span><span class="p">,</span> <span class="s1">&#39;modules/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;specs/**/*Spec.js&#39;</span><span class="p">],</span>
+    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">curly</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">eqeqeq</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">immed</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">latedef</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">newcap</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">noarg</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">sub</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">undef</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">boss</span><span class="o">:</span>    <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">eqnull</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">browser</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+
+        <span class="nx">globals</span><span class="o">:</span> <span class="p">{</span>
+            <span class="c1">// AMD</span>
+            <span class="nx">module</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">require</span><span class="o">:</span>    <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">requirejs</span><span class="o">:</span>  <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">define</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
+
+            <span class="c1">// Environments</span>
+            <span class="nx">console</span><span class="o">:</span>    <span class="kc">true</span><span class="p">,</span>
+
+            <span class="c1">// General Purpose Libraries</span>
+            <span class="nx">$</span><span class="o">:</span>          <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">jQuery</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
+
+            <span class="c1">// Testing</span>
+            <span class="nx">sinon</span><span class="o">:</span>      <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">describe</span><span class="o">:</span>   <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">it</span><span class="o">:</span>         <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">expect</span><span class="o">:</span>     <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">beforeEach</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">afterEach</span><span class="o">:</span>  <span class="kc">true</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>…some things to note: we&#39;re using the bang operator <code>!</code> to tell Grunt to ignore specific directories. So you&#39;ll see we said <code>!app/release/</code> which means DON&#39;T lint that particular directory because it will likely cause errors according to the rules set for JSHint (because that directory is our minified version of our JavaScript code that RequireJS compiled for us).</p>
+<p>Also, you&#39;ll see we&#39;ve told JSHint about certain variables that we expect to be present (i.e. to be globally available). We need to do this because JSHint inspects our JavaScript files in isolation so although when we run our application all the scripts are loaded together, at the time of linting JSHint isn&#39;t aware of these different globals and so if we didn&#39;t tell it about them it would just error.</p>
+<p>Finally, for the full list of rules that JSHint abides by see the <a href="http://www.jshint.com/docs/#enforcing_options">JSHint site</a>.</p>
+<h2><a name="jasmine-bdd" class="anchor" href="#jasmine-bdd"><span class="header-link"></span></a>Jasmine BDD</h2>
+<p>Jasmine is a Behaviour-Driven unit testing framework and assertion library.</p>
+<p>This is probably one the most complicated task we cover because it requires a few other tasks.</p>
+<p>The first first task it relies on is the <code>connect</code> task which fires up a web server using PhantomJS. But realise that this isn&#39;t required if your scripts have no DOM interaction (unlikely if you&#39;re doing web development), but because we&#39;re doing DOM manipulation and we&#39;re testing that interaction we need a DOM to test against, hence the need for the <code>connect</code> web server task… </p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">connect</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">test</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">port</span><span class="o">:</span> <span class="mi">8000</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>…after that we set-up the actual <code>jasmine</code> task… </p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">jasmine</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;app/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;!app/release/**&#39;</span><span class="p">],</span>
+    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">host</span><span class="o">:</span> <span class="s1">&#39;http://127.0.0.1:8000/&#39;</span><span class="p">,</span>
+        <span class="nx">specs</span><span class="o">:</span> <span class="s1">&#39;specs/**/*Spec.js&#39;</span><span class="p">,</span>
+        <span class="nx">helpers</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;specs/helpers/*Helper.js&#39;</span><span class="p">,</span> <span class="s1">&#39;specs/helpers/sinon.js&#39;</span><span class="p">],</span>
+        <span class="nx">template</span><span class="o">:</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;grunt-template-jasmine-requirejs&#39;</span><span class="p">),</span>
+        <span class="nx">templateOptions</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">requireConfig</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">baseUrl</span><span class="o">:</span> <span class="s1">&#39;./app/&#39;</span><span class="p">,</span>
+                <span class="nx">mainConfigFile</span><span class="o">:</span> <span class="s1">&#39;./app/main.js&#39;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>…you&#39;ll see we have specified a <code>host</code> option which relates to the <code>connect</code> web server task.</p>
+<p>We also <code>specs</code> option where we tell Grunt where to find out BDD spec/test files.</p>
+<p>We have a <code>helpers</code> option where we can load additional scripts required for us to utilise for testing (this is where I load an additional script called <a href="http://sinonjs.org/">Sinon.js</a> which handles Spies, Mocks and Stubs within our unit tests).</p>
+<p>Next comes the other complicated part of this task: we need a &#39;template&#39; sub task which is specifically built for Jasmine <code>grunt-template-jasmine-requirejs</code>. We need this additional task because we&#39;re using AMD for making our JavaScript code modular, but AMD introduces race condition issues when it comes to running our async based scripts against a dynamic spec runner such as our Grunt Jasmine task.</p>
+<p>You&#39;ll see that we just need to tell <code>grunt-template-jasmine-requirejs</code> where our base JS directory is and which file is the main AMD file to bootstrap our application. In the background the task generates a <code>_SpecRunner.html</code> file which basically requires in every single AMD modules and then starts running our tests within a callback once all the modules are loaded. It&#39;s not the greatest solution but it works.</p>
+<p>If the tests pass then the <code>_SpecRunner.html</code> is removed so you never notice it, but if there are any failing tests then the file is left in your root directory so you can inspect the file and run it manually via a real web browser and try and debug any failing tests.</p>
+<h2><a name="image-minification" class="anchor" href="#image-minification"><span class="header-link"></span></a>Image Minification</h2>
+<p>The ImageMin task does exactly what you would expect, it searches out any images it finds (png or jpg format) and compresses them so they are smaller in file size.</p>
+<p>As you can see from the below example we&#39;re using the <code>expand: true</code> setting (and subsequent settings) to tell Grunt where to find our images and where to export them to… </p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">imagemin</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">png</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">optimizationLevel</span><span class="o">:</span> <span class="mi">7</span>
+        <span class="p">},</span>
+        <span class="nx">files</span><span class="o">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/images/&#39;</span><span class="p">,</span>
+                <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*.png&#39;</span><span class="p">],</span>
+                <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/images/compressed/&#39;</span><span class="p">,</span>
+                <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.png&#39;</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="nx">jpg</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">progressive</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">},</span>
+        <span class="nx">files</span><span class="o">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;./app/images/&#39;</span><span class="p">,</span>
+                <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*.jpg&#39;</span><span class="p">],</span>
+                <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;./app/images/compressed/&#39;</span><span class="p">,</span>
+                <span class="nx">ext</span><span class="o">:</span> <span class="s1">&#39;.jpg&#39;</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<h2><a name="html-minification" class="anchor" href="#html-minification"><span class="header-link"></span></a>HTML Minification</h2>
+<p>The HTMLMin task does exactly what you would expect, it searches out any HTML files it finds and compresses them so they are minified and thus smaller in file size.</p>
+<p>As you can see from the below example we&#39;ve NOT used the <code>expand: true</code> setting but instead this task provided a slightly different api to let us tell Grunt where to find our HTML files and where to export the minified versions to (but effectively we could use <code>expand: true</code> if we wanted)…</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">htmlmin</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">dist</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">removeComments</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">collapseWhitespace</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">removeEmptyAttributes</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">removeCommentsFromCDATA</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">removeRedundantAttributes</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">collapseBooleanAttributes</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">},</span>
+        <span class="nx">files</span><span class="o">:</span> <span class="p">{</span>
+            <span class="c1">// Destination : Source</span>
+            <span class="s1">&#39;./index-min.html&#39;</span><span class="o">:</span> <span class="s1">&#39;./index.html&#39;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<h2><a name="registering-tasks" class="anchor" href="#registering-tasks"><span class="header-link"></span></a>Registering tasks</h2>
+<p>So far we&#39;ve looked at running specific Grunt tasks like so: <code>grunt sass:dev</code> and <code>grunt jshint</code> but you can also set-up a custom task which does nothing but run other tasks.</p>
+<p>For example, you could create a task which when run would execute a specific set of tasks… </p>
+<p><code>grunt.registerTask(&#39;release&#39;, [&#39;jshint&#39;, &#39;jasmine&#39;, &#39;requirejs&#39;, &#39;sass:dist&#39;, &#39;imagemin&#39;, &#39;htmlmin&#39;]);</code></p>
+<p>…in the above example we&#39;ve created a &#39;release&#39; task which when run will get our files ready to be pushed to our production environment. I would typically run this task when I was finished building my application.</p>
+<p>As you can see it lints my JavaScript files, and then makes sure my JavaScript tests are passing. It then runs my RequireJS build script and then my <code>dist</code> Sass sub task (the one specifically for our production server, so it minifies all the compiled CSS), it then finally minifies any images it finds and minifies our HTML files.</p>
+<p>When you execute the command <code>grunt</code> by itself then it will  look for a registered task called <code>default</code>… </p>
+<p><code>grunt.registerTask(&#39;default&#39;, [&#39;jshint&#39;, &#39;connect&#39;, &#39;jasmine&#39;, &#39;sass:dev&#39;]);</code></p>
+<p>…in this case we&#39;re telling it to execute our JavaScript linting task, then to check our unit tests are still passing and finally to generate debug versions of our CSS.</p>
+<h2><a name="watching-files" class="anchor" href="#watching-files"><span class="header-link"></span></a>Watching files</h2>
+<p>Instead of manually running a Grunt command every time we make a change (e.g. imagine making a change to your Sass file and then having to go to the terminal and running <code>grunt sass:dev</code> to get the Sass to compile to CSS just so you can see the change reflected in your browser), we can instead get Grunt to do the hard work for us and to automatically run a task (or multiple tasks) whenever a specific set of files have been changed/updated… </p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="nx">watch</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">files</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;&lt;%= jshint.files %&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;%= jasmine.options.specs %&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;%= sass.dev.src %&gt;&#39;</span><span class="p">],</span>
+    <span class="nx">tasks</span><span class="o">:</span> <span class="s1">&#39;default&#39;</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>…here you can see we&#39;re using the &#39;watch&#39; task along with a specific interpolation syntax to let it know what files to keep an eye on for us.</p>
+<p>The syntax is: <code>&lt;%= jshint.files %&gt;</code> and in this instance it means &quot;look at the <code>jshint</code> property and return the value set on its sub property <code>files</code>&quot;. </p>
+<p>So as you can see from the above example, we&#39;re telling the watch task to look out for any changes made to our JavaScript and Sass files, and if so run the <code>default</code> registered task.</p>
+<h2><a name="our-full-grunt-file" class="anchor" href="#our-full-grunt-file"><span class="header-link"></span></a>Our full Grunt file</h2>
+<p>You can find the full file on my <a href="https://github.com/Integralist/Grunt-Boilerplate">Grunt Boilerplate repo</a></p>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>Hopefully this guide gives you a good starting point to begin using Grunt to automate more of your work flow. It&#39;s an extremely powerful tool and we haven&#39;t even begun to scratch the surface as there is the custom task features built-in that let you write your own tasks that interact with the file system and do pretty much anything you want. Well worth investigating further.</p>
+<p>Note: my <a href="https://github.com/Integralist/Grunt-Boilerplate">Grunt Boilerplate</a> project is constantly being updated so watch the repo to keep up to speed.</p>
+<h2><a name="updates" class="anchor" href="#updates"><span class="header-link"></span></a>Updates</h2>
+<p>Since my original work on Grunt Boilerplate there has been lots of new tips and tricks that have come to light. I&#39;ll briefly list them below and leave it up to the reader to investigate further...</p>
+<ul>
+<li>Display the elapsed execution time of grunt tasks using: <code>require(&#39;time-grunt&#39;)(grunt);</code> </li>
+<li>Dynamically load Grunt tasks using: <code>require(&#39;load-grunt-tasks&#39;)(grunt, [&#39;grunt-*&#39;]);</code> and not manually calling <code>grunt.loadNpmTasks</code> for every task</li>
+<li>When using <code>grunt.registerTask</code> for custom tasks you can keep your files cleaner by first loading each task as a separate script file (e.g. <code>var tasks = require(&#39;./scripts/grunt&#39;)(grunt);</code>). <a href="https://gist.github.com/Integralist/7464000">See here for full example of externalised task</a></li>
+<li>Move your JSHint configuration settings into a <code>.jshintrc</code> file and point the JSHint task to that file (<a href="https://gist.github.com/Integralist/7463783">example</a>)</li>
+</ul>
+</div>
+
+  <div class="comments">
+    <a href="/posts/grunt-boilerplate/#comments">
+      <span class="icon-bubbles"></span>
+      Comments
+    </a>
+  </div>
+
+  <div class="post-head group">
   <a href="/posts/message-passing-in-object-oriented-code/">
     <h1 class="post-title">Message passing in Object-Oriented Code</h1>
   </a>
@@ -124,373 +498,6 @@
     </a>
   </div>
 
-  <div class="post-head group">
-  <a href="/posts/object-oriented-design-ood/">
-    <h1 class="post-title">Object-Oriented Design (OOD)</h1>
-  </a>
-  <span class="post-date">2013 &#183; 2 &#183; 12</span>
-</div>
-
-<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
-<p><em>reading time: approx. 22mins</em></p>
-<ul>
-<li>Quick Summary</li>
-<li>Introduction</li>
-<li>Objects</li>
-<li>Class Analysis</li>
-<li>Dependencies</li>
-<li>Flexible Interfaces</li>
-<li>Duck Typing</li>
-<li>Inheritance</li>
-<li>Inheritance vs Composition</li>
-<li>Further good rules of development from Sandi Metz</li>
-<li>Summary</li>
-</ul>
-<h2><a name="quick-summary" class="anchor" href="#quick-summary"><span class="header-link"></span></a>Quick Summary</h2>
-<p>Here is a short summary for those of you who prefer to see a quick bullet-point list of items covered... </p>
-<ul>
-<li>Decouple your code (<em>we discuss this in more detail below</em>)</li>
-<li>Describe your class to see if it does too much<br>e.g. for each class write down a single line description and try to avoid the words &#39;and&#39;, &#39;or&#39; from occuring</li>
-<li>Review each method thoroughly (you may find some methods don&#39;t belong in your class and deserve their own interface)</li>
-<li>Manage your dependencies:<ul>
-<li>Check the method arguments you&#39;re passing around</li>
-<li>Use dependency injection (don&#39;t hard code class names)</li>
-<li>Avoid direct references to complex data structures (transform your data into a more appropriate form)</li>
-<li>Abide by the Single Responsibility Principle (SRP)</li>
-<li>Review comments to ensure their purpose and usefulness<ul>
-<li>Your commented code could be better handled by moving into a separate method with a descriptive name</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Write more flexible interfaces:<ul>
-<li>Object-Oriented code is more about the &#39;messages&#39; sent between objects than the objects themselves</li>
-<li>Think about the messages you want to send and create objects/interfaces to handle them</li>
-<li>Ask for what you <em>want</em> and don&#39;t include <em>how</em> to do what you want</li>
-<li>Ensure messages you send (e.g. method calls you make) don&#39;t rely on knowledge of the object that implements the method</li>
-<li>Reduce your object&#39;s context (i.e. how much it knows about other objects). Dependency Injection can help here</li>
-</ul>
-</li>
-<li>Trust your objects (e.g. Duck Typing design principles)</li>
-<li>If using the inheritance pattern:<ul>
-<li>Abstract your shared functionality into the base class</li>
-<li>Make sure sub classes inherit only what they need</li>
-<li>Avoid calling <code>super</code> as it&#39;s a code smell</li>
-</ul>
-</li>
-</ul>
-<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
-<p>All of the following information has been distilled from Sandi Metz&#39; <a href="http://www.poodr.info/">Practical Object-Oriented Design in Ruby</a>, and although the code in this post is based on the Ruby language, don&#39;t worry - the concepts are applicable for any object-oriented language.</p>
-<p>I would highly recommend you read <a href="http://www.poodr.info/">Practical Object-Oriented Design in Ruby</a> as the author goes into far more code detail and background information (as well as covering other subjects such as test-driven development and the process of writing efficient unit tests) which will help you understand the concepts better than I could in this single post. But hopefully the following distilled version should be a sufficient starting point for your journey into writing more flexible and maintainable code.</p>
-<h2><a name="objects" class="anchor" href="#objects"><span class="header-link"></span></a>Objects</h2>
-<p>The best description I have ever read regarding good Object-Oriented design goes like this... </p>
-<blockquote>
-<p>Object-Oriented Design is about the messages that get sent between objects and not the objects themselves.</p>
-</blockquote>
-<p>This single line quote perfectly captures the intention behind good Object-Oriented design. </p>
-<p>It seems our focus on objects has been wrong. We should be thinking primarily about the messages we want to send. This way we build up classes based on good clean interfaces and so our subsequent objects are clearer and more direct in their message handling.</p>
-<h2><a name="class-analysis" class="anchor" href="#class-analysis"><span class="header-link"></span></a>Class Analysis</h2>
-<p>We want our classes to be as decoupled as possible. The benefit of this is to allow changes to occur over time with little to no side-effects. If your classes have too many dependencies, which are likely too tightly coupled to the class, then any design/code changes in the future could potentially have a negative knock-on effect on the rest of your code.</p>
-<p>To ensure a class only contains the behaviour it needs try describing your class in one sentence. If you find you have to use the word &quot;and&quot; within your description then the class appears to have more than one responsibility (this is a bad thing - your classes should be small and focused on a single responsibility). If you find you have used the word &quot;or&quot; to describe your class then you not only have more than one responsibility but the responsibilities aren&#39;t even related. That again would be an indication of a code smell.</p>
-<p>Another way to analyse your classes is to ask each method within the class a question, and to see if any of the answers sound out of place.</p>
-<p>e.g. &quot;Please Mr. <code>ClassName</code> what is your <code>method_name</code>?&quot;</p>
-<p>This sounds strange and maybe a bit childish, but it&#39;s surprising what methods suddenly appear to no longer fit within the responsibilities of the class being interrogated.</p>
-<p>For example, look at the following class which is based on a part of a bicycle (specifically gears)... </p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Gear</span>
-    <span class="kp">attr_reader</span> <span class="ss">:chainring</span><span class="p">,</span> <span class="ss">:cog</span><span class="p">,</span> <span class="ss">:rim</span><span class="p">,</span> <span class="ss">:tire</span>
-
-    <span class="k">def</span> <span class="nf">initialize</span> <span class="p">(</span><span class="n">chainring</span><span class="p">,</span> <span class="n">cog</span><span class="p">,</span> <span class="n">rim</span><span class="p">,</span> <span class="n">tire</span><span class="p">)</span>
-      <span class="vi">@chainring</span> <span class="o">=</span> <span class="n">chainring</span>
-      <span class="vi">@cog</span>       <span class="o">=</span> <span class="n">cog</span>
-      <span class="vi">@rim</span>       <span class="o">=</span> <span class="n">rim</span>
-      <span class="vi">@tire</span>      <span class="o">=</span> <span class="n">tire</span>
-    <span class="k">end</span>
-
-    <span class="k">def</span> <span class="nf">ratio</span>
-      <span class="n">chainring</span> <span class="o">/</span> <span class="n">cog</span><span class="o">.</span><span class="n">to_f</span>
-    <span class="k">end</span>
-
-    <span class="k">def</span> <span class="nf">gear_inches</span>
-        <span class="c1"># tire goes around rim twice for diameter</span>
-        <span class="n">ratio</span> <span class="o">*</span> <span class="p">(</span><span class="n">rim</span> <span class="o">+</span> <span class="p">(</span><span class="n">tire</span> <span class="o">*</span> <span class="mi">2</span><span class="p">))</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-</pre></div>
-</code></pre>
-<p>...now start to ask each of its methods a question (remember that <code>attr_reader</code> generates a getter method and so those need to be queried as well)... </p>
-<ul>
-<li>&quot;Please Mr. <code>Gear</code> what is your <code>ratio</code>?&quot; <strong>- seems fine</strong></li>
-<li>&quot;Please Mr. <code>Gear</code> what is your <code>gear_inches</code>?&quot; <strong>- seems fine also</strong></li>
-<li>&quot;Please Mr. <code>Gear</code> what is your <code>tire</code>?&quot; <strong>- hmm? notice this doesn&#39;t sound like it quite fits the purpose of a &#39;Gears&#39; class</strong></li>
-</ul>
-<p>You can tell that the <code>tire</code> method doesn&#39;t fit in with a class which handles bicycle gears information and would be better suited to be placed in its own class. A simple querying of the methods has pointed us in the direction of a potential code smell.</p>
-<p>One other potential code smell worth avoiding is the direct referencing of class attributes/properties. You should only access them via a getter method to ensure good separation of data access. For example...</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Gear</span>
-    <span class="kp">attr_reader</span> <span class="ss">:chainring</span><span class="p">,</span> <span class="ss">:cog</span>
-
-    <span class="k">def</span> <span class="nf">initialize</span> <span class="p">(</span><span class="n">chainring</span><span class="p">,</span> <span class="n">cog</span><span class="p">)</span>
-      <span class="vi">@chainring</span> <span class="o">=</span> <span class="n">chainring</span>
-      <span class="vi">@cog</span>       <span class="o">=</span> <span class="n">cog</span>
-    <span class="k">end</span>
-
-    <span class="k">def</span> <span class="nf">ratio</span>
-      <span class="vi">@chainring</span> <span class="o">/</span> <span class="vi">@cog</span><span class="o">.</span><span class="n">to_f</span> <span class="c1"># bad</span>
-      <span class="n">chainring</span> <span class="o">/</span> <span class="n">cog</span><span class="o">.</span><span class="n">to_f</span>   <span class="c1"># good</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-</pre></div>
-</code></pre>
-<h2><a name="dependencies" class="anchor" href="#dependencies"><span class="header-link"></span></a>Dependencies</h2>
-<p>Dependencies can be many things, for example: external class references or arguments passed to methods.</p>
-<p>Below are some rules to help you spot a dependency and how to better manage them... </p>
-<h3><a name="direct-references" class="anchor" href="#direct-references"><span class="header-link"></span></a>Direct References</h3>
-<p>Avoid &#39;direct references&#39;. These are things like drilling down into a complex array structure to grab some data to work with. You may know the data structure now, but that&#39;s not to say it won&#39;t change in the future. But also, linking to a complicated data structure is confusing to other users because it obscures what the data really is and what it is meant to represent. </p>
-<p>So in the following example we are directly accessing <code>item[0]</code> and <code>item[1]</code> from a multi-dimensional array... </p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="c1">#BAD</span>
-<span class="k">class</span> <span class="nc">MyClass</span>
-    <span class="kp">attr_reader</span> <span class="ss">:data</span>
-
-    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="vi">@data</span> <span class="o">=</span> <span class="n">data</span>
-    <span class="k">end</span>
-
-    <span class="k">def</span> <span class="nf">do_something</span>
-        <span class="n">data</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span> 
-            <span class="nb">puts</span> <span class="n">item</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
-            <span class="nb">puts</span> <span class="n">item</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span>
-            <span class="nb">puts</span> <span class="s1">&#39;---&#39;</span>
-        <span class="k">end</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="n">obj</span> <span class="o">=</span> <span class="no">MyClass</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">41</span><span class="p">,</span> <span class="mi">7</span><span class="o">]]</span><span class="p">)</span>
-<span class="n">obj</span><span class="o">.</span><span class="n">do_something</span>
-</pre></div>
-</code></pre>
-<p>...but the order of the items may not always be what you think they are and the direct access is not very descriptive of what the data is that you&#39;re accessing. </p>
-<p>Instead you should &#39;transform&#39; your data structure into a simpler and easier to understand structure (a good way to do this in Ruby is by using <code>Struct</code> which is perfect for creating basic data holding classes - which is what we want to do here)...</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="c1">#GOOD</span>
-<span class="k">class</span> <span class="nc">MyClass</span>
-    <span class="kp">attr_reader</span> <span class="ss">:new_data</span>
-
-    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="vi">@new_data</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-    <span class="k">end</span>
-
-    <span class="k">def</span> <span class="nf">do_something</span>
-        <span class="n">new_data</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span> 
-            <span class="c1"># now we are able to reference easily understandable </span>
-            <span class="c1"># property names (rather than item[0], item[1])</span>
-            <span class="nb">puts</span> <span class="n">item</span><span class="o">.</span><span class="n">coord_x</span>
-            <span class="nb">puts</span> <span class="n">item</span><span class="o">.</span><span class="n">coord_y</span>
-            <span class="nb">puts</span> <span class="s1">&#39;---&#39;</span>
-        <span class="k">end</span>
-    <span class="k">end</span>
-
-    <span class="no">Transform</span> <span class="o">=</span> <span class="no">Struct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:coord_x</span><span class="p">,</span> <span class="ss">:coord_y</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="n">data</span><span class="o">.</span><span class="n">collect</span> <span class="p">{</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span> <span class="no">Transform</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">item</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span> <span class="n">item</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">)</span> <span class="p">}</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="n">obj</span> <span class="o">=</span> <span class="no">MyClass</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">41</span><span class="p">,</span> <span class="mi">7</span><span class="o">]]</span><span class="p">)</span>
-<span class="n">obj</span><span class="o">.</span><span class="n">do_something</span>
-</pre></div>
-</code></pre>
-<h3><a name="single-responsibility-principle" class="anchor" href="#single-responsibility-principle"><span class="header-link"></span></a>Single Responsibility Principle</h3>
-<p>You should refactor your methods so they do one thing (also known as the &#39;Single Responsibility Principle&#39;). One reason to do this is so that your methods become easier to test, and also their new found simplicity can provide a greater clarity that can highlight whether other methods within the class should even be there.</p>
-<p>So for example, you may have a complex algorithm contained within a single method of your class and because of its complexity you may miss the fact that some of the algorithm should actually have been handled by a separate class altogether.</p>
-<p>Following the Single Responsibility Principle will result in smaller (and greater number of) small sized methods. This result will encourage greater code reuse from yourself (as well as other users of your code) and will also make your methods easier to test and to move around into different classes.</p>
-<h3><a name="remove-comments" class="anchor" href="#remove-comments"><span class="header-link"></span></a>Remove comments</h3>
-<p>If a piece of code needs a comment then chances are you need to extract that code into a separate method. The name of the method should serve the same purpose as the comment once did. This isn&#39;t always the case, but as part of your analysis you should reconsider any comments to ensure they are helpful or just noise.</p>
-<h3><a name="do-not-tightly-couple-your-code" class="anchor" href="#do-not-tightly-couple-your-code"><span class="header-link"></span></a>Do not tightly couple your code</h3>
-<p>The best way to decouple your code is to manage your dependencies. </p>
-<p>For example, if you look at a class that utilises another class for some additional functionality, that secondary class has become the dependency. Also, if you use that dependency in multiple places and the class was to change in some way then consider how many places your class potentially could break or need to be updated? </p>
-<p>Now, a class referencing the name of another class isn&#39;t necessarily a major issue in itself (as the change of a class name can easily be rectified using a modern IDE find &amp; replace feature), the bigger problem is from the lack of code reuse. Your method is tightly coupled to a specific class. </p>
-<p>Some other things to look out for are:  </p>
-<ul>
-<li>arguments passed to a method on the dependency class  <ul>
-<li>if the class name itself is hard coded then technically that is an area of concern as well because if the dependency class was renamed then your code which references the old name would need to be updated. </li>
-</ul>
-</li>
-<li>even down to things like the order of the arguments could be considered a dependency.  </li>
-</ul>
-<p>Every dependency results in more brittle, tightly coupled code.</p>
-<h3><a name="facades" class="anchor" href="#facades"><span class="header-link"></span></a>Facades</h3>
-<p>Do not let external dependencies permeate your code. </p>
-<p>One way to prevent this is to wrap any dependencies in a method so you can implement a facade over the original interface allowing it to match your own API.</p>
-<p>For example, if your dependency had a method which required arguments to be sent in a specific order then you could wrap the call to the method in a facade which allowed the user of your class to pass in the arguments in another format. Your facade could then normalise the data before passing it over to the dependency&#39;s method.</p>
-<h3><a name="dependency-directions" class="anchor" href="#dependency-directions"><span class="header-link"></span></a>Dependency Directions</h3>
-<p>Make sure you spend time considering the direction of your dependencies.</p>
-<p>When considering the direction of your dependencies (e.g. does class A rely more on class B, or vice versa) remember to think about the following 3 points...</p>
-<ol>
-<li><p>Some classes are more likely to change than others</p>
-</li>
-<li><p>Concrete classes are more likely to change than abstract classes.<br>Imagine you have a class with a hard coded reference to another class. We could make the primary class more abstract by injecting the  dependency of the secondary class rather than having to reference it directly. This way the primary class is able to accept an object successfully as long as it implements the required method.</p>
-</li>
-<li><p>A class with many dependants could result in widespread consequences.</p>
-</li>
-</ol>
-<h3><a name="summary-of-dependencies" class="anchor" href="#summary-of-dependencies"><span class="header-link"></span></a>Summary of dependencies...</h3>
-<ul>
-<li><p>Dependency management is core to creating future-proof applications. </p>
-</li>
-<li><p>Injecting dependencies creates loosely coupled objects that can be reused. </p>
-</li>
-<li><p>Isolating dependencies allows objects to adapt to unexpected changes. </p>
-</li>
-<li><p>Depending on abstractions decreases the likelihood of facing changes. </p>
-</li>
-<li><p>The key to managing dependencies is to control their direction. </p>
-</li>
-</ul>
-<p>And to quote another... </p>
-<blockquote>
-<p>&quot;Depend on things that change less often than you do&quot;</p>
-</blockquote>
-<h2><a name="flexible-interfaces" class="anchor" href="#flexible-interfaces"><span class="header-link"></span></a>Flexible Interfaces</h2>
-<p>Object-Oriented applications are made up of objects(classes) but are defined by the messages that pass between these objects. </p>
-<p>Our code must handle...</p>
-<ul>
-<li>What objects <em>know</em> (i.e. their responsibility)</li>
-<li><em>Who</em> they know (i.e. their dependencies)</li>
-<li><em>How</em> they talk to one another</li>
-</ul>
-<p>...and this is done via our object&#39;s interfaces. </p>
-<p>Creating a flexible interface is essential to good Object-Oriented design. </p>
-<p>Each object should reveal as little about itself, and know as little about other objects as possible. </p>
-<p>There are two parts to our interfaces: a Public Interface and a Private Interface... </p>
-<h3><a name="public-interface" class="anchor" href="#public-interface"><span class="header-link"></span></a>Public interface:</h3>
-<ul>
-<li>Should reveal the primary responsibility </li>
-<li>Is expected to be invoked by others</li>
-<li>Will be unlikely to change (so safe for other objects to depend on)</li>
-<li>Testable</li>
-</ul>
-<h3><a name="private-interface" class="anchor" href="#private-interface"><span class="header-link"></span></a>Private interface</h3>
-<ul>
-<li>Should handle implementation details</li>
-<li>Not be accessible by other objects</li>
-<li>Can be changed at anytime without causing side effects for other objects</li>
-<li>Aren&#39;t even accessible by unit tests</li>
-</ul>
-<p>A good way to start designing your interfaces is to draw sequence diagrams (one way to do this is to use UML). Just remember to focus on the messages needing to be sent between objects rather than focusing on the objects themselves.</p>
-<p>When designing your interfaces you should ask yourself the question: &quot;I need to send this message, who should respond to it?&quot;. </p>
-<p>It&#39;s important to understand that you don&#39;t send messages because you have objects. You have objects because you send messages. If you keep that in mind then you can ensure your objects only handle responsibilities relevant to them.</p>
-<p>Avoid asking the question &quot;What should this class do?&quot; and make sure your interfaces are designed in such a way that they ask for what they want and don&#39;t try to tell another object what to do. </p>
-<p>For example, If you have a Mechanic class and you want the class to prepare a bike for you then don&#39;t call the Mechanic&#39;s individual methods: &quot;clean_bike&quot;, &quot;pump_tyres&quot;, &quot;check_brakes&quot; directly. Instead you know the message you want to send (in this case you want to have a bike prepared for you) so create an interface that supports that message requirement. Do this by creating a method on the Mechanic class called &quot;prepare_bike&quot; and send your message to that method. This way if the Mechanic class changes its implementation then the object that calls the &quot;prepare_bike&quot; method doesn&#39;t have to change as well. </p>
-<h3><a name="reducing-context" class="anchor" href="#reducing-context"><span class="header-link"></span></a>Reducing Context</h3>
-<p>The things an object knows about other objects make up its &#39;context&#39;. </p>
-<p>An object may have a single responsibility but it expects a context. For example the object expects an object to respond to a specific method call. </p>
-<p>For an object to become more reusable and more easily testable it must reduce its contexts. If there is a context then to reuse the object you need to bring along the context every time (this makes code reuse and testing harder). </p>
-<p>Dependency injection reduces the context. For example if you had an object which called a generic method and passed &#39;self&#39; as an argument then the receiving object could handle the request (and because the first object was injected as a dependency) then the second object could call the first object when it&#39;s finished with the request. </p>
-<h3><a name="summary-of-interfaces" class="anchor" href="#summary-of-interfaces"><span class="header-link"></span></a>Summary of Interfaces</h3>
-<p>Your interface defines your application and determines its future. </p>
-<p>Object-Oriented applications are defined by messages that pass between objects. This is handled via public interfaces. Ask for what you want and don&#39;t include any &#39;hows&#39; as part of the request which would be telling the receiving object how to behave rather than it handling the how itself. </p>
-<h2><a name="duck-typing" class="anchor" href="#duck-typing"><span class="header-link"></span></a>Duck Typing</h2>
-<p>Duck Typing is the process of making code more flexible and less tightly coupled by taking into consideration that if an object &quot;sounds like a duck, and quacks like a duck&quot; then it stands to reason the object must indeed be (or act like) a duck.</p>
-<p>The principle idea behind Duck Typing is to trust your objects (e.g. do not worry about the class of an object, only that the object implement the expected interface - and trust that it does). Sounds scary/dangerous but it will help you to avoid writing code that tightly couples to your dependencies. </p>
-<p>Cleaning up a long and ugly switch/case statement which checks the class of an object to determine what action to take is one area where Duck Typing can help. The problem with this example is that the switch statement technique is fragile and likely to break when new class types need to be added. </p>
-<p>Instead, for each object create a generically named method (same name for each object) which handles the appropriate internal/specific details relevant for that object. This way you can just call the method (and even pass the calling object as a reference <code>self</code> in case the receiving object needs further information to carry out its work) and thus make your code more reusable by not tightly coupling a specific method to multiple object calls. </p>
-<p>Also, any where you see the use of <code>is_a?</code> or <code>responds_to?</code> then that is an indication of a potential code smell because the principle issue identical to the switch statement. </p>
-<h2><a name="inheritance" class="anchor" href="#inheritance"><span class="header-link"></span></a>Inheritance</h2>
-<h3><a name="abstract-your-base-class" class="anchor" href="#abstract-your-base-class"><span class="header-link"></span></a>Abstract your base class</h3>
-<p>When inheriting from another class it is essential that the parent class is as abstract as possible. For example, it only holds enough code that is relevant for all its sub classes. A sub class should never inherit redundant data or methods. If it does then your parent class isn&#39;t abstract enough. </p>
-<h3><a name="default-values" class="anchor" href="#default-values"><span class="header-link"></span></a>Default values</h3>
-<p>Be careful when using default values. If your base class has a common property which is different for each sub class, but is required within each sub class (hence sticking it in the base class) then you won&#39;t want to give it a value inside the base class. Your base class should take in the value via the constructor and if the value isn&#39;t provided you should set the default using a method like so...</p>
-<p><code>xxx = args[:xxx] || default_xxx_value</code></p>
-<p>In this example <code>default_xxx_value</code> should be a method the sub class implements which provides the specific value. The reason we have written it like this is so that the sub class has better control over setting the default value. </p>
-<p>So far so good. But if a new user doesn&#39;t read the documentation (which states they must implement <code>default_xxx_value</code> within their sub class) then they will get an error thrown. In the above example it may be best to raise your own descriptive error by implementing the <code>default_xxx_value</code> method as an abstract method within the base class like so...</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">default_xxx_value</span>
-    <span class="k">raise</span> <span class="no">NotImplementedError</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="si">}</span><span class="s2"> cannot respond to: &quot;</span>
-<span class="k">end</span>
-</pre></div>
-</code></pre>
-<p>Note: the above custom error message raised will display automatically the name of the method (<code>default_xxx_value</code>) at the end of the message when it is displayed to the user (hence we don&#39;t need to manually include it). </p>
-<h3><a name="super" class="anchor" href="#super"><span class="header-link"></span></a>Super</h3>
-<p>Beware calls to <code>super</code> via a sub class, as this is a code smell. </p>
-<p>Why? Because it declares that the sub class knows the implementation of the base class. It says &quot;I know what you do, I know what to send to you and I know what returned value to expect&quot;. The sub class has more context than it should do and we&#39;ve created a dependency. </p>
-<p>In this example the sub class knows too much about the base class and so it is tightly coupled to it. If a new developer joins the project and creates a sub class, but doesn&#39;t call <code>super</code> at the appropriate time, then they would likely have a silent failure (or at least one that could be difficult to debug).</p>
-<p>To resolve the concern of using <code>super</code> we can use a &#39;hook message&#39; which effectively allows the sub class to stay decoupled from the base class. The sub class needs to be able to trust that the base class will do the right thing (which in this case is to call a method). </p>
-<p>The way the hook method works is you remove the constructor from the sub class and move the sub class specific constructor code into a separate method of the sub class called <code>post_initialise</code> (or whatever you want to call it). The base class&#39; own constructor will be run when a new instance of the sub class is created but now the base class constructor will be updated so it calls the <code>post_initialise</code> method at the end of its constructor (this means the base class needs to implement an empty <code>post_initialise</code> method which the sub class then overwrites). </p>
-<p>Now the sub class doesn&#39;t know about the base class other than it inherits from it and the interface contract between them states the base class will at some point call <code>post_initialise</code> whenever it&#39;s ready to do so and the sub class takes over from there. It&#39;s now clear that the sub class is just a specialised version of the base class.</p>
-<p>This works with other methods not just the constructor. The base class could have...</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">spares</span>
-    <span class="p">{</span> <span class="n">tyre_size</span><span class="ss">:tyre_size</span> <span class="p">}</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">local_spares</span><span class="p">)</span>
-<span class="k">end</span>
-</pre></div>
-</code></pre>
-<p>...the sub class can then implement its own <code>local_spares</code> method which returns a hash. So when a user creates a new instance of the sub class and calls the <code>spares</code> method, the base class handles the functionality. The sub class can insert its own specialised data without knowing how the base class works (other than the interface design dictates the sub class should implement a method called <code>local_spares</code>). </p>
-<h3><a name="modules" class="anchor" href="#modules"><span class="header-link"></span></a>Modules</h3>
-<p>Not all objects are specialised versions of another object and so they shouldn&#39;t always inherit functionality via the inheritance pattern. </p>
-<p>Objects have a tendency to play a role, and some objects play a similar role to other objects.</p>
-<p>Instead of the inheritance pattern we can use modules as &#39;mixins&#39; which will let these objects (those with similar roles) share behaviour. </p>
-<p>Modules are placed inside the same lookup path as methods acquired through inheritance, so the principles for developing modules should follow those of writing classes: use the Template Method Pattern (e.g. have stub methods which the sub classes overwrite). </p>
-<p>For example, any object which includes the module needs to provide their own specialisation of a hook method implemented in the module. This means an object which includes the module doesn&#39;t have to create a dependency by calling <code>super</code>, thus avoiding needing to know anything about the included module (other than its implied interface contract) and ultimately reducing its context (i.e. what it knows - a dumb object is a reusable object). </p>
-<h3><a name="composition" class="anchor" href="#composition"><span class="header-link"></span></a>Composition</h3>
-<p>The composition pattern is effectively the same as using modules (where you copy in functionality rather than inheriting it - thus creating a &#39;<em>has-a</em>&#39; relationship rather than a &#39;<em>is-a</em>&#39; relationship). </p>
-<p>But composition from a design perspective is more about the resulting &#39;whole&#39;, than the subsequent parts that make up the whole. </p>
-<h2><a name="inheritance-vs-composition" class="anchor" href="#inheritance-vs-composition"><span class="header-link"></span></a>Inheritance vs Composition</h2>
-<p>Inheritance is the more appropriate solution if your design dictates that the objects have a well defined concrete class of functionality and that most of that base functionality is the same for all other objects. With inheritance you would write only small amounts of new code to extend the base functionality so the extending objects become more specialised.</p>
-<blockquote>
-<p>Inheritance is specialisation<br><em>Bertrand Meyer, Touch of Class</em></p>
-</blockquote>
-<p>If on the other hand your objects are all different and the design of the objects dictates there could be multiple reusable &#39;parts&#39;, then composition would be the better solution.</p>
-<blockquote>
-<p>Use composition when the behaviour is more than the sum of it&#39;s parts<br><em>Grady Booch, Object-Oriented Analysis and Design</em></p>
-</blockquote>
-<h2><a name="further-good-rules-of-development-from-sandi-metz" class="anchor" href="#further-good-rules-of-development-from-sandi-metz"><span class="header-link"></span></a>Further good rules of development from Sandi Metz</h2>
-<ol>
-<li>Your class can be no longer than a hundred lines of code.</li>
-<li>Your methods can be no longer than five lines of code</li>
-<li>You can pass no more than four parameters (do not make it one big hash either).</li>
-<li>In your controller, you can only instantiate one object, to do whatever it is that needs to be done.</li>
-<li>Your view can only know about one instance variable.</li>
-<li>Rules are meant to be broken if by breaking them you produce better code. [ ...where &quot;better code&quot; is validated by explaining why you want to break the rule to someone else. ]</li>
-</ol>
-<h2><a name="summary" class="anchor" href="#summary"><span class="header-link"></span></a>Summary</h2>
-<p>So just to quickly recap on some of the important points covered... </p>
-<ul>
-<li>Decouple your code</li>
-<li>Describe your class to see if it does too much<br>e.g. for each class write down a single line description and try to avoid the words &#39;and&#39;, &#39;or&#39; from occuring</li>
-<li>Review each method thoroughly (you may find some methods don&#39;t belong in your class and deserve their own interface)</li>
-<li>Manage your dependencies:<ul>
-<li>Check the method arguments you&#39;re passing around</li>
-<li>Use dependency injection (don&#39;t hard code class names)</li>
-<li>Avoid direct references to complex data structures (transform your data into a more appropriate form)</li>
-<li>Abide by the Single Responsibility Principle (SRP)</li>
-<li>Review comments to ensure their purpose and usefulness<ul>
-<li>Your commented coded could be better handled by moving into a separate method with a descriptive name</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Write more flexible interfaces:<ul>
-<li>Object-Oriented code is more about the &#39;messages&#39; sent between objects than the objects themselves</li>
-<li>Think about the messages you want to send and create objects/interfaces to handle them</li>
-<li>Ask for what you <em>want</em> and don&#39;t include <em>how</em> to do what you want</li>
-<li>Ensure messages you send (e.g. method calls you make) don&#39;t rely on knowledge of the object that implements the method</li>
-<li>Reduce your object&#39;s context (i.e. how much it knows about other objects). Dependency Injection can help here</li>
-</ul>
-</li>
-<li>Trust your objects (e.g. Duck Typing design principles)</li>
-<li>If using the inheritance pattern:<ul>
-<li>Abstract your shared functionality into the base class</li>
-<li>Make sure sub classes inherit only what they need</li>
-<li>Avoid calling <code>super</code> as it&#39;s a code smell</li>
-</ul>
-</li>
-</ul>
-</div>
-
-  <div class="comments">
-    <a href="/posts/object-oriented-design-ood/#comments">
-      <span class="icon-bubbles"></span>
-      Comments
-    </a>
-  </div>
-
 
 <div class="pagination group">
   
@@ -526,6 +533,9 @@
     
     
       <a href="/page/9/" class="older"> &#8592; Older</a>
+    
+  
+    
     
   
     

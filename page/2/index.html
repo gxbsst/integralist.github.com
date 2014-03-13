@@ -37,6 +37,665 @@
 
 
   <div class="post-head group">
+  <a href="/posts/refactoring-techniques/">
+    <h1 class="post-title">Refactoring Techniques</h1>
+  </a>
+  <span class="post-date">2013 &#183; 11 &#183; 10</span>
+</div>
+
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 18mins</em></p>
+<ul>
+<li>Introduction</li>
+<li>Languages</li>
+<li>Why refactor?</li>
+<li>When should refactor?</li>
+<li>Tests</li>
+<li>Refactoring Techniques<ul>
+<li><a href="#rename-method">Rename Method</a></li>
+<li><a href="#introduce-explaining-variable">Introduce Explaining Variable</a></li>
+<li><a href="#inline-temp">Inline Temp</a></li>
+<li><a href="#split-temp-variable">Split Temp Variable</a></li>
+<li><a href="#replace-temp-with-query">Replace Temp With Query</a></li>
+<li><a href="#replace-temp-with-chain">Replace Temp With Chain</a></li>
+<li><a href="#extract-method">Extract Method</a></li>
+<li><a href="#inline-method">Inline Method</a></li>
+<li><a href="#move-method">Move Method</a></li>
+<li><a href="#replace-method-with-method-object">Replace Method With Method Object</a></li>
+<li><a href="#replace-loop-with-collection-closure-method">Replace Loop With Collection Closure Method</a></li>
+<li><a href="#pull-up-method">Pull Up Method</a></li>
+<li><a href="#form-template-method">Form Template Method</a></li>
+<li><a href="#extract-surrounding-method">Extract Surrounding Method</a></li>
+<li><a href="#self-encapsulate-field">Self Encapsulate Field</a></li>
+<li><a href="#introduce-named-parameter">Introduce Named Parameter</a></li>
+</ul>
+</li>
+<li>Conclusion</li>
+</ul>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<p>Let&#39;s begin by considering: &quot;What is Refactoring?&quot;</p>
+<p>The definition of refactoring is:</p>
+<blockquote>
+<p>a disciplined technique for restructuring an existing body of code, altering its internal structure without changing its external behaviour</p>
+</blockquote>
+<p>Refactoring is a term originated from the <a href="http://en.wikipedia.org/wiki/Smalltalk">Smalltalk</a> community of developers back in the mid-late nineties. </p>
+<p>Two of the most prolific programmers of recent times, <a href="http://martinfowler.com/">Martin Fowler</a> and <a href="http://en.wikipedia.org/wiki/Kent_Beck">Kent Beck</a> literally wrote the book on the subject of refactoring called &quot;<a href="http://www.amazon.com/gp/product/0201485672">Refactoring: Improving the Design of Existing Code</a>&quot; (well, written by Martin with contributions from Kent).</p>
+<p>In 2009 both Martin and Kent helped with a rewrite of the book that focused more on the Ruby language than the original book&#39;s target language of Java. This follow-up book was called &quot;<a href="http://www.amazon.com/Refactoring-Ruby-Edition-Jay-Fields/dp/0321603508">Refactoring: The Ruby Edition</a>&quot; and it&#39;s that book which is the primary driving force of this post.</p>
+<p>Since reading the Ruby edition I wanted to have a short summarised version of some of the more commonly used refactoring techniques (mainly for my own reference). By that I mean the techniques described in the book that I find interesting and use a lot in my day to day programming life.</p>
+<h2><a name="languages" class="anchor" href="#languages"><span class="header-link"></span></a>Languages</h2>
+<p>These refactoring techniques aren&#39;t specific to the Ruby language. You can use them when working with JavaScript or PHP (or any other language for that matter). </p>
+<p>Programming languages don&#39;t all offer identical APIs and so sometimes you might need to tweak the examples slightly to fit your environment. </p>
+<p>Regardless, the idioms and syntax differences between languages become redundant when you just focus on the pattern(s) behind the proposed solution.</p>
+<h2><a name="why-refactor" class="anchor" href="#why-refactor"><span class="header-link"></span></a>Why refactor?</h2>
+<p>The purpose of refactoring is to improve the quality, clarity and maintainability of your code. Simple really.</p>
+<p>But also, refactoring can be a great lesson in understanding an unfamiliar code base.</p>
+<p>Think about it, if you inherit a poorly designed code base that you&#39;ve not seen before and you now need to either fix a bug or add a new feature, then implementing the code necessary would be a lot easier once you had refactored it to be in a more stable, maintainable and ultimately &#39;understandable&#39; state. </p>
+<p>Otherwise you would be forced to retro fit your new code on top of a poorly designed foundation and that would be the start of a very unhappy relationship.</p>
+<h2><a name="when-should-you-refactor" class="anchor" href="#when-should-you-refactor"><span class="header-link"></span></a>When should you refactor?</h2>
+<p>You&#39;ll usually find the time you start refactoring the most is when you are fixing bugs or adding new features.</p>
+<p>For example, you typically first need to understand the code that has already been written (regardless of whether it was you who wrote it originally or someone else). </p>
+<p>The process of refactoring helps you better understand the code, in preparation for modifying it.</p>
+<p>But don&#39;t fall into the trap of thinking that refactoring is something you set aside time for, or only consider at the start/end of a project. It&#39;s not. Refactoring should be done in small chunks throughout the entire life cycle of the project.</p>
+<p>As the great <a href="http://www.cleancoder.com/">Uncle Bob</a> once said:</p>
+<blockquote>
+<p>leave a module in a better state than you found it</p>
+</blockquote>
+<p>...what this suggests is that refactoring is essential to your daily coding process.</p>
+<h3><a name="tests" class="anchor" href="#tests"><span class="header-link"></span></a>Tests</h3>
+<p>Before we get started, it&#39;s important to mention that you should have tests in place when you&#39;re refactoring. </p>
+<p>You <em>can</em> refactor without tests, but realise that without tests to back you up then you can have no confidence in the refactoring you are implementing.</p>
+<p>Refactoring can result in substantial changes to the code and architecture but still leave the top layer API the same. So while you&#39;re refactoring remember the old adage...</p>
+<blockquote>
+<p>program to an interface, not an implementation</p>
+</blockquote>
+<p>We want to avoid changing a public API where ever possible (as that&#39;s one of the tenets of refactoring).</p>
+<p>If you don&#39;t have tests then I recommend you write some (now)... don&#39;t worry, I&#39;ll wait.</p>
+<p>Remember, the process of writing tests (even for an application you don&#39;t know) will help solidify your understanding and expectations of the code you&#39;re about to work on.</p>
+<p>Code should be tested regularly while refactoring to ensure you don&#39;t break anything. Keep the &#39;red, green, refactor&#39; feedback loop tight. Tests help confirm if your refactoring has worked or not. Without them you&#39;re effectively flying blind.</p>
+<p>So although I won&#39;t explicitly mention it below when discussing the different refactoring techniques, it is implied that on every change to your code you should really be running the relevant tests to ensure no broken code appears.</p>
+<h2><a name="refactoring-techniques" class="anchor" href="#refactoring-techniques"><span class="header-link"></span></a>Refactoring Techniques</h2>
+<p>There are many documented refactoring techniques and I do not attempt to cover them all, as this post would end up becoming a book in itself. So I&#39;ve picked what I feel are the most common and useful refactoring techniques and I try my best to explain them in a short and concise way.</p>
+<p>I&#39;ve put these techniques in order of how you might approach refactoring a piece of code, in a linear, top to bottom order. This is a personal preference and doesn&#39;t necessarily represent the best way to refactor.</p>
+<p>Final note: with some of the techniques I have provided a basic code example, but to be honest some techniques are so simple they do not need any example. The <a href="#extract-method">Extract Method</a> is one such technique that although really useful and important, providing a code example would be a waste of time and space.</p>
+<p>So without further ado, let&#39;s begin...</p>
+<h3><a name="rename-method" class="anchor" href="#rename-method"><span class="header-link"></span></a>Rename Method</h3>
+<p>The single most effective and simple refactoring you can implement is to rename a property/attribute, method or object.</p>
+<p>Renaming identifiers can reduce the need for code comments and nearly always helps to promote greater clarity.</p>
+<p>You&#39;ll find that renaming things is a fundamental part of other refactoring techniques to aid understanding of the code.</p>
+<p>This technique relies on giving items a descriptive name to ensure the developer knows at a glance exactly what it does. The following technique <a href="#introduce-explaining-variable">Introduce Explaining Variable</a> is effectively the same.</p>
+<h3><a name="introduce-explaining-variable" class="anchor" href="#introduce-explaining-variable"><span class="header-link"></span></a>Introduce Explaining Variable</h3>
+<p>So here is a technique specifically based around the premise of renaming. </p>
+<p>If you have a complicated expression (for example, you&#39;ll typically have a long winded set of conditions within an <code>if</code> statement) then place that complex expression into a temp variable and give it a descriptive identifier. </p>
+<p>For example:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">unless</span> <span class="s2">&quot;This is a String with some CAPS&quot;</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/([A-Z])/</span><span class="p">)</span><span class="o">.</span><span class="n">empty?</span>
+  <span class="nb">puts</span> <span class="s2">&quot;capitalised text was found&quot;</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Should be:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">caps_not_found</span> <span class="o">=</span> <span class="s2">&quot;This is a String with some CAPS&quot;</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/([A-Z])/</span><span class="p">)</span><span class="o">.</span><span class="n">empty?</span>
+
+<span class="k">unless</span> <span class="n">caps_not_found</span>
+  <span class="nb">puts</span> <span class="s2">&quot;capitalised text was found&quot;</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Note: this is the only technique that finds temps (i.e. local variables) acceptable. This is because temps are deemed to be less reusable than methods (due to their very nature being &#39;local&#39;) and so introducing temps is something that shouldn&#39;t be considered lightly. Maybe consider using the <a href="#extract-method">Extract Method</a> technique instead before using this particular technique. </p>
+<p>Also, don&#39;t worry about performance until you know you have a performance issue to worry about. Developers will always suggest that calling methods is slower than running code inline, but good programming is about readability and maintainability, and extracted methods are not only easier to understand but are much more reusable by other methods. </p>
+<p>So if you are considering using the <a href="#introduce-explaining-variable">Introduce Explaining Variable</a> technique, first decide whether the temp would be more useful if it was available to other methods (that way you could use <a href="#extract-method">Extract Method</a> instead and avoid defining a temp altogether).</p>
+<h3><a name="inline-temp" class="anchor" href="#inline-temp"><span class="header-link"></span></a>Inline Temp</h3>
+<p>Temp variables are a bit of a code smell as they make methods longer and can make the <a href="#extract-method">Extract Method</a> more awkward (as you&#39;d have to pass through more data to the extracted method).</p>
+<p>Inline Temp effectively removes the temp variable altogether by just using the value assigned to it (I&#39;d only suggest doing this if the temp is only used once or if the resulting value has come from a method invocation).</p>
+<p>For example:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">add_stuff</span>
+    <span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">do_something</span>
+    <span class="n">temp_variable_with_descriptive_name</span> <span class="o">=</span> <span class="n">add_stuff</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Number is </span><span class="si">#{</span><span class="n">temp_variable_with_descriptive_name</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Should be:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">add_stuff</span>
+    <span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">do_something</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Number is </span><span class="si">#{</span><span class="n">add_stuff</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Note: a temp by itself doesn&#39;t do any harm, and in some instances can actually make the code clearer (especially if using a result from a method invocation and the method identifier doesn&#39;t indicate the intent as well as it should).</p>
+<p>But most likely you&#39;ll end up using this technique to aid the <a href="#extract-method">Extract Method</a> technique as less temp vars means less requirement to pass through additional parameters to the extracted method.</p>
+<h3><a name="split-temp-variable" class="anchor" href="#split-temp-variable"><span class="header-link"></span></a>Split Temp Variable</h3>
+<p>This technique aims to resolve the concern of violating the SRP (Single Responsibility Principle), although slightly tamer in the sense that SRP is aimed more at Classes/Objects and methods, not typically variable assignments.</p>
+<p>But regardless if a temporary variable is assigned to more than once and it is not a loop variable or a collecting/accumulator variable then it is a temp considered to have too many responsibilities.</p>
+<p><strong>For example</strong>: (this is a daft example, but what the heck)</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">temp</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">height</span> <span class="o">+</span> <span class="n">width</span><span class="p">)</span>
+<span class="n">temp</span> <span class="o">=</span> <span class="n">height</span> <span class="o">*</span> <span class="n">width</span>
+</pre></div>
+</code></pre>
+<p><strong>Becomes</strong>:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">perimeter</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">height</span> <span class="o">+</span> <span class="n">width</span><span class="p">)</span>
+<span class="n">area</span> <span class="o">=</span> <span class="n">height</span> <span class="o">*</span> <span class="n">width</span>
+</pre></div>
+</code></pre>
+<p>As you can see, the temp variable was handling more responsibility than it should be and so by creating two appropriately distinct temps we ensure greater code clarity.</p>
+<h3><a name="replace-temp-with-query" class="anchor" href="#replace-temp-with-query"><span class="header-link"></span></a>Replace Temp With Query</h3>
+<p>This technique has a very similar intent to <a href="#inline-temp">Inline Temp</a> in that one of its primary focuses is to aid the <a href="#extract-method">Extract Method</a>.</p>
+<p>The subtle but important difference between this technique and <a href="#inline-temp">Inline Temp</a> is that the complex expression assigned to the temp needs to be first moved to a method (where as the <a href="#inline-temp">Inline Temp</a> technique is different in that the temp may already be using a method invocation).</p>
+<p>For example:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Box</span>
+  <span class="kp">attr_reader</span> <span class="ss">:length</span><span class="p">,</span> <span class="ss">:width</span><span class="p">,</span> <span class="ss">:height</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span> <span class="n">length</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span>
+    <span class="vi">@length</span> <span class="o">=</span> <span class="n">length</span>
+    <span class="vi">@width</span>  <span class="o">=</span> <span class="n">width</span>
+    <span class="vi">@height</span> <span class="o">=</span> <span class="n">height</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">volume</span>
+    <span class="c1"># `area` is the temp</span>
+    <span class="n">area</span> <span class="o">=</span> <span class="n">length</span> <span class="o">*</span> <span class="n">width</span>
+    <span class="n">area</span> <span class="o">*</span> <span class="n">height</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Becomes:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Box</span>
+  <span class="kp">attr_reader</span> <span class="ss">:length</span><span class="p">,</span> <span class="ss">:width</span><span class="p">,</span> <span class="ss">:height</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span> <span class="n">length</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span>
+    <span class="vi">@length</span> <span class="o">=</span> <span class="n">length</span>
+    <span class="vi">@width</span>  <span class="o">=</span> <span class="n">width</span>
+    <span class="vi">@height</span> <span class="o">=</span> <span class="n">height</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">volume</span>
+    <span class="c1"># notice `area` is now a direct method call</span>
+    <span class="n">area</span> <span class="o">*</span> <span class="n">height</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">area</span>
+    <span class="n">length</span> <span class="o">*</span> <span class="n">width</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>This technique can help to shorten a long method by not having to define lots of temp variables just to hold values.</p>
+<p>If the extracted query method is given an identifier that aptly describes its purpose then the code still can be considered clear and descriptive. </p>
+<p>Also, it is considered bad form to define a variable which changes once it has been set (hence moving to a method better indicates an unstable value). </p>
+<p>Note: this technique can sometimes be made easier to implement once you&#39;ve used <a href="#split-temp-variable">Split Temp Variable</a>. </p>
+<p>Remember this technique (as with other techniques) is an incremental step towards removing non-essential temps, so consider using <a href="#inline-temp">Inline Temp</a> afterwards, thus removing the need for the temp altogether.</p>
+<h3><a name="replace-temp-with-chain" class="anchor" href="#replace-temp-with-chain"><span class="header-link"></span></a>Replace Temp With Chain</h3>
+<p>This is yet another technique designed to rid your code of temp variables. </p>
+<p>If you have a temp variable holding the result of calling an object&#39;s method, and follow the assignment by using that temp to carry out more method calls, then you should consider chaining method calls instead.</p>
+<p>The implementation is quite simple, you just have to ensure the methods called return <code>self</code> (or <code>this</code> if using a language like JavaScript).</p>
+<p>By allowing methods to chain we again have the opportunity to remove an unnecessary temps.</p>
+<p><strong>For example</strong>:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">College</span>
+    <span class="k">def</span> <span class="nf">create_course</span>
+        <span class="nb">puts</span> <span class="s2">&quot;create course&quot;</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">add_student</span>
+        <span class="nb">puts</span> <span class="s2">&quot;add student&quot;</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">temp</span> <span class="o">=</span> <span class="no">College</span><span class="o">.</span><span class="n">new</span>
+<span class="n">temp</span><span class="o">.</span><span class="n">create_course</span>
+<span class="n">temp</span><span class="o">.</span><span class="n">add_student</span>
+<span class="n">temp</span><span class="o">.</span><span class="n">add_student</span>
+<span class="n">temp</span><span class="o">.</span><span class="n">add_student</span>
+</pre></div>
+</code></pre>
+<p><strong>Becomes</strong>:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">College</span>
+    <span class="c1"># static method so can be accessed without creating an instance</span>
+    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">create_course</span>
+        <span class="n">college</span> <span class="o">=</span> <span class="no">College</span><span class="o">.</span><span class="n">new</span>
+        <span class="nb">puts</span> <span class="s2">&quot;create course&quot;</span>
+        <span class="n">college</span> <span class="c1"># return new object instance</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">add_student</span>
+        <span class="nb">puts</span> <span class="s2">&quot;add student&quot;</span>
+        <span class="nb">self</span> <span class="c1"># refers to the new object instance</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">college</span> <span class="o">=</span> <span class="no">College</span><span class="o">.</span><span class="n">create_course</span>
+                 <span class="o">.</span><span class="n">add_student</span>
+                 <span class="o">.</span><span class="n">add_student</span>
+                 <span class="o">.</span><span class="n">add_student</span>
+</pre></div>
+</code></pre>
+<h3><a name="extract-method" class="anchor" href="#extract-method"><span class="header-link"></span></a>Extract Method</h3>
+<p>Here it is! In my opinion &#39;<em>The</em>&#39; most used and important refactoring technique.</p>
+<p>The implementation behind this technique is very simple. It consists of breaking up long methods by shifting overly complex chunks of code into new methods which have very descriptive identifiers. </p>
+<p>For example:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span>
+  <span class="kp">attr_reader</span> <span class="ss">:bar</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span> <span class="n">bar</span>
+    <span class="vi">@bar</span> <span class="o">=</span> <span class="n">bar</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">do_something</span>
+    <span class="nb">puts</span> <span class="s2">&quot;my baz&quot;</span> <span class="c1"># notice this is duplication</span>
+    <span class="nb">puts</span> <span class="n">bar</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">do_something_else</span>
+    <span class="nb">puts</span> <span class="s2">&quot;my baz&quot;</span> <span class="c1"># notice this is duplication</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Something else&quot;</span>
+    <span class="nb">puts</span> <span class="n">bar</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Becomes:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span>
+  <span class="kp">attr_reader</span> <span class="ss">:bar</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span> <span class="n">bar</span>
+    <span class="vi">@bar</span> <span class="o">=</span> <span class="n">bar</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">do_something</span>
+    <span class="n">baz</span>
+    <span class="nb">puts</span> <span class="n">bar</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">do_something_else</span>
+    <span class="n">baz</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Something else&quot;</span>
+    <span class="nb">puts</span> <span class="n">bar</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">baz</span>
+    <span class="nb">puts</span> <span class="s2">&quot;my baz&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>But be careful with handling local variables as you&#39;ll need to pass them through to the extracted method and that can be difficult if there are lots of temps in use. Sometimes to facility the Extract Method you&#39;ll need to first incorporate other techniques such as <a href="#replace-temp-with-query">Replace Temp With Query</a> and <a href="#inline-temp">Inline Temp</a>.</p>
+<h3><a name="inline-method" class="anchor" href="#inline-method"><span class="header-link"></span></a>Inline Method</h3>
+<p>Sometimes you want the opposite of the <a href="#extract-method">Extract Method</a> technique. Imagine a method exists whose content is already simple and clear, and whose identifier adds no extra benefit. In this instance we&#39;re just making an extra call for no real benefit.</p>
+<p>So to fix this problem we&#39;ll convert the method invocation into an inlined piece of code (unless of course the method is used in multiple places, in that case leave it where it is as having it in a separate method keeps our code DRY).</p>
+<h3><a name="move-method" class="anchor" href="#move-method"><span class="header-link"></span></a>Move Method</h3>
+<p>In a previous post about <a href="http://www.integralist.co.uk/posts/object-oriented-design-ood/#class-analysis">Object-Oriented Design</a> I explained that you should query your classes/objects to ensure the methods they define are actually where they should be (another reason is &#39;feature envy&#39;, if a method is asking another class a lot of questions then it may be an indication the method is on the wrong object).</p>
+<p>The Move Method technique ensures this decoupling by simply moving the identified misplaced method onto the correct one.</p>
+<p>Once the method has been moved you should clean up the previously passed parameters by seeing what can be moved over to the other object or whether additional data needs to be passed over now via the method invocation. </p>
+<p>For example:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Gear</span>
+    <span class="kp">attr_reader</span> <span class="ss">:chainring</span><span class="p">,</span> <span class="ss">:cog</span><span class="p">,</span> <span class="ss">:rim</span><span class="p">,</span> <span class="ss">:tire</span>
+
+    <span class="k">def</span> <span class="nf">initialize</span> <span class="p">(</span><span class="n">chainring</span><span class="p">,</span> <span class="n">cog</span><span class="p">,</span> <span class="n">rim</span><span class="p">,</span> <span class="n">tire</span><span class="p">)</span>
+      <span class="vi">@chainring</span> <span class="o">=</span> <span class="n">chainring</span>
+      <span class="vi">@cog</span>       <span class="o">=</span> <span class="n">cog</span>
+      <span class="vi">@rim</span>       <span class="o">=</span> <span class="n">rim</span>
+      <span class="vi">@tire</span>      <span class="o">=</span> <span class="n">tire</span>
+
+      <span class="c1"># let&#39;s asked the question:</span>
+      <span class="c1"># &quot;Please Mr. Gear what is your tire size?&quot;</span>
+      <span class="c1"># hmm? notice this doesn&#39;t sound like it quite fits the purpose of a &#39;Gears&#39; class</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">ratio</span>
+      <span class="n">chainring</span> <span class="o">/</span> <span class="n">cog</span><span class="o">.</span><span class="n">to_f</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">gear_inches</span>
+        <span class="c1"># tire goes around rim twice for diameter</span>
+        <span class="n">ratio</span> <span class="o">*</span> <span class="p">(</span><span class="n">rim</span> <span class="o">+</span> <span class="p">(</span><span class="n">tire</span> <span class="o">*</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Becomes:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Gear</span>
+    <span class="kp">attr_reader</span> <span class="ss">:chainring</span><span class="p">,</span> <span class="ss">:cog</span><span class="p">,</span> <span class="ss">:rim</span><span class="p">,</span> <span class="ss">:tire</span>
+
+    <span class="k">def</span> <span class="nf">initialize</span> <span class="p">(</span><span class="n">chainring</span><span class="p">,</span> <span class="n">cog</span><span class="p">,</span> <span class="n">rim</span><span class="p">,</span> <span class="n">tire</span><span class="p">)</span>
+      <span class="vi">@chainring</span> <span class="o">=</span> <span class="n">chainring</span>
+      <span class="vi">@cog</span>       <span class="o">=</span> <span class="n">cog</span>
+      <span class="vi">@rim</span>       <span class="o">=</span> <span class="n">rim</span>
+      <span class="vi">@tire</span>      <span class="o">=</span> <span class="n">tire</span><span class="o">.</span><span class="n">size</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">ratio</span>
+      <span class="n">chainring</span> <span class="o">/</span> <span class="n">cog</span><span class="o">.</span><span class="n">to_f</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">gear_inches</span>
+        <span class="c1"># tire goes around rim twice for diameter</span>
+        <span class="n">ratio</span> <span class="o">*</span> <span class="p">(</span><span class="n">rim</span> <span class="o">+</span> <span class="p">(</span><span class="n">tire</span> <span class="o">*</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Tire</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">size</span>
+    <span class="mi">5</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>From the original class/object keep the original method in place while you test and change it so it now delegates to the method on the new object. Then slowly refactor by replacing delegating calls throughout your code base with direct calls to the method via its new host. </p>
+<p>Finally, remove the old method altogether and the tests should tell you if you missed a replacement somewhere.</p>
+<h3><a name="replace-method-with-method-object" class="anchor" href="#replace-method-with-method-object"><span class="header-link"></span></a>Replace Method With Method Object</h3>
+<p>You may run into a problem where you have a long method you want to use <a href="#extract-method">Extract Method</a> on, but the number of temporary local variables are too great to allow you to utilise the <a href="#extract-method">Extract Method</a> technique (because passing around that many variables would be just as messy as the long method itself).</p>
+<p>To resolve this issue you could look at different types of smaller refactors (such as <a href="#inline-temp">Inline Temp</a>) but in some cases it would actually be better to first move the contents of the long method into an entirely new object.</p>
+<p>So the first thing to do is create a new class named after the long method and add the temp local vars as properties/attributes of the class/object.</p>
+<p>Now when you try to implement <a href="#extract-method">Extract Method</a> you don&#39;t have to pass around the temp vars because they are now available throughout the class/object. </p>
+<p>Then from within the original class/object you can delegate any calls to the original method on to the object (you&#39;ll still pass on the original arguments to the method within the new object but from there on the method extraction becomes easier).</p>
+<p>For example:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span>
+  <span class="k">def</span> <span class="nf">bar</span>
+    <span class="nb">puts</span> <span class="s2">&quot;We&#39;re doing some bar stuff&quot;</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">baz</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="s1">&#39;something&#39;</span>
+      <span class="c1"># do something</span>
+    <span class="k">end</span>
+
+    <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="s1">&#39;else&#39;</span>
+      <span class="c1"># do else</span>
+    <span class="k">end</span>
+
+    <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;none&#39;</span>
+      <span class="c1"># do none</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Becomes:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span>
+  <span class="k">def</span> <span class="nf">bar</span>
+    <span class="nb">puts</span> <span class="s2">&quot;We&#39;re doing some bar stuff&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Baz</span>
+  <span class="kp">attr_accessor</span> <span class="ss">:a</span><span class="p">,</span> <span class="ss">:b</span><span class="p">,</span> <span class="ss">:c</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+    <span class="vi">@a</span> <span class="o">=</span> <span class="n">a</span>
+    <span class="vi">@b</span> <span class="o">=</span> <span class="n">b</span>
+    <span class="vi">@c</span> <span class="o">=</span> <span class="n">c</span>
+
+    <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="s1">&#39;something&#39;</span>
+      <span class="c1"># do something</span>
+    <span class="k">end</span>
+
+    <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="s1">&#39;else&#39;</span>
+      <span class="c1"># do else</span>
+    <span class="k">end</span>
+
+    <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;none&#39;</span>
+      <span class="c1"># do none</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>From here we&#39;re now in a better state to use both the <a href="#extract-method">Extract Method</a> and <a href="/posts/even-more-refactoring-techniques/#replace-conditional-with-polymorphism">Replace Conditional with Polymorphism</a> techniques to refactor the <code>Baz</code> class.</p>
+<h3><a name="replace-loop-with-collection-closure-method" class="anchor" href="#replace-loop-with-collection-closure-method"><span class="header-link"></span></a>Replace Loop With Collection Closure Method</h3>
+<p>If you write a loop that parses a collection and interacts with the individual elements within the collection then move that interaction out into a separate closure based method (meaning you replace the loop with an Enumerable method). </p>
+<p>This refactoring may not be as clear or impressive as other refactoring techniques but the motivation behind it is that you hide the ugly details of the loop behind a nicer iteration method, allowing the developer looking at the code to focus on the business logic instead.</p>
+<p><strong>For example</strong>:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">managers</span> <span class="o">=</span> <span class="o">[]</span>
+<span class="n">employees</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span>
+    <span class="n">managers</span> <span class="o">&lt;&lt;</span> <span class="n">e</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">manager?</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p><strong>Becomes</strong>:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">managers</span> <span class="o">=</span> <span class="n">employees</span><span class="o">.</span><span class="n">select</span> <span class="p">{</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span> <span class="n">e</span><span class="o">.</span><span class="n">manager?</span> <span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>Ruby has a few of these types of enumerable methods but other languages such as PHP and JavaScript aren&#39;t so lucky. </p>
+<p>JavaScript has a couple of accumulators: <code>Array#reduce</code> and <code>Array#reduceRight</code> but they aren&#39;t very useful as closure based collection methods compared to Ruby which has methods such as <code>Enumerable#inject</code>, <code>Enumerable#select</code> (seen in above example) or <code>Enumerable#collect</code>. </p>
+<p>Note: in JavaScript you can implement a similar effect with clever use of closures.</p>
+<h3><a name="pull-up-method" class="anchor" href="#pull-up-method"><span class="header-link"></span></a>Pull Up Method</h3>
+<p>When you have duplicated code across two separate classes then the best refactoring technique to implement is to pull that duplicate code up into a super class so we DRY (Don&#39;t Repeat Yourself) out the code and allow it to be used in multiple places without duplication (meaning changes in future only have to happen in one place).</p>
+<p>For example:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Person</span>
+  <span class="kp">attr_reader</span> <span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:last_name</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span>
+    <span class="vi">@first_name</span> <span class="o">=</span> <span class="n">first_name</span>
+    <span class="vi">@last_name</span> <span class="o">=</span> <span class="n">last_name</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">MalePerson</span> <span class="o">&lt;</span> <span class="no">Person</span>
+  <span class="c1"># This is duplicated in the `FemalePerson` class</span>
+  <span class="k">def</span> <span class="nf">full_name</span>
+    <span class="n">first_name</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">last_name</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">gender</span>
+    <span class="s2">&quot;M&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">FemalePerson</span> <span class="o">&lt;</span> <span class="no">Person</span>
+  <span class="c1"># This is duplicated in the `MalePerson` class</span>
+  <span class="k">def</span> <span class="nf">full_name</span>
+    <span class="n">first_name</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">last_name</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">gender</span>
+    <span class="s2">&quot;F&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Becomes:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Person</span>
+  <span class="kp">attr_reader</span> <span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:last_name</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span>
+    <span class="vi">@first_name</span> <span class="o">=</span> <span class="n">first_name</span>
+    <span class="vi">@last_name</span> <span class="o">=</span> <span class="n">last_name</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">full_name</span>
+    <span class="n">first_name</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">last_name</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">MalePerson</span> <span class="o">&lt;</span> <span class="no">Person</span>
+  <span class="k">def</span> <span class="nf">gender</span>
+    <span class="s2">&quot;M&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">FemalePerson</span> <span class="o">&lt;</span> <span class="no">Person</span>
+  <span class="k">def</span> <span class="nf">gender</span>
+    <span class="s2">&quot;F&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<h3><a name="form-template-method" class="anchor" href="#form-template-method"><span class="header-link"></span></a>Form Template Method</h3>
+<p>The technique is reliant on inheritance: a parent class and two sub classes of
+that parent. The two sub classes have methods which have similar steps, in the
+same order and yet the steps themselves are different.</p>
+<p>The technique involves moving the sequence of steps into the parent class and
+then using polymorphism to allow the sub classes to handle the differences in
+the steps.</p>
+<p>Here is a silly example (I’m no good at giving real examples; you may have noticed), here is an
+example of our problematic code…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span><span class="p">;</span> <span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Bar</span> <span class="o">&lt;</span> <span class="no">Foo</span>
+  <span class="k">def</span> <span class="nf">initialize</span>
+    <span class="vi">@hey</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="vi">@hai</span> <span class="o">=</span> <span class="mi">2</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">qux</span>
+    <span class="vi">@a</span> <span class="o">=</span> <span class="vi">@hey</span> <span class="o">+</span> <span class="vi">@hai</span>
+    <span class="vi">@b</span> <span class="o">=</span> <span class="vi">@a</span> <span class="o">*</span> <span class="mi">10</span>
+    <span class="vi">@a</span> <span class="o">+</span> <span class="vi">@b</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Baz</span> <span class="o">&lt;</span> <span class="no">Foo</span>
+  <span class="k">def</span> <span class="nf">initialize</span>
+    <span class="vi">@hey</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="vi">@hai</span> <span class="o">=</span> <span class="mi">7</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">qux</span>
+    <span class="vi">@a</span> <span class="o">=</span> <span class="vi">@hey</span> <span class="o">+</span> <span class="vi">@hai</span>
+    <span class="vi">@b</span> <span class="o">=</span> <span class="vi">@a</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">20</span>
+    <span class="vi">@a</span> <span class="o">+</span> <span class="vi">@b</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">bar</span> <span class="o">=</span> <span class="no">Bar</span><span class="o">.</span><span class="n">new</span>
+<span class="n">baz</span> <span class="o">=</span> <span class="no">Baz</span><span class="o">.</span><span class="n">new</span>
+
+<span class="nb">puts</span> <span class="n">bar</span><span class="o">.</span><span class="n">qux</span>
+<span class="nb">puts</span> <span class="n">baz</span><span class="o">.</span><span class="n">qux</span>
+</pre></div>
+</code></pre>
+<p>…we could try to inject the values each sub class requires but then we still
+have a lot of duplication in this code.</p>
+<p>We can see the sequence of steps is:</p>
+<p>determine what <code>a</code> should be<br>determine what <code>b</code> should be<br>return a specific calculation</p>
+<p>…so we can clean up our code a little by abstracting the commonality...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">hey</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">hai</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="vi">@hey</span> <span class="o">=</span> <span class="n">hey</span>
+    <span class="vi">@hai</span> <span class="o">=</span> <span class="n">hai</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">qux</span>
+    <span class="n">determine_a</span>
+    <span class="n">determine_b</span>
+    <span class="n">result</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">determine_a</span>
+    <span class="vi">@a</span> <span class="o">=</span> <span class="vi">@hey</span> <span class="o">+</span> <span class="vi">@hai</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">result</span>
+    <span class="vi">@a</span> <span class="o">+</span> <span class="vi">@b</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Bar</span> <span class="o">&lt;</span> <span class="no">Foo</span>
+  <span class="kp">protected</span>
+
+  <span class="k">def</span> <span class="nf">determine_b</span>
+    <span class="vi">@b</span> <span class="o">=</span> <span class="vi">@a</span> <span class="o">*</span> <span class="mi">10</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Baz</span> <span class="o">&lt;</span> <span class="no">Foo</span>
+  <span class="kp">protected</span>
+
+  <span class="k">def</span> <span class="nf">determine_b</span>
+    <span class="vi">@b</span> <span class="o">=</span> <span class="vi">@a</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">20</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">bar</span> <span class="o">=</span> <span class="no">Bar</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">baz</span> <span class="o">=</span> <span class="no">Baz</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+
+<span class="nb">puts</span> <span class="n">bar</span><span class="o">.</span><span class="n">qux</span>
+<span class="nb">puts</span> <span class="n">baz</span><span class="o">.</span><span class="n">qux</span>
+</pre></div>
+</code></pre>
+<h3><a name="extract-surrounding-method" class="anchor" href="#extract-surrounding-method"><span class="header-link"></span></a>Extract Surrounding Method</h3>
+<p>If you find you have different methods which contain almost identical code but with a slight variant in the middle, then pull up the duplicated code into a single method and pass a code block to the newly created method which it yields to in order to execute the unique behaviour...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">do_something</span>
+    <span class="nb">puts</span> <span class="mi">1</span>
+    <span class="k">yield</span>
+    <span class="nb">puts</span> <span class="mi">3</span>
+<span class="k">end</span>
+
+<span class="n">do_something</span> <span class="p">{</span> <span class="nb">puts</span> <span class="mi">2</span> <span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>This is actually a common pattern in Ruby known as the &#39;wrap around&#39; method. This technique is similar to the <a href="#form-template-method">Form Template Method</a>, but is different in that you can use it without forcing an inheritance model on your code.</p>
+<p>Note: JavaScript doesn&#39;t have the ability to pass a code block but it can be replicated by passing a function that acts like a callback...</p>
+<pre><code class="lang-js"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">doSomething</span> <span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+        <span class="nx">callback</span><span class="p">();</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">doSomething</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+</code></pre>
+<p>...although in the latest versions of Node (as of November 2013) Generators are implemented and would allow JavaScript code to <code>yield</code> similar to how Ruby works.</p>
+<h3><a name="self-encapsulate-field" class="anchor" href="#self-encapsulate-field"><span class="header-link"></span></a>Self Encapsulate Field</h3>
+<p>When inheriting properties from a parent class/object then it can be more flexible if the parent class only allows access to the properties from within a getter/setter.</p>
+<p>The motivation for this technique is that a sub class can override and modify the behaviour of the getter/setter without affecting the parent class&#39; implementation. Which is similar to how the Decorator design pattern works (e.g. modifying the behaviour without affecting the original).</p>
+<p>This technique should only be used once you find the coupling between objects is becoming a problem. Otherwise direct access to properties and instance variables should be acceptable initially.</p>
+<p>For example:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">total</span>
+  <span class="vi">@base_price</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="vi">@tax_rate</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>Becomes:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="kp">attr_reader</span> <span class="ss">:base_price</span><span class="p">,</span> <span class="ss">:tax_rate</span>
+
+<span class="k">def</span> <span class="nf">total</span>
+  <span class="n">base_price</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">tax_rate</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<h3><a name="introduce-named-parameter" class="anchor" href="#introduce-named-parameter"><span class="header-link"></span></a>Introduce Named Parameter</h3>
+<p>When method arguments are unclear then convert them into named parameters so they become clearer (and easier to remember). </p>
+<p>Although Ruby supports named parameters...</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">turnOnTheTV</span> <span class="p">(</span><span class="ss">channel</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">volume</span><span class="p">:</span> <span class="mi">1</span><span class="p">);</span> <span class="k">end</span>
+<span class="n">turnOnTheTV</span><span class="p">(</span><span class="ss">channel</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="ss">volume</span><span class="p">:</span> <span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</code></pre>
+<p>...neither PHP or JavaScript do, so for PHP you can pass an associated Array and with JavaScript you can pass an Object/Hash.</p>
+<p><strong>For example (JavaScript)</strong>:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">function</span> <span class="n">turnOnTheTV</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">v</span><span class="p">){}</span>
+<span class="n">turnOnTheTV</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</code></pre>
+<p><strong>Becomes</strong>:</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">function</span> <span class="n">turnOnTheTV</span> <span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="p">{</span>
+    <span class="sr">//</span> <span class="n">config</span><span class="o">.</span><span class="n">channel</span> <span class="o">===</span> <span class="mi">101</span>
+    <span class="o">//</span> <span class="n">config</span><span class="o">.</span><span class="n">volume</span>  <span class="o">===</span> <span class="mi">10</span>
+<span class="p">}</span>
+<span class="n">turnOnTheTV</span><span class="p">({</span> <span class="ss">channel</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="ss">volume</span><span class="p">:</span> <span class="mi">10</span> <span class="p">});</span>
+</pre></div>
+</code></pre>
+<p>Note: ECMAScript 6.0 (the latest JavaScript specification - which is still being worked on as of Nov 2013) implements named parameters.</p>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>There are still many different refactoring techniques that I&#39;ve not included. But hopefully you&#39;ve found this quick reference useful so far. I&#39;ll continue these on in another post.</p>
+</div>
+
+  <div class="comments">
+    <a href="/posts/refactoring-techniques/#comments">
+      <span class="icon-bubbles"></span>
+      Comments
+    </a>
+  </div>
+
+  <div class="post-head group">
   <a href="/posts/mvcp-model-view-controller-presenter/">
     <h1 class="post-title">MVCP: Model, View, Controller, Presenter</h1>
   </a>
@@ -203,354 +862,6 @@
     </a>
   </div>
 
-  <div class="post-head group">
-  <a href="/posts/sqlite-and-activerecord/">
-    <h1 class="post-title">SQLite and ActiveRecord</h1>
-  </a>
-  <span class="post-date">2013 &#183; 10 &#183; 11</span>
-</div>
-
-<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
-<p><em>reading time: approx. 14mins</em></p>
-<ul>
-<li>Introduction</li>
-<li>SQLite</li>
-<li>ActiveRecord</li>
-<li>Installation</li>
-<li>Set-up</li>
-<li>Schema</li>
-<li>Creating<ul>
-<li>Association</li>
-<li>Record Creation</li>
-</ul>
-</li>
-<li>Querying</li>
-<li>Conclusion</li>
-</ul>
-<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
-<p>This was intended to be a quick post about how to use the embedded relational database &quot;<a href="http://www.sqlite.org/">SQLite</a>&quot; with a Ruby/Sinatra application but will also include information on incorporating the ActiveRecord pattern as well.</p>
-<p>We&#39;ll look at installing and setting up SQLite and incorporating the ActiveRecord pattern using the open-source library of the same name (which is included as part of the <a href="http://rubyonrails.org/">Ruby on Rails Framework</a>).</p>
-<h2><a name="sqlite" class="anchor" href="#sqlite"><span class="header-link"></span></a>SQLite</h2>
-<p>Typically if you&#39;re developing an application in Ruby using the <a href="http://rubyonrails.org/">Ruby on Rails framework</a> then you&#39;ll use SQLite in development and then switch over to another database for production (maybe <a href="http://www.mysql.com/">MySQL</a> or <a href="http://www.postgresql.org/">PostgreSQL</a>). </p>
-<p>What most people don&#39;t realise is that if you have a low traffic website then SQLite is fine to use. </p>
-<p>The only thing to be aware of when using SQLite in production is that it inherently isn&#39;t designed to scale. To help clarify, the author of SQLite had this to say on the subject… </p>
-<blockquote>
-<p>SQLite usually will work great as the database engine for low to medium traffic websites. The amount of web traffic that SQLite can handle depends, of course, on how heavily the website uses its database. Generally speaking, any site that gets fewer than 100K hits/day should work fine with SQLite. The 100K hits/day figure is a conservative estimate, not a hard upper bound. SQLite has been demonstrated to work with 10 times that amount of traffic.</p>
-<p>SQLite will normally work fine as the database backend to a website. But if your website is so busy that you are thinking of splitting the database component off onto a separate machine, then you should definitely consider using an enterprise-class client/server database engine instead of SQLite.</p>
-</blockquote>
-<h2><a name="activerecord" class="anchor" href="#activerecord"><span class="header-link"></span></a>ActiveRecord</h2>
-<p>So most Ruby developers will know of <a href="http://guides.rubyonrails.org/active_record_querying.html">ActiveRecord</a> but may not realise that it&#39;s actually an architectural pattern and the term was originally coined by <a href="http://martinfowler.com/">Martin Fowler</a> (a legend in the field of software engineering and data modeling).</p>
-<p>The pattern describes how to provide an Interface that lets the user interact with a relational database in a more user friendly fashion rather than constructing their own SQL queries.</p>
-<p>We&#39;ll be using Ruby on Rails&#39; implementation of the pattern which they&#39;ve extracted into an external library/module (so it&#39;s not specifically reliant on the Ruby on Rails framework if you&#39;re using something more lightweight like Sinatra).</p>
-<h2><a name="installation" class="anchor" href="#installation"><span class="header-link"></span></a>Installation</h2>
-<p>There are a couple of things we need to do:</p>
-<ol>
-<li>Install the SQLite libraries</li>
-<li>Install the SQLite Ruby module</li>
-<li>Install the ActiveRecord Ruby module</li>
-</ol>
-<p>So if you have <a href="http://brew.sh/">Homebrew</a> installed then you can simply run <code>brew install sqlite</code>.</p>
-<p>Note: you may need to run <code>brew --force link</code> afterwards, as a much older version of SQLite is already installed on the Mac OS and so the OS will attempt to load that first.</p>
-<p>To install the ruby module just run <code>gem install sqlite3</code></p>
-<p>To install the ActiveRecord ruby module just run <code>gem install activerecord</code></p>
-<h2><a name="command-line-tool" class="anchor" href="#command-line-tool"><span class="header-link"></span></a>Command Line Tool</h2>
-<p>Once the SQLite libraries are installed you will have access to a command line tool that lets you directly inspect the contents of a SQLite database file.</p>
-<p>For example, if you have a database file called <code>test.db</code> then you can run <code>sqlite3 test.db</code> to open the database.</p>
-<p>You can then run SQL commands against the database such as <code>select * from tableName;</code> (notice the semicolon at the end <code>;</code> you&#39;ll need this otherwise the command won&#39;t know when it is considered completed, the plus side is that you can write complex SQL queries across multiple lines).</p>
-<h2><a name="set-up" class="anchor" href="#set-up"><span class="header-link"></span></a>Set-up</h2>
-<p>Imagine we have a single file <code>sqlite-example.rb</code> with the following content… </p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;active_record&#39;</span>
-
-<span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="no">Logger</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;database.log&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">))</span>
-
-<span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span><span class="p">(</span>
-  <span class="ss">:adapter</span>  <span class="o">=&gt;</span> <span class="s1">&#39;sqlite3&#39;</span><span class="p">,</span>
-  <span class="ss">:database</span> <span class="o">=&gt;</span> <span class="s1">&#39;example.db&#39;</span>
-<span class="p">)</span>
-</pre></div>
-</code></pre>
-<p>…so let&#39;s analyse what this script is doing.</p>
-<p>First thing we&#39;re doing is loading the SQLite module.</p>
-<p>Second, ActiveRecord allows us to specify a recipient for any log information. In this instance we store any log information into a file called <code>database.log</code>. We could also send the log information directly to the terminal screen using <code>Logger.new(STDERR)</code> instead.</p>
-<p>Thirdly, we actually connect to the SQLite database. ActiveRecord has adapters for multiple databases and so here we specify we&#39;re using SQLite and that we want to connect to the <code>example.db</code> database. We could store data all in memory if we wanted (e.g. it wouldn&#39;t persist after the application has finished running), we do this by changing to…</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="ss">:database</span> <span class="o">=&gt;</span> <span class="s1">&#39;:memory:&#39;</span>
-</pre></div>
-</code></pre>
-<h2><a name="schema" class="anchor" href="#schema"><span class="header-link"></span></a>Schema</h2>
-<p>As you should probably already know, we need to define a Schema for our database. Because although we&#39;re using an ActiveRecord interface we&#39;re still interacting with a relational database underneath that layer.</p>
-<p>A Schema helps dictate in code what the structure of the database should be and what the different columns/rows and data types should be used.</p>
-<p>To do this we&#39;ll add… </p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Schema</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
-  <span class="k">unless</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">include?</span> <span class="s1">&#39;albums&#39;</span>
-    <span class="n">create_table</span> <span class="ss">:albums</span> <span class="k">do</span> <span class="o">|</span><span class="n">table</span><span class="o">|</span>
-      <span class="n">table</span><span class="o">.</span><span class="n">column</span> <span class="ss">:title</span><span class="p">,</span>     <span class="ss">:string</span>
-      <span class="n">table</span><span class="o">.</span><span class="n">column</span> <span class="ss">:performer</span><span class="p">,</span> <span class="ss">:string</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-
-  <span class="k">unless</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">include?</span> <span class="s1">&#39;tracks&#39;</span>
-    <span class="n">create_table</span> <span class="ss">:tracks</span> <span class="k">do</span> <span class="o">|</span><span class="n">table</span><span class="o">|</span>
-      <span class="n">table</span><span class="o">.</span><span class="n">column</span> <span class="ss">:album_id</span><span class="p">,</span>     <span class="ss">:integer</span> <span class="c1"># foreign key &lt;table-name-singular&gt;_id (i.e. this is the primary key from the &#39;albums&#39; table)</span>
-      <span class="n">table</span><span class="o">.</span><span class="n">column</span> <span class="ss">:track_number</span><span class="p">,</span> <span class="ss">:integer</span>
-      <span class="n">table</span><span class="o">.</span><span class="n">column</span> <span class="ss">:title</span><span class="p">,</span>        <span class="ss">:string</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</pre></div>
-</code></pre>
-<p>…as you might be able to tell, we&#39;re doing a couple of things.</p>
-<p>First we&#39;re defining a new Schema.</p>
-<p>Second, we&#39;re creating two tables: <code>albums</code> and <code>tracks</code> (we wrap the creation of the tables in a condition so we make sure we don&#39;t cause any errors by trying to create a table that already exists). Also, the convention is to name the tables as plurals (notice we don&#39;t call it <code>album</code> or <code>track</code> as they&#39;ll be holding multiples of that data).</p>
-<p>Thirdly, inside of the table creation we&#39;re specifying specific columns and what their data types should be.</p>
-<p>When we create a table a &quot;<a href="http://en.wikipedia.org/wiki/Primary_key">primary key</a>&quot; is automatically created for us and is named after the table. So in this instance we have two primary keys created for us: <code>albums_id</code> and <code>tracks_id</code> (notice the naming convention of <code>tableName_id</code> - singular, not plural).</p>
-<p>Inside the <code>tracks</code> table you&#39;ll see the first column we create is actually a &quot;<a href="http://en.wikipedia.org/wiki/Foreign_key">foreign key</a>&quot; because we&#39;re creating a column which is named after the <code>albums</code> table&#39;s primary key (<code>album_id</code>).</p>
-<h2><a name="creating" class="anchor" href="#creating"><span class="header-link"></span></a>Creating</h2>
-<p>The ActiveRecord pattern is based on conventions, so in this instance we&#39;ll create two new classes that inherit from ActiveRecord&#39;s base class and we&#39;ll use these two classes for creating new records for each table… </p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Album</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-  <span class="n">has_many</span> <span class="ss">:tracks</span>
-<span class="k">end</span>
-
-<span class="k">class</span> <span class="nc">Track</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-  <span class="n">belongs_to</span> <span class="ss">:album</span>
-<span class="k">end</span>
-
-<span class="k">unless</span> <span class="no">Album</span><span class="o">.</span><span class="n">find_by_title</span><span class="p">(</span><span class="s1">&#39;In Utero&#39;</span><span class="p">)</span>
-  <span class="n">album</span> <span class="o">=</span> <span class="no">Album</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-    <span class="ss">:title</span>     <span class="o">=&gt;</span> <span class="s1">&#39;In Utero&#39;</span><span class="p">,</span>
-    <span class="ss">:performer</span> <span class="o">=&gt;</span> <span class="s1">&#39;Nirvana&#39;</span>
-  <span class="p">)</span>
-
-  <span class="n">track_listing</span> <span class="o">=</span> <span class="o">[</span>
-    <span class="kp">nil</span><span class="p">,</span>
-    <span class="s1">&#39;Serve the Servants&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Scentless Apprentice&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Heart-Shaped Box&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Rape Me&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Frances Farmer&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Dumb&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Very Ape&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Milk It&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Pennyroyal Tea&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Radio Friendly Unit Shifter&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Tourettes&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;All Apologies&#39;</span>
-  <span class="o">]</span>
-
-  <span class="n">track_listing</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="p">,</span> <span class="n">index</span><span class="o">|</span>
-    <span class="n">album</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:track_number</span> <span class="o">=&gt;</span> <span class="n">index</span><span class="p">,</span> <span class="ss">:title</span> <span class="o">=&gt;</span> <span class="n">value</span><span class="p">)</span> <span class="k">unless</span> <span class="n">index</span> <span class="o">===</span> <span class="mi">0</span> <span class="c1"># skip zero index</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="k">unless</span> <span class="no">Album</span><span class="o">.</span><span class="n">find_by_title</span><span class="p">(</span><span class="s1">&#39;La-te-ra-lus&#39;</span><span class="p">)</span>
-  <span class="n">album</span> <span class="o">=</span> <span class="no">Album</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-    <span class="ss">:title</span>     <span class="o">=&gt;</span> <span class="s1">&#39;La-te-ra-lus&#39;</span><span class="p">,</span>
-    <span class="ss">:performer</span> <span class="o">=&gt;</span> <span class="s1">&#39;Tool&#39;</span>
-  <span class="p">)</span>
-
-  <span class="n">track_listing</span> <span class="o">=</span> <span class="o">[</span>
-    <span class="kp">nil</span><span class="p">,</span>
-    <span class="s1">&#39;The Grudge&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Eon Blue Apocalypse&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;The Patient&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Mantra&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Schism&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Parabol&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Parabola&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Ticks &amp; Leeches&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Lateralus&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Disposition&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Reflection&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Triad&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Faaip de Oiad&#39;</span>
-  <span class="o">]</span>
-
-  <span class="n">track_listing</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="p">,</span> <span class="n">index</span><span class="o">|</span>
-    <span class="n">album</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:track_number</span> <span class="o">=&gt;</span> <span class="n">index</span><span class="p">,</span> <span class="ss">:title</span> <span class="o">=&gt;</span> <span class="n">value</span><span class="p">)</span> <span class="k">unless</span> <span class="n">index</span> <span class="o">===</span> <span class="mi">0</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</pre></div>
-</code></pre>
-<p>…OK, so there are a couple of things worth noting here:</p>
-<p>When we inherit from <code>ActiveRecord::Base</code> our class is mapped to a table of the same name. So for example our class <code>Album</code> is mapped to the <code>albums</code> table.</p>
-<p>Also, as we&#39;re inheriting from the ActiveRecord Base class, we don&#39;t need to specify attributes (for example, inside our Tracks class) such as <code>:title</code> or <code>:track_number</code> within our class, as they will be indirectly inferred from the Schema we defined earlier and will come from that table which the class is mapped to.</p>
-<h3><a name="association" class="anchor" href="#association"><span class="header-link"></span></a>Association</h3>
-<p>You&#39;ll notice within the <code>Album</code> class we call a <code>has_many</code> method (provided through the inheritance chain via <code>ActiveRecord::Base</code>) which sets up the association between &#39;albums&#39; and &#39;tracks&#39;.</p>
-<p>Similarly, within the <code>Track</code> class we call <code>belongs_to</code> and tell it that our tracks belong to the &#39;albums&#39; table. We should only do this when the class/table holds the foreign key for the table we&#39;re saying it belongs to. In this case our &#39;Track&#39; class holds the foreign key that points to the &#39;albums&#39; table.</p>
-<h3><a name="record-creation" class="anchor" href="#record-creation"><span class="header-link"></span></a>Record Creation</h3>
-<p>Finally we actually create some records to insert into each table.</p>
-<p>We call a <code>create</code> method like so…</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">album</span> <span class="o">=</span> <span class="no">Album</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="p">)</span>
-</pre></div>
-</code></pre>
-<p>…which is equivalent to… </p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">album</span> <span class="o">=</span> <span class="no">Album</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="p">);</span>
-<span class="n">album</span><span class="o">.</span><span class="n">save</span>
-</pre></div>
-</code></pre>
-<p>…so it saves us a little extra typing (which is nice).</p>
-<p>You&#39;ll also notice that when we create a new <code>Album</code> instance we can access and create new <code>Tracks</code> as well (via the <code>album</code> instance: <code>album.tracks.create(…)</code>). This is because we&#39;ve made an association within the top level classes between Albums and Tracks.</p>
-<p>In my example I&#39;m trying to be a bit smarter by not repeating the same chunk of code over and over. So rather than doing… </p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">album</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:track_number</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span>
-<span class="n">album</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:track_number</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s1">&#39;b&#39;</span><span class="p">)</span>
-<span class="n">album</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:track_number</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">,</span> <span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span>
-<span class="c1">#…rinse repeat…</span>
-</pre></div>
-</code></pre>
-<p>…instead, I create the track listing as an <code>Array</code> and then loop the Array creating new records. </p>
-<p>The only additional logic I need is to avoid including the <code>[0]</code> item in the Array which I do using <code>album.tracks.create(…) unless index === 0</code>. </p>
-<p>The reason I avoid it is simply because track listings on albums always start at <code>1</code> where as our Array is zero-indexed.</p>
-<h2><a name="querying" class="anchor" href="#querying"><span class="header-link"></span></a>Querying</h2>
-<p>Now in my example code you&#39;ll find me wrapping certain chunks in <code>begin/rescue</code> as my example isn&#39;t made to work when accessed multiple times (<em>it&#39;s just a silly example to demonstrate how to connect, populate and query data using ActiveRecords</em>). So don&#39;t worry about those aspects and instead just focus on the APIs I&#39;m using. Specifically…</p>
-<h3><a name="find" class="anchor" href="#find"><span class="header-link"></span></a><code>find</code></h3>
-<p>This allows you to find a record by ID. So <code>Album.find(1)</code> would return the first album in the table. <code>Album.find(1).tracks.length</code> would then tell you the number of tracks that particular album held.</p>
-<h3><a name="find-by" class="anchor" href="#find-by"><span class="header-link"></span></a><code>find_by</code></h3>
-<p>This is actually a very intelligent method. It is based on conventions again, so <code>find_by_title</code> maps to a standard <code>find_by</code> method but passes through <code>title</code> as the attribute we&#39;re interested in searching within: <code>Album.find_by_title(&#39;La-te-ra-lus&#39;)</code></p>
-<h3><a name="all" class="anchor" href="#all"><span class="header-link"></span></a><code>all</code></h3>
-<p>This is an alias for <code>find(:all)</code>. So <code>Album.all</code> would return all records found within the &#39;Album` table.</p>
-<h3><a name="where" class="anchor" href="#where"><span class="header-link"></span></a><code>where</code></h3>
-<p>This is a conditional that maps to SQL&#39;s <code>where</code> clause. So <code>Track.where(title: &#39;Triad&#39;)</code> would return the record(s) within the Track database whose <code>title</code> attribute contained the value <code>Triad</code>. You can do more complicated filters such as: <code>Table.where(user_name: user_name, password: password).first</code> which safely sanitises your input and checks two different attributes and then returns the first record found (in case there are multiples).</p>
-<h3><a name="first" class="anchor" href="#first"><span class="header-link"></span></a><code>first</code></h3>
-<p>We&#39;ve seen this used already and works in a similar way to how Ruby&#39;s <code>first</code> property works (it returns the first item found).</p>
-<h3><a name="last" class="anchor" href="#last"><span class="header-link"></span></a><code>last</code></h3>
-<p>Same as <code>first</code> but returns the last item found.</p>
-<h3><a name="delete" class="anchor" href="#delete"><span class="header-link"></span></a><code>delete</code></h3>
-<p>Once you&#39;ve found a record then you can delete it using this method. So <code>Album.first.delete</code> would find the first record in the <code>Album</code> table and then delete that record.</p>
-<h3><a name="save" class="anchor" href="#save"><span class="header-link"></span></a><code>save</code></h3>
-<p>You can modify records by first locating them and simply assigning a new value to them, but you would then use the <code>save</code> method to store that update back to the database: <code>track = Track.where(title: &#39;yolo&#39;).first.title = &#39;Blah&#39;; track.save</code></p>
-<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
-<p>So we&#39;ve not delved too deeply (as there is far too much to cover in one post) but hopefully this has been a good starting point for you.</p>
-<p>The complete code I was using looks like this… </p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="nb">require</span> <span class="s1">&#39;active_record&#39;</span>
-
-<span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="no">Logger</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;database.log&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">))</span>
-
-<span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span><span class="p">(</span>
-  <span class="ss">:adapter</span>  <span class="o">=&gt;</span> <span class="s1">&#39;sqlite3&#39;</span><span class="p">,</span>
-  <span class="ss">:database</span> <span class="o">=&gt;</span> <span class="s1">&#39;example.db&#39;</span>
-<span class="p">)</span>
-
-<span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Schema</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
-  <span class="k">unless</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">include?</span> <span class="s1">&#39;albums&#39;</span>
-    <span class="n">create_table</span> <span class="ss">:albums</span> <span class="k">do</span> <span class="o">|</span><span class="n">table</span><span class="o">|</span>
-      <span class="n">table</span><span class="o">.</span><span class="n">column</span> <span class="ss">:title</span><span class="p">,</span>     <span class="ss">:string</span>
-      <span class="n">table</span><span class="o">.</span><span class="n">column</span> <span class="ss">:performer</span><span class="p">,</span> <span class="ss">:string</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-
-  <span class="k">unless</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">include?</span> <span class="s1">&#39;tracks&#39;</span>
-    <span class="n">create_table</span> <span class="ss">:tracks</span> <span class="k">do</span> <span class="o">|</span><span class="n">table</span><span class="o">|</span>
-      <span class="n">table</span><span class="o">.</span><span class="n">column</span> <span class="ss">:album_id</span><span class="p">,</span>     <span class="ss">:integer</span>
-      <span class="n">table</span><span class="o">.</span><span class="n">column</span> <span class="ss">:track_number</span><span class="p">,</span> <span class="ss">:integer</span>
-      <span class="n">table</span><span class="o">.</span><span class="n">column</span> <span class="ss">:title</span><span class="p">,</span>        <span class="ss">:string</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="k">class</span> <span class="nc">Album</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-  <span class="n">has_many</span> <span class="ss">:tracks</span>
-<span class="k">end</span>
-
-<span class="k">class</span> <span class="nc">Track</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-  <span class="n">belongs_to</span> <span class="ss">:album</span>
-<span class="k">end</span>
-
-<span class="k">unless</span> <span class="no">Album</span><span class="o">.</span><span class="n">find_by_title</span><span class="p">(</span><span class="s1">&#39;In Utero&#39;</span><span class="p">)</span>
-  <span class="n">album</span> <span class="o">=</span> <span class="no">Album</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-    <span class="ss">:title</span>     <span class="o">=&gt;</span> <span class="s1">&#39;In Utero&#39;</span><span class="p">,</span>
-    <span class="ss">:performer</span> <span class="o">=&gt;</span> <span class="s1">&#39;Nirvana&#39;</span>
-  <span class="p">)</span>
-
-  <span class="n">track_listing</span> <span class="o">=</span> <span class="o">[</span>
-    <span class="kp">nil</span><span class="p">,</span>
-    <span class="s1">&#39;Serve the Servants&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Scentless Apprentice&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Heart-Shaped Box&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Rape Me&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Frances Farmer&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Dumb&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Very Ape&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Milk It&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Pennyroyal Tea&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Radio Friendly Unit Shifter&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Tourettes&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;All Apologies&#39;</span>
-  <span class="o">]</span>
-
-  <span class="n">track_listing</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="p">,</span> <span class="n">index</span><span class="o">|</span>
-    <span class="n">album</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:track_number</span> <span class="o">=&gt;</span> <span class="n">index</span><span class="p">,</span> <span class="ss">:title</span> <span class="o">=&gt;</span> <span class="n">value</span><span class="p">)</span> <span class="k">unless</span> <span class="n">index</span> <span class="o">===</span> <span class="mi">0</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="k">unless</span> <span class="no">Album</span><span class="o">.</span><span class="n">find_by_title</span><span class="p">(</span><span class="s1">&#39;La-te-ra-lus&#39;</span><span class="p">)</span>
-  <span class="n">album</span> <span class="o">=</span> <span class="no">Album</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-    <span class="ss">:title</span>     <span class="o">=&gt;</span> <span class="s1">&#39;La-te-ra-lus&#39;</span><span class="p">,</span>
-    <span class="ss">:performer</span> <span class="o">=&gt;</span> <span class="s1">&#39;Tool&#39;</span>
-  <span class="p">)</span>
-
-  <span class="n">track_listing</span> <span class="o">=</span> <span class="o">[</span>
-    <span class="kp">nil</span><span class="p">,</span>
-    <span class="s1">&#39;The Grudge&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Eon Blue Apocalypse&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;The Patient&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Mantra&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Schism&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Parabol&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Parabola&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Ticks &amp; Leeches&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Lateralus&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Disposition&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Reflection&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Triad&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Faaip de Oiad&#39;</span>
-  <span class="o">]</span>
-
-  <span class="n">track_listing</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">value</span><span class="p">,</span> <span class="n">index</span><span class="o">|</span>
-    <span class="n">album</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:track_number</span> <span class="o">=&gt;</span> <span class="n">index</span><span class="p">,</span> <span class="ss">:title</span> <span class="o">=&gt;</span> <span class="n">value</span><span class="p">)</span> <span class="k">unless</span> <span class="n">index</span> <span class="o">===</span> <span class="mi">0</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="k">begin</span>
-  <span class="nb">p</span> <span class="no">Album</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">length</span> <span class="c1"># 13 (on first run of this script it&#39;s fine, but next run we&#39;ve deleted the record)</span>
-<span class="k">rescue</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">RecordNotFound</span>
-  <span class="nb">p</span> <span class="s1">&#39;We just rescued a &quot;RecordNotFound&quot; error&#39;</span>
-<span class="k">end</span>
-
-<span class="nb">p</span> <span class="no">Album</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">tracks</span><span class="o">.</span><span class="n">length</span> <span class="c1"># 14</span>
-<span class="nb">p</span> <span class="no">Album</span><span class="o">.</span><span class="n">find_by_title</span><span class="p">(</span><span class="s1">&#39;La-te-ra-lus&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span> <span class="c1"># &quot;La-te-ra-lus&quot;</span>
-<span class="nb">p</span> <span class="no">Track</span><span class="o">.</span><span class="n">find_by_title</span><span class="p">(</span><span class="s1">&#39;Very Ape&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">album_id</span> <span class="c1"># 1</span>
-<span class="nb">p</span> <span class="no">Album</span><span class="o">.</span><span class="n">all</span> <span class="c1"># ActiveRecord::Relation =&gt; complete set of database records</span>
-<span class="nb">p</span> <span class="no">Album</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">length</span> <span class="c1"># 2</span>
-<span class="nb">p</span> <span class="no">Track</span><span class="o">.</span><span class="n">all</span> <span class="c1"># ActiveRecord::Relation =&gt; complete set of database records</span>
-<span class="nb">p</span> <span class="no">Track</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">title</span><span class="p">:</span> <span class="s1">&#39;Triad&#39;</span><span class="p">)</span> <span class="c1"># ActiveRecord::Relation =&gt; single record</span>
-<span class="nb">p</span> <span class="no">Track</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">track_number</span><span class="p">:</span> <span class="mi">6</span><span class="o">.</span><span class="n">.</span><span class="mi">8</span><span class="p">)</span> <span class="c1"># returns tracks 6 to 8 from all albums</span>
-<span class="nb">p</span> <span class="no">Album</span><span class="o">.</span><span class="n">first</span> <span class="c1"># returns first record (calling `Album.find(:first|:last) is deprecated`)</span>
-<span class="nb">p</span> <span class="no">Album</span><span class="o">.</span><span class="n">last</span> <span class="c1"># returns last record</span>
-
-<span class="k">if</span> <span class="no">Album</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">1</span>
-  <span class="nb">p</span> <span class="no">Album</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">delete</span> <span class="c1"># delete the first record</span>
-<span class="k">end</span>
-
-<span class="nb">p</span> <span class="no">Album</span><span class="o">.</span><span class="n">all</span> <span class="c1"># now we&#39;ll see there is only one record remaining</span>
-
-<span class="n">track_to_be_modified</span> <span class="o">=</span> <span class="no">Track</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">title</span><span class="p">:</span> <span class="s1">&#39;The Grudge&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span>
-<span class="n">track_to_be_modified</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Grudgeola&#39;</span>
-<span class="n">track_to_be_modified</span><span class="o">.</span><span class="n">save</span>
-<span class="nb">p</span> <span class="n">track_to_be_modified</span> <span class="c1"># displays modified record</span>
-<span class="nb">p</span> <span class="no">Track</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">title</span><span class="p">:</span> <span class="s1">&#39;The Grudge&#39;</span><span class="p">)</span> <span class="c1"># empty Array (not found as we&#39;ve overridden the original record)</span>
-<span class="nb">p</span> <span class="no">Track</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">title</span><span class="p">:</span> <span class="s1">&#39;Grudgeola&#39;</span><span class="p">)</span> <span class="c1"># displays Array of records found (only one, the modified record)</span>
-</pre></div>
-</code></pre>
-<p>But remember this was just a quick introduction to the concepts of the ActiveRecord pattern (and using it with a SQLite database). There are <em>many</em> different querying methods available via ActiveRecord so do get stuck into the API documentation to see what other goodies are at your disposal. </p>
-<p>If you don&#39;t use/like Ruby then as I said previously: there are many different adaptations of the ActiveRecord pattern so look out for implementations in your language of choice.</p>
-</div>
-
-  <div class="comments">
-    <a href="/posts/sqlite-and-activerecord/#comments">
-      <span class="icon-bubbles"></span>
-      Comments
-    </a>
-  </div>
-
 
 <div class="pagination group">
   
@@ -568,6 +879,9 @@
     
     
       <a href="/page/3/" class="older"> &#8592; Older</a>
+    
+  
+    
     
   
     

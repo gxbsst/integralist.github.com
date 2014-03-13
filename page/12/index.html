@@ -37,6 +37,383 @@
 
 
   <div class="post-head group">
+  <a href="/posts/ruby-and-the-sinatra-framework/">
+    <h1 class="post-title">Ruby and the Sinatra framework</h1>
+  </a>
+  <span class="post-date">2012 &#183; 7 &#183; 22</span>
+</div>
+
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 23mins</em></p>
+<ul>
+<li>Introduction<ul>
+<li>DSL vs GPL</li>
+</ul>
+</li>
+<li>GitHub Repository</li>
+<li>Sinatra</li>
+<li>Hosting</li>
+<li>Example<ul>
+<li>Requirements</li>
+<li>Set-up</li>
+<li>Shotgun</li>
+<li>Loading pages</li>
+<li>Loading templates</li>
+<li>Static resources</li>
+<li>Handling errors</li>
+<li>Performance</li>
+<li>Hosting our application</li>
+</ul>
+</li>
+<li>Conclusions</li>
+</ul>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<p>In my opinion there&#39;s isn&#39;t enough good information on the web about how to get started building a <a href="http://www.ruby-lang.org/" title="The Ruby Programming Language">Ruby</a> based website (unless you want to use the ever popular <a href="http://rubyonrails.org/" title="Ruby on Rails">Ruby on Rails</a> framework). </p>
+<p>But even then, it&#39;s not as straight forward as you&#39;d think (not for someone new to the language or server-side coding in general).</p>
+<h3><a name="dsl-vs-gpl" class="anchor" href="#dsl-vs-gpl"><span class="header-link"></span></a>DSL vs GPL</h3>
+<p>Before we go any further, it&#39;s worth clarifying the difference between a Domain Specific Language (DSL) and a General Purpose Language (GPL). Languages like JavaScript and PHP are DSL&#39;s** because they were designed to be run within a specific &#39;domain&#39; (and by domain we really mean &#39;environment&#39;) such as the web. But languages like Python and Ruby are GPL&#39;s because they can run within many different domains (e.g. Ruby can run on the web, desktop, command line etc).</p>
+<p>If we look at a DSL language such as <a href="http://www.php.net/" title="PHP Hypertext Preprocessor">PHP</a>**: it is very easy to build a site using PHP because you can just input some procedural code, upload the file onto a server that supports PHP (and what server doesn&#39;t nowadays) and that&#39;s all there is to it (!now I&#39;m obviously not suggesting this is good practice - I&#39;m just illustrating the point that if you wanted to <strong>just get started</strong> with PHP then that is all there is to it).</p>
+<p>With a GPL such as Ruby it isn&#39;t so straight forward (it&#39;s like the old adage &quot;the question is easy when you know the answer&quot;: Ruby can be easy to use and get set-up when you know what you&#39;re doing, but the fundamentals - in my opinion - are difficult to grasp without a helping hand).</p>
+<p><em>**PHP (and JavaScript) were designed to be DSL&#39;s but have since evolved more into GPL&#39;s as they can be run on the desktop as well as the web (and many other environments they weren&#39;t originally designed for).</em></p>
+<p>My issue with Ruby is that there is no &quot;just get started&quot; guide for those who want to build a site with it but not have to deal with design patterns such as MVC (maybe not straight away at least). I wouldn&#39;t be surprised if developers new to Ruby felt obliged to use Ruby on Rails because it seems to be the only Ruby related framework out there that gets any real spotlight - and I understand why, because it truly is an all encompassing framework - but I wanted a Ruby site without the bloat of a framework like <a href="http://rubyonrails.org/" title="Ruby on Rails">Ruby on Rails</a>. I didn&#39;t want all the confusing MVC structure and features that I&#39;d never use. Hence why I&#39;m writing this now.</p>
+<h2><a name="github-repository" class="anchor" href="#github-repository"><span class="header-link"></span></a>GitHub Repository</h2>
+<p>You can find an example repository with all code discussed in this article here: <a href="https://github.com/Integralist/passage"><a href="https://github.com/Integralist/passage">https://github.com/Integralist/passage</a></a></p>
+<h2><a name="sinatra" class="anchor" href="#sinatra"><span class="header-link"></span></a>Sinatra</h2>
+<p>So, let me begin by introducing you to <a href="http://www.sinatrarb.com/" title="Put this in your pipe and smoke it">Sinatra</a>. Sinatra is a micro web framework for Ruby that although small (much smaller than a framework such as Ruby on Rails) is still surprising complex and powerful (I&#39;d highly recommend reading O&#39;Reilly&#39;s book &quot;<a href="http://shop.oreilly.com/product/0636920019664.do" title="Ruby for the Web">Sinatra: Up and Running</a>&quot;).</p>
+<p>Sinatra does require you to do a lot of work off your own back, but at the same time it doesn&#39;t enforce a particular style on you. It&#39;s also very easy to get a site up and running with Sinatra and that is hopefully what I&#39;ll demonstrate here today.</p>
+<h2><a name="hosting" class="anchor" href="#hosting"><span class="header-link"></span></a>Hosting</h2>
+<p>Now running a site locally on your computer is one thing, but you want to be able to share it with the community and let others use it! Ruby hosting is something I&#39;m still looking into but I have found two popular options for those who aren&#39;t willing to put their money where their mouth is just yet (e.g. developers who are just experimenting with Ruby to see if it&#39;ll work for them). These are:</p>
+<ul>
+<li><a href="http://www.heroku.com/" title="Cloud Application Platform">Heroku</a></li>
+<li><a href="https://openshift.redhat.com/app/" title="Develop and Scale Apps in the Cloud">OpenShift</a></li>
+</ul>
+<p>OpenShift is a relative newcomer to the hosting arena and currently is free (although paid for plans are likely to be introduced soon).</p>
+<p>Heroku is one of the most well known and talked about Ruby web hosts and offers both free and paid for options.</p>
+<p>This means we can use either one to host our application for free and so allow us to test their services, and if you discover your latest web creation is doing well and getting lots of traffic then these platforms can scale to meet your needs.</p>
+<p>For today we&#39;ll be using the first option Heroku, but we&#39;ll come back to the hosting aspect at the end of this article when we&#39;re ready to actually upload our test application.</p>
+<h2><a name="example" class="anchor" href="#example"><span class="header-link"></span></a>Example</h2>
+<h3><a name="requirements" class="anchor" href="#requirements"><span class="header-link"></span></a>Requirements</h3>
+<p>OK, for us to build our application we&#39;re going to need to install the following software...</p>
+<ul>
+<li>Ruby (Programming Language - see my <a href="https://github.com/Integralist/Blog-Posts/blob/master/Introduction-to-Ruby.md" title="Introduction to Ruby (a front-end developers perspective)">introduction to the Ruby language</a> for more information on how to do this)</li>
+<li>Sinatra (Web Framework)</li>
+<li>Bundler (Dependancy Manager)</li>
+<li>Shotgun (Utility)</li>
+<li>Thin (Web Server)</li>
+</ul>
+<p>When Ruby is installed it provides you with a tool called &#39;gems&#39;. It is a list of code based projects and each one is referred to as a &#39;gem&#39;. These gems are actually hosted publically on <a href="http://rubygems.org/" title="Your community gem host"><a href="http://rubygems.org/">http://rubygems.org/</a></a>. If you ever need a piece of functionality that you don&#39;t fancy writing yourself then you can search for a &#39;gem&#39; that has already been built and download it, and then use it within your application.</p>
+<p>For example, you could be looking for a way to send email from your Ruby application. You would then search the Ruby Gems site (or you can do it via the command line) for a gem that provides this functionality. In this instance you would probably find the gem <code>Pony</code> which does exactly this and can be installed simply by running the command <code>gem install pony</code>.</p>
+<p>So, with this new knowledge about <code>gems</code> let us start downloading the above software. Start by opening your CLI (Command Line Interface) tool of choice. I&#39;m on a Macintosh so by default that will be the Terminal app. </p>
+<p>All we need to do is to execute the following command <code>gem install name_of_gem</code>...</p>
+<ul>
+<li>Sinatra: <code>gem install sinatra</code></li>
+<li>Bundler: <code>gem install bundler</code></li>
+<li>Shotgun: <code>gem install shotgun</code></li>
+<li>Thin: <code>gem install thin</code></li>
+</ul>
+<p>To see what &#39;gems&#39; you have already installed you can run the command <code>gem list --local</code> and this will display something similar to this (which is what I have installed on my own machine currently)…</p>
+<pre><code class="lang-sh"><div class="highlight"><pre>bundler <span class="o">(</span>1.1.3<span class="o">)</span>
+cgi_multipart_eof_fix <span class="o">(</span>2.5.0<span class="o">)</span>
+daemons <span class="o">(</span>1.1.8<span class="o">)</span>
+eventmachine <span class="o">(</span>0.12.10<span class="o">)</span>
+fastthread <span class="o">(</span>1.0.7<span class="o">)</span>
+gem_plugin <span class="o">(</span>0.2.3<span class="o">)</span>
+i18n <span class="o">(</span>0.6.0<span class="o">)</span>
+mail <span class="o">(</span>2.4.4<span class="o">)</span>
+mime-types <span class="o">(</span>1.18<span class="o">)</span>
+polyglot <span class="o">(</span>0.3.3<span class="o">)</span>
+pony <span class="o">(</span>1.4<span class="o">)</span>
+rack <span class="o">(</span>1.4.1<span class="o">)</span>
+rack-protection <span class="o">(</span>1.2.0<span class="o">)</span>
+rake <span class="o">(</span>0.9.2.2, 0.9.2<span class="o">)</span>
+rubygems-bundler <span class="o">(</span>0.3.0, 0.2.8<span class="o">)</span>
+sass <span class="o">(</span>3.1.17<span class="o">)</span>
+shotgun <span class="o">(</span>0.9<span class="o">)</span>
+sinatra <span class="o">(</span>1.3.2<span class="o">)</span>
+thin <span class="o">(</span>1.3.1<span class="o">)</span>
+tilt <span class="o">(</span>1.3.3<span class="o">)</span>
+treetop <span class="o">(</span>1.4.10<span class="o">)</span>
+</pre></div>
+</code></pre>
+<h3><a name="set-up" class="anchor" href="#set-up"><span class="header-link"></span></a>Set-up</h3>
+<p>Now we have our software set-up, lets open our programming tool of choice and start writing some code.</p>
+<p>First thing we want to do is to create a file that will be our application. So lets go ahead and do that and call it <code>app.rb</code> and lets add the following content to it…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="c1">#!/usr/bin/env ruby</span>
+
+<span class="nb">require</span> <span class="s1">&#39;sinatra&#39;</span>
+
+<span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+    <span class="s2">&quot;Hello World!&quot;</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>…now open your CLI, direct yourself to the folder where the above file is located and run <code>ruby app.rb</code>.</p>
+<p>You should see a message similar to this…</p>
+<pre><code class="lang-sh"><div class="highlight"><pre><span class="o">==</span> Sinatra/1.3.2 has taken the stage on 4567 <span class="k">for </span>development with backup from Thin
+&gt;&gt; Thin web server <span class="o">(</span>v1.3.1 codename Triple Espresso<span class="o">)</span>
+&gt;&gt; Maximum connections <span class="nb">set </span>to 1024
+&gt;&gt; Listening on 0.0.0.0:4567, CTRL+C to stop
+</pre></div>
+</code></pre>
+<p>You should now be able to open your web browser and go to: <code>http://localhost:4567/</code> and see the message &quot;Hello World!&quot;</p>
+<p>If you can then OK, this is our app, good job!</p>
+<p>Lets quickly recap what we&#39;ve got in our file:</p>
+<ul>
+<li><p><code>#!/usr/bin/env ruby</code><br>The first line tells the interpreter that&#39;s trying to run this file that we should interpret this file as a Ruby application.</p>
+</li>
+<li><p><code>require &#39;sinatra&#39;</code><br>Here we&#39;re loading in the Sinatra framework ready for us to use.</p>
+</li>
+<li><p><code>get &#39;/&#39; do &quot;Hello World!&quot; end</code><br>This is Sinatra&#39;s &quot;Classic&quot;** DSL syntax which basically says when someone loads the home page show them the message &quot;Hello World!&quot;.</p>
+</li>
+</ul>
+<p><em>**There are two ways to build Sinatra applications: one is the &quot;Classic&quot; way (which we&#39;ll be doing as it&#39;s much easier to understand) and the other is the &quot;Modular&quot; way which doesn&#39;t use the DSL syntax and taps straight into the base Sinatra Class.</em></p>
+<h3><a name="shotgun" class="anchor" href="#shotgun"><span class="header-link"></span></a>Shotgun</h3>
+<p>One quick note about running your Ruby application: we used <code>ruby app.rb</code> but for development purposes we want to use our <code>shotgun</code> utility instead. </p>
+<p>What <code>shotgun</code> does is it restarts the web server for every HTTP request it receives. This is only useful for local development, you wouldn&#39;t do this on a live server as that would just be wasting resources. The reason we use <code>shotgun</code> is because otherwise if we&#39;re running our application using <code>ruby app.rb</code> and decide to make a tweak to our code then we wouldn&#39;t be able to see the change until we restarted the web server! So we&#39;d have to first stop Sinatra (<code>Ctrl+C</code>) and then start it back up again (<code>ruby app.rb</code>) and that&#39;s a lot of hassle when you&#39;re making changes every few seconds and checking them in your web browser. So <code>shotgun</code> helps workaround this issue (while we&#39;re in development). Just run: <code>shotgun app.rb</code> and it&#39;ll take care of the rest**.</p>
+<p><em>**One thing I&#39;ve noticed using <code>shotgun</code> is that it can affect other resources. For example, I was caching resources and for some reason when running <code>shotgun</code> I noticed the resources weren&#39;t being cached - but if I shut it down and run <code>ruby app.rb</code> instead then the resources would show as cached? Apparently it has something to do with the internals of how <code>shotgun</code> works and is something to be aware of if you notice something not working then just try running your Ruby application without <code>shotgun</code>.</em></p>
+<p>So at this point you&#39;ve got some Ruby code and you&#39;re able to view it in a web browser. Now lets look further at Sinatra&#39;s DSL syntax...</p>
+<h3><a name="loading-pages" class="anchor" href="#loading-pages"><span class="header-link"></span></a>Loading pages</h3>
+<p>If you wanted to add a new page called &quot;Projects&quot; that you accessed via <code>http://localhost:4567/projects</code> then all you would need to do is add the following code…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">get</span> <span class="s1">&#39;/projects&#39;</span> <span class="k">do</span>
+    <span class="c1"># page content</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>What we&#39;ve done is created a new &#39;route&#39; - a new way for a user to access your application.</p>
+<p>Imagine now that this &#39;projects&#39; page had a login form on it that let the user enter a username and password and this form POST&#39;ed the data entered by the user back to the current page...</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;dl&gt;</span>
+        <span class="nt">&lt;dt&gt;</span>Name<span class="nt">&lt;/dt&gt;</span>
+        <span class="nt">&lt;dd&gt;&lt;input</span> <span class="na">name=</span><span class="s">&quot;user&quot;</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span><span class="nt">&gt;&lt;/dd&gt;</span>
+        <span class="nt">&lt;dt&gt;</span>Email<span class="nt">&lt;/dt&gt;</span>
+        <span class="nt">&lt;dd&gt;&lt;input</span> <span class="na">name=</span><span class="s">&quot;password&quot;</span> <span class="na">type=</span><span class="s">&quot;password&quot;</span><span class="nt">&gt;&lt;/dd&gt;</span>
+    <span class="nt">&lt;/dl&gt;</span>
+    <span class="nt">&lt;p&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">value=</span><span class="s">&quot;Send&quot;</span><span class="nt">&gt;&lt;/p&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</pre></div>
+</code></pre>
+<p>...for you to access the POST&#39;ed data then you would need to add another &#39;route&#39; to handle it. But this time instead of using a <code>get</code> request it would be a <code>post</code> request like so…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">post</span> <span class="s1">&#39;/projects&#39;</span> <span class="k">do</span>
+    <span class="c1"># do something with the form fields</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:user</span><span class="o">]</span>
+    <span class="n">pass</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:password</span><span class="o">]</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>…you&#39;ll notice that the form data is passed to the block using special parameters called <code>params</code>. So in the above example we had two form fields with the names <code>user</code> and <code>password</code> and we&#39;re assigning their values to the variables <code>user</code> and <code>pass</code> where we can now do validation on the values.</p>
+<p>You can also use the URL path as a way for the user to interact with your application. For example if you had a page which added two numbers together then it could be handled directly via the URL as follows…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">get</span> <span class="s1">&#39;/add/:a/:b&#39;</span> <span class="k">do</span> <span class="o">|</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">|</span>
+    <span class="s2">&quot;</span><span class="si">#{</span><span class="n">a</span><span class="o">.</span><span class="n">to_i</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">to_i</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>…this would display on the page the result of adding <code>a</code> and <code>b</code> together. So if I went to the URL <code>http://localhost:4567/add/2/2</code> then this would display <code>4</code> as that would be the result of <code>2 + 2</code> (which was the two parameters I specified within the URL).</p>
+<h3><a name="loading-templates" class="anchor" href="#loading-templates"><span class="header-link"></span></a>Loading templates</h3>
+<p>Now at the moment we&#39;re using the fact that with Ruby, the last expression inside a function is what gets returned from that function. These calls to <code>get</code> and <code>post</code> are actually function calls hidden behind an abstraction. So in my original example we were displaying &quot;Hello World!&quot; to the page because that was the last expression inside the <code>get</code> call.</p>
+<p>But we ideally want to be displaying HTML to the user! To do this we&#39;ll use &#39;templates&#39;.</p>
+<p>Note that templates can be inlined inside your Ruby code, but personally I prefer them to be external because I think that&#39;s a lot cleaner and abides by the &#39;separate of concerns&#39; rule (which I like to keep to whenever possible).</p>
+<p>Our code is going to start looking something like this…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+    <span class="n">erb</span> <span class="ss">:home</span>
+<span class="k">end</span>
+
+<span class="n">get</span> <span class="s1">&#39;/projects&#39;</span> <span class="k">do</span>
+    <span class="n">erb</span> <span class="ss">:projects</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>…what this is doing is using ERB (which stands for &#39;Embedded Ruby&#39;) and is the standard templating language available in Ruby - although there are many templating languages you could load and use in its place. What we&#39;ve said here in our code is load the <code>:home</code> template (.erb file) when on the home page, and load the <code>:project</code> template (.erb file) when on the projects page.</p>
+<p>By default Sinatra looks for templates inside of a root folder called <code>views</code> (you can change this if you want but I didn&#39;t bother as <code>views</code> made the most sense for a folder containing &#39;templates&#39;).</p>
+<p>Inside our <code>views</code> folder we&#39;ll need to create two files then: <code>home.erb</code> and <code>projects.erb</code> and they&#39;ll look a little bit like this…</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="c">&lt;!-- home.erb --&gt;</span>
+<span class="nt">&lt;p&gt;</span>HTML content for my home page<span class="nt">&lt;/p&gt;</span>
+
+<span class="c">&lt;!-- projects.erb --&gt;</span>
+<span class="nt">&lt;p&gt;</span>HTML content for my projects page<span class="nt">&lt;/p&gt;</span>
+</pre></div>
+</code></pre>
+<p>Now this doesn&#39;t look like much of a HTML page, and that&#39;s because I&#39;m using (or I&#39;m going to be using very shortly) what Sinatra refers to as a main layout file and this &#39;layout&#39; file will contain the rest of my HTML code and will be wrapped around my above templates. </p>
+<p>What this means is I can have a &#39;master&#39; HTML file that stays the same for every page and I can load my templates into that master layout. This is done by creating a <code>layout.erb</code> file (also within the <code>views</code> folder). If Sinatra finds a <code>layout.erb</code> file it will automatically use it as a master layout for all your templates.</p>
+<p>But if I didn&#39;t create a <code>layout.erb</code> file then I could have modified my templates above to include a full set of HTML like so…</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="c">&lt;!-- home.erb --&gt;</span>
+<span class="cp">&lt;!doctype html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;title&gt;</span>My Page<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+       <span class="nt">&lt;p&gt;</span>HTML content for my home page<span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</code></pre>
+<p>…but I prefer having a master layout to handle this stuff, so lets create a <code>layout.erb</code> file (within the <code>views</code> folder) and add the following content to it…</p>
+<pre><code class="lang-erb"><div class="highlight"><pre><span class="x">&lt;!-- layout.erb --&gt;</span>
+<span class="x">&lt;!doctype html&gt;</span>
+<span class="x">&lt;html&gt;</span>
+<span class="x">    &lt;head&gt;</span>
+<span class="x">        &lt;meta charset=&quot;utf-8&quot;&gt;</span>
+<span class="x">        &lt;title&gt;My Page&lt;/title&gt;</span>
+<span class="x">    &lt;/head&gt;</span>
+<span class="x">    &lt;body&gt;</span>
+<span class="x">       </span><span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">    &lt;/body&gt;</span>
+<span class="x">&lt;/html&gt;</span>
+</pre></div>
+</code></pre>
+<p>…you should notice the Ruby tags <code>&lt;% %&gt;</code> which are used to place Ruby code inside of them. Here we&#39;re telling Ruby to <code>yield</code> to the template file we&#39;re loading. So for example when a user accesses the home page and we load <code>home.erb</code>, we&#39;re effectively loading the <code>layout.erb</code> file and telling it that when it reaches the <code>body</code> tag we want it to load in the content from the <code>home.erb</code> file into it so it will end up rendering in the web browser like this…</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="cp">&lt;!doctype html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;title&gt;</span>My Page<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+       <span class="nt">&lt;p&gt;</span>HTML content for my home page<span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</code></pre>
+<p>If you want to load a different master layout for a specific page then you can do that also. For example I have a page that I display to users of Internet Explorer version 7 or lower. The master layout for that page is a lot simpler than the other pages of my site in that it loads different stylesheets specifically for this IE page. So in my application file I have the following…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">get</span> <span class="s1">&#39;/internet-explorer&#39;</span> <span class="k">do</span>
+    <span class="n">erb</span> <span class="ss">:ie</span><span class="p">,</span> <span class="ss">:layout</span> <span class="o">=&gt;</span> <span class="ss">:layout_ie</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>…and what you can see here is that I&#39;m not only telling Sinatra to load the <code>ie.erb</code> file but to also use the <code>layout_ie.erb</code> file as the master layout file for this page rather than the default <code>layout.erb</code>.</p>
+<p>One other thing worth mentioning is that you can pass variables from your route block into your template using class instance variables…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">post</span> <span class="s1">&#39;/contact&#39;</span> <span class="k">do</span>
+    <span class="n">redirect</span> <span class="s2">&quot;/contact-error/name&quot;</span> <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:user</span><span class="o">].</span><span class="n">empty?</span>
+    <span class="n">redirect</span> <span class="s2">&quot;/contact-error/email&quot;</span> <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:email</span><span class="o">].</span><span class="n">empty?</span>
+    <span class="n">redirect</span> <span class="s2">&quot;/contact-error/message&quot;</span> <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:message</span><span class="o">].</span><span class="n">empty?</span>
+
+    <span class="n">erb</span> <span class="ss">:contact_success</span>
+<span class="k">end</span>
+
+<span class="n">get</span> <span class="s1">&#39;/contact-error/:field&#39;</span> <span class="k">do</span> <span class="o">|</span><span class="n">field</span><span class="o">|</span>
+    <span class="vi">@field</span> <span class="o">=</span> <span class="n">field</span>
+    <span class="n">erb</span> <span class="ss">:contact_error</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>…in the above example when a user makes an error on my contact form I redirect them to a page that shows them what field they made an error on. In my template file I have…</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;p&gt;</span>Sorry there was an error with your form submission. Seems you didn&#39;t fill in the <span class="err">&lt;</span>%= @field %&gt; field.<span class="nt">&lt;/p&gt;</span>
+</pre></div>
+</code></pre>
+<p>…notice I picked up the field from the URL and stored it in a class instance variable and used that variable within my template.</p>
+<h3><a name="static-resources" class="anchor" href="#static-resources"><span class="header-link"></span></a>Static resources</h3>
+<p>OK, the next thing to be aware of is that Sinatra serves up ALL static resources from a folder called <code>public</code> (again you can change this but I&#39;m happy using it - as the name is perfectly logical already).</p>
+<p>What this means is that if you have a file path like: <code>/path/to/file</code> then for that to work you need to have the folders/files within the root <code>public</code> folder otherwise Sinatra can&#39;t locate them. It DOESN&#39;T mean you have to change all your paths to <code>/public/path/to/file</code>. You keep the path the same as it is already but you just move the files/folders inside of a root folder called <code>public</code>.</p>
+<p>So for example in all my projects I have my JavaScript files in the following directory…</p>
+<p><code>Assets/Scripts/</code></p>
+<p>…and all my CSS in the following directory…</p>
+<p><code>Assets/Styles/</code></p>
+<p>…all I need to do is create an <code>Assets</code> folder within the <code>public</code> folder. Within that I then have the <code>Assets</code> folder, and inside of that is my <code>Scripts</code> and <code>Styles</code> folders which hold the relevant files.</p>
+<p>If this sounds a bit confusing then have a look at the GitHub repo linked at the top of this article to see what I&#39;m talking about.</p>
+<h3><a name="handling-errors" class="anchor" href="#handling-errors"><span class="header-link"></span></a>Handling errors</h3>
+<p>If the user tries to access a page that doesn&#39;t exist then you can direct them to your own <code>404 error</code> page by using the following route…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">not_found</span> <span class="k">do</span>
+    <span class="n">erb</span> <span class="ss">:notfound</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>…as you can see I&#39;m loading a &#39;notfound.erb&#39; template for the content. This will get called anytime an unknown URL is specified by the user.</p>
+<p>One thing you might not want to have happen is if someone types in <code>http://localhost:4567/projects/</code> instead of <code>http://localhost:4567/projects</code> (notice the extra forward-slash at the end of the first example) then that is considered a different &#39;route&#39; and wont be recognised by Sinatra and so the user is directed to the &#39;not found&#39; route. </p>
+<p>To fix this you can do the following…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">before</span> <span class="k">do</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">path_info</span><span class="o">.</span><span class="n">sub!</span> <span class="sr">%r{/$}</span><span class="p">,</span> <span class="s1">&#39;&#39;</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>…the above code block is referred to as a &#39;filter&#39; block and it is executed before every HTTP request. </p>
+<p>So what this does is execute <code>request.path_info.sub! %r{/$}, &#39;&#39;</code> <em>before</em> every HTTP request. This code uses a Regular Expression to find the last forward-slash in the path and then removes it if it finds one. Which means it doesn&#39;t matter if the user puts an extra slash at the end of the URL.</p>
+<p>Note: there is also a <code>after</code> filter block as well for doing tidy up work (although I&#39;ve not had any reason to use it - yet).</p>
+<p>If there is an actual error then you can use…</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">error</span> <span class="k">do</span>
+    <span class="n">erb</span> <span class="ss">:error</span>
+<span class="k">end</span>
+</pre></div>
+</code></pre>
+<p>In a development environment Sinatra tries to be helpful by displaying very detailed error messages. But you may find this overrides your custom error page which you would want to show to a user. So if you want to just test your error page is working correct before you &#39;go live&#39; then simply add <code>disable :show_exceptions</code> to some where near the top of your application file and this will mean the detailed error stack is no longer shown when you encounter an error during development and so you&#39;ll end up seeing what your users will see in the live environment.</p>
+<p>Also, within your <code>error.erb</code> template file you can access the error using the environment variable <code>sinatra.error</code>…</p>
+<pre><code class="lang-erb"><div class="highlight"><pre><span class="x">&lt;p&gt;Sorry there was the following error: &lt;strong class=&quot;error&quot;&gt;</span><span class="cp">&lt;%=</span> <span class="n">env</span><span class="o">[</span><span class="s2">&quot;sinatra.error&quot;</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x">&lt;/strong&gt;&lt;/p&gt;</span>
+</pre></div>
+</code></pre>
+<h3><a name="performance" class="anchor" href="#performance"><span class="header-link"></span></a>Performance</h3>
+<p>The performance of your application is very important, and specifically for a web application you want to make sure that all resources are sent to the user as quickly as possible.</p>
+<p>Here are some things you can do to help improve the performance of your web application...</p>
+<ol>
+<li>Cache static resources</li>
+<li>Use the <code>Thin</code> Web Server</li>
+<li>GZIP all content</li>
+</ol>
+<h3><a name="cache-static-resources" class="anchor" href="#cache-static-resources"><span class="header-link"></span></a>Cache static resources</h3>
+<p>We set the cache control for static resources to approximately 1 month</p>
+<p><code>set :static_cache_control, [:public, :max_age =&gt; 2678400]</code></p>
+<h3><a name="use-the-thin-web-server" class="anchor" href="#use-the-thin-web-server"><span class="header-link"></span></a>Use the <code>Thin</code> Web Server</h3>
+<p>You can also tell Sinatra to use the <code>Thin</code> server rather than the default <code>WEBrick</code> server if it&#39;s available (<code>Thin</code> is a supremely better performing web server so do please use it!)</p>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="c1"># We specify which server we want to use (Thin is tried first and then failing that WEBrick)</span>
+<span class="n">set</span> <span class="ss">:server</span><span class="p">,</span> <span class="sx">%w[thin webrick]</span>
+</pre></div>
+</code></pre>
+<h3><a name="gzip-all-content" class="anchor" href="#gzip-all-content"><span class="header-link"></span></a>GZIP all content</h3>
+<p>We can also have the web server automatically GZIP all our static resources (which can reduce the file size of a resource by up to 70%!) such as HTML content, JavaScript files, CSS files by using one line of Ruby code…</p>
+<p><code>use Rack::Deflater</code></p>
+<p>…this uses the &#39;Rack&#39; middleware application (Rack is what sits behind Sinatra and is the actual HTTP web server interface), but Sinatra hides all of that behind the DSL syntax of <code>get</code> and <code>post</code> calls (nice huh).</p>
+<h3><a name="hosting-our-application" class="anchor" href="#hosting-our-application"><span class="header-link"></span></a>Hosting our application</h3>
+<p>Right. Let&#39;s get our application uploaded shall we.</p>
+<p>This is going to be short and quick…</p>
+<ol>
+<li>Set-up account (<a href="http://www.heroku.com/" title="Cloud Application Platform">heroku.com</a>)</li>
+<li>Install toolbelt (<a href="http://toolbelt.heroku.com/" title="Everything you need to get started using heroku">toolbelt.heroku.com</a>)</li>
+<li>Open your Command Line Interface (CLI) and enter:<ul>
+<li><code>heroku login</code> (follow on screen instructions)</li>
+<li>You may want to add additional SSH keys, if you do use: <code>heroku keys:add</code></li>
+<li>To create an app on heroku use: <code>heroku create --stack cedar</code> (you can also do: <code>heroku create yourappname --stack cedar</code>) - <code>cedar</code> will shortly be the <em>default</em> web stack on heroku but for the time being it&#39;s worth including it in the command <code>--stack cedar</code> otherwise your app will be created on an older web stack which isn&#39;t as good.</li>
+</ul>
+</li>
+<li><p>Create a <code>config.ru</code> file and add the following content:  </p>
+<pre><code><div class="highlight"><pre> <span class="nx">require</span> <span class="s1">&#39;app&#39;</span> <span class="err">#</span> <span class="nx">where</span> <span class="nx">app</span> <span class="nx">is</span> <span class="nx">the</span> <span class="nx">name</span> <span class="nx">of</span> <span class="nx">your</span> <span class="nx">main</span> <span class="nx">file</span> <span class="nx">that</span> <span class="nx">initializes</span> <span class="nx">your</span> <span class="nx">web</span> <span class="nx">application</span>
+ <span class="nx">run</span> <span class="nx">Sinatra</span><span class="o">::</span><span class="nx">Application</span>
+</pre></div>
+</code></pre>
+</li>
+<li><p>Create a Gemfile file (no file extension) and add the content:  </p>
+</li>
+</ol>
+<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">source</span> <span class="s1">&#39;http://rubygems.org&#39;</span>
+<span class="n">gem</span> <span class="s1">&#39;sinatra&#39;</span><span class="p">,</span> <span class="s1">&#39;1.3.2&#39;</span>
+<span class="n">gem</span> <span class="s1">&#39;thin&#39;</span><span class="p">,</span> <span class="s1">&#39;1.3.1&#39;</span>
+</pre></div>
+</code></pre>
+<ol>
+<li>Go back to your CLI and enter:<ul>
+<li><code>bundle install</code> which will create a <code>Gemfile.lock</code> file specifying ALL the dependancies needed for your app to run (you shouldn&#39;t need to manually create your own Gemfile - as I&#39;ve told you to do in step 5. - but just in case <code>bundle install</code> doesn&#39;t work for you then you can at least do it manually).</li>
+<li>Create a Procfile (no file extension) and add the content: <code>web: bundle exec ruby app.rb -p $PORT</code><br> e.g.<br> <code>touch Procfile</code>,<br> <code>echo web: bundle exec ruby app.rb -p $PORT &gt; Procfile</code></li>
+<li>Commit your files using Git (if you don&#39;t know how to use Git then <a href="https://github.com/Integralist/Blog-Posts/blob/master/How-to-use-Git-and-GitHub.md" title="How to use Git and GitHub">read this introduction</a>)</li>
+<li>If you&#39;ve not done this already then create a <code>remote</code> for heroku: <code>git remote add heroku git@heroku.com:xxxxx.git</code> (when you created your app earlier heroku would have generated a remote URL for you to use)</li>
+<li><code>git push heroku master</code></li>
+<li><code>heroku open</code> will open your default browser to the relevant app URL heroku has given you (they are normally pretty crazy looking URL&#39;s - but you can at some later stage - if you want - register a proper domain and point it to the app on heroku&#39;s server so you don&#39;t have to give out a dodgy long URL to your users)</li>
+</ul>
+</li>
+</ol>
+<p>Hopefully if you followed along, and had no errors, then you should see your new app online and hosted by heroku!</p>
+<h2><a name="conclusions" class="anchor" href="#conclusions"><span class="header-link"></span></a>Conclusions</h2>
+<p>Well, there you have it. Building a website using Sinatra and Ruby, and actually getting it hosted online.</p>
+<p>It has been a bit of a whirlwind pace we&#39;ve set here, going through lots of different concepts such as performance tricks and handling errors, through to loading template files etc. But hopefully it wasn&#39;t too fast paced, and you managed to utilise this information to get you up and running. </p>
+<p>I&#39;m actually writing this at record pace at home, late at night - feeling very tired, so if this article doesn&#39;t read right, or you think it needs improving then please get in contact and let me know what you think would help improve it (and thus help other people better understand the concepts)</p>
+<p>Thanks.</p>
+</div>
+
+  <div class="comments">
+    <a href="/posts/ruby-and-the-sinatra-framework/#comments">
+      <span class="icon-bubbles"></span>
+      Comments
+    </a>
+  </div>
+
+  <div class="post-head group">
   <a href="/posts/building-a-game-with-html5-canvas/">
     <h1 class="post-title">Building a game with HTML5 Canvas</h1>
   </a>
@@ -916,615 +1293,6 @@
     </a>
   </div>
 
-  <div class="post-head group">
-  <a href="/posts/introduction-to-ruby/">
-    <h1 class="post-title">Introduction to Ruby</h1>
-  </a>
-  <span class="post-date">2012 &#183; 6 &#183; 18</span>
-</div>
-
-<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
-<p><em>reading time: approx. 27mins</em></p>
-<ul>
-<li>Introduction</li>
-<li>Installing Ruby</li>
-<li>The Interactive Ruby Console</li>
-<li>How to execute Ruby scripts</li>
-<li>Comments</li>
-<li>Variables</li>
-<li>Magic Variables</li>
-<li>Constants</li>
-<li>Symbols</li>
-<li>Functions/Methods</li>
-<li>Blocks</li>
-<li>Lambdas/Procs</li>
-<li>Classes</li>
-<li>Loops</li>
-<li>Conditionals</li>
-<li>Strings</li>
-<li>Arrays</li>
-<li>Hashes</li>
-<li>Numbers (and how &#39;everything is an object&#39; - similar to JavaScript)</li>
-<li>Conclusion</li>
-</ul>
-<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
-<p>I&#39;ve not had much experience with the Ruby programming language, but with the arrival of JavaScript pre-processors such as CoffeeScript and the new features being added to ES5 (even more so in ES6), these new additions are pushing the JavaScript language to be more &#39;functional&#39; and thus similar in syntax to Ruby. </p>
-<p>Looking at CoffeeScript I wasn&#39;t convinced. I like the JavaScript syntax, I think it&#39;s actually quite a beautiful language (when written correctly). But I decided that the future is just around the corner so why wait to see what all the fuss is about. In my mind, the best way to get involved with the new JavaScript/CoffeeScript style syntax is to investigate some of its inspirations which (seem to) stem from Ruby.</p>
-<p>What I found though was that Ruby is itself an amazingly flexible and beautiful language. Very expressive and a joy to write and use (and to look at). </p>
-<p>Warning: this introduction assumes you have prior programming knowledge (doesn&#39;t matter really whether it&#39;s JavaScript or C# as long as you&#39;ve had some programming experience). I&#39;m not going to be explaining the basics of what are &#39;expressions&#39;, &#39;block statements&#39;, &#39;variables&#39;, &#39;arrays&#39;, &#39;functions/methods&#39; etc.</p>
-<p>So without further ado, here we go…</p>
-<p><em>Ps, <a href="http://rubymonk.com/"><a href="http://rubymonk.com/toc">http://rubymonk.com/toc</a></a> looks like a pretty good learning resource - I&#39;ve only taken a quick peek at it so far but it looks interesting</em></p>
-<h2><a name="installing-ruby" class="anchor" href="#installing-ruby"><span class="header-link"></span></a>Installing Ruby</h2>
-<p>UPDATE: I&#39;ve found a super sweet way to get multiple versions of Ruby installed onto your Mac (notice I said Mac, not PC - so if you&#39;re on Windows then I&#39;m afraid I can&#39;t help you).</p>
-<p>First install <a href="https://github.com/sstephenson/ruby-build">Ruby-Build</a> - preferable via the Mac package manager <a href="http://mxcl.github.com/homebrew/">Homebrew</a> using the command <code>brew install ruby-build</code>.</p>
-<p>Then install the Ruby switcher <a href="https://github.com/hmans/rbfu">rbfu</a> using the command <code>brew install http://git.io/rbfu.rb</code> - make sure you update your shell startup script (<code>~/.zshrc</code> if your&#39;re using Zsh or <code>~/.bashrc</code>/<code>~/.bash_profile</code> etc if you&#39;re using Bash) to include the line <code>eval &quot;$(rbfu --init --auto)&quot;</code> (this information is documented on the rbfu github README so go there for more info, if you need it).</p>
-<p>Then once those two items are installed you can start installing different Ruby versions using ruby-build and switching Ruby versions using rbfu.</p>
-<p>To install a new Ruby version, first check which ones are available by running the command: <code>ruby-build --definitions</code> - this will list all Ruby versions available to install.</p>
-<p>Pick a version (for example <code>2.0.0-preview2</code>) and run the command:  </p>
-<p><code>ruby-build 2.0.0-preview2 $HOME/.rbfu/rubies/2.0.0-preview2</code></p>
-<p>That takes care of installing that particular version of Ruby, but now for you to switch to using that version you need to create a <code>.ruby-version</code> file and place it inside the directory of your Ruby application. The content of that file should be <code>2.0.0-preview2</code> or whatever version of Ruby you have installed (via Ruby Build) that you want to run for that application.</p>
-<p>Now when you <code>cd</code> into that directory where your <code>.ruby-version</code> file is located you&#39;ll noticed the Terminal will state that it has activated the specific Ruby version requested.</p>
-<p>If for some reason you create a <code>.ruby-version</code> file but forget to run the Ruby Build install for the requested version then the Terminal will display a message to let you know that you need to install the requested version of Ruby.</p>
-<p>Below are my original notes, but you can ignore these now.</p>
-<hr>
-<p><del>~OK, this was an absolute bitch to get set-up. Luckily for you, I&#39;ve suffered so you don&#39;t have to (hopefully).</del>~</p>
-<p><del>~I&#39;m running Mac OSX so your mileage may vary.</del>~</p>
-<p><del>~If you can get away with it, use the package manager homebrew to install: <code>brew install ruby</code>.</del>~</p>
-<p><del>~But homebrew didn&#39;t work for me. It said it installed, but I couldn&#39;t get it to switch from the default Ruby 1.8 the Mac has pre-installed. So the next step was to install what is called &#39;rvm&#39; which lets you install and manage multiple versions of Ruby.</del>~</p>
-<p><del>~The process is as follows (open the Terminal and start typing):</del>~</p>
-<p><del>~1. <code>bash -s stable &lt; &lt;(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)</code>. After rvm is installed you&#39;ll see a message asking you to to run the following...</del>~</p>
-<p><del>~2. <code>source /Users/&lt;username&gt;/.rvm/scripts/rvm</code>. Remember to replace <code>&lt;username&gt;</code> with the name of your computer.</del>~</p>
-<p><del>~3. <code>rvm install 1.9.3 --with-gcc=clang</code>. The <code>--with-gcc=clang</code> was suggested on Stack Overflow to fix issues Mac OSX Lion users were having trying to upgrade to the latest Ruby version 1.9.3. This worked fine at home, but at work it failed so instead I executed… <code>rvm install ruby-1.9.3-p125</code></del>~</p>
-<p><del>~4. <code>rvm use 1.9.3 --default</code>. We&#39;re now telling rvm to use version 1.9.3 as the default version of Ruby</del>~</p>
-<p><del>~5. <code>ruby -v</code> - just check the version quickly to be sure</del>~</p>
-<h2><a name="the-interactive-ruby-console" class="anchor" href="#the-interactive-ruby-console"><span class="header-link"></span></a>The Interactive Ruby Console</h2>
-<p>Beginners are advised to use the interactive Ruby console to get to know the language. So to start it up, in your Terminal type: <code>irb</code> (and if you want to quit use: <code>Ctrl+D</code>).</p>
-<p>From irb you can start typing out code and seeing what the results are.</p>
-<p>For example to display something you would use <code>puts</code> (this is similar to <code>Reponse.Write</code> in ASP or <code>echo</code> in PHP, or even <code>document.write</code> - <em>never use that!</em> - in JavaScript) like so <code>puts &quot;Hello World&quot;</code>. There is also <code>print</code> but be warned that although it looks similar it&#39;s not the same as <code>puts</code>.</p>
-<p>Take the following example…</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="mi">5</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span>
-    <span class="nb">print</span> <span class="s2">&quot;This gets written five times&quot;</span>
-    <span class="nb">sleep</span> <span class="mi">2</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>…which every two seconds displays the sentence &quot;This gets written five times&quot;…</p>
-<p><code>This gets written five timesThis gets written five timesThis gets written five timesThis gets written five timesThis gets written five times</code></p>
-<p>…and returns <code>=&gt; 5</code>. Notice the sentence is printed on one line. If you were to change <code>print</code> to <code>puts</code> it would automatically generate a newline for you making it easier to read. </p>
-<p>As far as I understand it, the other more subtle difference is that <code>print</code> buffers the output, so rather than displaying the sentence every two seconds it waits until ten seconds (2 seconds * 5 times) before printing the sentence five times. Now, I tried this myself both via <code>irb</code> and via a standard Ruby script but <code>print</code> definitely was executing every two seconds, so this may only occur under certain environments - but it&#39;s still worth being aware of. See <a href="http://mattberther.com/2009/02/11/puts-vs-print-in-ruby">this article</a> which is where I first heard about this subtle difference.</p>
-<h2><a name="how-to-execute-ruby-scripts" class="anchor" href="#how-to-execute-ruby-scripts"><span class="header-link"></span></a>How to execute Ruby scripts</h2>
-<p>Simply create a file with an extension of <code>.rb</code> and at the top of that file include the following line… </p>
-<p><code>#!/usr/bin/env ruby</code></p>
-<p>…this tells the operating system how to handle the file (e.g. tell it to use the Ruby parser to execute the file).</p>
-<p>Then within the Terminal application, <code>cd</code> to the directory where that file is located and execute the command <code>ruby name_of_file.rb</code></p>
-<h2><a name="comments" class="anchor" href="#comments"><span class="header-link"></span></a>Comments</h2>
-<p>In Ruby you have single line comments <code># this is a comment</code> and multi-line comments:</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="cm">=begin</span>
-<span class="cm">    Lots and lots of</span>
-<span class="cm">    code that I want</span>
-<span class="cm">    to comment out all at once</span>
-<span class="cm">=end</span>
-</pre></div>
-</code></pre>
-<p>With multi-line comments there must be no whitespace before the <code>=begin</code> and <code>=end</code> statements otherwise your script will throw an error.</p>
-<h2><a name="variables" class="anchor" href="#variables"><span class="header-link"></span></a>Variables</h2>
-<p>Variables do not have to be declared. So you can literally write <code>a = 123</code>.</p>
-<p>You can assign multiple variables at once like so…</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>     <span class="c1"># which is effectively the same as x = 1, y = 2</span>
-<span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span>     <span class="c1"># which switches the values of each variable</span>
-<span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="o">]</span> <span class="c1"># assign each array item value to a variable, so x = 1, y = 2, z = 3</span>
-</pre></div>
-</code></pre>
-<p>Variables in JavaScript typically come in two flavours: Global and Local. In JavaScript if you declare a variable with the <code>var</code> syntax then the variable is added as a property to the global object (which depending on the environment JavaScript is running in) most of the time will be the <code>window</code> object. If you declare a variable inside of a function in JavaScript using the <code>var</code> syntax then that variable is only available within that function (unless it&#39;s accessible via some priviledged object).</p>
-<p>In Ruby, if you declare a variable inside a function with no prefix then it is only available within that function. If you prefix it with a dollar sign (e.g. <code>$my_var = 123</code>) then that declares it as a global variable and is accessible from any where in the program.</p>
-<p>When using Classes, if you declare a variable within the class using an <code>@</code> prefix (e.g. <code>@my_var = 123</code>) then that variable is available to the object created by that class only (also known as an &#39;instance variable&#39;). Where as a double <code>@@</code> (e.g. <code>@@my_var = 123</code>) is known as a &#39;class variable&#39; which means it is available to all objects created by that particular class and any changes to this class variable is reflected in all objects created from that class. </p>
-<p>So for example, if I have a class called &quot;MyClass&quot; and inside of it I set <code>@@my_var</code> to equal 456 instead of 123 then every object created from &quot;MyClass&quot; will have <code>my_var</code> set to 456. Whereas if &quot;MyClass&quot; had <code>@my_var</code> set to 123 and I create a new object from that class and set <code>@my_var</code> to 456 - an &#39;instance variable&#39; - then only that object would see the value of <code>@my_var</code> as 456, all other objects created from the class would still see the value as 123. It sounds tricky but it&#39;s not that bad really. Here is an example of what the above was trying to explain… </p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="c1"># Following classes &#39;MyClass&#39; and &#39;MyClass2&#39; demonstrate difference between &#39;class variable&#39; and &#39;instance variable&#39;</span>
-<span class="k">class</span> <span class="nc">MyClass</span>
-    <span class="k">def</span> <span class="nf">initialize</span>
-        <span class="vc">@@class_var</span> <span class="o">=</span> <span class="mi">123</span>
-    <span class="k">end</span>
-    <span class="k">def</span> <span class="nf">showValue</span>
-        <span class="nb">puts</span> <span class="vc">@@class_var</span>
-    <span class="k">end</span>
-    <span class="k">def</span> <span class="nf">setValue</span>
-        <span class="vc">@@class_var</span> <span class="o">=</span> <span class="mi">456</span><span class="p">;</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="k">class</span> <span class="nc">MyClass2</span>
-    <span class="k">def</span> <span class="nf">initialize</span>
-        <span class="vi">@class_var</span> <span class="o">=</span> <span class="mi">123</span>
-    <span class="k">end</span>
-    <span class="k">def</span> <span class="nf">showValue</span>
-        <span class="nb">puts</span> <span class="vi">@class_var</span>
-    <span class="k">end</span>
-    <span class="k">def</span> <span class="nf">setValue</span>
-        <span class="vi">@class_var</span> <span class="o">=</span> <span class="mi">456</span><span class="p">;</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="c1">#############################</span>
-
-<span class="c1"># This is the &#39;class variable&#39;</span>
-
-<span class="n">objA</span> <span class="o">=</span> <span class="no">MyClass</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
-<span class="n">objB</span> <span class="o">=</span> <span class="no">MyClass</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
-
-<span class="n">objA</span><span class="o">.</span><span class="n">showValue</span> <span class="c1"># =&gt; 123</span>
-<span class="n">objB</span><span class="o">.</span><span class="n">showValue</span> <span class="c1"># =&gt; 123</span>
-
-<span class="n">objA</span><span class="o">.</span><span class="n">setValue</span>
-
-<span class="n">objA</span><span class="o">.</span><span class="n">showValue</span> <span class="c1"># =&gt; 456</span>
-<span class="n">objB</span><span class="o">.</span><span class="n">showValue</span> <span class="c1"># =&gt; 456</span>
-
-<span class="c1">#############################</span>
-
-<span class="c1"># This is the &#39;instance variable&#39;</span>
-
-<span class="n">objC</span> <span class="o">=</span> <span class="no">MyClass2</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
-<span class="n">objD</span> <span class="o">=</span> <span class="no">MyClass2</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
-
-<span class="n">objC</span><span class="o">.</span><span class="n">showValue</span> <span class="c1"># =&gt; 123</span>
-<span class="n">objD</span><span class="o">.</span><span class="n">showValue</span> <span class="c1"># =&gt; 123</span>
-
-<span class="n">objC</span><span class="o">.</span><span class="n">setValue</span>
-
-<span class="n">objC</span><span class="o">.</span><span class="n">showValue</span> <span class="c1"># =&gt; 456</span>
-<span class="n">objD</span><span class="o">.</span><span class="n">showValue</span> <span class="c1"># =&gt; 123</span>
-</pre></div>
-</code></pre>
-<h2><a name="magic-variables" class="anchor" href="#magic-variables"><span class="header-link"></span></a>Magic Variables</h2>
-<p>There are &#39;magic&#39; variables (like predefined variables in PHP).</p>
-<p>For example you have <code>__FILE__</code> which refers to the current file being executed and there is also <code>$0</code> which refers to the file used to start the program. I mention these two specifically because these are used in the getting started examples on the <a href="http://www.ruby-lang.org/">Ruby website</a>.</p>
-<h2><a name="constants" class="anchor" href="#constants"><span class="header-link"></span></a>Constants</h2>
-<p>Constants are variables that cannot be changed once they are set. Any variable that is capitalised (e.g. <code>Myconstant</code>) is made into a constant. </p>
-<p>In other languages a constant is normally either prefixed with the keyword <code>constant Myconstant</code> or is all caps <code>MYCONSTANT</code>.</p>
-<p>If you try to overwrite a constant you&#39;ll get the following message: <code>warning: already initialized constant</code> - although as far as I can tell by testing this in irb it seems to change the constant and only warns you rather than actually preventing you from changing the value? <strong><em>Maybe a Rubyist reading this can clarify if this is expected behaviour.</em></strong> </p>
-<h2><a name="symbols" class="anchor" href="#symbols"><span class="header-link"></span></a>Symbols</h2>
-<p>Symbols are like static variables (or constants). They are used as identifiers, as a way to keep code cleaner.</p>
-<p>If you had lots of hashes (which we&#39;ll come to later) and you have a key/property called &quot;name&quot; then you could write your hash like so…</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">hash1</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Mark&quot;</span> <span class="p">}</span>
-<span class="n">hash2</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Brad&quot;</span> <span class="p">}</span>
-<span class="n">hash3</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Ash&quot;</span> <span class="p">}</span>
-<span class="n">hash4</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Neil&quot;</span> <span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>…but <code>&quot;name&quot;</code> is being re-created in memory every time it&#39;s referenced. It&#39;s much more energy efficient to use a Symbol which looks like a variable but is prefixed with a colon <code>:name</code>…</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">hash1</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Mark&quot;</span> <span class="p">}</span>
-<span class="n">hash2</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Brad&quot;</span> <span class="p">}</span>
-<span class="n">hash3</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Ash&quot;</span> <span class="p">}</span>
-<span class="n">hash4</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Neil&quot;</span> <span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>…as you can see, Symbols don&#39;t have values like variables, they are literally just used as efficient identifiers.</p>
-<h2><a name="functionsmethods" class="anchor" href="#functionsmethods"><span class="header-link"></span></a>Functions/Methods</h2>
-<p>In Ruby everything is an Object (even Strings and Integers) so when you&#39;re defining a function you&#39;re really defining a method (methods are the same as functions but you normally call a function a method when it&#39;s attached to an object).</p>
-<p>To define a method the syntax is:</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">method_name</span> <span class="p">(</span><span class="n">arguments</span><span class="p">)</span>
-    <span class="sr">//</span> <span class="n">function</span> <span class="n">code</span>
-<span class="k">end</span>
-</pre></div>
-</code></pre>
-<p>In JavaScript, if a method doesn&#39;t explicitly specify a return value then it returns <code>undefined</code>. In Ruby a method will return the last expression evaluated in its body, and if there isn&#39;t one then it will return <code>nil</code> (<code>nil</code> is equivalent to <code>null</code> in PHP).</p>
-<p>As was noted in the above &#39;Variables&#39; section about variables being able to assigned multiple values, this can come in handy with method returning multiple values as well (which is quite interesting as I&#39;m only used to functions in JavaScript returning a single value)… </p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">myMethod</span> 
-    <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">]</span> <span class="c1"># this being the last expression, this is what&#39;s returned</span>
-<span class="k">end</span>
-
-<span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">myMethod</span><span class="p">;</span> <span class="c1"># =&gt; a = 1, b = 2</span>
-</pre></div>
-</code></pre>
-<p>You can call a method without parenthesis, e.g. <code>myMethod</code> apposed to <code>myMethod()</code>. The choice is yours whether you use parenthesis or not - personally there are times where I can see myself not needing them and other times using them so it&#39;s crystal clear that what I&#39;m doing is calling a method (time will tell - but I understand a good practice is to use parenthesis whenever a method expects arguments to be passed otherwise there is no point in using them).</p>
-<p>But note that with multiple arguments the caller must not have a space between the parenthesis and the function name.</p>
-<p>So for example, these work…</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">welcome</span><span class="p">(</span><span class="s2">&quot;Mark&quot;</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
-<span class="n">welcome</span><span class="s2">&quot;Mark&quot;</span><span class="p">,</span> <span class="mi">30</span>
-<span class="n">welcome</span> <span class="s2">&quot;Mark&quot;</span><span class="p">,</span> <span class="mi">30</span>
-</pre></div>
-</code></pre>
-<p>…but this doesn&#39;t <code>welcome (&quot;Mark&quot;, 30)</code>.</p>
-<p>And calling a method which takes no arguments will also cause an error when called using a space between the method name and the parenthesis.</p>
-<p>e.g. <code>Person.speak ()</code> =&gt; error but <code>Person.speak()</code> or <code>Person.speak</code> is fine.</p>
-<p>You can specify default values for arguments…</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">welcome</span> <span class="p">(</span><span class="nb">name</span> <span class="o">=</span> <span class="s2">&quot;World&quot;</span><span class="p">,</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="nb">puts</span> <span class="s2">&quot;Hello </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">!, I see you&#39;re </span><span class="si">#{</span><span class="n">age</span><span class="si">}</span><span class="s2"> years old.&quot;</span>
-<span class="k">end</span>
-</pre></div>
-</code></pre>
-<p>…which can be used as follows…</p>
-<p><code>welcome</code> =&gt; Hello World! Looks like you&#39;re 1 today<br><code>welcome &quot;Mark&quot;</code> =&gt; Hello Mark! Looks like you&#39;re 1 today<br><code>welcome &quot;Mark&quot;, 30</code> =&gt; Hello Mark! Looks like you&#39;re 30 today</p>
-<p>You can also add new methods to an existing object just by prefixing the name of the method with the relevant object… </p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nc">Math</span><span class="o">.</span><span class="nf">someNewThing</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> 
-    <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">x</span><span class="si">}</span><span class="s2"> was here&quot;</span>
-<span class="k">end</span>
-
-<span class="no">Math</span><span class="o">.</span><span class="n">respond_to?</span><span class="p">(</span><span class="s2">&quot;someNewThing&quot;</span><span class="p">)</span> <span class="c1"># =&gt; true</span>
-
-<span class="no">Math</span><span class="o">.</span><span class="n">someNewThing</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span> <span class="c1"># =&gt; 123 was here</span>
-<span class="no">Math</span><span class="o">.</span><span class="n">someNewThing</span><span class="p">(</span><span class="s2">&quot;abc&quot;</span><span class="p">)</span> <span class="c1"># =&gt; abc was here</span>
-</pre></div>
-</code></pre>
-<p>…in Ruby these types of method declarations are referred to as &#39;class methods&#39; (or &#39;singleton methods&#39;)</p>
-<p>In a similar example of extending already defined Classes:</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Fixnum</span>
-    <span class="k">def</span> <span class="nf">seconds</span>
-        <span class="nb">self</span>
-    <span class="k">end</span>
-    <span class="k">def</span> <span class="nf">minutes</span>
-        <span class="nb">self</span> <span class="o">*</span> <span class="mi">60</span>
-    <span class="k">end</span>
-    <span class="k">def</span> <span class="nf">hours</span>
-        <span class="nb">self</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span>
-    <span class="k">end</span>
-    <span class="k">def</span> <span class="nf">days</span>
-        <span class="nb">self</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">24</span>
-    <span class="k">end</span> 
-<span class="k">end</span>
-
-<span class="nb">puts</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span>
-<span class="nb">puts</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span> <span class="o">+</span> <span class="mi">10</span><span class="o">.</span><span class="n">minutes</span>
-<span class="nb">puts</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span> <span class="o">+</span> <span class="mi">16</span><span class="o">.</span><span class="n">hours</span>
-<span class="nb">puts</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span> <span class="o">-</span> <span class="mi">7</span><span class="o">.</span><span class="n">days</span>
-</pre></div>
-</code></pre>
-<p>Note: you might see methods that are called using a ? at the end, these indicate that the method will return a Boolean value (e.g. <code>respond_to?</code> which you&#39;ll see below in the &#39;Classes&#39; section)… </p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="o">[]</span>
-<span class="n">x</span><span class="o">.</span><span class="n">empty?</span> <span class="c1"># =&gt; true (…or x.empty?() if you prefer the use of parenthesis)</span>
-
-<span class="n">x</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span>
-<span class="n">x</span><span class="o">.</span><span class="n">empty?</span> <span class="c1"># =&gt; false</span>
-</pre></div>
-</code></pre>
-<p>If you want to know what methods are available to an object/class then look at the <code>class</code> of the object and then inspect the methods available… </p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">my_hash</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Mark&quot;</span> <span class="p">}</span>
-<span class="n">my_hash</span><span class="o">.</span><span class="n">class</span> <span class="c1"># =&gt; Hash</span>
-<span class="no">Hash</span><span class="o">.</span><span class="n">instance_methods</span> <span class="c1"># =&gt; [:rehash, :to_hash, :to_a, :inspect, :to_s, :==, :[], :hash, :eql?, :fetch, :[]=, :store, :default, :default=, :default_proc, :default_proc=, :key, :index, :size, :length, :empty?, :each_value, :each_key, :each_pair, :each, :keys, :values, :values_at, :shift, :delete, :delete_if, :keep_if, :select, :select!, :reject, :reject!, :clear, :invert, :update, :replace, :merge!, :merge, :assoc, :rassoc, :flatten, :include?, :member?, :has_key?, :has_value?, :key?, :value?, :compare_by_identity, :compare_by_identity?, :entries, :sort, :sort_by, :grep, :count, :find, :detect, :find_index, :find_all, :collect, :map, :flat_map, :collect_concat, :inject, :reduce, :partition, :group_by, :first, :all?, :any?, :one?, :none?, :min, :max, :minmax, :min_by, :max_by, :minmax_by, :each_with_index, :reverse_each, :each_entry, :each_slice, :each_cons, :each_with_object, :zip, :take, :take_while, :drop, :drop_while, :cycle, :chunk, :slice_before, :nil?, :===, :=~, :!~, :&lt;=&gt;, :class, :singleton_class, :clone, :dup, :initialize_dup, :initialize_clone, :taint, :tainted?, :untaint, :untrust, :untrusted?, :trust, :freeze, :frozen?, :methods, :singleton_methods, :protected_methods, :private_methods, :public_methods, :instance_variables, :instance_variable_get, :instance_variable_set, :instance_variable_defined?, :instance_of?, :kind_of?, :is_a?, :tap, :send, :public_send, :respond_to?, :respond_to_missing?, :extend, :display, :method, :public_method, :define_singleton_method, :object_id, :to_enum, :enum_for, :equal?, :!, :!=, :instance_eval, :instance_exec, :__send__, :__id__]</span>
-</pre></div>
-</code></pre>
-<h2><a name="blocks" class="anchor" href="#blocks"><span class="header-link"></span></a>Blocks</h2>
-<p>In Ruby a <code>code block</code> is any piece of code within either <code>do..end</code> or curly brackets <code>{}</code>. </p>
-<p>When creating a method, if you want to pass a code block in as an argument, you need to prefix the argument name with an ampersand <code>&amp;</code> like so…</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">myfn</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">code_block</span><span class="p">)</span>
-    <span class="sx">%w(a e I o u)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">vowel</span><span class="o">|</span>
-        <span class="n">code_block</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">vowel</span><span class="p">)</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="n">myfn</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">x</span> <span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>…what the above code does is create an Array and then iterates over it. Every item in the Array is passed to the code block (the code block which is passed in as an argument to the method).</p>
-<p>But the above can be simplified...</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">myfn</span>
-    <span class="sx">%w(a e I o u)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">vowel</span><span class="o">|</span>
-        <span class="k">yield</span> <span class="n">vowel</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="n">myfn</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">x</span> <span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>...this isn&#39;t as obvious but is less verbose (the <code>yield</code> keyword automatically detects the code block and passes control to it rather than us having to pass through the code block and executing the <code>call</code> method on the code block).</p>
-<h2><a name="lambdasprocs" class="anchor" href="#lambdasprocs"><span class="header-link"></span></a>Lambdas/Procs</h2>
-<p>Ruby also has Lambdas and Proc objects. These are similar to Blocks but have some differences worth mentioning.</p>
-<h3><a name="procs" class="anchor" href="#procs"><span class="header-link"></span></a>Procs</h3>
-<p>Procs are the same as blocks but can be saved into a variable so they are easily reusable. A block on the other hand can&#39;t be reused. It can only be retyped for every method that you want to use it on. </p>
-<p>The following is an example of how to use a Proc object instead of Block...</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">my_proc</span> <span class="o">=</span> <span class="no">Proc</span><span class="o">.</span><span class="n">new</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">x</span> <span class="p">}</span>
-
-<span class="k">def</span> <span class="nf">myfn</span> <span class="n">proc_obj</span>
-    <span class="sx">%w(a e I o u)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">vowel</span><span class="o">|</span>
-        <span class="n">proc_obj</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">vowel</span><span class="p">)</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="n">myfn</span> <span class="n">my_proc</span>
-</pre></div>
-</code></pre>
-<p>Notice we use a <code>call</code> method on the Proc object rather than the <code>yield</code> keyword which we use for a Block.</p>
-<p>So if you have a one time piece of code you want to pass to a method then a block would make sense, but if you have a piece of code that you want to reuse across multiple methods then best to make it into a Proc object.</p>
-<h3><a name="lambdas" class="anchor" href="#lambdas"><span class="header-link"></span></a>Lambdas</h3>
-<p>Lambdas are the same as Proc objects but with two slight differences.</p>
-<ol>
-<li>If you pass in the wrong number of arguments then the lambda will throw <code>ArgumentError</code></li>
-<li>If they have a <code>return</code> statement then the whole method wont suddenly return from that point (Proc objects cause the rest of the method to halt)</li>
-</ol>
-<p>The following is an example of how to use a Proc object instead of Block...</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">my_lambda</span> <span class="o">=</span> <span class="nb">lambda</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">x</span> <span class="p">}</span>
-
-<span class="k">def</span> <span class="nf">myfn</span> <span class="n">lambda_obj</span>
-    <span class="sx">%w(a e I o u)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">vowel</span><span class="o">|</span>
-        <span class="n">lambda_obj</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">vowel</span><span class="p">)</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="n">myfn</span> <span class="n">my_lambda</span>
-</pre></div>
-</code></pre>
-<p>Lambdas are very popular in other languages hence it&#39;s inclusion in Ruby (it&#39;s just a nice way to pass around code blocks). </p>
-<p>The following example is modified from a test on RubyMonk but is a good example of using lambdas…</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">with_names</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
-  <span class="n">result</span> <span class="o">=</span> <span class="o">[]</span>
-  <span class="o">[</span> <span class="o">[</span><span class="s2">&quot;Christopher&quot;</span><span class="p">,</span> <span class="s2">&quot;Alexander&quot;</span><span class="o">]</span><span class="p">,</span>
-    <span class="o">[</span><span class="s2">&quot;John&quot;</span><span class="p">,</span> <span class="s2">&quot;McCarthy&quot;</span><span class="o">]</span><span class="p">,</span>
-    <span class="o">[</span><span class="s2">&quot;Joshua&quot;</span><span class="p">,</span> <span class="s2">&quot;Norton&quot;</span><span class="o">]</span> <span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">pair</span><span class="o">|</span>
-      <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="n">fn</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">pair</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span> <span class="n">pair</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">)</span>
-  <span class="k">end</span>
-  <span class="n">result</span>
-<span class="k">end</span>
-
-<span class="n">l</span> <span class="o">=</span> <span class="nb">lambda</span> <span class="p">{</span> <span class="o">|</span><span class="n">name1</span><span class="p">,</span> <span class="n">name2</span><span class="o">|</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">name1</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">name2</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">}</span> 
-
-<span class="n">with_names</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
-</pre></div>
-</code></pre>
-<h2><a name="classes" class="anchor" href="#classes"><span class="header-link"></span></a>Classes</h2>
-<p>The Classes syntax is as follows…</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">ClassName</span>
-    <span class="k">def</span> <span class="nf">initialize</span> <span class="p">()</span>
-        <span class="sr">//</span> <span class="n">code</span>
-    <span class="k">end</span>
-    <span class="sr">//</span> <span class="n">code</span>
-<span class="k">end</span>
-</pre></div>
-</code></pre>
-<p>Instance variables for classes are defined using <code>@variable_name</code> and are available to all methods of the class.</p>
-<p>For example…</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Person</span>
-    <span class="k">def</span> <span class="nf">initialize</span> <span class="p">(</span><span class="nb">name</span> <span class="o">=</span> <span class="s2">&quot;Bob&quot;</span><span class="p">)</span>
-        <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
-    <span class="k">end</span>
-
-    <span class="k">def</span> <span class="nf">speak</span>
-        <span class="nb">puts</span> <span class="s2">&quot;Hello, my name is </span><span class="si">#{</span><span class="vi">@name</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="n">employee</span> <span class="o">=</span> <span class="no">Person</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Mark&quot;</span><span class="p">)</span>
-</pre></div>
-</code></pre>
-<p>…executing this via irb returns <code>#&lt;Person:0x007feb988ce048 @name=&quot;Mark&quot;&gt;</code></p>
-<p>Now executing <code>employee.speak</code> returns &quot;Hi, my name is Mark&quot;.</p>
-<p>To check what methods exist for an object/class we can use <code>instance_methods</code> (e.g. using above example Class: <code>Person.instance_methods</code>) which shows ALL methods, even those you&#39;ve not defined yourself.</p>
-<p>We can ignore ancestor methods by setting the <code>instance_methods</code> argument to false: <code>Person.instance_methods(false)</code> which then just shows us the one method we defined (you could use no parenthesis <code>Person.instance_methods false</code> but I don&#39;t think that is as clear in this instance).</p>
-<p>A quick note about the use of parenthesis: I think there is no right or wrong choice but rather it depends on the tastes of the invidual user. I personally find no-parenthesis cleaner, but in some places it is just too confusing without them, so I like to mix and match wherever I feel it&#39;s appropriate.</p>
-<p>We can do a check to see if our object/class has a certain method available by checking if it <code>responds</code> to it…</p>
-<p><code>employee.respond_to?(&quot;speak&quot;)</code> =&gt; true<br><code>employee.respond_to? &quot;speak&quot;</code> =&gt; true</p>
-<p>To create privileged methods, within the class we need to specify <code>attr_accessor :variable_name</code> (where by <code>variable_name</code> is replaced with the appropriate value). This then defines two additional methods onto the class which provides access to the specified variable. The two methods added are <code>variable_name</code> (which &#39;gets&#39; the value) and <code>variable_name=</code> (which &#39;sets&#39; the value).</p>
-<p>For example…</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Test</span>
-    <span class="kp">attr_accessor</span> <span class="ss">:user_name</span>
-    <span class="k">def</span> <span class="nf">initialize</span> <span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-        <span class="vi">@user_name</span> <span class="o">=</span> <span class="nb">name</span>
-    <span class="k">end</span>
-    <span class="k">def</span> <span class="nf">speak</span>
-        <span class="nb">puts</span> <span class="s2">&quot;hello </span><span class="si">#{</span><span class="vi">@user_name</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="n">tester</span> <span class="o">=</span> <span class="no">Test</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Mark&quot;</span><span class="p">)</span>
-</pre></div>
-</code></pre>
-<p><code>tester.speak</code> =&gt; hello Mark<br><code>tester.user_name</code> =&gt; &quot;Mark&quot;<br><code>tester.user_name= &quot;Bob&quot;</code> =&gt; &quot;Bob&quot;<br><code>tester.user_name</code> =&gt; &quot;Bob&quot;</p>
-<p>Note: as well as <code>:attr_accessor</code> which creates getter and setter methods, there is <code>:attr_reader</code> which only creates a getter method, and <code>:attr_writer</code> which only creates a setter method.</p>
-<h2><a name="loops" class="anchor" href="#loops"><span class="header-link"></span></a>Loops</h2>
-<p>Loops in Ruby are straight forward…</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">list</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="o">]</span>
-
-<span class="n">list</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
-    <span class="nb">puts</span> <span class="n">item</span>
-<span class="k">end</span>
-</pre></div>
-</code></pre>
-<p>The <code>each</code> method executes a block of code for each item in the Array. The <code>do…end</code> section is such a block. The pipes <code>||</code> denotes the parameter <code>|name|</code> and that parameter is bound to each list item.</p>
-<p>One thing to be aware of (and you&#39;ll see this later under the &#39;Numbers&#39; section), you can swap out <code>do…end</code> for normal curly brackets… </p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">list</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="o">]</span>
-
-<span class="n">list</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
-    <span class="nb">puts</span> <span class="n">item</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>…but for an <code>each</code> loop it doesn&#39;t look as nice as <code>do…end</code> so I keep with that style instead. But as you&#39;ll see I still like using curly brackets for other types of loops that don&#39;t have parameters.</p>
-<p>There is a standard <code>while</code> loop as well within Ruby… </p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">while</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="mi">10</span>
-    <span class="nb">puts</span> <span class="s2">&quot;count = </span><span class="si">#{</span><span class="n">count</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span> <span class="c1"># Ruby has neither ++ or -- to increment/decrement a value</span>
-<span class="k">end</span>
-</pre></div>
-</code></pre>
-<p>Also with a <code>while</code> loop (if you&#39;re using a &#39;switch..case&#39; style statement - like you would see in JavaScript) you can explicitly return a value… </p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">myFunction</span>
-    <span class="n">xyz</span> <span class="o">=</span> <span class="s2">&quot;def&quot;</span>
-    <span class="k">while</span> <span class="kp">true</span>
-        <span class="k">case</span> <span class="n">xyz</span>
-            <span class="k">when</span> <span class="s2">&quot;abc&quot;</span>
-                <span class="k">return</span> <span class="kp">true</span>
-            <span class="k">when</span> <span class="s2">&quot;def&quot;</span>
-                <span class="k">return</span> <span class="kp">false</span>
-            <span class="k">else</span>
-                <span class="k">return</span> <span class="kp">nil</span> <span class="c1"># in case xyz doesn&#39;t equal what we expect</span>
-        <span class="k">end</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-</pre></div>
-</code></pre>
-<p>There are other types of iterator methods such as <code>map</code>… </p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">myArray</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="o">]</span>
-<span class="n">newArray</span> <span class="o">=</span> <span class="n">myArray</span><span class="o">.</span><span class="n">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
-    <span class="n">x</span><span class="o">*</span><span class="n">x</span>
-<span class="k">end</span>
-</pre></div>
-</code></pre>
-<p>…which returns <code>[1, 4, 9, 16]</code></p>
-<h2><a name="conditionals" class="anchor" href="#conditionals"><span class="header-link"></span></a>Conditionals</h2>
-<p>Ruby is slightly different to other programming languages in that even its syntax is very expression-oriented. So where a control structure like <code>if</code> would be called a &#39;statement&#39; in other languages, in Ruby it is actually an expression which means it can be assigned to a variable like so…</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="n">y</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">result</span> <span class="o">=</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span> <span class="k">then</span> 
-    <span class="n">x</span>
-<span class="k">else</span> 
-    <span class="n">y</span>
-<span class="k">end</span>
-
-<span class="c1"># depending on how complicated your condition is you could put it all on one line like so… </span>
-<span class="n">result</span> <span class="o">=</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span> <span class="k">then</span> <span class="n">x</span> <span class="k">else</span> <span class="n">y</span> <span class="k">end</span>
-</pre></div>
-</code></pre>
-<p>…and so, as we&#39;ve mentioned before with <code>functions</code>, these types of blocks return the last expression evalutated inside the block, so in the above example the last expression is returned and stored in the <code>result</code> variable.</p>
-<h2><a name="strings" class="anchor" href="#strings"><span class="header-link"></span></a>Strings</h2>
-<p>Building up string values can be a bit of a nightmare in other languages. I know in PHP and JavaScript it&#39;s a real pain without including some kind of templating rendering (such as <code>Mustache</code>). But in Ruby they provide a technique called Interpolation which is where method arguments and variables can be inserted into a string (must be a double quoted string, not single quotes) using: <code>#{variable_name}</code>. </p>
-<p>For example… </p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">welcome</span> <span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-    <span class="nb">puts</span> <span class="s2">&quot;Hello </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">!&quot;</span>
-<span class="k">end</span>
-
-<span class="n">welcome</span><span class="p">(</span><span class="s2">&quot;Mark&quot;</span><span class="p">)</span>
-</pre></div>
-</code></pre>
-<p>Multiple arguments work the same way…</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="k">def</span> <span class="nf">welcome</span> <span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span>
-    <span class="nb">puts</span> <span class="s2">&quot;Hello </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">!, I see you&#39;re </span><span class="si">#{</span><span class="n">age</span><span class="si">}</span><span class="s2"> years old.&quot;</span>
-<span class="k">end</span>
-</pre></div>
-</code></pre>
-<p>You could do the same with simple string concatenation… </p>
-<pre><code><div class="highlight"><pre><span class="nx">puts</span> <span class="s2">&quot;Hello&quot;</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot;!, I see you&#39;re &quot;</span> <span class="o">+</span> <span class="nx">age</span> <span class="o">+</span> <span class="s2">&quot; years old.&quot;</span>
-</pre></div>
-</code></pre>
-<p>…but as you can see it&#39;s not as nice to look at or easy to read and definitely isn&#39;t as maintainable.</p>
-<p>As mentioned earlier, as everything in Ruby is an object (even Strings) there are methods available to strings such as:</p>
-<ul>
-<li><code>sub</code> (basic find/replace)</li>
-<li><code>gsub</code> (basic &#39;global&#39; find/replace)</li>
-<li><code>scan</code> (regex based search which executes code block for each match)</li>
-<li><code>match</code> (regex based search with Array of results returned)</li>
-</ul>
-<p>For example…</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="s2">&quot;foobarfoobar&quot;</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span>
-<span class="c1"># =&gt; foofoofoobar</span>
-
-<span class="s2">&quot;foobarfoobar&quot;</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span>
-<span class="c1"># =&gt; foofoofoofoo</span>
-
-<span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;This is a test&quot;</span>
-<span class="n">x</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sr">/^[a-zA-Z]{4}/</span><span class="p">,</span> <span class="s1">&#39;Hello&#39;</span><span class="p">)</span>
-<span class="c1"># =&gt; &quot;Hello is a test&quot;</span>
-
-<span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;The car cost £2000 in 2012&quot;</span>
-<span class="n">x</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/\d+/</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">match</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">match</span> <span class="p">}</span>
-<span class="c1"># =&gt; 2000</span>
-<span class="c1"># =&gt; 2012</span>
-<span class="c1"># scan() without the code block returns an array of matches</span>
-
-<span class="n">x</span> <span class="o">=</span> <span class="s2">&quot;This is a test&quot;</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sr">/(\w+) (\w+)/</span><span class="p">)</span>
-<span class="nb">puts</span> <span class="n">x</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="c1"># =&gt; This is</span>
-<span class="nb">puts</span> <span class="n">x</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="c1"># =&gt; This</span>
-<span class="nb">puts</span> <span class="n">x</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span> <span class="c1"># =&gt; is</span>
-</pre></div>
-</code></pre>
-<h2><a name="arrays" class="anchor" href="#arrays"><span class="header-link"></span></a>Arrays</h2>
-<p>We&#39;ve seen Arrays used quite a bit already, but lets look at some additional methods and operators available… </p>
-<p>The bitwise operator <code>&lt;&lt;</code> is used to add a new item to an array:</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="o">[]</span>
-<span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;abc&quot;</span>
-</pre></div>
-</code></pre>
-<p>…which is equivalent to <code>x.push(&quot;abc&quot;)</code></p>
-<p>Note: Strings also use the <code>&lt;&lt;</code> operator to add content to them:</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">testString</span> <span class="o">=</span> <span class="s2">&quot;this is my string&quot;</span>
-<span class="n">testString</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; that has extra stuff added to it&quot;</span>
-<span class="n">testString</span> <span class="c1"># =&gt; &quot;this is my string that has extra stuff added to it&quot;</span>
-</pre></div>
-</code></pre>
-<p>There are methods for removing the last item in the Array <code>x.pop()</code> as well as joining an array items into a string using the specified character(s) as a separator <code>x.join(&quot;, &quot;)</code>.</p>
-<p>With Strings you can use the <code>split</code> method to convert a string into an Array: <code>&quot;this is my string&quot;.split(&quot; &quot;)</code> which returns <code>=&gt; [&quot;this&quot;, &quot;is&quot;, &quot;my&quot;, &quot;string&quot;]</code>.</p>
-<p>If you need to concatenate two Arrays you can use the <code>concat</code> method… </p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">arr</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="o">]</span>
-<span class="n">arr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="o">[</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="o">]</span><span class="p">)</span>
-<span class="n">arr</span> <span class="c1"># =&gt; [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;]</span>
-</pre></div>
-</code></pre>
-<p>…there is also more basic concatenation using the <code>+</code> operator <code>arr + [&quot;d&quot;, &quot;e&quot;]</code> which returns <code>[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;]</code> but one caveat is that you must remember to set the array to be overwritten. For example, the previous code will return an Array which is a combination of <code>arr</code> and <code>[&quot;d&quot;, &quot;e&quot;]</code> but it doesn&#39;t actually overwrite the original Array (<code>arr</code> will still return <code>[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]</code>). If you were expecting <code>arr</code> to be changed to <code>[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;]</code> then you would need to explicitly overwrite <code>arr</code> using: <code>arr += [&quot;d&quot;, &quot;e&quot;]</code> instead.</p>
-<p>There are two other useful Array methods <code>arr.first</code> and <code>arr.last</code>. Can you guess what they do? That&#39;s right, they return the first and last items in the Array.</p>
-<p>Some other interesting features of Ruby is the ability to write Arrays more quickly using the <code>%w()</code> method. So instead of writing <code>[&quot;a&quot;, &quot;e&quot;, &quot;i&quot;, &quot;o&quot;, &quot;u&quot;]</code> you would write <code>%w(a e i o u)</code> which generates the same Array.</p>
-<p>There are many Array methods for inserting new items into an Array, but you can also use Ranges (which normally work like <code>(&#39;A&#39;..&#39;Z&#39;)</code>):</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">arr</span> <span class="o">=</span> <span class="o">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="o">]</span>
-<span class="n">arr</span><span class="o">[</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">3</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="o">]</span>
-<span class="n">arr</span> <span class="c1"># =&gt; [0, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, 4, 5, 6]</span>
-</pre></div>
-</code></pre>
-<h2><a name="hashes" class="anchor" href="#hashes"><span class="header-link"></span></a>Hashes</h2>
-<p>Hashes are like &#39;objects&#39; in JavaScript and &#39;associative arrays&#39; in other languages. Like Arrays they have an iterator method called <code>each</code> which works the same way, the only difference being is that is doesn&#39;t just pass the value through but the &#39;key&#39; as well.</p>
-<p>So for example to create a hash you would use… </p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">h</span> <span class="o">=</span> <span class="p">{</span> 
-    <span class="s2">&quot;a&quot;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> 
-    <span class="s2">&quot;b&quot;</span> <span class="o">=&gt;</span> <span class="mi">2</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>…then you can access the relevant key/values (and add new key/values) like so… </p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">h</span><span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="o">]</span>     <span class="c1"># =&gt; 1</span>
-<span class="n">h</span><span class="o">[</span><span class="s2">&quot;b&quot;</span><span class="o">]</span>     <span class="c1"># =&gt; 2</span>
-<span class="n">h</span><span class="o">[</span><span class="s2">&quot;c&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1"># create a new key/value</span>
-<span class="n">h</span><span class="o">[</span><span class="s2">&quot;c&quot;</span><span class="o">]</span>     <span class="c1"># =&gt; 3</span>
-</pre></div>
-</code></pre>
-<p>…and finally you can loop through the hash…</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="n">h</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span>
-    <span class="nb">puts</span> <span class="s2">&quot;The value: </span><span class="si">#{</span><span class="n">value</span><span class="si">}</span><span class="s2"> belongs to the key </span><span class="si">#{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="k">end</span>
-</pre></div>
-</code></pre>
-<p>You don&#39;t have to use a String as a hash <code>key</code>. You can use any object or Symbol.</p>
-<p>In Ruby 1.9 the keys of a hash are returned in the order they were added when looping properties (unlike JavaScript where the order are not guaranteed).</p>
-<p>To see what keys are available in an object use the <code>keys</code> property:</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="nb">hash</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Mark&quot;</span><span class="p">,</span> <span class="ss">:age</span> <span class="o">=&gt;</span> <span class="mi">30</span> <span class="p">}</span>
-<span class="nb">hash</span><span class="o">.</span><span class="n">keys</span> <span class="c1"># =&gt; [:name, :age]</span>
-</pre></div>
-</code></pre>
-<p>You can delete a key/value from the hash using <code>hash.delete(key)</code></p>
-<p>Hashes also have shortcut for deleting properties depending on their value: <code>hash.delete_if { |key, value| value &lt;= 30 }</code></p>
-<h2><a name="numbers-and-how-everything-is-an-object-similar-to-javascript" class="anchor" href="#numbers-and-how-everything-is-an-object-similar-to-javascript"><span class="header-link"></span></a>Numbers (and how &#39;everything is an object&#39; - similar to JavaScript)</h2>
-<p>In Ruby, all values are objects. This includes even simple things like numeric literals. So for example you can use a number to help carry out a certain action &#39;x&#39; amount of times…</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="mi">3</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span>
-    <span class="nb">puts</span> <span class="s2">&quot;This gets written three times&quot;</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>And as explained earlier you can swap curly brackets for <code>do…end</code>…</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="mi">3</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
-    <span class="nb">puts</span> <span class="s2">&quot;This gets written three times&quot;</span>
-<span class="k">end</span>
-</pre></div>
-</code></pre>
-<p>But you can also do…</p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="mi">1</span><span class="o">.</span><span class="n">upto</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span> <span class="p">{</span> 
-    <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">x</span> 
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>…which can be interchanged with… </p>
-<pre><code class="lang-ruby"><div class="highlight"><pre><span class="mi">1</span><span class="o">.</span><span class="n">upto</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> 
-    <span class="nb">puts</span> <span class="n">x</span> 
-<span class="k">end</span>
-</pre></div>
-</code></pre>
-<p>I normally find anything that takes parameters <code>|x|</code> looks better with <code>do…end</code> style syntax.</p>
-<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
-<p>Well, this is just an &#39;introduction&#39; so as you can see although we&#39;ve covered a lot of ground already we&#39;re still literally just scratching the surface. As I start learning more about Ruby I&#39;ll create new blog posts to follow on from here.</p>
-</div>
-
-  <div class="comments">
-    <a href="/posts/introduction-to-ruby/#comments">
-      <span class="icon-bubbles"></span>
-      Comments
-    </a>
-  </div>
-
 
 <div class="pagination group">
   
@@ -1572,6 +1340,9 @@
     
     
       <a href="/page/13/" class="older"> &#8592; Older</a>
+    
+  
+    
     
   
     
