@@ -579,9 +579,11 @@ Thumbs.db
 <p><code>git stash save &quot;my message here&quot;</code></p>
 <p>If you have multiple stashes under a branch (e.g. <code>stash@{1}</code> <code>stash@{2}</code> <code>stash@{3}</code>) then you can reference a particular stash using:</p>
 <p><code>git stash apply@{2}</code></p>
+<p>If you want to stash only specific changes then use the patch mode:</p>
+<p><code>git stash -p</code></p>
 <p>To view the contents of a stash use:</p>
 <p><code>git stash show -p stash@{n}</code></p>
-<p>…where &#39;n&#39; is the numeric index of the stash</p>
+<p>…where &#39;n&#39; is the numeric index of the stash (you can also use <code>git show stash@{n}</code>)</p>
 <p>Applying the stash doesn&#39;t mean it&#39;s removed from your list of stashes though(!) so you need to run:</p>
 <p><code>git stash drop stash@{&lt;index&gt;}</code></p>
 <p>e.g. <code>git stash drop stash@{2}</code></p>
