@@ -37,6 +37,311 @@
 
 
   <div class="post-head group">
+  <a href="/posts/unix-commands/">
+    <h1 class="post-title">Unix Commands</h1>
+  </a>
+  <span class="post-date">2013 &#183; 10 &#183; 1</span>
+</div>
+
+<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
+<p><em>reading time: approx. 20mins</em></p>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#basics">Basics</a><ul>
+<li><a href="#what-directory-am-i-currently-in">What directory am I currently in?</a></li>
+<li><a href="#how-can-i-see-whats-in-this-directory">How can I see what&#39;s in this directory?</a></li>
+<li><a href="#moving-around">Moving around</a></li>
+<li><a href="#displaying-content-of-a-file">Displaying content of a file</a></li>
+<li><a href="#copy-a-file">Copy a file</a></li>
+<li><a href="#move-a-file">Move a file</a></li>
+<li><a href="#create-a-file">Create a file</a></li>
+<li><a href="#rename-a-file">Rename a file</a></li>
+<li><a href="#delete-a-file">Delete a file</a></li>
+<li><a href="#delete-a-directory">Delete a directory</a></li>
+<li><a href="#create-a-directory">Create a directory</a></li>
+</ul>
+</li>
+<li><a href="#find-searching-for-files">Find (searching for files)</a></li>
+<li><a href="#grep-searching-for-patterns">Grep (Searching for patterns)</a></li>
+<li><a href="#sed-find-and-replace">Sed (Find and Replace)</a></li>
+<li><a href="#awk-looping-logic">Awk (Looping Logic)</a></li>
+<li><a href="#piping-io">Piping I/O</a><ul>
+<li><a href="#input-and-output">Input and Output</a></li>
+<li><a href="#redirection">Redirection</a></li>
+<li><a href="#piping">Piping</a></li>
+<li><a href="#piping-examples">Piping examples</a></li>
+</ul>
+</li>
+<li><a href="#miscellaneous-commands">Miscellaneous Commands</a><ul>
+<li><a href="#tee">tee</a></li>
+<li><a href="#dig">dig</a></li>
+<li><a href="#ps">ps</a></li>
+<li><a href="#xargs">xargs</a></li>
+<li><a href="#cut">cut</a></li>
+<li><a href="#tr">tr</a></li>
+</ul>
+</li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
+<p>The unix command line has a hundred or so commands, and a small majority of those you can realistically find yourself using on a regular basis. In this post I want to cover some common commands that can actually be quite useful to you.</p>
+<p>Shell commands aren&#39;t something you can cover in one post. Entire books have been written on the subject. So don&#39;t expect anything other than the bare bone basics here, which should hopefully give you enough of an understanding to take your own learning forward.</p>
+<p>So let&#39;s begin… </p>
+<h2><a name="basics" class="anchor" href="#basics"><span class="header-link"></span></a>Basics</h2>
+<p>OK, so I&#39;ll assume you have absolutely no prior command line experience which means we need to start at the basics.</p>
+<p>So, first things first: open up your shell (if you&#39;re on a Mac then this will be your <code>Terminal.app</code> application.</p>
+<h3><a name="what-directory-am-i-currently-in" class="anchor" href="#what-directory-am-i-currently-in"><span class="header-link"></span></a>What directory am I currently in?</h3>
+<p><code>pwd</code> - this stands for &quot;Print Working Directory&quot;</p>
+<h3><a name="how-can-i-see-whats-in-this-directory" class="anchor" href="#how-can-i-see-whats-in-this-directory"><span class="header-link"></span></a>How can I see what&#39;s in this directory?</h3>
+<p><code>ls</code> - this tells the shell to list out any files or folders in the current working directory.</p>
+<p>You can also tell the command a directory path you want it to look inside of: <code>ls ~/Desktop</code> (this will list all files and folders on your desktop).</p>
+<p><code>ls -l</code> - the <code>-l</code> flag tells the command to stack the list when it prints its output to the shell.</p>
+<p><code>ls -la</code> - this is a combination of the previous flag and the <code>-a</code> flag which means &quot;show all files&quot; (by this I mean, it&#39;ll show you hidden files).</p>
+<h3><a name="moving-around" class="anchor" href="#moving-around"><span class="header-link"></span></a>Moving around</h3>
+<p>To move around your file system you use the &#39;change directory&#39; command <code>cd</code>.</p>
+<p>So: <code>cd ~/Desktop</code> will put you in the Desktop.</p>
+<p>You can also use relative paths such as <code>cd ../</code> which will take you up one level from wherever you happen to be.</p>
+<h3><a name="displaying-content-of-a-file" class="anchor" href="#displaying-content-of-a-file"><span class="header-link"></span></a>Displaying content of a file</h3>
+<p>The <code>cat</code> command is a concatenation command, meaning that if you ran <code>cat original.txt new.txt</code> it would display on your screen the combination of the content from both files specified.</p>
+<p>So, with that understanding we can use <code>cat original.txt</code> (i.e. specifying just a single file) to show the contents of that file.</p>
+<h3><a name="copy-a-file" class="anchor" href="#copy-a-file"><span class="header-link"></span></a>Copy a file</h3>
+<p>To copy a file we need the <code>cp</code> command, and we tell it what file to copy and where to copy it to.</p>
+<p>So: <code>cp ~/Downloads/test.txt ~/Desktop/test.txt</code> will copy the file <code>test.txt</code> (which is inside our &#39;Downloads&#39; folder) and put the copy on our Desktop.</p>
+<h3><a name="move-a-file" class="anchor" href="#move-a-file"><span class="header-link"></span></a>Move a file</h3>
+<p>To move a file you need the <code>mv</code> command, and we tell it what file to move and where to move it to.</p>
+<p>So: <code>mv ~/Downloads/test.txt ~/Desktop/test.txt</code> will move the file <code>test.txt</code> from our &#39;Downloads&#39; folder onto our &#39;Desktop&#39;.</p>
+<h3><a name="create-a-file" class="anchor" href="#create-a-file"><span class="header-link"></span></a>Create a file</h3>
+<p>To create a file you need the <code>touch</code> command.</p>
+<p>So: <code>touch ~/some-test-file.txt</code> will create an empty text file in your home directory</p>
+<h3><a name="rename-a-file" class="anchor" href="#rename-a-file"><span class="header-link"></span></a>Rename a file</h3>
+<p>There is no <code>rename</code> command on Unix (although there is in Linux) and so we need to use a trick, the trick being to use the <code>mv</code> command.</p>
+<p>So: <code>mv ~/Downloads/test.txt ~/Downloads/new.txt</code> will actually rename the file <code>test.txt</code> to <code>new.txt</code> as we&#39;ve moved the file into the same directory it was already in but with a different name (effectively acting like we renamed it)</p>
+<h3><a name="delete-a-file" class="anchor" href="#delete-a-file"><span class="header-link"></span></a>Delete a file</h3>
+<p>To delete a file we need the &#39;remove&#39; command <code>rm</code>.</p>
+<p>So: <code>rm ~/Downloads/test.txt</code> will delete our <code>test.txt</code> file.</p>
+<h3><a name="delete-a-directory" class="anchor" href="#delete-a-directory"><span class="header-link"></span></a>Delete a directory</h3>
+<p>To delete a folder we need the &#39;remove&#39; command <code>rm</code> again but this time we need to pass in a couple of flags to the command.</p>
+<p>The first flag is <code>-f</code> which means &#39;force&#39; the removal (otherwise if you try to remove a folder then the shell will try and prevent this as it&#39;ll assume you&#39;ve made a mistake, and deleting a whole folder could be a big mistake if you&#39;re not careful).</p>
+<p>The second flag is <code>-r</code> which means &#39;recursively&#39;. So you&#39;ll recursively delete files within the folder.</p>
+<p>So: <code>rm -rf ~/Desktop/some-folder</code> will delete our <code>some-folder</code> folder on the Desktop.</p>
+<h3><a name="create-a-directory" class="anchor" href="#create-a-directory"><span class="header-link"></span></a>Create a directory</h3>
+<p>To create a directory you can use the make directory command <code>mkdir my_folder_name</code></p>
+<p>To make creating lots of sub directories easier you can pass a <code>-p</code> flag like so <code>mkdir -p Assets/{Scripts,Styles}</code> (notice we use interpolation <code>{}</code> which lets use specify multiple folder names in the current directory level).</p>
+<h2><a name="find-searching-for-files" class="anchor" href="#find-searching-for-files"><span class="header-link"></span></a>Find (searching for files)</h2>
+<p>The <code>find</code> command is useful for walking a directory hierarchy and returning a list of files found based on a set of criteria you have determined.</p>
+<p>The most common pattern is to search for a particular file (or file type) within a project folder. Imagine you want to find a file called <code>package.json</code> within your project directory which is inside your home directory. Here is how we&#39;d use the <code>find</code> command to do that:</p>
+<pre><code class="lang-sh"><div class="highlight"><pre><span class="c"># first we&#39;ll set-up the project directory and some files...</span>
+
+<span class="nb">cd</span> ~/ <span class="c"># move in to the user&#39;s home directory</span>
+mkdir project-foobar <span class="c"># make our project directory</span>
+<span class="nb">cd </span>project-foobar <span class="c"># move inside the project directory</span>
+touch test.txt <span class="o">{</span>package,blah<span class="o">}</span>.json <span class="c"># this creates 3 files inside our project directory</span>
+ls <span class="c"># =&gt; blah.json   package.json    test.txt</span>
+<span class="nb">cd</span> ../ <span class="c"># move back into the user&#39;s home directory and we&#39;ll start searching</span>
+
+<span class="c"># here is the actual &#39;find&#39; command</span>
+find ./project-foobar -name <span class="s1">&#39;package.json&#39;</span> <span class="c"># =&gt; ./project-foobar/package.json</span>
+
+find ./project-foobar -name <span class="s1">&#39;*.json&#39;</span>
+<span class="c"># =&gt; ./project-foobar/blah.json</span>
+<span class="c"># =&gt; ./project-foobar/package.json</span>
+</pre></div>
+</code></pre>
+<p>As you can see from the above example the <code>find</code> command has three parameters:</p>
+<ul>
+<li>the directory to search</li>
+<li>an optional flag to indicate what we want to search for</li>
+<li>the file we&#39;re searching for</li>
+</ul>
+<p>Let&#39;s see this broken down:</p>
+<ul>
+<li><code>./project-foobar</code> the directory to search</li>
+<li><code>-name</code> the flag/option we&#39;ve set is &quot;check the name of each item found&quot;</li>
+<li><code>&#39;*.json&#39;</code> we&#39;ve used a wildcard (asterisk <code>*</code>) to indicate we&#39;re interested in &quot;any&quot; json file</li>
+</ul>
+<h2><a name="grep-searching-for-patterns" class="anchor" href="#grep-searching-for-patterns"><span class="header-link"></span></a>Grep (Searching for patterns)</h2>
+<p>Grep is a command that lets you find a pattern (either a string or a regular expression) inside of a file or list of files.</p>
+<p>So: <code>grep &#39;something&#39; test.txt</code> looks for the word &#39;something&#39; inside of the file <code>test.txt</code>.</p>
+<p>To use grep on a directory of files then we need to use an additional flag: <code>-r</code> which means &#39;recursive&#39; (similar to the <code>rm</code> command we saw previously).</p>
+<p>So: <code>grep -r &#39;something&#39; ~/Desktop</code> looks for the word &#39;something&#39; inside of any files on the Desktop.</p>
+<h2><a name="sed-find-and-replace" class="anchor" href="#sed-find-and-replace"><span class="header-link"></span></a>Sed (Find and Replace)</h2>
+<p>The <code>sed</code> command stands for (S)tream (Ed)itor and allows you to  read in the contents of a file and then write the modified output to another file or pipe it through to another I/O command (we&#39;ll cover piping later).</p>
+<p>A basic example of its use would be: <code>sed s/day/night/ novel.txt</code></p>
+<p>This replaces the first occurrence of &#39;day&#39; to &#39;night&#39;. If we wanted to replace multiple occurrences then you would need to pass a <code>g</code> flag (meaning global) to the regular expression like so: <code>sed s/day/night/g novel.txt</code></p>
+<h2><a name="awk-looping-logic" class="anchor" href="#awk-looping-logic"><span class="header-link"></span></a>Awk (Looping Logic)</h2>
+<p>The <code>awk</code> command reads in each line of a file and splits the line into fields (using whitespace - space, tab - as its default delimiter).</p>
+<p>You can then execute commands for each line and reference each field.</p>
+<p>A basic example of its use would be: <code>awk &#39;{ print $1 }&#39;</code> which means &quot;print the first field found in the current line&quot;.</p>
+<p>So imagine you have the following <code>test.txt</code> file…</p>
+<pre><code class="lang-sh"><div class="highlight"><pre>This is my first line
+This is my second line
+This is my third line
+</pre></div>
+</code></pre>
+<p>…you could print the line number followed by a specific word (in this case the second from last word on each line) using the following awk command: <code>awk &#39;{ print &quot;Line &quot; NR &quot;: &quot; $(NF-1) }&#39; test.txt</code></p>
+<p>Which would display the following content on your screen… </p>
+<pre><code class="lang-sh"><div class="highlight"><pre>Line 1: first
+Line 2: second
+Line 3: third
+</pre></div>
+</code></pre>
+<p>Let&#39;s break this command down a little…</p>
+<ul>
+<li>Awk commands are placed inside of single quotes <code>awk &#39;commands go here&#39;</code>.</li>
+<li>Inside the single quotes we need a set of brackets to place our specific code we want to run: <code>awk &#39;{ code to run here }&#39;</code></li>
+<li>We specifically tell awk to <code>print</code> something to stdout (i.e. the terminal screen).</li>
+<li>In this case we tell it to print the text &quot;Line &quot; followed by the current line number <code>NR</code>.</li>
+<li>As part of the same print command we then tell it to print &quot;: &quot; followed by the second from last number.</li>
+<li>To do that we use two pieces of syntax <code>$()</code> and <code>NF</code>.</li>
+<li><code>NF</code> stands for (N)umber of (F)ields.</li>
+<li>The <code>$()</code> wrapping around <code>NF</code> is our &#39;process substitution&#39;. This means we&#39;re not just outputting some data but manipulating it by using logic to give us 1 field back from the last, hence it needs to be wrapped in <code>$()</code></li>
+</ul>
+<h2><a name="piping-io" class="anchor" href="#piping-io"><span class="header-link"></span></a>Piping I/O</h2>
+<p>The previous commands <code>awk</code>, <code>sed</code>, <code>grep</code> are all really useful, but it&#39;s when you can combine them that their true power shines.</p>
+<h3><a name="input-and-output" class="anchor" href="#input-and-output"><span class="header-link"></span></a>Input and Output</h3>
+<p>Unix is based on the principle of &quot;input&quot; and &quot;output&quot; (known as &quot;I/O&quot;). In the Shell you have <code>stdin</code> (standard input) and <code>stdout</code> (standard output).</p>
+<p>By default, <code>stdin</code> is your keyboard (i.e. whatever you type into the terminal shell) and <code>stdout</code> is the terminal (i.e. your screen).</p>
+<h3><a name="redirection" class="anchor" href="#redirection"><span class="header-link"></span></a>Redirection</h3>
+<p>Once you understand <code>stdin</code> and <code>stdout</code> you can start to look at redirecting them.</p>
+<p>For example when using the <code>sed</code> command you could use redirection to not overwrite your original file and instead direct the output <code>stdout</code> coming from the <code>sed</code> command to another file: <code>sed s/day/night/g original.txt &gt; new.txt</code></p>
+<h3><a name="piping" class="anchor" href="#piping"><span class="header-link"></span></a>Piping</h3>
+<p>Another way to <em>direct</em> input and output is to use pipes <code>|</code> (a vertical bar).</p>
+<p>A really simple example would be: look at the <code>sed</code> command we used earlier (<code>sed s/day/night/ novel.txt</code>). Rather than actually execute it and have it make the specified change to our file <code>novel.txt</code> we could instead test the command to make sure it does what we expect it to.</p>
+<p>To do that we would use the <code>cat</code> command (which we looked at previously) and pipe its output through to the <code>sed</code> command like so… </p>
+<p><code>cat original.txt | sed s/day/night/g</code></p>
+<p>So, to clarify how this works: we&#39;re redirecting the <code>cat</code> command&#39;s <code>stdout</code> through to the <code>sed</code> command&#39;s <code>stdin</code>. </p>
+<p>In our original <code>sed</code> example we directed the <code>sed</code> command&#39;s <code>stdout</code> to an actual file (<code>novel.txt</code>), but in this case it has no <code>stdout</code> specified so it falls back to the default <code>stdout</code> which in this case is the terminal shell itself.</p>
+<p>Hence the results of the <code>sed</code> command (the modified content) are displayed on your screen.</p>
+<h3><a name="piping-to-vim" class="anchor" href="#piping-to-vim"><span class="header-link"></span></a>Piping to Vim</h3>
+<p>One thing I discovered recently (via <a href="http://twitter.com/Pand0ra83">Crystal Hirschorn</a>) was that you can&#39;t just pipe <code>stdout</code> into Vim unless you add a hyphen/dash <code>-</code> to the end of the command like so: <code>ls | vim -</code></p>
+<p>Otherwise Vim will complain that: <code>Input is not from a terminal</code></p>
+<p>That&#39;s a good one to remember!</p>
+<p>Also you can pipe the input into Vim in read-only mode using the <code>-R</code> flag as well: <code>ls | vim -R -</code></p>
+<h3><a name="piping-examples" class="anchor" href="#piping-examples"><span class="header-link"></span></a>Piping examples</h3>
+<p>Here are three real world examples I&#39;ve used recently…</p>
+<pre><code class="lang-sh"><div class="highlight"><pre>phantomjs 2&gt;<span class="p">&amp;</span>1 network-test.js <span class="p">|</span> tee log.txt
+</pre></div>
+</code></pre>
+<p>In this example I&#39;m executing a <a href="http://phantomjs.org/">PhantomJS</a> script <code>network-test.js</code> but I wanted to capture both the results of the script (which just logs out DNS information into the terminal) and any errors that may have occurred into a log text file.</p>
+<p>The way it works might be a little confusing as it shows some things you might not have seen before: <code>2&gt;&amp;1</code> and <code>tee</code>.</p>
+<p>Those two commands may look confusing but it just comes down to understanding the numbers that are associated with specific processes, so…</p>
+<ul>
+<li><code>0</code> = <code>stdin</code></li>
+<li><code>1</code> = <code>stdout</code></li>
+<li><code>2</code> = <code>stderr</code></li>
+</ul>
+<p>…this means <code>2&gt;&amp;1</code> is saying direct <code>2</code> (any errors) through to <code>1</code> (standard output).</p>
+<p>We then pipe the <code>stdout</code> through to the <code>tee</code> command which copies it into a file called <code>log.txt</code>.</p>
+<pre><code class="lang-sh"><div class="highlight"><pre>ls File-* <span class="p">|</span> sed <span class="s1">&#39;s/\(File-[^-]*\)-\(.*\)/mv &amp; \1\2/&#39;</span> <span class="p">|</span> sh
+</pre></div>
+</code></pre>
+<p>In this example I&#39;m trying to remove a hyphen <code>-</code> from some file names.</p>
+<p>The files I have look like <code>File-A-B.gif</code> and I want them to be renamed to <code>File-AB.gif</code>.</p>
+<p>So first I list out any files in the current directory that begin <code>File-</code> and then pipe those results through to <code>sed</code>.</p>
+<p>Sed then uses Regular Expressions to store a reference to the opening part of the file name (in this case <code>File-A</code>) and then stores the end part of the file name (in this case <code>B.gif</code>).</p>
+<p>In the second part of the <code>sed</code> command, instead of doing a &#39;replace&#39; of what we&#39;ve found, we actually pass in a <code>mv</code> command (remember from before that we can rename a file by using <code>mv original.txt new.txt</code>). In this case the stored references to the beginning and ending parts of the file&#39;s name can be referenced within the replacement section using <code>\1</code> and <code>\2</code> (and the <code>&amp;</code> in regular expressions means, the original string being inspected).</p>
+<p>So when we use <code>mv &amp; \1\2</code> we&#39;re saying &quot;move the original file and move it to the same directory but using the new name of File-AB.gif (remember <code>\1</code> is &quot;File-A&quot; and <code>\2</code> is &quot;B.gif&quot;).</p>
+<p>Finally, because the <code>sed</code> command&#39;s replacement is an actual command rather than just a string replacement we pipe that replacement content (which is now <code>sed</code>&#39;s <code>stdout</code>) over to the <code>sh</code> bin command to execute and hence actually rename the file(s).</p>
+<p>Note: whenever you write a shell script, you would store it (for example) inside a file with the extension of <code>sh</code> and then you&#39;d use the terminal command <code>sh</code> to execute that shell script.</p>
+<pre><code class="lang-sh"><div class="highlight"><pre>tmux ls <span class="p">|</span> cut -d : -f 1 <span class="p">|</span> xargs -I <span class="o">{}</span> tmux <span class="nb">kill</span>-session -t <span class="o">{}</span>
+</pre></div>
+</code></pre>
+<p>So in this example I wanted an easy way to destroy all my tmux sessions. </p>
+<p>Typically I would run <code>tmux ls</code> to see what sessions I had (it returns something like <code>0: 1 windows (created Fri Oct  4 18:24:38 2013) [129x33]</code>, where the opening <code>0</code> is the number/name of the session followed by details about the session -&gt; in this case <code>1 window</code>, and when it was created, and the size of that window).</p>
+<p>Once I had my session number (in this case <code>0</code>) I could run the command <code>tmux kill-session -t 0</code> but if I had loads of sessions open I would have to run the same command for all of them.</p>
+<p>To fix this I tried using the commands Awk and Sed but discovered an issue with &#39;scope&#39; (which I&#39;m still not 100% sure I understand, but I&#39;ll explain what happened any way)… </p>
+<p>I was using <code>tmux ls | awk &#39;{print $1}&#39; | sed &#39;s/://g&#39; | xargs -I {} tmux kill-session -t {}</code>. This works, but not when you stick it inside an alias for easy reuse.</p>
+<p>The way it works is that it lists out all the tmux sessions and pipes it over to Awk.</p>
+<p>Awk then grabs the first field <code>0:</code> (remember Awk splits the input line into &#39;fields&#39; using a space delimiter). We then pipe that over to Sed.</p>
+<p>Sed then uses a regular expression to remove the <code>:</code> from the <code>0:</code> leaving us with just <code>0</code>. We then pipe that through to xargs.</p>
+<p>xargs runs our kill-session command and passes through the value of <code>0</code> into that command using the placeholder <code>{}</code>.</p>
+<p>We define what the placeholder will be using <code>-I</code> so we could of used <code>-I target</code> instead if we wanted to like so: <code>tmux ls | awk &#39;{print $1}&#39; | sed &#39;s/://g&#39; | xargs -I target tmux kill-session -t target</code> and it would of achieved the same.</p>
+<p>Like I say, this works. But I wanted it inside an alias so I could easily reuse it (I mean, just <em>try</em> and memorise that massive chunk of commands!?). The moment it went into an alias the xargs failed to work because instead of getting <code>0</code> it got the entire line <code>0: 1 windows (created Fri Oct  4 18:24:38 2013) [129x33]</code>. The scope of the argument was being lost some how? A bit annoying really.</p>
+<p>My colleague at BBC News (<a href="http://twitter.com/sthulb">Simon Thulbourn</a> - all round command line wizard, amongst many other technical talents) helped me understand a more efficient and fully functioning version (i.e. it can be safely aliased): <code>tmux ls | cut -d : -f 1 | xargs -I {} tmux kill-session -t {}</code>.</p>
+<p>So the only difference here is instead of using both Awk and Sed, we&#39;re just using Cut. I&#39;ve not mentioned it before but <code>cut</code> works like this: </p>
+<p>Cut splits the input into fields (like Awk does). We then tell it that we want the fields to be split by <code>:</code> (that&#39;s the <code>-d :</code> section). Then finally we use <code>-f 1</code> to say we want the first field, which we pipe over to xargs. Otherwise the rest of the command is the same as before.</p>
+<p>Nice huh!</p>
+<h2><a name="miscellaneous-commands" class="anchor" href="#miscellaneous-commands"><span class="header-link"></span></a>Miscellaneous Commands</h2>
+<h3><a name="tee" class="anchor" href="#tee"><span class="header-link"></span></a><code>tee</code></h3>
+<p>The <code>tee</code> command you&#39;ve seen already now (in our above example) but just to reiterate its use, here is how the manual describes it… </p>
+<blockquote>
+<p>The tee utility copies standard input to standard output, making a copy in zero or more files.</p>
+</blockquote>
+<h3><a name="dig" class="anchor" href="#dig"><span class="header-link"></span></a><code>dig</code></h3>
+<p>The <code>dig</code> command is used for carrying out DNS lookups: <code>dig integralist.co.uk</code> returns the DNS records found for my domain name.</p>
+<h3><a name="ps" class="anchor" href="#ps"><span class="header-link"></span></a><code>ps</code></h3>
+<p>The <code>ps</code> command stands for (p)rocess (s)tatus</p>
+<p>It shows you all running processes on your computer.</p>
+<p>You can use piping again to narrow down the results to something in particular you know is causing your computer to slow down and then execute another command to kill that process.</p>
+<p>So: <code>ps aux | grep ruby</code></p>
+<p>In the above example we also pass <code>aux</code> which basically specifies table of results that should be returned (see: <a href="http://en.wikipedia.org/wiki/Ps_\(Unix\"><a href="http://en.wikipedia.org/wiki/Ps_(Unix">http://en.wikipedia.org/wiki/Ps_(Unix</a>)</a>) for more information).</p>
+<p>We then pipe that through to <code>grep</code> and tell it we&#39;re interested only in processes that have the text <code>ruby</code> somewhere (that way we can narrow down the results printed to the screen).</p>
+<p>Finally to kill a particular process you&#39;ll need its PID number (which <code>ps aux</code> would have displayed) so locate that PID and then run <code>kill -9 xxxx</code> where <code>xxxx</code> is the PID number you want to stop.</p>
+<h3><a name="xargs" class="anchor" href="#xargs"><span class="header-link"></span></a><code>xargs</code></h3>
+<p>I know we&#39;ve covered Xargs already in my previous examples, but it&#39;s worth mentioning that you can also use the <code>-0</code> flag which helps with some commands that won&#39;t work when passed arguments that have spaces in them (imagine a file name with spaces). Using the <code>-0</code> flag resolves that issue.</p>
+<p>Also, if the command you want to run only excepts a single argument (for example <code>echo 123</code>) then you can omit the <code>-I {}</code> placeholder definition. </p>
+<h3><a name="cut" class="anchor" href="#cut"><span class="header-link"></span></a><code>cut</code></h3>
+<p>Again, we&#39;ve covered Cut above already, but just to note that you can change the field delimiter using <code>-d</code> (e.g. <code>-d ,</code> would split the line on commas).</p>
+<p>Also, <code>-f</code> allows a range, not just a single field index. So if you wanted fields 3 to 4 you could do <code>-f 3,4</code></p>
+<p>Another feature of <code>cut</code> is the <code>-c</code> flag which cuts based on &#39;character position&#39; rather than &#39;fields&#39; like <code>-f</code> does. </p>
+<p>One way you could use the <code>-c</code> flag is to remove whitespace at the start and end of a line like so… </p>
+<p><code>echo &quot; xyz &quot; | cut -c 2- | rev | cut -c 2- | rev</code></p>
+<p>…notice our text &quot;xyz&quot; has one character of white space at the start and end. So we specifically tell <code>cut</code> to start at character 2 <code>x</code> and cut until the end of the line <code>2-</code> and then we use the <code>rev</code> command which reverses the content so it becomes &quot; zyx&quot; and then we again cut from the 2nd character (this time <code>z</code>) and cut until the end of the line and finally we reverse the line one more time so we&#39;re back to where we were initially but with the white space removed.</p>
+<p>There are probably more elegant ways to achieve this but it gives you an indication of how you might want to use a command in unique ways.</p>
+<h3><a name="tr" class="anchor" href="#tr"><span class="header-link"></span></a>tr</h3>
+<p>The <code>tr</code> command stands for &#39;translate characters&#39; and it allows you to change the characters in a string of text into a different set of characters. For example...</p>
+<pre><code><div class="highlight"><pre><span class="nx">echo</span> <span class="s2">&quot;foo\nbar\nbaz&quot;</span> <span class="o">|</span> <span class="nx">tr</span> <span class="s2">&quot;bf&quot;</span> <span class="s2">&quot;\!&quot;</span>
+</pre></div>
+</code></pre>
+<p>...here we&#39;re saying: &quot;any occurance of the letters &#39;b&#39; and &#39;f&#39; that are found in the string &#39;foo\nbar\n\baz&#39;&quot; should be replaced with a <code>!</code>. </p>
+<p>Notice also the <code>\n</code> (new line) character within our string, which means that when <code>tr</code> executes and loops over the string it&#39;ll see this single line as three individual lines; <code>foo</code> on the first line, <code>bar</code> on the second line and <code>baz</code> on the third line.</p>
+<p>The result would be...</p>
+<pre><code><div class="highlight"><pre><span class="o">!</span><span class="nx">oo</span>
+<span class="o">!</span><span class="nx">ar</span>
+<span class="o">!</span><span class="nx">az</span>
+</pre></div>
+</code></pre>
+<p>We can also invert the translation; so we can say &quot;any occurance of a letter that ISN&#39;T &#39;b&#39; or &#39;f&#39; then translate them into an &#39;!&#39;&quot;. For example,</p>
+<pre><code><div class="highlight"><pre><span class="nx">echo</span> <span class="s2">&quot;foo\nbar\nbaz&quot;</span> <span class="o">|</span> <span class="nx">tr</span> <span class="o">-</span><span class="nx">c</span> <span class="s2">&quot;bf&quot;</span> <span class="s2">&quot;\!&quot;</span>
+</pre></div>
+</code></pre>
+<p>This is done using the <code>-c</code> flag/option. But now if we look at the result you&#39;ll find it hasn&#39;t quite done what we&#39;d expect&quot;</p>
+<pre><code><div class="highlight"><pre><span class="nx">f</span><span class="o">!!!</span><span class="nx">b</span><span class="o">!!!</span><span class="nx">b</span><span class="o">!!!%</span>
+</pre></div>
+</code></pre>
+<p>As you can see we&#39;ve not catered for our <code>\n</code> new lines that were within our original string. The <code>tr</code> command has seen the new lines and replaced them with an <code>!</code> because as far as it&#39;s concerned a new line isn&#39;t either a &#39;b&#39; or &#39;f&#39; character.</p>
+<p>So we&#39;ll need to tweak our command slightly to accommodate our need to keep the new lines:</p>
+<pre><code><div class="highlight"><pre><span class="nx">echo</span> <span class="s2">&quot;foo\nbar\nbaz&quot;</span> <span class="o">|</span> <span class="nx">tr</span> <span class="o">-</span><span class="nx">c</span> <span class="s2">&quot;bf\n&quot;</span> <span class="s2">&quot;\!&quot;</span>
+</pre></div>
+</code></pre>
+<p>Which result in:</p>
+<pre><code><div class="highlight"><pre><span class="nx">f</span><span class="o">!!</span>
+<span class="nx">b</span><span class="o">!!</span>
+<span class="nx">b</span><span class="o">!!</span>
+</pre></div>
+</code></pre>
+<p>The last thing I want to show you is the &#39;squeeze&#39; command which you use by adding the <code>-s</code> flag/option. What this does is any consecutive letters (e.g. the &#39;o&#39; in &quot;fooobar&quot; is repeated consecutively) will be reduced to a single replacement. For example,</p>
+<pre><code><div class="highlight"><pre><span class="nx">echo</span> <span class="s2">&quot;fooobar&quot;</span> <span class="o">|</span> <span class="nx">tr</span> <span class="o">-</span><span class="nx">s</span> <span class="s2">&quot;o&quot;</span> <span class="s2">&quot;\!&quot;</span>
+</pre></div>
+</code></pre>
+<p>Results in:</p>
+<pre><code><div class="highlight"><pre><span class="nx">f</span><span class="o">!</span><span class="nx">bar</span>
+</pre></div>
+</code></pre>
+<p>Where as if we didn&#39;t use the squeeze command we would&#39;ve seen <code>f!!!bar</code> instead (notice the &#39;o&#39; was translated multiple times)..</p>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>This was a pretty fast paced run through of some different unix commands. As time goes on I&#39;ll update this post to include other commands and real work use cases that I think would be interesting and useful to those readers new to the command line.</p>
+<p>If there were any errors or any thing like that then just let me know by pinging me on <a href="http://twitter.com/integralist">twitter</a>.</p>
+</div>
+
+  <div class="comments">
+    <a href="/posts/unix-commands/#comments">
+      <span class="icon-bubbles"></span>
+      Comments
+    </a>
+  </div>
+
+  <div class="post-head group">
   <a href="/posts/vim-workflow/">
     <h1 class="post-title">Vim Workflow</h1>
   </a>
@@ -139,579 +444,6 @@
 
   <div class="comments">
     <a href="/posts/vim-workflow/#comments">
-      <span class="icon-bubbles"></span>
-      Comments
-    </a>
-  </div>
-
-  <div class="post-head group">
-  <a href="/posts/a-guide-to-getting-started-with-vim/">
-    <h1 class="post-title">A guide to getting started with Vim</h1>
-  </a>
-  <span class="post-date">2013 &#183; 9 &#183; 8</span>
-</div>
-
-<div class="post-body"><h2><a name="what-well-cover" class="anchor" href="#what-well-cover"><span class="header-link"></span></a>What we&#39;ll cover</h2>
-<p><em>reading time: approx. 26mins</em></p>
-<ul>
-<li>Introduction</li>
-<li>Here comes the old man</li>
-<li>The focus of this post</li>
-<li>Step 1: Installation</li>
-<li>TMUX</li>
-<li>TMUXinator</li>
-<li>Vundle<ul>
-<li>Set-up some bundles</li>
-<li>Where can I find bundles?</li>
-</ul>
-</li>
-<li>NERDTree</li>
-<li>Ctrl+P</li>
-<li>Vim<ul>
-<li>Vim Basics</li>
-<li>Using Ctrl+p to do fuzzy file searching</li>
-<li>Updating Ctrl+P&#39;s list</li>
-<li>Using NERDTree to search our file system</li>
-<li>Command Structure</li>
-<li>More Commands</li>
-<li>Cursor Movement</li>
-<li>Page Movement</li>
-<li>Motions</li>
-<li>Operators</li>
-<li>Deleting</li>
-<li>Deleting a tag</li>
-<li>Search within a file</li>
-<li>Search and Replace</li>
-<li>Viewing different buffers</li>
-<li>Change list</li>
-<li>Jump list</li>
-<li>Diff Tool</li>
-<li>Code Comments</li>
-<li>Syntax Formatting</li>
-<li>Auto Indenting</li>
-<li>Run terminal commands within Vim</li>
-<li>Suspend Vim</li>
-<li>Visual Block Mode</li>
-<li>Vim Windows</li>
-<li>Repeating Yourself</li>
-<li>Making life easier (changing case)</li>
-<li>Keep to the basics</li>
-</ul>
-</li>
-<li>Vim Configuration</li>
-<li>Other plugins</li>
-<li>Conclusion</li>
-</ul>
-<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2>
-<p>So, what editor do you use for programming?</p>
-<p>In case you&#39;re wondering, here is the list of editors I&#39;ve tried at one point or another…</p>
-<ul>
-<li>Homesite</li>
-<li>DreamWeaver</li>
-<li>NetBeans</li>
-<li>Aptana</li>
-<li>Coda</li>
-<li>Chocolat</li>
-<li>Sublime Text</li>
-</ul>
-<p>…and that&#39;s not including some of the real <em>random</em> editors that have cropped up over the years.</p>
-<p>It seems popular editors nowadays are becoming more minimalist (oxymoron?)</p>
-<p>The UI appears to be reducing in favour of keyboard short-cuts, with the intention of improving developer productivity.</p>
-<p>One example of this is the use of a &#39;fuzzy keyword search&#39;. The principle idea being that you press a short-cut key and you&#39;re presented with a field where you can type whatever you like and the editor will attempt to list out a group of files that match (in some way) what you&#39;ve typed.</p>
-<p>The reason this is a good thing is that it makes finding and opening files a lot quicker.</p>
-<p>Imagine you don&#39;t know where a file lives (easily done in a cross team environment where other devs are working on code for a feature you&#39;re not). Fuzzy file searching makes life a lot easier.</p>
-<p>Even if you <em>do</em> know where a file lives, fuzzy file searching is still quicker than reaching for your mouse, moving over to the file system and clicking on folders until you find the file and then double click to open it.</p>
-<p>A lot of editors have a feature like this nowadays (Sublime Text is one such popular example).</p>
-<div class="delayed-image-load" data-src="/images/generated/sublime-text-fuzzy-1024.png" data-width="1024"></div>
-
-<p>The problem is that most editors don&#39;t normally have a long shelf life (none that any serious developer would consider using  nowadays -&gt; I&#39;m looking at Dreamweaver here**).</p>
-<p>**yes I&#39;m sure they&#39;ll be some people who still use Dreamweaver and will not like that sentence, but I think it&#39;s safe to say that the developer community has grown up considerably since those early Macromedia days and developers have long since moved away to other more advanced and efficient development environments.</p>
-<p>For example, the current hotness (as of 2013) is to use Sublime Text (a nice editor with good keyboard based features but also allows users to interact with it using a mouse). But what happens when Sublime Text stops getting updates (TextMate? Don&#39;t think it can&#39;t happen), or gets bought out by a competitor and then is dumped (this happens <em>all</em> the time in the software industry)?</p>
-<p>Where do developers go next?
-Typically developers find another editor.</p>
-<h2><a name="here-comes-the-old-man" class="anchor" href="#here-comes-the-old-man"><span class="header-link"></span></a>Here comes the old man</h2>
-<p>Well, there is an editor that has been around for a <em>very</em> long time and is available everywhere (and in most cases is installed by default) but also has tons of plug-ins and is pretty much the Perl of keyboard short-cuts.</p>
-<p>That editor is <a href="http://en.wikipedia.org/wiki/Vi">VI</a> (well, as you&#39;ll see, more specifically Vim) and it was originally created back in 1976!</p>
-<p>Since then there has been improvements to the editor which nowadays (~1981 onwards) is more commonly known as Vim (meaning: VI Improved) and you can find more information on Vim at its website <a href="http://www.vim.org/"><a href="http://www.vim.org/">http://www.vim.org/</a></a>.</p>
-<h2><a name="the-focus-of-this-post" class="anchor" href="#the-focus-of-this-post"><span class="header-link"></span></a>The focus of this post</h2>
-<p>OK, so the problem with Vim is that although it&#39;s a great program to use, it unfortunately has a <em>very</em> steep learning curve which puts off new comers.</p>
-<p>Also, Vim by itself isn&#39;t as useful (as a development environment) without a few plug-ins that help give it a bit of jazz. That also trips up new comers to Vim as they assume what they see other developers using is <em>just</em> Vim but it&#39;s not. Vim by itself is very nondescript, it&#39;s the plug-ins and custom Vim configurations that make all the difference to the look and feel of Vim.</p>
-<p>So, the key to using Vim (for the first time) as a developer tool is:</p>
-<ul>
-<li>Get a nice clean command line shell</li>
-<li>Get ourselves a set of primary plugins installed first</li>
-<li>Then focus on basic Vim commands last (typically this is considered the first step, but I think that&#39;s a mistake)</li>
-</ul>
-<p>I want to get the primary tools set-up first, and to show you those BEFORE we get ourselves bogged down with Vim commands.</p>
-<h2><a name="step-1-installation" class="anchor" href="#step-1-installation"><span class="header-link"></span></a>Step 1: Installation</h2>
-<p>I&#39;m not going to cover the installation of Vim because chances are it&#39;s already installed! Also, I&#39;m running a Mac and so this tutorial is aimed at that environment (i.e. your mileage may vary otherwise if you&#39;re on Windows or a non Unix system).</p>
-<h3><a name="updating-your-vim-version" class="anchor" href="#updating-your-vim-version"><span class="header-link"></span></a>Updating your Vim version?</h3>
-<p>If you decide you want to update your version of Vim (which when using a Mac is probably something you&#39;ll want to do as the included version is quite old).</p>
-<p>You can do this by installing the latest version of Vim using <a href="http://brew.sh/">Homebrew</a>: <code>brew install vim</code>.</p>
-<p>The problem you&#39;ll likely hit is that the Mac will still be using the original version of Vim.</p>
-<p>Run <code>which vim</code> to see where the system is looking for Vim and if it&#39;s not running from a local user directory then you&#39;ll know it&#39;s not using the Homebrew install version. </p>
-<p>So go to that directory specified by <code>which vim</code> and then rename the Vim folder (e.g. VimVersionXXXX) and then run <code>which vim</code> again and you should find that your system tries looking elsewhere for Vim and it will find the Homebrew install.</p>
-<h3><a name="things-were-going-to-install-to-go-along-with-vim" class="anchor" href="#things-were-going-to-install-to-go-along-with-vim"><span class="header-link"></span></a>Things we&#39;re going to install to go along with Vim</h3>
-<p>But here are the things we&#39;re going to install…</p>
-<ul>
-<li>Pure Zsh</li>
-<li>TMUX</li>
-<li>Vundle</li>
-<li>NERDTree</li>
-<li>Ctrl+p</li>
-</ul>
-<p>…now there are loads of plugins you could install but the above are the fundamental ones that you&#39;ll require (you might decide that&#39;s all you need, I&#39;ll leave it up to you to decide).</p>
-<h2><a name="zsh" class="anchor" href="#zsh"><span class="header-link"></span></a>Zsh</h2>
-<p>To use Vim we&#39;ll need to use a terminal shell. So let&#39;s get that open now (if you&#39;re on a Mac you&#39;ll have a Terminal.app you can run).</p>
-<p>The default terminal shell for the GNU operating system, Linux and Mac OS X is &#39;Bash&#39; but we want to use &#39;Zsh&#39; instead.</p>
-<p>I won&#39;t delve into the reasons why but effectively Zsh is a more efficient shell and offers better features than Bash and in general is more enjoyable to use.</p>
-<p>To see what shells are available on your system you can run the command <code>cat /etc/shells</code> (hopefully you&#39;ll see <code>/bin/zsh</code> in the list).</p>
-<p>To change shells run the command <code>chsh -s /bin/zsh</code>.</p>
-<p>Terminal shells can be configured using (what&#39;s typically referred to as) a &#39;dot file&#39;. These are files that are prefixed with a period character and so are hidden from standard users.</p>
-<p>To see the hidden files in a directory just run the command <code>ls -la</code> and you should see a whole host of hidden dot files and folders.</p>
-<p>For Zsh there should be a <code>.zshrc</code> file in your home directory (if there isn&#39;t then create one, as we&#39;ll need it shortly). You can do this very simply using the command <code>touch .zshrc</code>.</p>
-<p>As we&#39;ll be using Vim there should also be in the home directory a <code>.vimrc</code> file for configuring Vim. If there isn&#39;t then create one (again, we&#39;ll be needing it shortly).</p>
-<h2><a name="pure-zsh" class="anchor" href="#pure-zsh"><span class="header-link"></span></a>Pure Zsh</h2>
-<p>Now that we have Zsh running let&#39;s make it look a bit nicer by using &#39;Pure Zsh&#39;. I&#39;m going to let the author have the pleasure of describing it…</p>
-<blockquote>
-<p>Most prompts are cluttered, ugly and slow. I wanted something visually pleasing that stayed out of my way. Pretty, minimal and fast.</p>
-</blockquote>
-<p>So let&#39;s get it installed. Go to <a href="https://github.com/sindresorhus/pure"><a href="https://github.com/sindresorhus/pure">https://github.com/sindresorhus/pure</a></a> and download the file <code>pure.zsh</code> to your home directory (or wherever you want, just remember where you save it).</p>
-<p>You can import the <code>pure.zsh</code> file by adding the following line into the <code>.zshrc</code> file: <code>. /path/to/pure.zsh</code></p>
-<div class="delayed-image-load" data-src="/images/generated/pure-zsh-1024.png" data-width="1024"></div>
-
-<h2><a name="tmux" class="anchor" href="#tmux"><span class="header-link"></span></a>TMUX</h2>
-<p>So what is tmux? The authors definition is…</p>
-<blockquote>
-<p>It lets you switch easily between several programs in one terminal, detach them (they keep running in the background) and reattach them to a different terminal. And do a lot more.</p>
-</blockquote>
-<p>OK, so in short tmux makes it easy for you to create new terminal windows with panes and complex layouts (stuff you can do with raw Vim but tmux makes easier).</p>
-<p>There are a couple of ways to install <a href="http://tmux.sourceforge.net/">TMUX</a> the easiest is with <a href="http://brew.sh/">Homebrew</a>: <code>brew install tmux</code></p>
-<p>Once you have tmux installed you can start it by simply running the command <code>tmux</code> in your terminal.</p>
-<p>You may wonder if anything has actually happened because tmux doesn&#39;t look any different from what your normal terminal shell looks like, but what you don&#39;t realise is that you now have quite a few new keyboard shortcuts you can use to split your terminal into &#39;panes&#39;, &#39;windows&#39; or &#39;tabs&#39;.</p>
-<div class="delayed-image-load" data-src="/images/generated/tmux-1024.png" data-width="1024"></div>
-
-<h3><a name="prefix" class="anchor" href="#prefix"><span class="header-link"></span></a>Prefix?</h3>
-<p>In tmux whenever you want to run a command you first run a opening command called &#39;the prefix&#39;. The prefix is typically <code>Ctrl+b</code> (i.e. press the <code>Ctrl</code> button and then the <code>b</code> key). </p>
-<p>In my case I&#39;ve updated the prefix to be <code>Ctrl+a</code> instead of <code>Ctrl+b</code> via a <code>tmux.conf</code> configuration file (you&#39;ll find out more about this file in the next section &quot;tmuxinator&quot;).</p>
-<h3><a name="creating-windows" class="anchor" href="#creating-windows"><span class="header-link"></span></a>Creating windows</h3>
-<p>To create a new window just run the prefix command and then press the <code>c</code> key (e.g. <code>Ctrl+b</code> then <code>c</code>)</p>
-<p>To close a window either run <code>exit</code> or press <code>Ctrl+d</code></p>
-<h3><a name="renaming-windows" class="anchor" href="#renaming-windows"><span class="header-link"></span></a>Renaming windows</h3>
-<p>You can rename a window by running the prefix command and then pressing the <code>,</code> key.</p>
-<h3><a name="changing-windows" class="anchor" href="#changing-windows"><span class="header-link"></span></a>Changing windows</h3>
-<p>You can move around your tmux windows using the prefix command and either <code>n</code> (for next) or <code>p</code> (for previous) or specifying a number that correlates with the window number.</p>
-<h3><a name="creating-panes" class="anchor" href="#creating-panes"><span class="header-link"></span></a>Creating panes</h3>
-<p>To create a new horizontal pane run the prefix command and then press <code>Shift+5</code> (the <code>%</code> key).</p>
-<div class="delayed-image-load" data-src="/images/generated/tmux-horizontal-1024.png" data-width="1024"></div>
-
-<p>To create a new vertical pane run the prefix command and then press <code>Shift+&#39;</code> (the <code>&quot;</code> key).</p>
-<div class="delayed-image-load" data-src="/images/generated/tmux-vertical-1024.png" data-width="1024"></div>
-
-<h3><a name="full-screen-a-pane" class="anchor" href="#full-screen-a-pane"><span class="header-link"></span></a>Full screen a pane</h3>
-<p>At any time you can turn a pane into a full screen view (and back again) by running the prefix command followed by <code>z</code>. Run that again to toggle back to the pane view.</p>
-<h3><a name="move-a-pane-into-a-different-pane-space" class="anchor" href="#move-a-pane-into-a-different-pane-space"><span class="header-link"></span></a>Move a pane into a different pane space</h3>
-<p>You can actually shift the panes around so that if a pane is in one position (let&#39;s say top left), you can move it to a different location (let&#39;s say bottom right) simply by running the prefix command followed by <code>Shift+{</code>, every time you press that combination all the panes will shift around.</p>
-<h3><a name="renaming-a-session" class="anchor" href="#renaming-a-session"><span class="header-link"></span></a>Renaming a session</h3>
-<p>When you create a new tmux session (i.e. run <code>tmux</code>). You can opt to give it a name using <code>tmux new -s session_name</code>, but if you forget to do that and want to give the session a name later on (I do this all the time) then from within the session just run the prefix command followed by <code>Shift+4</code> (which is the <code>$</code> key) or alternatively run the prefix command followed by a <code>:</code> and then <code>rename-session -t [current-name] [new-name]</code> (if it has no current name then you&#39;ll just use the number assigned).</p>
-<h2><a name="tmuxinator" class="anchor" href="#tmuxinator"><span class="header-link"></span></a>TMUXinator</h2>
-<p>We&#39;re now going to set-up a tool associated with tmux called &#39;<a href="https://github.com/aziz/tmuxinator">tmuxinator</a>&#39; and this will help us manage complex tmux sessions.</p>
-<p>Basically, rather than you (every day) opening up the terminal and manually creating the same set of panes and windows and opening files in tmux, we can just store these preferences as a template. We do this by creating a text file that holds this configuration information.</p>
-<p>First thing to do is to install TMUXinator.</p>
-<p>Sorry, but we need more technologies and this time it&#39;s Ruby.</p>
-<p>To install it we need to run the command <code>gem install tmuxinator</code>.</p>
-<p>Once installed we can create a new instance by running the command <code>tmuxinator new [project]</code>. You can call your project whatever you like (I went with <code>tmuxinator new work</code>).</p>
-<p>Running this command is going to create a dot file <code>.tmux.conf</code> and also a dot folder called <code>.tmuxinator</code> which holds a <code>project.yml</code> (where the name of the file matches the name of the project, so for me it created a <code>work.yml</code> file).</p>
-<p>If you open the yaml file you&#39;ll see it has a basic example set-up ready for you to configure…</p>
-<pre><code class="lang-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">test-project</span>
-<span class="l-Scalar-Plain">root</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~/Code/news/workspace/</span>
-
-<span class="l-Scalar-Plain">windows</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">editor</span><span class="p-Indicator">:</span>
-      <span class="l-Scalar-Plain">layout</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">main-vertical</span>
-      <span class="l-Scalar-Plain">panes</span><span class="p-Indicator">:</span>
-        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">vim</span>
-        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">git status</span>
-        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">cd path/to/my/cheatsheet &amp;&amp; vim cheat-sheet.txt</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sandbox</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">vagrant ssh</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">sass</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">grunt watch:service:news</span>
-</pre></div>
-</code></pre>
-<p>…above is an example of my <code>work.yml</code>.</p>
-<p>You can see I specify that I want to have three tabs created:</p>
-<ul>
-<li>editor</li>
-<li>sandbox</li>
-<li>sass</li>
-</ul>
-<p>Within the first tab <code>editor</code> I have a specific layout used called <code>main-vertical</code> (tmux comes with many different pre-built layouts, this is just one of them).</p>
-<p>The layout I&#39;m using splits the screen into two columns. In the left column I have <code>vim</code> running and in the right column I have two rows. The top row checks the status of my git repository, and the bottom row opens up a Vim cheat sheet.</p>
-<p>In the second tab <code>sandbox</code> I&#39;ve told tmux I want to connect to our local development sandbox (via ssh).</p>
-<p>In the third tab <code>sass</code> I&#39;ve told tmux I want to run a task that watches our Sass development files for any changes (and then compiles the files when a change is detected).</p>
-<div class="delayed-image-load" data-src="/images/generated/tmuxinator-1024.png" data-width="1024"></div>
-
-<h3><a name="starting-tmuxinator" class="anchor" href="#starting-tmuxinator"><span class="header-link"></span></a>Starting tmuxinator</h3>
-<p>Now we have a template set-up, to use it we just run <code>tmuxinator start project</code> (or in my case <code>tmuxinator start work</code>).</p>
-<h3><a name="closing-tmux" class="anchor" href="#closing-tmux"><span class="header-link"></span></a>Closing tmux</h3>
-<p>Chances are you&#39;ll just leave the tmux session open, but if you want a quick way to detach from the tmux session (but leave the session open in the background so you can come back to it) then just run <code>Ctrl+a d</code></p>
-<p>You can see what tmux sessions are still open by running <code>tmux ls</code> which will show a number and a associated session.</p>
-<p>You can re-attach to an existing session by running <code>tmux attach -t {number|name}</code> where <code>{number|name}</code> is either the number or the name of the session.</p>
-<p>If there is only one session then you can just run <code>tmux attach</code>.</p>
-<p>To totally kill a session just run <code>tmux kill-session -t {number|name}</code>.</p>
-<h2><a name="vundle" class="anchor" href="#vundle"><span class="header-link"></span></a>Vundle</h2>
-<p>This is a plug-in manager for Vim.</p>
-<p>To install Vundle run <code>git clone  
-https://github.com/gmarik/  
-vundle.git  
-~/.vim/bundle/vundle</code></p>
-<p>Now you have it installed, you can add plug-ins to your <code>.vimrc</code> configuration file and install them by running a <code>:BundleInstall</code> command from within Vim.</p>
-<p>You can also just run <code>vim +BundleInstall</code> from the command line.</p>
-<h3><a name="set-up-some-bundles" class="anchor" href="#set-up-some-bundles"><span class="header-link"></span></a>Set-up some bundles</h3>
-<p>We&#39;re jumping ahead a little bit (because at the end of this section you&#39;ll see we&#39;ll be using Vim to type one command, but it&#39;s OK we won&#39;t do any more than that until later).</p>
-<p>Let&#39;s open our <code>.vimrc</code> file and add some plug-ins we&#39;re going to need (code comments start with &quot;)…</p>
-<pre><code class="lang-sh"><div class="highlight"><pre><span class="nb">set </span>rtp+<span class="o">=</span><span class="nv">$HOME</span>/.vim/bundle/vundle
-call vundle#rc<span class="o">()</span>
-Bundle <span class="s1">&#39;gmarik/vundle&#39;</span>
-filetype plugin indent on
-
-<span class="s2">&quot; ALL OF THE ABOVE IS ALSO REQUIRED</span>
-<span class="s2">&quot;</span> FOR SUCCESSFUL VUNDLE INSTALL
-<span class="err">&quot;</span> THE FOLLOWING IS NEW FOR US…
-
-Bundle <span class="s1">&#39;kien/ctrlp.vim&#39;</span>
-Bundle <span class="s1">&#39;vim-scripts/The-NERD-tree&#39;</span>
-</pre></div>
-</code></pre>
-<p>…so you may have noticed we&#39;ve specified two plug-ins:</p>
-<ol>
-<li>NERDTree</li>
-<li>Ctrl+p</li>
-</ol>
-<p>If you check the Vundle README on GitHub you&#39;ll see there are multiple ways to specify a &#39;bundle&#39;, in our case we&#39;re installing two bundles that are available on GitHub so you&#39;ll notice that the paths specified are actually the GitHub username/repo-name.</p>
-<p>To actually get these two bundles installed (using the Vundle plug-in) means we need to first open Vim so we can run the relevant install command.</p>
-<p>So to open Vim literally just run: <code>vim</code> and then to run the install command press ESC (just to make sure you&#39;re in the right mode, don&#39;t worry we&#39;ll cover this later) then type <code>:BundleInstall</code> and press ENTER.</p>
-<h3><a name="where-can-i-find-bundles" class="anchor" href="#where-can-i-find-bundles"><span class="header-link"></span></a>Where can I find bundles?</h3>
-<p>Bundles are just pointers to Vim scripts.</p>
-<p>The two bundles we&#39;ve pointed to are references to their GitHub repositories.</p>
-<p>But you can also point to non-github repos, local git repos, or direct to Vim scripts. See the Vundle README for more information.</p>
-<h2><a name="nerdtree" class="anchor" href="#nerdtree"><span class="header-link"></span></a>NERDTree</h2>
-<p>NERDTree is a tree explorer plugin for navigating the filesystem. This is the closest thing you&#39;re going to get to a standard editor feature.</p>
-<p>We&#39;ll cover how to use it in the following Vim Basics section. Suffice to say, with the <code>Ctrl+p</code> plug-in we shouldn&#39;t need to use the NERDTree very often (but sometimes it can come in handy)</p>
-<h2><a name="ctrlp" class="anchor" href="#ctrlp"><span class="header-link"></span></a>Ctrl+p</h2>
-<p>This is a fuzzy file finder so it makes it easy for you to locate files within your project by just typing a couple of characters of the files name.</p>
-<p>Again, we&#39;ll cover how to use it in the following Vim Basics section.</p>
-<h2><a name="vim" class="anchor" href="#vim"><span class="header-link"></span></a>Vim</h2>
-<p>So here we are! We made it to the part where we can actually use Vim! So let&#39;s get stuck in...</p>
-<h3><a name="vim-basics" class="anchor" href="#vim-basics"><span class="header-link"></span></a>Vim Basics</h3>
-<p>Vim is all about not using the mouse, just the keyboard.</p>
-<p>One of the first things to know about Vim are that it has 3 modes:</p>
-<ol>
-<li>NORMAL (you run the majority of your commands from this mode)</li>
-<li>INSERT (you spend the least amount of time in this mode)</li>
-<li>VISUAL (you select text in this mode)</li>
-</ol>
-<p>To switch modes you first press the <code>ESC</code> key and then either <code>i</code> to go into INSERT mode and <code>v</code> to go into VISUAL mode. The act of pressing <code>ESC</code> automatically puts you into NORMAL mode.</p>
-<p>Once you&#39;re in NORMAL or VISUAL mode, to actually run a command (let&#39;s say the command we want is <code>d$</code>, don&#39;t worry what that means for now) you first press <code>:</code> followed by <code>d$</code>.</p>
-<h3><a name="using-ctrlp-to-do-fuzzy-file-searching" class="anchor" href="#using-ctrlp-to-do-fuzzy-file-searching"><span class="header-link"></span></a>Using Ctrl+p to do fuzzy file searching</h3>
-<p>Get ourselves into NORMAL mode by pressing <code>ESC</code>, followed by <code>:</code>, followed by <code>CtrlP</code> (note: for this particular plug-in, if you&#39;re already in NORMAL mode, you can just press the <code>Ctrl</code> and <code>p</code> keys together to trigger the fuzzy search to open, but to not confuse ourselves let&#39;s keep to the standard <code>:some-command</code> format).</p>
-<p>Once the plug-in is open we can just start typing the name of the file we&#39;re looking for, and you&#39;ll see that it lists all the files it thinks matches what we&#39;re looking for.</p>
-<p>Simply use the arrow keys to select the relevant file you want to open and press ENTER.</p>
-<div class="delayed-image-load" data-src="/images/generated/ctrlp-1024.png" data-width="1024"></div>
-
-<h3><a name="updating-ctrlps-list" class="anchor" href="#updating-ctrlps-list"><span class="header-link"></span></a>Updating Ctrl+P&#39;s list</h3>
-<p>If you have Vim open and you add a new file then the list that Ctrl+P uses (which is cached) will be out of date. To fix this, open Ctrl+P and then press <code>F5</code> to refresh the list of files it can search for.</p>
-<h3><a name="using-nerdtree-to-search-our-file-system" class="anchor" href="#using-nerdtree-to-search-our-file-system"><span class="header-link"></span></a>Using NERDTree to search our file system</h3>
-<p>When Vim is open and in NORMAL mode press <code>:</code> followed by <code>NERDTreeToggle</code> this will open NERDTree at the current location. You can then use your arrow keys to move up and down the file system and press <code>ENTER</code> to open folders. Once you find a file you want to open press <code>ENTER</code> once you&#39;re cursor is on the item of interest.</p>
-<div class="delayed-image-load" data-src="/images/generated/nerdtree-1024.png" data-width="1024"></div>
-
-<h3><a name="command-structure" class="anchor" href="#command-structure"><span class="header-link"></span></a>Command Structure</h3>
-<p>It&#39;s worth remembering that most commands follow the format: <code>operator [number] motion</code> (not all the time, but enough of the time - you&#39;ll soon get used to the order you do things).</p>
-<p>What follows is a super short list of commands and what they do.</p>
-<h3><a name="cursor-movement" class="anchor" href="#cursor-movement"><span class="header-link"></span></a>Cursor Movement</h3>
-<p><code>h</code>    : left<br><code>l</code>    : right<br><code>k</code>    : up<br><code>j</code>    : down</p>
-<p>Note: you can use your arrow keys still, but it&#39;s considered best practice by the Vim community to get used to using the above keys rather than the arrow keys.</p>
-<h3><a name="page-movement" class="anchor" href="#page-movement"><span class="header-link"></span></a>Page Movement</h3>
-<p>Rather than moving up and down a file line by line, we can instead just move up and down the file in sections.</p>
-<p><code>Ctrl+u</code> : move one page up<br><code>Ctrl+d</code> : move one page down<br><code>Ctrl+b</code> : move half page up<br><code>Ctrl+f</code> : move half page down</p>
-<h3><a name="motions" class="anchor" href="#motions"><span class="header-link"></span></a>Motions</h3>
-<p>With some commands we need to indicate what direction or motion we want to take.</p>
-<p><code>e</code>    : move to the end of a word<br><code>w</code>    : move to the start of next word (use with a counter -&gt; a counter meaning &quot;a number&quot;)</p>
-<p><strong>Examples</strong>:</p>
-<p><code>5e</code> = move to the end of the 5th word in the sentence<br><code>5w</code> = move to the start of the word after the 5th (so actually move to the start of the 6th word)</p>
-<h3><a name="operators" class="anchor" href="#operators"><span class="header-link"></span></a>Operators</h3>
-<p>Here are some common operators available to use:</p>
-<ul>
-<li><code>0</code> : moves cursor to the start of the line</li>
-<li><code>$</code> : moves cursor to the end of the line</li>
-<li><code>d</code> : delete (e.g. <code>d$</code> deletes the entire line)</li>
-<li><code>G</code> : go to line (e.g. <code>5G</code> takes you to the 5th line of the file)</li>
-<li><code>v</code>    : select (e.g. <code>v1e</code> selects one word, the act of pressing <code>v</code> automatically sticks you in VISUAL mode)</li>
-<li><code>V</code>    : select entire line (e.g. <code>V</code> selects the entire line, the act of pressing <code>v</code> automatically sticks you in VISUAL mode)</li>
-<li><code>j</code>    : move down one line (e.g. <code>d5j</code> deletes 5 lines)</li>
-<li><code>y</code> : copy selected text (e.g. select text and then press <code>y</code>)</li>
-<li><code>yy</code>    : copy line (e.g. <code>yy</code> copies line to buffer ready to be pasted)</li>
-<li><code>p</code>    : paste after cursor (e.g. <code>p</code> pastes content, but obviously requires content to have been copied previously)</li>
-<li><code>P</code>    : paste before cursor (e.g. <code>P</code> pastes content, but obviously requires content to have been copied previously)</li>
-<li><code>c</code>    : change (the change command deletes the selection and then puts user into INSERT mode so e.g. <code>cw</code> deletes the current word ready to have a new word entered)</li>
-<li><code>i</code>    : inside of (e.g. <code>yi&quot;</code> this will (y)ank all content (i)nside of the next set of quotation marks)</li>
-<li><code>a</code> : same as <code>i</code> but content comes after the cursor rather than before</li>
-<li><code>b</code> : moves backwards through words</li>
-<li><code>o</code> : moves cursor to the next line and jumps into insert mode</li>
-<li><code>f</code>    : forward (e.g. <code>f,</code> moves to first comma. if you then press <code>;</code> you&#39;ll move to the next instance of the specified character. You can also move a set number of characters, so <code>2f,</code> will move the cursor to the second instance of a comma)</li>
-<li><code>x</code>    : cut after cursor (e.g. place cursor where you want to cut a character and press <code>x</code> to cut it, ready for pasting elsewhere)</li>
-<li><code>u</code>    : undo (e.g. just pressing <code>u</code> will undo the last change made)</li>
-<li><code>=</code> : auto indent (e.g. pressing == will indent the current line to the correct space, corresponding to the programming language being used in the current buffer)</li>
-<li><code>~</code> : replaces the case of a character (e.g. converts a to A and then back again)</li>
-</ul>
-<h3><a name="deleting" class="anchor" href="#deleting"><span class="header-link"></span></a>Deleting</h3>
-<p>You can select multiple lines and just press <code>d</code> to delete.</p>
-<p>When selecting multiple lines for deletion (e.g. <code>d5j</code>) it is better to use <code>d5d</code> as it deletes the expected number of lines.</p>
-<p>For example…</p>
-<pre><code><div class="highlight"><pre><span class="nx">Line</span> <span class="mi">1</span>  
-<span class="nx">Line</span> <span class="mi">2</span>  
-<span class="nx">Line</span> <span class="mi">3</span>  
-<span class="nx">Line</span> <span class="mi">4</span>  
-<span class="nx">Line</span> <span class="mi">5</span>  
-<span class="nx">Line</span> <span class="mi">6</span>  
-<span class="nx">Line</span> <span class="mi">7</span>  
-<span class="nx">Line</span> <span class="mi">8</span>  
-<span class="nx">Line</span> <span class="mi">9</span>  
-<span class="nx">Line</span> <span class="mi">10</span>
-</pre></div>
-</code></pre>
-<p>…if the cursor is on line 3 and you run <code>d4j</code> you&#39;ll end up deleting lines 3-7 but if you run <code>d4d</code> you&#39;ll delete 3-6 which visually is more likely what you intended (this is because <code>j</code> includes the current line on top of the specified number of lines to delete).</p>
-<h3><a name="deleting-a-tag" class="anchor" href="#deleting-a-tag"><span class="header-link"></span></a>Deleting a tag</h3>
-<p>You can also delete a piece of text and its corresponding tag: <code>dat</code> which means to [d]elete [a]round [t]ag.</p>
-<p>So if you had <code>&lt;div&gt;&lt;p&gt;Some text&lt;/p&gt;&lt;/div&gt;</code> and your cursor was inside the <code>&lt;p&gt;</code> then you could delete the paragraph as well as the text &quot;Some text&quot;.</p>
-<h3><a name="search-within-a-file" class="anchor" href="#search-within-a-file"><span class="header-link"></span></a>Search within a file</h3>
-<p>In NORMAL mode type a forward slash <code>/</code> followed by your search term.</p>
-<p>e.g. <code>/theThingImLookingFor</code> -&gt; this will automatically highlight any matches of the phrase <code>theThingImLookingFor</code> inside of the current file.</p>
-<p>If you press the <code>enter</code> key the matches will stay highlighted and you can press <code>n</code> to navigate through each match (or <code>Shift+n</code> to move backwards through each match).</p>
-<p>You&#39;ll notice that the search is case sensitive (which is annoying). To fix this you can put <code>\c</code> at the end of the search term to make the search case insensitive.</p>
-<p>e.g. <code>/tHEeThingIMLookingFor\c</code> will still find <code>theThingImLookingFor</code></p>
-<p>You can add <code>set smartcase</code> and <code>set ignorecase</code> to your <code>.vimrc</code> file which can help also.</p>
-<p>Also, if you press <code>Shift+8</code> any where inside of a word then that word is selected and automatically searched within the document (note: <code>Shift+3</code> does the same but searches backwards).</p>
-<h3><a name="search-and-replace" class="anchor" href="#search-and-replace"><span class="header-link"></span></a>Search and Replace</h3>
-<p>You can search and replace within a file by first moving into NORMAL mode and then after pressing <code>:</code> and entering the following…</p>
-<p><code>50,100s/search/replace/gc</code></p>
-<p>…what this means is we limit the search range from line 50 up to line 100, we then look for the phrase <code>search</code> and we replace it with the phrase <code>replace</code>. We then use the <code>g</code> global flag which means don&#39;t stop after finding the first match. The <code>c</code> flag means don&#39;t just replace the instance, check with us first by asking us if we definitely want to carry out the replace.</p>
-<p>You don&#39;t have to use the range numbers, you can just use: <code>:%s/search/replace/gc</code> (but notice, now we don&#39;t have the range we need to include a <code>%</code> at the start).</p>
-<p>You can also use regular expressions which is awesome. But be aware that they don&#39;t quite match the standard regex syntax (you have to escape capture groups and word boundaries are no longer <code>\b</code> they are <code>\&lt;</code> and <code>\&gt;</code> +<a href="http://vimregex.com/">many other differences</a>). BUT you can work around this by specifying a <code>\v</code> flag before the regex.</p>
-<p>So for example, if you had the string <code>foo.add(&#39;bar&#39;)</code> then you could find it with something like…</p>
-<p><code>:%s/\v(\.add\(&#39;.*&#39;\))/\1/gc</code></p>
-<p>…notice we&#39;re not having to escape the outer parenthesis which are capturing the entire match (you&#39;ll also notice this find and replace search doesn&#39;t actually do anything because we capture the entire match and then replace it with itself <code>\1</code>, but it gives you an example of how to use the &#39;Very Magic&#39; mode).</p>
-<p>Note: You can also do a site wide search and replace using the <code>Ack</code> plug-in (e.g. add <code>Bundle &#39;mileszs/ack.vim&#39;</code> to our <code>.vimrc</code> file and run the <code>:BundleInstall</code> again). Checkout the Ack repo on GitHub to see how it works.</p>
-<h3><a name="viewing-different-buffers" class="anchor" href="#viewing-different-buffers"><span class="header-link"></span></a>Viewing different buffers</h3>
-<p>Our <code>.vimrc</code> maps <code>\y</code>…</p>
-<p><code>map &lt;leader&gt;y :CtrlPBuffer&lt;cr&gt;</code></p>
-<p>…so it shows us what the current buffer is (this allows us to jump between files within Vim).</p>
-<p>Note: in Vim the <code>&lt;leader&gt;</code> key is a backslash <code>\</code></p>
-<h3><a name="change-list" class="anchor" href="#change-list"><span class="header-link"></span></a>Change list</h3>
-<p>Vim remembers all points where an edit was made when within INSERT mode and stores them in a &#39;change list&#39;.</p>
-<p>To view the change list run the command <code>:changes</code>. This will display a list of edits you made along with the number of its place in the list.</p>
-<p>To access a specific change position run <code>:changes n</code> (where <code>n</code> is the number of the change position you&#39;re interested in). Moving to a previous change position doesn&#39;t undo the changes but instead just moves the cursor to that position. The reason why this is a good feature to have in Vim is because it allows you to jump around your file a lot more quickly and easily and can help to speed up your editing.</p>
-<p>To sequentially move back and forth between the change list points use the commands:</p>
-<p><code>g;</code> - prev<br><code>g,</code> - next</p>
-<h3><a name="jump-list" class="anchor" href="#jump-list"><span class="header-link"></span></a>Jump list</h3>
-<p>Similar to the &#39;change list&#39; feature, there is also a &#39;jump list&#39; which allows you to move back and forth between all cursor positions.</p>
-<p>You can view all cursor positions by running the command <code>:jumps</code>.</p>
-<p>To move to a previous cursor position use <code>ctrl-o</code> and to move forward use <code>ctrl-i</code>.</p>
-<h3><a name="diff-tool" class="anchor" href="#diff-tool"><span class="header-link"></span></a>Diff Tool</h3>
-<p>Vim comes with a built-in diff tool (useful for comparing the same file for changes).</p>
-<p>Open two Vim windows in a split (so you see them both on screen at the same time).</p>
-<p>Then within each window run the command <code>:diffthis</code>. You&#39;ll see any differences between the files highlighted for you along with their line number.</p>
-<p>When you scroll the file then Vim will keep the scrolling in sync across both files.</p>
-<p>To turn off the diff tool then run <code>:diffoff</code> in any one of the windows.</p>
-<h3><a name="code-comments" class="anchor" href="#code-comments"><span class="header-link"></span></a>Code Comments</h3>
-<p>The following commands use the <code>vim-commentary.git</code> plugin…</p>
-<p><code>gcc</code> = comment out a line (or <code>\\\</code>)<br><code>gcu</code> = uncomment the commented line (you can do <code>gcc</code> as a toggle)</p>
-<p>When you select multiple lines to comment out you can just use <code>gc</code> (rather than <code>gcc</code>)</p>
-<h3><a name="syntax-formatting" class="anchor" href="#syntax-formatting"><span class="header-link"></span></a>Syntax Formatting</h3>
-<p>You can set the formatting of a file using <code>:setf</code></p>
-<p>e.g. <code>:setf cucumber</code> (where <code>cucumber</code> is a syntax format installed)</p>
-<h3><a name="auto-indenting" class="anchor" href="#auto-indenting"><span class="header-link"></span></a>Auto Indenting</h3>
-<p>You can use the auto indent feature <code>=</code> to help you while programming.</p>
-<p>To indent the entire file you can use <code>gg=G</code> which breaks down to: <code>gg</code> move to the start of the file, <code>=</code> auto indent, <code>G</code> to the end of the file.</p>
-<p>You can auto indent a single line: <code>==</code></p>
-<p>You can auto indent a code block (while inside of it): <code>=i{</code></p>
-<p>You can auto indent a code block (while outside of it by first moving to either the opening or closing curly bracket): <code>=%</code>. Note: to move to the curly bracket keep pressing <code>%</code> (it&#39;ll move to either curly or parenthesis, which ever is first it&#39;ll stop there and then toggle between the opening/closing bracket, so you may need to manually navigation to the curly bracket and then run <code>=%</code>).</p>
-<h3><a name="run-terminal-commands-within-vim" class="anchor" href="#run-terminal-commands-within-vim"><span class="header-link"></span></a>Run terminal commands within Vim</h3>
-<p>Running the prefix command and then typing <code>:!{terminal command}</code> allows you to run terminal commands from within Vim (e.g. <code>:!pwd</code> shows us the current working directory).</p>
-<p>Note: doing this takes you out of Vim so you can see the results, but if you just press <code>ENTER</code> you&#39;ll be sent back into Vim.</p>
-<h3><a name="suspend-vim" class="anchor" href="#suspend-vim"><span class="header-link"></span></a>Suspend Vim</h3>
-<p>Another way to run terminal commands while Vim is running is to actually suspend Vim.</p>
-<p>If you run the prefix command this will take us back to the terminal to run whatever commands we like and then in the terminal just type <code>fg</code> to bring Vim back to the (f)ore (g)round.</p>
-<h3><a name="visual-block-mode" class="anchor" href="#visual-block-mode"><span class="header-link"></span></a>Visual Block Mode</h3>
-<p><code>Ctrl+v</code> puts us into Visual Block mode which allows us to select single columns and make multiple changes. So for example if you have a long list of items such as…</p>
-<pre><code><div class="highlight"><pre><span class="nx">_List</span> <span class="nx">Item</span> <span class="mi">1</span>  
-<span class="nx">_List</span> <span class="nx">Item</span> <span class="mi">2</span>  
-<span class="nx">_List</span> <span class="nx">Item</span> <span class="mi">3</span>  
-<span class="nx">_List</span> <span class="nx">Item</span> <span class="mi">4</span>  
-<span class="nx">_List</span> <span class="nx">Item</span> <span class="mi">5</span>
-</pre></div>
-</code></pre>
-<p>…if you wanted to remove the opening <code>_</code> underscore then you could enter Visual Block mode, select the underscores by using the direction keys (make sure you&#39;re on the first or last underscore when you enter Visual Block mode) and then after all are selected just press <code>d</code> to delete them.</p>
-<p>Note: you might find you have an issue with editing multiple lines using insert mode. To use insert mode inside of Visual Block mode is to use <code>Shift+i</code> to jump into insert mode (just typing <code>i</code> doesn&#39;t work as that would throw you into the standard INSERT mode, so it&#39;ll remove you from Visual Mode).</p>
-<p>Also you can press <code>c</code> to change multiple lines, but remember that your change only appears to have been made to one line until you escape Visual Mode, then Vim will kick in and apply the change to all other selected lines.</p>
-<h3><a name="vim-windows" class="anchor" href="#vim-windows"><span class="header-link"></span></a>Vim Windows</h3>
-<p>As well as having panes and windows within tmux you can create Windows within Vim (this is useful for times when you just want to do some quick hacking and tmux is too much effort -&gt; if you could believe such a thing).</p>
-<p>To create a new window in Vim (which is the same concept as a &#39;pane&#39; in tmux) you can either <code>Ctrl-s</code> to create a horizontal split screen (or run the command <code>:split</code>, or just <code>:sp</code>). You can also create a vertical split screen using <code>Ctrl-v</code> (or run the command <code>:vsplit</code>, or just <code>:vsp</code>).</p>
-<p>Note: if you use the execute command (i.e. <code>:</code> variation) then you can specify a file&#39;s path to be opened, otherwise Vim will automatically open the window pointing to a new buffer that is the same as the currently opened file (useful for viewing different portions of the same, but very long, file).</p>
-<p>You can create as many windows as you like (e.g. windows within a window).</p>
-<p>To resize a window&#39;s height you can use <code>Ctrl-w</code> then <code>-</code> or <code>+</code>. You can also use the command <code>:resize -N</code> or <code>:resize +N</code> (where <code>N</code> is the number to move by).</p>
-<p>To resize a window&#39;s width you can use <code>Ctrl-w</code> then <code>&lt;</code> or <code>&gt;</code>. You can also use the command <code>:vertical resize -N</code> or <code>:vertical resize +N</code> (where <code>N</code> is the number to move by).</p>
-<p>To maximise the height of the window then use <code>Ctrl-w</code> then <code>_</code>.</p>
-<p>To maximise the width of the window then use <code>Ctrl-w</code> then <code>|</code>.</p>
-<p>Finally, to close all windows use <code>:only</code> (which closes all the windows except the current one, where by you can just run <code>:q</code>)</p>
-<h3><a name="repeating-yourself" class="anchor" href="#repeating-yourself"><span class="header-link"></span></a>Repeating Yourself</h3>
-<p>Vim is designed to help you be as efficient as possible whilst editing so here is a little tip...</p>
-<p>If you need to repeat an edit you just made within INSERT mode then use the <code>.</code> command. </p>
-<p>For example, imagine you have the text &quot;this is text&quot; and you wanted to have the first letter of each word capitalised. </p>
-<p>You could first move to the start of the line <code>0</code> and then use the &#39;toggle casing&#39; command <code>~</code> and then run the command <code>w.</code> twice which means you would: (<code>w</code>) move the cursor to the next word and then (<code>.</code>) repeat the last edit.</p>
-<h3><a name="making-life-easier-changing-case" class="anchor" href="#making-life-easier-changing-case"><span class="header-link"></span></a>Making life easier (changing case)</h3>
-<p>Now imagine you have the word &quot;THIS&quot; and you wanted to only have the first letter of each word capitalised. </p>
-<p>Rather than manually rewrite each word, move your cursor to the start of the line and run <code>lve~</code>. </p>
-<p>That will (<code>l</code>) move the cursor to the right, (<code>v</code>) select (<code>e</code>) to the end of the word and then (<code>~</code>) switch that selection&#39;s casing (so in this instance it&#39;ll change to lowercase).</p>
-<p>Whenever you need to make repetitive changes try and think of how you can best utilise Vim to your advantage.</p>
-<h3><a name="keep-to-the-basics" class="anchor" href="#keep-to-the-basics"><span class="header-link"></span></a>Keep to the basics</h3>
-<p>The above commands quite literally do not even scratch the surface of what&#39;s available within Vim.</p>
-<p>So the best thing to do is to find a comfortable set of commands from the list above and don&#39;t deviate from them until you&#39;ve got them memorised (it&#39;s ok to Google for something you don&#39;t know, but try to just focus on the basic commands for now).</p>
-<h2><a name="vim-configuration" class="anchor" href="#vim-configuration"><span class="header-link"></span></a>Vim Configuration</h2>
-<p>Let&#39;s now take a quick look at some configuration options we can add to our <code>.vimrc</code> file…</p>
-<pre><code class="lang-sh"><div class="highlight"><pre><span class="s2">&quot; switch syntax highlighting on, when the terminal has colors</span>
-<span class="s2">syntax on</span>
-
-<span class="s2">&quot;</span> use vim, not vi api
-<span class="nb">set </span>nocompatible
-
-<span class="s2">&quot; no backup files</span>
-<span class="s2">set nobackup</span>
-
-<span class="s2">&quot;</span> no write backup
-<span class="nb">set </span>nowritebackup
-
-<span class="s2">&quot; no swap file</span>
-<span class="s2">set noswapfile</span>
-
-<span class="s2">&quot;</span> <span class="nb">command history</span>
-<span class="nb">set history</span><span class="o">=</span>100
-
-<span class="s2">&quot; always show cursor</span>
-<span class="s2">set ruler</span>
-
-<span class="s2">&quot;</span> show incomplete commands
-<span class="nb">set </span>showcmd
-
-<span class="s2">&quot; incremental searching</span>
-<span class="s2">set incsearch</span>
-
-<span class="s2">&quot;</span> highlight search
-<span class="nb">set </span>hlsearch
-
-<span class="s2">&quot; ignore case in search</span>
-<span class="s2">set smartcase</span>
-
-<span class="s2">&quot;</span> clear search buffer
-:nnoremap § :nohlsearch&lt;cr&gt;
-
-<span class="s2">&quot; make sure undo history is kept for files in buffer.</span>
-<span class="s2">set hidden</span>
-
-<span class="s2">&quot;</span> turn indentation on
-filetype indent on
-
-<span class="s2">&quot; enable filetype plugins</span>
-<span class="s2">filetype plugin on</span>
-
-<span class="s2">&quot;</span> disable folding because it is evil
-<span class="nb">set </span>nofoldenable
-
-<span class="s2">&quot; turn word wrap off</span>
-<span class="s2">set nowrap</span>
-
-<span class="s2">&quot;</span> scroll with more context
-<span class="nb">set </span><span class="nv">scrolloff</span><span class="o">=</span>10
-
-<span class="s2">&quot; allow backspace to delete end of line, indent and start of line characters</span>
-<span class="s2">set backspace=indent,eol,start</span>
-
-<span class="s2">&quot;</span> convert tabs to spaces
-<span class="nb">set </span>expandtab
-
-<span class="s2">&quot; set tab size</span>
-<span class="s2">set tabstop=4</span>
-
-<span class="s2">&quot;</span> the number of spaces inserted <span class="k">for </span>a tab
-<span class="nb">set </span><span class="nv">shiftwidth</span><span class="o">=</span>4
-
-<span class="s2">&quot; turn on line numbers</span>
-<span class="s2">set number</span>
-
-<span class="s2">&quot;</span> highlight tailing whitespace
-<span class="nb">set </span>list <span class="nv">listchars</span><span class="o">=</span>tab:<span class="se">\ \ </span>,trail:·
-
-<span class="s2">&quot; get rid of the delay when pressing O (for example)</span>
-<span class="s2">&quot;</span> http://stackoverflow.com/questions/2158516/vim-delay-before-o-opens-a-new-line
-<span class="nb">set </span>timeout <span class="nv">timeoutlen</span><span class="o">=</span>1000 <span class="nv">ttimeoutlen</span><span class="o">=</span>100
-
-<span class="s2">&quot; always show status bar</span>
-<span class="s2">set laststatus=2</span>
-
-<span class="s2">&quot;</span> <span class="nb">set </span>the status line to something useful
-<span class="nb">set </span><span class="nv">statusline</span><span class="o">=</span>%f<span class="se">\ </span>%<span class="o">=</span>L:%l/%L<span class="se">\ </span>%c<span class="se">\ </span><span class="o">(</span>%p%%<span class="o">)</span>
-
-<span class="s2">&quot; hide the toolbar</span>
-<span class="s2">set guioptions-=T</span>
-
-<span class="s2">&quot;</span> utf encoding
-<span class="nb">set </span><span class="nv">encoding</span><span class="o">=</span>utf-8
-
-<span class="s2">&quot; autoload files that have changed outside of vim</span>
-<span class="s2">set autoread</span>
-
-<span class="s2">&quot;</span> jump to last cursor
-autocmd BufReadPost *
-  <span class="se">\ </span><span class="k">if </span>line<span class="o">(</span><span class="s2">&quot;&#39;\&quot;&quot;</span><span class="o">)</span> &gt; 0 <span class="o">&amp;&amp;</span> line<span class="o">(</span><span class="s2">&quot;&#39;\&quot;&quot;</span><span class="o">)</span> &lt;<span class="o">=</span> line<span class="o">(</span><span class="s2">&quot;$&quot;</span><span class="o">)</span> <span class="p">|</span>
-  <span class="se">\ </span>  exe <span class="s2">&quot;normal g`\&quot;&quot;</span> <span class="p">|</span>
-  <span class="se">\ </span>endif
-
-<span class="s2">&quot; set-up ctrlp to include hidden files in its search</span>
-<span class="s2">let g:ctrlp_show_hidden=1</span>
-
-<span class="s2">&quot;</span> disable ctrlp<span class="s1">&#39;s feature where it tries to intelligently work out the current working directory to search within</span>
-<span class="s1">let g:ctrlp_working_path_mode=0</span>
-
-<span class="s1">&quot; don&#39;</span>t <span class="nb">let </span>ctrlp take over the screen!
-<span class="nb">let </span>g:ctrlp_max_height<span class="o">=</span>30
-
-<span class="s2">&quot; lets make sure we don&#39;t show these files</span>
-<span class="s2">set wildignore+=*/.git/*,*/.hg/*,*/.svn/*.,*/.DS_Store</span>
-
-<span class="s2">&quot;</span> allows us to more easily work with markdown files
-Bundle <span class="s1">&#39;tpope/vim-markdown&#39;</span>
-
-<span class="s2">&quot; allows us to comment/uncomment lines and content</span>
-<span class="s2">Bundle &#39;tpope/vim-commentary.git&#39;</span>
-
-<span class="s2">&quot;</span> remove whitespace on save
-autocmd BufWritePre * :%s/<span class="se">\s\+</span><span class="nv">$/</span>/e
-</pre></div>
-</code></pre>
-<p>…hopefully the comments are self explanatory. There is so much you can configure with Vim that you just need to take the time to look at what set-up works for you, as chances are you&#39;ll be able to change it.</p>
-<p>You can find loads of Vim configurations on GitHub where you can pinch ideas and settings from.</p>
-<h2><a name="other-plugins" class="anchor" href="#other-plugins"><span class="header-link"></span></a>Other plugins</h2>
-<p>Here are some other really useful plugins worth your time investigating… </p>
-<ul>
-<li>Sparkup (ZenCoding/Emmet) <a href="http://net.tutsplus.com/tutorials/other/vim-essential-plugin-sparkup/">NetTuts Screencast</a> -&gt; uses <code>Ctrl+e</code> to generate the HTML</li>
-<li>Snipmate <a href="http://net.tutsplus.com/tutorials/other/vim-essential-plugin-snipmate/">NetTuts Screencast</a> -&gt; uses a <code>tab</code> to convert the keywords into the relevant snippet of HTML</li>
-</ul>
-<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
-<p>So there you have it. A painfully short introduction to using Vim as your new web development environment. But hopefully enough to get you started.</p>
-<p>Vim is so powerful that it would probably take a life time to really cover everything. It just takes dedication.</p>
-</div>
-
-  <div class="comments">
-    <a href="/posts/a-guide-to-getting-started-with-vim/#comments">
       <span class="icon-bubbles"></span>
       Comments
     </a>
